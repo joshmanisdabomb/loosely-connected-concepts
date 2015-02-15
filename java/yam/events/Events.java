@@ -62,7 +62,7 @@ public class Events {
 	
 	@SubscribeEvent
 	public void whenEntityHit(LivingAttackEvent event) {
-		if (event.source.getEntity() != null && (event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.marsDimID || event.entityLiving.dimension == YetAnotherMod.mercuryDimID)) {
+		if (event.source.getEntity() != null && (event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID)) {
 			spaceKnockback(event.entityLiving, event.source.getEntity().posX - event.entityLiving.posX, event.source.getEntity().posZ - event.entityLiving.posZ);
 			if (event.entityLiving instanceof EntityPlayerMP) {
 				((EntityPlayerMP)event.entityLiving).playerNetServerHandler.sendPacket(new S12PacketEntityVelocity(event.entityLiving));
@@ -146,7 +146,7 @@ public class Events {
 		if (cactusDamage > 0) {
 			event.entityLiving.attackEntityFrom(CustomDamage.cactus2, cactusDamage);
 		}
-		if (event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.marsDimID || event.entityLiving.dimension == YetAnotherMod.mercuryDimID) {
+		if (event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID) {
 			if (!ItemCustomArmor.isFullSpacesuit(event.entityLiving.getEquipmentInSlot(1),event.entityLiving.getEquipmentInSlot(2),event.entityLiving.getEquipmentInSlot(3),event.entityLiving.getEquipmentInSlot(4))) {
 				event.entityLiving.attackEntityFrom(CustomDamage.breath, 1);
 			}
@@ -181,7 +181,7 @@ public class Events {
 	
 	@SubscribeEvent
 	public void onJump(LivingEvent.LivingJumpEvent event) {
-		if ((event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.marsDimID || event.entityLiving.dimension == YetAnotherMod.mercuryDimID)) {
+		if ((event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID)) {
 			event.entityLiving.motionX = 0;
 			event.entityLiving.motionZ = 0;
 		}
@@ -189,7 +189,7 @@ public class Events {
 	
 	@SubscribeEvent
 	public void onFall(LivingFallEvent event) {
-		if ((event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.marsDimID || event.entityLiving.dimension == YetAnotherMod.mercuryDimID)) {
+		if ((event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID)) {
 			event.distance = 0;
 		}
 	}
@@ -250,9 +250,9 @@ public class Events {
 	
 	@SubscribeEvent
 	public void onBlockPlace(PlaceBlock event) {
-		if ((event.getBlock() == Blocks.torch || event.getBlock() == Blocks.redstone_torch) && (event.world.provider.dimensionId == YetAnotherMod.moonDimID || event.world.provider.dimensionId == YetAnotherMod.marsDimID || event.world.provider.dimensionId == YetAnotherMod.mercuryDimID)) {
+		if ((event.getBlock() == Blocks.torch || event.getBlock() == Blocks.redstone_torch) && (event.world.provider.dimensionId == YetAnotherMod.moonDimID || event.world.provider.dimensionId == YetAnotherMod.asmiaDimID)) {
 			event.setBlock(YetAnotherMod.torchOff);
-		} else if ((event.getBlock() == Blocks.yellow_flower || event.getBlock() == Blocks.red_flower) && (event.world.provider.dimensionId == YetAnotherMod.moonDimID || event.world.provider.dimensionId == YetAnotherMod.marsDimID || event.world.provider.dimensionId == YetAnotherMod.mercuryDimID)) {
+		} else if ((event.getBlock() == Blocks.yellow_flower || event.getBlock() == Blocks.red_flower) && (event.world.provider.dimensionId == YetAnotherMod.moonDimID || event.world.provider.dimensionId == YetAnotherMod.asmiaDimID)) {
 			event.setBlock(Blocks.deadbush);
 		}
 	}

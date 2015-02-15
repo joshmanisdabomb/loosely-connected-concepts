@@ -193,8 +193,7 @@ public class YetAnotherMod
     public static int rainbowDimID;
     public static int sheolDimID;
     public static int moonDimID;
-    public static int marsDimID;
-    public static int mercuryDimID;
+    public static int asmiaDimID;
    
     @Instance(MODID)
     public static YetAnotherMod instance;
@@ -1649,13 +1648,13 @@ public class YetAnotherMod
     	//GameRegistry.registerTileEntity(TileEntityComputerDev.class, MODID+":TileEntityComputerSpace");
     	proxy.registerTileEntitySpecialRenderer();
     	
-    	GameRegistry.registerWorldGenerator(new WorldGen(), 1000);
-    	
     	BiomeDictionary.registerBiomeType(biomeWasteland = new BiomeWasteland(50), BiomeDictionary.Type.DESERT, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WASTELAND);
     	BiomeDictionary.registerBiomeType(biomeRainbow = new BiomeRainbow(51));
     	BiomeDictionary.registerBiomeType(biomeSheol = new BiomeSheol(52));
     	BiomeDictionary.registerBiomeType(biomeMoon = new BiomeMoon(53));
     	BiomeDictionary.registerAllBiomesAndGenerateEvents();
+    	
+    	GameRegistry.registerWorldGenerator(new WorldGen(), 1000);
  
     	rainbowDimID = DimensionManager.getNextFreeDimId();
     	DimensionManager.registerProviderType(rainbowDimID, RainbowDimProvider.class, false);
@@ -1666,8 +1665,7 @@ public class YetAnotherMod
     	moonDimID = DimensionManager.getNextFreeDimId();
     	DimensionManager.registerProviderType(moonDimID, MoonDimProvider.class, false);
     	DimensionManager.registerDimension(moonDimID, moonDimID);
-    	marsDimID = DimensionManager.getNextFreeDimId();
-    	mercuryDimID = DimensionManager.getNextFreeDimId();
+    	asmiaDimID = DimensionManager.getNextFreeDimId();
     	
     	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }

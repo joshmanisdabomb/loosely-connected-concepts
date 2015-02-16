@@ -11,6 +11,7 @@ import yam.YetAnotherMod;
 import yam.entity.EntityDerek;
 import yam.entity.EntityDerekJr;
 import yam.entity.EntityPsychoPig;
+import yam.entity.EntityTick;
 
 public class BiomeWasteland extends BiomeGenBase {
 
@@ -37,8 +38,9 @@ public class BiomeWasteland extends BiomeGenBase {
         
         this.theBiomeDecorator = this.createBiomeDecorator();
 
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityPsychoPig.class, 1, 1, 3));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityPsychoPig.class, 1, 1, 1));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityDerekJr.class, 1, 1, 3));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityTick.class, 1, 1, 3));
 	}
 
     public int getSkyColorByTemp(float par1) {

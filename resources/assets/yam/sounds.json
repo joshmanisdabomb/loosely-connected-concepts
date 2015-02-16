@@ -358,6 +358,36 @@
       "mob/amplislime/attack2"
     ]
   },
+  "mob.tick.hurt": {
+    "category": "hostile",
+    "sounds": [
+      "mob/tick/hurt1",
+      "mob/tick/hurt2",
+      "mob/tick/hurt3"
+    ]
+  },
+  "mob.tick.say": {
+    "category": "hostile",
+    "sounds": [
+      "mob/tick/say1",
+      "mob/tick/say2"
+    ]
+  },
+  "mob.tick.step": {
+    "category": "hostile",
+    "sounds": [
+      "mob/tick/step1",
+      "mob/tick/step2",
+      "mob/tick/step3",
+      "mob/tick/step4"
+    ]
+  },
+  "mob.tick.death": {
+    "category": "hostile",
+    "sounds": [
+      "mob/tick/death"
+    ]
+  },
   "mob.rainbot.hit": {
     "category": "hostile",
     "sounds": [

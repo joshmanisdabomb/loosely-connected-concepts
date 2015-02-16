@@ -90,6 +90,7 @@ import yam.entity.EntityNukePrimed;
 import yam.entity.EntityPsychoPig;
 import yam.entity.EntityRainbot;
 import yam.entity.EntityRainbowGolem;
+import yam.entity.EntityTick;
 import yam.entity.EntityUnicorn;
 import yam.events.Events;
 import yam.gen.WorldGen;
@@ -363,6 +364,7 @@ public class YetAnotherMod
     public static Item mummySpawnEgg;
     public static Item flySpawnEgg;
     public static Item derekJrSpawnEgg;
+    public static Item tickSpawnEgg;
     public static Item lollipopperSpawnEgg;
     public static Item rainbotSpawnEgg;
     public static Item amplislimeSpawnEgg;
@@ -716,6 +718,7 @@ public class YetAnotherMod
     public static int fly;
     public static int derek;
     public static int derekJr;
+    public static int tick;
     public static int lollipopper;
     public static int rainbowGolem;
     public static int rainbot;
@@ -744,6 +747,7 @@ public class YetAnotherMod
     	fly = registerEntity(EntityFly.class, "fly", null, 0, 0, 0);
     	derek = registerEntity(EntityDerek.class, "derek", null, 0, 0, 0);
     	derekJr = registerEntity(EntityDerekJr.class, "derekJr", null, 0, 0, 0);
+    	tick = registerEntity(EntityTick.class, "tick", null, 0, 0, 0);
     	lollipopper = registerEntity(EntityLollipopper.class, "lollipopper", null, 0, 0, 0);
     	rainbowGolem = registerEntity(EntityRainbowGolem.class, "rainbowGolem", null, 0, 0, 0);
     	rainbot = registerEntity(EntityRainbot.class, "rainbot", null, 0, 0, 0);
@@ -1622,6 +1626,8 @@ public class YetAnotherMod
     	GameRegistry.registerItem(flySpawnEgg, "flySpawnEgg");
     	derekJrSpawnEgg = new ItemSpawnEgg(derekJr, Integer.parseInt("EBC6AB", 16), Integer.parseInt("802525", 16)).setUnlocalizedName("derekJrSpawnEgg");
     	GameRegistry.registerItem(derekJrSpawnEgg, "derekJrSpawnEgg");
+    	tickSpawnEgg = new ItemSpawnEgg(tick, Integer.parseInt("EBC6AB", 16), Integer.parseInt("808080", 16)).setUnlocalizedName("tickSpawnEgg");
+    	GameRegistry.registerItem(tickSpawnEgg, "tickSpawnEgg");
     	
     	lollipopperSpawnEgg = new ItemRainbowSpawnEgg(lollipopper, Integer.parseInt("FFFFFF", 16)).setUnlocalizedName("lollipopperSpawnEgg");
     	GameRegistry.registerItem(lollipopperSpawnEgg, "lollipopperSpawnEgg");

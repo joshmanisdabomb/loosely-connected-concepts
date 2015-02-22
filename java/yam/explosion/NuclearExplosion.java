@@ -185,13 +185,6 @@ public class NuclearExplosion extends Explosion {
             	} else if (explosionRNG.nextInt(3) == 0) {
             		worldObj.setBlock(i, j, k, Blocks.air);
             	}
-            	
-            	//TODO Spawn radiation.
-            	
-            	/* else {
-            		worldObj.setBlock(i, j, k, YetAnotherMod.radiation);
-            	}
-            	worldObj.setBlock(i, j + explosionRNG.nextInt(5), k, YetAnotherMod.radiation);*/
             }
         }
         

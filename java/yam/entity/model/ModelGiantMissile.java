@@ -9,23 +9,27 @@
 
 
 
-package net.minecraft.src;
+package yam.entity.model;
 
-public class ModelModel extends ModelBase
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+public class ModelGiantMissile extends ModelBase
 {
   //fields
     ModelRenderer body;
     ModelRenderer head1;
     ModelRenderer head2;
     ModelRenderer head3;
-    ModelRenderer tail1-1;
-    ModelRenderer tail1-2;
-    ModelRenderer tail1-3;
-    ModelRenderer tail2-1;
-    ModelRenderer tail2-2;
-    ModelRenderer tail2-3;
+    ModelRenderer tail1_1;
+    ModelRenderer tail1_2;
+    ModelRenderer tail1_3;
+    ModelRenderer tail2_1;
+    ModelRenderer tail2_2;
+    ModelRenderer tail2_3;
   
-  public ModelModel()
+  public ModelGiantMissile()
   {
     textureWidth = 32;
     textureHeight = 64;
@@ -54,58 +58,58 @@ public class ModelModel extends ModelBase
       head3.setTextureSize(32, 64);
       head3.mirror = true;
       setRotation(head3, 0F, 0F, 0F);
-      tail1-1 = new ModelRenderer(this, 0, 39);
-      tail1-1.addBox(-5F, -19F, -0.5F, 1, 2, 1);
-      tail1-1.setRotationPoint(0F, 24F, 0F);
-      tail1-1.setTextureSize(32, 64);
-      tail1-1.mirror = true;
-      setRotation(tail1-1, 0F, 0F, 0F);
-      tail1-2 = new ModelRenderer(this, 0, 42);
-      tail1-2.addBox(-6F, -21F, -0.5F, 2, 2, 1);
-      tail1-2.setRotationPoint(0F, 24F, 0F);
-      tail1-2.setTextureSize(32, 64);
-      tail1-2.mirror = true;
-      setRotation(tail1-2, 0F, 0F, 0F);
-      tail1-3 = new ModelRenderer(this, 0, 45);
-      tail1-3.addBox(-7F, -23F, -0.5F, 3, 2, 1);
-      tail1-3.setRotationPoint(0F, 24F, 0F);
-      tail1-3.setTextureSize(32, 64);
-      tail1-3.mirror = true;
-      setRotation(tail1-3, 0F, 0F, 0F);
-      tail2-1 = new ModelRenderer(this, 0, 39);
-      tail2-1.addBox(4F, -19F, -0.5F, 1, 2, 1);
-      tail2-1.setRotationPoint(0F, 24F, 0F);
-      tail2-1.setTextureSize(32, 64);
-      tail2-1.mirror = true;
-      setRotation(tail2-1, 0F, 0F, 0F);
-      tail2-2 = new ModelRenderer(this, 0, 42);
-      tail2-2.addBox(4F, -21F, -0.5F, 2, 2, 1);
-      tail2-2.setRotationPoint(0F, 24F, 0F);
-      tail2-2.setTextureSize(32, 64);
-      tail2-2.mirror = true;
-      setRotation(tail2-2, 0F, 0F, 0F);
-      tail2-3 = new ModelRenderer(this, 0, 45);
-      tail2-3.addBox(4F, -23F, -0.5F, 3, 2, 1);
-      tail2-3.setRotationPoint(0F, 24F, 0F);
-      tail2-3.setTextureSize(32, 64);
-      tail2-3.mirror = true;
-      setRotation(tail2-3, 0F, 0F, 0F);
+      tail1_1 = new ModelRenderer(this, 0, 39);
+      tail1_1.addBox(-5F, -19F, -0.5F, 1, 2, 1);
+      tail1_1.setRotationPoint(0F, 24F, 0F);
+      tail1_1.setTextureSize(32, 64);
+      tail1_1.mirror = true;
+      setRotation(tail1_1, 0F, 0F, 0F);
+      tail1_2 = new ModelRenderer(this, 0, 42);
+      tail1_2.addBox(-6F, -21F, -0.5F, 2, 2, 1);
+      tail1_2.setRotationPoint(0F, 24F, 0F);
+      tail1_2.setTextureSize(32, 64);
+      tail1_2.mirror = true;
+      setRotation(tail1_2, 0F, 0F, 0F);
+      tail1_3 = new ModelRenderer(this, 0, 45);
+      tail1_3.addBox(-7F, -23F, -0.5F, 3, 2, 1);
+      tail1_3.setRotationPoint(0F, 24F, 0F);
+      tail1_3.setTextureSize(32, 64);
+      tail1_3.mirror = true;
+      setRotation(tail1_3, 0F, 0F, 0F);
+      tail2_1 = new ModelRenderer(this, 0, 39);
+      tail2_1.addBox(4F, -19F, -0.5F, 1, 2, 1);
+      tail2_1.setRotationPoint(0F, 24F, 0F);
+      tail2_1.setTextureSize(32, 64);
+      tail2_1.mirror = true;
+      setRotation(tail2_1, 0F, 0F, 0F);
+      tail2_2 = new ModelRenderer(this, 0, 42);
+      tail2_2.addBox(4F, -21F, -0.5F, 2, 2, 1);
+      tail2_2.setRotationPoint(0F, 24F, 0F);
+      tail2_2.setTextureSize(32, 64);
+      tail2_2.mirror = true;
+      setRotation(tail2_2, 0F, 0F, 0F);
+      tail2_3 = new ModelRenderer(this, 0, 45);
+      tail2_3.addBox(4F, -23F, -0.5F, 3, 2, 1);
+      tail2_3.setRotationPoint(0F, 24F, 0F);
+      tail2_3.setTextureSize(32, 64);
+      tail2_3.mirror = true;
+      setRotation(tail2_3, 0F, 0F, 0F);
   }
   
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
   {
     super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
+    setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     body.render(f5);
     head1.render(f5);
     head2.render(f5);
     head3.render(f5);
-    tail1-1.render(f5);
-    tail1-2.render(f5);
-    tail1-3.render(f5);
-    tail2-1.render(f5);
-    tail2-2.render(f5);
-    tail2-3.render(f5);
+    tail1_1.render(f5);
+    tail1_2.render(f5);
+    tail1_3.render(f5);
+    tail2_1.render(f5);
+    tail2_2.render(f5);
+    tail2_3.render(f5);
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)
@@ -115,9 +119,9 @@ public class ModelModel extends ModelBase
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
+  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity e)
   {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
+    super.setRotationAngles(f, f1, f2, f3, f4, f5, e);
   }
 
 }

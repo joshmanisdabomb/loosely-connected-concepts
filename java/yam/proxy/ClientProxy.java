@@ -27,6 +27,7 @@ import yam.entity.EntityUnicorn;
 import yam.entity.model.ModelDerek;
 import yam.entity.model.ModelDerekJr;
 import yam.entity.model.ModelFly;
+import yam.entity.model.ModelGiantMissile;
 import yam.entity.model.ModelLollipopper;
 import yam.entity.model.ModelMummy;
 import yam.entity.model.ModelRainbot;
@@ -41,6 +42,7 @@ import yam.entity.render.RenderHalfplayer;
 import yam.entity.render.RenderLollipopper;
 import yam.entity.render.RenderMLGArrow;
 import yam.entity.render.RenderMummy;
+import yam.entity.render.RenderNukeMissile;
 import yam.entity.render.RenderNukePrimed;
 import yam.entity.render.RenderPsychoPig;
 import yam.entity.render.RenderRainbot;
@@ -68,7 +70,7 @@ public class ClientProxy extends ServerProxy {
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHalfPlayer.class, new RenderHalfplayer(new ModelBiped(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukePrimed.class, new RenderNukePrimed(0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityNukeMissile.class, new RenderNukePrimed(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityNukeMissile.class, new RenderNukeMissile(new ModelGiantMissile()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAmplifyBomb.class, new RenderAmplifyBomb());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPsychoPig.class, new RenderPsychoPig(0.5F));

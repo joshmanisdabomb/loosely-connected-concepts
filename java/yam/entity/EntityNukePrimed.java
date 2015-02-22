@@ -9,8 +9,8 @@ import yam.explosion.NuclearExplosion;
 public class EntityNukePrimed extends Entity {
 
 	/** How long the fuse is */
-    public int fuse = 300;
-    public int radius = 100;
+	public int fuse = 350;
+    public static final int radius = 100;
 
     public EntityNukePrimed(World par1World)
     {

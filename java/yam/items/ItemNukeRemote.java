@@ -24,18 +24,18 @@ public class ItemNukeRemote extends ItemGeneric {
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
 		if (!par2World.isRemote) {
-			if (par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(YetAnotherMod.nuke))) {
+			if (par3EntityPlayer.inventory.hasItem(Item.getItemFromBlock(YetAnotherMod.nuke)) || par3EntityPlayer.capabilities.isCreativeMode) {
 				par1ItemStack.damageItem(1, par3EntityPlayer);
-				par3EntityPlayer.inventory.consumeInventoryItem(Item.getItemFromBlock(YetAnotherMod.nuke));
+				if (!par3EntityPlayer.capabilities.isCreativeMode) {par3EntityPlayer.inventory.consumeInventoryItem(Item.getItemFromBlock(YetAnotherMod.nuke));}
 				int x = (int)Math.round(par3EntityPlayer.posX);
 				int y = (int)Math.round(par3EntityPlayer.posY);
 				int z = (int)Math.round(par3EntityPlayer.posZ);
-	
+
+		        par2World.playSoundAtEntity(par3EntityPlayer, YetAnotherMod.MODID + ":blocks.nuke.siren", 64.0F, 1.0F);
 				EntityNukeMissile entitynukemissile = new EntityNukeMissile(par2World, (double)((float)x + 0.5F), 500, (double)((float)z + 0.5F));
 		        par2World.spawnEntityInWorld(entitynukemissile);
 			}
 		}
-        par2World.playSoundAtEntity(par3EntityPlayer, YetAnotherMod.MODID + ":blocks.nuke.siren", 64.0F, 1.0F);
 		return par1ItemStack;
     }
 	

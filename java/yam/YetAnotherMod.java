@@ -12,8 +12,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.potion.Potion;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
@@ -542,6 +545,7 @@ public class YetAnotherMod
     public static Block pizzaBlock;
     public static Item pizza;
     public static Item lollipop;
+    public static Item psychomeat;
 
     public static Item doritosOriginal;
     public static Item doritosTangy;
@@ -742,7 +746,7 @@ public class YetAnotherMod
     	bullet = registerEntity(EntityBullet.class, "bullet", null, 0, 0, 0);
     	amplifybomb = registerEntity(EntityAmplifyBomb.class, "amplifyBomb", null, 0, 0, 0);
     	mlgArrow = registerEntity(EntityMLGArrow.class, "mlgArrow", null, 0, 0, 0);
-    	psychoPig = registerEntity(EntityPsychoPig.class, "psychoPig", EnumCreatureType.monster, 1, 1, 1, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SWAMP);
+    	psychoPig = registerEntity(EntityPsychoPig.class, "psychoPig", EnumCreatureType.creature, 1, 1, 8, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.SWAMP);
     	mummy = registerEntity(EntityMummy.class, "mummy", EnumCreatureType.monster, 250, 1, 4, BiomeDictionary.Type.DESERT);
     	fly = registerEntity(EntityFly.class, "fly", null, 0, 0, 0);
     	derek = registerEntity(EntityDerek.class, "derek", null, 0, 0, 0);
@@ -1099,9 +1103,12 @@ public class YetAnotherMod
     	GameRegistry.registerItem(pizza, "pizza");
     	lollipopStick = new ItemGeneric("rainbow/stick").setUnlocalizedName("lollipopStick");
     	GameRegistry.registerItem(lollipopStick, "lollipopStick");
-    	lollipop = new ItemNomsNewStack("lollipop", lollipopStick, 5, 0.1F, false).setUnlocalizedName("lollipop");
+    	lollipop = new ItemNomsNewStack("lollipop", lollipopStick, 3, 0.1F, false).setUnlocalizedName("lollipop");
     	((ItemNomsNewStack) lollipop).setDrinkable();
     	GameRegistry.registerItem(lollipop, "lollipop");
+    	psychomeat = new ItemNoms("psychomeat", 5, 0.0F, false);
+    	((ItemNoms) psychomeat).setPotionEffect(Potion.confusion.id, 12, 0, 1.0F);
+    	GameRegistry.registerItem(psychomeat, "psychomeat");
 
     	doritosOriginal = new ItemNoms("doritos/cool", 7, 0.8F, false).setUnlocalizedName("doritosOriginal");
     	((ItemNoms) doritosOriginal).setAlwaysEdible();
@@ -1557,7 +1564,7 @@ public class YetAnotherMod
     	nostalgiaIron = new BlockGeneric(Material.iron, "nostalgia/ironblock").setHardness(5.0F).setResistance(30.0F).setStepSound(soundTypeClassicMetal).setBlockName("nostalgiaIron");
     	nostalgiaIron.setHarvestLevel("pickaxe", 1);
     	GameRegistry.registerBlock(nostalgiaIron, "nostalgiaIron");
-    	nostalgiaSapling = new BlockCustomSapling("nostalgia/sapling");
+    	nostalgiaSapling = new BlockCustomSapling("nostalgia/sapling").setBlockName("nostalgiaSapling");
     	GameRegistry.registerBlock(nostalgiaSapling, "nostalgiaSapling");
     	nostalgiaLeaves = new BlockCustomLeaves("nostalgia/leaves", nostalgiaSapling).setHardness(0.2F).setResistance(1.0F).setStepSound(soundTypeClassicGrass).setBlockName("nostalgiaLeaves");
     	GameRegistry.registerBlock(nostalgiaLeaves, "nostalgiaLeaves");
@@ -1643,7 +1650,7 @@ public class YetAnotherMod
 
     	Events e = new Events();
     	MinecraftForge.EVENT_BUS.register(e);
-    	MinecraftForge.TERRAIN_GEN_BUS.register(e);
+    	//MinecraftForge.TERRAIN_GEN_BUS.register(e);
 
     	GameRegistry.registerTileEntity(TileEntityTrashCan.class, MODID+":TileEntityTrashCan");
     	GameRegistry.registerTileEntity(TileEntityTickField.class, MODID+":TileEntityTickField");
@@ -1655,6 +1662,7 @@ public class YetAnotherMod
     	proxy.registerTileEntitySpecialRenderer();
     	
     	BiomeDictionary.registerBiomeType(biomeWasteland = new BiomeWasteland(50), BiomeDictionary.Type.DESERT, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WASTELAND);
+    	BiomeManager.desertBiomes.add(new BiomeEntry(biomeWasteland, 1));
     	BiomeDictionary.registerBiomeType(biomeRainbow = new BiomeRainbow(51));
     	BiomeDictionary.registerBiomeType(biomeSheol = new BiomeSheol(52));
     	BiomeDictionary.registerBiomeType(biomeMoon = new BiomeMoon(53));

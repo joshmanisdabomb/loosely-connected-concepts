@@ -34,10 +34,9 @@ public class EntityTick extends EntityMob {
 		super(par1World);
 		
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.8F));
-		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0F, false));
-		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(5, new EntityAILookIdle(this));
+		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0F, false));
+		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(4, new EntityAILookIdle(this));
 		
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 5, true));
@@ -51,10 +50,10 @@ public class EntityTick extends EntityMob {
 	protected void applyEntityAttributes() {
 	    super.applyEntityAttributes();
 	    
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(3.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(9.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(20.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.42D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(14.0D);
 	}
 	
@@ -81,7 +80,7 @@ public class EntityTick extends EntityMob {
     }
 	
 	public boolean getCanSpawnHere() {
-        return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
+        return rand.nextInt(5) == 0 && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && this.worldObj.checkNoEntityCollision(this.boundingBox) && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
     }
 
 }

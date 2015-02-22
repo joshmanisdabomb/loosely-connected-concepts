@@ -257,7 +257,7 @@ public class Events {
 		}
 	}
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void registerBiomes(InitBiomeGens event){
 		for (int i = 0; i < 3; i++) {
 			GenLayer ret = new GenLayerBiomeCustom(event.seed, event.originalBiomeGens[i], event.worldType);
@@ -270,6 +270,6 @@ public class Events {
 	
 	@SubscribeEvent
 	public void changeBiomeSize(BiomeSize event){
-		//event.newSize = 1;
-	}
+		event.newSize = 1;
+	}*/
 }

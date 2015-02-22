@@ -180,8 +180,10 @@ public class NuclearExplosion extends Explosion {
 
         	block.onBlockExploded(this.worldObj, i, j, k, this);
         	if (block.getMaterial() != Material.air) {
-            	if (explosionRNG.nextInt(3) == 0) {
+            	if (explosionRNG.nextInt(4) == 0) {
             		worldObj.setBlock(i, j, k, YetAnotherMod.nuclearWaste);
+            	} else if (explosionRNG.nextInt(3) == 0) {
+            		worldObj.setBlock(i, j, k, Blocks.air);
             	}
             	
             	//TODO Spawn radiation.
@@ -204,8 +206,8 @@ public class NuclearExplosion extends Explosion {
             block = this.worldObj.getBlock(i, j, k);
             block1 = this.worldObj.getBlock(i, j - 1, k);
         	
-        	if (block1.getMaterial() != Material.air || explosionRNG.nextInt(8) == 0) {
-        		this.worldObj.setBlock(i, j, k, YetAnotherMod.nuclearFire);
+        	if (block1.getMaterial() != Material.air && explosionRNG.nextInt(2) == 0) {
+            	this.worldObj.setBlock(i, j, k, YetAnotherMod.nuclearFire);
         	}
         }
     }

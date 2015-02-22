@@ -222,13 +222,14 @@ tile.crackedMud.name=Cracked Mud
 item.rust.name=Rust
 tile.rustOre.name=Rust Ore
 tile.rustBlock.name=Rust Block
-tile.reinforedStone.name=Reinforced Stone
-tile.reinforedGlass.name=Reinforced Glass
-tile.reinforedWool.name=Reinforced Wool
+tile.reinforcedStone.name=Reinforced Stone
+tile.reinforcedGlass.name=Reinforced Glass
+tile.reinforcedWool.name=Reinforced Wool
 tile.derekHead.name=Derek's Head
 tile.derekHeart.name=Derek's Heart
 tile.derekSoul.name=Derek's Soul
 tile.derekSkin.name=Derek's Skin
+tile.poop.name=Poop
 
 item.spreaderRemoteWood.name=Wood Spreader Remote
 item.spreaderRemoteStone.name=Stone Spreader Remote
@@ -339,6 +340,10 @@ item.pillRed.name=Pill
 item.pillRedBlue.name=Pill
 item.pillWhite.name=Pill
 
+item.hearthalf.name=Red Heart Half
+item.heart.name=Red Heart
+item.crystalheart.name=Crystal Heart
+
 tile.moonRock.name=Moon Rock
 tile.torchOff.name=Dead Torch
 item.spacesuitHelmet.name=Spacesuit Helmet
@@ -366,6 +371,8 @@ entity.amplislime.name=Amplislime
 item.amplislimeSpawnEgg.name=Spawn Amplislime
 entity.unicorn.name=Unicorn
 item.unicornSpawnEgg.name=Spawn Unicorn
+entity.tick.name=Tick
+item.tickSpawnEgg.name=Spawn Tick
 
 potion.radiation=Radiation
 potion.germ=Infected

@@ -120,8 +120,8 @@ public class WorldGen implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int i, int j) {
-		int RandPosX; int RandPosY; int RandPosZ;
 		if (world.getBiomeGenForCoords(i,j) != YetAnotherMod.biomeWasteland) {
+			int RandPosX; int RandPosY; int RandPosZ;
 			//Crystal Ore
 			for (int k = 0; k < 6; k++) {
 				RandPosX = i + random.nextInt(16);
@@ -190,13 +190,23 @@ public class WorldGen implements IWorldGenerator {
 				}
 			}
 		} else {
+			int RandPosX; int RandPosY; int RandPosZ;
+
+			for (int k = 0; k < 3; k++) {
+				//Spike Trap
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 16 + random.nextInt(64);
+				RandPosZ = j + random.nextInt(16);
+				(new GenSpikeTrap()).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+		
 			//Uranium
 			RandPosX = i + random.nextInt(16);
 			RandPosY = random.nextInt(24);
 			RandPosZ = j + random.nextInt(16);
 				
 			(new WorldGenMinable(YetAnotherMod.uraniumOre, 10)).generate(world, random, RandPosX, RandPosY, RandPosZ);
-
+	
 			//Rust
 			RandPosX = i + random.nextInt(16);
 			RandPosY = 16 + random.nextInt(64);

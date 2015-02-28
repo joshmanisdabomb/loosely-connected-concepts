@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemAtomSplitter extends ItemGeneric {
@@ -74,7 +75,7 @@ public class ItemAtomSplitter extends ItemGeneric {
     }
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Places: \2472Nuclear Fire");
+		list.add(EnumChatFormatting.GRAY + "Places: " + EnumChatFormatting.DARK_GREEN + "Nuclear Fire");
 	}
 	
 }

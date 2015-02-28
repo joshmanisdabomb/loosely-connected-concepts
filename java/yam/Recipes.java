@@ -10,6 +10,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class Recipes {
 	
 	public static void loadRecipes() {
+		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.cactusSpine, 1), Blocks.cactus);
+		
 		//Mud and Quicksand Recipes
 		newOneToEightRecipe(Item.getItemFromBlock(YetAnotherMod.mud), Items.water_bucket, Item.getItemFromBlock(Blocks.dirt));
 		GameRegistry.addSmelting(YetAnotherMod.mud, new ItemStack(YetAnotherMod.crackedMud, 1), 0.1F);
@@ -23,6 +25,12 @@ public class Recipes {
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.diamondPressurePlate, 1), new Object[] {"XXX", "X11", "XXX", '1', Items.diamond});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.diamondPressurePlate, 1), new Object[] {"XXX", "XXX", "11X", '1', Items.diamond});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.diamondPressurePlate, 1), new Object[] {"XXX", "XXX", "X11", '1', Items.diamond});
+		
+		//Spike Blocks
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.spikes, 3), new Object[] {"111", "XXX", "XXX", '1', Blocks.iron_bars});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.spikes, 3), new Object[] {"XXX", "111", "XXX", '1', Blocks.iron_bars});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.spikes, 3), new Object[] {"XXX", "XXX", "111", '1', Blocks.iron_bars});
+		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.bloodSpikes, 3), YetAnotherMod.bloodSpikes, YetAnotherMod.heart);
 		
 		//Tile Entity Recipes
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.trashCan, 1), new Object[] {"111", "1X1", "111", '1', Items.iron_ingot});
@@ -65,6 +73,16 @@ public class Recipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.crystalEnergy, 1), new Object[] {Items.nether_star, YetAnotherMod.crystal});
 		newBlasterRecipe(YetAnotherMod.blaster, YetAnotherMod.crystalEnergy, Item.getItemFromBlock(Blocks.obsidian));
 		
+		//Ore to Resource
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.rubyOre), new ItemStack(YetAnotherMod.ruby, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.crystalOre), new ItemStack(YetAnotherMod.crystal, 4), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.pearlOre), new ItemStack(YetAnotherMod.pearl, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.uraniumOre), new ItemStack(YetAnotherMod.uranium, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.saltOre), new ItemStack(YetAnotherMod.salt, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.rustOre), new ItemStack(YetAnotherMod.rust, 1), 0.5F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.crystalEnergyOre), new ItemStack(YetAnotherMod.crystalEnergy, 1), 1.0F);
+		GameRegistry.addSmelting(new ItemStack(YetAnotherMod.neonOre), new ItemStack(YetAnotherMod.neon, 1), 1.0F);
+		
 		//Bricks
 		newBrickRecipes(YetAnotherMod.bricksCoal, new ItemStack(Items.coal, 1));
 		newBrickRecipes(YetAnotherMod.bricksIron, new ItemStack(Items.iron_ingot, 1));
@@ -87,8 +105,10 @@ public class Recipes {
 		newStorageRecipes(YetAnotherMod.pearl, Item.getItemFromBlock(YetAnotherMod.pearlBlock));
 		newStorageRecipes(YetAnotherMod.uranium, Item.getItemFromBlock(YetAnotherMod.uraniumBlock));
 		newStorageRecipes(YetAnotherMod.cheese, Item.getItemFromBlock(YetAnotherMod.cheeseBlock));
+		newStorageRecipes(Item.getItemFromBlock(Blocks.cactus), Item.getItemFromBlock(YetAnotherMod.cactusBlock));
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.rainbowBlock, 64), new Object[] {YetAnotherMod.rubyBlock, YetAnotherMod.crystalBlock, YetAnotherMod.pearlBlock, Blocks.redstone_block, Blocks.gold_block, Blocks.emerald_block, Blocks.lapis_block, Blocks.diamond_block, Blocks.iron_block});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.rustBlock, 1), new Object[] {"111", "121", "111", '1', YetAnotherMod.rust, '2', Blocks.iron_block});
+		newStorageRecipes(YetAnotherMod.neon, Item.getItemFromBlock(YetAnotherMod.neonBlock));
 	
 		//Tool Recipes
 		newToolRecipes(YetAnotherMod.ruby, Items.stick, YetAnotherMod.rubySword, YetAnotherMod.rubyPickaxe, YetAnotherMod.rubyShovel, YetAnotherMod.rubyAxe, YetAnotherMod.rubyHoe);
@@ -97,6 +117,7 @@ public class Recipes {
 		newToolRecipes(YetAnotherMod.crystalIngot, YetAnotherMod.crystal, YetAnotherMod.crystalSword, YetAnotherMod.crystalPickaxe, YetAnotherMod.crystalShovel, YetAnotherMod.crystalAxe, YetAnotherMod.crystalHoe);
 		newRepeaterRecipes(YetAnotherMod.crystalIngot, Items.string, Items.repeater, YetAnotherMod.crystalRepeater);
 		newToolRecipes(Item.getItemFromBlock(YetAnotherMod.cloud), YetAnotherMod.lollipopStick, YetAnotherMod.cloudSword, YetAnotherMod.cloudPickaxe, YetAnotherMod.cloudShovel, YetAnotherMod.cloudAxe, YetAnotherMod.cloudHoe);
+		newToolRecipes(Item.getItemFromBlock(YetAnotherMod.cactusBlock), YetAnotherMod.cactusSpine, YetAnotherMod.cactusSword, YetAnotherMod.cactusPickaxe, YetAnotherMod.cactusShovel, YetAnotherMod.cactusAxe, YetAnotherMod.cactusHoe);
 		
 		//Armor Recipes
 		newArmorRecipes(YetAnotherMod.ruby, YetAnotherMod.rubyHelmet, YetAnotherMod.rubyChestplate, YetAnotherMod.rubyLeggings, YetAnotherMod.rubyBoots);
@@ -114,6 +135,7 @@ public class Recipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.hazmatLeggings, 1), new Object[] {Items.leather_leggings, Items.iron_leggings});
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.hazmatBoots, 1), new Object[] {Items.leather_boots, Items.iron_boots});
 		newArmorRecipes(Item.getItemFromBlock(YetAnotherMod.cloud), YetAnotherMod.cloudHelmet, YetAnotherMod.cloudChestplate, YetAnotherMod.cloudLeggings, YetAnotherMod.cloudBoots);
+		newArmorRecipes(Item.getItemFromBlock(YetAnotherMod.cactusBlock), YetAnotherMod.cactusHelmet, YetAnotherMod.cactusChestplate, YetAnotherMod.cactusLeggings, YetAnotherMod.cactusBoots);
 				
 		//Remote Recipes
 		newRemoteRecipes(Item.getItemFromBlock(Blocks.planks), YetAnotherMod.peripheralSpreader, YetAnotherMod.spreaderRemoteWood);
@@ -135,7 +157,9 @@ public class Recipes {
 		newRemoteRecipes(YetAnotherMod.lapisIngot, YetAnotherMod.peripheralAntispreader, YetAnotherMod.antispreaderRemoteLapis);
 		newRemoteRecipes(YetAnotherMod.crystalIngot, YetAnotherMod.peripheralAntispreader, YetAnotherMod.antispreaderRemoteCrystal);
 
-		newRemoteRecipes(Items.iron_ingot, YetAnotherMod.peripheralNuclear, YetAnotherMod.nukeRemote);
+		//Missiles and Remotes
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.missileTNT, 1), new Object[] {"1X1", "131", "121", '1', Items.iron_ingot, '2', Blocks.stone_pressure_plate, '3', Blocks.tnt});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.missileNuke, 1), new Object[] {"1X1", "131", "121", '1', Items.iron_ingot, '2', Blocks.stone_pressure_plate, '3', YetAnotherMod.nuke});
 		
 		//Glasses
 		newGlassesRecipe(YetAnotherMod.glasses, Blocks.glass);
@@ -170,7 +194,7 @@ public class Recipes {
 		newPeripheralRecipe(YetAnotherMod.peripheralSpreader, Blocks.redstone_torch, Item.getItemFromBlock(YetAnotherMod.eaterc2));
 		newPeripheralRecipe(YetAnotherMod.peripheralSpreader, Blocks.redstone_torch, Item.getItemFromBlock(YetAnotherMod.eaterc3));
 		newPeripheralRecipe(YetAnotherMod.peripheralAntispreader, Blocks.redstone_torch, Item.getItemFromBlock(YetAnotherMod.antispreader));
-		newPeripheralRecipe(YetAnotherMod.peripheralNuclear, Blocks.redstone_torch, YetAnotherMod.uranium);
+		newPeripheralRecipe(YetAnotherMod.peripheralMissile, Blocks.redstone_torch, YetAnotherMod.uranium);
 		
 		//Foodies
 		newOneToNineRecipe(YetAnotherMod.cheese, YetAnotherMod.cheeseBucket);
@@ -191,6 +215,23 @@ public class Recipes {
 		
 		//Sheol Dimension
 		GameRegistry.addSmelting(new ItemStack(Blocks.coal_block), new ItemStack(YetAnotherMod.hotCoal), 0.2F);
+		
+		//Wasteland
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.reinforcedGlass, 8), new Object[] {"111", "121", "111", '1', YetAnotherMod.reinforcedStone, '2', Blocks.glass});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.reinforcedWool, 8), new Object[] {"111", "121", "111", '1', YetAnotherMod.reinforcedStone, '2', Blocks.wool});
+	
+		//Computer and Smartphone
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computerCase, 1), new Object[] {"111", "121", "333", '1', Blocks.iron_block, '2', Blocks.glass_pane, '3', YetAnotherMod.reinforcedStone});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "425", "767", '1', YetAnotherMod.computer, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "524", "767", '1', YetAnotherMod.computer, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
+		
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireRed, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 14), '2', Items.redstone});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireGreen, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 5), '2', Items.redstone});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBlue, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 11), '2', Items.redstone});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"111", "222", "333", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"123", "123", "123", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
+		
+		
 	}
 	
 	private static void newBrickRecipes(Block output, ItemStack modifier) {

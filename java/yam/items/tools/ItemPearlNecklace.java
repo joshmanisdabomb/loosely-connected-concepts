@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import yam.CustomDamage;
 import yam.YetAnotherMod;
@@ -16,8 +17,8 @@ public class ItemPearlNecklace extends ItemCosmeticArmor {
 	}
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Breathe Air: \247cNo");
-		list.add("Breathe Water: \247aYes");
+		list.add("Breathe Air: " + EnumChatFormatting.RED + "No");
+		list.add("Breathe Water: " + EnumChatFormatting.GREEN + "Yes");
 	}
 	
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {

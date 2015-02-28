@@ -5,7 +5,6 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
 import yam.CustomPotion;
 import yam.YetAnotherMod;
 import net.minecraft.block.Block;
@@ -17,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -65,7 +65,7 @@ public class BlockRadioactive extends BlockGeneric {
 	}
 	
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Debuffs: \2472Radiation " + (radioactivity == 0 ? "I" : StatCollector.translateToLocal("potion.potency." + radioactivity).trim()));
+		list.add(EnumChatFormatting.GRAY + "Debuffs: " + EnumChatFormatting.DARK_GREEN + "Radiation " + (radioactivity == 0 ? "I" : StatCollector.translateToLocal("potion.potency." + radioactivity).trim()));
 	}
 
 }

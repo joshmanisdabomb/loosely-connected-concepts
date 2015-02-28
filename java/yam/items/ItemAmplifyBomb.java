@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import yam.entity.EntityAmplifyBomb;
 
@@ -31,10 +32,9 @@ public class ItemAmplifyBomb extends ItemGeneric {
     }
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Fuse Time: \24780.0 seconds");
-		list.add("Radius: \24784.0 blocks");
-		list.add("Point Blank Damage: \24780.0 hearts");
-		list.add("Debuffs: \247eAmplify Damage I-IV");
+		list.add(EnumChatFormatting.GRAY + "Radius: " + EnumChatFormatting.DARK_AQUA + "4.0 blocks");
+		list.add(EnumChatFormatting.GRAY + "Point Blank Damage: " + EnumChatFormatting.YELLOW + "0.0 hearts");
+		list.add(EnumChatFormatting.GRAY + "Debuffs: " + EnumChatFormatting.GOLD + "Amplify Damage I-IV");
 	}
 
 }

@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,7 +49,7 @@ public class BlockQuicksand extends BlockGeneric {
     }
 
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Sink: \247aYes");
+		list.add("Sink: " + EnumChatFormatting.GREEN + "Yes");
 	}
 	
 	/**

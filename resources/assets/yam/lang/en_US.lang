@@ -10,7 +10,6 @@ tile.diamondPressurePlate.name=Diamond Pressure Plate
 tile.nuke.name=Nuke
 tile.nuclearWaste.name=Nuclear Waste
 item.atomSplitter.name=Atom Splitter
-item.nukeRemote.name=Nuclear Strike Remote
 
 tile.spreader1.name=Spreader
 tile.spreader2.name=Spreader
@@ -139,6 +138,12 @@ item.doughCooked.name=Cooked Pizza Dough
 item.pizza.name=Pizza
 item.lollipopStick.name=Eaten Lollipop Stick
 item.lollipop.name=Lollipop
+item.psychomeat.name=Psycho Meat
+
+item.oilBucket.name=Oil Bucket
+item.launchPad.name=Missile Launch Pad
+item.missileTNT.name=TNT Missile
+item.missileNuke.name=Nuclear Missile
 
 item.doritosOriginal.name=Cool Original Doritos
 item.doritosTangy.name=Tangy Cheese Doritos
@@ -274,7 +279,7 @@ item.glassesBrown.name=Brown Glasses
 
 item.peripheralAntispreader.name=Antispreader Peripheral
 item.peripheralSpreader.name=Spreader Peripheral
-item.peripheralNuclear.name=Nuclear Peripheral
+item.peripheralMissile.name=Missile Peripheral
 item.peripheralGerms.name=Germ Peripheral
 item.peripheralTraps.name=Trap Peripheral
 
@@ -431,3 +436,5 @@ death.attack.spikes=%1$s was impaled by spikes
 death.attack.spikes.player=%1$s was impaled by spikes whilst trying to escape %2$s
 death.attack.mlg=%1$s 90t r3kt 8y %2$s
 death.attack.mlg.player=%1$s 90t r3kt 8y %2$s
+death.attack.pill=%1$s overdosed
+death.attack.mlg.player=%1$s overdosed whilst trying to escape %2$s

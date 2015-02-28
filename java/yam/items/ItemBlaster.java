@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -73,7 +74,7 @@ public class ItemBlaster extends ItemGeneric {
     }
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Damage: \247e" + (double)(damage)/2.0D + " hearts");
+		list.add(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + (double)(damage)/2.0D + " hearts");
 	}
 	
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {

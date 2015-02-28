@@ -15,6 +15,8 @@ public class CustomDamage {
     public static final DamageSource mlg = (new DamageSource("mlg")).setExplosion().setDamageBypassesArmor().setDamageAllowedInCreativeMode();
     public static final DamageSource spikes = (new DamageSource("spikes"));
     public static final DamageSource cactus2 = (new DamageSource("cactus2")).setDamageBypassesArmor();
+	public static final DamageSource pill = (new DamageSource("pill")).setDamageBypassesArmor();
+	public static final DamageSource starburst = (new DamageSource("starburst"));
 	
     public static DamageSource causeBlasterDamage(Entity par0Entity, Entity par1Entity) {
     	return (new EntityDamageSourceIndirect("blaster", par0Entity, par1Entity));
@@ -26,6 +28,10 @@ public class CustomDamage {
     
     public static DamageSource causeRektDamage(Entity par0Entity, Entity par1Entity) {
         return (new EntityDamageSourceIndirect("mlg", par0Entity, par1Entity));
+	}
+    
+    public static DamageSource causeStarburstDamage(Entity par0Entity, Entity par1Entity) {
+        return (new EntityDamageSourceIndirect("starburst", par0Entity, par1Entity));
 	}
 
 }

@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -30,7 +31,7 @@ public class ItemRadioactive extends ItemGeneric {
 	}
 
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Debuffs: \2472Radiation " + (radioactivity == 0 ? "I" : StatCollector.translateToLocal("potion.potency." + radioactivity).trim()));
+		list.add(EnumChatFormatting.GRAY + "Debuffs: " + EnumChatFormatting.DARK_GREEN + "Radiation " + (radioactivity == 0 ? "I" : StatCollector.translateToLocal("potion.potency." + radioactivity).trim()));
 	}
 	
 }

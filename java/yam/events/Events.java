@@ -1,11 +1,14 @@
 package yam.events;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,11 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.gen.layer.GenLayer;
-import net.minecraft.world.gen.layer.GenLayerBiomeEdge;
-import net.minecraft.world.gen.layer.GenLayerZoom;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -30,17 +32,16 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
-import net.minecraftforge.event.terraingen.WorldTypeEvent.BiomeSize;
-import net.minecraftforge.event.terraingen.WorldTypeEvent.InitBiomeGens;
 import net.minecraftforge.event.world.BlockEvent;
 import yam.CustomDamage;
 import yam.CustomPotion;
 import yam.YetAnotherMod;
 import yam.biome.BiomeWasteland;
 import yam.entity.EntityRainbot;
-import yam.gen.GenLayerBiomeCustom;
+import yam.entity.extensions.ExtendedPlayer;
 import yam.items.tools.ItemCustomArmor;
 import yam.items.tools.ItemRepeater;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class Events {
@@ -50,6 +51,10 @@ public class Events {
 	@SubscribeEvent
 	public void whenBucketUsed(FillBucketEvent event) {
 		if (!event.entityPlayer.capabilities.isCreativeMode && event.entityPlayer.dimension == YetAnotherMod.rainbowDimID) {event.setCanceled(true);}
+		if (event.world.getBiomeGenForCoords(event.target.blockX,event.target.blockZ) == YetAnotherMod.biomeWasteland && (event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == Blocks.water || event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == Blocks.flowing_water)) {
+			event.result = new ItemStack(YetAnotherMod.oilBucket, 1);
+			event.setResult(Result.ALLOW);
+		}
 	}
 	
 	@SubscribeEvent
@@ -142,10 +147,13 @@ public class Events {
 	
 	@SubscribeEvent
 	public void whenLivingUpdated(LivingEvent.LivingUpdateEvent event) {
+		//Cactus Damage
 		int cactusDamage = ItemCustomArmor.getCactusDamage(event.entityLiving.getEquipmentInSlot(0),event.entityLiving.getEquipmentInSlot(1),event.entityLiving.getEquipmentInSlot(2),event.entityLiving.getEquipmentInSlot(3),event.entityLiving.getEquipmentInSlot(4));
 		if (cactusDamage > 0) {
 			event.entityLiving.attackEntityFrom(CustomDamage.cactus2, cactusDamage);
 		}
+		
+		//Planet Movement
 		if (event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID) {
 			if (!ItemCustomArmor.isFullSpacesuit(event.entityLiving.getEquipmentInSlot(1),event.entityLiving.getEquipmentInSlot(2),event.entityLiving.getEquipmentInSlot(3),event.entityLiving.getEquipmentInSlot(4))) {
 				event.entityLiving.attackEntityFrom(CustomDamage.breath, 1);
@@ -163,6 +171,8 @@ public class Events {
 				event.entity.motionY /= 1.05;
 			}
 		}
+		
+		//Oil Movement
 		if (event.entity.isInWater() && event.entity.worldObj.getBiomeGenForCoords((int)Math.floor(event.entity.posX),(int)Math.floor(event.entity.posZ)) == YetAnotherMod.biomeWasteland) {
 			if (((BiomeWasteland)YetAnotherMod.biomeWasteland).isWastelandMonster(event.entity)) {
 				event.entity.motionX *= 1.2;
@@ -177,6 +187,43 @@ public class Events {
 				}
 			}
 		}
+		
+		//Starburst
+		AxisAlignedBB aabb = event.entityLiving.boundingBox;
+		if (aabb != null) {
+			List entities = event.entityLiving.worldObj.getEntitiesWithinAABBExcludingEntity(event.entityLiving, aabb.expand(0.15D, 0.15D, 0.15D));
+			for (Object e : entities) {
+				if (e instanceof EntityLivingBase) {
+					PotionEffect pe = ((EntityLivingBase)e).getActivePotionEffect(CustomPotion.starburst);
+					if (pe != null) {
+						event.entityLiving.attackEntityFrom(CustomDamage.causeStarburstDamage(event.entityLiving, ((EntityLivingBase)e)), (pe.getAmplifier()+1)*5.0F);
+					}
+				}
+			}
+		}
+		PotionEffect pe = event.entityLiving.getActivePotionEffect(CustomPotion.starburst);
+		if (pe != null) {
+			if (event.entityLiving instanceof EntityPlayer) {
+				((EntityPlayer)event.entityLiving).capabilities.disableDamage = true;
+			}
+		} else if (event.entityLiving instanceof EntityPlayer) {
+			((EntityPlayer)event.entityLiving).capabilities.disableDamage = false;
+		}
+		
+		//Explosive Diarrhea
+		if (event.entityLiving instanceof EntityPlayer) {
+			int explosiveDiarrhea = ExtendedPlayer.get(((EntityPlayer)event.entityLiving)).getExplosiveDiarrhea();
+			if (explosiveDiarrhea > 0) {
+				if (explosiveDiarrhea % 10 == 0) {
+					EntityTNTPrimed tnt = new EntityTNTPrimed(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, event.entityLiving);
+					tnt.fuse = 30;
+					event.entityLiving.worldObj.spawnEntityInWorld(tnt);
+					event.entityLiving.playSound("game.tnt.primed", 1.0F, 1.0F);
+				}
+				ExtendedPlayer.get(((EntityPlayer)event.entityLiving)).tickExplosiveDiarrhea();
+			}
+
+		}
 	}
 	
 	@SubscribeEvent
@@ -184,6 +231,11 @@ public class Events {
 		if ((event.entityLiving.dimension == YetAnotherMod.moonDimID || event.entityLiving.dimension == YetAnotherMod.asmiaDimID)) {
 			event.entityLiving.motionX = 0;
 			event.entityLiving.motionZ = 0;
+		}
+
+		PotionEffect pe = event.entityLiving.getActivePotionEffect(CustomPotion.starburst);
+		if (pe != null) {
+			event.entityLiving.motionY += 0.3F;
 		}
 	}
 	
@@ -254,6 +306,16 @@ public class Events {
 			event.setBlock(YetAnotherMod.torchOff);
 		} else if ((event.getBlock() == Blocks.yellow_flower || event.getBlock() == Blocks.red_flower) && (event.world.provider.dimensionId == YetAnotherMod.moonDimID || event.world.provider.dimensionId == YetAnotherMod.asmiaDimID)) {
 			event.setBlock(Blocks.deadbush);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityConstructing(EntityConstructing event) {
+		if (event.entity instanceof EntityPlayer && ExtendedPlayer.get((EntityPlayer) event.entity) == null) {
+			ExtendedPlayer.register((EntityPlayer) event.entity);
+		}
+		if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendedPlayer.EXT_PROP_NAME) == null) {
+			event.entity.registerExtendedProperties(ExtendedPlayer.EXT_PROP_NAME, new ExtendedPlayer((EntityPlayer) event.entity));
 		}
 	}
 	

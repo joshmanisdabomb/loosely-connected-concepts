@@ -9,6 +9,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.ISpecialArmor;
 import yam.YetAnotherMod;
 
@@ -46,7 +47,7 @@ public class ItemCosmeticArmor extends ItemArmor {
 	}
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		if (cosmetic) {list.add("Cosmetic: \247aYes");}
+		if (cosmetic) {list.add(EnumChatFormatting.GRAY + "Cosmetic: " + EnumChatFormatting.GREEN + "Yes");}
 		if (extraInfo != null) {list.add(extraInfo);}
 	}
 	

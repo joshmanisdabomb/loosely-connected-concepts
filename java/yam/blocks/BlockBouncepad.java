@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class BlockBouncepad extends BlockGeneric {
@@ -64,7 +65,8 @@ public class BlockBouncepad extends BlockGeneric {
     }
 	
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add(realHeight != 0.0D ? "Estimated Height: \2478" + realHeight + " blocks" : "Negates Fall Damage: \247aYes");
+		list.add(EnumChatFormatting.GRAY + "Estimated Height: " + (realHeight > 0 ? EnumChatFormatting.DARK_PURPLE : EnumChatFormatting.DARK_GRAY) + realHeight + " blocks");
+		list.add(EnumChatFormatting.GRAY + "Negates Fall Damage: " + (realHeight > 0 ? EnumChatFormatting.RED + "No" : EnumChatFormatting.GREEN + "Yes"));
 	}
 
 }

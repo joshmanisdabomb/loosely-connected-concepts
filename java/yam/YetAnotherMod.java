@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
@@ -40,6 +41,7 @@ import yam.blocks.BlockGeneric;
 import yam.blocks.BlockGlowingObsidian;
 import yam.blocks.BlockHotCoal;
 import yam.blocks.BlockInternet;
+import yam.blocks.BlockLaunchPad;
 import yam.blocks.BlockNuke;
 import yam.blocks.BlockNukeFire;
 import yam.blocks.BlockPlayerPlate;
@@ -59,6 +61,7 @@ import yam.blocks.BlockTickField;
 import yam.blocks.BlockTrashCan;
 import yam.blocks.entity.TileEntityClassicChest;
 import yam.blocks.entity.TileEntityComputer;
+import yam.blocks.entity.TileEntityLaunchPad;
 import yam.blocks.entity.TileEntityStonecutter;
 import yam.blocks.entity.TileEntityTickField;
 import yam.blocks.entity.TileEntityTrashCan;
@@ -87,6 +90,7 @@ import yam.entity.EntityFly;
 import yam.entity.EntityHalfPlayer;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityMLGArrow;
+import yam.entity.EntityMissile;
 import yam.entity.EntityMummy;
 import yam.entity.EntityNukeMissile;
 import yam.entity.EntityNukePrimed;
@@ -107,9 +111,10 @@ import yam.items.ItemExtraJump;
 import yam.items.ItemGeneric;
 import yam.items.ItemHeart;
 import yam.items.ItemHeartContainer;
+import yam.items.ItemMissile;
+import yam.items.ItemMissile.MissileType;
 import yam.items.ItemNoms;
 import yam.items.ItemNomsNewStack;
-import yam.items.ItemNukeRemote;
 import yam.items.ItemPill;
 import yam.items.ItemPlacer;
 import yam.items.ItemRadioactive;
@@ -156,28 +161,24 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid = YetAnotherMod.MODID, name = YetAnotherMod.NAME, version = YetAnotherMod.VERSION)
 public class YetAnotherMod
 {
-	//TODO Rainbow dimension customization. (Neon ore)
-	//FIX  Wasteland biome.
+	//TODO Rainbow dimension customization.
 	//TODO Add old mod shit.
-	//TODO Nuclear missile new model and texture.
 	//TODO Self destruct remote.
 	//TODO Complete survival recipes.
 	//TODO Duplicator blocks.
 	//TODO Entity cloners.
 	//TODO Billie Jean blocks.
 	//TODO Drills and builder blocks.
-	//TODO Halfplayer homes. (Higher tiers homes and populate chests, furnaces and random home modules for tier 3.)
+	//TODO Remove halfplayer homes. Add tribes and civilizations and shit.
 	//TODO Rust block stages. (Tile entity.)
 	//TODO Space. Moons and planets and shit.
-	//TODO Custom experience drops from mobs.
-	//TODO Wither, blast, daze bow enchantments.
+	//FIX  Wither, blast, daze bow enchantments.
 	//TODO Healing armor enchantment. (Armour)
-	//TODO Cactus armor, hurts you but very powerful.
 	//TODO Treants.
 	//TODO Change infected potion to fuzzy potion effect, add new fuzzy entity.
-	//TODO Change lollipopper to throw lollipops that can be collected.
+	//TODO Change lollipopper to throw lollipops that can be collected but hurt you.
 	//TODO Crawling zombies.
-	//TODO Mummies and pyramids.
+	//TODO Pyramids.
 	//TODO XPiggy Bank.
 	//TODO Neon armour leaves trail.
 	//TODO Backstab.
@@ -185,7 +186,7 @@ public class YetAnotherMod
 	//TODO Computers that power rockets and 3D print Nostalgia objects.
 	//TODO Smartphones that can send PMs to other players with a cost.
 	//TODO Internet blocks that cost less to do internet things with each generation.
-	//TODO Charge smartphones.
+	//TODO Charging smartphones.
 	
 	//Forge and initalization shit
     public static final String MODID = "yam";
@@ -455,7 +456,11 @@ public class YetAnotherMod
     public static Item antispreaderRemoteLapis;
     public static Item antispreaderRemoteCrystal;
 
-    public static Item nukeRemote;
+    public static Item oilBucket;
+    public static Block launchPadBlock;
+    public static Item launchPad;
+    public static Item missileTNT;
+    public static Item missileNuke;
 
     //Bricks
     public static Block bricksCoal;
@@ -602,7 +607,7 @@ public class YetAnotherMod
     //Peripherals
     public static Item peripheralAntispreader;
     public static Item peripheralSpreader;
-    public static Item peripheralNuclear;
+    public static Item peripheralMissile;
     
     //Nostalgia
     public static Block nostalgiaBricks;
@@ -712,6 +717,7 @@ public class YetAnotherMod
     
     //Entity IDs
     public static int halfPlayer;
+    public static int missile;
     public static int nukePrimed;
     public static int nukeMissile;
     public static int bullet;
@@ -741,6 +747,7 @@ public class YetAnotherMod
     public void preInit(FMLPreInitializationEvent event)
     {
     	halfPlayer = registerEntity(EntityHalfPlayer.class, "halfplayer", null, 0, 0, 0);
+    	missile = registerEntity(EntityMissile.class, "missile", null, 0, 0, 0);
     	nukePrimed = registerEntity(EntityNukePrimed.class, "primedNuke", null, 0, 0, 0);
     	nukeMissile = registerEntity(EntityNukeMissile.class, "missileNuke", null, 0, 0, 0);
     	bullet = registerEntity(EntityBullet.class, "bullet", null, 0, 0, 0);
@@ -779,7 +786,7 @@ public class YetAnotherMod
 
     	mud = new BlockGeneric(Material.ground, "mud").setBlockName("mud").setHardness(0.8F).setResistance(4F).setStepSound(Block.soundTypeGravel);
     	((BlockGeneric) mud).setSlipperiness(1.07F);
-    	((BlockGeneric) mud).setExtraInformation("Slippery: \247aYes");
+    	((BlockGeneric) mud).setExtraInformation(EnumChatFormatting.GRAY + "Slippery: " + EnumChatFormatting.GREEN + "Yes");
     	mud.setHarvestLevel("shovel", 0);
     	GameRegistry.registerBlock(mud, ItemBlockExtraInfo.class, "mud");
     	quicksand = new BlockQuicksand(Material.sand, "quicksand").setBlockName("quicksand").setHardness(2.2F).setResistance(2.5F).setLightOpacity(0).setStepSound(Block.soundTypeSand);
@@ -1048,16 +1055,16 @@ public class YetAnotherMod
     	uraniumBlock.setHarvestLevel("pickaxe", 5);
     	GameRegistry.registerBlock(uraniumBlock, ItemBlockRadioactive.class, "uraniumBlock");
     	hazmatHelmet = new ItemCosmeticArmor(amCosmetic, "hazmat", hazmatHelmetID, 0, false).setUnlocalizedName("hazmatHelmet");
-    	((ItemCosmeticArmor)hazmatHelmet).setExtraInformation("Immunity to: \2472Radiation");
+    	((ItemCosmeticArmor)hazmatHelmet).setExtraInformation(EnumChatFormatting.GRAY + "Immunity to: " + EnumChatFormatting.DARK_GREEN + "Radiation");
     	GameRegistry.registerItem(hazmatHelmet, "hazmatHelmet");
     	hazmatChestplate = new ItemCosmeticArmor(amCosmetic, "hazmat", hazmatChestplateID, 1, false).setUnlocalizedName("hazmatChestplate");
-    	((ItemCosmeticArmor)hazmatChestplate).setExtraInformation("Immunity to: \2472Radiation");
+    	((ItemCosmeticArmor)hazmatChestplate).setExtraInformation(EnumChatFormatting.GRAY + "Immunity to: " + EnumChatFormatting.DARK_GREEN + "Radiation");
     	GameRegistry.registerItem(hazmatChestplate, "hazmatChestplate");
     	hazmatLeggings = new ItemCosmeticArmor(amCosmetic, "hazmat", hazmatLeggingsID, 2, false).setUnlocalizedName("hazmatLeggings");
-    	((ItemCosmeticArmor)hazmatLeggings).setExtraInformation("Immunity to: \2472Radiation");
+    	((ItemCosmeticArmor)hazmatLeggings).setExtraInformation(EnumChatFormatting.GRAY + "Immunity to: " + EnumChatFormatting.DARK_GREEN + "Radiation");
     	GameRegistry.registerItem(hazmatLeggings, "hazmatLeggings");
     	hazmatBoots = new ItemCosmeticArmor(amCosmetic, "hazmat", hazmatBootsID, 3, false).setUnlocalizedName("hazmatBoots");
-    	((ItemCosmeticArmor)hazmatBoots).setExtraInformation("Immunity to: \2472Radiation");
+    	((ItemCosmeticArmor)hazmatBoots).setExtraInformation(EnumChatFormatting.GRAY + "Immunity to: " + EnumChatFormatting.DARK_GREEN + "Radiation");
     	GameRegistry.registerItem(hazmatBoots, "hazmatBoots");
     	nuke = new BlockNuke("nuke/side", "nuke/side", "nuke/top", "nuke/bottom").setBlockName("nuke");
     	GameRegistry.registerBlock(nuke, ItemBlockExtraInfo.class, "nuke");
@@ -1065,8 +1072,6 @@ public class YetAnotherMod
     	GameRegistry.registerBlock(nuclearFire, "nuclearFire");
     	nuclearWaste = new BlockRadioactive(Material.rock, "nuke/waste", 0).setBlockUnbreakable().setResistance(6000000.0F).setStepSound(Block.soundTypeStone).setBlockName("nuclearWaste");
     	GameRegistry.registerBlock(nuclearWaste, ItemBlockRadioactive.class, "nuclearWaste");
-    	nukeRemote = new ItemNukeRemote("nuke", 6).setUnlocalizedName("nukeRemote");
-    	GameRegistry.registerItem(nukeRemote, "nukeRemote");
     	atomSplitter = new ItemAtomSplitter("atomSplitter", YetAnotherMod.nuclearFire, 10).setUnlocalizedName("atomSplitter");
     	GameRegistry.registerItem(atomSplitter, "atomSplitter");
     	
@@ -1106,9 +1111,22 @@ public class YetAnotherMod
     	lollipop = new ItemNomsNewStack("lollipop", lollipopStick, 3, 0.1F, false).setUnlocalizedName("lollipop");
     	((ItemNomsNewStack) lollipop).setDrinkable();
     	GameRegistry.registerItem(lollipop, "lollipop");
-    	psychomeat = new ItemNoms("psychomeat", 5, 0.0F, false);
+    	psychomeat = new ItemNoms("psychomeat", 5, 0.0F, false).setUnlocalizedName("psychomeat");
     	((ItemNoms) psychomeat).setPotionEffect(Potion.confusion.id, 12, 0, 1.0F);
     	GameRegistry.registerItem(psychomeat, "psychomeat");
+
+    	oilBucket = new ItemGeneric("oilbucket").setMaxStackSize(1).setUnlocalizedName("oilBucket");
+    	GameRegistry.registerItem(oilBucket, "oilBucket");
+    	launchPadBlock = new BlockLaunchPad(Material.iron).setBlockName("launchPadBlock");
+    	((BlockGeneric)launchPadBlock).setDrops(launchPad, 1, 1);
+    	((BlockGeneric)launchPadBlock).setRenderType(-1, false);
+    	GameRegistry.registerBlock(launchPadBlock, "launchPadBlock");
+    	launchPad = new ItemPlacer("launchpad", launchPadBlock).setUnlocalizedName("launchPad");
+    	GameRegistry.registerItem(launchPad, "launchPad");
+    	missileTNT = new ItemMissile("missile/red", MissileType.TNT).setUnlocalizedName("missileTNT");
+    	GameRegistry.registerItem(missileTNT, "missileTNT");
+    	missileNuke = new ItemMissile("missile/nuke", MissileType.NUCLEAR).setUnlocalizedName("missileNuke");
+    	GameRegistry.registerItem(missileNuke, "missileNuke");
 
     	doritosOriginal = new ItemNoms("doritos/cool", 7, 0.8F, false).setUnlocalizedName("doritosOriginal");
     	((ItemNoms) doritosOriginal).setAlwaysEdible();
@@ -1215,23 +1233,23 @@ public class YetAnotherMod
     	crystalheart = new ItemHeartContainer("crystal", 2.0F).setUnlocalizedName("crystalheart");
     	GameRegistry.registerItem(crystalheart, "crystalheart");
     	
-    	pillBlack = new ItemPill("black").setUnlocalizedName("pillBlack");
+    	pillBlack = new ItemPill("black", 0).setUnlocalizedName("pillBlack");
     	GameRegistry.registerItem(pillBlack, "pillBlack");
-    	pillBlue = new ItemPill("blue").setUnlocalizedName("pillBlue");
+    	pillBlue = new ItemPill("blue", 1).setUnlocalizedName("pillBlue");
     	GameRegistry.registerItem(pillBlue, "pillBlue");
-    	pillCyanWhite = new ItemPill("cyanwhite").setUnlocalizedName("pillCyanWhite");
+    	pillCyanWhite = new ItemPill("cyanwhite", 2).setUnlocalizedName("pillCyanWhite");
     	GameRegistry.registerItem(pillCyanWhite, "pillCyanWhite");
-    	pillGreen = new ItemPill("green").setUnlocalizedName("pillGreen");
+    	pillGreen = new ItemPill("green", 3).setUnlocalizedName("pillGreen");
     	GameRegistry.registerItem(pillGreen, "pillGreen");
-    	pillOrangeCyan = new ItemPill("orangecyan").setUnlocalizedName("pillOrangeCyan");
+    	pillOrangeCyan = new ItemPill("orangecyan", 4).setUnlocalizedName("pillOrangeCyan");
     	GameRegistry.registerItem(pillOrangeCyan, "pillOrangeCyan");
-    	pillOrangeYellow = new ItemPill("orangeyellow").setUnlocalizedName("pillOrangeYellow");
+    	pillOrangeYellow = new ItemPill("orangeyellow", 5).setUnlocalizedName("pillOrangeYellow");
     	GameRegistry.registerItem(pillOrangeYellow, "pillOrangeYellow");
-    	pillRed = new ItemPill("red").setUnlocalizedName("pillRed");
+    	pillRed = new ItemPill("red", 6).setUnlocalizedName("pillRed");
     	GameRegistry.registerItem(pillRed, "pillRed");
-    	pillRedBlue = new ItemPill("redblue").setUnlocalizedName("pillRedBlue");
+    	pillRedBlue = new ItemPill("redblue", 7).setUnlocalizedName("pillRedBlue");
     	GameRegistry.registerItem(pillRedBlue, "pillRedBlue");
-    	pillWhite = new ItemPill("white").setUnlocalizedName("pillWhite");
+    	pillWhite = new ItemPill("white", 8).setUnlocalizedName("pillWhite");
     	GameRegistry.registerItem(pillWhite, "pillWhite");
 
     	rainbowBlock = new BlockRainbow("linear", "radial").setHardness(75.0F).setResistance(200.0F).setStepSound(soundTypeRainbow).setBlockName("rainbowBlock").setLightLevel(1F).setLightOpacity(0);
@@ -1435,7 +1453,7 @@ public class YetAnotherMod
 
     	trashCanBlock = new BlockTrashCan().setBlockName("trashCanBlock");
     	((BlockGeneric)trashCanBlock).setDrops(trashCan, 1, 1);
-    	((BlockGeneric)trashCanBlock).setRenderType(0, false);
+    	((BlockGeneric)trashCanBlock).setRenderType(-1, false);
     	GameRegistry.registerBlock(trashCanBlock, "trashCanBlock");
     	trashCan = new ItemPlacer("trashCan", trashCanBlock).setUnlocalizedName("trashCan");
     	GameRegistry.registerItem(trashCan, "trashCan");
@@ -1481,14 +1499,14 @@ public class YetAnotherMod
     	spikes.setHarvestLevel("pickaxe", 2);
     	((BlockGeneric) spikes).setDamaging(CustomDamage.spikes, 3.0F);
     	((BlockGeneric) spikes).setRenderType(1, false);
-    	((BlockGeneric) spikes).setExtraInformation("Damage: \247e1.5 hearts");
+    	((BlockGeneric) spikes).setExtraInformation(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + "1.5 hearts");
     	((BlockGeneric) spikes).setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
     	GameRegistry.registerBlock(spikes, ItemBlockExtraInfo.class, "spikes");
     	bloodSpikes = new BlockGeneric(Material.rock, "spikes/blood").setHardness(4.0F).setResistance(15.0F).setLightOpacity(0).setStepSound(Block.soundTypeMetal).setBlockName("bloodSpikes");
     	bloodSpikes.setHarvestLevel("pickaxe", 3);
     	((BlockGeneric) bloodSpikes).setDamaging(CustomDamage.spikes, 6.0F);
     	((BlockGeneric) bloodSpikes).setRenderType(1, false);
-    	((BlockGeneric) bloodSpikes).setExtraInformation("Damage: \247e3.0 hearts");
+    	((BlockGeneric) bloodSpikes).setExtraInformation(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + "3.0 hearts");
     	((BlockGeneric) bloodSpikes).setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
     	GameRegistry.registerBlock(bloodSpikes, ItemBlockExtraInfo.class, "bloodSpikes");
 
@@ -1496,8 +1514,8 @@ public class YetAnotherMod
     	GameRegistry.registerItem(peripheralSpreader, "peripheralSpreader");
     	peripheralAntispreader = new ItemGeneric("peripheral/antispreader").setUnlocalizedName("peripheralAntispreader");
     	GameRegistry.registerItem(peripheralAntispreader, "peripheralAntispreader");
-    	peripheralNuclear = new ItemGeneric("peripheral/nuclear").setUnlocalizedName("peripheralNuclear");
-    	GameRegistry.registerItem(peripheralNuclear, "peripheralNuclear");
+    	peripheralMissile = new ItemGeneric("peripheral/nuclear").setUnlocalizedName("peripheralNuclear");
+    	GameRegistry.registerItem(peripheralMissile, "peripheralNuclear");
     	
     	blaster = new ItemBlaster("blaster", "pew", 7, 50, 17).setFull3D().setUnlocalizedName("blaster");
     	GameRegistry.registerItem(blaster, "blaster");
@@ -1659,6 +1677,7 @@ public class YetAnotherMod
     	GameRegistry.registerTileEntity(TileEntityComputer.class, MODID+":TileEntityComputer");
     	//GameRegistry.registerTileEntity(TileEntityComputerSpace.class, MODID+":TileEntityComputerSpace");
     	//GameRegistry.registerTileEntity(TileEntityComputerDev.class, MODID+":TileEntityComputerSpace");
+    	GameRegistry.registerTileEntity(TileEntityLaunchPad.class, MODID+":TileEntityLaunchPad");
     	proxy.registerTileEntitySpecialRenderer();
     	
     	BiomeDictionary.registerBiomeType(biomeWasteland = new BiomeWasteland(50), BiomeDictionary.Type.DESERT, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WASTELAND);

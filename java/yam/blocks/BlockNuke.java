@@ -12,6 +12,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import yam.YetAnotherMod;
@@ -105,11 +106,11 @@ public class BlockNuke extends BlockGeneric {
     }
 	
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Fuse Time: \247816.0 seconds");
-		list.add("Radius: \2478100.0 blocks");
-		list.add("Point Blank Damage: \247825.0 hearts");
-		list.add("Creates: \2472Nuclear Fire\2478, \2476Nuclear Waste\2478, \2472Airborne Radiation");
-		list.add("Debuffs: \2472Radiation I-IV");
+		list.add(EnumChatFormatting.GRAY + "Fuse Time: " + EnumChatFormatting.DARK_GRAY + "16.0 seconds");
+		list.add(EnumChatFormatting.GRAY + "Radius: " + EnumChatFormatting.DARK_GRAY + "100.0 blocks");
+		list.add(EnumChatFormatting.GRAY + "Point Blank Damage: " + EnumChatFormatting.DARK_GRAY + "25.0 hearts");
+		list.add(EnumChatFormatting.GRAY + "Creates: " + EnumChatFormatting.DARK_GREEN + "Nuclear Fire" + EnumChatFormatting.DARK_GRAY + ", " + EnumChatFormatting.GRAY + "Nuclear Waste" + EnumChatFormatting.DARK_GRAY);
+		list.add(EnumChatFormatting.GRAY + "Debuffs: " + EnumChatFormatting.DARK_GREEN + "Radiation I-IV");
 	}
 
 }

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import yam.CustomPotion;
 import yam.YetAnotherMod;
@@ -57,7 +58,7 @@ public class BlockHotCoal extends BlockGeneric {
 	}
 	
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Estimated Height: \2478" + realHeight + " blocks");
+		list.add(EnumChatFormatting.GRAY + "Estimated Height: " + EnumChatFormatting.DARK_PURPLE + realHeight + " blocks");
 	}
 
 }

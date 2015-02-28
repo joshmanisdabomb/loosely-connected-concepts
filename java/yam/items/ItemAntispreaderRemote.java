@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import yam.YetAnotherMod;
 import yam.blocks.BlockSpreading;
@@ -46,9 +47,9 @@ public class ItemAntispreaderRemote extends ItemGeneric {
     }
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Targets: \2478Antispreader");
-		list.add("Turns Into: \2478Air");
-		list.add("Radius: \2478" + power + ".0 blocks");
+		list.add(EnumChatFormatting.GRAY + "Targets: " + EnumChatFormatting.DARK_GRAY + "Antispreader");
+		list.add(EnumChatFormatting.GRAY + "Turns Into: " + EnumChatFormatting.WHITE + "Air");
+		list.add(EnumChatFormatting.GRAY + "Radius: " + EnumChatFormatting.DARK_AQUA + power + ".0 blocks");
 	}
 
 }

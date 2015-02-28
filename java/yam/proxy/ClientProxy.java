@@ -4,7 +4,9 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelHorse;
 import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
+import yam.blocks.entity.TileEntityLaunchPad;
 import yam.blocks.entity.TileEntityTrashCan;
+import yam.blocks.entity.render.TileEntityLaunchPadRenderer;
 import yam.blocks.entity.render.TileEntityTrashCanRenderer;
 import yam.blocks.entity.render.TrashCanRenderHelper;
 import yam.entity.EntityAmplifyBomb;
@@ -16,6 +18,7 @@ import yam.entity.EntityFly;
 import yam.entity.EntityHalfPlayer;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityMLGArrow;
+import yam.entity.EntityMissile;
 import yam.entity.EntityMummy;
 import yam.entity.EntityNukeMissile;
 import yam.entity.EntityNukePrimed;
@@ -29,6 +32,7 @@ import yam.entity.model.ModelDerekJr;
 import yam.entity.model.ModelFly;
 import yam.entity.model.ModelGiantMissile;
 import yam.entity.model.ModelLollipopper;
+import yam.entity.model.ModelMissile;
 import yam.entity.model.ModelMummy;
 import yam.entity.model.ModelRainbot;
 import yam.entity.model.ModelTick;
@@ -41,6 +45,7 @@ import yam.entity.render.RenderFly;
 import yam.entity.render.RenderHalfplayer;
 import yam.entity.render.RenderLollipopper;
 import yam.entity.render.RenderMLGArrow;
+import yam.entity.render.RenderMissile;
 import yam.entity.render.RenderMummy;
 import yam.entity.render.RenderNukeMissile;
 import yam.entity.render.RenderNukePrimed;
@@ -64,11 +69,13 @@ public class ClientProxy extends ServerProxy {
     public void registerTileEntitySpecialRenderer()
     {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrashCan.class, new TileEntityTrashCanRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new TileEntityLaunchPadRenderer());
     }
 	
 	@Override
 	public void registerRenderers() {
 		RenderingRegistry.registerEntityRenderingHandler(EntityHalfPlayer.class, new RenderHalfplayer(new ModelBiped(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(new ModelMissile()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukePrimed.class, new RenderNukePrimed(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeMissile.class, new RenderNukeMissile(new ModelGiantMissile()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());

@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import yam.YetAnotherMod;
 
 public class ItemGlassesCosmetic extends ItemCosmeticArmor {
@@ -18,7 +19,7 @@ public class ItemGlassesCosmetic extends ItemCosmeticArmor {
 	}
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Cosmetic: \247aYes");
+		list.add("Cosmetic: " + EnumChatFormatting.GREEN + "Yes");
 	}
 	
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot, String type) {

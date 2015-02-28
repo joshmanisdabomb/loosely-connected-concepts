@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import yam.YetAnotherMod;
 
@@ -68,9 +69,9 @@ public class BlockSpreading extends BlockGeneric {
 	}
 
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Spreads In: " + (type == 0 ? "\2475Air" : type == 1 ? "\247aBoth" : "\2476Ground"));
-		list.add("Speed: " + (charged ? "\247bFast" : "\2478Normal"));
-		list.add("Eats: " + (eater ? "\247aYes" : "\247cNo"));
+		list.add(EnumChatFormatting.GRAY + "Spreads In: " + (type == 0 ? EnumChatFormatting.DARK_PURPLE + "Air" : type == 1 ? EnumChatFormatting.GREEN + "Both" : EnumChatFormatting.GOLD + "Ground"));
+		list.add(EnumChatFormatting.GRAY + "Speed: " + (charged ? EnumChatFormatting.AQUA + "Fast" : EnumChatFormatting.BLUE + "Normal"));
+		list.add(EnumChatFormatting.GRAY + "Eats: " + (eater ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED + "No"));
 	}
 
 }

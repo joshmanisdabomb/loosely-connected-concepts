@@ -14,6 +14,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import yam.items.tools.ItemCustomArmor;
+import yam.particle.ParticleHandler;
+import yam.particle.ParticleHandler.ParticleType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,7 +30,8 @@ public class CustomPotion extends Potion {
     public static final Potion bleeding = new CustomPotion(27, true, Integer.parseInt("772211", 16)).setIconIndex(2,0).setPotionName("potion.bleeding").func_111184_a(SharedMonsterAttributes.maxHealth, "5A141BE7-1A90-44AA-A870-474AD77DDE35", -2.0D, 0);
     public static final Potion bleedingInt = new CustomPotion(28, true, Integer.parseInt("772211", 16)).setIconIndex(3,0).setPotionName("potion.bleedingInt").func_111184_a(SharedMonsterAttributes.maxHealth, "0406261F-7987-46F7-B7AD-D0FCA88C4F38", -2.0D, 0);
     public static final Potion amplify = new CustomPotion(29, true, Integer.parseInt("FFBB00", 16)).setIconIndex(4,0).setPotionName("potion.amplify");
-    public static final Potion mlg = new CustomPotion(31, true, Integer.parseInt("999999", 16)).setIconIndex(6,0).setPotionName("potion.mlg");
+    public static final Potion mlg = new CustomPotion(30, true, Integer.parseInt("999999", 16)).setIconIndex(6,0).setPotionName("potion.mlg");
+    public static final Potion starburst = new CustomPotion(31, true, Integer.parseInt("FFBB00", 16)).setIconIndex(7,0).setPotionName("potion.starburst");
 	
 	public static Potion[] potionTypes;
 	
@@ -55,6 +58,8 @@ public class CustomPotion extends Potion {
 			if (par1EntityLivingBase instanceof EntityPlayer) {
 				((EntityPlayer)par1EntityLivingBase).refreshDisplayName();
 			}
+		} else if (this.id == starburst.id) {
+			ParticleHandler.particleSpark(par1EntityLivingBase.worldObj, ParticleType.RAINBOW, par1EntityLivingBase.posX, par1EntityLivingBase.posY, par1EntityLivingBase.posZ, 0.1, 4);
 		}
 	}
 	

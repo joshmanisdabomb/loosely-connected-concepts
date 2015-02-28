@@ -18,7 +18,7 @@ public class ItemGlasses extends ItemGlassesCosmetic {
 	}
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add("Sees: \247" + sees);
+		list.add("Sees: " + sees);
 	}
 
 }

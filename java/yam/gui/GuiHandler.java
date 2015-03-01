@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import yam.blocks.entity.TileEntityClassicChest;
+import yam.blocks.entity.TileEntityComputer;
 import yam.blocks.entity.TileEntityLaunchPad;
 import yam.blocks.entity.TileEntityTickField;
 import yam.blocks.entity.TileEntityTrashCan;
@@ -34,10 +35,10 @@ public class GuiHandler implements IGuiHandler {
             return new ContainerTickField(player.inventory, (TileEntityTickField) tileEntity);
         } else if (tileEntity instanceof TileEntityClassicChest) {
             return new ContainerClassicChest(player.inventory, (TileEntityClassicChest) tileEntity, null);
+        } else if (tileEntity instanceof TileEntityLaunchPad) {
+        	return new ContainerLaunchPad(player.inventory, (TileEntityLaunchPad) tileEntity);
         /*} else if (tileEntity instanceof TileEntityStonecutter) {
 		    return new ContainerStonecutter(player.inventory, (TileEntityStonecutter) tileEntity);
-		} else if (tileEntity instanceof TileEntityComputer) {
-		    return new ContainerComputer(player.inventory, (TileEntityComputer) tileEntity);
 		} else if (tileEntity instanceof TileEntityComputerSpace) {
 		    return new ContainerComputerSpace(player.inventory, (TileEntityComputerSpace) tileEntity);
 		} else if (tileEntity instanceof TileEntityComputerDev) {
@@ -45,8 +46,6 @@ public class GuiHandler implements IGuiHandler {
 		} else if (ID == drive) {
 		    return new ContainerDrive(player.inventory, player.getCurrentEquippedItem());
 		*/
-        } else if (tileEntity instanceof TileEntityLaunchPad) {
-        	return new ContainerLaunchPad(player.inventory, (TileEntityLaunchPad) tileEntity);
         }
         return null;
 	}
@@ -60,10 +59,12 @@ public class GuiHandler implements IGuiHandler {
             return new GuiTickField(player.inventory, (TileEntityTickField) tileEntity);
         } else if (tileEntity instanceof TileEntityClassicChest) {
             return new GuiClassicChest(player.inventory, (TileEntityClassicChest)tileEntity, null);
+		} else if (tileEntity instanceof TileEntityComputer) {
+		    return new GuiComputer((TileEntityComputer)tileEntity);
+        } else if (tileEntity instanceof TileEntityLaunchPad) {
+        	return new GuiLaunchPad(player.inventory, (TileEntityLaunchPad) tileEntity);
         /*} else if (tileEntity instanceof TileEntityStonecutter) {
 		    return new GuiStonecutter(player.inventory, (TileEntityStonecutter) tileEntity);
-		} else if (tileEntity instanceof TileEntityComputer) {
-		    return new GuiComputer(player.inventory, (TileEntityComputer) tileEntity);
 		} else if (tileEntity instanceof TileEntityComputerSpace) {
 		    return new GuiComputerSpace(player.inventory, (TileEntityComputerSpace) tileEntity);
 		} else if (tileEntity instanceof TileEntityComputerDev) {
@@ -71,8 +72,6 @@ public class GuiHandler implements IGuiHandler {
 		} else if (ID == drive) {
 		    return new GuiDrive(player.inventory, player.getCurrentEquippedItem());
 		*/
-        } else if (tileEntity instanceof TileEntityLaunchPad) {
-        	return new GuiLaunchPad(player.inventory, (TileEntityLaunchPad) tileEntity);
         }
 		
         return null;

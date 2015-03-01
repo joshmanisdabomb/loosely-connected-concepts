@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import yam.YetAnotherMod;
+import yam.entity.EntityMissile;
 import yam.items.ItemMissile;
 import yam.items.ItemMissile.MissileType;
 
@@ -176,6 +177,19 @@ public class TileEntityLaunchPad extends TileEntity implements IInventory {
 	public MissileType getMissileType() {
 		if (this.getStackInSlot(0) == null || !(this.getStackInSlot(0).getItem() instanceof ItemMissile)) {return null;}
 		return ((ItemMissile)this.getStackInSlot(0).getItem()).getMissileType();
+	}
+
+	public void launchMissile() {
+		if (this.getMissileType() == null || this.getStackInSlot(0).getTagCompound() == null) {return;}
+		int destX = this.getStackInSlot(0).getTagCompound().getInteger("x");
+		int destY = this.getStackInSlot(0).getTagCompound().getInteger("y");
+		int destZ = this.getStackInSlot(0).getTagCompound().getInteger("z");
+		switch (this.getMissileType()) {
+			default:
+				EntityMissile missile = new EntityMissile(worldObj, this.xCoord + 0.5D, this.yCoord + (1D/16D), this.zCoord + 0.5D, destX, destY, destZ);
+				worldObj.spawnEntityInWorld(missile);
+				break;
+		}
 	}
 	
 }

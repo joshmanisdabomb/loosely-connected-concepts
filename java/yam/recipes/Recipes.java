@@ -1,5 +1,6 @@
-package yam;
+package yam.recipes;
 
+import yam.YetAnotherMod;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -222,8 +223,8 @@ public class Recipes {
 	
 		//Computer and Smartphone
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computerCase, 1), new Object[] {"111", "121", "333", '1', Blocks.iron_block, '2', Blocks.glass_pane, '3', YetAnotherMod.reinforcedStone});
-		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "425", "767", '1', YetAnotherMod.computer, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
-		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "524", "767", '1', YetAnotherMod.computer, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "425", "767", '1', YetAnotherMod.computerCase, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.computer, 1), new Object[] {"313", "524", "767", '1', YetAnotherMod.computerCase, '2', YetAnotherMod.neonBlock, '3', YetAnotherMod.wireBundled, '4', YetAnotherMod.mouse, '5', YetAnotherMod.keyboard, '6', YetAnotherMod.printer3D, '7', YetAnotherMod.processor});
 		
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireRed, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 14), '2', Items.redstone});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireGreen, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 5), '2', Items.redstone});
@@ -231,7 +232,8 @@ public class Recipes {
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"111", "222", "333", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"123", "123", "123", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
 		
-		
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.motherboard, 1), new Object[] {"111", "121", "111", '1', Blocks.obsidian, '2', YetAnotherMod.wireBundled});
+		GameRegistry.addRecipe(new MotherboardRecipe());
 	}
 	
 	private static void newBrickRecipes(Block output, ItemStack modifier) {

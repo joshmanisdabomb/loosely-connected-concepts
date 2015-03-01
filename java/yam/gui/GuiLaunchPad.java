@@ -13,10 +13,12 @@ import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import yam.YetAnotherMod;
 import yam.blocks.entity.TileEntityLaunchPad;
 import yam.container.ContainerLaunchPad;
-import yam.container.ContainerTickField;
+import yam.packet.PacketMissileLaunch;
+import yam.packet.PacketParticle;
 
 public class GuiLaunchPad extends GuiContainer {
 
@@ -61,7 +63,7 @@ public class GuiLaunchPad extends GuiContainer {
 	
 	protected void actionPerformed(GuiButton guibutton) {
         if (guibutton == launchButton) {
-        	
+			YetAnotherMod.channel.sendToServer(new PacketMissileLaunch(te.getWorldObj().provider.dimensionId,te.xCoord,te.yCoord,te.zCoord));
         }
 	}
 	

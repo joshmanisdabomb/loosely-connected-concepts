@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import yam.YetAnotherMod;
+import yam.entity.EntityMissile;
 import yam.entity.model.ModelMissile;
 
 public class RenderMissile extends Render {
@@ -26,9 +27,14 @@ public class RenderMissile extends Render {
 
 	public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9)
     {
-        GL11.glPushMatrix();
+        doRender((EntityMissile)entity, par2, par4, par6, par8, par9);
+    }
+	
+	public void doRender(EntityMissile entity, double par2, double par4, double par6, float par8, float par9)
+    {
+		GL11.glPushMatrix();
         GL11.glTranslatef((float)par2, (float)par4, (float)par6);
-        GL11.glRotatef(180.0F - par8, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef((float)entity.rotationX, 0.0F, (float)entity.rotationZ, 0.0F);
 
         float f4 = 0.75F;
         GL11.glScalef(f4, f4, f4);

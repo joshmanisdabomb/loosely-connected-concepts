@@ -204,10 +204,12 @@ public class Events {
 		PotionEffect pe = event.entityLiving.getActivePotionEffect(CustomPotion.starburst);
 		if (pe != null) {
 			if (event.entityLiving instanceof EntityPlayer) {
-				((EntityPlayer)event.entityLiving).capabilities.disableDamage = true;
+				if (pe.getDuration() > 1) {
+					((EntityPlayer)event.entityLiving).capabilities.disableDamage = true;
+				} else if (!(((EntityPlayer)event.entityLiving).capabilities.isCreativeMode)) {
+					((EntityPlayer)event.entityLiving).capabilities.disableDamage = false;
+				}
 			}
-		} else if (event.entityLiving instanceof EntityPlayer) {
-			((EntityPlayer)event.entityLiving).capabilities.disableDamage = false;
 		}
 		
 		//Explosive Diarrhea

@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import yam.container.InventoryDrive;
 import yam.items.ItemMotherboard;
 import yam.items.ItemStorage;
 
@@ -134,7 +135,7 @@ public class TileEntityComputer extends TileEntity implements IInventory {
 
 	@Override
 	public String getInventoryName() {
-		return this.hasCustomInventoryName() ? this.customName : "Launch Pad";
+		return this.hasCustomInventoryName() ? this.customName : "Computer";
 	}
 	
 	public void setInventoryName(String name) {
@@ -167,9 +168,13 @@ public class TileEntityComputer extends TileEntity implements IInventory {
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2) {
 		if (var2 == null) {return false;}
-		if (var1 == 0 && var2.getItem() instanceof ItemMotherboard) {return true;}
-		if (var1 == 1 && var2.getItem() instanceof ItemStorage) {return true;}
+		else if (var1 == 36 && var2.getItem() instanceof ItemMotherboard) {return true;}
+		else if (var1 > 36 && var1 < 46 && var2.getItem() instanceof ItemStorage) {return true;}
 		return false;
+	}
+
+	public InventoryDrive getStorageDrive(int id) {
+		return new InventoryDrive(this, this.stacks[id], id);
 	}
 	
 }

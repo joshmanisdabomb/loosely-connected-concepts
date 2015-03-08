@@ -169,16 +169,16 @@ public class EntityRainbowGolem extends EntityIronGolem
 
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        this.worldObj.setEntityState(this, (byte)4);
+    	this.worldObj.setEntityState(this, (byte)4);
         boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), 120.0F);
 
         if (flag)
         {
         	this.attackTimer = 10;
-            par1Entity.motionY = 2.5D;
+            par1Entity.motionY = 2D;
+            this.playSound(YetAnotherMod.MODID + ":mob.rainbowgolem.throw", 1.0F, 1.0F);
         }
 
-        this.playSound(YetAnotherMod.MODID + ":mob.rainbowgolem.throw", 1.0F, 1.0F);
         return flag;
     }
 

@@ -15,13 +15,10 @@ import net.minecraft.world.World;
 
 public class ItemMotherboard extends ItemGeneric {
 
-	private IIcon emptyIcon, fullIcon;
-	private String emptyIconStr, fullIconStr;
+	private IIcon baseIcon, processorIcon, graphicscardIcon, memoryIcon1, memoryIcon2, memoryIcon3, nullIcon;
 
-	public ItemMotherboard(String empty, String full) {
-		super(empty);
-		this.emptyIconStr = empty;
-		this.fullIconStr = full;
+	public ItemMotherboard() {
+		super("parts/motherboard/base");
 		
 		this.setMaxStackSize(1);
 	}
@@ -29,17 +26,39 @@ public class ItemMotherboard extends ItemGeneric {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister par1IconRegister)
     {
-    	this.emptyIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + this.emptyIconStr);
-    	this.fullIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + this.fullIconStr);
+    	this.baseIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/base");
+    	this.processorIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/processor");
+    	this.graphicscardIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/graphicscard");
+    	this.memoryIcon1 = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/memory1");
+    	this.memoryIcon2 = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/memory2");
+    	this.memoryIcon3 = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "parts/motherboard/memory3");
+    	this.nullIcon = par1IconRegister.registerIcon(YetAnotherMod.MODID + ":" + "null");
     }
     
     public boolean requiresMultipleRenderPasses() {
     	return true;
     }
     
+    public int getRenderPasses(int metadata) {
+        return 4;
+    }
+    
     public IIcon getIcon(ItemStack stack, int renderPass)
     {
-        return getHeat(stack) > 0 ? this.fullIcon : this.emptyIcon;
+    	if (renderPass == 0) {return this.baseIcon;}
+    	if (renderPass == 1 && getPowerNum(stack) > 0) {return this.processorIcon;}
+        if (renderPass == 2 && getGraphicPowerNum(stack) > 0) {return this.graphicscardIcon;}
+        if (renderPass == 3 && getMemoryNum(stack) > 0) {
+        	switch(getMemoryNum(stack)) {
+        		case 0:
+                	return this.memoryIcon1;
+        		case 1:
+                	return this.memoryIcon2;
+        		default:
+                	return this.memoryIcon3;
+        	}
+        }
+        return this.nullIcon;
     }
 	
 	public void onCreated(ItemStack itemStack, World world, EntityPlayer player) {

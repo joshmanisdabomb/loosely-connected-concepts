@@ -35,6 +35,11 @@ public class EntityAmplislime extends EntitySlime {
         this.experienceValue = p_70799_1_;
     }
 	
+	protected float getSoundVolume()
+    {
+        return 0.2F;
+    }
+	
 	public ParticleType getSlimeParticleType()
     {
         return ParticleType.AMPLISLIME;

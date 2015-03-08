@@ -18,7 +18,7 @@ public class GenSpikeTrap {
 		int smallDepth = 2 + rand.nextInt(4);
 		Block foundation = world.getBlock(x,y-smallDepth-1,z);
 		
-		if (!WorldGen.isWHDRegionClear(world, x, y, z, x+size, y, z+size)) {return false;}
+		if (WorldGen.isWHDRegionClear(world, x, y, z, x+size, y, z+size)) {return false;}
 		if (foundation != YetAnotherMod.crackedMud && foundation != YetAnotherMod.reinforcedStone && foundation != Blocks.stone) {return false;}
 		
 		for (int i = 0; i < size; i++) {

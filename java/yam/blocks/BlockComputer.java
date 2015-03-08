@@ -41,10 +41,13 @@ public class BlockComputer extends BlockGeneric implements ITileEntityProvider {
     
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
-    	TileEntity tileEntity = world.getTileEntity(x, y, z);
-	    if (tileEntity == null || player.isSneaking()) {return false;}
-	    player.openGui(YetAnotherMod.instance, GuiHandler.computer, world, x, y, z);
-        return true;
+    	if (!world.isRemote) {
+	    	TileEntity tileEntity = world.getTileEntity(x, y, z);
+		    if (tileEntity == null || player.isSneaking()) {return false;}
+		    player.openGui(YetAnotherMod.instance, GuiHandler.computer, world, x, y, z);
+	        return true;
+    	}
+    	return false;
     }
 
 }

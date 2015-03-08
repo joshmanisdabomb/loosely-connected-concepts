@@ -5,7 +5,6 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -38,7 +37,9 @@ import yam.CustomPotion;
 import yam.YetAnotherMod;
 import yam.biome.BiomeWasteland;
 import yam.entity.EntityRainbot;
+import yam.entity.EntityUnicorn;
 import yam.entity.extensions.ExtendedPlayer;
+import yam.explosion.Rainsplosion;
 import yam.items.tools.ItemCustomArmor;
 import yam.items.tools.ItemRepeater;
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -288,7 +289,7 @@ public class Events {
 	}
 	
 	@SubscribeEvent
-	public void interpretBlockPlace(PlayerInteractEvent event) {
+	public void click(PlayerInteractEvent event) {
 		if (event.action == Action.RIGHT_CLICK_BLOCK) {
 			Block b = event.entityPlayer.getCurrentEquippedItem() != null ? Block.getBlockFromItem(event.entityPlayer.getCurrentEquippedItem().getItem()) : null;
 			int m = event.entityPlayer.getCurrentEquippedItem() != null ? event.entityPlayer.getCurrentEquippedItem().getItemDamage() : 0;

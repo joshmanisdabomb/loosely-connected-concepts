@@ -1,11 +1,11 @@
 package yam.recipes;
 
-import yam.YetAnotherMod;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import yam.YetAnotherMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Recipes {
@@ -231,9 +231,45 @@ public class Recipes {
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBlue, 1), new Object[] {"111", "222", "111", '1', new ItemStack(Blocks.carpet, 1, 11), '2', Items.redstone});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"111", "222", "333", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
 		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.wireBundled, 1), new Object[] {"123", "123", "123", '1', YetAnotherMod.wireRed, '2', YetAnotherMod.wireGreen, '3', YetAnotherMod.wireBlue});
+
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.keyboard, 1), new Object[] {"X2X", "333", "111", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.stone_button});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.mouse, 1), new Object[] {"2XX", "33X", "11X", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.stone_pressure_plate});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.mouse, 1), new Object[] {"X2X", "33X", "11X", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.stone_pressure_plate});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.mouse, 1), new Object[] {"X2X", "X33", "X11", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.stone_pressure_plate});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.mouse, 1), new Object[] {"XX2", "X33", "X11", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.stone_pressure_plate});
 		
-		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.motherboard, 1), new Object[] {"111", "121", "111", '1', Blocks.obsidian, '2', YetAnotherMod.wireBundled});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.motherboard, 1), new Object[] {"111", "222", "111", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled});
 		GameRegistry.addRecipe(new MotherboardRecipe());
+		
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.processor, 1), new Object[] {"212", "232", "121", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Blocks.iron_block});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.graphicscard, 1), new Object[] {"122", "132", "114", '1', Items.iron_ingot, '2', YetAnotherMod.reinforcedStone, '3', YetAnotherMod.rainbowBlock, '4', YetAnotherMod.wireBundled});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.memory, 1), new Object[] {"111", "323", "XXX", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Items.iron_ingot});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.coolingfan, 1), new Object[] {"131", "323", "131", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', Items.iron_ingot});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.battery, 1), new Object[] {"331", "331", "22X", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.wireBundled, '3', YetAnotherMod.oilBucket});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.printer3D, 1), new Object[] {"212", "232", "111", '1', YetAnotherMod.reinforcedStone, '2', Blocks.iron_block, '3', Blocks.crafting_table});
+
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.floppy, 1), new Object[] {"111", "121", "X21", '1', YetAnotherMod.reinforcedWool, '2', Items.iron_ingot});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_13});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_blocks});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_cat});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_chirp});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_far});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_mall});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_mellohi});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_stal});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_strad});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_wait});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.cd, 1), new Object[] {"111", "121", "111", '1', Blocks.glass_pane, '2', Items.record_ward});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.sd, 1), new Object[] {"11X", "22X", "XXX", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.memory});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.sd, 1), new Object[] {"X11", "X22", "XXX", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.memory});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.sd, 1), new Object[] {"XXX", "11X", "22X", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.memory});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.sd, 1), new Object[] {"XXX", "X11", "X22", '1', YetAnotherMod.reinforcedStone, '2', YetAnotherMod.memory});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.usb, 1), new Object[] {"1XX", "2XX", "3XX", '1', Blocks.iron_block, '2', YetAnotherMod.reinforcedStone, '3', YetAnotherMod.sd});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.usb, 1), new Object[] {"X1X", "X2X", "X3X", '1', Blocks.iron_block, '2', YetAnotherMod.reinforcedStone, '3', YetAnotherMod.sd});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.usb, 1), new Object[] {"XX1", "XX2", "XX3", '1', Blocks.iron_block, '2', YetAnotherMod.reinforcedStone, '3', YetAnotherMod.sd});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.ssd, 1), new Object[] {"111", "111", "222", '1', Blocks.iron_block, '2', YetAnotherMod.usb});
+		GameRegistry.addRecipe(new ItemStack(YetAnotherMod.harddrive, 1), new Object[] {"111", "111", "222", '1', YetAnotherMod.cd, '2', YetAnotherMod.reinforcedStone});
+		GameRegistry.addRecipe(new StorageLabelRecipe());
 	}
 	
 	private static void newBrickRecipes(Block output, ItemStack modifier) {

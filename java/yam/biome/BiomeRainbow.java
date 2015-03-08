@@ -45,10 +45,10 @@ public class BiomeRainbow extends BiomeGenBase {
         this.spawnableCreatureList = new ArrayList();
         this.spawnableWaterCreatureList = new ArrayList();
         this.spawnableCaveCreatureList = new ArrayList();
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityLollipopper.class, 5, 1, 1));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityUnicorn.class, 5, 1, 1));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityRainbot.class, 5, 1, 1));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityAmplislime.class, 5, 1, 1));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityLollipopper.class, 20, 1, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityUnicorn.class, 10, 1, 4));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityRainbot.class, 10, 1, 1));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityAmplislime.class, 10, 1, 1));
         
         this.theBiomeDecorator = this.createBiomeDecorator();
 	}

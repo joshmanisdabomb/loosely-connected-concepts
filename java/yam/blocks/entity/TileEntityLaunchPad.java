@@ -169,8 +169,8 @@ public class TileEntityLaunchPad extends TileEntity implements IInventory {
 	@Override
 	public boolean isItemValidForSlot(int var1, ItemStack var2) {
 		if (var2 == null) {return false;}
-		if (var1 == 0 && var2.getItem() instanceof ItemMissile) {return true;}
-		if (var1 == 1 && var2.getItem() == YetAnotherMod.oilBucket) {return true;}
+		else if (var1 == 0 && var2.getItem() instanceof ItemMissile) {return true;}
+		else if (var1 == 1 && var2.getItem() == YetAnotherMod.oilBucket) {return true;}
 		return false;
 	}
 

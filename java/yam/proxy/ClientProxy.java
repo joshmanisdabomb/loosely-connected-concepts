@@ -1,7 +1,6 @@
 package yam.proxy;
 
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelHorse;
 import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
 import yam.blocks.entity.TileEntityLaunchPad;
@@ -36,6 +35,7 @@ import yam.entity.model.ModelMissile;
 import yam.entity.model.ModelMummy;
 import yam.entity.model.ModelRainbot;
 import yam.entity.model.ModelTick;
+import yam.entity.model.ModelUnicorn;
 import yam.entity.render.RenderAmplifyBomb;
 import yam.entity.render.RenderAmplislime;
 import yam.entity.render.RenderBullet;
@@ -90,7 +90,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbowGolem.class, new RenderRainbowGolem());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbot.class, new RenderRainbot(new ModelRainbot(), 0.0F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityAmplislime.class, new RenderAmplislime(new ModelSlime(16), new ModelSlime(0), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityUnicorn.class, new RenderUnicorn(new ModelHorse(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityUnicorn.class, new RenderUnicorn(new ModelUnicorn(), 0.75F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMLGArrow.class, new RenderMLGArrow());
 	}
 

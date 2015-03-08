@@ -14,24 +14,19 @@ public class ContainerComputer extends Container {
 
 	public ContainerComputer(InventoryPlayer par1InventoryPlayer, TileEntityComputer par2TileEntityComputer) {
         this.te = par2TileEntityComputer;
-       
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 0, 5, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 1, 37, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 2, 65, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 3, 93, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 4, 121, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 5, 149, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 6, 177, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 7, 205, 229));
-        this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 8, 233, 229));
         
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(par1InventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlotToContainer(new Slot(par1InventoryPlayer, j + i * 9 + 9, 48 + j * 18, 142 + i * 18));
             }
         }
         for (int i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 8 + i * 18, 142));
+            this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 48 + i * 18, 200));
+        }
+
+    	this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, 0, 6, 230));
+        for (int i = 0; i < 8; ++i) {
+        	this.addSlotToContainer(new ComputerSlot(par2TileEntityComputer, i+1, 38 + i * 28, 230));
         }
     }
 	
@@ -52,8 +47,6 @@ public class ContainerComputer extends Container {
 	
 	class ComputerSlot extends Slot
     {
-        private static final String __OBFID = "CL_00001736";
-
         public ComputerSlot(IInventory p_i1801_2_, int p_i1801_3_, int p_i1801_4_, int p_i1801_5_)
         {
             super(p_i1801_2_, p_i1801_3_, p_i1801_4_, p_i1801_5_);

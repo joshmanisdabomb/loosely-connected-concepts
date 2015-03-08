@@ -189,6 +189,7 @@ public class YetAnotherMod
 	//TODO Smartphones that can send PMs to other players with a cost.
 	//TODO Internet blocks that cost less to do internet things with each generation.
 	//TODO Charging smartphones.
+	//TODO Randomite Ore.
 	
 	//Forge and initalization shit
     public static final String MODID = "yam";
@@ -398,6 +399,7 @@ public class YetAnotherMod
     public static Item cloudChestplate;
     public static Item cloudLeggings;
     public static Item cloudBoots;
+    public static Item cloudHorseArmor;
     public static Item cloudBottle;
     
     public static Block neonOre;
@@ -416,6 +418,7 @@ public class YetAnotherMod
     public static Item neonChestplate;
     public static Item neonLeggings;
     public static Item neonBoots;
+    public static Item neonHorseArmor;
     public static Item neonBottle;
     
     //Sheol
@@ -1127,7 +1130,7 @@ public class YetAnotherMod
     	((ItemNoms) psychomeat).setPotionEffect(Potion.confusion.id, 12, 0, 1.0F);
     	GameRegistry.registerItem(psychomeat, "psychomeat");
 
-    	oilBucket = new ItemGeneric("oilbucket").setMaxStackSize(1).setUnlocalizedName("oilBucket");
+    	oilBucket = new ItemGeneric("oilbucket").setMaxStackSize(1).setContainerItem(Items.bucket).setUnlocalizedName("oilBucket");
     	GameRegistry.registerItem(oilBucket, "oilBucket");
     	launchPadBlock = new BlockLaunchPad(Material.iron).setBlockName("launchPadBlock");
     	((BlockGeneric)launchPadBlock).setDrops(launchPad, 1, 1);
@@ -1387,6 +1390,8 @@ public class YetAnotherMod
     	GameRegistry.registerItem(cloudLeggings, "cloudLeggings");
     	cloudBoots = new ItemFallingBoots(amCloud, 5.8D, "cloud", cloudBootsID).setUnlocalizedName("cloudBoots");
     	GameRegistry.registerItem(cloudBoots, "cloudBoots");
+    	cloudHorseArmor = new ItemGeneric("cloud/horse").setUnlocalizedName("cloudHorseArmor");
+    	GameRegistry.registerItem(cloudHorseArmor, "cloudHorseArmor");
     	cloudBottle = new ItemExtraJump("cloud/bottle", ParticleType.RAINBOW, 0.8D).setUnlocalizedName("cloudBottle");
     	GameRegistry.registerItem(cloudBottle, "cloudBottle");
 
@@ -1417,6 +1422,8 @@ public class YetAnotherMod
     	GameRegistry.registerItem(neonLeggings, "neonLeggings");
     	neonBoots = new ItemCustomArmor(amNeon, 6.0D, "neon", neonBootsID, 3, false).setUnlocalizedName("neonBoots");
     	GameRegistry.registerItem(neonBoots, "neonBoots");
+    	neonHorseArmor = new ItemGeneric("neon/horse").setUnlocalizedName("neonHorseArmor");
+    	GameRegistry.registerItem(neonHorseArmor, "neonHorseArmor");
     	neonBottle = new ItemExtraJump("neon/bottle", ParticleType.NEON, 0.8D).setUnlocalizedName("neonBottle");
     	GameRegistry.registerItem(neonBottle, "neonBottle");
 
@@ -1544,7 +1551,7 @@ public class YetAnotherMod
     	GameRegistry.registerItem(keyboard, "keyboard");
     	mouse = new ItemGeneric("parts/mouse").setUnlocalizedName("mouse");
     	GameRegistry.registerItem(mouse, "mouse");
-    	motherboard = new ItemMotherboard("parts/motherboardempty", "parts/motherboardfull").setUnlocalizedName("motherboard");
+    	motherboard = new ItemMotherboard().setUnlocalizedName("motherboard");
     	GameRegistry.registerItem(motherboard, "motherboard");
     	processor = new ItemGeneric("parts/processor").setUnlocalizedName("processor");
     	((ItemGeneric)processor).setExtraInformation(EnumChatFormatting.GRAY + "Clock Speed: " + EnumChatFormatting.GOLD + "128 MHz");
@@ -1562,17 +1569,17 @@ public class YetAnotherMod
     	GameRegistry.registerItem(battery, "battery");
     	printer3D = new ItemGeneric("parts/printer3D").setUnlocalizedName("printer3D");
     	GameRegistry.registerItem(printer3D, "printer3D");
-    	floppy = new ItemStorage("floppy", 64).setUnlocalizedName("floppy");
+    	floppy = new ItemStorage("floppy", 96).setUnlocalizedName("floppy");
     	GameRegistry.registerItem(floppy, "floppy");
-    	cd = new ItemStorage("cd", 64*10).setUnlocalizedName("cd");
+    	cd = new ItemStorage("cd", 700).setUnlocalizedName("cd");
     	GameRegistry.registerItem(cd, "cd");
-    	sd = new ItemStorage("sd", 64*40).setUnlocalizedName("sd");
+    	sd = new ItemStorage("sd", 4000).setUnlocalizedName("sd");
     	GameRegistry.registerItem(sd, "sd");
-    	usb = new ItemStorage("usb", 64*80).setUnlocalizedName("usb");
+    	usb = new ItemStorage("usb", 16000).setUnlocalizedName("usb");
     	GameRegistry.registerItem(usb, "usb");
-    	ssd = new ItemStorage("ssd", 64*500).setUnlocalizedName("ssd");
+    	ssd = new ItemStorage("ssd", 128000).setUnlocalizedName("ssd");
     	GameRegistry.registerItem(ssd, "ssd");
-    	harddrive = new ItemStorage("harddrive", 64*2000).setUnlocalizedName("harddrive");
+    	harddrive = new ItemStorage("harddrive", 1000000).setUnlocalizedName("harddrive");
     	GameRegistry.registerItem(harddrive, "harddrive");
     	computerCase = new BlockGeneric(Material.iron, "computer/case", "computer/side", "computer/top", "computer/bottom").setHardness(7.5f).setResistance(13.0f).setStepSound(Block.soundTypeMetal).setBlockName("computerCase");
     	computerCase.setHarvestLevel("pickaxe", 2);

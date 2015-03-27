@@ -93,7 +93,7 @@ public class EntityAmplislime extends EntitySlime {
         else if (!this.onGround && flag)
         {
             this.squishAmount = 1.0F;
-            this.motionY = 0.4D * ((this.getSlimeSize()+1)/3);
+            this.motionY = Math.max(0.5D, 0.4D * ((this.getSlimeSize()+1)/3));
         }
 
         this.alterSquishAmount();
@@ -126,7 +126,7 @@ public class EntityAmplislime extends EntitySlime {
 
         if (!this.worldObj.isRemote && i > 1 && this.getHealth() <= 0.0F)
         {
-            int j = 3 + this.rand.nextInt(3);
+            int j = this.rand.nextInt(3);
 
             for (int k = 0; k < j; ++k)
             {

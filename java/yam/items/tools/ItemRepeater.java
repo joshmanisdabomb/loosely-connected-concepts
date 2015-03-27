@@ -1,5 +1,8 @@
 package yam.items.tools;
 
+import java.util.List;
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,6 +15,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,13 +27,23 @@ import yam.items.ItemGeneric;
 
 public class ItemRepeater extends ItemBow {
 	
-	public ItemRepeater(String texture, int durability, int speed) {
+	private int amount;
+	private float chance;
+	private float damage;
+	
+	private final Random rand = new Random();
+
+	public ItemRepeater(String texture, int durability, float damage, int amount, float chance) {
 		super();
 		
 		this.setTextureName(YetAnotherMod.MODID + ":" + texture);
 		this.setCreativeTab(YetAnotherMod.global);
 		this.setMaxDamage(durability);
 		this.setMaxStackSize(1);
+		
+		this.amount = amount;
+		this.chance = chance;
+		this.damage = damage;
 	}
 
 	public boolean isFull3D() {
@@ -46,7 +60,7 @@ public class ItemRepeater extends ItemBow {
 			EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, 1.5F);
 			entityarrow.setIsCritical(true);
 			int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
-	        entityarrow.setDamage(2.0D + k);
+	        entityarrow.setDamage(damage + k);
 			int l = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack); if (l > 0) {
 	            entityarrow.setKnockbackStrength(l);
 	        }
@@ -77,14 +91,23 @@ public class ItemRepeater extends ItemBow {
 		} else {
 			boolean creative = par3EntityPlayer.capabilities.isCreativeMode;
 			boolean infinite = EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
-			if (par3EntityPlayer.inventory.hasItem(Items.arrow)) {
-				fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, infinite);
-				par1ItemStack.damageItem(1, par3EntityPlayer);
-				if (!infinite) {par3EntityPlayer.inventory.consumeInventoryItem(Items.arrow);}
-			} else if (creative) {
-				fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, true);
+			for (int i = 0; i < amount; i++) {
+				if (par3EntityPlayer.inventory.hasItem(Items.arrow)) {
+					fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, infinite);
+					par1ItemStack.damageItem(1, par3EntityPlayer);
+					if (!infinite && rand.nextFloat() < chance) {par3EntityPlayer.inventory.consumeInventoryItem(Items.arrow);}
+				} else if (creative) {
+					fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, true);
+				}
 			}
 		}
 		return par1ItemStack;
     }
+	
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+		list.add(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + (damage/2F) + "x Critical Bow Damage");
+		list.add(EnumChatFormatting.GRAY + "Chance of Consuming Ammo: " + EnumChatFormatting.BLUE + String.format("%.2f", chance*100F) + "%");
+		list.add(EnumChatFormatting.GRAY + "Ammo Fired per Shot: " + EnumChatFormatting.DARK_PURPLE + amount);
+	}
 }

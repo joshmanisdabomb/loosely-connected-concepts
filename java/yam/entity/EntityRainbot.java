@@ -11,6 +11,8 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
@@ -22,7 +24,7 @@ public class EntityRainbot extends EntityMob {
 	public float crystalSpeedX;
 	public float crystalSpeedY;
 	public float crystalSpeedZ;
-	private final int shootTickMax = 6;
+	private final int shootTickMax = 9;
 	private int shootTick = 0;
 
 	public EntityRainbot(World par1World) {
@@ -51,7 +53,7 @@ public class EntityRainbot extends EntityMob {
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(250.0D);
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(32.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(150.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(110.0D);
     }
 	
 	protected boolean canTriggerWalking() {
@@ -133,7 +135,7 @@ public class EntityRainbot extends EntityMob {
         
         EntityBullet entitybullet = new EntityBullet(this.worldObj, this, d0 + this.rand.nextGaussian() * (double)f1, d1, d2 + this.rand.nextGaussian() * (double)f1);
         entitybullet.posY = this.posY + (double)(this.height / 2.0F);
-        entitybullet.setDamage(60.0F);
+        entitybullet.setDamage(40.0F);
         this.worldObj.spawnEntityInWorld(entitybullet);
 
         this.worldObj.playSoundAtEntity(this, YetAnotherMod.MODID + ":items.blaster", 0.5F, (rand.nextFloat()*0.2F)+0.9F);
@@ -142,5 +144,23 @@ public class EntityRainbot extends EntityMob {
 	public void playKillSound() {
 		this.worldObj.playSoundAtEntity(this, this.getKillSound(), 3.0F, 1.0F);
 	}
+	
+	protected Item getDropItem()
+    {
+        return Items.iron_ingot;
+    }
+	
+	protected void dropRareDrop(int par1)
+    {
+        switch (this.rand.nextInt(2))
+        {
+            case 0:
+                this.dropItem(YetAnotherMod.blaster, 1);
+                break;
+            case 1:
+                this.dropItem(YetAnotherMod.rainbotCrystal, 1);
+                break;
+        }
+    }
 
 }

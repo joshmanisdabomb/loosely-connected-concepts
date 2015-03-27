@@ -388,6 +388,12 @@
       "mob/tick/death"
     ]
   },
+  "mob.sparklingdragon.fire": {
+    "category": "hostile",
+    "sounds": [
+      "mob/dragon/fire"
+    ]
+  },
   "mob.rainbot.hit": {
     "category": "hostile",
     "sounds": [

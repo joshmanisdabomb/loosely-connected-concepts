@@ -118,6 +118,7 @@ public class Recipes {
 		newToolRecipes(YetAnotherMod.crystalIngot, YetAnotherMod.crystal, YetAnotherMod.crystalSword, YetAnotherMod.crystalPickaxe, YetAnotherMod.crystalShovel, YetAnotherMod.crystalAxe, YetAnotherMod.crystalHoe);
 		newRepeaterRecipes(YetAnotherMod.crystalIngot, Items.string, Items.repeater, YetAnotherMod.crystalRepeater);
 		newToolRecipes(Item.getItemFromBlock(YetAnotherMod.cloud), YetAnotherMod.lollipopStick, YetAnotherMod.cloudSword, YetAnotherMod.cloudPickaxe, YetAnotherMod.cloudShovel, YetAnotherMod.cloudAxe, YetAnotherMod.cloudHoe);
+		newToolRecipes(YetAnotherMod.neon, YetAnotherMod.lollipop, YetAnotherMod.neonSword, YetAnotherMod.neonPickaxe, YetAnotherMod.neonShovel, YetAnotherMod.neonAxe, YetAnotherMod.neonHoe);
 		newToolRecipes(Item.getItemFromBlock(YetAnotherMod.cactusBlock), YetAnotherMod.cactusSpine, YetAnotherMod.cactusSword, YetAnotherMod.cactusPickaxe, YetAnotherMod.cactusShovel, YetAnotherMod.cactusAxe, YetAnotherMod.cactusHoe);
 		
 		//Armor Recipes
@@ -136,6 +137,7 @@ public class Recipes {
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.hazmatLeggings, 1), new Object[] {Items.leather_leggings, Items.iron_leggings});
 		GameRegistry.addShapelessRecipe(new ItemStack(YetAnotherMod.hazmatBoots, 1), new Object[] {Items.leather_boots, Items.iron_boots});
 		newArmorRecipes(Item.getItemFromBlock(YetAnotherMod.cloud), YetAnotherMod.cloudHelmet, YetAnotherMod.cloudChestplate, YetAnotherMod.cloudLeggings, YetAnotherMod.cloudBoots);
+		newArmorRecipes(YetAnotherMod.neon, YetAnotherMod.neonHelmet, YetAnotherMod.neonChestplate, YetAnotherMod.neonLeggings, YetAnotherMod.neonBoots);
 		newArmorRecipes(Item.getItemFromBlock(YetAnotherMod.cactusBlock), YetAnotherMod.cactusHelmet, YetAnotherMod.cactusChestplate, YetAnotherMod.cactusLeggings, YetAnotherMod.cactusBoots);
 				
 		//Remote Recipes

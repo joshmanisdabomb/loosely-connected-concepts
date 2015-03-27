@@ -14,7 +14,7 @@ import yam.entity.EntityBullet;
 import yam.entity.EntityDerek;
 import yam.entity.EntityDerekJr;
 import yam.entity.EntityFly;
-import yam.entity.EntityHalfPlayer;
+import yam.entity.EntityHalfplayer;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityMLGArrow;
 import yam.entity.EntityMissile;
@@ -24,6 +24,8 @@ import yam.entity.EntityNukePrimed;
 import yam.entity.EntityPsychoPig;
 import yam.entity.EntityRainbot;
 import yam.entity.EntityRainbowGolem;
+import yam.entity.EntitySparkle;
+import yam.entity.EntitySparklingDragon;
 import yam.entity.EntityTick;
 import yam.entity.EntityUnicorn;
 import yam.entity.model.ModelDerek;
@@ -34,6 +36,7 @@ import yam.entity.model.ModelLollipopper;
 import yam.entity.model.ModelMissile;
 import yam.entity.model.ModelMummy;
 import yam.entity.model.ModelRainbot;
+import yam.entity.model.ModelSparklingDragon;
 import yam.entity.model.ModelTick;
 import yam.entity.model.ModelUnicorn;
 import yam.entity.render.RenderAmplifyBomb;
@@ -52,6 +55,8 @@ import yam.entity.render.RenderNukePrimed;
 import yam.entity.render.RenderPsychoPig;
 import yam.entity.render.RenderRainbot;
 import yam.entity.render.RenderRainbowGolem;
+import yam.entity.render.RenderSparkle;
+import yam.entity.render.RenderSparklingDragon;
 import yam.entity.render.RenderTick;
 import yam.entity.render.RenderUnicorn;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -74,11 +79,12 @@ public class ClientProxy extends ServerProxy {
 	
 	@Override
 	public void registerRenderers() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityHalfPlayer.class, new RenderHalfplayer(new ModelBiped(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityHalfplayer.class, new RenderHalfplayer(new ModelBiped(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMissile.class, new RenderMissile(new ModelMissile()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukePrimed.class, new RenderNukePrimed(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityNukeMissile.class, new RenderNukeMissile(new ModelGiantMissile()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderBullet());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySparkle.class, new RenderSparkle());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAmplifyBomb.class, new RenderAmplifyBomb());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPsychoPig.class, new RenderPsychoPig(0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, new RenderMummy(new ModelMummy(), 0.5F));
@@ -92,6 +98,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAmplislime.class, new RenderAmplislime(new ModelSlime(16), new ModelSlime(0), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityUnicorn.class, new RenderUnicorn(new ModelUnicorn(), 0.75F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMLGArrow.class, new RenderMLGArrow());
+		RenderingRegistry.registerEntityRenderingHandler(EntitySparklingDragon.class, new RenderSparklingDragon(new ModelSparklingDragon(), 0.75F));
 	}
 
 }

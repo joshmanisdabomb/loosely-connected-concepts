@@ -9,9 +9,15 @@
 
 
 
-package net.minecraft.src;
+package yam.entity.model;
 
-public class ModelModel extends ModelBase
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+import yam.entity.EntitySparklingDragon;
+
+public class ModelSparklingDragon extends ModelBase
 {
   //fields
     ModelRenderer body;
@@ -33,12 +39,11 @@ public class ModelModel extends ModelBase
     ModelRenderer tail1;
     ModelRenderer tail2;
     ModelRenderer tail3;
-    ModelRenderer tail4;
     ModelRenderer scale1;
     ModelRenderer scale2;
     ModelRenderer scale3;
   
-  public ModelModel()
+  public ModelSparklingDragon()
   {
     textureWidth = 128;
     textureHeight = 128;
@@ -109,18 +114,6 @@ public class ModelModel extends ModelBase
       neck2.setTextureSize(128, 128);
       neck2.mirror = true;
       setRotation(neck2, -0.3490659F, 0F, 0F);
-      head = new ModelRenderer(this, 64, 12);
-      head.addBox(-2F, -7F, -16F, 4, 4, 8);
-      head.setRotationPoint(0F, 13F, -1F);
-      head.setTextureSize(128, 128);
-      head.mirror = true;
-      setRotation(head, 0F, 0F, 0F);
-      jaw = new ModelRenderer(this, 64, 24);
-      jaw.addBox(-1.5F, -3F, -16F, 3, 1, 8);
-      jaw.setRotationPoint(0F, 13F, -1F);
-      jaw.setTextureSize(128, 128);
-      jaw.mirror = true;
-      setRotation(jaw, 0F, 0F, 0F);
       scales = new ModelRenderer(this, 0, 64);
       scales.addBox(-0.5F, -3F, -11F, 1, 3, 10);
       scales.setRotationPoint(0F, 13F, -1F);
@@ -139,6 +132,20 @@ public class ModelModel extends ModelBase
       horn2.setTextureSize(128, 128);
       horn2.mirror = true;
       setRotation(horn2, 0F, 0F, 0F);
+      
+      head = new ModelRenderer(this, 64, 12);
+      head.addBox(-2F, 3F, -16F, 4, 4, 8);
+      head.setRotationPoint(0F, 4F, 0F);
+      head.setTextureSize(128, 128);
+      head.mirror = true;
+      setRotation(head, 0.3490659F, 0F, 0F);
+      jaw = new ModelRenderer(this, 64, 24);
+      jaw.addBox(-1.5F, 11F, -16F, 3, 1, 8);
+      jaw.setRotationPoint(0F, 0F, 0F);
+      jaw.setTextureSize(128, 128);
+      jaw.mirror = true;
+      setRotation(jaw, 0F, 0F, 0F);
+      
       tail1 = new ModelRenderer(this, 0, 41);
       tail1.addBox(-2F, -2F, 0F, 4, 4, 6);
       tail1.setRotationPoint(0F, 11.5F, 10F);
@@ -157,12 +164,6 @@ public class ModelModel extends ModelBase
       tail3.setTextureSize(128, 128);
       tail3.mirror = true;
       setRotation(tail3, 0.5235988F, 0F, 0F);
-      tail4 = new ModelRenderer(this, 0, 55);
-      tail4.addBox(-0.5F, -11F, 8F, 1, 3, 1);
-      tail4.setRotationPoint(0F, 11.5F, 10F);
-      tail4.setTextureSize(128, 128);
-      tail4.mirror = true;
-      setRotation(tail4, -0.1745329F, 0F, 0F);
       scale1 = new ModelRenderer(this, 0, 64);
       scale1.addBox(-0.5F, -2F, -1F, 1, 2, 2);
       scale1.setRotationPoint(0F, 10F, 2F);
@@ -186,7 +187,7 @@ public class ModelModel extends ModelBase
   public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
   {
     super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
+    setRotationAngles(f, f1, f2, f3, f4, f5, entity);
     body.render(f5);
     leg1.render(f5);
     thigh1.render(f5);
@@ -206,7 +207,7 @@ public class ModelModel extends ModelBase
     tail1.render(f5);
     tail2.render(f5);
     tail3.render(f5);
-    tail4.render(f5);
+    //tail4.render(f5);
     scale1.render(f5);
     scale2.render(f5);
     scale3.render(f5);
@@ -219,9 +220,35 @@ public class ModelModel extends ModelBase
     model.rotateAngleZ = z;
   }
   
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
-  }
+    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity e)
+    {
+		super.setRotationAngles(f, f1, f2, f3, f4, f5, e);
+		
+		this.head.rotateAngleY = f3 / (180F / (float)Math.PI);
+		this.jaw.rotateAngleY = f3 / (180F / (float)Math.PI);
+		this.horn1.rotateAngleY = f3 / (180F / (float)Math.PI);
+		this.horn2.rotateAngleY = f3 / (180F / (float)Math.PI);
+		this.scales.rotateAngleY = f3 / (180F / (float)Math.PI) / 1.15F;
+		this.neck2.rotateAngleY = f3 / (180F / (float)Math.PI) / 1.15F;
+		this.neck1.rotateAngleY = f3 / (180F / (float)Math.PI) / 1.3F;
+
+		this.head.rotateAngleX = e.getDataWatcher().getWatchableObjectFloat(16) * -0.3F;
+		this.horn1.rotateAngleX = e.getDataWatcher().getWatchableObjectFloat(16) * -0.3F;
+		this.horn2.rotateAngleX = e.getDataWatcher().getWatchableObjectFloat(16) * -0.3F;
+		this.jaw.rotateAngleX = e.getDataWatcher().getWatchableObjectFloat(16) * 0.3F;
+		
+        this.leg1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.leg2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI/1.7F) * 1.4F * f1;
+        this.leg3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI/1.7F) * 1.4F * f1;
+        this.leg4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.thigh1.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.thigh2.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI/1.7F) * 1.4F * f1;
+        this.thigh3.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI/1.7F) * 1.4F * f1;
+        this.thigh4.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        
+        this.tail1.rotateAngleX = (float)(MathHelper.sin(f2/5F) / (Math.PI * 2D));
+        this.tail2.rotateAngleX = (float)(MathHelper.sin(f2/5F) / (Math.PI * 2D)) * 2F;
+        this.tail3.rotateAngleX = (float)(MathHelper.sin(f2/5F) / (Math.PI * 2D)) * 3F;
+	}
 
 }

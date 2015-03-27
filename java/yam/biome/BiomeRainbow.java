@@ -13,6 +13,7 @@ import yam.YetAnotherMod;
 import yam.entity.EntityAmplislime;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityRainbot;
+import yam.entity.EntitySparklingDragon;
 import yam.entity.EntityUnicorn;
 
 public class BiomeRainbow extends BiomeGenBase {
@@ -49,6 +50,7 @@ public class BiomeRainbow extends BiomeGenBase {
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityUnicorn.class, 10, 1, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityRainbot.class, 10, 1, 1));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityAmplislime.class, 10, 1, 1));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySparklingDragon.class, 10, 1, 4));
         
         this.theBiomeDecorator = this.createBiomeDecorator();
 	}

@@ -6,6 +6,7 @@ import yam.explosion.Rainsplosion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -21,6 +22,7 @@ import net.minecraft.inventory.AnimalChest;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -38,6 +40,7 @@ public class EntityUnicorn extends EntityHorse {
     private boolean field_110294_bI;
     private int openMouthCounter;
     private AnimalChest horseChest;
+	private int jumpRearingCounter;
 
 	public EntityUnicorn(World par1World) {
 		super(par1World);
@@ -104,7 +107,89 @@ public class EntityUnicorn extends EntityHorse {
 		return par1EntityLivingData;
     }
     
-    protected void fall(float par1) {}
+    protected void fall(float par1)
+    {
+        if (par1 > 1.0F)
+        {
+            this.playSound(YetAnotherMod.MODID + ":mob.horse.land", 0.4F, 1.0F);
+        }
+    }
+    
+    protected String getDeathSound()
+    {
+        this.openHorseMouth();
+        return YetAnotherMod.MODID + ":mob.unicorn.death";
+    }
+    
+    protected String getHurtSound()
+    {
+        this.openHorseMouth();
+        return YetAnotherMod.MODID + ":mob.unicorn.hit";
+    }
+    
+    protected String getLivingSound()
+    {
+        this.openHorseMouth();
+        return YetAnotherMod.MODID + ":mob.unicorn.idle";
+    }
+    
+    protected String getAngrySoundName()
+    {
+        this.openHorseMouth();
+        this.makeHorseRear();
+        return YetAnotherMod.MODID + ":mob.unicorn.angry";
+    }
+    
+    private void makeHorseRear()
+    {
+        if (!this.worldObj.isRemote)
+        {
+            this.jumpRearingCounter = 1;
+            this.setRearing(true);
+        }
+    }
+    
+    protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
+    {
+        Block.SoundType soundtype = p_145780_4_.stepSound;
+
+        if (this.worldObj.getBlock(p_145780_1_, p_145780_2_ + 1, p_145780_3_) == Blocks.snow_layer)
+        {
+            soundtype = Blocks.snow_layer.stepSound;
+        }
+
+        if (!p_145780_4_.getMaterial().isLiquid())
+        {
+            int l = this.getHorseType();
+
+            if (this.riddenByEntity != null && l != 1 && l != 2)
+            {
+                ++this.field_110285_bP;
+
+                if (this.field_110285_bP > 5 && this.field_110285_bP % 3 == 0)
+                {
+                    this.playSound(YetAnotherMod.MODID + ":mob.unicorn.gallop", soundtype.getVolume() * 0.15F, soundtype.getPitch());
+
+                    if (l == 0 && this.rand.nextInt(10) == 0)
+                    {
+                        this.playSound(YetAnotherMod.MODID + ":mob.unicorn.breathe", soundtype.getVolume() * 0.6F, soundtype.getPitch());
+                    }
+                }
+                else if (this.field_110285_bP <= 5)
+                {
+                    this.playSound(YetAnotherMod.MODID + ":mob.unicorn.wood", soundtype.getVolume() * 0.15F, soundtype.getPitch());
+                }
+            }
+            else if (soundtype == Block.soundTypeWood)
+            {
+                this.playSound(YetAnotherMod.MODID + ":mob.unicorn.wood", soundtype.getVolume() * 0.15F, soundtype.getPitch());
+            }
+            else
+            {
+                this.playSound(YetAnotherMod.MODID + ":mob.unicorn.soft", soundtype.getVolume() * 0.15F, soundtype.getPitch());
+            }
+        }
+    }
     
     public void moveEntityWithHeading(float par1, float par2)
     {
@@ -148,7 +233,7 @@ public class EntityUnicorn extends EntityHorse {
                     float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
                     this.motionX += (double)(-0.4F * f2 * this.jumpPower);
                     this.motionZ += (double)(0.4F * f3 * this.jumpPower);
-                    this.playSound("mob.horse.jump", 0.4F, 1.0F);
+                    this.playSound(YetAnotherMod.MODID + ":mob.unicorn.jump", 0.4F, 1.0F);
                 }
 
                 this.jumpPower = 0.0F;
@@ -341,6 +426,16 @@ public class EntityUnicorn extends EntityHorse {
     {
         int i = this.getHorseType();
         return this.isChested() && (i == 1 || i == 2) ? 17 : 2;
+    }
+    
+    protected Item getDropItem()
+    {
+        return Items.leather;
+    }
+	
+	protected void dropRareDrop(int par1)
+    {
+        this.dropItem(YetAnotherMod.unicornHorn, 1);
     }
 
 }

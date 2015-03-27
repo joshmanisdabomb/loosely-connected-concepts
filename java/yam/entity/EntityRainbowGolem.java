@@ -18,6 +18,8 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -223,11 +225,34 @@ public class EntityRainbowGolem extends EntityIronGolem
         this.playSound(YetAnotherMod.MODID + ":mob.rainbowgolem.walk", 1.0F, 0.5F + rand.nextFloat());
     }
 
+    protected Item getDropItem()
+    {
+        return Item.getItemFromBlock(YetAnotherMod.rainbowBlock);
+    }
+    
     /**
      * Drop 0-2 items of this living's type. @param par1 - Whether this entity has recently been hit by a player. @param
      * par2 - Level of Looting used to kill this mob.
      */
-    protected void dropFewItems(boolean par1, int par2) {}
+    protected void dropFewItems(boolean par1, int par2)
+    {
+        Item item = this.getDropItem();
+
+        if (item != null)
+        {
+            int j = this.rand.nextInt(3);
+
+            if (par2 > 0)
+            {
+                j += this.rand.nextInt(par2 + 1);
+            }
+
+            for (int k = 0; k < j; ++k)
+            {
+                this.dropItem(item, 1);
+            }
+        }
+    }
 
     public boolean isPlayerCreated() {
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;

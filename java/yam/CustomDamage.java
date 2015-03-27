@@ -1,6 +1,7 @@
 package yam;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
@@ -17,6 +18,7 @@ public class CustomDamage {
     public static final DamageSource cactus2 = (new DamageSource("cactus2")).setDamageBypassesArmor();
 	public static final DamageSource pill = (new DamageSource("pill")).setDamageBypassesArmor();
 	public static final DamageSource starburst = (new DamageSource("starburst"));
+	public static final DamageSource sparkle = (new DamageSource("sparkle"));
 	
     public static DamageSource causeBlasterDamage(Entity par0Entity, Entity par1Entity) {
     	return (new EntityDamageSourceIndirect("blaster", par0Entity, par1Entity));
@@ -32,6 +34,10 @@ public class CustomDamage {
     
     public static DamageSource causeStarburstDamage(Entity par0Entity, Entity par1Entity) {
         return (new EntityDamageSourceIndirect("starburst", par0Entity, par1Entity));
+	}
+
+	public static DamageSource causeSparkleDamage(Entity par0Entity, Entity par1Entity) {
+        return (new EntityDamageSourceIndirect("sparkle", par0Entity, par1Entity));
 	}
 
 }

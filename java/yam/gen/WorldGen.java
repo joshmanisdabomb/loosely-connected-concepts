@@ -179,16 +179,6 @@ public class WorldGen implements IWorldGenerator {
 					(new WorldGenMinable(YetAnotherMod.mud, 40, Blocks.dirt)).generate(world, random, RandPosX, RandPosY, RandPosZ);
 				}
 			}
-			
-			//Human Houses
-			if (random.nextInt(3) == 0) {
-				RandPosX = i + random.nextInt(16);
-				RandPosY = 64 + random.nextInt(32);
-				RandPosZ = j + random.nextInt(16);
-				if (BiomeDictionary.isBiomeOfType(world.getBiomeGenForCoords(RandPosX, RandPosZ),BiomeDictionary.Type.PLAINS)) {
-					(new GenHalfplayerHome()).generate(world, random, RandPosX, RandPosY, RandPosZ);
-				}
-			}
 		} else {
 			int RandPosX; int RandPosY; int RandPosZ;
 
@@ -257,6 +247,15 @@ public class WorldGen implements IWorldGenerator {
 			RandPosZ = j + random.nextInt(16);
 				
 			(new WorldGenMinable(YetAnotherMod.neonOre, 8, YetAnotherMod.rainbowStone)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+		}
+		
+		for (int k = 0; k < 3; k++) {
+			//Aerstone Ore
+			RandPosX = i + random.nextInt(16);
+			RandPosY = random.nextInt(40);
+			RandPosZ = j + random.nextInt(16);
+				
+			(new WorldGenMinable(YetAnotherMod.aerstoneRaw, 32, YetAnotherMod.rainbowStone)).generate(world, random, RandPosX, RandPosY, RandPosZ);
 		}
 		
 		if (random.nextInt(3) == 0) {

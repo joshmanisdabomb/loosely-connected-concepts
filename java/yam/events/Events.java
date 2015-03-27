@@ -5,7 +5,10 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
@@ -21,6 +24,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -36,10 +40,9 @@ import yam.CustomDamage;
 import yam.CustomPotion;
 import yam.YetAnotherMod;
 import yam.biome.BiomeWasteland;
+import yam.entity.EntityHalfplayer;
 import yam.entity.EntityRainbot;
-import yam.entity.EntityUnicorn;
 import yam.entity.extensions.ExtendedPlayer;
-import yam.explosion.Rainsplosion;
 import yam.items.tools.ItemCustomArmor;
 import yam.items.tools.ItemRepeater;
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -63,6 +66,14 @@ public class Events {
 		PotionEffect pe = event.entityLiving.getActivePotionEffect(CustomPotion.amplify);
 		if (pe != null && event.ammount > 0.0F) {
 			event.ammount += Math.max((event.ammount/2)*(pe.getAmplifier()+1), 1.0F);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+		if (event.entity instanceof EntityMob && !(event.entity instanceof EntityHalfplayer) && !((EntityMob)event.entity).tasks.taskEntries.isEmpty()) {
+			((EntityMob)event.entity).tasks.addTask(3, new EntityAIAttackOnCollide((EntityCreature)event.entity, EntityHalfplayer.class, 1.0D, false));
+			((EntityMob)event.entity).targetTasks.addTask(3, new EntityAINearestAttackableTarget((EntityCreature)event.entity, EntityHalfplayer.class, 0, true));
 		}
 	}
 	

@@ -2,18 +2,12 @@ package yam.gen.rainbow;
 
 import java.util.Random;
 
-import yam.YetAnotherMod;
-import yam.blocks.BlockRainbowGrass;
-import yam.entity.EntityHalfPlayer;
-import yam.entity.EntityRainbowGolem;
-import yam.gen.WorldGen;
-import yam.gen.house.GenHalfplayerHome1;
-import yam.gen.house.GenHalfplayerHome2;
-import yam.gen.house.GenHalfplayerHome3;
-import yam.gen.house.GenHalfplayerHome4;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import yam.YetAnotherMod;
+import yam.blocks.BlockRainbowGrass;
+import yam.entity.EntityRainbowGolem;
+import yam.gen.WorldGen;
 
 public class GenRainbowTemple {
 	

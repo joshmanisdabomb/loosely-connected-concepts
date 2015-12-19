@@ -295,7 +295,7 @@ public class WorldGen implements IWorldGenerator {
 	}
 	
 	private void generateMoon(World world, Random random, int i, int j) {
-		int RandPosX; int RandPosY; int RandPosZ;
+		/*int RandPosX; int RandPosY; int RandPosZ;
 		
 		//Moon Camps
 		if (random.nextInt(10) == 0) {
@@ -303,7 +303,7 @@ public class WorldGen implements IWorldGenerator {
 			RandPosY = 56 + random.nextInt(16);
 			RandPosZ = j + random.nextInt(16);
 			(new GenCamp()).generate(world, random, RandPosX, RandPosY, RandPosZ);
-		}
+		}*/
 	}
 
 }

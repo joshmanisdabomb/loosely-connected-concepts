@@ -28,6 +28,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 	
 	public static final int pillsRevealed = 25;
 	public static final int explosiveDiarrhea = 26;
+	public static final int luck = 27;
 
 	/*
 	 * The default constructor takes no arguments, but I put in the Entity so I
@@ -41,6 +42,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		
 		this.player.getDataWatcher().addObject(pillsRevealed, "fffffffff");
 		this.player.getDataWatcher().addObject(explosiveDiarrhea, 0);
+		this.player.getDataWatcher().addObject(luck, 0);
 	}
 
 	/**
@@ -69,6 +71,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		
 		properties.setString("pillsRevealed", this.player.getDataWatcher().getWatchableObjectString(pillsRevealed));
 		properties.setInteger("explosiveDiarrhea", this.player.getDataWatcher().getWatchableObjectInt(explosiveDiarrhea));
+		properties.setInteger("luck", this.player.getDataWatcher().getWatchableObjectInt(luck));
 
 		/*
 		 * Now add our custom tag to the player's tag with a unique name (our
@@ -92,6 +95,7 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 		String string = properties.getString("pillsRevealed");
 		this.player.getDataWatcher().updateObject(pillsRevealed, (string == "") ? "fffffffff" : string);
 		this.player.getDataWatcher().updateObject(explosiveDiarrhea, properties.getInteger("explosiveDiarrhea"));
+		this.player.getDataWatcher().updateObject(luck, properties.getInteger("luck"));
 	}
 
 	/*
@@ -112,6 +116,10 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 	 * Returns true if the amount of mana was consumed or false if the player's
 	 * current mana was insufficient
 	 */
+	public void forgetAllPills() {
+		this.player.getDataWatcher().updateObject(pillsRevealed, "fffffffff");
+	}
+	
 	public void discoverPill(int id) {
 		StringBuilder pills = new StringBuilder(this.player.getDataWatcher().getWatchableObjectString(pillsRevealed));
 		pills.setCharAt(id, 't');
@@ -137,5 +145,13 @@ public class ExtendedPlayer implements IExtendedEntityProperties {
 	
 	public int getExplosiveDiarrhea() {
 		return this.player.getDataWatcher().getWatchableObjectInt(explosiveDiarrhea);
+	}
+
+	public int getLuck() {
+		return this.player.getDataWatcher().getWatchableObjectInt(luck);
+	}
+	
+	public void addLuck(int amount) {
+		this.player.getDataWatcher().updateObject(luck, this.player.getDataWatcher().getWatchableObjectInt(luck) + amount);
 	}
 }

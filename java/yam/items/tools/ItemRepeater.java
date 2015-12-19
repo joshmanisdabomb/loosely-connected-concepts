@@ -93,9 +93,10 @@ public class ItemRepeater extends ItemBow {
 			boolean infinite = EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
 			for (int i = 0; i < amount; i++) {
 				if (par3EntityPlayer.inventory.hasItem(Items.arrow)) {
-					fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, infinite);
+					boolean shouldNotConsumeArrow = rand.nextFloat() < chance;
+					fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, infinite || shouldNotConsumeArrow);
 					par1ItemStack.damageItem(1, par3EntityPlayer);
-					if (!infinite && rand.nextFloat() < chance) {par3EntityPlayer.inventory.consumeInventoryItem(Items.arrow);}
+					if (!infinite && !shouldNotConsumeArrow) {par3EntityPlayer.inventory.consumeInventoryItem(Items.arrow);}
 				} else if (creative) {
 					fireNormalArrow(par1ItemStack, par2World, par3EntityPlayer, true);
 				}

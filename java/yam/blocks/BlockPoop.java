@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import yam.YetAnotherMod;
 import yam.entity.EntityFly;
 
@@ -89,7 +90,7 @@ public class BlockPoop extends BlockGeneric {
 	
 	public boolean canPlaceBlockAt(World p_149742_1_, int p_149742_2_, int p_149742_3_, int p_149742_4_)
     {
-        return p_149742_1_.getBlock(p_149742_2_, p_149742_3_ - 1, p_149742_4_) == YetAnotherMod.crackedMud;
+        return p_149742_1_.isSideSolid(p_149742_2_, p_149742_3_ - 1, p_149742_4_, ForgeDirection.UP);
     }
 	
 	public boolean canBlockStay(World p_149718_1_, int p_149718_2_, int p_149718_3_, int p_149718_4_)

@@ -184,6 +184,13 @@ public class Events {
 			}
 		}
 		
+		//Isometry Movement
+		if (event.entityLiving.isPotionActive(CustomPotion.kineticallychallenged) && !event.entity.onGround) {
+			double tempx = event.entity.motionX;
+			event.entity.motionX = event.entity.motionZ;
+			event.entity.motionZ = tempx;
+		}
+		
 		//Oil Movement
 		if (event.entity.isInWater() && event.entity.worldObj.getBiomeGenForCoords((int)Math.floor(event.entity.posX),(int)Math.floor(event.entity.posZ)) == YetAnotherMod.biomeWasteland) {
 			if (((BiomeWasteland)YetAnotherMod.biomeWasteland).isWastelandMonster(event.entity)) {
@@ -230,7 +237,7 @@ public class Events {
 			if (explosiveDiarrhea > 0) {
 				if (explosiveDiarrhea % 10 == 0) {
 					EntityTNTPrimed tnt = new EntityTNTPrimed(event.entityLiving.worldObj, event.entityLiving.posX, event.entityLiving.posY, event.entityLiving.posZ, event.entityLiving);
-					tnt.fuse = 30;
+					tnt.fuse = 50;
 					event.entityLiving.worldObj.spawnEntityInWorld(tnt);
 					event.entityLiving.playSound("game.tnt.primed", 1.0F, 1.0F);
 				}

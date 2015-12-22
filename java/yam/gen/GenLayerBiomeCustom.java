@@ -49,10 +49,9 @@ public class GenLayerBiomeCustom extends GenLayerBiome
             desertBiomes.add(new BiomeEntry(BiomeGenBase.plains, 10));
         }
 
-        desertBiomes.add(new BiomeEntry(YetAnotherMod.biomeWasteland, 40)); //7
-        warmBiomes.add(new BiomeEntry(YetAnotherMod.biomeWasteland, 40)); //debug, shouldnt be here
-        coolBiomes.add(new BiomeEntry(YetAnotherMod.biomeWasteland, 40));
-        icyBiomes.add(new BiomeEntry(YetAnotherMod.biomeWasteland, 40));
+        desertBiomes.add(new BiomeEntry(YetAnotherMod.biomeWasteland, 7));
+        warmBiomes.add(new BiomeEntry(YetAnotherMod.biomeLightAura, 7));
+        coolBiomes.add(new BiomeEntry(YetAnotherMod.biomeLightAura, 7));
     }
 
     public int[] getInts(int par1, int par2, int par3, int par4)

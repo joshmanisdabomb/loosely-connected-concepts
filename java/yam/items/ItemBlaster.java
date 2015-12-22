@@ -29,9 +29,9 @@ public class ItemBlaster extends ItemGeneric {
 	private Random rand = new Random();
 	
 	public ItemBlaster(String texture, String bullet, int charges, int chargeTime, int damage) {
-		super("weapons/blaster/" + texture);
-		this.texture = "weapons/blaster/" + texture;
-		bulletS = "weapons/blaster/" + bullet;
+		super(texture);
+		this.texture = texture;
+		bulletS = bullet;
 		this.damage = damage;
 		this.chargeTime = chargeTime;
 		this.setMaxDamage(charges*chargeTime);
@@ -75,6 +75,9 @@ public class ItemBlaster extends ItemGeneric {
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
 		list.add(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + (double)(damage)/2.0D + " hearts");
+		list.add(EnumChatFormatting.GRAY + "Charge: " + EnumChatFormatting.DARK_PURPLE + (double)(this.getMaxDamage()-this.getDamage(itemstack)) + " charge");
+		list.add(EnumChatFormatting.GRAY + "Max Charge: " + EnumChatFormatting.DARK_PURPLE + (double)(this.getMaxDamage()) + " charge");
+		list.add(EnumChatFormatting.GRAY + "Cost: " + EnumChatFormatting.DARK_PURPLE + (double)(chargeTime) + " charge");
 	}
 	
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5) {

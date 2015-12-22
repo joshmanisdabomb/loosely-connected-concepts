@@ -12,15 +12,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class ItemAtomSplitter extends ItemGeneric {
+public class ItemFlintSteel extends ItemGeneric {
 	
 	private Block block;
+	private String blockString;
 
-	public ItemAtomSplitter(String texture, Block fire, int durability)
+	public ItemFlintSteel(String texture, Block fire, String fireString, int durability)
     {
 		super(texture);
 
 		this.block = fire;
+		this.blockString = fireString;
 		this.setMaxDamage(durability);
 		this.setMaxStackSize(1);
     }
@@ -66,7 +68,7 @@ public class ItemAtomSplitter extends ItemGeneric {
             if (par3World.isAirBlock(par4, par5, par6))
             {
                 par3World.playSoundEffect((double)par4 + 0.5D, (double)par5 + 0.5D, (double)par6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.2F);
-                par3World.setBlock(par4, par5, par6, YetAnotherMod.nuclearFire);
+                par3World.setBlock(par4, par5, par6, this.block);
             }
 
             par1ItemStack.damageItem(1, par2EntityPlayer);
@@ -75,7 +77,7 @@ public class ItemAtomSplitter extends ItemGeneric {
     }
 	
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		list.add(EnumChatFormatting.GRAY + "Places: " + EnumChatFormatting.DARK_GREEN + "Nuclear Fire");
+		list.add(EnumChatFormatting.GRAY + "Places: " + this.blockString);
 	}
 	
 }

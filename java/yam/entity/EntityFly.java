@@ -1,7 +1,10 @@
 package yam.entity;
 
 import yam.YetAnotherMod;
+import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -13,6 +16,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -36,6 +40,13 @@ public class EntityFly extends EntityMob {
 		
 		this.experienceValue = 1;
 	}
+    
+    protected void fall(float par1) {}
+    
+    protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
+    {
+    	return;
+    }
 	
 	public boolean isAIEnabled() {
 		return true;
@@ -49,7 +60,7 @@ public class EntityFly extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(16.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.6D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1.0D);
 	}
 	
 	public ItemStack getPickedResult(MovingObjectPosition target)
@@ -67,6 +78,45 @@ public class EntityFly extends EntityMob {
 		}
 		
 		super.onUpdate();
+	}
+	
+	public boolean attackEntityAsMob(Entity par1Entity) {
+		float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        int i = 0;
+
+        if (par1Entity instanceof EntityLivingBase)
+        {
+            f += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)par1Entity);
+            i += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase)par1Entity);
+        }
+
+        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+
+        if (flag)
+        {
+            if (i > 0)
+            {
+                //par1Entity.addVelocity(0.1D*(double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.05D, 0.1D*(double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
+                this.motionX *= 0.6D;
+                this.motionZ *= 0.6D;
+            }
+
+            int j = EnchantmentHelper.getFireAspectModifier(this);
+
+            if (j > 0)
+            {
+                par1Entity.setFire(j * 4);
+            }
+
+            if (par1Entity instanceof EntityLivingBase)
+            {
+                EnchantmentHelper.func_151384_a((EntityLivingBase)par1Entity, this);
+            }
+
+            EnchantmentHelper.func_151385_b(this, par1Entity);
+        }
+
+        return flag;
 	}
 	
 	public String getLivingSound() {

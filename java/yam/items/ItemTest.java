@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import yam.YetAnotherMod;
-import yam.dimension.moon.TeleporterMoon;
+import yam.dimension.sheol.TeleporterSheol;
 
 public class ItemTest extends ItemGeneric {
 
@@ -20,7 +20,7 @@ public class ItemTest extends ItemGeneric {
         {
             EntityPlayerMP player = (EntityPlayerMP)par3EntityPlayer;
             MinecraftServer mServer = MinecraftServer.getServer();
-            player.mcServer.getConfigurationManager().transferPlayerToDimension(player, YetAnotherMod.moonDimID, new TeleporterMoon(mServer.worldServerForDimension(YetAnotherMod.moonDimID)));
+            player.mcServer.getConfigurationManager().transferPlayerToDimension(player, YetAnotherMod.sheolDimID, new TeleporterSheol(mServer.worldServerForDimension(YetAnotherMod.sheolDimID)));
         }
 		return par1ItemStack;
 	}

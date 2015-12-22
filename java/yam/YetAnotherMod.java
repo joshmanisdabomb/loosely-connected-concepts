@@ -21,6 +21,7 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
+import yam.biome.BiomeLightAura;
 import yam.biome.BiomeMoon;
 import yam.biome.BiomeRainbow;
 import yam.biome.BiomeSheol;
@@ -39,6 +40,7 @@ import yam.blocks.BlockCustomWool;
 import yam.blocks.BlockDerek;
 import yam.blocks.BlockGeneric;
 import yam.blocks.BlockGlowingObsidian;
+import yam.blocks.BlockHellFire;
 import yam.blocks.BlockHotCoal;
 import yam.blocks.BlockInternet;
 import yam.blocks.BlockLaunchPad;
@@ -89,6 +91,7 @@ import yam.entity.EntityDerek;
 import yam.entity.EntityDerekJr;
 import yam.entity.EntityFly;
 import yam.entity.EntityHalfplayer;
+import yam.entity.EntityHiddenReptile;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityMLGArrow;
 import yam.entity.EntityMissile;
@@ -100,6 +103,7 @@ import yam.entity.EntityRainbot;
 import yam.entity.EntityRainbowGolem;
 import yam.entity.EntitySparkle;
 import yam.entity.EntitySparklingDragon;
+import yam.entity.EntityTheRotting;
 import yam.entity.EntityTick;
 import yam.entity.EntityUnicorn;
 import yam.events.Events;
@@ -107,10 +111,12 @@ import yam.gen.WorldGen;
 import yam.gui.GuiHandler;
 import yam.items.ItemAmplifyBomb;
 import yam.items.ItemAntispreaderRemote;
-import yam.items.ItemAtomSplitter;
 import yam.items.ItemBlaster;
 import yam.items.ItemEnergyCrystal;
 import yam.items.ItemExtraJump;
+import yam.items.ItemFlintSteel;
+import yam.items.ItemFlyswat;
+import yam.items.ItemFlyswatCharge;
 import yam.items.ItemGeneric;
 import yam.items.ItemHeart;
 import yam.items.ItemHeartContainer;
@@ -121,6 +127,7 @@ import yam.items.ItemNoms;
 import yam.items.ItemNomsNewStack;
 import yam.items.ItemPill;
 import yam.items.ItemPlacer;
+import yam.items.ItemPoopHarvester;
 import yam.items.ItemRadioactive;
 import yam.items.ItemRainbowSeeds;
 import yam.items.ItemRainbowSpawnEgg;
@@ -228,6 +235,9 @@ public class YetAnotherMod
     public static Block nuclearFire;
     public static Item atomSplitter;
     public static Block nuclearWaste;
+
+    public static Block hellFire;
+    public static Item flintBlaze;
     
     //Ores
     public static Block cactusBlock;
@@ -336,6 +346,7 @@ public class YetAnotherMod
 
     public static Block spikes;
     public static Block bloodSpikes;
+    public static Block poisonSpikes;
 
     public static Item wireRed;
     public static Item wireGreen;
@@ -386,6 +397,8 @@ public class YetAnotherMod
     public static Item flySpawnEgg;
     public static Item derekJrSpawnEgg;
     public static Item tickSpawnEgg;
+    public static Item theRottingSpawnEgg;
+    public static Item hiddenReptileSpawnEgg;
     public static Item lollipopperSpawnEgg;
     public static Item rainbotSpawnEgg;
     public static Item amplislimeSpawnEgg;
@@ -522,12 +535,16 @@ public class YetAnotherMod
     public static Block bricksDiamond;
     public static Block bricksObsidian;
     public static Block bricksRedstone;
+    public static Block bricksBigx;
     public static Block bricksRuby;
     public static Block bricksEmerald;
     public static Block bricksLapis;
     public static Block bricksCrystal;
     public static Block bricksUranium;
     public static Block bricksPearl;
+    public static Block bricksWishstone;
+    public static Block bricksHopestone;
+    public static Block bricksDreamstone;
     public static Block bricksCloud;
     public static Block bricksNeon;
     public static Block bricksAerstone;
@@ -535,6 +552,27 @@ public class YetAnotherMod
     //Roads and Cars
     public static Block road;
 
+    //Auras
+    public static Block lightGrass;
+    public static Block lightDirt;
+    public static Block lightStone;
+    public static Block lightCobblestone;
+    public static Block lightPolishedStone;
+    public static Block lightSand;
+    public static Block lightGravel;
+    public static Block lightMossyCobblestone;
+    public static Block lightWood;
+    public static Block lightPlanks;
+    public static Block lightLeaves;
+    public static Block lightSapling;
+    public static Block lightBricks;
+    public static Block wishstoneOre;
+    public static Block hopestoneOre;
+    public static Block dreamstoneOre;
+    public static Block wishstoneBlock;
+    public static Block hopestoneBlock;
+    public static Block dreamstoneBlock;
+    
     //Wasteland Shit
     public static Block crackedMud;
     public static Block rustOre;
@@ -544,10 +582,16 @@ public class YetAnotherMod
     public static Block reinforcedGlass;
     public static Block reinforcedWool;
     public static Block poop;
+    public static Item flySwat;
+    public static Item flySwatElectric;
+    public static Item poopHarvester;
     public static Block derekHead;
     public static Block derekHeart;
     public static Block derekSoul;
     public static Block derekSkin;
+    
+    public static Block bloodwood;
+    public static Block bloodwoodPlanks;
 
     public static Item hearthalf;
     public static Item heart;
@@ -667,6 +711,31 @@ public class YetAnotherMod
     public static int glassesBrownID;
     public static Item glassesBrown;
     
+    //TheBigx Texture Pack
+    public static Block bigxGrass;
+    public static Block bigxDirt;
+    public static Block bigxStone;
+    public static Block bigxCobblestone;
+    public static Block bigxGravel;
+    public static Block bigxGlass;
+    public static Block bigxOre;
+    public static Item bigxGem;
+    public static Block bigxBlock;
+    public static Block bigxHayBale;
+    public static Item bigxSword;
+    public static Item bigxPickaxe;
+    public static Item bigxShovel;
+    public static Item bigxAxe;
+    public static Item bigxHoe;
+    public static int bigxHelmetID;
+    public static int bigxChestplateID;
+    public static int bigxLeggingsID;
+    public static int bigxBootsID;
+    public static Item bigxHelmet;
+    public static Item bigxChestplate;
+    public static Item bigxLeggings;
+    public static Item bigxBoots;
+    
     //Peripherals
     public static Item peripheralAntispreader;
     public static Item peripheralSpreader;
@@ -738,6 +807,7 @@ public class YetAnotherMod
     public static ToolMaterial tmLapis;
     public static ToolMaterial tmCrystal;
     public static ToolMaterial tmCactus;
+    public static ToolMaterial tmBigx;
     public static ToolMaterial tmCloud;
     public static ToolMaterial tmNeon;
     public static ToolMaterial tmAerstone;
@@ -746,6 +816,7 @@ public class YetAnotherMod
     public static ArmorMaterial amLapis;
     public static ArmorMaterial amCrystal;
     public static ArmorMaterial amCactus;
+    public static ArmorMaterial amBigx;
     public static ArmorMaterial amCloud;
     public static ArmorMaterial amNeon;
     public static ArmorMaterial amAerstone;
@@ -763,6 +834,8 @@ public class YetAnotherMod
     
     //Biomes
     public static BiomeGenBase biomeWasteland;
+    public static BiomeGenBase biomeLightAura;
+    public static BiomeGenBase biomeDarkAura;
     public static BiomeGenBase biomeRainbow;
     public static BiomeGenBase biomeSheol;
     public static BiomeGenBase biomeMoon;
@@ -771,6 +844,8 @@ public class YetAnotherMod
     public static final SoundType soundTypeRainbow = new BlockSounds("rainbow", 1, 1);
     public static final SoundType soundTypeSpace = new BlockSounds("space", 1, 1);
     public static final SoundType soundTypePoop = new BlockSounds("poop", 1, 1);
+    public static final SoundType soundTypeBloodwood = new BlockSounds("bloodwood", 1, 1);
+    public static final SoundType soundTypeBigx = new BlockSounds("bigx", 1, 1.25F);
     public static final SoundType soundTypeClassicStone = new BlockClassicSounds("stone", 1, 1);
     public static final SoundType soundTypeClassicMetal = new BlockClassicSounds("metal", 1, 1);
     public static final SoundType soundTypeClassicWood = new BlockClassicSounds("wood", 1, 1);
@@ -795,6 +870,8 @@ public class YetAnotherMod
     public static int derek;
     public static int derekJr;
     public static int tick;
+    public static int theRotting;
+    public static int hiddenReptile;
     public static int lollipopper;
     public static int rainbowGolem;
     public static int rainbot;
@@ -827,6 +904,8 @@ public class YetAnotherMod
     	derek = registerEntity(EntityDerek.class, "derek", null, 0, 0, 0);
     	derekJr = registerEntity(EntityDerekJr.class, "derekJr", null, 0, 0, 0);
     	tick = registerEntity(EntityTick.class, "tick", null, 0, 0, 0);
+    	theRotting = registerEntity(EntityTheRotting.class, "theRotting", null, 0, 0, 0);
+    	hiddenReptile = registerEntity(EntityHiddenReptile.class, "hiddenReptile", null, 0, 0, 0);
     	lollipopper = registerEntity(EntityLollipopper.class, "lollipopper", null, 0, 0, 0);
     	rainbowGolem = registerEntity(EntityRainbowGolem.class, "rainbowGolem", null, 0, 0, 0);
     	rainbot = registerEntity(EntityRainbot.class, "rainbot", null, 0, 0, 0);
@@ -942,12 +1021,24 @@ public class YetAnotherMod
     	((BlockGeneric) bricksCrystal).setRenderType(0, false);
     	((BlockGeneric) bricksCrystal).setTransparency();
     	GameRegistry.registerBlock(bricksCrystal, "bricksCrystal");
+    	bricksBigx = new BlockGeneric(Material.rock, "bricks/bigx").setHardness(3.3F).setResistance(20.0F).setStepSound(soundTypeBigx).setBlockName("bricksBigx");
+    	bricksBigx.setHarvestLevel("pickaxe", 4);
+    	GameRegistry.registerBlock(bricksBigx, "bricksBigx");
     	bricksUranium = new BlockGeneric(Material.rock, "bricks/uranium").setHardness(3.3F).setResistance(20.0F).setStepSound(Block.soundTypeStone).setBlockName("bricksUranium");
     	bricksUranium.setHarvestLevel("pickaxe", 5);
     	GameRegistry.registerBlock(bricksUranium, "bricksUranium");
     	bricksPearl = new BlockGeneric(Material.rock, "bricks/pearl").setHardness(3.3F).setResistance(20.0F).setStepSound(Block.soundTypeStone).setBlockName("bricksPearl");
     	bricksPearl.setHarvestLevel("pickaxe", 2);
     	GameRegistry.registerBlock(bricksPearl, "bricksPearl");
+    	bricksWishstone = new BlockGeneric(Material.rock, "bricks/wishstone").setLightLevel(1F).setLightOpacity(0).setHardness(6.3F).setResistance(24.0F).setStepSound(Block.soundTypeGlass).setBlockName("bricksWishstone");
+    	bricksWishstone.setHarvestLevel("pickaxe", 5);
+    	GameRegistry.registerBlock(bricksWishstone, "bricksWishstone");
+    	bricksHopestone = new BlockGeneric(Material.rock, "bricks/hopestone").setLightLevel(1F).setLightOpacity(0).setHardness(6.3F).setResistance(24.0F).setStepSound(Block.soundTypeGlass).setBlockName("bricksHopestone");
+    	bricksHopestone.setHarvestLevel("pickaxe", 5);
+    	GameRegistry.registerBlock(bricksHopestone, "bricksHopestone");
+    	bricksDreamstone = new BlockGeneric(Material.rock, "bricks/dreamstone").setLightLevel(1F).setLightOpacity(0).setHardness(6.3F).setResistance(24.0F).setStepSound(Block.soundTypeGlass).setBlockName("bricksDreamstone");
+    	bricksDreamstone.setHarvestLevel("pickaxe", 5);
+    	GameRegistry.registerBlock(bricksDreamstone, "bricksDreamstone");
     	bricksCloud = new BlockGeneric(Material.rock, "bricks/cloud").setHardness(0.5F).setResistance(8.0F).setStepSound(Block.soundTypeStone).setBlockName("bricksCloud").setLightOpacity(0);
     	bricksCloud.setHarvestLevel("pickaxe", 5);
     	((BlockGeneric) bricksCloud).setRenderType(0, false);
@@ -969,6 +1060,7 @@ public class YetAnotherMod
     	tmLapis = EnumHelper.addToolMaterial("Lapis", 4, tmRuby.getMaxUses(), 12.0F, 4.0F, 15); tmLapis.customCraftingMaterial = lapisIngot;
     	tmCrystal = EnumHelper.addToolMaterial("Crystal", 5, (int)Math.pow(tmRuby.getMaxUses(), 1.05), 16.0F, 5.0F, 20); tmCrystal.customCraftingMaterial = crystalIngot;
     	tmCactus = EnumHelper.addToolMaterial("Cactus", 4, ToolMaterial.WOOD.getMaxUses(), 16.0F, 5.0F, 30); tmCactus.customCraftingMaterial = Item.getItemFromBlock(cactusBlock);
+    	tmBigx = EnumHelper.addToolMaterial("The Bigx", 5, (int)Math.pow(ToolMaterial.WOOD.getMaxUses(), 1.03), 8.0F, 2.0F, 1); tmBigx.customCraftingMaterial = bigxGem;
     	tmCloud = EnumHelper.addToolMaterial("Cloud", 6, (int)Math.pow(tmCrystal.getMaxUses(), 1.1), 20.0F, 6.0F, 25); tmCloud.customCraftingMaterial = Item.getItemFromBlock(cloud);
     	tmNeon = EnumHelper.addToolMaterial("Neon", 7, (int)Math.pow(tmCloud.getMaxUses(), 1.04), 25.0F, 7.0F, 30); tmNeon.customCraftingMaterial = neon;
     	tmAerstone = EnumHelper.addToolMaterial("Aerstone", 8, (int)Math.pow(tmNeon.getMaxUses(), 1.05), 32.0F, 8.0F, 35); tmAerstone.customCraftingMaterial = Item.getItemFromBlock(aerstoneBeveled);
@@ -983,6 +1075,7 @@ public class YetAnotherMod
     	amLapis = EnumHelper.addArmorMaterial("Lapis", 45, new int[]{a, b+1, c+1, d}, 19);
     	amCrystal = EnumHelper.addArmorMaterial("Crystal", 55, new int[]{a+1, b+2, c+2, d+1}, 25);
     	amCactus = EnumHelper.addArmorMaterial("Cactus", ArmorMaterial.CLOTH.getDurability(3), new int[]{a+1, b+2, c+2, d+1}, 30);
+    	amBigx = EnumHelper.addArmorMaterial("The Bigx", 22, new int[]{a+2, b+3, c+3, d+2}, 1);
     	amCloud = EnumHelper.addArmorMaterial("Cloud", 65, new int[]{a+1, b+2, c+2, d+1}, 30);
     	amNeon = EnumHelper.addArmorMaterial("Neon", 72, new int[]{a+1, b+2, c+2, d+1}, 35);
     	amAerstone = EnumHelper.addArmorMaterial("Aerstone", 80, new int[]{a+2, b+3, c+3, d+2}, 45);
@@ -1163,8 +1256,13 @@ public class YetAnotherMod
     	GameRegistry.registerBlock(nuclearFire, "nuclearFire");
     	nuclearWaste = new BlockRadioactive(Material.rock, "nuke/waste", 0).setBlockUnbreakable().setResistance(6000000.0F).setStepSound(Block.soundTypeStone).setBlockName("nuclearWaste");
     	GameRegistry.registerBlock(nuclearWaste, ItemBlockRadioactive.class, "nuclearWaste");
-    	atomSplitter = new ItemAtomSplitter("atomSplitter", YetAnotherMod.nuclearFire, 10).setUnlocalizedName("atomSplitter");
+    	atomSplitter = new ItemFlintSteel("flintsteel/atomSplitter", YetAnotherMod.nuclearFire, EnumChatFormatting.DARK_GREEN + "Nuclear Fire", 10).setUnlocalizedName("atomSplitter");
     	GameRegistry.registerItem(atomSplitter, "atomSplitter");
+
+    	hellFire = new BlockHellFire("hellfire/fire").setBlockName("hellFire");
+    	GameRegistry.registerBlock(hellFire, "hellFire");
+    	flintBlaze = new ItemFlintSteel("flintsteel/flintandblaze", YetAnotherMod.hellFire, EnumChatFormatting.RED + "Hellfire", 20).setUnlocalizedName("flintBlaze");
+    	GameRegistry.registerItem(flintBlaze, "flintBlaze");
     	
     	flour = new ItemGeneric("food/flour").setUnlocalizedName("flour");
     	GameRegistry.registerItem(flour, "flour");
@@ -1284,6 +1382,105 @@ public class YetAnotherMod
     	((ItemNoms) dewSpecial).setDrinkable();
     	GameRegistry.registerItem(dewSpecial, "dewSpecial");
     	
+    	lightDirt = new BlockGeneric(Material.ground, "aura/light/dirt").setLightLevel(1F).setLightOpacity(0).setHardness(0.4F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightDirt");
+    	lightDirt.setHarvestLevel("shovel", 0);
+    	lightDirt.slipperiness = 1.01F;
+    	((BlockGeneric)lightDirt).setAura(1);
+    	((BlockGeneric)lightDirt).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightDirt, "lightDirt");
+    	lightGrass = new BlockCustomGrass("aura/light/grass/top", "aura/light/grass/side", "aura/light/dirt", YetAnotherMod.lightDirt).setLightLevel(1F).setLightOpacity(0).setHardness(0.5F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightGrass");
+    	lightGrass.setHarvestLevel("shovel", 0);
+    	lightGrass.slipperiness = 1.01F;
+    	((BlockGeneric)lightGrass).setAura(1);
+    	((BlockGeneric)lightGrass).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightGrass, "lightGrass");
+    	lightStone = new BlockGeneric(Material.rock, "aura/light/stone").setLightLevel(1F).setLightOpacity(0).setHardness(1.2F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightStone");
+    	lightStone.setHarvestLevel("pickaxe", 0);
+    	lightStone.slipperiness = 1.01F;
+    	((BlockGeneric)lightStone).setAura(1);
+    	((BlockGeneric)lightStone).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightStone, "lightStone");
+    	lightBricks = new BlockGeneric(Material.rock, "aura/light/purebricks").setLightLevel(1F).setLightOpacity(0).setHardness(1.2F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightBricks");
+    	lightBricks.setHarvestLevel("pickaxe", 0);
+    	lightBricks.slipperiness = 1.01F;
+    	((BlockGeneric)lightBricks).setAura(1);
+    	((BlockGeneric)lightBricks).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightBricks, "lightBricks");
+    	lightCobblestone = new BlockGeneric(Material.rock, "aura/light/cobblestone").setLightLevel(1F).setLightOpacity(0).setHardness(1.2F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightCobblestone");
+    	lightCobblestone.setHarvestLevel("pickaxe", 0);
+    	lightCobblestone.slipperiness = 1.01F;
+    	((BlockGeneric)lightCobblestone).setAura(1);
+    	((BlockGeneric)lightCobblestone).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightCobblestone, "lightCobblestone");
+    	lightPolishedStone = new BlockGeneric(Material.rock, "aura/light/polished").setLightLevel(1F).setLightOpacity(0).setHardness(1.6F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightPolishedStone");
+    	lightPolishedStone.setHarvestLevel("pickaxe", 0);
+    	lightPolishedStone.slipperiness = 1.01F;
+    	((BlockGeneric)lightPolishedStone).setAura(1);
+    	((BlockGeneric)lightPolishedStone).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightPolishedStone, "lightPolishedStone");
+    	lightMossyCobblestone = new BlockGeneric(Material.rock, "aura/light/mossstone").setLightLevel(1F).setLightOpacity(0).setHardness(1.2F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightMossyCobblestone");
+    	lightMossyCobblestone.setHarvestLevel("pickaxe", 0);
+    	lightMossyCobblestone.slipperiness = 1.01F;
+    	((BlockGeneric)lightMossyCobblestone).setAura(1);
+    	((BlockGeneric)lightMossyCobblestone).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightMossyCobblestone, "lightMossyCobblestone");
+    	lightSand = new BlockGeneric(Material.ground, "aura/light/sand").setLightLevel(1F).setLightOpacity(0).setHardness(0.3F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightSand");
+    	lightSand.setHarvestLevel("shovel", 0);
+    	lightSand.slipperiness = 1.01F;
+    	((BlockGeneric)lightSand).setAura(1);
+    	((BlockGeneric)lightSand).setDrops(null, 1, 1);
+    	((BlockGeneric)lightSand).setGravity(true);
+    	GameRegistry.registerBlock(lightSand, "lightSand");
+    	lightGravel = new BlockGeneric(Material.ground, "aura/light/gravel").setLightLevel(1F).setLightOpacity(0).setHardness(0.5F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightGravel");
+    	lightGravel.setHarvestLevel("shovel", 0);
+    	lightGravel.slipperiness = 1.01F;
+    	((BlockGeneric)lightGravel).setAura(1);
+    	((BlockGeneric)lightGravel).setDrops(null, 1, 1);
+    	((BlockGeneric)lightGravel).setGravity(true);
+    	GameRegistry.registerBlock(lightGravel, "lightGravel");
+    	lightWood = new BlockGeneric(Material.wood, "aura/light/tree/starwood").setLightLevel(1F).setLightOpacity(0).setHardness(0.9F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightWood");
+    	lightWood.setHarvestLevel("axe", 0);
+    	lightWood.slipperiness = 1.01F;
+    	((BlockGeneric)lightWood).setAura(1);
+    	((BlockGeneric)lightWood).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightWood, "lightWood");
+    	lightPlanks = new BlockGeneric(Material.wood, "aura/light/planks").setLightLevel(1F).setLightOpacity(0).setHardness(0.7F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightPlanks");
+    	lightPlanks.setHarvestLevel("axe", 0);
+    	lightPlanks.slipperiness = 1.01F;
+    	((BlockGeneric)lightPlanks).setAura(1);
+    	((BlockGeneric)lightPlanks).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightPlanks, "lightPlanks");
+    	lightSapling = new BlockCustomSapling("aura/light/starsapling").setLightLevel(1F).setLightOpacity(0).setHardness(0.0F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightSapling");
+    	lightSapling.slipperiness = 1.01F;
+    	((BlockGeneric)lightSapling).setAura(1);
+    	((BlockGeneric)lightSapling).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightSapling, "lightSapling");
+    	lightLeaves = new BlockCustomLeaves("aura/light/tree/leaves", lightSapling, lightWood).setLightLevel(1F).setLightOpacity(0).setHardness(1.2F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("lightLeaves");
+    	lightLeaves.slipperiness = 1.01F;
+    	((BlockGeneric)lightLeaves).setRenderType(0, false);
+    	((BlockGeneric)lightLeaves).setTransparency();
+    	((BlockGeneric)lightLeaves).setAura(1);
+    	((BlockGeneric)lightLeaves).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(lightLeaves, "lightLeaves");
+    	wishstoneOre = new BlockGeneric(Material.rock, "ores/wishstone").setLightLevel(1F).setLightOpacity(0).setHardness(2.4F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("wishstoneOre");
+    	wishstoneOre.setHarvestLevel("pickaxe", 0);
+    	wishstoneOre.slipperiness = 1.01F;
+    	((BlockGeneric)wishstoneOre).setAura(1);
+    	((BlockGeneric)wishstoneOre).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(wishstoneOre, "wishstoneOre");
+    	hopestoneOre = new BlockGeneric(Material.rock, "ores/hopestone").setLightLevel(1F).setLightOpacity(0).setHardness(3.4F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("hopestoneOre");
+    	hopestoneOre.setHarvestLevel("pickaxe", 0);
+    	hopestoneOre.slipperiness = 1.01F;
+    	((BlockGeneric)hopestoneOre).setAura(1);
+    	((BlockGeneric)hopestoneOre).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(hopestoneOre, "hopestoneOre");
+    	dreamstoneOre = new BlockGeneric(Material.rock, "ores/dreamstone").setLightLevel(1F).setLightOpacity(0).setHardness(3.4F).setResistance(1.0F).setStepSound(Block.soundTypeGlass).setBlockName("dreamstoneOre");
+    	dreamstoneOre.setHarvestLevel("pickaxe", 0);
+    	dreamstoneOre.slipperiness = 1.01F;
+    	((BlockGeneric)dreamstoneOre).setAura(1);
+    	((BlockGeneric)dreamstoneOre).setDrops(null, 1, 1);
+    	GameRegistry.registerBlock(dreamstoneOre, "dreamstoneOre");
+    	
     	crackedMud = new BlockGeneric(Material.rock, "wasteland/mud").setHardness(7.0F).setResistance(50.0F).setStepSound(Block.soundTypeStone).setBlockName("crackedMud");
     	crackedMud.setHarvestLevel("pickaxe", 0);
     	GameRegistry.registerBlock(crackedMud, "crackedMud");
@@ -1308,6 +1505,12 @@ public class YetAnotherMod
     	poop = new BlockPoop("wasteland/poop").setHardness(1.0F).setResistance(0.0F).setStepSound(soundTypePoop).setLightOpacity(0).setBlockName("poop");
     	((BlockGeneric)poop).setRenderType(0, false);
     	GameRegistry.registerBlock(poop, "poop");
+    	flySwat = new ItemFlyswat("tools/wasteland/flyswat/normal").setUnlocalizedName("flySwat");
+    	GameRegistry.registerItem(flySwat, "flySwat");
+    	flySwatElectric = new ItemFlyswatCharge("tools/wasteland/flyswat/elec", 34, 26).setUnlocalizedName("flySwatElectric");
+    	GameRegistry.registerItem(flySwatElectric, "flySwatElectric");
+    	poopHarvester = new ItemPoopHarvester("tools/wasteland/poopharv").setUnlocalizedName("poopHarvester");
+    	GameRegistry.registerItem(poopHarvester, "poopHarvester");
     	derekHead = new BlockDerek("wasteland/derek/head").setHardness(14.0F).setResistance(16.0F).setStepSound(Block.soundTypeSnow).setBlockName("derekHead");
     	GameRegistry.registerBlock(derekHead, "derekHead");
     	derekHeart = new BlockGeneric(Material.ground, "wasteland/derek/heart").setHardness(14.0F).setResistance(16.0F).setStepSound(Block.soundTypeSnow).setBlockName("derekHeart");
@@ -1316,6 +1519,13 @@ public class YetAnotherMod
     	GameRegistry.registerBlock(derekSoul, "derekSoul");
     	derekSkin = new BlockGeneric(Material.ground, "wasteland/derek/skin").setHardness(14.0F).setResistance(16.0F).setStepSound(Block.soundTypeSnow).setBlockName("derekSkin");
     	GameRegistry.registerBlock(derekSkin, "derekSkin");
+    	
+    	bloodwood = new BlockGeneric(Material.ground, "wasteland/bloodwood/side", "wasteland/bloodwood/side", "wasteland/bloodwood/top", "wasteland/bloodwood/top").setHardness(10.0F).setResistance(2.5F).setStepSound(soundTypeBloodwood).setBlockName("bloodwood");
+    	bloodwood.setHarvestLevel("axe", 6);
+    	GameRegistry.registerBlock(bloodwood, "bloodwood");
+    	bloodwoodPlanks = new BlockGeneric(Material.ground, "wasteland/bloodwood/planks").setHardness(8.0F).setResistance(1.5F).setStepSound(soundTypeBloodwood).setBlockName("bloodwoodPlanks");
+    	bloodwoodPlanks.setHarvestLevel("axe", 6);
+    	GameRegistry.registerBlock(bloodwoodPlanks, "bloodwoodPlanks");
     	
     	hearthalf = new ItemHeart("half", 1.0F).setUnlocalizedName("hearthalf");
     	GameRegistry.registerItem(hearthalf, "hearthalf");
@@ -1672,6 +1882,56 @@ public class YetAnotherMod
     	GameRegistry.registerItem(glassesPink, "glassesPink");
     	glassesBrown = new ItemGlassesCosmetic("brown", glassesBrownID).setUnlocalizedName("glassesBrown");
     	GameRegistry.registerItem(glassesBrown, "glassesBrown");
+    	
+    	bigxDirt = new BlockGeneric(Material.ground, "thebigx/dirt").setHardness(0.75F).setResistance(2.5F).setStepSound(soundTypeBigx).setBlockName("bigxDirt");
+    	bigxDirt.setHarvestLevel("shovel", 0);
+    	GameRegistry.registerBlock(bigxDirt, "bigxDirt");
+    	bigxGrass = new BlockCustomGrass("thebigx/grass_top", "thebigx/grass_side", "thebigx/dirt", YetAnotherMod.bigxDirt).setHardness(0.9F).setResistance(3.0F).setStepSound(soundTypeBigx).setBlockName("bigxGrass");
+    	bigxGrass.setHarvestLevel("shovel", 0);
+    	GameRegistry.registerBlock(bigxGrass, "bigxGrass");
+    	bigxStone = new BlockGeneric(Material.rock, "thebigx/stone").setHardness(9.0F).setResistance(30.0F).setStepSound(soundTypeBigx).setBlockName("bigxStone");
+    	bigxStone.setHarvestLevel("pickaxe", 0);
+    	GameRegistry.registerBlock(bigxStone, "bigxStone");
+    	bigxCobblestone = new BlockGeneric(Material.rock, "thebigx/cobblestone").setHardness(9.0F).setResistance(30.0F).setStepSound(soundTypeBigx).setBlockName("bigxCobblestone");
+    	bigxCobblestone.setHarvestLevel("pickaxe", 0);
+    	GameRegistry.registerBlock(bigxCobblestone, "bigxCobblestone");
+    	bigxGlass = new BlockGeneric(Material.glass, "thebigx/glass").setLightOpacity(0).setHardness(0.45F).setResistance(1.5F).setStepSound(soundTypeBigx).setBlockName("bigxGlass");
+    	((BlockGeneric) bigxGlass).setRenderType(0, false);
+    	((BlockGeneric) bigxGlass).setTransparency();
+    	GameRegistry.registerBlock(bigxGlass, "bigxGlass");
+    	bigxGravel = new BlockGeneric(Material.ground, "thebigx/gravel").setHardness(0.9F).setResistance(3.0F).setStepSound(soundTypeBigx).setBlockName("bigxGravel");
+    	bigxGravel.setHarvestLevel("shovel", 0);
+    	((BlockGeneric)bigxGravel).setGravity(true);
+    	GameRegistry.registerBlock(bigxGravel, "bigxGravel");
+    	bigxOre = new BlockGeneric(Material.rock, "thebigx/diamond_ore").setHardness(22.5F).setResistance(75.0F).setStepSound(soundTypeBigx).setBlockName("bigxOre");
+    	bigxOre.setHarvestLevel("pickaxe", 0);
+    	((BlockGeneric)bigxOre).setDrops(YetAnotherMod.bigxGem, 1, 1);
+    	GameRegistry.registerBlock(bigxOre, "bigxOre");
+    	bigxGem = new ItemGeneric("thebigx/diamond").setUnlocalizedName("bigxGem");
+    	GameRegistry.registerItem(bigxGem, "bigxGem");
+    	bigxBlock = new BlockGeneric(Material.rock, "thebigx/diamond_block").setHardness(37.5F).setResistance(125.0F).setStepSound(soundTypeBigx).setBlockName("bigxBlock");
+    	bigxBlock.setHarvestLevel("pickaxe", 4);
+    	GameRegistry.registerBlock(bigxBlock, "bigxBlock");
+    	bigxHayBale = new BlockGeneric(Material.ground, "thebigx/hay_block_side", "thebigx/hay_block_side", "thebigx/hay_block_top", "thebigx/hay_block_top").setHardness(1.0F).setResistance(3.75F).setStepSound(soundTypeBigx).setBlockName("bigxHayBale");
+    	GameRegistry.registerBlock(bigxHayBale, "bigxHayBale");
+    	bigxSword = new ItemCustomSword("thebigx/diamond_sword", tmBigx).setUnlocalizedName("bigxSword");
+    	GameRegistry.registerItem(bigxSword, "bigxSword");
+    	bigxPickaxe = new ItemCustomPickaxe("thebigx/diamond_pickaxe", tmBigx).setUnlocalizedName("bigxPickaxe");
+    	GameRegistry.registerItem(bigxPickaxe, "bigxPickaxe");
+    	bigxShovel = new ItemCustomShovel("thebigx/diamond_shovel", tmBigx).setUnlocalizedName("bigxShovel");
+    	GameRegistry.registerItem(bigxShovel, "bigxShovel");
+    	bigxAxe = new ItemCustomAxe("thebigx/diamond_axe", tmBigx).setUnlocalizedName("bigxAxe");
+    	GameRegistry.registerItem(bigxAxe, "bigxAxe");
+    	bigxHoe = new ItemCustomHoe("thebigx/diamond_hoe", tmBigx).setUnlocalizedName("bigxHoe");
+    	GameRegistry.registerItem(bigxHoe, "bigxHoe");
+    	bigxHelmet = new ItemCustomArmor(amBigx, 6.0D, "thebigx", bigxHelmetID, 0, false).setUnlocalizedName("bigxHelmet");
+    	GameRegistry.registerItem(bigxHelmet, "bigxHelmet");
+    	bigxChestplate = new ItemCustomArmor(amBigx, 6.0D, "thebigx", bigxChestplateID, 1, false).setUnlocalizedName("bigxChestplate");
+    	GameRegistry.registerItem(bigxChestplate, "bigxChestplate");
+    	bigxLeggings = new ItemCustomArmor(amBigx, 6.0D, "thebigx", bigxLeggingsID, 2, false).setUnlocalizedName("bigxLeggings");
+    	GameRegistry.registerItem(bigxLeggings, "bigxLeggings");
+    	bigxBoots = new ItemCustomArmor(amBigx, 6.0D, "thebigx", bigxBootsID, 3, false).setUnlocalizedName("bigxBoots");
+    	GameRegistry.registerItem(bigxBoots, "bigxBoots");
 
     	spikes = new BlockGeneric(Material.rock, "spikes/default").setHardness(3.0F).setResistance(7.5F).setLightOpacity(0).setStepSound(Block.soundTypeMetal).setBlockName("spikes");
     	spikes.setHarvestLevel("pickaxe", 2);
@@ -1687,6 +1947,14 @@ public class YetAnotherMod
     	((BlockGeneric) bloodSpikes).setExtraInformation(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + "3.0 hearts");
     	((BlockGeneric) bloodSpikes).setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
     	GameRegistry.registerBlock(bloodSpikes, ItemBlockExtraInfo.class, "bloodSpikes");
+    	poisonSpikes = new BlockGeneric(Material.rock, "spikes/poison").setHardness(4.0F).setResistance(15.0F).setLightOpacity(0).setStepSound(Block.soundTypeMetal).setBlockName("poisonSpikes");
+    	poisonSpikes.setHarvestLevel("pickaxe", 3);
+    	((BlockGeneric) poisonSpikes).setDamaging(CustomDamage.spikes, 4.0F);
+    	((BlockGeneric) poisonSpikes).setEffect(Potion.poison, 80, 1);
+    	((BlockGeneric) poisonSpikes).setRenderType(1, false);
+    	((BlockGeneric) poisonSpikes).setExtraInformation(EnumChatFormatting.GRAY + "Damage: " + EnumChatFormatting.YELLOW + "2.0 hearts", EnumChatFormatting.GRAY + "Effect: " + EnumChatFormatting.DARK_GREEN + "Poison II");
+    	((BlockGeneric) poisonSpikes).setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5625F, 1.0F);
+    	GameRegistry.registerBlock(poisonSpikes, ItemBlockExtraInfo.class, "poisonSpikes");
 
     	peripheralSpreader = new ItemGeneric("peripheral/spreader").setUnlocalizedName("peripheralSpreader");
     	GameRegistry.registerItem(peripheralSpreader, "peripheralSpreader");
@@ -1695,7 +1963,7 @@ public class YetAnotherMod
     	peripheralMissile = new ItemGeneric("peripheral/nuclear").setUnlocalizedName("peripheralNuclear");
     	GameRegistry.registerItem(peripheralMissile, "peripheralNuclear");
     	
-    	blaster = new ItemBlaster("blaster", "pew", 7, 50, 17).setFull3D().setUnlocalizedName("blaster");
+    	blaster = new ItemBlaster("tools/blaster/blaster", "tools/blaster/pew", 7, 50, 17).setFull3D().setUnlocalizedName("blaster");
     	GameRegistry.registerItem(blaster, "blaster");
 
     	wireRed = new ItemGeneric("wiring/red").setUnlocalizedName("wireRed");
@@ -1782,7 +2050,7 @@ public class YetAnotherMod
     	GameRegistry.registerBlock(nostalgiaIron, "nostalgiaIron");
     	nostalgiaSapling = new BlockCustomSapling("nostalgia/sapling").setBlockName("nostalgiaSapling");
     	GameRegistry.registerBlock(nostalgiaSapling, "nostalgiaSapling");
-    	nostalgiaLeaves = new BlockCustomLeaves("nostalgia/leaves", nostalgiaSapling).setHardness(0.2F).setResistance(1.0F).setStepSound(soundTypeClassicGrass).setBlockName("nostalgiaLeaves");
+    	nostalgiaLeaves = new BlockCustomLeaves("nostalgia/leaves", nostalgiaSapling, Blocks.log).setHardness(0.2F).setResistance(1.0F).setStepSound(soundTypeClassicGrass).setBlockName("nostalgiaLeaves");
     	GameRegistry.registerBlock(nostalgiaLeaves, "nostalgiaLeaves");
     	nostalgiaObsidianCrying = new BlockCryingObsidian().setBlockName("nostalgiaObsidianCrying");
     	GameRegistry.registerBlock(nostalgiaObsidianCrying, "nostalgiaObsidianCrying");
@@ -1851,6 +2119,10 @@ public class YetAnotherMod
     	GameRegistry.registerItem(derekJrSpawnEgg, "derekJrSpawnEgg");
     	tickSpawnEgg = new ItemSpawnEgg(tick, Integer.parseInt("EBC6AB", 16), Integer.parseInt("808080", 16)).setUnlocalizedName("tickSpawnEgg");
     	GameRegistry.registerItem(tickSpawnEgg, "tickSpawnEgg");
+    	theRottingSpawnEgg = new ItemSpawnEgg(theRotting, Integer.parseInt("837D55", 16), Integer.parseInt("800303", 16)).setUnlocalizedName("theRottingSpawnEgg");
+    	GameRegistry.registerItem(theRottingSpawnEgg, "theRottingSpawnEgg");
+    	hiddenReptileSpawnEgg = new ItemSpawnEgg(hiddenReptile, Integer.parseInt("ADAD85", 16), Integer.parseInt("558000", 16)).setUnlocalizedName("hiddenReptileSpawnEgg");
+    	GameRegistry.registerItem(hiddenReptileSpawnEgg, "hiddenReptileSpawnEgg");
     	
     	lollipopperSpawnEgg = new ItemRainbowSpawnEgg(lollipopper, Integer.parseInt("FFFFFF", 16)).setUnlocalizedName("lollipopperSpawnEgg");
     	GameRegistry.registerItem(lollipopperSpawnEgg, "lollipopperSpawnEgg");
@@ -1882,9 +2154,12 @@ public class YetAnotherMod
     	
     	BiomeDictionary.registerBiomeType(biomeWasteland = new BiomeWasteland(50), BiomeDictionary.Type.DESERT, BiomeDictionary.Type.MUSHROOM, BiomeDictionary.Type.SWAMP, BiomeDictionary.Type.WASTELAND);
     	BiomeManager.desertBiomes.add(new BiomeEntry(biomeWasteland, 1));
-    	BiomeDictionary.registerBiomeType(biomeRainbow = new BiomeRainbow(51));
-    	BiomeDictionary.registerBiomeType(biomeSheol = new BiomeSheol(52));
-    	BiomeDictionary.registerBiomeType(biomeMoon = new BiomeMoon(53));
+    	BiomeDictionary.registerBiomeType(biomeLightAura = new BiomeLightAura(51), BiomeDictionary.Type.MAGICAL, BiomeDictionary.Type.WATER, BiomeDictionary.Type.FROZEN, BiomeDictionary.Type.FOREST, BiomeDictionary.Type.PLAINS);
+    	BiomeManager.coolBiomes.add(new BiomeEntry(biomeLightAura, 1));
+    	BiomeManager.warmBiomes.add(new BiomeEntry(biomeLightAura, 1));
+    	BiomeDictionary.registerBiomeType(biomeRainbow = new BiomeRainbow(52));
+    	BiomeDictionary.registerBiomeType(biomeSheol = new BiomeSheol(53));
+    	BiomeDictionary.registerBiomeType(biomeMoon = new BiomeMoon(54));
     	BiomeDictionary.registerAllBiomesAndGenerateEvents();
     	
     	GameRegistry.registerWorldGenerator(new WorldGen(), 1000);

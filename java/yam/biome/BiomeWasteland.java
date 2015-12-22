@@ -10,7 +10,9 @@ import net.minecraft.world.biome.BiomeGenBase;
 import yam.YetAnotherMod;
 import yam.entity.EntityDerek;
 import yam.entity.EntityDerekJr;
+import yam.entity.EntityHiddenReptile;
 import yam.entity.EntityPsychoPig;
+import yam.entity.EntityTheRotting;
 import yam.entity.EntityTick;
 
 public class BiomeWasteland extends BiomeGenBase {
@@ -41,6 +43,8 @@ public class BiomeWasteland extends BiomeGenBase {
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityPsychoPig.class, 1, 1, 8));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityDerekJr.class, 1, 1, 8));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityTick.class, 1, 1, 8));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityTheRotting.class, 1, 1, 1));
+        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityHiddenReptile.class, 25, 1, 8));
 	}
 
     public int getSkyColorByTemp(float par1) {

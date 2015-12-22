@@ -67,6 +67,54 @@
       "blocks/poop/poop10"
     ]
   },
+  "blocks.bloodwood.dig": {
+    "category": "block",
+    "sounds": [
+      "blocks/bloodwood/bloodwood1",
+      "blocks/bloodwood/bloodwood2",
+      "blocks/bloodwood/bloodwood3",
+      "blocks/bloodwood/bloodwood4",
+      "blocks/bloodwood/bloodwood5"
+    ]
+  },
+  "blocks.bloodwood.step": {
+    "category": "block",
+    "sounds": [
+      "blocks/bloodwood/bloodwood1",
+      "blocks/bloodwood/bloodwood2",
+      "blocks/bloodwood/bloodwood3",
+      "blocks/bloodwood/bloodwood4",
+      "blocks/bloodwood/bloodwood5"
+    ]
+  },
+  "blocks.bigx.dig": {
+    "category": "block",
+    "sounds": [
+      "blocks/bigx/bigx1",
+      "blocks/bigx/bigx2",
+      "blocks/bigx/bigx3",
+      "blocks/bigx/bigx4",
+      "blocks/bigx/bigx5",
+      "blocks/bigx/bigx6",
+      "blocks/bigx/bigx7",
+      "blocks/bigx/bigx8",
+      "blocks/bigx/bigx9"
+    ]
+  },
+  "blocks.bigx.step": {
+    "category": "block",
+    "sounds": [
+      "blocks/bigx/bigx1",
+      "blocks/bigx/bigx2",
+      "blocks/bigx/bigx3",
+      "blocks/bigx/bigx4",
+      "blocks/bigx/bigx5",
+      "blocks/bigx/bigx6",
+      "blocks/bigx/bigx7",
+      "blocks/bigx/bigx8",
+      "blocks/bigx/bigx9"
+    ]
+  },
   "blocks.rainbow.portal": {
     "category": "block",
     "sounds": [
@@ -386,6 +434,32 @@
     "category": "hostile",
     "sounds": [
       "mob/tick/death"
+    ]
+  },
+  "mob.rotting.hit": {
+    "category": "hostile",
+    "sounds": [
+      "mob/rotting/hit1",
+      "mob/rotting/hit2",
+      "mob/rotting/hit3",
+      "mob/rotting/hit4",
+      "mob/rotting/hit5"
+    ]
+  },
+  "mob.rotting.vomit": {
+    "category": "hostile",
+    "sounds": [
+      "mob/rotting/vomit1",
+      "mob/rotting/vomit2",
+      "mob/rotting/vomit3",
+      "mob/rotting/vomit4",
+      "mob/rotting/vomit5"
+    ]
+  },
+  "mob.rotting.death": {
+    "category": "hostile",
+    "sounds": [
+      "mob/rotting/death"
     ]
   },
   "mob.sparklingdragon.fire": {

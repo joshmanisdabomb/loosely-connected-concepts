@@ -210,7 +210,7 @@ public class Events {
 		//Starburst
 		AxisAlignedBB aabb = event.entityLiving.boundingBox;
 		if (aabb != null) {
-			List entities = event.entityLiving.worldObj.getEntitiesWithinAABBExcludingEntity(event.entityLiving, aabb.expand(0.15D, 0.15D, 0.15D));
+			List entities = event.entityLiving.worldObj.getEntitiesWithinAABBExcludingEntity(event.entityLiving, aabb.expand(0.2D, 0.2D, 0.2D));
 			for (Object e : entities) {
 				if (e instanceof EntityLivingBase) {
 					PotionEffect pe = ((EntityLivingBase)e).getActivePotionEffect(CustomPotion.starburst);

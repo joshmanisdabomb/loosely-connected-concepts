@@ -21,11 +21,11 @@ public class BlockCustomGrass extends BlockGeneric {
     {
         if (!p_149674_1_.isRemote)
         {
-            if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) < 4 && p_149674_1_.getBlockLightOpacity(p_149674_2_, p_149674_3_ + 1, p_149674_4_) > 2)
+            if ((p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_) == this || p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_) == growOver) || (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) < 4 && p_149674_1_.getBlockLightOpacity(p_149674_2_, p_149674_3_ + 1, p_149674_4_) > 2))
             {
                 p_149674_1_.setBlock(p_149674_2_, p_149674_3_, p_149674_4_, growOver);
             }
-            else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9)
+            else if (p_149674_1_.getBlockLightValue(p_149674_2_, p_149674_3_ + 1, p_149674_4_) >= 9 && !(p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_) == this || p_149674_1_.getBlock(p_149674_2_, p_149674_3_ + 1, p_149674_4_) == growOver))
             {
                 for (int l = 0; l < 4; ++l)
                 {
@@ -41,6 +41,7 @@ public class BlockCustomGrass extends BlockGeneric {
                 }
             }
         }
+        super.updateTick(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, p_149674_5_);
     }
 
 }

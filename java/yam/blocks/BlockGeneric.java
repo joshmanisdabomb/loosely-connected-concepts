@@ -1,12 +1,11 @@
 package yam.blocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -16,13 +15,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
 import yam.YetAnotherMod;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockGeneric extends Block {
 	
@@ -37,10 +42,14 @@ public class BlockGeneric extends Block {
 	private boolean passthrough = false;
 	private boolean gravity = false;
 	private boolean dropGravityBlock = true;
-	private String extraInfo;
+	private ArrayList<String> extraInfo = new ArrayList<String>();
 	private DamageSource source;
 	private float hurtsFor;
 	private boolean transparent;
+	private Potion potionEffect;
+	private int potionDuration;
+	private int potionLevel;
+	private int aura = 0;
 	
 	public BlockGeneric(Material material, String texture) {
 		this(material, texture, texture, texture, texture);
@@ -73,13 +82,108 @@ public class BlockGeneric extends Block {
     
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
-        if (!p_149674_1_.isRemote && gravity)
-        {
+        if (!p_149674_1_.isRemote && gravity) {
             this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         }
+        if (aura != 0) {
+        	if (gravity && p_149674_1_.rand.nextInt(250) != 0) {return;}
+        	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
+        }
+    }
+    
+    public void setAura(int aura) {
+    	this.aura = aura;
+    	this.setTickRandomly(true);
+    }
+    
+    public int getAura() {
+    	return aura;
     }
 
-    private void func_149830_m(World p_149830_1_, int p_149830_2_, int p_149830_3_, int p_149830_4_)
+    private void spread(World world, int x, int y, int z, int auraID) {
+    	BiomeGenBase biome = (auraID == -1 ? YetAnotherMod.biomeDarkAura : YetAnotherMod.biomeLightAura);
+    	
+    	Chunk c = world.getChunkFromBlockCoords(x, z);
+		byte[] biomes = c.getBiomeArray();
+		if (biomes != null && biomes.length > 1 && world.getBiomeGenForCoords(x, z) != YetAnotherMod.biomeLightAura) {
+			biomes[((((z % 16) + 16) % 16) << 4) | (((x % 16) + 16) % 16)] = (byte)biome.biomeID;
+			c.setBiomeArray(biomes);
+			c.setChunkModified();
+			YetAnotherMod.proxy.updateRendererAt(x, z);
+		}
+		
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -2; j <= 2; j++) {
+				for (int k = -1; k <= 1; k++) {
+					if (world.rand.nextInt(12) == 0) {
+						//set block
+						Block before = world.getBlock(x+i, y+j, z+k);
+						if (!(before instanceof BlockGeneric && ((BlockGeneric)(before)).getAura() == auraID) && before.getBlockHardness(world, x+i, y+j, z+k) >= 0.0F) {
+							if (!(before instanceof BlockLiquid)) {
+								//world.func_147480_a(x+i, y+j, z+k, false);
+								world.setBlockToAir(x+i, y+j, z+k);
+							}
+							
+							if (before == Blocks.grass || before == Blocks.mycelium) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGrass);
+							} else if (before == Blocks.dirt || before == YetAnotherMod.mud) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightDirt);
+							} else if (before == Blocks.stone) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightStone);
+							} else if (before == Blocks.cobblestone || before == Blocks.sandstone) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightCobblestone);
+							} else if (before == YetAnotherMod.crackedMud) {
+								if (world.canBlockSeeTheSky(x+i, y+j, z+k)) {
+									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGrass);
+								} else {
+									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightDirt);
+								}
+							} else if (before == Blocks.sand) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSand);
+							} else if (before == Blocks.gravel) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGravel);
+							} else if (before == Blocks.mossy_cobblestone) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightMossyCobblestone);
+							} else if (before == Blocks.obsidian) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightPolishedStone);
+							} else if (before == Blocks.log || before == Blocks.log2) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightWood);
+							} else if (before == Blocks.planks) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightPlanks);
+							} else if (before == Blocks.leaves || before == Blocks.leaves2) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightLeaves);
+							} else if (before == Blocks.sapling) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSapling);
+							} else if (before == Blocks.brick_block) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightBricks);
+							} else if (before == Blocks.stonebrick || (before instanceof BlockGeneric && before.getUnlocalizedName().toLowerCase().contains("brick"))) {
+								Block after = world.rand.nextInt(3) == 0 ? YetAnotherMod.bricksWishstone : (world.rand.nextInt(3) == 0 ? YetAnotherMod.bricksHopestone : YetAnotherMod.bricksDreamstone);
+								world.setBlock(x+i, y+j, z+k, after);
+							} else if (before == Blocks.coal_ore || before == Blocks.iron_ore || before == YetAnotherMod.saltOre) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.wishstoneOre);
+							} else if (before == Blocks.gold_ore || before == Blocks.emerald_ore || before == Blocks.redstone_ore || before == Blocks.lapis_ore || before == YetAnotherMod.bigxOre) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.hopestoneOre);
+							} else if (before == Blocks.diamond_ore || before == YetAnotherMod.rubyOre || before == YetAnotherMod.rustOre || before == YetAnotherMod.uraniumOre) {
+								world.setBlock(x+i, y+j, z+k, YetAnotherMod.dreamstoneOre);
+							}
+						}
+						
+						//set biome
+						Chunk c2 = world.getChunkFromBlockCoords(x+i, z+k);
+						byte[] biomes2 = c2.getBiomeArray();
+						if (biomes2 != null && biomes2.length > 1 && world.getBiomeGenForCoords(x+i, z+k) != YetAnotherMod.biomeLightAura) {
+							biomes2[(((((z+k) % 16) + 16) % 16) << 4) | ((((x+i) % 16) + 16) % 16)] = (byte)biome.biomeID;
+							c2.setBiomeArray(biomes2);
+							c2.setChunkModified();
+							YetAnotherMod.proxy.updateRendererAt(x+i, z+k);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void func_149830_m(World p_149830_1_, int p_149830_2_, int p_149830_3_, int p_149830_4_)
     {
         if (gravity && func_149831_e(p_149830_1_, p_149830_2_, p_149830_3_ - 1, p_149830_4_) && p_149830_3_ >= 0)
         {
@@ -114,6 +218,9 @@ public class BlockGeneric extends Block {
     public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
 		if (source != null) {
 			par5Entity.attackEntityFrom(source, hurtsFor);
+		}
+		if (potionEffect != null && par5Entity instanceof EntityLivingBase) {
+			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(potionEffect.id, potionDuration, potionLevel));
 		}
 	}
     
@@ -221,14 +328,16 @@ public class BlockGeneric extends Block {
         return super.getCollisionBoundingBoxFromPool(par1World, par2, par3, par4);
     }
 	
-	public void setExtraInformation(String line) {
-		this.extraInfo = line;
+	public void setExtraInformation(String... lines) {
+		for (int i = 0; i < lines.length; i++) {
+			this.extraInfo.add(lines[i]);
+		}
 	}
 	
 	//For itemblocks. :D
 	public void getExtraInformation(ItemStack itemstack, EntityPlayer player, List list, boolean par4) {
-		if (extraInfo == null) {return;}
-		list.add(extraInfo);
+		if (extraInfo.isEmpty()) {return;}
+		list.addAll(this.extraInfo);
 	}
 	
 	public void setGravity(boolean b) {
@@ -243,6 +352,12 @@ public class BlockGeneric extends Block {
 	
 	public void setTransparency() {
 		transparent = true;
+	}
+
+	public void setEffect(Potion effect, int ticks, int level) {
+		this.potionEffect = effect;
+		this.potionDuration = ticks;
+		this.potionLevel = level;
 	}
 	
 }

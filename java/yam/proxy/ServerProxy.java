@@ -6,6 +6,10 @@ public class ServerProxy {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void updateRendererAt( int x, int z )
+	{
+	}
 
 	public void registerRenderInformation() {
 		// TODO Auto-generated method stub

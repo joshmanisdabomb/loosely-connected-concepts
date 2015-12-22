@@ -1,5 +1,6 @@
 package yam.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelSlime;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererChestHelper;
@@ -15,6 +16,7 @@ import yam.entity.EntityDerek;
 import yam.entity.EntityDerekJr;
 import yam.entity.EntityFly;
 import yam.entity.EntityHalfplayer;
+import yam.entity.EntityHiddenReptile;
 import yam.entity.EntityLollipopper;
 import yam.entity.EntityMLGArrow;
 import yam.entity.EntityMissile;
@@ -26,17 +28,20 @@ import yam.entity.EntityRainbot;
 import yam.entity.EntityRainbowGolem;
 import yam.entity.EntitySparkle;
 import yam.entity.EntitySparklingDragon;
+import yam.entity.EntityTheRotting;
 import yam.entity.EntityTick;
 import yam.entity.EntityUnicorn;
 import yam.entity.model.ModelDerek;
 import yam.entity.model.ModelDerekJr;
 import yam.entity.model.ModelFly;
 import yam.entity.model.ModelGiantMissile;
+import yam.entity.model.ModelHiddenReptile;
 import yam.entity.model.ModelLollipopper;
 import yam.entity.model.ModelMissile;
 import yam.entity.model.ModelMummy;
 import yam.entity.model.ModelRainbot;
 import yam.entity.model.ModelSparklingDragon;
+import yam.entity.model.ModelTheRotting;
 import yam.entity.model.ModelTick;
 import yam.entity.model.ModelUnicorn;
 import yam.entity.render.RenderAmplifyBomb;
@@ -46,6 +51,7 @@ import yam.entity.render.RenderDerek;
 import yam.entity.render.RenderDerekJr;
 import yam.entity.render.RenderFly;
 import yam.entity.render.RenderHalfplayer;
+import yam.entity.render.RenderHiddenReptile;
 import yam.entity.render.RenderLollipopper;
 import yam.entity.render.RenderMLGArrow;
 import yam.entity.render.RenderMissile;
@@ -57,6 +63,7 @@ import yam.entity.render.RenderRainbot;
 import yam.entity.render.RenderRainbowGolem;
 import yam.entity.render.RenderSparkle;
 import yam.entity.render.RenderSparklingDragon;
+import yam.entity.render.RenderTheRotting;
 import yam.entity.render.RenderTick;
 import yam.entity.render.RenderUnicorn;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -69,6 +76,12 @@ public class ClientProxy extends ServerProxy {
     {
         TileEntityRendererChestHelper.instance = new TrashCanRenderHelper();
     }
+	
+	@Override
+	public void updateRendererAt( int x, int z )
+	{
+		Minecraft.getMinecraft().renderGlobal.markBlockRangeForRenderUpdate( x, 0, z, x, 255, z );
+	}
 
     @Override
     public void registerTileEntitySpecialRenderer()
@@ -92,6 +105,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDerek.class, new RenderDerek(new ModelDerek(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityDerekJr.class, new RenderDerekJr(new ModelDerekJr(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityTick.class, new RenderTick(new ModelTick(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTheRotting.class, new RenderTheRotting(new ModelTheRotting(), 0.75F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityHiddenReptile.class, new RenderHiddenReptile(new ModelHiddenReptile(), 0.0F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityLollipopper.class, new RenderLollipopper(new ModelLollipopper(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbowGolem.class, new RenderRainbowGolem());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbot.class, new RenderRainbot(new ModelRainbot(), 0.0F));

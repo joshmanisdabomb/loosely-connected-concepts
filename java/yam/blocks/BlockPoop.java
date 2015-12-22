@@ -15,10 +15,10 @@ import yam.entity.EntityFly;
 public class BlockPoop extends BlockGeneric {
 
 	public static final Item[] pills = {YetAnotherMod.pillBlack, YetAnotherMod.pillBlue, YetAnotherMod.pillCyanWhite, YetAnotherMod.pillGreen, YetAnotherMod.pillOrangeCyan, YetAnotherMod.pillOrangeYellow, YetAnotherMod.pillRed, YetAnotherMod.pillRedBlue, YetAnotherMod.pillWhite};
-	public Random rand = new Random();
+	public final Random rand = new Random();
 	
 	public BlockPoop(String texture) {
-		super(Material.plants, texture);
+		super(Material.ground, texture);
 		this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
 	}
 
@@ -52,18 +52,18 @@ public class BlockPoop extends BlockGeneric {
 	}
 	
 	public Item getItemDropped(int par1, Random par2Random, int par3) {
-		return this.getReward();
+		return this.getReward(par2Random);
     }
 	
 	public int quantityDropped(Random par1Random) {
-		return rand.nextInt(4) != 0 ? 1 : rand.nextInt(3) + 1;
+		return par1Random.nextInt(4) != 0 ? 1 : par1Random.nextInt(3) + 1;
 	}
 
-	private Item getReward() {
-		if (rand.nextInt(3) == 0) {
-			switch (rand.nextInt(7)) {
+	private Item getReward(Random par2Random) {
+		if (par2Random.nextInt(4) == 0) {
+			switch (par2Random.nextInt(10)) {
 				default: {
-					return Items.gold_nugget;
+					return YetAnotherMod.poopHarvester;
 				}
 				case 1: {
 					return Items.gold_ingot;
@@ -75,13 +75,16 @@ public class BlockPoop extends BlockGeneric {
 					return YetAnotherMod.rust;
 				}
 				case 4: {
-					return pills[rand.nextInt(pills.length)];
+					return pills[par2Random.nextInt(pills.length)];
 				}
 				case 5: {
 					return YetAnotherMod.hearthalf;
 				}
 				case 6: {
 					return YetAnotherMod.heart;
+				}
+				case 7: {
+					return YetAnotherMod.flySwat;
 				}
 			}
 		}

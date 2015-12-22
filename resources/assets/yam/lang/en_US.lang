@@ -6,10 +6,12 @@ item.itemTest.name=Test Item
 tile.mud.name=Mud
 tile.quicksand.name=Quicksand
 tile.diamondPressurePlate.name=Diamond Pressure Plate
+item.rope.name=Rope
 
 tile.nuke.name=Nuke
 tile.nuclearWaste.name=Nuclear Waste
 item.atomSplitter.name=Atom Splitter
+item.flintBlaze.name=Flint and Blaze
 
 tile.spreader1.name=Spreader
 tile.spreader2.name=Spreader
@@ -35,10 +37,11 @@ tile.bricksRuby.name=Ruby Bricks
 tile.bricksEmerald.name=Emerald Bricks
 tile.bricksLapis.name=Lapis Bricks
 tile.bricksCrystal.name=Crystal Bricks
+tile.bricksBigx.name=The Bigx Bricks
 tile.bricksUranium.name=Uranium Bricks
 tile.bricksPearl.name=Pearl Bricks
 tile.bricksCloud.name=Cloud Bricks
-tile.bricksAerstone.name=Aerstone Bricks
+tile.bricksNeon.name=Neon Bricks
 tile.bricksAerstone.name=Aerstone Bricks
 
 tile.bounceBlue.name=Blue Bounce Pad
@@ -190,6 +193,10 @@ tile.cloud.name=Cloud Block
 tile.rainbowStream.name=Rainbow Stream
 item.rainbowSeeds.name=Rainbow Seeds
 item.amplifyBomb.name=Amplification Bomb
+item.rainbotCrystal.name=Rainbot Crystal
+item.dragonHorn.name=Sparkling Dragon Horn
+item.unicornHorn.name=Unicorn Horn
+item.fairywand.name=Fairy Wand
 
 item.candyCaneRed.name=Red Candy Cane
 tile.candyCaneRedPlanks.name=Red Candy Cane Planks
@@ -254,6 +261,26 @@ item.aerstoneBoots.name=Aerstone Boots
 item.aerstoneRepeater.name=Aerstone Repeater
 item.aerstoneHorseArmor.name=Aerstone Horse Armor
 
+tile.bigxGrass.name=The Bigx Grass Block
+tile.bigxDirt.name=The Bigx Dirt
+tile.bigxStone.name=The Bigx Stone
+tile.bigxCobblestone.name=The Bigx Cobblestone
+tile.bigxGlass.name=The Bigx Glass
+tile.bigxGravel.name=The Bigx Gravel
+tile.bigxOre.name=The Bigx Ore
+tile.bigxBlock.name=The Bigx Block
+tile.bigxHayBale.name=The Bigx Hay Bale
+item.bigxGem.name=The Bigx Diamond
+item.bigxSword.name=The Bigx Sword
+item.bigxPickaxe.name=The Bigx Pickaxe
+item.bigxShovel.name=The Bigx Shovel
+item.bigxAxe.name=The Bigx Axe
+item.bigxHoe.name=The Bigx Hoe
+item.bigxHelmet.name=The Bigx Helmet
+item.bigxChestplate.name=The Bigx Chestplate
+item.bigxLeggings.name=The Bigx Leggings
+item.bigxBoots.name=The Bigx Boots
+
 tile.depthStone.name=Depth Stone
 tile.hotCoal.name=Hot Coal Block
 
@@ -269,6 +296,12 @@ tile.derekHeart.name=Derek's Heart
 tile.derekSoul.name=Derek's Soul
 tile.derekSkin.name=Derek's Skin
 tile.poop.name=Poop
+item.flySwat.name=Fly Swatter
+item.flySwatElectric.name=Electric Fly Swatter
+item.poopHarvester.name=Poop Harvester
+
+tile.bloodwood.name=Bloodwood
+tile.bloodwoodPlanks.name=Bloodwood Planks
 
 item.spreaderRemoteWood.name=Wood Spreader Remote
 item.spreaderRemoteStone.name=Stone Spreader Remote
@@ -321,6 +354,7 @@ item.blaster.name=Blaster
 
 tile.spikes.name=Spikes
 tile.bloodSpikes.name=Bloody Spikes
+tile.poisonSpikes.name=Poison Spikes
 
 item.wireRed.name=Red Wiring
 item.wireGreen.name=Green Wiring
@@ -420,6 +454,8 @@ entity.unicorn.name=Unicorn
 item.unicornSpawnEgg.name=Spawn Unicorn
 entity.tick.name=Tick
 item.tickSpawnEgg.name=Spawn Tick
+entity.theRotting.name=The Rotting
+item.theRottingSpawnEgg.name=Spawn The Rotting
 entity.sparklingDragon.name=Sparkling Dragon
 item.sparklingDragonSpawnEgg.name=Spawn Sparkling Dragon
 

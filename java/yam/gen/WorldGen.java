@@ -13,11 +13,12 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
 import yam.ChestLoot;
 import yam.YetAnotherMod;
-import yam.gen.moon.GenCamp;
 import yam.gen.rainbow.GenCandyCane;
 import yam.gen.rainbow.GenRainbowTemple;
 import yam.gen.rainbow.WorldGenCloud;
 import yam.gen.sheol.WorldGenHotCoal;
+import yam.gen.wasteland.GenBloodwoodTrees;
+import yam.gen.wasteland.GenSpikeTrap;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGen implements IWorldGenerator {
@@ -39,7 +40,7 @@ public class WorldGen implements IWorldGenerator {
 				for (int k = z; k <= z2; k++) {
 					Block block = world.getBlock(i, j, k);
 					if (block == null) {System.out.println("Block was null."); return false;}
-					flag = flag || !block.renderAsNormalBlock();
+					flag = flag || !block.isAir(world, i, j, k);
 				}
 			}
 		}
@@ -182,7 +183,7 @@ public class WorldGen implements IWorldGenerator {
 		} else {
 			int RandPosX; int RandPosY; int RandPosZ;
 
-			for (int k = 0; k < 3; k++) {
+			for (int k = 0; k < 10; k++) {
 				//Spike Trap
 				RandPosX = i + random.nextInt(16);
 				RandPosY = 16 + random.nextInt(64);
@@ -222,6 +223,14 @@ public class WorldGen implements IWorldGenerator {
 				if (world.getBlock(RandPosX, RandPosY - 1, RandPosZ) == YetAnotherMod.crackedMud && world.getBlock(RandPosX, RandPosY, RandPosZ) == Blocks.air) {
 					world.setBlock(RandPosX, RandPosY, RandPosZ, YetAnotherMod.poop);
 				}
+			}
+			
+			//Bloodwood Trees
+			for (int k = 0; k < 30; k++) {
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 64 + random.nextInt(64);
+				RandPosZ = j + random.nextInt(16);
+				(new GenBloodwoodTrees()).generate(world, random, RandPosX, RandPosY, RandPosZ, random.nextInt(9) + 3);
 			}
 		}
 	}

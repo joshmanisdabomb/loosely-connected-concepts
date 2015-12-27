@@ -34,7 +34,7 @@ public class BlockCustomGrass extends BlockGeneric {
                     int k1 = p_149674_4_ + p_149674_5_.nextInt(3) - 1;
                     Block block = p_149674_1_.getBlock(i1, j1 + 1, k1);
 
-                    if (p_149674_1_.getBlock(i1, j1, k1) == growOver && p_149674_1_.getBlockMetadata(i1, j1, k1) == 0 && p_149674_1_.getBlockLightValue(i1, j1 + 1, k1) >= 4 && p_149674_1_.getBlockLightOpacity(i1, j1 + 1, k1) <= 2)
+                    if (!(p_149674_1_.getBlock(i1, j1 + 1, k1) == this || p_149674_1_.getBlock(i1, j1 + 1, k1) == growOver) && p_149674_1_.getBlock(i1, j1, k1) == growOver && p_149674_1_.getBlockMetadata(i1, j1, k1) == 0 && p_149674_1_.getBlockLightValue(i1, j1 + 1, k1) >= 4 && p_149674_1_.getBlockLightOpacity(i1, j1 + 1, k1) <= 2)
                     {
                         p_149674_1_.setBlock(i1, j1, k1, this);
                     }

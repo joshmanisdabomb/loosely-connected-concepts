@@ -86,7 +86,7 @@ public class BlockGeneric extends Block {
             this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
         }
         if (aura != 0) {
-        	if (gravity && p_149674_1_.rand.nextInt(250) != 0) {return;}
+        	if (gravity && p_149674_1_.rand.nextInt(80) != 0) {return;}
         	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
         }
     }

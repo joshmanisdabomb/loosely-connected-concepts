@@ -11,12 +11,12 @@ public class BlockClassicSounds extends SoundType {
 	
 	public String getBreakSound()
     {
-        return "blocks." + this.soundName + ".dig";
+        return "dig." + this.soundName;
     }
 
     public String getStepResourcePath()
     {
-        return "blocks." + this.soundName + ".dig";
+        return "dig." + this.soundName;
     }
 
 }

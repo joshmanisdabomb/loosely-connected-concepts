@@ -104,7 +104,7 @@ public class BlockHellFire extends BlockFire {
                                         j2 /= 2;
                                     }
 
-                                    if (p_149674_5_.nextInt(10) == 0 && j2 > 0 && p_149674_5_.nextInt(l1) <= j2 && (!p_149674_1_.isRaining() || !p_149674_1_.canLightningStrikeAt(i1, k1, j1)) && !p_149674_1_.canLightningStrikeAt(i1 - 1, k1, p_149674_4_) && !p_149674_1_.canLightningStrikeAt(i1 + 1, k1, j1) && !p_149674_1_.canLightningStrikeAt(i1, k1, j1 - 1) && !p_149674_1_.canLightningStrikeAt(i1, k1, j1 + 1))
+                                    if (p_149674_5_.nextInt(20) == 0 && j2 > 0 && p_149674_5_.nextInt(l1) <= j2 && (!p_149674_1_.isRaining() || !p_149674_1_.canLightningStrikeAt(i1, k1, j1)) && !p_149674_1_.canLightningStrikeAt(i1 - 1, k1, p_149674_4_) && !p_149674_1_.canLightningStrikeAt(i1 + 1, k1, j1) && !p_149674_1_.canLightningStrikeAt(i1, k1, j1 - 1) && !p_149674_1_.canLightningStrikeAt(i1, k1, j1 + 1))
                                     {
                                         p_149674_1_.setBlock(i1, k1, j1, this, 0, 3);
                                         p_149674_1_.scheduleBlockUpdate(i1, k1, j1, this, p_149674_5_.nextInt(10) + 1);
@@ -116,7 +116,7 @@ public class BlockHellFire extends BlockFire {
                 }
                 
                 if (p_149674_5_.nextInt(50) == 0) {
-                	p_149674_1_.newExplosion(null, p_149674_2_, p_149674_3_, p_149674_4_, 2, true, true);
+                	p_149674_1_.newExplosion(null, p_149674_2_, p_149674_3_, p_149674_4_, 3, true, true);
                 }
             }
         }

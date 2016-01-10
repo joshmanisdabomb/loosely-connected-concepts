@@ -82,13 +82,17 @@ public class BlockGeneric extends Block {
     
     public void updateTick(World p_149674_1_, int p_149674_2_, int p_149674_3_, int p_149674_4_, Random p_149674_5_)
     {
-        if (!p_149674_1_.isRemote && gravity) {
-            this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
+        if (!p_149674_1_.isRemote) {
+        	if (gravity) {
+        		this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
+                if (aura != 0 && p_149674_1_.rand.nextInt(100) == 0) {
+                	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
+                }
+        	} else {
+        		this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
+        	}
         }
-        if (aura != 0) {
-        	if (gravity && p_149674_1_.rand.nextInt(80) != 0) {return;}
-        	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
-        }
+		YetAnotherMod.proxy.updateSpreadRenderAt(p_149674_2_, p_149674_3_, p_149674_4_);
     }
     
     public void setAura(int aura) {
@@ -109,7 +113,6 @@ public class BlockGeneric extends Block {
 			biomes[((((z % 16) + 16) % 16) << 4) | (((x % 16) + 16) % 16)] = (byte)biome.biomeID;
 			c.setBiomeArray(biomes);
 			c.setChunkModified();
-			YetAnotherMod.proxy.updateRendererAt(x, z);
 		}
 		
 		for (int i = -1; i <= 1; i++) {
@@ -118,6 +121,7 @@ public class BlockGeneric extends Block {
 					if (world.rand.nextInt(12) == 0) {
 						//set block
 						Block before = world.getBlock(x+i, y+j, z+k);
+						int beforeData = world.getBlockMetadata(x+i, y+j, z+k);
 						if (!(before instanceof BlockGeneric && ((BlockGeneric)(before)).getAura() == auraID) && before.getBlockHardness(world, x+i, y+j, z+k) >= 0.0F) {
 							if (!(before instanceof BlockLiquid)) {
 								//world.func_147480_a(x+i, y+j, z+k, false);
@@ -138,7 +142,7 @@ public class BlockGeneric extends Block {
 								} else {
 									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightDirt);
 								}
-							} else if (before == Blocks.sand) {
+							} else if (before == Blocks.sand || before == YetAnotherMod.quicksand) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSand);
 							} else if (before == Blocks.gravel) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGravel);
@@ -152,6 +156,12 @@ public class BlockGeneric extends Block {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightPlanks);
 							} else if (before == Blocks.leaves || before == Blocks.leaves2) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightLeaves);
+							} else if (before == Blocks.red_mushroom_block || before == Blocks.brown_mushroom_block) {
+								if (beforeData == 10 || beforeData == 15) {
+									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightWood);
+								} else {
+									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightLeaves);
+								}
 							} else if (before == Blocks.sapling) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSapling);
 							} else if (before == Blocks.brick_block) {
@@ -175,7 +185,6 @@ public class BlockGeneric extends Block {
 							biomes2[(((((z+k) % 16) + 16) % 16) << 4) | ((((x+i) % 16) + 16) % 16)] = (byte)biome.biomeID;
 							c2.setBiomeArray(biomes2);
 							c2.setChunkModified();
-							YetAnotherMod.proxy.updateRendererAt(x+i, z+k);
 						}
 					}
 				}

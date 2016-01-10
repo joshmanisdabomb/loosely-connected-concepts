@@ -76,12 +76,6 @@ public class ClientProxy extends ServerProxy {
     {
         TileEntityRendererChestHelper.instance = new TrashCanRenderHelper();
     }
-	
-	@Override
-	public void updateRendererAt( int x, int z )
-	{
-		Minecraft.getMinecraft().renderGlobal.markBlockRangeForRenderUpdate( x, 0, z, x, 255, z );
-	}
 
     @Override
     public void registerTileEntitySpecialRenderer()

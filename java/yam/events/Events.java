@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,9 +28,11 @@ import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -40,6 +43,7 @@ import yam.CustomDamage;
 import yam.CustomPotion;
 import yam.YetAnotherMod;
 import yam.biome.BiomeWasteland;
+import yam.blocks.BlockCustomSapling;
 import yam.entity.EntityHalfplayer;
 import yam.entity.EntityRainbot;
 import yam.entity.extensions.ExtendedPlayer;
@@ -57,6 +61,14 @@ public class Events {
 		if (!event.entityPlayer.capabilities.isCreativeMode && event.entityPlayer.dimension == YetAnotherMod.rainbowDimID) {event.setCanceled(true);}
 		if (event.world.getBiomeGenForCoords(event.target.blockX,event.target.blockZ) == YetAnotherMod.biomeWasteland && (event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == Blocks.water || event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ) == Blocks.flowing_water)) {
 			event.result = new ItemStack(YetAnotherMod.oilBucket, 1);
+			event.setResult(Result.ALLOW);
+		}
+	}
+	
+	@SubscribeEvent
+	public void whenBonedorMealed(BonemealEvent event) {
+		if (event.block instanceof BlockCustomSapling) {
+			((BlockCustomSapling)event.block).whenBonedorMealed(event.world, event.entityPlayer.getRNG(), event.x, event.y, event.z);
 			event.setResult(Result.ALLOW);
 		}
 	}
@@ -158,6 +170,16 @@ public class Events {
 	}
 	
 	@SubscribeEvent
+	public void whenKilledDrops(LivingDropsEvent event) {
+		if (event.source == CustomDamage.lightAura) {
+			event.setCanceled(true);
+			event.entityLiving.dropItem(YetAnotherMod.lightShard, this.rand.nextInt(4) + 1);
+		} else if (event.source == CustomDamage.darkAura) {
+			event.setCanceled(true);
+		}
+	}
+	
+	@SubscribeEvent
 	public void whenLivingUpdated(LivingEvent.LivingUpdateEvent event) {
 		//Cactus Damage
 		int cactusDamage = ItemCustomArmor.getCactusDamage(event.entityLiving.getEquipmentInSlot(0),event.entityLiving.getEquipmentInSlot(1),event.entityLiving.getEquipmentInSlot(2),event.entityLiving.getEquipmentInSlot(3),event.entityLiving.getEquipmentInSlot(4));
@@ -189,6 +211,13 @@ public class Events {
 			double tempx = event.entity.motionX;
 			event.entity.motionX = event.entity.motionZ;
 			event.entity.motionZ = tempx;
+		}
+		
+		//Light and Dark Kill
+		if (!(event.entityLiving instanceof EntityPlayer) && event.entityLiving.worldObj.getBiomeGenForCoords((int)Math.floor(event.entity.posX),(int)Math.floor(event.entity.posZ)) == YetAnotherMod.biomeLightAura) {
+			event.entityLiving.attackEntityFrom(CustomDamage.lightAura, event.entityLiving.getMaxHealth()*2F);
+		} else if (!(event.entityLiving instanceof EntityPlayer) && event.entityLiving.worldObj.getBiomeGenForCoords((int)Math.floor(event.entity.posX),(int)Math.floor(event.entity.posZ)) == YetAnotherMod.biomeDarkAura) {
+			event.entityLiving.attackEntityFrom(CustomDamage.darkAura, event.entityLiving.getMaxHealth()*2F);
 		}
 		
 		//Oil Movement

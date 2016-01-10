@@ -19,6 +19,8 @@ public class CustomDamage {
 	public static final DamageSource pill = (new DamageSource("pill")).setDamageBypassesArmor();
 	public static final DamageSource starburst = (new DamageSource("starburst"));
 	public static final DamageSource sparkle = (new DamageSource("sparkle"));
+	public static final DamageSource lightAura = (new DamageSource("lightAura").setDamageBypassesArmor().setDamageIsAbsolute());
+	public static final DamageSource darkAura = (new DamageSource("darkAura").setDamageBypassesArmor().setDamageIsAbsolute());
 	
     public static DamageSource causeBlasterDamage(Entity par0Entity, Entity par1Entity) {
     	return (new EntityDamageSourceIndirect("blaster", par0Entity, par1Entity));

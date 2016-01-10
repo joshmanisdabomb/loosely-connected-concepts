@@ -121,7 +121,61 @@ public class WorldGen implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int i, int j) {
-		if (world.getBiomeGenForCoords(i,j) != YetAnotherMod.biomeWasteland) {
+		if (world.getBiomeGenForCoords(i,j) == YetAnotherMod.biomeWasteland) {
+			int RandPosX; int RandPosY; int RandPosZ;
+
+			for (int k = 0; k < 10; k++) {
+				//Spike Trap
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 16 + random.nextInt(64);
+				RandPosZ = j + random.nextInt(16);
+				(new GenSpikeTrap()).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+		
+			//Uranium
+			RandPosX = i + random.nextInt(16);
+			RandPosY = random.nextInt(24);
+			RandPosZ = j + random.nextInt(16);
+				
+			(new WorldGenMinable(YetAnotherMod.uraniumOre, 10)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+	
+			//Rust
+			RandPosX = i + random.nextInt(16);
+			RandPosY = 16 + random.nextInt(64);
+			RandPosZ = j + random.nextInt(16);
+				
+			(new WorldGenMinable(YetAnotherMod.rustOre, 20)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			
+			for (int k = 0; k < 8; k++) {
+				//Reinforced Stone
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 56 + random.nextInt(32);
+				RandPosZ = j + random.nextInt(16);
+	
+				(new WorldGenMinable(YetAnotherMod.reinforcedStone, 32, YetAnotherMod.crackedMud)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+			
+			for (int k = 0; k < 25; k++) {
+				//Poop
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 56 + random.nextInt(32);
+				RandPosZ = j + random.nextInt(16);
+	
+				if (world.getBlock(RandPosX, RandPosY - 1, RandPosZ) == YetAnotherMod.crackedMud && world.getBlock(RandPosX, RandPosY, RandPosZ) == Blocks.air) {
+					world.setBlock(RandPosX, RandPosY, RandPosZ, YetAnotherMod.poop);
+				}
+			}
+			
+			//Bloodwood Trees
+			for (int k = 0; k < 30; k++) {
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 64 + random.nextInt(64);
+				RandPosZ = j + random.nextInt(16);
+				(new GenBloodwoodTrees()).generate(world, random, RandPosX, RandPosY, RandPosZ, random.nextInt(9) + 3);
+			}
+		} else if (world.getBiomeGenForCoords(i,j) == YetAnotherMod.biomeLightAura) {
+			
+		} else {
 			int RandPosX; int RandPosY; int RandPosZ;
 			//Crystal Ore
 			for (int k = 0; k < 6; k++) {
@@ -179,58 +233,6 @@ public class WorldGen implements IWorldGenerator {
 					(new WorldGenMinable(YetAnotherMod.mud, 40, Blocks.grass)).generate(world, random, RandPosX, RandPosY, RandPosZ);
 					(new WorldGenMinable(YetAnotherMod.mud, 40, Blocks.dirt)).generate(world, random, RandPosX, RandPosY, RandPosZ);
 				}
-			}
-		} else {
-			int RandPosX; int RandPosY; int RandPosZ;
-
-			for (int k = 0; k < 10; k++) {
-				//Spike Trap
-				RandPosX = i + random.nextInt(16);
-				RandPosY = 16 + random.nextInt(64);
-				RandPosZ = j + random.nextInt(16);
-				(new GenSpikeTrap()).generate(world, random, RandPosX, RandPosY, RandPosZ);
-			}
-		
-			//Uranium
-			RandPosX = i + random.nextInt(16);
-			RandPosY = random.nextInt(24);
-			RandPosZ = j + random.nextInt(16);
-				
-			(new WorldGenMinable(YetAnotherMod.uraniumOre, 10)).generate(world, random, RandPosX, RandPosY, RandPosZ);
-	
-			//Rust
-			RandPosX = i + random.nextInt(16);
-			RandPosY = 16 + random.nextInt(64);
-			RandPosZ = j + random.nextInt(16);
-				
-			(new WorldGenMinable(YetAnotherMod.rustOre, 20)).generate(world, random, RandPosX, RandPosY, RandPosZ);
-			
-			for (int k = 0; k < 8; k++) {
-				//Reinforced Stone
-				RandPosX = i + random.nextInt(16);
-				RandPosY = 56 + random.nextInt(32);
-				RandPosZ = j + random.nextInt(16);
-	
-				(new WorldGenMinable(YetAnotherMod.reinforcedStone, 32, YetAnotherMod.crackedMud)).generate(world, random, RandPosX, RandPosY, RandPosZ);
-			}
-			
-			for (int k = 0; k < 25; k++) {
-				//Poop
-				RandPosX = i + random.nextInt(16);
-				RandPosY = 56 + random.nextInt(32);
-				RandPosZ = j + random.nextInt(16);
-	
-				if (world.getBlock(RandPosX, RandPosY - 1, RandPosZ) == YetAnotherMod.crackedMud && world.getBlock(RandPosX, RandPosY, RandPosZ) == Blocks.air) {
-					world.setBlock(RandPosX, RandPosY, RandPosZ, YetAnotherMod.poop);
-				}
-			}
-			
-			//Bloodwood Trees
-			for (int k = 0; k < 30; k++) {
-				RandPosX = i + random.nextInt(16);
-				RandPosY = 64 + random.nextInt(64);
-				RandPosZ = j + random.nextInt(16);
-				(new GenBloodwoodTrees()).generate(world, random, RandPosX, RandPosY, RandPosZ, random.nextInt(9) + 3);
 			}
 		}
 	}

@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import yam.YetAnotherMod;
+import yam.auraconv.AuraConversion;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -88,7 +89,7 @@ public class BlockGeneric extends Block {
                 if (aura != 0 && p_149674_5_.nextInt(500) == 0) {
                 	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura, p_149674_5_);
                 }
-        	} else if (p_149674_5_.nextInt(500) == 0) {
+        	} else if (p_149674_5_.nextInt(5) == 0) {
         		this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura, p_149674_5_);
         	}
         }
@@ -118,63 +119,12 @@ public class BlockGeneric extends Block {
 		for (int i = -2; i <= 2; i++) {
 			for (int j = -2; j <= 2; j++) {
 				for (int k = -2; k <= 2; k++) {
-					if (rand.nextInt(12) == 0) {
+					if (rand.nextInt(9) == 0) {
 						//set block
 						Block before = world.getBlock(x+i, y+j, z+k);
-						int beforeData = world.getBlockMetadata(x+i, y+j, z+k);
 						if (!(before instanceof BlockGeneric && ((BlockGeneric)(before)).getAura() == auraID) && before.getBlockHardness(world, x+i, y+j, z+k) >= 0.0F) {
-							if (!(before instanceof BlockLiquid)) {
-								//world.func_147480_a(x+i, y+j, z+k, false);
-								world.setBlockToAir(x+i, y+j, z+k);
-							}
-							
-							if (before == Blocks.grass || before == Blocks.mycelium) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGrass);
-							} else if (before == Blocks.dirt || before == YetAnotherMod.mud) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightDirt);
-							} else if (before == Blocks.stone) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightStone);
-							} else if (before == Blocks.cobblestone || before == Blocks.sandstone) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightCobblestone);
-							} else if (before == YetAnotherMod.crackedMud) {
-								if (world.canBlockSeeTheSky(x+i, y+j, z+k)) {
-									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGrass);
-								} else {
-									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightDirt);
-								}
-							} else if (before == Blocks.sand || before == YetAnotherMod.quicksand) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSand);
-							} else if (before == Blocks.gravel) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightGravel);
-							} else if (before == Blocks.mossy_cobblestone) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightMossyCobblestone);
-							} else if (before == Blocks.obsidian) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightPolishedStone);
-							} else if (before == Blocks.log || before == Blocks.log2) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightWood);
-							} else if (before == Blocks.planks) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightPlanks);
-							} else if (before == Blocks.leaves || before == Blocks.leaves2) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightLeaves);
-							} else if (before == Blocks.red_mushroom_block || before == Blocks.brown_mushroom_block) {
-								if (beforeData == 10 || beforeData == 15) {
-									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightWood);
-								} else {
-									world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightLeaves);
-								}
-							} else if (before == Blocks.sapling) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightSapling);
-							} else if (before == Blocks.brick_block) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightBricks);
-							} else if (before == Blocks.stonebrick || (before instanceof BlockGeneric && before.getUnlocalizedName().toLowerCase().contains("brick"))) {
-								Block after = rand.nextInt(3) == 0 ? YetAnotherMod.bricksWishstone : (rand.nextInt(3) == 0 ? YetAnotherMod.bricksHopestone : YetAnotherMod.bricksDreamstone);
-								world.setBlock(x+i, y+j, z+k, after);
-							} else if (before == Blocks.coal_ore || before == Blocks.iron_ore || before == YetAnotherMod.saltOre) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.wishstoneOre);
-							} else if (before == Blocks.gold_ore || before == Blocks.emerald_ore || before == Blocks.redstone_ore || before == Blocks.lapis_ore || before == YetAnotherMod.bigxOre) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.hopestoneOre);
-							} else if (before == Blocks.diamond_ore || before == YetAnotherMod.rubyOre || before == YetAnotherMod.rustOre || before == YetAnotherMod.uraniumOre) {
-								world.setBlock(x+i, y+j, z+k, YetAnotherMod.dreamstoneOre);
+							if (!AuraConversion.convertBlockWithAura(auraID, world, rand, x+i, y+j, z+k)) {
+								world.setBlock(x+i, y+j, z+k, Blocks.air);
 							}
 						}
 						

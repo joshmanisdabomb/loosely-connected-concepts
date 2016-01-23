@@ -47,7 +47,6 @@ public class GenTreeClassic extends GenTree {
 
                             if (!this.isReplaceable(world, j1, i1, k1))
                             {
-                            	System.out.println("hello");
                                 flag = false;
                             }
                         }

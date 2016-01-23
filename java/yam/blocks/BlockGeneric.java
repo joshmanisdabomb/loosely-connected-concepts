@@ -85,11 +85,11 @@ public class BlockGeneric extends Block {
         if (!p_149674_1_.isRemote) {
         	if (gravity) {
         		this.func_149830_m(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_);
-                if (aura != 0 && p_149674_1_.rand.nextInt(100) == 0) {
-                	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
+                if (aura != 0 && p_149674_5_.nextInt(500) == 0) {
+                	this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura, p_149674_5_);
                 }
-        	} else {
-        		this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura);
+        	} else if (p_149674_5_.nextInt(500) == 0) {
+        		this.spread(p_149674_1_, p_149674_2_, p_149674_3_, p_149674_4_, aura, p_149674_5_);
         	}
         }
 		YetAnotherMod.proxy.updateSpreadRenderAt(p_149674_2_, p_149674_3_, p_149674_4_);
@@ -104,7 +104,7 @@ public class BlockGeneric extends Block {
     	return aura;
     }
 
-    private void spread(World world, int x, int y, int z, int auraID) {
+    private void spread(World world, int x, int y, int z, int auraID, Random rand) {
     	BiomeGenBase biome = (auraID == -1 ? YetAnotherMod.biomeDarkAura : YetAnotherMod.biomeLightAura);
     	
     	Chunk c = world.getChunkFromBlockCoords(x, z);
@@ -115,10 +115,10 @@ public class BlockGeneric extends Block {
 			c.setChunkModified();
 		}
 		
-		for (int i = -1; i <= 1; i++) {
+		for (int i = -2; i <= 2; i++) {
 			for (int j = -2; j <= 2; j++) {
-				for (int k = -1; k <= 1; k++) {
-					if (world.rand.nextInt(12) == 0) {
+				for (int k = -2; k <= 2; k++) {
+					if (rand.nextInt(12) == 0) {
 						//set block
 						Block before = world.getBlock(x+i, y+j, z+k);
 						int beforeData = world.getBlockMetadata(x+i, y+j, z+k);
@@ -167,7 +167,7 @@ public class BlockGeneric extends Block {
 							} else if (before == Blocks.brick_block) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.lightBricks);
 							} else if (before == Blocks.stonebrick || (before instanceof BlockGeneric && before.getUnlocalizedName().toLowerCase().contains("brick"))) {
-								Block after = world.rand.nextInt(3) == 0 ? YetAnotherMod.bricksWishstone : (world.rand.nextInt(3) == 0 ? YetAnotherMod.bricksHopestone : YetAnotherMod.bricksDreamstone);
+								Block after = rand.nextInt(3) == 0 ? YetAnotherMod.bricksWishstone : (rand.nextInt(3) == 0 ? YetAnotherMod.bricksHopestone : YetAnotherMod.bricksDreamstone);
 								world.setBlock(x+i, y+j, z+k, after);
 							} else if (before == Blocks.coal_ore || before == Blocks.iron_ore || before == YetAnotherMod.saltOre) {
 								world.setBlock(x+i, y+j, z+k, YetAnotherMod.wishstoneOre);

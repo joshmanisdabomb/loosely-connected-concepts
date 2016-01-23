@@ -2,6 +2,7 @@ package yam.gen;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -13,13 +14,13 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.BiomeDictionary;
 import yam.ChestLoot;
 import yam.YetAnotherMod;
+import yam.gen.aura.light.GenLightTree;
 import yam.gen.rainbow.GenCandyCane;
 import yam.gen.rainbow.GenRainbowTemple;
 import yam.gen.rainbow.WorldGenCloud;
 import yam.gen.sheol.WorldGenHotCoal;
 import yam.gen.wasteland.GenBloodwoodTrees;
 import yam.gen.wasteland.GenSpikeTrap;
-import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGen implements IWorldGenerator {
 
@@ -174,7 +175,39 @@ public class WorldGen implements IWorldGenerator {
 				(new GenBloodwoodTrees()).generate(world, random, RandPosX, RandPosY, RandPosZ, random.nextInt(9) + 3);
 			}
 		} else if (world.getBiomeGenForCoords(i,j) == YetAnotherMod.biomeLightAura) {
+			int RandPosX; int RandPosY; int RandPosZ;
 			
+			//Wishstone
+			for (int k = 0; k < 5; k++) {
+				RandPosX = i + random.nextInt(16);
+				RandPosY = random.nextInt(128);
+				RandPosZ = j + random.nextInt(16);
+				(new WorldGenMinable(YetAnotherMod.wishstoneOre, 10, YetAnotherMod.lightStone)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+			
+			//Hopestone
+			for (int k = 0; k < 3; k++) {
+				RandPosX = i + random.nextInt(16);
+				RandPosY = random.nextInt(40);
+				RandPosZ = j + random.nextInt(16);
+				(new WorldGenMinable(YetAnotherMod.wishstoneOre, 7, YetAnotherMod.lightStone)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+			
+			//Dreamstone
+			RandPosX = i + random.nextInt(16);
+			RandPosY = random.nextInt(16);
+			RandPosZ = j + random.nextInt(16);
+			(new WorldGenMinable(YetAnotherMod.dreamstoneOre, 4, YetAnotherMod.lightStone)).generate(world, random, RandPosX, RandPosY, RandPosZ);
+			
+			//Light Trees
+			int randomAmountPerChunk = ((((i + j) * 7) % 100) + 100) % 100;
+			for (int k = 0; k < randomAmountPerChunk; k++) {
+				RandPosX = i + random.nextInt(16);
+				RandPosY = 64 + random.nextInt(64);
+				RandPosZ = j + random.nextInt(16);
+				(new GenLightTree()).generateFromGen(world, random, RandPosX, RandPosY, RandPosZ);
+			}
+		} else if (world.getBiomeGenForCoords(i,j) == YetAnotherMod.biomeDarkAura) {
 		} else {
 			int RandPosX; int RandPosY; int RandPosZ;
 			//Crystal Ore

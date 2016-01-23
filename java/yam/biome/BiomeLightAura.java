@@ -22,7 +22,7 @@ public class BiomeLightAura extends BiomeGenBase {
         this.fillerBlock = YetAnotherMod.lightDirt;
         
         this.field_76754_C = Integer.parseInt("66FFFF", 16);
-        this.waterColorMultiplier = Integer.parseInt("0000FF", 16);
+        this.waterColorMultiplier = Integer.parseInt("00FFFF", 16);
         
         this.rootHeight = height_LowPlains.rootHeight;
         this.heightVariation = height_MidPlains.variation;

@@ -13,6 +13,7 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -38,6 +39,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.WorldTypeEvent.BiomeSize;
 import net.minecraftforge.event.world.BlockEvent;
 import yam.CustomDamage;
 import yam.CustomPotion;
@@ -171,11 +175,18 @@ public class Events {
 	
 	@SubscribeEvent
 	public void whenKilledDrops(LivingDropsEvent event) {
-		if (event.source == CustomDamage.lightAura) {
+		if (event.entityLiving instanceof EntitySquid) {
 			event.setCanceled(true);
-			event.entityLiving.dropItem(YetAnotherMod.lightShard, this.rand.nextInt(4) + 1);
-		} else if (event.source == CustomDamage.darkAura) {
-			event.setCanceled(true);
+			return;
+		} else {
+			if (event.source == CustomDamage.lightAura) {
+				event.setCanceled(true);
+				event.entityLiving.dropItem(YetAnotherMod.lightShard, this.rand.nextInt(16) + 1);
+				return;
+			} else if (event.source == CustomDamage.darkAura) {
+				event.setCanceled(true);
+				return;
+			}
 		}
 	}
 	
@@ -378,10 +389,19 @@ public class Events {
 	        event.newBiomeGens[i] = ret;
 		}
         
+	}*/
+	
+	@SubscribeEvent
+	public void populateChunk(PopulateChunkEvent.Populate event) {
+		if (event.world.getBiomeGenForCoords((event.chunkX << 4) + 8, (event.chunkZ << 4) + 8) == YetAnotherMod.biomeLightAura || event.world.getBiomeGenForCoords((event.chunkX << 4) + 8, (event.chunkZ << 4) + 8) == YetAnotherMod.biomeDarkAura) {
+			event.setResult(Result.DENY);
+		}
 	}
 	
 	@SubscribeEvent
-	public void changeBiomeSize(BiomeSize event){
-		event.newSize = 1;
-	}*/
+	public void decorateChunk(DecorateBiomeEvent.Decorate event) {
+		if (event.world.getBiomeGenForCoords((event.chunkX << 4) + 8, (event.chunkZ << 4) + 8) == YetAnotherMod.biomeLightAura || event.world.getBiomeGenForCoords((event.chunkX << 4) + 8, (event.chunkZ << 4) + 8) == YetAnotherMod.biomeDarkAura) {
+			event.setResult(Result.DENY);
+		}
+	}
 }

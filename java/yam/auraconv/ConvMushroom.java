@@ -13,9 +13,9 @@ public class ConvMushroom implements Conv {
 	public void convertBlockWithAura(int aura, World w, Random r, int x, int y, int z) {
 		int data = w.getBlockMetadata(x, y, z);
 		if (data == 10 || data == 15) {
-			w.setBlock(x, y, z, YetAnotherMod.lightWood);
+			w.setBlock(x, y, z, YetAnotherMod.lightMushroomStem);
 		} else {
-			w.setBlock(x, y, z, YetAnotherMod.lightLeaves);
+			w.setBlock(x, y, z, YetAnotherMod.lightMushroomCap);
 		}
 	}
 

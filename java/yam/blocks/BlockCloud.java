@@ -6,7 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Facing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -36,8 +38,7 @@ public class BlockCloud extends BlockGeneric {
 	@SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_)
     {
-        Block block = p_149646_1_.getBlock(p_149646_2_, p_149646_3_, p_149646_4_);
-        return block == this ? false : super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, p_149646_5_);
+        return super.shouldSideBeRendered(p_149646_1_, p_149646_2_, p_149646_3_, p_149646_4_, 1 - p_149646_5_);
     }
 
 }

@@ -10,6 +10,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -68,6 +70,20 @@ public class BlockGeneric extends Block {
 		this.setCreativeTab(YetAnotherMod.global);
 		this.setLightOpacity(255);
 	}
+	
+	public boolean canEntityDestroy(IBlockAccess world, int x, int y, int z, Entity entity)
+    {		
+        if (entity instanceof EntityWither)
+        {
+            return (this != YetAnotherMod.rainbowStream); 
+        }
+        else if (entity instanceof EntityDragon)
+        {
+            return (this != YetAnotherMod.rainbowStream && this != YetAnotherMod.lightPolishedStone && this != YetAnotherMod.nostalgiaObsidianCrying && this != YetAnotherMod.nostalgiaObsidianGlowing && this != YetAnotherMod.rainbowStream && this != YetAnotherMod.lightEndstone); 
+        }
+
+        return true;
+    }
 	
 	public void onBlockAdded(World p_149726_1_, int p_149726_2_, int p_149726_3_, int p_149726_4_)
     {

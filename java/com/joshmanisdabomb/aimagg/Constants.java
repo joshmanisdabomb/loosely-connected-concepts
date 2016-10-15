@@ -9,5 +9,5 @@ public class Constants {
 	
 	public static final String CLIENT_PROXY_CLASS = "com.joshmanisdabomb.aimagg.proxy.ClientProxy";
 	public static final String SERVER_PROXY_CLASS = "com.joshmanisdabomb.aimagg.proxy.ServerProxy";
-	
+		
 }

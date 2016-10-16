@@ -9,7 +9,7 @@ public class AimaggItemGeneric extends Item {
 
 	public AimaggItemGeneric(String internalName) {
 		this.setUnlocalizedName(this.internalName = internalName);
-		this.setRegistryName(this.internalName); 
+		this.setRegistryName(this.internalName);
 	}
 	
 }

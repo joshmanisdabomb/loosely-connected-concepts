@@ -23,6 +23,8 @@ public class AimlessAgglomeration {
 	public void preInit(FMLPreInitializationEvent event) {
 		AimaggItems.init();
 		AimaggItems.register();
+		AimaggBlocks.init();
+		AimaggBlocks.register();
 	}
 
 	@EventHandler

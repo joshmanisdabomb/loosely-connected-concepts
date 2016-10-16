@@ -10,18 +10,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class AimaggItems {
 	
 	//Added following a tutorial.
-	public static Item test;
+	public static Item testItem;
 	
 	public static void init() {
-		test = new AimaggItemGeneric("test");
+		testItem = new AimaggItemGeneric("testItem");
 	}
 	
 	public static void register() {
-		GameRegistry.register(test);
+		GameRegistry.register(testItem);
 	}
 	
 	public static void registerRenders() {
-		registerRender(test);
+		registerRender(testItem);
 	}
 	
 	private static void registerRender(Item i) {

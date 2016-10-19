@@ -2,6 +2,8 @@ package com.joshmanisdabomb.aimagg;
 
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,12 +21,16 @@ public class AimlessAgglomeration {
 	@SidedProxy(clientSide = Constants.CLIENT_PROXY_CLASS, serverSide = Constants.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
+	public static final AimaggTab tab = new AimaggTab("aimaggTab");
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		AimaggItems.init();
 		AimaggItems.register();
 		AimaggBlocks.init();
 		AimaggBlocks.register();
+		
+		tab.setItemIcon(AimaggBlocks.testBlock);
 	}
 
 	@EventHandler

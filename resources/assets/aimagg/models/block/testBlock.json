@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "aimagg:blocks/testBlock"
+    "all": "aimagg:blocks/test/1"
   }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "aimagg:blocks/test/3_end",
+    "side": "aimagg:blocks/test/3_side"
+  }
+}

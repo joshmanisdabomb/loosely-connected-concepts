@@ -1,2 +1,5 @@
 item.testItem.name=Test Item
 tile.testBlock.name=Test Block
+tile.testBlock2.name=Test Block (Horizontal)
+
+itemGroup.aimaggTab=Aimless Agglomeration

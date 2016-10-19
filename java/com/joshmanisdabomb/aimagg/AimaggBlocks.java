@@ -1,6 +1,9 @@
 package com.joshmanisdabomb.aimagg;
 
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockGeneric;
+import java.util.ArrayList;
+
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicHorizontal;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -9,19 +12,28 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AimaggBlocks {
 
 	//Added following a tutorial.
 	public static Block testBlock;
+	public static Block testBlock2;
+	public static Block testBlock3;
+	
+	public static ArrayList<Block> registry = new ArrayList<Block>();
 	
 	public static void init() {
-		testBlock = new AimaggBlockGeneric("testBlock", Material.GROUND, MapColor.ADOBE);
+		testBlock = new AimaggBlockBasic("testBlock", Integer.MAX_VALUE-1, Material.GROUND, MapColor.YELLOW);
+		testBlock2 = new AimaggBlockBasicHorizontal("testBlock2", Integer.MAX_VALUE, Material.GROUND, MapColor.ADOBE);
+		//testBlock3 = new AimaggBlockBasic("testBlock3", Material.GROUND, MapColor.ADOBE);
 	}
 	
 	public static void register() {
-		registerBlock(testBlock);
+		for (Block b : registry) {
+			registerBlock(b);
+		}
 	}
 	
 	private static void registerBlock(Block b) {
@@ -32,7 +44,9 @@ public class AimaggBlocks {
 	}
 	
 	public static void registerRenders() {
-		registerRender(testBlock);
+		for (Block b : registry) {
+			registerRender(b);
+		}
 	}
 	
 	private static void registerRender(Block b) {

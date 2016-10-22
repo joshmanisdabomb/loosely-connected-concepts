@@ -3,3 +3,6 @@ tile.testBlock.name=Test Block
 tile.testBlock2.name=Test Block (Horizontal)
 
 itemGroup.aimaggTab=Aimless Agglomeration
+
+container.aimagg_spreader_constructor=Speader Constructor
+container.aimagg_spreader_constructor.modifiers=Modifiers

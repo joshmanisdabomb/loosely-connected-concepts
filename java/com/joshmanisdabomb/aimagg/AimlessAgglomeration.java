@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.aimagg;
 
+import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 
 import net.minecraft.block.properties.PropertyDirection;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = Constants.MCVER)
 public class AimlessAgglomeration {
@@ -29,12 +31,15 @@ public class AimlessAgglomeration {
 		AimaggItems.register();
 		AimaggBlocks.init();
 		AimaggBlocks.register();
+		AimaggTEs.init();
 		
 		tab.setItemIcon(AimaggBlocks.testBlock);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new AimaggGUIHandler());
+		
 		proxy.init();
 	}
 

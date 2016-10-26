@@ -15,7 +15,7 @@ public class AimaggGUIHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if (ID == SpreaderConstructorID) {
-			return new AimaggContainerSpreaderConstructor(player.inventory, (AimaggTESpreaderConstructor)world.getTileEntity(new BlockPos(x,y,z)));
+			return new AimaggContainerSpreaderConstructor(player, (AimaggTESpreaderConstructor)world.getTileEntity(new BlockPos(x,y,z)));
 		}
 		return null;
 	}
@@ -23,7 +23,7 @@ public class AimaggGUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if (ID == SpreaderConstructorID) {
-			return new AimaggGUISpreaderConstructor(player.inventory, (AimaggTESpreaderConstructor)world.getTileEntity(new BlockPos(x,y,z)));
+			return new AimaggGUISpreaderConstructor(player, (AimaggTESpreaderConstructor)world.getTileEntity(new BlockPos(x,y,z)));
 		}
 		return null;
 	}

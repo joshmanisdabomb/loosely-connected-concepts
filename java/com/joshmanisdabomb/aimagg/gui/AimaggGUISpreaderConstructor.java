@@ -5,6 +5,7 @@ import com.joshmanisdabomb.aimagg.te.AimaggTESpreaderConstructor;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -14,10 +15,10 @@ public class AimaggGUISpreaderConstructor extends GuiContainer {
 	private InventoryPlayer playerInv;
 	private AimaggTESpreaderConstructor te;
 
-	public AimaggGUISpreaderConstructor(InventoryPlayer inventory, AimaggTESpreaderConstructor tileEntity) {
-		super(new AimaggContainerSpreaderConstructor(inventory, tileEntity));
+	public AimaggGUISpreaderConstructor(EntityPlayer player, AimaggTESpreaderConstructor tileEntity) {
+		super(new AimaggContainerSpreaderConstructor(player, tileEntity));
 		
-		this.playerInv = inventory;
+		this.playerInv = player.inventory;
 		this.te = tileEntity;
 		
 		this.xSize = 176;

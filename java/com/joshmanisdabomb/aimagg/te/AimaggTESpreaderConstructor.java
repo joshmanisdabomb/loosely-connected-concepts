@@ -79,7 +79,7 @@ public class AimaggTESpreaderConstructor extends TileEntity implements IInventor
 
 	@Override
 	public int getSizeInventory() {
-		return 10;
+		return 11;
 	}
 
 	@Override

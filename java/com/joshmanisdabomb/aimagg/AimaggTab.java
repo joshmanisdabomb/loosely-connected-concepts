@@ -48,16 +48,16 @@ public class AimaggTab extends CreativeTabs {
 			int sortValue1;
 			int sortValue2;
 			if (is1.getItem() instanceof AimaggItemBasic) {
-				sortValue1 = ((AimaggItemBasic)(is1.getItem())).getSortValue();
+				sortValue1 = ((AimaggItemBasic)(is1.getItem())).getSortValue(is1);
 			} else if (Block.getBlockFromItem(is1.getItem()) instanceof AimaggBlockBasic) {
-				sortValue1 = ((AimaggBlockBasic)(Block.getBlockFromItem(is1.getItem()))).getSortValue();
+				sortValue1 = ((AimaggBlockBasic)(Block.getBlockFromItem(is1.getItem()))).getSortValue(is1);
 			} else {
 				return 0;
 			}
 			if (is2.getItem() instanceof AimaggItemBasic) {
-				sortValue2 = ((AimaggItemBasic)(is2.getItem())).getSortValue();
+				sortValue2 = ((AimaggItemBasic)(is2.getItem())).getSortValue(is2);
 			} else if (Block.getBlockFromItem(is2.getItem()) instanceof AimaggBlockBasic) {
-				sortValue2 = ((AimaggBlockBasic)(Block.getBlockFromItem(is2.getItem()))).getSortValue();
+				sortValue2 = ((AimaggBlockBasic)(Block.getBlockFromItem(is2.getItem()))).getSortValue(is2);
 			} else {
 				return 0;
 			}

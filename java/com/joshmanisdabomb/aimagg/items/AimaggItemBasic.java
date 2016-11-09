@@ -4,6 +4,7 @@ import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class AimaggItemBasic extends Item {
 
@@ -20,8 +21,12 @@ public class AimaggItemBasic extends Item {
 		AimaggItems.registry.add(this);
 	}
 
-	public int getSortValue() {
+	public int getSortValue(ItemStack is) {
 		return sortValue;
+	}
+	
+	public boolean usesCustomModels() {
+		return false;
 	}
 	
 }

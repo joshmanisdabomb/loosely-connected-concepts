@@ -2,7 +2,17 @@ item.testItem.name=Test Item
 tile.testBlock.name=Test Block
 tile.testBlock2.name=Test Block (Horizontal)
 
+item.missile.explosive.name=Explosive Missile
+item.missile.fire.name=Fire Missile
+item.missile.nuclear.name=Nuclear Missile
+
 itemGroup.aimaggTab=Aimless Agglomeration
 
-container.aimagg_spreader_constructor=Speader Constructor
+container.aimagg_spreader_constructor=Spreader Constructor
 container.aimagg_spreader_constructor.modifiers=Modifiers
+
+tooltip.pressshiftformore=Press SHIFT for Tooltip
+
+tooltip.missile.type=Explosion Type: 
+tooltip.missile.strength=Strength:
+tooltip.missile.strength.suffix= TNT

@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "aimagg:blocks/test/2_top",
+    "front": "aimagg:blocks/test/2_front",
+    "side": "aimagg:blocks/test/2_side"
+  }
+}

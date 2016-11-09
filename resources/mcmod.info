@@ -2,9 +2,9 @@
 {
   "modid": "aimagg",
   "name": "Aimless Agglomeration",
-  "description": "An assortment of useful tools, progression paths and fun goodies.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "description": "An assortment of useful tools, progression paths, weapons of mass destruction and other fun goodies.",
+  "version": "Alpha 0.1",
+  "mcversion": "1.10.2",
   "url": "",
   "updateUrl": "",
   "authorList": ["joshmanisdabomb"],

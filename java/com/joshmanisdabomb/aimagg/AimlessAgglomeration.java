@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.aimagg;
 
+import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
+import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -31,14 +33,23 @@ public class AimlessAgglomeration {
 		AimaggItems.register();
 		AimaggBlocks.init();
 		AimaggBlocks.register();
+		
+		AimaggEntities.init();
+
 		AimaggTEs.init();
 		
 		tab.setItemIcon(AimaggBlocks.testBlock);
+		
+		proxy.preInit();
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new AimaggGUIHandler());
+		
+		MinecraftForge.EVENT_BUS.register(new AimaggEventHandler());
+		
+		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new AimaggChunkManager());
 		
 		proxy.init();
 	}

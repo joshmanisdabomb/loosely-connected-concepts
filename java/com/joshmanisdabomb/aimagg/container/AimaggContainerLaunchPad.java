@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.container;
 
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotLimited;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotOutput;
+import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.AimaggTESpreaderConstructor;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +13,11 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class AimaggContainerSpreaderConstructor extends Container {
+public class AimaggContainerLaunchPad extends Container {
 
-	private AimaggTESpreaderConstructor te;
+	private AimaggTELaunchPad te;
 	
-	public AimaggContainerSpreaderConstructor(EntityPlayer player, AimaggTESpreaderConstructor te) {
+	public AimaggContainerLaunchPad(EntityPlayer player, AimaggTELaunchPad te) {
 		this.te = te;
 		
 	    // Tile Entity, Slot 0-8, Slot IDs 0-8
@@ -26,33 +27,23 @@ public class AimaggContainerSpreaderConstructor extends Container {
 	        }
 	    }*/
 		
-		//Power Slot, Slot 0, Slot ID 0
-        this.addSlotToContainer(new AimaggSlotLimited(te, 0, 80, 18, Items.NETHER_STAR));
+		//Missile Slot, Slot 0, Slot ID 0
+        this.addSlotToContainer(new AimaggSlotLimited(te, 0, 80, 18, Blocks.TNT));
 		
-		//Base Block Slot, Slot 1, Slot ID 1
-        this.addSlotToContainer(new AimaggSlotLimited(te, 1, 17, 45, Blocks.EMERALD_BLOCK));
-        
-		//Output Slot, Slot 2, Slot ID 2
-        this.addSlotToContainer(new AimaggSlotOutput(te, 2, 143, 45, player));
-        
-		//Modifier Slots, Slots 3-7, Slot IDs 3-7
-        for (int x = 0; x < 5; ++x) {
-            this.addSlotToContainer(new AimaggSlotLimited(te, 3+x, 34 + x * 23, 85, Items.APPLE));
-        }
-        
-		//Spread By Slots, Slots 8-10, Slot IDs 8-10
-        for (int x = 0; x < 3; ++x) {
-            this.addSlotToContainer(new AimaggSlotLimited(te, 8+x, 57 + x * 23, 108, Items.GLASS_BOTTLE, 1));
-        }
+		//Rocket Fuel Slot, Slot 1, Slot ID 1
+        this.addSlotToContainer(new AimaggSlotLimited(te, 1, 80, 40, Items.LAVA_BUCKET));
+		
+		//Coordinate Slot, Slot 2, Slot ID 2
+        this.addSlotToContainer(new AimaggSlotLimited(te, 2, 80, 62, Items.PAPER));
 
-	    // Player Inventory, Slot 9-35, Slot IDs 11-37
+	    // Player Inventory, Slot 9-35, Slot IDs 3-29
 	    for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {
 	            this.addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + x * 18, 140 + y * 18));
 	        }
 	    }
 
-	    // Player Inventory, Slot 0-8, Slot IDs 38-46
+	    // Player Inventory, Slot 0-8, Slot IDs 30-38
 	    for (int x = 0; x < 9; ++x) {
 	        this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 198));
 	    }

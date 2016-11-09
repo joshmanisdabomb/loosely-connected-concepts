@@ -37,7 +37,7 @@ public class AimaggBlockBasic extends Block {
 		AimaggBlocks.registry.add(this);
 	}
 
-	public int getSortValue() {
+	public int getSortValue(ItemStack is) {
 		return sortValue;
 	}
 

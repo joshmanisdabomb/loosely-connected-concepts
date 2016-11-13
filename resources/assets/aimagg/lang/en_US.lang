@@ -2,6 +2,13 @@ item.testItem.name=Test Item
 tile.testBlock.name=Test Block
 tile.testBlock2.name=Test Block (Horizontal)
 
+tile.launchPad.name=Missile Launch Pad
+
+item.vectorPearl.name=Vector Pearl
+item.vectorPearl.cleared=Cleared coordinates of vector pearl.
+item.vectorPearl.saved.player=Saved coordinates of the feet of the player.
+item.vectorPearl.saved.block=Saved coordinates of block right clicked.
+
 item.missile.explosive.name=Explosive Missile
 item.missile.fire.name=Fire Missile
 item.missile.nuclear.name=Nuclear Missile
@@ -10,9 +17,14 @@ itemGroup.aimaggTab=Aimless Agglomeration
 
 container.aimagg_spreader_constructor=Spreader Constructor
 container.aimagg_spreader_constructor.modifiers=Modifiers
+container.aimagg_launch_pad=Missile Launch Pad
 
-tooltip.pressshiftformore=Press SHIFT for Tooltip
+tooltip.pressshiftformore=Press SHIFT for More Information
+
+tooltip.vectorpearl.blank=Blank
+tooltip.vectorpearl.coordinates=Coordinates: 
+tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.\nRight click on block to set block coordinates.\nRight click again to blank vector pearl.
 
 tooltip.missile.type=Explosion Type: 
-tooltip.missile.strength=Strength:
+tooltip.missile.strength=Strength: 
 tooltip.missile.strength.suffix= TNT

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
+import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile.MissileType;
 
 import net.minecraft.client.Minecraft;
@@ -18,12 +19,14 @@ public class AimaggItems {
 	//Added following a tutorial.
 	public static Item testItem;
 	public static Item missile;
+	public static Item vectorPearl;
 	
 	public static ArrayList<Item> registry = new ArrayList<Item>();
 	
 	public static void init() {
 		testItem = new AimaggItemBasic("testItem", Integer.MAX_VALUE-2);
 		missile = new AimaggItemMissile("missile", 21);
+		vectorPearl = new AimaggItemVectorPearl("vectorPearl", 40);
 	}
 	
 	public static void register() {

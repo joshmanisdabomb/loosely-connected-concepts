@@ -16,6 +16,7 @@ public class ClientProxy implements CommonProxy {
 	public void init() {
 		AimaggItems.registerRenders();
 		AimaggBlocks.registerRenders();
+		AimaggBlocks.registerTileEntityRenderers();
 	}
 
 }

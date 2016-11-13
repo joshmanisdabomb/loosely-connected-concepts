@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.aimagg.container;
 
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotLimited;
+import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotMissile;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotOutput;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.AimaggTESpreaderConstructor;
@@ -28,24 +29,24 @@ public class AimaggContainerLaunchPad extends Container {
 	    }*/
 		
 		//Missile Slot, Slot 0, Slot ID 0
-        this.addSlotToContainer(new AimaggSlotLimited(te, 0, 80, 18, Blocks.TNT));
+        this.addSlotToContainer(new AimaggSlotMissile(te, 0, 150, 9));
 		
 		//Rocket Fuel Slot, Slot 1, Slot ID 1
-        this.addSlotToContainer(new AimaggSlotLimited(te, 1, 80, 40, Items.LAVA_BUCKET));
+        this.addSlotToContainer(new AimaggSlotLimited(te, 1, 150, 27, Items.LAVA_BUCKET));
 		
 		//Coordinate Slot, Slot 2, Slot ID 2
-        this.addSlotToContainer(new AimaggSlotLimited(te, 2, 80, 62, Items.PAPER));
+        this.addSlotToContainer(new AimaggSlotLimited(te, 2, 150, 63, Items.PAPER));
 
 	    // Player Inventory, Slot 9-35, Slot IDs 3-29
 	    for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {
-	            this.addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + x * 18, 140 + y * 18));
+	            this.addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 36 + x * 18, 95 + y * 18));
 	        }
 	    }
 
 	    // Player Inventory, Slot 0-8, Slot IDs 30-38
 	    for (int x = 0; x < 9; ++x) {
-	        this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 198));
+	        this.addSlotToContainer(new Slot(player.inventory, x, 36 + x * 18, 153));
 	    }
 	}
 	

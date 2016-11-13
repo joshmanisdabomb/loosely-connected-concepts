@@ -89,6 +89,8 @@ public class AimaggEntityMissileSmallModel extends ModelBase {
 
 	@Override
     public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		//Entity is null in launch pad.
+		
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
         
 		for (ModelRenderer mr : parts) {
@@ -104,4 +106,5 @@ public class AimaggEntityMissileSmallModel extends ModelBase {
 			mr.rotateAngleZ = 0;
 		}
 	}
+	
 }

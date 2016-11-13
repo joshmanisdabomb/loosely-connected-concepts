@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.entity.render;
 
 import javax.annotation.Nonnull;
 
+import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.entity.missile.AimaggEntityMissile;
 import com.joshmanisdabomb.aimagg.entity.missile.AimaggEntityMissileExplosive;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
@@ -9,6 +10,7 @@ import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 

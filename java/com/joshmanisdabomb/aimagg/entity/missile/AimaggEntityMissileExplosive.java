@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public class AimaggEntityMissileExplosive extends AimaggEntityMissile {
 	
-	private static final ResourceLocation texture = new ResourceLocation("aimagg:textures/entity/missile/small/explosive.png");
+	public static final ResourceLocation texture = new ResourceLocation("aimagg:textures/entity/missile/small/explosive.png");
 
 	public AimaggEntityMissileExplosive(World worldIn) {
 		super(worldIn);

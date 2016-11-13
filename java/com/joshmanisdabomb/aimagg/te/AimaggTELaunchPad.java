@@ -1,11 +1,16 @@
 package com.joshmanisdabomb.aimagg.te;
 
+import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
+import com.joshmanisdabomb.aimagg.items.AimaggItemMissile.MissileType;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -16,6 +21,10 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	private ItemStack[] inventory;
     private String customName;
     
+    private int destinationx;
+    private int destinationy;
+    private int destinationz;
+    
     public AimaggTELaunchPad() {
 		this.inventory = new ItemStack[this.getSizeInventory()];
 	}
@@ -23,6 +32,10 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
+
+		compound.setInteger("destinationx", destinationx);
+		compound.setInteger("destinationy", destinationy);
+		compound.setInteger("destinationz", destinationz);
 		
 		NBTTagList list = new NBTTagList();
 	    for (int i = 0; i < this.getSizeInventory(); ++i) {
@@ -46,6 +59,10 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
+		destinationx = compound.getInteger("destinationx");
+		destinationy = compound.getInteger("destinationy");
+		destinationz = compound.getInteger("destinationz");
+		
 	    NBTTagList list = compound.getTagList("Items", 10);
 	    for (int i = 0; i < list.tagCount(); ++i) {
 	        NBTTagCompound stackTag = list.getCompoundTagAt(i);
@@ -56,6 +73,18 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	    if (compound.hasKey("CustomName", 8)) {
 	        this.setCustomName(compound.getString("CustomName"));
 	    }
+	}
+	
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		NBTTagCompound nbtIn = new NBTTagCompound();
+		this.writeToNBT(nbtIn);
+		return new SPacketUpdateTileEntity(this.getPos(), this.getBlockMetadata(), nbtIn);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		this.readFromNBT(pkt.getNbtCompound());
 	}
 
 	public String getBaseName() {
@@ -171,6 +200,10 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 
 	public void setCustomName(String customName) {
 		this.customName = customName;
+	}
+	
+	public MissileType getMissileType() {
+		return this.inventory[0] == null ? null : AimaggItemMissile.MissileType.getFromMetadata(this.inventory[0].getMetadata());
 	}
 	
 }

@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import com.joshmanisdabomb.aimagg.Constants;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -83,32 +84,30 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			if (vpNBT != null && vpNBT.getBoolean("used")) {
 	        	tooltip.add(
 		    				TextFormatting.WHITE + 
-		    				new TextComponentTranslation("tooltip.vectorpearl.coordinates", new Object[0]).getUnformattedText() + 
-		    			    TextFormatting.YELLOW +
-		    			    vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")
+		    				I18n.format("tooltip.vectorpearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
 		    			   );
 			} else {
 	        	tooltip.add(
-		    				TextFormatting.YELLOW + 
-		    				new TextComponentTranslation("tooltip.vectorpearl.blank", new Object[0]).getUnformattedText()
+		    				TextFormatting.DARK_AQUA + 
+		    				I18n.format("tooltip.vectorpearl.blank", new Object[0])
 		    			   );
 			}
 		} else {
         	tooltip.add(
-	    				TextFormatting.YELLOW + 
-	    				new TextComponentTranslation("tooltip.vectorpearl.blank", new Object[0]).getUnformattedText()
+	    				TextFormatting.DARK_AQUA + 
+	    				I18n.format("tooltip.vectorpearl.blank", new Object[0])
 	    			   );
 		}
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
         	tooltip.add(
 	    				TextFormatting.GRAY + 
-	    				new TextComponentTranslation("tooltip.vectorpearl.moreinfo", new Object[0]).getUnformattedText()
+	    				I18n.format("tooltip.vectorpearl.moreinfo", new Object[0])
 	    			   );
 		} else {
         	tooltip.add(
 	    				TextFormatting.DARK_GRAY + 
-	    				new TextComponentTranslation("tooltip.pressshiftformore", new Object[0]).getUnformattedText()
+	    				I18n.format("tooltip.pressshiftformore", new Object[0])
 	    			   );
 		}
 	}

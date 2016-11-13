@@ -3,6 +3,7 @@ package com.joshmanisdabomb.aimagg;
 import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
 import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 
 import net.minecraftforge.common.ForgeChunkManager;
@@ -41,6 +42,7 @@ public class AimlessAgglomeration {
 		tab.setItemIcon(AimaggBlocks.testBlock);
 		
 		proxy.preInit();
+        AimaggPacketHandler.registerMessages(Constants.MOD_ID);
 	}
 
 	@EventHandler

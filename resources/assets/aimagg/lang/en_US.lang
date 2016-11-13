@@ -22,9 +22,7 @@ container.aimagg_launch_pad=Missile Launch Pad
 tooltip.pressshiftformore=Press SHIFT for More Information
 
 tooltip.vectorpearl.blank=Blank
-tooltip.vectorpearl.coordinates=Coordinates: 
-tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.\nRight click on block to set block coordinates.\nRight click again to blank vector pearl.
+tooltip.vectorpearl.coordinates=Coordinates: %1$s%2$s
+tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
 
-tooltip.missile.type=Explosion Type: 
-tooltip.missile.strength=Strength: 
-tooltip.missile.strength.suffix= TNT
+tooltip.missile.strength=Strength: %1$s%2$d TNT

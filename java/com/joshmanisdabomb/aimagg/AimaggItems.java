@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
 import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
-import com.joshmanisdabomb.aimagg.items.AimaggItemMissile.MissileType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -50,7 +48,7 @@ public class AimaggItems {
 	public static void customModelResourceLocations() {
 		ModelLoader.setCustomModelResourceLocation(missile, MissileType.EXPLOSIVE.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"));
 		ModelLoader.setCustomModelResourceLocation(missile, MissileType.FIRE.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(missile, MissileType.NUCLEAR.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(missile, MissileType.NUCLEAR.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/nuclear", "inventory"));
 	}
 	
 }

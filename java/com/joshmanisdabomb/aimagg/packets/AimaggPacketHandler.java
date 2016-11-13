@@ -21,5 +21,6 @@ public class AimaggPacketHandler {
 	
 	public static void registerMessages() {
 		INSTANCE.registerMessage(AimaggPacketLaunchPadText.Handler.class, AimaggPacketLaunchPadText.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadLaunch.Handler.class, AimaggPacketLaunchPadLaunch.class, nextID(), Side.SERVER);
 	}
 }

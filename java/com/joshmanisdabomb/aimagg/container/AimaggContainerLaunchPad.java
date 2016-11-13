@@ -3,6 +3,7 @@ package com.joshmanisdabomb.aimagg.container;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotLimited;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotMissile;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotOutput;
+import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotVectorPearl;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.AimaggTESpreaderConstructor;
 
@@ -35,7 +36,7 @@ public class AimaggContainerLaunchPad extends Container {
         this.addSlotToContainer(new AimaggSlotLimited(te, 1, 150, 27, Items.LAVA_BUCKET));
 		
 		//Coordinate Slot, Slot 2, Slot ID 2
-        this.addSlotToContainer(new AimaggSlotLimited(te, 2, 150, 63, Items.PAPER));
+        this.addSlotToContainer(new AimaggSlotVectorPearl(te, 2, 150, 63));
 
 	    // Player Inventory, Slot 9-35, Slot IDs 3-29
 	    for (int y = 0; y < 3; ++y) {

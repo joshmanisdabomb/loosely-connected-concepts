@@ -7,7 +7,7 @@ public class ServerProxy implements CommonProxy {
 
 	@Override
 	public void preInit() {
-        AimaggPacketHandler.registerMessages(Constants.MOD_ID);
+		
 	}
 
 	@Override

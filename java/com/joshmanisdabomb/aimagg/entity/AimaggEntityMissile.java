@@ -1,31 +1,40 @@
-package com.joshmanisdabomb.aimagg.entity.missile;
+package com.joshmanisdabomb.aimagg.entity;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
+import com.joshmanisdabomb.aimagg.MissileType;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-public abstract class AimaggEntityMissile extends Entity {
+public class AimaggEntityMissile extends Entity {
 	
 	private static final byte chunkLoadRadius = 1;
 
@@ -34,8 +43,11 @@ public abstract class AimaggEntityMissile extends Entity {
 
 	private static final DataParameter<BlockPos> ORIGIN = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.BLOCK_POS);
 	private static final DataParameter<BlockPos> DESTINATION = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.BLOCK_POS);
+	
+	private static final DataParameter<Byte> MISSILETYPE = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.BYTE);
 
 	private static final DataParameter<Boolean> LAUNCHED = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Boolean> FREE = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.BOOLEAN);
 	
 	private Ticket ticket;
 
@@ -49,9 +61,40 @@ public abstract class AimaggEntityMissile extends Entity {
         this.setPosition(x, y, z);
 	}
 
+	public ResourceLocation getEntityTexturePath() {
+		return this.getMissileType().getEntityTexture();
+	}
+
+	public void detonate() {
+		switch (this.getMissileType()) {
+			case EXPLOSIVE:
+				if (!this.worldObj.isRemote) {
+					Explosion explosion = new Explosion(this.worldObj, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), false, true);
+			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) {
+			        	explosion.doExplosionA();
+			        	explosion.doExplosionB(true);
+			        }
+				} else {
+			        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
+				}
+			case FIRE:
+				break;
+			case NUCLEAR:
+				if (!this.worldObj.isRemote) {
+					AimaggEntityNuclearExplosion nukeExp = new AimaggEntityNuclearExplosion(worldObj, this.posX, this.posY, this.posZ);
+					nukeExp.setStrength(this.getStrength());
+					this.worldObj.spawnEntityInWorld(nukeExp);
+				}
+			default:
+				break;
+		}
+	}
+
 	@Override
 	protected void entityInit() {		
         this.getDataManager().register(LAUNCHED, false);
+        this.getDataManager().register(FREE, false);
+        this.getDataManager().register(MISSILETYPE, (byte)0);
         this.getDataManager().register(CURRENTSPEED, 0.0F);
         this.getDataManager().register(STRENGTH, 1.0F);
         this.getDataManager().register(ORIGIN, new BlockPos(0,0,0));
@@ -60,27 +103,23 @@ public abstract class AimaggEntityMissile extends Entity {
 	
 	public void onUpdate() {
 		if (this.isLaunched()) {
-			if (this.getCurrentSpeed() < this.getLaunchSpeed()) {
-				this.setCurrentSpeed(this.getLaunchSpeed());
-			} else if (this.getCurrentSpeed() < this.getTopSpeed()) {
-				this.setCurrentSpeed(this.getCurrentSpeed()*this.getSpeedModifier());
+			if (this.getCurrentSpeed() < this.getMissileType().getInitialSpeed()) {
+				this.setCurrentSpeed(this.getMissileType().getInitialSpeed());
+			} else if (this.getCurrentSpeed() < this.getMissileType().getTopSpeed()) {
+				this.setCurrentSpeed(this.getCurrentSpeed()*this.getMissileType().getSpeedModifier());
 			} 
 
 			//Motion
-			Vec3d v1 = new Vec3d(this.getDestination().getX(),0,this.getDestination().getZ()).subtract(new Vec3d(this.getOrigin().getX(),0,this.getOrigin().getZ()));
-			Vec3d v2 = new Vec3d(this.getDestination().getX(),0,this.getDestination().getZ()).subtract(new Vec3d(this.posX,0,this.posZ));
-			Vec3d v3 = new Vec3d(this.getDestination().add(0,((v2.lengthVector()/v1.lengthVector())-0.5)*Math.PI*v1.lengthVector(),0)).subtract(new Vec3d(this.getOrigin()));
-			Vec3d v4 = v3.normalize();
-			
-			if (v2.lengthVector()/v1.lengthVector() > 1) {
-				this.detonate();
-                this.setDead();
-                return;
+			if (!this.inFreeMotion()) {
+				Vec3d v1 = new Vec3d(this.getDestination().getX(),0,this.getDestination().getZ()).subtract(new Vec3d(this.getOrigin().getX(),0,this.getOrigin().getZ()));
+				Vec3d v2 = new Vec3d(this.getDestination().getX(),0,this.getDestination().getZ()).subtract(new Vec3d(this.posX,0,this.posZ));
+				Vec3d v3 = new Vec3d(this.getDestination().add(0,((v2.lengthVector()/v1.lengthVector())-0.5)*Math.PI*v1.lengthVector(),0)).subtract(new Vec3d(this.getOrigin()));
+				Vec3d v4 = v3.normalize();
+				
+		        this.motionX = v4.xCoord*this.getCurrentSpeed();
+		        this.motionY = v4.yCoord*this.getCurrentSpeed();
+		        this.motionZ = v4.zCoord*this.getCurrentSpeed();
 			}
-			
-	        this.motionX = v4.xCoord*this.getCurrentSpeed();
-	        this.motionY = v4.yCoord*this.getCurrentSpeed();
-	        this.motionZ = v4.zCoord*this.getCurrentSpeed();
 
 	        this.setPosition(this.posX+this.motionX,this.posY+this.motionY,this.posZ+this.motionZ);
 	        
@@ -91,34 +130,69 @@ public abstract class AimaggEntityMissile extends Entity {
             double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
             float f = (float)(-(MathHelper.atan2(d2, d0) * (180D / Math.PI))) + 90;
             float f1 = (float)(-(MathHelper.atan2(d1, d3) * (180D / Math.PI))) + 90;
-            float s = (float)Math.max(Math.abs(this.motionX),Math.max(Math.abs(this.motionY),Math.abs(this.motionZ)))*10;
+            float s = (float)Math.min(Math.max(Math.abs(this.motionX),Math.max(Math.abs(this.motionY),Math.abs(this.motionZ))),1);
             this.rotationPitch = this.updateRotation(this.rotationPitch, f1, s);
-            this.rotationYaw = this.updateRotation(this.rotationYaw, f, s);
+            this.rotationYaw = f;
 
+            //Be Free
+            if (this.getEntityBoundingBox().expand(1, 1, 1).isVecInside(new Vec3d(this.getDestination()))) {
+            	this.setFreeMotion(true);
+            }
+            
             //Collision
+            List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
+            int i = MathHelper.floor_double(this.getEntityBoundingBox().minX) - 1;
+            int j = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxX) + 1;
+            int k = MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1;
+            int l = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxY) + 1;
+            int i1 = MathHelper.floor_double(this.getEntityBoundingBox().minZ) - 1;
+            int j1 = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxZ) + 1;
             BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
-            for (int i = 0; i < 8; ++i)
+            try
             {
-                int j = MathHelper.floor_double(this.posY + (double)(((float)((i >> 1) % 2) - 0.5F) * this.height * 0.8F));
-                int k = MathHelper.floor_double(this.posX + (double)(((float)((i >> 1) % 2) - 0.5F) * this.width * 0.8F));
-                int l = MathHelper.floor_double(this.posZ + (double)(((float)((i >> 2) % 2) - 0.5F) * this.width * 0.8F));
-
-                if (blockpos$pooledmutableblockpos.getX() != k || blockpos$pooledmutableblockpos.getY() != j || blockpos$pooledmutableblockpos.getZ() != l)
+                for (int k1 = i; k1 < j; ++k1)
                 {
-                    blockpos$pooledmutableblockpos.setPos(k, j, l);
-
-                    if (this.worldObj.getBlockState(blockpos$pooledmutableblockpos).getBlock().isVisuallyOpaque())
+                    for (int l1 = i1; l1 < j1; ++l1)
                     {
-                        blockpos$pooledmutableblockpos.release();
-                        this.detonate();
-                        this.setDead();
-                        return;
+                        int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
+
+                        if (i2 != 2 && this.getEntityWorld().isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
+                        {
+                            for (int j2 = k; j2 < l; ++j2)
+                            {
+                                if (i2 <= 0 || j2 != k && j2 != l - 1)
+                                {
+                                    blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
+
+                                    if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
+                                    {
+                                        this.detonate();
+                                        this.setDead();
+                                        return;
+                                    }
+
+                                    IBlockState iblockstate = this.getEntityWorld().getBlockState(blockpos$pooledmutableblockpos);
+                                    if (iblockstate.getBlock() != AimaggBlocks.launchPad) {
+                                    	iblockstate.addCollisionBoxToList(this.getEntityWorld(), blockpos$pooledmutableblockpos, this.getEntityBoundingBox(), list, (Entity)null);
+                                    }
+                                    
+                                    if (!list.isEmpty())
+                                    {
+                                        this.detonate();
+                                        this.setDead();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
-
-            blockpos$pooledmutableblockpos.release();
+            finally
+            {
+                blockpos$pooledmutableblockpos.release();
+            }
             
             //Chunk Loading
             if (ticket == null)
@@ -192,7 +266,6 @@ public abstract class AimaggEntityMissile extends Entity {
 	private float updateRotation(float p_75652_1_, float p_75652_2_, float p_75652_3_)
     {
         float f = MathHelper.wrapDegrees(p_75652_2_ - p_75652_1_);
-        float lerp = 0.11F;
 
         /*if (f > p_75652_3_)
         {
@@ -204,7 +277,7 @@ public abstract class AimaggEntityMissile extends Entity {
             f = -p_75652_3_;
         }*/
 
-        return p_75652_1_ + lerp*f;
+        return p_75652_1_ + p_75652_3_*f;
     }
 	
 	@Override
@@ -235,6 +308,14 @@ public abstract class AimaggEntityMissile extends Entity {
 	
 	public boolean isLaunched() {
 		return this.getDataManager().get(LAUNCHED);
+	}
+	
+	public void setFreeMotion(boolean free) {
+        this.getDataManager().set(FREE, free);
+	}
+	
+	public boolean inFreeMotion() {
+		return this.getDataManager().get(FREE);
 	}
 	
 	public void setDestination(BlockPos bp) {
@@ -269,9 +350,19 @@ public abstract class AimaggEntityMissile extends Entity {
 		return this.getDataManager().get(STRENGTH);
 	}
 
+	public void setMissileType(MissileType mt) {
+		this.getDataManager().set(MISSILETYPE, (byte)mt.getMetadata());
+	}
+	
+	public MissileType getMissileType() {
+		return MissileType.getFromMetadata(this.getDataManager().get(MISSILETYPE));
+	}
+
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound compound) {
 		this.setLaunched(compound.getBoolean("Launched"));
+		this.setFreeMotion(compound.getBoolean("FreeMotion"));
+		this.setMissileType(MissileType.getFromMetadata(compound.getByte("MissileType")));
 		this.setCurrentSpeed(compound.getFloat("CurrentSpeed"));
 		this.setStrength(compound.getFloat("Strength"));
 		this.setOrigin(new BlockPos(compound.getInteger("OriginX"), compound.getInteger("OriginY"), compound.getInteger("OriginZ")));
@@ -281,6 +372,8 @@ public abstract class AimaggEntityMissile extends Entity {
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound) {
 		compound.setBoolean("Launched", this.isLaunched());
+		compound.setBoolean("FreeMotion", this.inFreeMotion());
+		compound.setByte("MissileType", this.getDataManager().get(MISSILETYPE));
 		compound.setFloat("CurrentSpeed", this.getCurrentSpeed());
 		compound.setFloat("Strength", this.getStrength());
 		compound.setInteger("OriginX", this.getOrigin().getX());
@@ -290,15 +383,5 @@ public abstract class AimaggEntityMissile extends Entity {
 		compound.setInteger("DestinationY", this.getDestination().getY());
 		compound.setInteger("DestinationZ", this.getDestination().getZ());
 	}
-
-	public abstract ResourceLocation getEntityTexturePath();
-
-	public abstract float getTopSpeed();
-
-	public abstract float getLaunchSpeed();
-
-	public abstract float getSpeedModifier();
-
-	public abstract void detonate();
 	
 }

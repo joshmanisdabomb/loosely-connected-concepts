@@ -2,27 +2,26 @@ package com.joshmanisdabomb.aimagg.entity.render;
 
 import javax.annotation.Nonnull;
 
-import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.entity.missile.AimaggEntityMissile;
-import com.joshmanisdabomb.aimagg.entity.missile.AimaggEntityMissileExplosive;
+import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
+import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileLargeModel;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class AimaggEntityMissileSmallRender extends Render<AimaggEntityMissile> {
-
+public class AimaggEntityMissileRender extends Render<AimaggEntityMissile> {
+	
     private ResourceLocation mobTexture;
 
     private AimaggEntityMissileSmallModel missileModel = new AimaggEntityMissileSmallModel();
+    private AimaggEntityMissileLargeModel missileLargeModel = new AimaggEntityMissileLargeModel();
     
     public static final Factory FACTORYEXPLOSIVE = new Factory();
 
-    public AimaggEntityMissileSmallRender(RenderManager rendermanagerIn) {
+    public AimaggEntityMissileRender(RenderManager rendermanagerIn) {
         super(rendermanagerIn);
     }
 
@@ -50,8 +49,12 @@ public class AimaggEntityMissileSmallRender extends Render<AimaggEntityMissile> 
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
 
-        this.missileModel.render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
-
+        if (entity.getMissileType().useLargeModel()) {
+        	this.missileLargeModel.render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
+        } else {
+        	this.missileModel.render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
+        }
+        	
         if (this.renderOutlines)
         {
             GlStateManager.disableOutlineMode();
@@ -66,7 +69,7 @@ public class AimaggEntityMissileSmallRender extends Render<AimaggEntityMissile> 
     	
 		@Override
         public Render<? super AimaggEntityMissile> createRenderFor(RenderManager manager) {
-            return new AimaggEntityMissileSmallRender(manager);
+            return new AimaggEntityMissileRender(manager);
         }
 
     }

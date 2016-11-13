@@ -1,13 +1,13 @@
 package com.joshmanisdabomb.aimagg.te.tesr;
 
 import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.MissileType;
+import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileLargeModel;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
-import com.joshmanisdabomb.aimagg.items.AimaggItemMissile.MissileType;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.model.AimaggTELaunchPadModel;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +16,7 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 
 	public static AimaggTELaunchPadModel model = new AimaggTELaunchPadModel();
 	public static AimaggEntityMissileSmallModel missileModel = new AimaggEntityMissileSmallModel();
+	public static AimaggEntityMissileLargeModel missileLargeModel = new AimaggEntityMissileLargeModel();
 	public static final ResourceLocation texture = new ResourceLocation(Constants.MOD_ID, "textures/tesr/launchpad.png");
 	
 	@Override
@@ -35,11 +36,11 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 		
 		MissileType mt = ((AimaggTELaunchPad)te).getMissileType();
 		if (mt != null) {
-			this.doLaunchPadRender(te, mt, x+0.5, y+(5/16D), z+0.5, partialTick);
+			this.doMissileRender(te, mt, x+0.5, y+(4/16D), z+0.5, partialTick);
 		}
 	}
 
-	public void doLaunchPadRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTick) {
+	public void doMissileRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTick) {
         GlStateManager.pushMatrix();
         GlStateManager.disableCull();
         GlStateManager.translate((float)x, (float)y, (float)z);
@@ -49,8 +50,12 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
         GlStateManager.enableAlpha();
         this.bindTexture(mt.getEntityTexture());
         
-        missileModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
-
+        if (mt.useLargeModel()) {
+            missileLargeModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+        } else {
+            missileModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+        }
+        
         GlStateManager.popMatrix();
 	}
 }

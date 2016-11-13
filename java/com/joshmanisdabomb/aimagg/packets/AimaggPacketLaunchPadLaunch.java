@@ -10,16 +10,14 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class AimaggPacketLaunchPadText implements IMessage {
+public class AimaggPacketLaunchPadLaunch implements IMessage {
 	
 	private int teX;
 	private int teY;
 	private int teZ;
-	private int destX;
-	private int destY;
-	private int destZ;
+	private boolean creative;
 
-	public AimaggPacketLaunchPadText() {}
+	public AimaggPacketLaunchPadLaunch() {}
 
 	public void setTileEntityPosition(BlockPos pos) {
 		this.teX = pos.getX();
@@ -27,10 +25,8 @@ public class AimaggPacketLaunchPadText implements IMessage {
 		this.teZ = pos.getZ();
 	}
 
-	public void setDestination(BlockPos pos) {
-		this.destX = pos.getX();
-		this.destY = pos.getY();
-		this.destZ = pos.getZ();
+	public void setCreativeMode(boolean isCreativeMode) {
+		this.creative = isCreativeMode;
 	}
 	
 	@Override
@@ -38,9 +34,7 @@ public class AimaggPacketLaunchPadText implements IMessage {
 		this.teX = buf.readInt();
 		this.teY = buf.readInt();
 		this.teZ = buf.readInt();
-		this.destX = buf.readInt();
-		this.destY = buf.readInt();
-		this.destZ = buf.readInt();
+		this.creative = buf.readBoolean();
 	}
 
 	@Override
@@ -48,14 +42,12 @@ public class AimaggPacketLaunchPadText implements IMessage {
 		buf.writeInt(teX);
 		buf.writeInt(teY);
 		buf.writeInt(teZ);
-		buf.writeInt(this.destX);
-		buf.writeInt(this.destY);
-		buf.writeInt(this.destZ);
+		buf.writeBoolean(creative);
 	}
 	
-	public static class Handler implements IMessageHandler<AimaggPacketLaunchPadText, IMessage> {
+	public static class Handler implements IMessageHandler<AimaggPacketLaunchPadLaunch, IMessage> {
         @Override
-        public IMessage onMessage(final AimaggPacketLaunchPadText message, final MessageContext ctx) {
+        public IMessage onMessage(final AimaggPacketLaunchPadLaunch message, final MessageContext ctx) {
             // Always use a construct like this to actually handle your message. This ensures that
             // your 'handle' code is run on the main Minecraft thread. 'onMessage' itself
             // is called on the networking thread so it is not safe to do a lot of things
@@ -73,11 +65,11 @@ public class AimaggPacketLaunchPadText implements IMessage {
             return null;
         }
 
-        private void handle(AimaggPacketLaunchPadText message, MessageContext ctx) {
+        private void handle(AimaggPacketLaunchPadLaunch message, MessageContext ctx) {
             // This code is run on the server side. So you can do server-side calculations here.
         	TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.teX, message.teY, message.teZ));
         	if (te instanceof AimaggTELaunchPad) {
-        		((AimaggTELaunchPad)te).setDestination(message.destX, message.destY, message.destZ);
+        		((AimaggTELaunchPad)te).launch(message.creative);
         	}
         }
     }

@@ -1,7 +1,8 @@
 package com.joshmanisdabomb.aimagg.te;
 
-import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
-import com.joshmanisdabomb.aimagg.items.AimaggItemMissile.MissileType;
+import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.MissileType;
+import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -12,6 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -203,7 +205,34 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	}
 	
 	public MissileType getMissileType() {
-		return this.inventory[0] == null ? null : AimaggItemMissile.MissileType.getFromMetadata(this.inventory[0].getMetadata());
+		return this.inventory[0] == null ? null : MissileType.getFromMetadata(this.inventory[0].getMetadata());
+	}
+
+	public void setDestination(int destX, int destY, int destZ) {
+		destinationx = destX;
+		destinationy = destY;
+		destinationz = destZ;
+		this.getTileData().setInteger("destinationx", destinationx);
+		this.getTileData().setInteger("destinationy", destinationy);
+		this.getTileData().setInteger("destinationz", destinationz);
+		this.markDirty();
+	}
+
+	public void launch(boolean creative) {
+		AimaggEntityMissile newMissile = new AimaggEntityMissile(this.getWorld(), this.getPos().getX() + 0.5, this.getPos().getY() + 0.3, this.getPos().getZ() + 0.5);
+		newMissile.setMissileType(this.getMissileType());
+		newMissile.setOrigin(newMissile.getPosition());
+		newMissile.setDestination(new BlockPos(destinationx,destinationy,destinationz));
+		newMissile.setStrength(this.inventory[0].getSubCompound(Constants.MOD_ID + ":missile", false).getInteger("strength"));
+		newMissile.setLaunched(true);
+		this.getWorld().spawnEntityInWorld(newMissile);
+		
+		if (!creative) {
+			this.inventory[0] = null;
+			this.inventory[1] = null;
+		}
+		
+		this.markDirty();
 	}
 	
 }

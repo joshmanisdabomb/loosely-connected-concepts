@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicHorizontal;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockInstafall;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockInstafall;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderConstructor;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
-import com.joshmanisdabomb.aimagg.te.tesr.AimaggTESRLaunchPad;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -20,6 +19,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggBlocks {
 
@@ -73,8 +74,9 @@ public class AimaggBlocks {
 		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(b), 0, new ModelResourceLocation(b.getRegistryName(), "inventory"));
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static void registerTileEntityRenderers() {
-		ClientRegistry.bindTileEntitySpecialRenderer(AimaggTELaunchPad.class, new AimaggTESRLaunchPad());
+		ClientRegistry.bindTileEntitySpecialRenderer(AimaggTELaunchPad.class, new com.joshmanisdabomb.aimagg.te.tesr.AimaggTESRLaunchPad());
 	}
 	
 }

@@ -1,6 +1,9 @@
 package com.joshmanisdabomb.aimagg.entity;
 
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,18 +35,39 @@ public class AimaggEntityNuclearExplosion extends Entity {
 	}
 	
 	public void onUpdate() {
-		final float r = this.getTicksProcessed() * 0.6F;
-		final float optimisation_rsquared = r*r;
-		for (int i = (int)Math.floor(-r); i <= (int)Math.floor(r); i++) {
-			final int optimisation_isquared = i*i;
-			for (int j = (int)Math.floor(-r); j <= (int)Math.floor(r); j++) {
-				final int optimisation_jsquared = j*j;
-				for (int k = (int)Math.floor(-r); k <= (int)Math.floor(r); k++) {
-					final int optimisation_ksquared = k*k;
-					BlockPos bp = new BlockPos(this.getPosition().getX()+i,this.getPosition().getY()+j,this.getPosition().getZ()+k);
-					if (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < optimisation_rsquared*0.4 || (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < optimisation_rsquared && this.worldObj.canBlockSeeSky(bp.up(1)))) {
-						if (!this.worldObj.isAirBlock(bp) && this.worldObj.getBlockState(bp).getBlock().getBlockHardness(this.worldObj.getBlockState(bp), this.worldObj, bp) != -1 && (this.worldObj.getBlockState(bp).getMaterial() == Material.WATER) ? this.rand.nextInt(3) != 0 : this.rand.nextInt(9) == 0) {
-							this.worldObj.setBlockToAir(bp);
+		if (this.getTicksProcessed() % 2 == 0 && !this.worldObj.isRemote) {
+			final float r = this.getTicksProcessed() * 0.4F;
+			final float optimisation_rsquared = r*r;
+			for (int i = (int)Math.floor(-r); i <= (int)Math.floor(r); i++) {
+				final int optimisation_isquared = i*i;
+				for (int j = (int)Math.floor(-r); j <= (int)Math.floor(r); j++) {
+					final int optimisation_jsquared = j*j;
+					for (int k = (int)Math.floor(-r); k <= (int)Math.floor(r); k++) {
+						final int optimisation_ksquared = k*k;
+						BlockPos bp = new BlockPos(this.getPosition().getX()+i,this.getPosition().getY()+j,this.getPosition().getZ()+k);
+						if (this.worldObj.canBlockSeeSky(bp.up(2)) ? (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < optimisation_rsquared) : (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < optimisation_rsquared*0.3)) {
+							if (!this.worldObj.isAirBlock(bp) && this.worldObj.getBlockState(bp).getBlockHardness(worldObj, bp) >= 0) {
+								if (rand.nextInt(12) == 0) {
+									this.worldObj.setBlockState(bp, AimaggBlocks.nuclearFire.getDefaultState(), 3);
+								} else if (rand.nextInt(5) == 0) {
+									this.worldObj.setBlockState(bp, AimaggBlocks.nuclearWaste.getDefaultState(), 3); break;
+								} else if (rand.nextInt(2) == 0){
+							        this.worldObj.setBlockState(bp, Blocks.AIR.getDefaultState(), 3); break;
+								} else {IBlockState state = this.worldObj.getBlockState(bp);
+					                this.worldObj.setBlockToAir(bp);
+					                BlockPos blockpos;
+	
+					                for (blockpos = bp.down(); (this.worldObj.isAirBlock(blockpos) && blockpos.getY() > 0); blockpos = blockpos.down())
+					                {
+					                    ;
+					                }
+	
+					                if (blockpos.getY() > 0)
+					                {
+					                	this.worldObj.setBlockState(blockpos.up(), state); //Forge: Fix loss of state information during world gen.
+					                }
+								}
+							}
 						}
 					}
 				}
@@ -51,7 +75,7 @@ public class AimaggEntityNuclearExplosion extends Entity {
 		}
 		
 		this.setTicksProcessed(this.getTicksProcessed() + 1);
-		if (this.getTicksProcessed() > 120*this.getStrength()) {
+		if (this.getTicksProcessed() > 20*this.getStrength()) {
 			this.setDead();
 		}
 	}

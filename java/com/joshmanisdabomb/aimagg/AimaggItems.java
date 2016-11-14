@@ -13,16 +13,20 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class AimaggItems {
-	
-	//Added following a tutorial.
+
+	//Test Items, Sort Value 2^31-4
 	public static Item testItem;
+	
+	//Missiles, Sort Values 21-36
 	public static Item missile;
+	
+	//Misc, Sort Values 40
 	public static Item vectorPearl;
 	
 	public static ArrayList<Item> registry = new ArrayList<Item>();
 	
 	public static void init() {
-		testItem = new AimaggItemBasic("testItem", Integer.MAX_VALUE-2);
+		testItem = new AimaggItemBasic("testItem", Integer.MAX_VALUE-3);
 		missile = new AimaggItemMissile("missile", 21);
 		vectorPearl = new AimaggItemVectorPearl("vectorPearl", 40);
 	}

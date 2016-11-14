@@ -223,7 +223,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		newMissile.setMissileType(this.getMissileType());
 		newMissile.setOrigin(newMissile.getPosition());
 		newMissile.setDestination(new BlockPos(destinationx,destinationy,destinationz));
-		newMissile.setStrength(this.inventory[0].getSubCompound(Constants.MOD_ID + ":missile", false).getInteger("strength"));
+		newMissile.setStrength(this.inventory[0].getSubCompound(Constants.MOD_ID + "_missile", false).getInteger("strength"));
 		newMissile.setLaunched(true);
 		this.getWorld().spawnEntityInWorld(newMissile);
 		

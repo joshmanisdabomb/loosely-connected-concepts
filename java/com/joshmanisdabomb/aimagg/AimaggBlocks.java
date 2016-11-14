@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicHorizontal;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockInstafall;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderConstructor;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
@@ -32,6 +34,10 @@ public class AimaggBlocks {
 	//Launch Pad, Sort Value 1
 	public static Block launchPad;
 	
+	//Misc, Sort Values 41-42
+	public static Block nuclearWaste;
+	public static Block nuclearFire;
+	
 	public static ArrayList<Block> registry = new ArrayList<Block>();
 	
 	public static void init() {
@@ -40,6 +46,8 @@ public class AimaggBlocks {
 		//testBlock3 = new AimaggBlockBasic("testBlock3", Integer.MAX_VALUE, Material.GROUND, MapColor.ADOBE);
 		spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 0, Material.IRON, MapColor.SNOW);
 		launchPad = new AimaggBlockLaunchPad("launchPad", 20, Material.IRON, MapColor.SNOW);
+		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 41, Material.ROCK, MapColor.GRAY);
+		nuclearFire = new AimaggBlockFireNuclear("nuclearFire", 0, Material.FIRE, MapColor.GREEN);
 	}
 	
 	public static void register() {

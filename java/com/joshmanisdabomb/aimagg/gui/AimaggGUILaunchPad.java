@@ -124,7 +124,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 			this.destinationx.setEnabled(false);
 			this.destinationy.setEnabled(false);
 			this.destinationz.setEnabled(false);
-			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getSubCompound(Constants.MOD_ID + ":vectorpearl", true);
+			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
 			if (Integer.valueOf(this.destinationx.getText()) != vpNBT.getInteger("xcoord")) {
 				this.destinationx.setText(Integer.toString(vpNBT.getInteger("xcoord")));
 				this.textUpdate();

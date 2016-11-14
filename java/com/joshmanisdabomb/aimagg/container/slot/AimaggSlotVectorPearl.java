@@ -16,7 +16,7 @@ public class AimaggSlotVectorPearl extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + ":vectorpearl", false);
+		NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vectorpearl", false);
         return stack != null && stack.getItem() == AimaggItems.vectorPearl && vpNBT != null && vpNBT.getBoolean("used");
     }
 	

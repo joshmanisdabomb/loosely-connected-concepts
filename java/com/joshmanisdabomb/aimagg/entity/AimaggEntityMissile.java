@@ -77,7 +77,17 @@ public class AimaggEntityMissile extends Entity {
 				} else {
 			        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
 				}
+				break;
 			case FIRE:
+				if (!this.worldObj.isRemote) {
+					Explosion explosion = new Explosion(this.worldObj, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), true, true);
+			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) {
+			        	explosion.doExplosionA();
+			        	explosion.doExplosionB(true);
+			        }
+				} else {
+			        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
+				}
 				break;
 			case NUCLEAR:
 				if (!this.worldObj.isRemote) {

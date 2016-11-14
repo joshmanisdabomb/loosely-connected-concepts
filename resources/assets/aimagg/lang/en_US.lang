@@ -13,6 +13,8 @@ item.missile.explosive.name=Explosive Missile
 item.missile.fire.name=Fire Missile
 item.missile.nuclear.name=Nuclear Missile
 
+tile.nuclearWaste.name=Nuclear Waste
+
 itemGroup.aimaggTab=Aimless Agglomeration
 
 container.aimagg_spreader_constructor=Spreader Constructor
@@ -25,4 +27,6 @@ tooltip.vectorpearl.blank=Blank
 tooltip.vectorpearl.coordinates=Coordinates: %1$s%2$s
 tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
 
-tooltip.missile.strength=Strength: %1$s%2$d TNT
+tooltip.missile.strength=Strength: %1$s%2$f%3$s
+tooltip.missile.strength.tnt= TNT
+tooltip.missile.strength.kilotons= kt

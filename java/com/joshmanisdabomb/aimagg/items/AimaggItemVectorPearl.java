@@ -30,7 +30,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
 		if (worldIn.isRemote) { return new ActionResult(EnumActionResult.SUCCESS, itemStackIn); }
 		
-		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + ":vectorpearl", true);
+		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
 		if (vpNBT.getBoolean("used")) {
 			vpNBT.setBoolean("used", false);
 			vpNBT.setInteger("xcoord", 0);
@@ -54,7 +54,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 	public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (worldIn.isRemote) { return EnumActionResult.SUCCESS; }
 
-		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + ":vectorpearl", true);
+		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
 		if (vpNBT.getBoolean("used")) {
 			vpNBT.setBoolean("used", false);
 			vpNBT.setInteger("xcoord", 0);
@@ -79,7 +79,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		
 		if (stack.hasTagCompound()) {
-			NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + ":vectorpearl", false);
+			NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vectorpearl", false);
 			
 			if (vpNBT != null && vpNBT.getBoolean("used")) {
 	        	tooltip.add(

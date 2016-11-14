@@ -30,12 +30,19 @@ public class AimaggItemMissile extends AimaggItemBasic {
 	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		
-		NBTTagCompound mNBT = stack.getSubCompound(Constants.MOD_ID + ":missile", false);
-        if (MissileType.getFromMetadata(stack.getMetadata()).showStrength() && mNBT != null) {
-        	tooltip.add(
-        				TextFormatting.WHITE + 
-        			    I18n.format("tooltip.missile.strength", new Object[] {TextFormatting.RED, mNBT.getInteger("strength")})
-        			   );
+		NBTTagCompound mNBT = stack.getSubCompound(Constants.MOD_ID + "_missile", false);
+        if (mNBT != null) {
+        	if (MissileType.getFromMetadata(stack.getMetadata()).usingKilotons()) {
+	        	tooltip.add(
+	        				TextFormatting.WHITE + 
+	        			    I18n.format("tooltip.missile.strength", new Object[] {TextFormatting.GREEN, mNBT.getInteger("strength")/20F, I18n.format("tooltip.missile.strength.kilotons", new Object[0])})
+	        			   );
+	        } else {
+		        	tooltip.add(
+		    				TextFormatting.WHITE + 
+		    			    I18n.format("tooltip.missile.strength", new Object[] {TextFormatting.RED, mNBT.getInteger("strength"), I18n.format("tooltip.missile.strength.tnt", new Object[0])})
+		    			   );
+	        }
         }
 	}
 	
@@ -48,7 +55,7 @@ public class AimaggItemMissile extends AimaggItemBasic {
 	public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
 		for (MissileType m : MissileType.values()) {
 			ItemStack is = new ItemStack(itemIn, 1, m.getMetadata());
-			is.getSubCompound(Constants.MOD_ID + ":missile", true).setInteger("strength", 1);
+			is.getSubCompound(Constants.MOD_ID + "_missile", true).setInteger("strength", 1);
             subItems.add(is);
         }
 	}

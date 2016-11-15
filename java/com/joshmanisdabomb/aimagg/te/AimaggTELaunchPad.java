@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.te;
 
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.MissileType;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +14,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	
@@ -233,6 +237,16 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		}
 		
 		this.markDirty();
+	}
+	
+	@SideOnly(Side.CLIENT)
+    public double getMaxRenderDistanceSquared() {
+        return 16384D;
+    }
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.addCoord(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
 	}
 	
 }

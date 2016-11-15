@@ -1,14 +1,17 @@
 package com.joshmanisdabomb.aimagg;
 
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 
 public enum MissileType {
-	EXPLOSIVE(0, false, new ResourceLocation("aimagg:textures/entity/missile/small/explosive.png"), 1.3F, 0.01F, 1.04F, false),
-	FIRE(1, false, new ResourceLocation("aimagg:textures/entity/missile/small/fire.png"), 1.4F, 0.04F, 1.01F, false),
-	NUCLEAR(2, true, new ResourceLocation("aimagg:textures/entity/missile/large/nuclear.png"), 0.8F, 0.004F, 1.02F, true);
+	EXPLOSIVE(0, false, new ResourceLocation("aimagg:textures/entity/missile/small/explosive.png"), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"), 1.3F, 0.01F, 1.04F, false),
+	FIRE(1, false, new ResourceLocation("aimagg:textures/entity/missile/small/fire.png"), new ModelResourceLocation(Constants.MOD_ID + ":missile/fire", "inventory"), 1.3F, 0.01F, 1.04F, false),
+	NUCLEAR(2, true, new ResourceLocation("aimagg:textures/entity/missile/large/nuclear.png"), new ModelResourceLocation(Constants.MOD_ID + ":missile/nuclear", "inventory"), 0.8F, 0.004F, 1.02F, true);
 
 	private int metadata;
 	public boolean useKilotons;
+	
+	private final ModelResourceLocation mrt;
 	public boolean largeModel;
 	private final ResourceLocation entityTexture;
 	
@@ -16,7 +19,7 @@ public enum MissileType {
 	private float initialSpeed;
 	private float speedModifier;
 
-	MissileType(int metadata, boolean largeModel, ResourceLocation texture, float topSpeed, float initialSpeed, float speedModifier, boolean useKilotons) {
+	MissileType(int metadata, boolean largeModel, ResourceLocation texture, ModelResourceLocation mrt, float topSpeed, float initialSpeed, float speedModifier, boolean useKilotons) {
 		this.metadata = metadata;
 		this.useKilotons = useKilotons;
 		this.entityTexture = texture;
@@ -24,6 +27,7 @@ public enum MissileType {
 		this.initialSpeed = initialSpeed;
 		this.speedModifier = speedModifier;
 		this.largeModel = largeModel;
+		this.mrt = mrt;
 	}
 
 	public static MissileType getFromMetadata(int metadata) {
@@ -61,5 +65,9 @@ public enum MissileType {
 
 	public boolean useLargeModel() {
 		return largeModel;
+	}
+	
+	public ModelResourceLocation getItemModel() {
+		return mrt;
 	}
 }

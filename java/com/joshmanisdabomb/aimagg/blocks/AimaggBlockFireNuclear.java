@@ -45,7 +45,6 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         this.disableStats();
         this.setCreativeTab(null);
         this.setHardness(0.0F);
-        this.setLightLevel(1.0F);
         this.setSoundType(SoundType.CLOTH);
 	}
 	
@@ -97,7 +96,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
      * How many world ticks before ticking
      */
     public int tickRate(World worldIn) {
-        return 7;
+        return 12;
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -189,7 +188,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if (random.nextInt(age + 10) < 5 && !worldIn.isRainingAt(pos))
+        if (random.nextInt(age + 20) < 5 && !worldIn.isRainingAt(pos))
         {
             int j = age + random.nextInt(5) / 4;
 

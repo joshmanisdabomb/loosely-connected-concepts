@@ -13,6 +13,14 @@ item.missile.explosive.name=Explosive Missile
 item.missile.fire.name=Fire Missile
 item.missile.nuclear.name=Nuclear Missile
 
+item.upgradeCard.sc_base.name=Base Upgrade Card
+item.upgradeCard.sc_speed.name=Speed Upgrade Card
+item.upgradeCard.sc_damage.name=Damage Upgrade Card
+item.upgradeCard.sc_range.name=Range Upgrade Card
+item.upgradeCard.sc_rangeinf.name=Infinite Range Upgrade Card
+item.upgradeCard.sc_spread.name=Spread Upgrade Card
+item.upgradeCard.sc_eating.name=Eating Upgrade Card
+
 tile.nuclearWaste.name=Nuclear Waste
 
 itemGroup.aimaggTab=Aimless Agglomeration
@@ -30,3 +38,14 @@ tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.%1$sRi
 tooltip.missile.strength=Strength: %1$s%2$f%3$s
 tooltip.missile.strength.tnt= TNT
 tooltip.missile.strength.kilotons= kt
+
+tooltip.upgradecard.usein=Use In: %1$s%2$s
+tooltip.upgradecard.usein.0=Spreader Constructor
+tooltip.upgradecard.max=Maximum Amount: %1$s%2$d
+tooltip.upgradecard.effect=Effect: %1$s%2$s
+tooltip.upgradecard.effect.1=-2 Tick Rate
+tooltip.upgradecard.effect.2=+0.5 Heart Damage
+tooltip.upgradecard.effect.3=+5 Maximum Travel Range
+tooltip.upgradecard.effect.4=Infinite Maximum Travel Range
+tooltip.upgradecard.effect.5=+1 Spread Range
+tooltip.upgradecard.effect.6=Disappears on Infection

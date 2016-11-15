@@ -33,7 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntityProvider {
 	
-    public static final AxisAlignedBB LAUNCH_PAD_AABB_SELECTION = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4/16D, 1.0D);
+    public static final AxisAlignedBB LAUNCH_PAD_AABB_SELECTION   = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4/16D, 1.0D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_1 = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 2/16D, 1.0D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_2 = new AxisAlignedBB(1/16D, 2/16D, 1/16D, 15/16D, 3/16D, 15/16D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_3 = new AxisAlignedBB(2/16D, 3/16D, 2/16D, 14/16D, 4/16D, 14/16D);
@@ -41,6 +41,7 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_5 = new AxisAlignedBB(14/16D, 0.0D, 1/16D, 15/16D, 32/16D, 2/16D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_6 = new AxisAlignedBB(1/16D, 0.0D, 14/16D, 2/16D, 32/16D, 15/16D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_7 = new AxisAlignedBB(14/16D, 0.0D, 14/16D, 15/16D, 32/16D, 15/16D);
+	public static final AxisAlignedBB LAUNCH_PAD_AABB_RENDER      = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 48/16D, 1.0D);
 
 	public AimaggBlockLaunchPad(String internalName, int sortVal, Material material, MapColor mcolor) {
 		super(internalName, sortVal, material, mcolor);

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
+import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard;
+import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
 import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
 
 import net.minecraft.client.Minecraft;
@@ -23,12 +25,17 @@ public class AimaggItems {
 	//Misc, Sort Values 40
 	public static Item vectorPearl;
 	
+	//Misc, Sort Values 2000-2100
+	public static Item upgradeCard;
+	
 	public static ArrayList<Item> registry = new ArrayList<Item>();
 	
 	public static void init() {
 		testItem = new AimaggItemBasic("testItem", Integer.MAX_VALUE-3);
 		missile = new AimaggItemMissile("missile", 21);
 		vectorPearl = new AimaggItemVectorPearl("vectorPearl", 40);
+		
+		upgradeCard = new AimaggItemUpgradeCard("upgradeCard", 2000);
 	}
 	
 	public static void register() {
@@ -50,9 +57,13 @@ public class AimaggItems {
 	}
 
 	public static void customModelResourceLocations() {
-		ModelLoader.setCustomModelResourceLocation(missile, MissileType.EXPLOSIVE.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(missile, MissileType.FIRE.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/explosive", "inventory"));
-		ModelLoader.setCustomModelResourceLocation(missile, MissileType.NUCLEAR.getMetadata(), new ModelResourceLocation(Constants.MOD_ID + ":missile/nuclear", "inventory"));
+		for (MissileType mt : MissileType.values()) {
+			ModelLoader.setCustomModelResourceLocation(missile, mt.getMetadata(), mt.getItemModel());
+		}
+		
+		for (UpgradeCardType uc : UpgradeCardType.values()) {
+			ModelLoader.setCustomModelResourceLocation(upgradeCard, uc.getMetadata(), uc.getItemModel());
+		}
 	}
 	
 }

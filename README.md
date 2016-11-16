@@ -16,3 +16,5 @@ This is a mod for Minecraft 1.10.2 which aims to bring different stuff to the ga
 * Teleporters to quickly move from one place to another.
 * Magrail like system for better, faster, more controllable transport than minecarts.
 * Lag-free elytra launcher.
+* Automatic fisher (with enchantments available).
+* A way to use looting on smelting ores.

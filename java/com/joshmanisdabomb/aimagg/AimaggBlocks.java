@@ -7,6 +7,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicHorizontal;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockInstafall;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderConstructor;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
@@ -29,13 +30,14 @@ public class AimaggBlocks {
 	public static Block testBlock2;
 	public static Block testBlock3;
 	
-	//Spreaders, Sort Value 0
+	//Spreaders, Sort Values 1-100
+	public static Block spreader;
 	public static Block spreaderConstructor;
 	
-	//Launch Pad, Sort Value 1
+	//Missiles, Sort Values 101-200
 	public static Block launchPad;
 	
-	//Misc, Sort Values 41-42
+	//Misc, Sort Values 100000-101000
 	public static Block nuclearWaste;
 	public static Block nuclearFire;
 	
@@ -45,9 +47,10 @@ public class AimaggBlocks {
 		testBlock = new AimaggBlockBasic("testBlock", Integer.MAX_VALUE-2, Material.GROUND, MapColor.YELLOW);
 		testBlock2 = new AimaggBlockBasicHorizontal("testBlock2", Integer.MAX_VALUE-1, Material.GROUND, MapColor.ADOBE);
 		//testBlock3 = new AimaggBlockBasic("testBlock3", Integer.MAX_VALUE, Material.GROUND, MapColor.ADOBE);
-		spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 0, Material.IRON, MapColor.SNOW);
-		launchPad = new AimaggBlockLaunchPad("launchPad", 20, Material.IRON, MapColor.SNOW);
-		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 41, Material.ROCK, MapColor.GRAY);
+		spreader = new AimaggBlockSpreader("spreader", 49, Material.IRON, MapColor.SNOW);
+		spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 50, Material.IRON, MapColor.SNOW);
+		launchPad = new AimaggBlockLaunchPad("launchPad", 149, Material.IRON, MapColor.SNOW);
+		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 100200, Material.ROCK, MapColor.GRAY);
 		nuclearFire = new AimaggBlockFireNuclear("nuclearFire", 0, Material.FIRE, MapColor.GREEN);
 	}
 	

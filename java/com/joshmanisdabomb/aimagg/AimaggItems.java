@@ -19,23 +19,23 @@ public class AimaggItems {
 	//Test Items, Sort Value 2^31-4
 	public static Item testItem;
 	
-	//Missiles, Sort Values 21-36
+	//Missiles, Sort Values 101-200
 	public static Item missile;
 	
-	//Misc, Sort Values 40
+	//Misc, Sort Values 100000-101000
 	public static Item vectorPearl;
 	
-	//Misc, Sort Values 2000-2100
+	//Upgrade Cards, Sort Values 101001+
 	public static Item upgradeCard;
 	
 	public static ArrayList<Item> registry = new ArrayList<Item>();
 	
 	public static void init() {
 		testItem = new AimaggItemBasic("testItem", Integer.MAX_VALUE-3);
-		missile = new AimaggItemMissile("missile", 21);
-		vectorPearl = new AimaggItemVectorPearl("vectorPearl", 40);
+		missile = new AimaggItemMissile("missile", 150);
+		vectorPearl = new AimaggItemVectorPearl("vectorPearl", 100010);
 		
-		upgradeCard = new AimaggItemUpgradeCard("upgradeCard", 2000);
+		upgradeCard = new AimaggItemUpgradeCard("upgradeCard", 101001);
 	}
 	
 	public static void register() {

@@ -69,7 +69,7 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 		SC_BASE(0,0,64,false,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/base", "inventory")),
 		SC_SPEED(1,0,20,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/speed", "inventory")),   //Base speed is 42 ticks, using 20 cards will reduce tick rate to 2.
 		SC_DAMAGE(2,0,20,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/damage", "inventory")),  //Add half a heart to damage.
-		SC_RANGE(3,0,64,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/range", "inventory")),   //Range increase by 5 blocks for every card.
+		SC_RANGE(3,0,64,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/range", "inventory")),   //Base range is 5, Range increase by 5 blocks for every card.
 		SC_RANGEINF(4,0,1,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/rangeinf", "inventory")), //Range can be infinite.
 		SC_SPREAD(5,0,4,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/spread", "inventory")),   //Base spread is 1 block away, using 4 cards will increase spread to 5 blocks away.
 		SC_EATING(6,0,1,true,new ModelResourceLocation(Constants.MOD_ID + ":upgradecard/spreaderconstructor/eating", "inventory"));   //With this card, the spreader will remove itself when infecting new blocks.

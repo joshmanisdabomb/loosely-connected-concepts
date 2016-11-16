@@ -1,30 +1,10 @@
 package com.joshmanisdabomb.aimagg.blocks;
 
-import java.util.Random;
-
-import com.joshmanisdabomb.aimagg.AimaggBlocks;
-import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.te.AimaggTESpreader;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
 
-public class AimaggBlockSpreader extends AimaggBlockBasic implements ITileEntityProvider {
+public class AimaggBlockSpreader extends AimaggBlockBasic {
 	
 	public static final PropertyInteger ID = PropertyInteger.create("id", 0, 15);
 	
@@ -32,7 +12,7 @@ public class AimaggBlockSpreader extends AimaggBlockBasic implements ITileEntity
 		super(internalName, sortVal, material, mcolor);
 		this.setLightOpacity(0);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ID, 0));
-	}
+	}/*
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
@@ -139,5 +119,24 @@ public class AimaggBlockSpreader extends AimaggBlockBasic implements ITileEntity
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, ID);
 	}
+	
+	public static class SpreaderData extends WorldSavedData {
+
+		final static String key = Constants.MOD_ID + "_spreaderglobals";
+		
+		public SpreaderData(String name) {
+			super(name);
+		}
+
+		@Override
+		public void readFromNBT(NBTTagCompound nbt) {
+			
+		}
+
+		@Override
+		public NBTTagCompound writeToNBT(NBTTagCompound p_189551_1_) {
+			return null;
+		}
+	}*/
 
 }

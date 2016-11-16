@@ -47,8 +47,8 @@ public class AimaggBlocks {
 		testBlock = new AimaggBlockBasic("testBlock", Integer.MAX_VALUE-2, Material.GROUND, MapColor.YELLOW);
 		testBlock2 = new AimaggBlockBasicHorizontal("testBlock2", Integer.MAX_VALUE-1, Material.GROUND, MapColor.ADOBE);
 		//testBlock3 = new AimaggBlockBasic("testBlock3", Integer.MAX_VALUE, Material.GROUND, MapColor.ADOBE);
-		spreader = new AimaggBlockSpreader("spreader", 49, Material.IRON, MapColor.SNOW);
-		spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 50, Material.IRON, MapColor.SNOW);
+		//spreader = new AimaggBlockSpreader("spreader", 49, Material.IRON, MapColor.SNOW);
+		//spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 50, Material.IRON, MapColor.SNOW);
 		launchPad = new AimaggBlockLaunchPad("launchPad", 149, Material.IRON, MapColor.SNOW);
 		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 100200, Material.ROCK, MapColor.GRAY);
 		nuclearFire = new AimaggBlockFireNuclear("nuclearFire", 0, Material.FIRE, MapColor.GREEN);

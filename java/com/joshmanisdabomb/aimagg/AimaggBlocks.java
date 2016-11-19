@@ -12,10 +12,12 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderConstructor;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -50,7 +52,7 @@ public class AimaggBlocks {
 		//spreader = new AimaggBlockSpreader("spreader", 49, Material.IRON, MapColor.SNOW);
 		//spreaderConstructor = new AimaggBlockSpreaderConstructor("spreaderConstructor", 50, Material.IRON, MapColor.SNOW);
 		launchPad = new AimaggBlockLaunchPad("launchPad", 149, Material.IRON, MapColor.SNOW);
-		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 100200, Material.ROCK, MapColor.GRAY);
+		nuclearWaste = new AimaggBlockInstafall("nuclearWaste", 100200, Material.ROCK, MapColor.GRAY).setBlockUnbreakable().setResistance(6000000.0F);
 		nuclearFire = new AimaggBlockFireNuclear("nuclearFire", 0, Material.FIRE, MapColor.GREEN);
 	}
 	

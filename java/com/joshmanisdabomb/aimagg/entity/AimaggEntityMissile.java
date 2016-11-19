@@ -95,8 +95,30 @@ public class AimaggEntityMissile extends Entity {
 					nukeExp.setStrength(this.getStrength());
 					this.worldObj.spawnEntityInWorld(nukeExp);
 				}
+				break;
 			default:
 				break;
+		}
+	}
+	
+	public void particleEffects() {
+		if (this.worldObj.isRemote) {
+			switch (this.getMissileType()) {
+				case EXPLOSIVE:
+					Vec3d rot = this.getVectorForRotation(rotationPitch-90, rotationYaw);
+					Vec3d particleEmitter = this.getPositionVector().add(rot);
+					Vec3d particleSpeed = rot;
+					for (int i = 0; i < 16; i++) {
+						this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, true, particleEmitter.xCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.yCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.zCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleSpeed.xCoord, particleSpeed.yCoord, particleSpeed.zCoord);
+					}
+					break;
+				case FIRE:
+					break;
+				case NUCLEAR:
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
@@ -132,7 +154,7 @@ public class AimaggEntityMissile extends Entity {
 			}
 
 	        this.setPosition(this.posX+this.motionX,this.posY+this.motionY,this.posZ+this.motionZ);
-	        
+
 	        //Rotation
 	        double d0 = this.motionX;
             double d1 = this.motionY;
@@ -149,6 +171,9 @@ public class AimaggEntityMissile extends Entity {
             	this.setFreeMotion(true);
             }
             
+            //Particles
+            this.particleEffects();
+            
             //Collision
             List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
             int i = MathHelper.floor_double(this.getEntityBoundingBox().minX) - 1;
@@ -159,24 +184,16 @@ public class AimaggEntityMissile extends Entity {
             int j1 = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxZ) + 1;
             BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
-            try
-            {
-                for (int k1 = i; k1 < j; ++k1)
-                {
-                    for (int l1 = i1; l1 < j1; ++l1)
-                    {
+            try {
+                for (int k1 = i; k1 < j; ++k1) {
+                    for (int l1 = i1; l1 < j1; ++l1) {
                         int i2 = (k1 != i && k1 != j - 1 ? 0 : 1) + (l1 != i1 && l1 != j1 - 1 ? 0 : 1);
-
-                        if (i2 != 2 && this.getEntityWorld().isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1)))
-                        {
-                            for (int j2 = k; j2 < l; ++j2)
-                            {
-                                if (i2 <= 0 || j2 != k && j2 != l - 1)
-                                {
+                        if (i2 != 2 && this.getEntityWorld().isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1))) {
+                            for (int j2 = k; j2 < l; ++j2) {
+                                if (i2 <= 0 || j2 != k && j2 != l - 1) {
                                     blockpos$pooledmutableblockpos.setPos(k1, j2, l1);
 
-                                    if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000)
-                                    {
+                                    if (k1 < -30000000 || k1 >= 30000000 || l1 < -30000000 || l1 >= 30000000) {
                                         this.detonate();
                                         this.setDead();
                                         return;
@@ -187,8 +204,7 @@ public class AimaggEntityMissile extends Entity {
                                     	iblockstate.addCollisionBoxToList(this.getEntityWorld(), blockpos$pooledmutableblockpos, this.getEntityBoundingBox(), list, (Entity)null);
                                     }
                                     
-                                    if (!list.isEmpty())
-                                    {
+                                    if (!list.isEmpty()) {
                                         this.detonate();
                                         this.setDead();
                                         return;
@@ -199,8 +215,7 @@ public class AimaggEntityMissile extends Entity {
                     }
                 }
             }
-            finally
-            {
+            finally {
                 blockpos$pooledmutableblockpos.release();
             }
             

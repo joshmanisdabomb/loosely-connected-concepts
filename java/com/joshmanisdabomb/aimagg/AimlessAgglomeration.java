@@ -50,7 +50,6 @@ public class AimlessAgglomeration {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new AimaggGUIHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggEventHandler());
-		
 		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new AimaggChunkManager());
 		
 		proxy.init();

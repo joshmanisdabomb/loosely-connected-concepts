@@ -1,7 +1,7 @@
 {
 	"parent": "aimagg:item/missile/base_large",
 	"textures": {
-		"body": "aimagg:items/missile/bodyLarge",
+		"body": "aimagg:items/missile/body_large",
 		"missile": "aimagg:items/missile/nuclear"
 	}
 }

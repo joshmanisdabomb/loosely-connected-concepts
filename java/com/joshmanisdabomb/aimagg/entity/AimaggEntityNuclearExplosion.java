@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 
 public class AimaggEntityNuclearExplosion extends Entity {
 
+	//TODO NEEDS A MAJOR REWORK
+	
 	private static final DataParameter<Float> TICKSPROCESSED = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.FLOAT);
 	private static final DataParameter<Float> STRENGTH = EntityDataManager.createKey(AimaggEntityMissile.class, DataSerializers.FLOAT);
 
@@ -35,9 +37,9 @@ public class AimaggEntityNuclearExplosion extends Entity {
 	}
 	
 	public void onUpdate() {
-		if (this.getTicksProcessed() % 4 == 0 && !this.worldObj.isRemote) {
+		if (this.getTicksProcessed() % 4 == 0 && !this.world.isRemote) {
 			final float r = this.getTicksProcessed() * 0.5F;
-			final float optimisation_rsquared = r*r;
+			final float optimisation_radiussq = r*r;
 			for (int i = (int)Math.floor(-r); i <= (int)Math.floor(r); i++) {
 				final int optimisation_isquared = i*i;
 				for (int j = (int)Math.floor(-r); j <= (int)Math.floor(r); j++) {
@@ -45,29 +47,29 @@ public class AimaggEntityNuclearExplosion extends Entity {
 					for (int k = (int)Math.floor(-r); k <= (int)Math.floor(r); k++) {
 						final int optimisation_ksquared = k*k;
 						BlockPos bp = new BlockPos(this.getPosition().getX()+i,this.getPosition().getY()+j,this.getPosition().getZ()+k);
-						if (this.worldObj.canBlockSeeSky(bp.up(3)) ? (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < optimisation_rsquared + rand.nextInt(13) - 6) : (optimisation_isquared + optimisation_jsquared + optimisation_ksquared < (optimisation_rsquared*0.4) + rand.nextInt(13) - 6)) {
-							final IBlockState optimisation_blockstate = this.worldObj.getBlockState(bp);
-							if (!optimisation_blockstate.getBlock().isAir(optimisation_blockstate, worldObj, bp) && optimisation_blockstate.getBlockHardness(worldObj, bp) >= 0) {
+						if ((optimisation_isquared + optimisation_jsquared + optimisation_ksquared <= optimisation_radiussq) && (optimisation_isquared + optimisation_jsquared + optimisation_ksquared >= optimisation_radiussq - 120)) {
+							final IBlockState optimisation_blockstate = this.world.getBlockState(bp);
+							if (!optimisation_blockstate.getBlock().isAir(optimisation_blockstate, world, bp) && optimisation_blockstate.getBlockHardness(world, bp) >= 0) {
 								if (optimisation_blockstate.getBlock() == AimaggBlocks.nuclearWaste || optimisation_blockstate.getBlock() == AimaggBlocks.nuclearFire) {
 									;
 								} else if (rand.nextInt(Math.max((int)(r*2F),1)) == 0) {
-									this.worldObj.setBlockState(bp, AimaggBlocks.nuclearFire.getDefaultState(), 3);
+									this.world.setBlockState(bp, AimaggBlocks.nuclearFire.getDefaultState(), 3);
 								} else if (rand.nextInt(Math.max((int)(r*0.5F),1)) == 0) {
-									this.worldObj.setBlockState(bp, AimaggBlocks.nuclearWaste.getDefaultState(), 3);
+									this.world.setBlockState(bp, AimaggBlocks.nuclearWaste.getDefaultState(), 3);
 								} else if (rand.nextInt(Math.max((int)(r*0.09F),1)) == 0) {
-							        this.worldObj.setBlockState(bp, Blocks.AIR.getDefaultState(), 3);
+							        this.world.setBlockState(bp, Blocks.AIR.getDefaultState(), 3);
 								} else if (rand.nextInt(Math.max((int)(r*0.09F),1)) == 0) {
-					                this.worldObj.setBlockToAir(bp);
+					                this.world.setBlockToAir(bp);
 					                BlockPos blockpos;
 	
-					                for (blockpos = bp.down(); (this.worldObj.isAirBlock(blockpos) && blockpos.getY() > 0); blockpos = blockpos.down())
+					                for (blockpos = bp.down(); (this.world.isAirBlock(blockpos) && blockpos.getY() > 0); blockpos = blockpos.down())
 					                {
 					                    ;
 					                }
 	
 					                if (blockpos.getY() > 0)
 					                {
-					                	this.worldObj.setBlockState(blockpos.up(), optimisation_blockstate); //Forge: Fix loss of state information during world gen.
+					                	this.world.setBlockState(blockpos.up(), optimisation_blockstate);
 					                }
 								}
 							}

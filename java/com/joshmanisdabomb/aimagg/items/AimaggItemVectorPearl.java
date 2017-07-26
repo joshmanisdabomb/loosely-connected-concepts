@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.joshmanisdabomb.aimagg.Constants;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,40 +28,40 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 	}
 	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-		if (worldIn.isRemote) { return new ActionResult(EnumActionResult.SUCCESS, itemStackIn); }
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+		if (world.isRemote) { return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand)); }
 		
-		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
+		NBTTagCompound vpNBT = player.getHeldItem(hand).getOrCreateSubCompound(Constants.MOD_ID + "_vector_pearl");
 		if (vpNBT.getBoolean("used")) {
 			vpNBT.setBoolean("used", false);
 			vpNBT.setInteger("xcoord", 0);
 			vpNBT.setInteger("ycoord", 0);
 			vpNBT.setInteger("zcoord", 0);
-			playerIn.addChatMessage(new TextComponentTranslation("item.vectorPearl.cleared", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.vector_pearl.cleared", new Object[0]));
 			
-			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+			return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		} else {
 			vpNBT.setBoolean("used", true);
-			vpNBT.setInteger("xcoord", (int)playerIn.posX);
-			vpNBT.setInteger("ycoord", (int)playerIn.posY);
-			vpNBT.setInteger("zcoord", (int)playerIn.posZ);
-			playerIn.addChatMessage(new TextComponentTranslation("item.vectorPearl.saved.player", new Object[0]));
+			vpNBT.setInteger("xcoord", (int)player.posX);
+			vpNBT.setInteger("ycoord", (int)player.posY);
+			vpNBT.setInteger("zcoord", (int)player.posZ);
+			player.sendMessage(new TextComponentTranslation("item.vector_pearl.saved.player", new Object[0]));
 			
-			return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
+			return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		}
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) { return EnumActionResult.SUCCESS; }
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (world.isRemote) { return EnumActionResult.SUCCESS; }
 
-		NBTTagCompound vpNBT = itemStackIn.getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
+		NBTTagCompound vpNBT = player.getHeldItem(hand).getOrCreateSubCompound(Constants.MOD_ID + "_vector_pearl");
 		if (vpNBT.getBoolean("used")) {
 			vpNBT.setBoolean("used", false);
 			vpNBT.setInteger("xcoord", 0);
 			vpNBT.setInteger("ycoord", 0);
 			vpNBT.setInteger("zcoord", 0);
-			playerIn.addChatMessage(new TextComponentTranslation("item.vectorPearl.cleared", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.vector_pearl.cleared", new Object[0]));
 			
 			return EnumActionResult.SUCCESS;
 		} else {
@@ -68,46 +69,46 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			vpNBT.setInteger("xcoord", pos.getX());
 			vpNBT.setInteger("ycoord", pos.getY());
 			vpNBT.setInteger("zcoord", pos.getZ());
-			playerIn.addChatMessage(new TextComponentTranslation("item.vectorPearl.saved.block", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.vector_pearl.saved.block", new Object[0]));
 			
 			return EnumActionResult.SUCCESS;
 		}
 	}
-	
+
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-		super.addInformation(stack, playerIn, tooltip, advanced);
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 		
 		if (stack.hasTagCompound()) {
-			NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vectorpearl", false);
+			NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vector_pearl");
 			
 			if (vpNBT != null && vpNBT.getBoolean("used")) {
 	        	tooltip.add(
 		    				TextFormatting.WHITE + 
-		    				I18n.format("tooltip.vectorpearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
+		    				I18n.format("tooltip.vector_pearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
 		    			   );
 			} else {
 	        	tooltip.add(
 		    				TextFormatting.DARK_AQUA + 
-		    				I18n.format("tooltip.vectorpearl.blank", new Object[0])
+		    				I18n.format("tooltip.vector_pearl.blank", new Object[0])
 		    			   );
 			}
 		} else {
         	tooltip.add(
 	    				TextFormatting.DARK_AQUA + 
-	    				I18n.format("tooltip.vectorpearl.blank", new Object[0])
+	    				I18n.format("tooltip.vector_pearl.blank", new Object[0])
 	    			   );
 		}
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
         	tooltip.add(
 	    				TextFormatting.GRAY + 
-	    				I18n.format("tooltip.vectorpearl.moreinfo", new Object[0])
+	    				I18n.format("tooltip.vector_pearl.moreinfo", new Object[0])
 	    			   );
 		} else {
         	tooltip.add(
 	    				TextFormatting.DARK_GRAY + 
-	    				I18n.format("tooltip.pressshiftformore", new Object[0])
+	    				I18n.format("tooltip.press_shift_for_more", new Object[0])
 	    			   );
 		}
 	}

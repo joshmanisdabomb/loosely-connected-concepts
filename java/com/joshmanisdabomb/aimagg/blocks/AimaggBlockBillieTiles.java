@@ -31,7 +31,7 @@ public class AimaggBlockBillieTiles extends AimaggBlockBasic implements ITileEnt
 	
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		List<Entity> list = world.getTileEntity(pos).getWorld().getEntitiesWithinAABB(Entity.class, this.getBoundingBox(state, world, pos).expandXyz(5));
+		List<Entity> list = world.getTileEntity(pos).getWorld().getEntitiesWithinAABB(Entity.class, this.getBoundingBox(state, world, pos).expand(5, 5, 5));
 		int value = 0;
 		for (Entity e : list) {
 			if (!(e instanceof EntityItemFrame || e instanceof AimaggEntityMissile || e instanceof AimaggEntityNuclearExplosion)) {

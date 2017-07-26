@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
-import com.joshmanisdabomb.aimagg.MissileType;
+import com.joshmanisdabomb.aimagg.data.MissileType;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -68,32 +68,32 @@ public class AimaggEntityMissile extends Entity {
 	public void detonate() {
 		switch (this.getMissileType()) {
 			case EXPLOSIVE:
-				if (!this.worldObj.isRemote) {
-					Explosion explosion = new Explosion(this.worldObj, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), false, true);
-			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) {
+				if (!this.world.isRemote) {
+					Explosion explosion = new Explosion(this.world, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), false, true);
+			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.world, explosion)) {
 			        	explosion.doExplosionA();
 			        	explosion.doExplosionB(true);
 			        }
 				} else {
-			        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
+			        this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
 				}
 				break;
 			case FIRE:
-				if (!this.worldObj.isRemote) {
-					Explosion explosion = new Explosion(this.worldObj, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), true, true);
-			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.worldObj, explosion)) {
+				if (!this.world.isRemote) {
+					Explosion explosion = new Explosion(this.world, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), true, true);
+			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.world, explosion)) {
 			        	explosion.doExplosionA();
 			        	explosion.doExplosionB(true);
 			        }
 				} else {
-			        this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
+			        this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
 				}
 				break;
 			case NUCLEAR:
-				if (!this.worldObj.isRemote) {
-					AimaggEntityNuclearExplosion nukeExp = new AimaggEntityNuclearExplosion(worldObj, this.posX, this.posY, this.posZ);
+				if (!this.world.isRemote) {
+					AimaggEntityNuclearExplosion nukeExp = new AimaggEntityNuclearExplosion(world, this.posX, this.posY, this.posZ);
 					nukeExp.setStrength(this.getStrength());
-					this.worldObj.spawnEntityInWorld(nukeExp);
+					this.world.spawnEntity(nukeExp);
 				}
 				break;
 			default:
@@ -102,14 +102,14 @@ public class AimaggEntityMissile extends Entity {
 	}
 	
 	public void particleEffects() {
-		if (this.worldObj.isRemote) {
+		if (this.world.isRemote) {
 			switch (this.getMissileType()) {
 				case EXPLOSIVE:
 					Vec3d rot = this.getVectorForRotation(rotationPitch-90, rotationYaw);
 					Vec3d particleEmitter = this.getPositionVector().add(rot);
 					Vec3d particleSpeed = rot;
 					for (int i = 0; i < 16; i++) {
-						this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, true, particleEmitter.xCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.yCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.zCoord + (this.rand.nextFloat() * 0.2F + 0.1F), particleSpeed.xCoord, particleSpeed.yCoord, particleSpeed.zCoord);
+						this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, true, particleEmitter.x + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.y + (this.rand.nextFloat() * 0.2F + 0.1F), particleEmitter.z + (this.rand.nextFloat() * 0.2F + 0.1F), particleSpeed.x, particleSpeed.y, particleSpeed.z);
 					}
 					break;
 				case FIRE:
@@ -148,9 +148,9 @@ public class AimaggEntityMissile extends Entity {
 				Vec3d v3 = new Vec3d(this.getDestination().add(0,((v2.lengthVector()/v1.lengthVector())-0.5)*Math.PI*v1.lengthVector(),0)).subtract(new Vec3d(this.getOrigin()));
 				Vec3d v4 = v3.normalize();
 				
-		        this.motionX = v4.xCoord*this.getCurrentSpeed();
-		        this.motionY = v4.yCoord*this.getCurrentSpeed();
-		        this.motionZ = v4.zCoord*this.getCurrentSpeed();
+		        this.motionX = v4.x*this.getCurrentSpeed();
+		        this.motionY = v4.y*this.getCurrentSpeed();
+		        this.motionZ = v4.z*this.getCurrentSpeed();
 			}
 
 	        this.setPosition(this.posX+this.motionX,this.posY+this.motionY,this.posZ+this.motionZ);
@@ -159,7 +159,7 @@ public class AimaggEntityMissile extends Entity {
 	        double d0 = this.motionX;
             double d1 = this.motionY;
             double d2 = this.motionZ;
-            double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+            double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
             float f = (float)(-(MathHelper.atan2(d2, d0) * (180D / Math.PI))) + 90;
             float f1 = (float)(-(MathHelper.atan2(d1, d3) * (180D / Math.PI))) + 90;
             float s = (float)Math.min(Math.max(Math.abs(this.motionX),Math.max(Math.abs(this.motionY),Math.abs(this.motionZ))),1);
@@ -167,7 +167,7 @@ public class AimaggEntityMissile extends Entity {
             this.rotationYaw = f;
 
             //Be Free
-            if (this.getEntityBoundingBox().expand(1, 1, 1).isVecInside(new Vec3d(this.getDestination()))) {
+            if (this.getEntityBoundingBox().expand(1, 1, 1).contains(new Vec3d(this.getDestination()))) {
             	this.setFreeMotion(true);
             }
             
@@ -176,12 +176,12 @@ public class AimaggEntityMissile extends Entity {
             
             //Collision
             List<AxisAlignedBB> list = Lists.<AxisAlignedBB>newArrayList();
-            int i = MathHelper.floor_double(this.getEntityBoundingBox().minX) - 1;
-            int j = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxX) + 1;
-            int k = MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1;
-            int l = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxY) + 1;
-            int i1 = MathHelper.floor_double(this.getEntityBoundingBox().minZ) - 1;
-            int j1 = MathHelper.ceiling_double_int(this.getEntityBoundingBox().maxZ) + 1;
+            int i = MathHelper.floor(this.getEntityBoundingBox().minX) - 1;
+            int j = MathHelper.ceil(this.getEntityBoundingBox().maxX) + 1;
+            int k = MathHelper.floor(this.getEntityBoundingBox().minY) - 1;
+            int l = MathHelper.ceil(this.getEntityBoundingBox().maxY) + 1;
+            int i1 = MathHelper.floor(this.getEntityBoundingBox().minZ) - 1;
+            int j1 = MathHelper.ceil(this.getEntityBoundingBox().maxZ) + 1;
             BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain();
 
             try {
@@ -201,7 +201,7 @@ public class AimaggEntityMissile extends Entity {
 
                                     IBlockState iblockstate = this.getEntityWorld().getBlockState(blockpos$pooledmutableblockpos);
                                     if (iblockstate.getBlock() != AimaggBlocks.launchPad) {
-                                    	iblockstate.addCollisionBoxToList(this.getEntityWorld(), blockpos$pooledmutableblockpos, this.getEntityBoundingBox(), list, (Entity)null);
+                                    	iblockstate.addCollisionBoxToList(this.getEntityWorld(), blockpos$pooledmutableblockpos, this.getEntityBoundingBox(), list, (Entity)null, true);
                                     }
                                     
                                     if (!list.isEmpty()) {
@@ -229,7 +229,7 @@ public class AimaggEntityMissile extends Entity {
 	
 	//START Chunk Loading
     protected ForgeChunkManager.Ticket getTicketFromForge() {
-        return ForgeChunkManager.requestTicket(AimlessAgglomeration.instance, worldObj, ForgeChunkManager.Type.ENTITY);
+        return ForgeChunkManager.requestTicket(AimlessAgglomeration.instance, world, ForgeChunkManager.Type.ENTITY);
     }
 	
 	protected void releaseTicket() {
@@ -306,11 +306,10 @@ public class AimaggEntityMissile extends Entity {
     }
 	
 	@Override
-	public boolean processInitialInteract(EntityPlayer player, @Nullable ItemStack stack, EnumHand hand)
-    {
+	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
         player.startRiding(this);
-        return super.processInitialInteract(player, stack, hand);
-    }
+        return super.processInitialInteract(player, hand);
+	}
 	
 	@Override
 	public boolean canBeCollidedWith() {

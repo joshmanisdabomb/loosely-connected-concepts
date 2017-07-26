@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.aimagg.te;
 
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.MissileType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
+import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -24,16 +25,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	
-	private ItemStack[] inventory;
+	private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
     private String customName;
     
     private int destinationx;
     private int destinationy;
     private int destinationz;
-    
-    public AimaggTELaunchPad() {
-		this.inventory = new ItemStack[this.getSizeInventory()];
-	}
 	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
@@ -42,17 +39,8 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		compound.setInteger("destinationx", destinationx);
 		compound.setInteger("destinationy", destinationy);
 		compound.setInteger("destinationz", destinationz);
-		
-		NBTTagList list = new NBTTagList();
-	    for (int i = 0; i < this.getSizeInventory(); ++i) {
-	        if (this.getStackInSlot(i) != null) {
-	            NBTTagCompound stackTag = new NBTTagCompound();
-	            stackTag.setByte("Slot", (byte) i);
-	            this.getStackInSlot(i).writeToNBT(stackTag);
-	            list.appendTag(stackTag);
-	        }
-	    }
-	    compound.setTag("Items", list);
+
+        ItemStackHelper.saveAllItems(compound, this.inventory);
 	    
 	    if (this.hasCustomName()) {
 	    	compound.setString("CustomName", this.getCustomName());
@@ -69,12 +57,8 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		destinationy = compound.getInteger("destinationy");
 		destinationz = compound.getInteger("destinationz");
 		
-	    NBTTagList list = compound.getTagList("Items", 10);
-	    for (int i = 0; i < list.tagCount(); ++i) {
-	        NBTTagCompound stackTag = list.getCompoundTagAt(i);
-	        int slot = stackTag.getByte("Slot") & 255;
-	        this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(stackTag));
-	    }
+		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        ItemStackHelper.loadAllItems(compound, this.inventory);
 
 	    if (compound.hasKey("CustomName", 8)) {
 	        this.setCustomName(compound.getString("CustomName"));
@@ -117,30 +101,22 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		return 3;
 	}
 
-	@Override
 	public ItemStack getStackInSlot(int index) {
-		if (index < 0 || index >= this.getSizeInventory()) {
-	        return null;
-		}
-	    return this.inventory[index];
-	}
-
+        return this.inventory.get(index);
+    }
+	
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		if (index < 0 || index >= this.getSizeInventory()) {
-	        return;
-		}
+		ItemStack itemstack = this.inventory.get(index);
+        boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+        this.inventory.set(index, stack);
 
-	    if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
-	        stack.stackSize = this.getInventoryStackLimit();
-	    }
-	    
-	    if (stack != null && stack.stackSize == 0) {
-	        stack = null;
-	    }
+        if (stack.getCount() > this.getInventoryStackLimit())
+        {
+            stack.setCount(this.getInventoryStackLimit());
+        }
 
-	    this.inventory[index] = stack;
-	    this.markDirty();
+        this.markDirty();
 	}
 	
 	public ItemStack decrStackSize(int index, int count)
@@ -156,11 +132,6 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		return this.worldObj.getTileEntity(this.getPos()) == this && player.getDistanceSq(this.pos.add(0.5, 0.5, 0.5)) <= 64;
 	}
 
 	@Override
@@ -209,7 +180,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	}
 	
 	public MissileType getMissileType() {
-		return this.inventory[0] == null ? null : MissileType.getFromMetadata(this.inventory[0].getMetadata());
+		return this.inventory.get(0) == null ? null : MissileType.getFromMetadata(this.inventory.get(0).getMetadata());
 	}
 
 	public void setDestination(int destX, int destY, int destZ) {
@@ -227,13 +198,13 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		newMissile.setMissileType(this.getMissileType());
 		newMissile.setOrigin(newMissile.getPosition());
 		newMissile.setDestination(new BlockPos(destinationx,destinationy,destinationz));
-		newMissile.setStrength(this.inventory[0].getSubCompound(Constants.MOD_ID + "_missile", false).getInteger("strength"));
+		newMissile.setStrength(this.inventory.get(0).getSubCompound(Constants.MOD_ID + "_missile").getInteger("strength"));
 		newMissile.setLaunched(true);
-		this.getWorld().spawnEntityInWorld(newMissile);
+		this.getWorld().spawnEntity(newMissile);
 		
 		if (!creative) {
-			this.inventory[0] = null;
-			this.inventory[1] = null;
+			this.inventory.get(0).setCount(this.inventory.get(0).getCount() - 1);
+			this.inventory.get(1).setCount(this.inventory.get(1).getCount() - 1);
 		}
 		
 		this.markDirty();
@@ -246,7 +217,19 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.addCoord(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+		return null;
+		//return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.addCoord(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		//TODO see how other tile entities handle this
+		return true;
 	}
 	
 }

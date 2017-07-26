@@ -55,15 +55,18 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
 		return new AimaggTELaunchPad();
 	}
 
+	@Override
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
         return super.canPlaceBlockAt(worldIn, pos) && worldIn.isAirBlock(pos.up()) && worldIn.isBlockNormalCube(pos.down(), false);
     }
     
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        super.neighborChanged(state, worldIn, pos, blockIn);
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    	super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
         this.checkAndDropBlock(worldIn, pos, state);
     }
 
+	@Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
         this.checkAndDropBlock(worldIn, pos, state);
     }
@@ -96,9 +99,9 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-	    if (!world.isRemote) {
-	        player.openGui(AimlessAgglomeration.instance, AimaggGUIHandler.LaunchPadID, world, pos.getX(), pos.getY(), pos.getZ());
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!worldIn.isRemote) {
+			playerIn.openGui(AimlessAgglomeration.instance, AimaggGUIHandler.LaunchPadID, worldIn, pos.getX(), pos.getY(), pos.getZ());
 	    }
 	    return true;
 	}
@@ -133,7 +136,8 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
         return LAUNCH_PAD_AABB_SELECTION;
     }
     
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn) {
+    @Override
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean p_185477_7_) {
         addCollisionBoxToList(pos, entityBox, collidingBoxes, LAUNCH_PAD_AABB_COLLISION_1);
         addCollisionBoxToList(pos, entityBox, collidingBoxes, LAUNCH_PAD_AABB_COLLISION_2);
         addCollisionBoxToList(pos, entityBox, collidingBoxes, LAUNCH_PAD_AABB_COLLISION_3);

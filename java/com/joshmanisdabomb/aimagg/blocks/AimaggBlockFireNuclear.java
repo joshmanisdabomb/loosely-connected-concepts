@@ -52,6 +52,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
      * Get the actual Block state of this Block at the given position. This applies properties not visible in the
      * metadata, such as fence connections.
      */
+    @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
         if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos.down(), EnumFacing.UP) && !Blocks.FIRE.canCatchFire(worldIn, pos.down(), EnumFacing.UP))
@@ -65,20 +66,21 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         return this.getDefaultState();
     }
 
-    @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos)
-    {
-        return NULL_AABB;
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
+    	return NULL_AABB;
     }
 
     /**
      * Used to determine ambient occlusion and culling when rebuilding chunks for render
      */
+    @Override
     public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
+    @Override
     public boolean isFullCube(IBlockState state)
     {
         return false;
@@ -87,6 +89,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     /**
      * Returns the quantity of items to drop on block destruction.
      */
+    @Override
     public int quantityDropped(Random random)
     {
         return 0;
@@ -95,10 +98,12 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     /**
      * How many world ticks before ticking
      */
+    @Override
     public int tickRate(World worldIn) {
         return 12;
     }
 
+    @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
         if (worldIn.getGameRules().getBoolean("doFireTick"))
@@ -245,14 +250,14 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
      * Returns if this block is collidable. Only used by fire, although stairs return that of the block that the stair
      * is made of (though nobody's going to make fire stairs, right?)
      */
-    public boolean isCollidable()
-    {
+    @Override
+    public boolean isCollidable() {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
-    {
-        return worldIn.getBlockState(pos.down()).isFullyOpaque() || this.canNeighborCatchFire(worldIn, pos);
+    @Override
+    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+        return worldIn.getBlockState(pos.down()).isOpaqueCube() || this.canNeighborCatchFire(worldIn, pos);
     }
 
     /**
@@ -260,19 +265,19 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
      * change. Cases may include when redstone power is updated, cactus blocks popping off due to a neighboring solid
      * block, etc.
      */
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn)
-    {
-        if (!worldIn.getBlockState(pos.down()).isFullyOpaque() && !this.canNeighborCatchFire(worldIn, pos))
-        {
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    	if (!worldIn.getBlockState(pos.down()).isOpaqueCube() && !this.canNeighborCatchFire(worldIn, pos)) {
             worldIn.setBlockToAir(pos);
         }
     }
 
+    @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if (worldIn.provider.getDimensionType().getId() > 0 || !Blocks.PORTAL.trySpawnPortal(worldIn, pos))
         {
-            if (!worldIn.getBlockState(pos.down()).isFullyOpaque() && !this.canNeighborCatchFire(worldIn, pos))
+            if (!worldIn.getBlockState(pos.down()).isOpaqueCube() && !this.canNeighborCatchFire(worldIn, pos))
             {
                 worldIn.setBlockToAir(pos);
             }
@@ -283,6 +288,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
     {
@@ -360,6 +366,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         }
     }
 
+    @Override
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer()
     {
@@ -369,6 +376,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     /**
      * Convert the given metadata into a BlockState for this Block
      */
+    @Override
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
@@ -377,11 +385,13 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     /**
      * Convert the BlockState into the correct metadata value
      */
+    @Override
     public int getMetaFromState(IBlockState state)
     {
         return ((Integer)state.getValue(AGE)).intValue();
     }
 
+    @Override
     protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, new IProperty[] {AGE, NORTH, EAST, SOUTH, WEST, UPPER});

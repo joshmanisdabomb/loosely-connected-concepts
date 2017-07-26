@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "aimagg:items/pill_top",
+    "layer1": "aimagg:items/pill_bottom"
+  }
+}

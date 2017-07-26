@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "axis=y": { "model": "aimagg:testBlock3" },
-    "axis=z": { "model": "aimagg:testBlock3", "x": 90 },
-    "axis=x": { "model": "aimagg:testBlock3", "x": 90, "y": 90 }
-  }
-}

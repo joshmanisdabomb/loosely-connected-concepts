@@ -47,7 +47,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	public void initGui() {
 		super.initGui();
         Keyboard.enableRepeatEvents(true);
-        this.destinationx = new GuiTextField(0, this.fontRendererObj, this.guiLeft + 9, this.guiTop + 67, 35, 12);
+        this.destinationx = new GuiTextField(0, this.fontRenderer, this.guiLeft + 9, this.guiTop + 67, 35, 12);
         this.destinationx.setText(Integer.toString(te.getTileData().getInteger("destinationx")));
         this.destinationx.setTextColor(16777215);
         this.destinationx.setDisabledTextColour(10066329);
@@ -64,7 +64,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 				return true;
 			}
         });
-        this.destinationy = new GuiTextField(1, this.fontRendererObj, this.guiLeft + 56, this.guiTop + 67, 35, 12);
+        this.destinationy = new GuiTextField(1, this.fontRenderer, this.guiLeft + 56, this.guiTop + 67, 35, 12);
         this.destinationy.setText(Integer.toString(te.getTileData().getInteger("destinationy")));
         this.destinationy.setTextColor(16777215);
         this.destinationy.setDisabledTextColour(10066329);
@@ -81,7 +81,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 				return true;
 			}
         });
-        this.destinationz = new GuiTextField(2, this.fontRendererObj, this.guiLeft + 103, this.guiTop + 67, 35, 12);
+        this.destinationz = new GuiTextField(2, this.fontRenderer, this.guiLeft + 103, this.guiTop + 67, 35, 12);
         this.destinationz.setText(Integer.toString(te.getTileData().getInteger("destinationz")));
         this.destinationz.setTextColor(16777215);
         this.destinationz.setDisabledTextColour(10066329);
@@ -115,8 +115,8 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 	    String s = this.te.getDisplayName().getUnformattedText();
-	    this.fontRendererObj.drawString(s, 8, 6, 4210752);
-	    this.fontRendererObj.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, 82, 4210752);
+	    this.fontRenderer.drawString(s, 8, 6, 4210752);
+	    this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, 82, 4210752);
 	    
         GlStateManager.translate((float)-this.guiLeft, (float)-this.guiTop, 0.0F);
 	    
@@ -124,7 +124,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 			this.destinationx.setEnabled(false);
 			this.destinationy.setEnabled(false);
 			this.destinationz.setEnabled(false);
-			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getSubCompound(Constants.MOD_ID + "_vectorpearl", true);
+			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getOrCreateSubCompound(Constants.MOD_ID + "_vectorpearl");
 			if (Integer.valueOf(this.destinationx.getText()) != vpNBT.getInteger("xcoord")) {
 				this.destinationx.setText(Integer.toString(vpNBT.getInteger("xcoord")));
 				this.textUpdate();

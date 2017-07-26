@@ -1,51 +1,57 @@
-item.testItem.name=Test Item
-tile.testBlock.name=Test Block
-tile.testBlock2.name=Test Block (Horizontal)
+item.test_item.name=Test Item
+tile.test_block.name=Test Block
+tile.test_block_2.name=Test Block (Horizontal)
 
-tile.launchPad.name=Missile Launch Pad
+tile.launch_pad.name=Missile Launch Pad
 
-item.vectorPearl.name=Vector Pearl
-item.vectorPearl.cleared=Cleared coordinates of vector pearl.
-item.vectorPearl.saved.player=Saved coordinates of the feet of the player.
-item.vectorPearl.saved.block=Saved coordinates of block right clicked.
+item.vector_pearl.name=Vector Pearl
+item.vector_pearl.cleared=Cleared coordinates of vector pearl.
+item.vector_pearl.saved.player=Saved coordinates of the feet of the player.
+item.vector_pearl.saved.block=Saved coordinates of block right clicked.
 
 item.missile.explosive.name=Explosive Missile
 item.missile.fire.name=Fire Missile
 item.missile.nuclear.name=Nuclear Missile
 
-item.upgradeCard.sc_base.name=Base Upgrade Card
-item.upgradeCard.sc_speed.name=Speed Upgrade Card
-item.upgradeCard.sc_damage.name=Damage Upgrade Card
-item.upgradeCard.sc_range.name=Range Upgrade Card
-item.upgradeCard.sc_rangeinf.name=Infinite Range Upgrade Card
-item.upgradeCard.sc_spread.name=Spread Upgrade Card
-item.upgradeCard.sc_eating.name=Eating Upgrade Card
+item.pill.name=Pill
 
-tile.nuclearWaste.name=Nuclear Waste
+item.upgrade_card.sc_base.name=Base Upgrade Card
+item.upgrade_card.sc_speed.name=Speed Upgrade Card
+item.upgrade_card.sc_damage.name=Damage Upgrade Card
+item.upgrade_card.sc_range.name=Range Upgrade Card
+item.upgrade_card.sc_rangeinf.name=Infinite Range Upgrade Card
+item.upgrade_card.sc_spread.name=Spread Upgrade Card
+item.upgrade_card.sc_eating.name=Eating Upgrade Card
 
-itemGroup.aimaggTab=Aimless Agglomeration
+tile.nuclear_waste.name=Nuclear Waste
 
-container.aimagg_spreader_constructor=Spreader Constructor
-container.aimagg_spreader_constructor.modifiers=Modifiers
+itemGroup.aimagg_tab=Aimless Agglomeration
+
+container.aimagg_spreader_interface=Spreader Interface
+container.aimagg_spreader_interface.modifiers=Modifiers
+container.aimagg_spreader_interface.spread=Spread Types
 container.aimagg_launch_pad=Missile Launch Pad
 
-tooltip.pressshiftformore=Press SHIFT for More Information
+tooltip.press_shift_for_more=Press SHIFT for More Information
 
-tooltip.vectorpearl.blank=Blank
-tooltip.vectorpearl.coordinates=Coordinates: %1$s%2$s
-tooltip.vectorpearl.moreinfo=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
+tooltip.vector_pearl.blank=Blank
+tooltip.vector_pearl.coordinates=Coordinates: %1$s%2$s
+tooltip.vector_pearl.moreinfo=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
 
 tooltip.missile.strength=Strength: %1$s%2$f%3$s
 tooltip.missile.strength.tnt= TNT
 tooltip.missile.strength.kilotons= kt
 
-tooltip.upgradecard.usein=Use In: %1$s%2$s
-tooltip.upgradecard.usein.0=Spreader Constructor
-tooltip.upgradecard.max=Maximum Amount: %1$s%2$d
-tooltip.upgradecard.effect=Effect: %1$s%2$s
-tooltip.upgradecard.effect.1=-2 Minimum Tick Rate, -4 Maximum Tick Rate
-tooltip.upgradecard.effect.2=+0.5 Hearts Damage
-tooltip.upgradecard.effect.3=+3 Maximum Travel Range
-tooltip.upgradecard.effect.4=Infinite Maximum Travel Range
-tooltip.upgradecard.effect.5=+1 Spread Range
-tooltip.upgradecard.effect.6=Disappears on Infection
+tooltip.pill.random=Random Pill
+tooltip.pill.invalid=Invalid Pill
+
+tooltip.upgrade_card.usein=Use In: %1$s%2$s
+tooltip.upgrade_card.usein.0=Spreader Interface
+tooltip.upgrade_card.max=Maximum Amount: %1$s%2$d
+tooltip.upgrade_card.effect=Effect: %1$s%2$s
+tooltip.upgrade_card.effect.1=-2 Minimum Tick Rate, -4 Maximum Tick Rate
+tooltip.upgrade_card.effect.2=+0.5 Hearts Damage
+tooltip.upgrade_card.effect.3=+3 Maximum Travel Range
+tooltip.upgrade_card.effect.4=Infinite Maximum Travel Range
+tooltip.upgrade_card.effect.5=+1 Spread Range
+tooltip.upgrade_card.effect.6=Disappears on Infection

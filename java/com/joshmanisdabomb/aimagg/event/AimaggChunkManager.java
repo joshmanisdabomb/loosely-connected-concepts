@@ -10,7 +10,6 @@ public class AimaggChunkManager implements LoadingCallback {
 
 	@Override
 	public void ticketsLoaded(List<Ticket> tickets, World world) {
-		// TODO Auto-generated method stub
 		
 	}
 

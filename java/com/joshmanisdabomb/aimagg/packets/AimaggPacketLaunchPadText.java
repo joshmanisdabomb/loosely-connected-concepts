@@ -75,7 +75,7 @@ public class AimaggPacketLaunchPadText implements IMessage {
 
         private void handle(AimaggPacketLaunchPadText message, MessageContext ctx) {
             // This code is run on the server side. So you can do server-side calculations here.
-        	TileEntity te = ctx.getServerHandler().playerEntity.worldObj.getTileEntity(new BlockPos(message.teX, message.teY, message.teZ));
+        	TileEntity te = ctx.getServerHandler().player.world.getTileEntity(new BlockPos(message.teX, message.teY, message.teZ));
         	if (te instanceof AimaggTELaunchPad) {
         		((AimaggTELaunchPad)te).setDestination(message.destX, message.destY, message.destZ);
         	}

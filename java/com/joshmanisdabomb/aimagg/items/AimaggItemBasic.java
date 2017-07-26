@@ -2,31 +2,46 @@ package com.joshmanisdabomb.aimagg.items;
 
 import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
+import com.joshmanisdabomb.aimagg.Constants;
 
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggItemBasic extends Item {
 
-	private String internalName;
+	private final String internalName;
 	
 	private final int sortValue;
 
 	public AimaggItemBasic(String internalName, int sortVal) {
 		this.setUnlocalizedName(this.internalName = internalName);
-		this.setRegistryName(this.internalName);
+		this.setRegistryName(this.getInternalName());
 		this.setCreativeTab(AimlessAgglomeration.tab);
 		this.sortValue = sortVal;
 		
 		AimaggItems.registry.add(this);
+		
+		this.initialise();
+	}
+
+	public String getInternalName() {
+		return internalName;
 	}
 
 	public int getSortValue(ItemStack is) {
 		return sortValue;
 	}
 	
-	public boolean usesCustomModels() {
-		return false;
+	public void initialise() {
+		if (this instanceof AimaggItemColored) {
+			AimaggItems.colorRegistry.add(this);
+		}
+	}
+
+	public void registerRender() {
+		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName(), "inventory"));
 	}
 	
 }

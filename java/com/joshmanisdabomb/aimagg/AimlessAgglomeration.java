@@ -2,10 +2,13 @@ package com.joshmanisdabomb.aimagg;
 
 import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
 import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
+import com.joshmanisdabomb.aimagg.event.AimaggRegistry;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
+import com.joshmanisdabomb.aimagg.world.AimaggWorldGen;
 
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -16,6 +19,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.NAME, version = Constants.VERSION, acceptedMinecraftVersions = Constants.MCVER)
 public class AimlessAgglomeration {
@@ -31,15 +35,15 @@ public class AimlessAgglomeration {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		AimaggItems.init();
-		AimaggItems.register();
 		AimaggBlocks.init();
-		AimaggBlocks.register();
 		
 		AimaggEntities.init();
 
 		AimaggTEs.init();
 		
-		tab.setItemIcon(AimaggBlocks.testBlock);
+		MinecraftForge.EVENT_BUS.register(new AimaggRegistry());
+		
+		tab.setStackIcon(new ItemStack(AimaggBlocks.testBlock, 1, 1));
 		
 		proxy.preInit();
         AimaggPacketHandler.registerMessages(Constants.MOD_ID);
@@ -51,6 +55,8 @@ public class AimlessAgglomeration {
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggEventHandler());
 		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new AimaggChunkManager());
+		
+		GameRegistry.registerWorldGenerator(new AimaggWorldGen(), 0);
 		
 		proxy.init();
 	}

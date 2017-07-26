@@ -8,14 +8,14 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void preInit() {
-		AimaggEntities.initModels();
-		AimaggItems.customModelResourceLocations();
+		/*AimaggEntities.initModels();
+		AimaggItems.registerRenders();
+		AimaggBlocks.registerRenders();*/
 	}
 
 	@Override
 	public void init() {
-		AimaggItems.registerRenders();
-		AimaggBlocks.registerRenders();
+		AimaggItems.registerColoring();
 		AimaggBlocks.registerTileEntityRenderers();
 	}
 

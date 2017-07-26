@@ -10,10 +10,11 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 public class AimaggTab extends CreativeTabs {
 
-	private Item itemIcon;
+	private ItemStack itemIcon;
 	
 	public final AimaggTabComparator compar;
 
@@ -22,21 +23,17 @@ public class AimaggTab extends CreativeTabs {
 		compar = new AimaggTabComparator();
 	}
 
-	public void setItemIcon(Item icon) {
+	public void setStackIcon(ItemStack icon) {
 		this.itemIcon = icon;
-	}
-
-	public void setItemIcon(Block icon) {
-		this.itemIcon = Item.getItemFromBlock(icon);
 	}
 	
 	@Override
-	public Item getTabIconItem() {
+	public ItemStack getTabIconItem() {
 		return itemIcon;
 	}
 	
 	@Override
-	public void displayAllRelevantItems(List<ItemStack> l) {
+	public void displayAllRelevantItems(NonNullList<ItemStack> l) {
 		super.displayAllRelevantItems(l);
 		l.sort(compar);
 	}

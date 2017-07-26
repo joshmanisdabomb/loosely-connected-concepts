@@ -1,12 +1,13 @@
 package com.joshmanisdabomb.aimagg.te.tesr;
 
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.MissileType;
+import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileLargeModel;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.model.AimaggTELaunchPadModel;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +23,7 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 	public static final ResourceLocation texture = new ResourceLocation(Constants.MOD_ID, "textures/tesr/launchpad.png");
 	
 	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTick, int destroyStage) {
+	public void renderTileEntityFast(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
 		GlStateManager.pushMatrix();
         GlStateManager.disableCull();
         GlStateManager.translate((float)x+0.5, (float)y+2, (float)z+0.5);
@@ -38,11 +39,11 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 		
 		MissileType mt = ((AimaggTELaunchPad)te).getMissileType();
 		if (mt != null) {
-			this.doMissileRender(te, mt, x+0.5, y+(4/16D), z+0.5, partialTick);
+			this.doMissileRender(te, mt, x+0.5, y+(4/16D), z+0.5, partialTicks, destroyStage, partial, buffer);
 		}
 	}
 
-	public void doMissileRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTick) {
+	public void doMissileRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
         GlStateManager.pushMatrix();
         GlStateManager.disableCull();
         GlStateManager.translate((float)x, (float)y, (float)z);

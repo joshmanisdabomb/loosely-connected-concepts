@@ -1,16 +1,10 @@
 package com.joshmanisdabomb.aimagg.container.slot;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.stats.AchievementList;
-import net.minecraft.util.math.MathHelper;
 
 public class AimaggSlotOutput extends Slot {
 
@@ -38,7 +32,7 @@ public class AimaggSlotOutput extends Slot {
     {
         if (this.getHasStack())
         {
-            this.removeCount += Math.min(amount, this.getStack().stackSize);
+            this.removeCount += Math.min(amount, this.getStack().getCount());
         }
 
         return super.decrStackSize(amount);
@@ -47,7 +41,7 @@ public class AimaggSlotOutput extends Slot {
     public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
     {
         this.onCrafting(stack);
-        super.onPickupFromSlot(playerIn, stack);
+        super.onTake(playerIn, stack);
     }
 
     /**
@@ -65,7 +59,7 @@ public class AimaggSlotOutput extends Slot {
      */
     protected void onCrafting(ItemStack stack)
     {
-        stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.removeCount);
+        stack.onCrafting(this.thePlayer.world, this.thePlayer, this.removeCount);
 
         this.removeCount = 0;
     }

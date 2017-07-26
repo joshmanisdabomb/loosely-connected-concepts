@@ -2,16 +2,12 @@ package com.joshmanisdabomb.aimagg.container;
 
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotLimited;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotMissile;
-import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotOutput;
 import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotVectorPearl;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
-import com.joshmanisdabomb.aimagg.te.AimaggTESpreaderConstructor;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -53,7 +49,7 @@ public class AimaggContainerLaunchPad extends Container {
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return this.te.isUseableByPlayer(player);
+		return this.te.isUsableByPlayer(player);
 	}
 	
 	@Override
@@ -75,14 +71,14 @@ public class AimaggContainerLaunchPad extends Container {
 	                return null;
 	        }
 
-	        if (current.stackSize == 0)
+	        if (current.isEmpty())
 	            slot.putStack((ItemStack) null);
 	        else
 	            slot.onSlotChanged();
 
-	        if (current.stackSize == previous.stackSize)
+	        if (current.getCount() == previous.getCount())
 	            return null;
-	        slot.onPickupFromSlot(playerIn, current);
+            slot.onTake(playerIn, current);
 	    }
 	    return previous;
 	}
@@ -99,22 +95,22 @@ public class AimaggContainerLaunchPad extends Container {
 	    ItemStack stackinslot;
 
 	    if (stack.isStackable()) {
-	        while (stack.stackSize > 0 && (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex)) {
+	        while (!stack.isEmpty() && (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex)) {
 	            slot = (Slot) this.inventorySlots.get(index);
 	            stackinslot = slot.getStack();
 
 	            if (stackinslot != null && stackinslot.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == stackinslot.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, stackinslot)) {
-	                int l = stackinslot.stackSize + stack.stackSize;
+	                int l = stackinslot.getCount() + stack.getCount();
 	                int maxsize = Math.min(stack.getMaxStackSize(), slot.getItemStackLimit(stack));
 
 	                if (l <= maxsize) {
-	                    stack.stackSize = 0;
-	                    stackinslot.stackSize = l;
+	                    stack.setCount(0);
+	                    stackinslot.setCount(l);
 	                    slot.onSlotChanged();
 	                    success = true;
-	                } else if (stackinslot.stackSize < maxsize) {
-	                    stack.stackSize -= stack.getMaxStackSize() - stackinslot.stackSize;
-	                    stackinslot.stackSize = stack.getMaxStackSize();
+	                } else if (stackinslot.getCount() < maxsize) {
+	                    stack.setCount(stack.getCount() - stack.getMaxStackSize() - stackinslot.getCount());
+	                    stackinslot.setCount(stack.getMaxStackSize());
 	                    slot.onSlotChanged();
 	                    success = true;
 	                }
@@ -128,29 +124,29 @@ public class AimaggContainerLaunchPad extends Container {
 	        }
 	    }
 
-	    if (stack.stackSize > 0) {
+	    if (!stack.isEmpty()) {
 	        if (useEndIndex) {
 	            index = endIndex - 1;
 	        } else {
 	            index = startIndex;
 	        }
 
-	        while (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex && stack.stackSize > 0) {
+	        while (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex && !stack.isEmpty()) {
 	            slot = (Slot) this.inventorySlots.get(index);
 	            stackinslot = slot.getStack();
 
 	            // Forge: Make sure to respect isItemValid in the slot.
 	            if (stackinslot == null && slot.isItemValid(stack)) {
-	                if (stack.stackSize < slot.getItemStackLimit(stack)) {
+	                if (stack.getCount() < slot.getItemStackLimit(stack)) {
 	                    slot.putStack(stack.copy());
-	                    stack.stackSize = 0;
+	                    stack.setCount(0);
 	                    success = true;
 	                    break;
 	                } else {
 	                    ItemStack newstack = stack.copy();
-	                    newstack.stackSize = slot.getItemStackLimit(stack);
+	                    newstack.setCount(slot.getItemStackLimit(stack));
 	                    slot.putStack(newstack);
-	                    stack.stackSize -= slot.getItemStackLimit(stack);
+	                    stack.setCount(stack.getCount() - slot.getItemStackLimit(stack));
 	                    success = true;
 	                }
 	            }

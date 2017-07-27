@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "normal": {"model": "aimagg:launch_pad"}
+  }
+}

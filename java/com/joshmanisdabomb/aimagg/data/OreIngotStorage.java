@@ -24,7 +24,7 @@ public enum OreIngotStorage implements IStringSerializable {
 	SAPPHIRE(1,true,true,true),
 	TOPAZ(2,true,true,true),
 	AMETHYST(3,true,true,true),
-	URANIUM(4,true,true,true,0,0,48,5,1);
+	URANIUM(4,true,true,true,0,0,48,6,1);
 
 	public static OreIngotStorage[] oreArray;
 	public static OreIngotStorage[] oreWGArray;
@@ -167,21 +167,23 @@ public enum OreIngotStorage implements IStringSerializable {
 	}
 
 	public static void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		for (OreIngotStorage ois : getAllWithOreForm()) {
-			if (ois.wg_commonality > 0) {
-				for (int i = 0; i < ois.wg_commonality; i++) {
+		for (OreIngotStorage ois : getAllWithOreFormPlusWorldGen()) {
+			if (world.provider.getDimension() == ois.wg_dimensionID) {
+				if (ois.wg_commonality > 0) {
+					for (int i = 0; i < ois.wg_commonality; i++) {
+						int x = (chunkX * 16) + random.nextInt(16);
+						int z = (chunkZ * 16) + random.nextInt(16);
+						int y = ois.wg_minHeight + random.nextInt((ois.wg_maxHeight - ois.wg_minHeight) + 1);
+						new WorldGenMinable(ois.getOreBlock().getDefaultState().withProperty(AimaggBlockOre.TYPE, ois), ois.wg_blockCount)
+						.generate(world, random, new BlockPos(x,y,z));
+					}
+				} else if (random.nextInt(1-ois.wg_commonality) == 0) {
 					int x = (chunkX * 16) + random.nextInt(16);
 					int z = (chunkZ * 16) + random.nextInt(16);
 					int y = ois.wg_minHeight + random.nextInt((ois.wg_maxHeight - ois.wg_minHeight) + 1);
 					new WorldGenMinable(ois.getOreBlock().getDefaultState().withProperty(AimaggBlockOre.TYPE, ois), ois.wg_blockCount)
 					.generate(world, random, new BlockPos(x,y,z));
 				}
-			} else if (random.nextInt(1-ois.wg_commonality) == 0) {
-				int x = (chunkX * 16) + random.nextInt(16);
-				int z = (chunkZ * 16) + random.nextInt(16);
-				int y = ois.wg_minHeight + random.nextInt((ois.wg_maxHeight - ois.wg_minHeight) + 1);
-				new WorldGenMinable(ois.getOreBlock().getDefaultState().withProperty(AimaggBlockOre.TYPE, ois), ois.wg_blockCount)
-				.generate(world, random, new BlockPos(x,y,z));
 			}
 		}
 	}

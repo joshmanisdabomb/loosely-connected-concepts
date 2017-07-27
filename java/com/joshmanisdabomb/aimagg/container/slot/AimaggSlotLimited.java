@@ -31,7 +31,7 @@ public class AimaggSlotLimited extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-        return stack.getItem() != null && stack.getItem() == this.item;
+        return stack != null && stack.getItem() == this.item;
     }
 	
 	@Override

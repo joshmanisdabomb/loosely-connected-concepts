@@ -4,6 +4,9 @@ import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
+import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadMissileRenderRequest;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -22,6 +25,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.reflect.internal.Trees.This;
 
 public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	
@@ -52,13 +56,20 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-
+		
 		destinationx = compound.getInteger("destinationx");
 		destinationy = compound.getInteger("destinationy");
 		destinationz = compound.getInteger("destinationz");
 		
 		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(compound, this.inventory);
+
+        //This should probably go in a better place.
+        if (this.world != null ? this.world.isRemote : false) {
+			AimaggPacketLaunchPadMissileRenderRequest packet = new AimaggPacketLaunchPadMissileRenderRequest();
+			packet.setTileEntityPosition(this.getPos());
+			AimaggPacketHandler.INSTANCE.sendToServer(packet);
+        }
 
 	    if (compound.hasKey("CustomName", 8)) {
 	        this.setCustomName(compound.getString("CustomName"));
@@ -166,9 +177,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 
 	@Override
 	public void clear() {
-		for (int i = 0; i < this.getSizeInventory(); i++) {
-	        this.setInventorySlotContents(i, null);
-		}
+		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 	}
 
 	public String getCustomName() {
@@ -180,7 +189,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	}
 	
 	public MissileType getMissileType() {
-		return this.inventory.get(0) == null ? null : MissileType.getFromMetadata(this.inventory.get(0).getMetadata());
+		return (this.inventory.get(0).getItem() instanceof AimaggItemMissile) ? MissileType.getFromMetadata(this.inventory.get(0).getMetadata()) : null;
 	}
 
 	public void setDestination(int destX, int destY, int destZ) {
@@ -222,13 +231,21 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isEmpty() {
-		return false;
-	}
+        for (ItemStack itemstack : this.inventory) {
+            if (!itemstack.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		//TODO see how other tile entities handle this
-		return true;
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        }
 	}
 	
 }

@@ -20,7 +20,10 @@ public class AimaggPacketHandler {
 	}
 	
 	public static void registerMessages() {
+		//side means side the packet is delivered to
 		INSTANCE.registerMessage(AimaggPacketLaunchPadText.Handler.class, AimaggPacketLaunchPadText.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(AimaggPacketLaunchPadLaunch.Handler.class, AimaggPacketLaunchPadLaunch.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadMissileRenderRequest.Handler.class, AimaggPacketLaunchPadMissileRenderRequest.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadMissileRenderResponse.Handler.class, AimaggPacketLaunchPadMissileRenderResponse.class, nextID(), Side.CLIENT);
 	}
 }

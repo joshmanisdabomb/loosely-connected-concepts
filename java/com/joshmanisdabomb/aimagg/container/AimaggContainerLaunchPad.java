@@ -29,6 +29,7 @@ public class AimaggContainerLaunchPad extends Container {
         this.addSlotToContainer(new AimaggSlotMissile(te, 0, 150, 9));
 		
 		//Rocket Fuel Slot, Slot 1, Slot ID 1
+        //TODO Lava fuel is placeholder.
         this.addSlotToContainer(new AimaggSlotLimited(te, 1, 150, 27, Items.LAVA_BUCKET));
 		
 		//Coordinate Slot, Slot 2, Slot ID 2
@@ -53,113 +54,186 @@ public class AimaggContainerLaunchPad extends Container {
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
-	    ItemStack previous = null;
-	    Slot slot = (Slot) this.inventorySlots.get(fromSlot);
+	/**
+	 * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
+	 */
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(par2);
 
-	    if (slot != null && slot.getHasStack()) {
-	        ItemStack current = slot.getStack();
-	        previous = current.copy();
+		if (slot.getStack() != null && !slot.getStack().isEmpty()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-	        if (fromSlot < this.te.getSizeInventory()) {
-	            // From TE Inventory to Player Inventory
-	            if (!this.mergeItemStack(current, 0+this.te.getSizeInventory(), 36+this.te.getSizeInventory(), true))
-	                return null;
-	        } else {
-	            // From Player Inventory to TE Inventory
-	            if (!this.mergeItemStack(current, 0, this.te.getSizeInventory(), false))
-	                return null;
-	        }
+			// If itemstack is in missile slot.
+			if (par2 == 0) {
+				//Place in inventory, then action bar.
+				if (!this.mergeItemStack(itemstack1, 3, 30, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			// If itemstack is in fuel slot.
+			} else if (par2 == 1) {
+				//Place in inventory, then action bar.
+				if (!this.mergeItemStack(itemstack1, 3, 30, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			// If itemstack is in vector pearl slot.
+			} else if (par2 == 2) {
+				//Place in action bar, then inventory.
+				if (!this.mergeItemStack(itemstack1, 30, 39, false) && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			// If itemstack is in inventory.
+			} else if (par2 >= 3 && par2 <= 29) {
+				//Place in missile slot, then fuel slot, then vector pearl slot, then action bar.
+				if (!this.mergeItemStack(itemstack1, 0, 1, false) && !this.mergeItemStack(itemstack1, 1, 2, false) && !this.mergeItemStack(itemstack1, 2, 3, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			// If itemstack is in action bar.
+			} else if (par2 >= 30 && par2 <= 38) {
+				//Place in missile slot, then fuel slot, then vector pearl slot, then action bar.
+				if (!this.mergeItemStack(itemstack1, 0, 1, false) && !this.mergeItemStack(itemstack1, 1, 2, false) && !this.mergeItemStack(itemstack1, 2, 3, false) && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+					return null;
+				}
+				slot.onSlotChange(itemstack1, itemstack);
+			}
 
-	        if (current.isEmpty())
-	            slot.putStack((ItemStack) null);
-	        else
-	            slot.onSlotChanged();
+			if (itemstack1.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
 
-	        if (current.getCount() == previous.getCount())
-	            return null;
-            slot.onTake(playerIn, current);
-	    }
-	    return previous;
+			if (itemstack1.getCount() == itemstack.getCount()) {
+				return null;
+			}
+
+			slot.onTake(par1EntityPlayer, itemstack1);
+		}
+		return itemstack != null ? itemstack : ItemStack.EMPTY;
 	}
 	
 	@Override
-	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean useEndIndex) {
-	    boolean success = false;
-	    int index = startIndex;
+	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+		boolean flag = false;
+        int i = startIndex;
 
-	    if (useEndIndex)
-	        index = endIndex - 1;
+        if (reverseDirection)
+        {
+            i = endIndex - 1;
+        }
 
-	    Slot slot;
-	    ItemStack stackinslot;
+        if (stack.isStackable())
+        {
+            while (!stack.isEmpty())
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
 
-	    if (stack.isStackable()) {
-	        while (!stack.isEmpty() && (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex)) {
-	            slot = (Slot) this.inventorySlots.get(index);
-	            stackinslot = slot.getStack();
+                Slot slot = this.inventorySlots.get(i);
+                ItemStack itemstack = slot.getStack();
 
-	            if (stackinslot != null && stackinslot.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == stackinslot.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, stackinslot)) {
-	                int l = stackinslot.getCount() + stack.getCount();
-	                int maxsize = Math.min(stack.getMaxStackSize(), slot.getItemStackLimit(stack));
+                if (!itemstack.isEmpty() && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack))
+                {
+                    int j = itemstack.getCount() + stack.getCount();
+                    int maxSize = Math.min(slot.getSlotStackLimit(), stack.getMaxStackSize());
 
-	                if (l <= maxsize) {
-	                    stack.setCount(0);
-	                    stackinslot.setCount(l);
-	                    slot.onSlotChanged();
-	                    success = true;
-	                } else if (stackinslot.getCount() < maxsize) {
-	                    stack.setCount(stack.getCount() - stack.getMaxStackSize() - stackinslot.getCount());
-	                    stackinslot.setCount(stack.getMaxStackSize());
-	                    slot.onSlotChanged();
-	                    success = true;
-	                }
-	            }
+                    if (j <= maxSize)
+                    {
+                        stack.setCount(0);
+                        itemstack.setCount(j);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                    else if (itemstack.getCount() < maxSize)
+                    {
+                        stack.shrink(maxSize - itemstack.getCount());
+                        itemstack.setCount(maxSize);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                }
 
-	            if (useEndIndex) {
-	                --index;
-	            } else {
-	                ++index;
-	            }
-	        }
-	    }
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
 
-	    if (!stack.isEmpty()) {
-	        if (useEndIndex) {
-	            index = endIndex - 1;
-	        } else {
-	            index = startIndex;
-	        }
+        if (!stack.isEmpty())
+        {
+            if (reverseDirection)
+            {
+                i = endIndex - 1;
+            }
+            else
+            {
+                i = startIndex;
+            }
 
-	        while (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex && !stack.isEmpty()) {
-	            slot = (Slot) this.inventorySlots.get(index);
-	            stackinslot = slot.getStack();
+            while (true)
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
 
-	            // Forge: Make sure to respect isItemValid in the slot.
-	            if (stackinslot == null && slot.isItemValid(stack)) {
-	                if (stack.getCount() < slot.getItemStackLimit(stack)) {
-	                    slot.putStack(stack.copy());
-	                    stack.setCount(0);
-	                    success = true;
-	                    break;
-	                } else {
-	                    ItemStack newstack = stack.copy();
-	                    newstack.setCount(slot.getItemStackLimit(stack));
-	                    slot.putStack(newstack);
-	                    stack.setCount(stack.getCount() - slot.getItemStackLimit(stack));
-	                    success = true;
-	                }
-	            }
+                Slot slot1 = this.inventorySlots.get(i);
+                ItemStack itemstack1 = slot1.getStack();
 
-	            if (useEndIndex) {
-	                --index;
-	            } else {
-	                ++index;
-	            }
-	        }
-	    }
+                if (itemstack1.isEmpty() && slot1.isItemValid(stack))
+                {
+                    if (stack.getCount() > slot1.getSlotStackLimit())
+                    {
+                        slot1.putStack(stack.splitStack(slot1.getSlotStackLimit()));
+                    }
+                    else
+                    {
+                        slot1.putStack(stack.splitStack(stack.getCount()));
+                    }
 
-	    return success;
+                    slot1.onSlotChanged();
+                    flag = true;
+                    break;
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        return flag;
 	}
 
 }

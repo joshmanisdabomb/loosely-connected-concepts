@@ -3,14 +3,13 @@ package com.joshmanisdabomb.aimagg.blocks;
 import java.util.List;
 import java.util.Random;
 
-import javax.annotation.Nullable;
-
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadMissileRenderRequest;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSlab;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -18,7 +17,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

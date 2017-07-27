@@ -14,7 +14,7 @@ public class AimaggSlotMissile extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-        return stack.getItem() instanceof AimaggItemMissile;
+        return stack != null && stack.getItem() instanceof AimaggItemMissile;
     }
 	
 	@Override

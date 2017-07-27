@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.aimagg.container.slot;
 
-import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -16,8 +16,8 @@ public class AimaggSlotVectorPearl extends Slot {
 	
 	@Override
 	public boolean isItemValid(ItemStack stack) {
-		NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vectorpearl");
-        return stack != null && stack.getItem() == AimaggItems.vectorPearl && vpNBT != null && vpNBT.getBoolean("used");
+		NBTTagCompound vpNBT = stack.getSubCompound(Constants.MOD_ID + "_vector_pearl");
+        return stack != null && (stack.getItem() instanceof AimaggItemVectorPearl) && vpNBT != null && vpNBT.getBoolean("used");
     }
 	
 	@Override

@@ -7,6 +7,8 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.base.Predicate;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.container.AimaggContainerLaunchPad;
+import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
+import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadLaunch;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadText;
@@ -17,6 +19,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -98,6 +101,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 				return true;
 			}
         });
+		this.textUpdate();
 	}
 
 	@Override
@@ -120,11 +124,11 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	    
         GlStateManager.translate((float)-this.guiLeft, (float)-this.guiTop, 0.0F);
 	    
-		if (this.te.getStackInSlot(2) != null) {
+		if (this.te.getStackInSlot(2).getItem() instanceof AimaggItemVectorPearl) {
 			this.destinationx.setEnabled(false);
 			this.destinationy.setEnabled(false);
 			this.destinationz.setEnabled(false);
-			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getOrCreateSubCompound(Constants.MOD_ID + "_vectorpearl");
+			NBTTagCompound vpNBT = this.te.getStackInSlot(2).getOrCreateSubCompound(Constants.MOD_ID + "_vector_pearl");
 			if (Integer.valueOf(this.destinationx.getText()) != vpNBT.getInteger("xcoord")) {
 				this.destinationx.setText(Integer.toString(vpNBT.getInteger("xcoord")));
 				this.textUpdate();
@@ -181,7 +185,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	
 	private void initiateLaunch() {
 		//client update
-		//te.launch();
+		te.launch(this.playerInv.player.capabilities.isCreativeMode);
 		//server update
 		AimaggPacketLaunchPadLaunch packet = new AimaggPacketLaunchPadLaunch();
 		packet.setTileEntityPosition(te.getPos());
@@ -200,7 +204,8 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	}
 	
 	public boolean isButtonEnabled() {
-		return this.te.getStackInSlot(0) != null && (this.te.getStackInSlot(1) != null || this.playerInv.player.capabilities.isCreativeMode);
+		//TODO Lava fuel is placeholder.
+ 		return (this.te.getStackInSlot(0).getItem() instanceof AimaggItemMissile) && (this.te.getStackInSlot(1).getItem() == Items.LAVA_BUCKET || this.playerInv.player.capabilities.isCreativeMode);
 	}
 
 }

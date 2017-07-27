@@ -2,6 +2,41 @@ item.test_item.name=Test Item
 tile.test_block.name=Test Block
 tile.test_block_2.name=Test Block (Horizontal)
 
+tile.ore.ruby.name=Ruby Ore
+item.ingot.ruby.name=Ruby
+tile.storage.ruby.name=Block of Ruby
+tile.ore.sapphire.name=Sapphire Ore
+item.ingot.sapphire.name=Sapphire
+tile.storage.sapphire.name=Block of Sapphire
+tile.ore.topaz.name=Topaz Ore
+item.ingot.topaz.name=Topaz
+tile.storage.topaz.name=Block of Topaz
+tile.ore.amethyst.name=Amethyst Ore
+item.ingot.amethyst.name=Amethyst
+tile.storage.amethyst.name=Block of Amethyst
+tile.ore.uranium.name=Uranium Ore
+item.ingot.uranium.name=Unrefined Uranium
+tile.storage.uranium.name=Block of Unrefined Uranium
+
+item.spreader_core.name=Spreader Core
+tile.spreader_interface.name=Spreader Interface
+tile.spreader_white.name=White Spreader Block
+tile.spreader_orange.name=Orange Spreader Block
+tile.spreader_magenta.name=Magenta Spreader Block
+tile.spreader_light_blue.name=Light Blue Spreader Block
+tile.spreader_yellow.name=Yellow Spreader Block
+tile.spreader_lime.name=Lime Spreader Block
+tile.spreader_pink.name=Pink Spreader Block
+tile.spreader_gray.name=Gray Spreader Block
+tile.spreader_silver.name=Silver Spreader Block
+tile.spreader_cyan.name=Cyan Spreader Block
+tile.spreader_purple.name=Purple Spreader Block
+tile.spreader_blue.name=Blue Spreader Block
+tile.spreader_brown.name=Brown Spreader Block
+tile.spreader_green.name=Green Spreader Block
+tile.spreader_red.name=Red Spreader Block
+tile.spreader_black.name=Black Spreader Block
+
 tile.launch_pad.name=Missile Launch Pad
 
 item.vector_pearl.name=Vector Pearl

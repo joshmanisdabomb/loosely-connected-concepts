@@ -20,10 +20,10 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 	public static AimaggTELaunchPadModel model = new AimaggTELaunchPadModel();
 	public static AimaggEntityMissileSmallModel missileModel = new AimaggEntityMissileSmallModel();
 	public static AimaggEntityMissileLargeModel missileLargeModel = new AimaggEntityMissileLargeModel();
-	public static final ResourceLocation texture = new ResourceLocation(Constants.MOD_ID, "textures/tesr/launchpad.png");
+	public static final ResourceLocation texture = new ResourceLocation(Constants.MOD_ID, "textures/tesr/launch_pad.png");
 	
 	@Override
-	public void renderTileEntityFast(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
+	public void render(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
         GlStateManager.disableCull();
         GlStateManager.translate((float)x+0.5, (float)y+2, (float)z+0.5);
@@ -39,11 +39,11 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 		
 		MissileType mt = ((AimaggTELaunchPad)te).getMissileType();
 		if (mt != null) {
-			this.doMissileRender(te, mt, x+0.5, y+(4/16D), z+0.5, partialTicks, destroyStage, partial, buffer);
+			this.doMissileRender(te, mt, x+0.5, y+(4/16D), z+0.5, partialTicks, destroyStage, alpha);
 		}
 	}
 
-	public void doMissileRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder buffer) {
+	public void doMissileRender(TileEntity te, MissileType mt, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.disableCull();
         GlStateManager.translate((float)x, (float)y, (float)z);

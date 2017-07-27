@@ -53,7 +53,7 @@ public class AimaggBlockStorage extends AimaggBlockBasic {
 	}
 	
 	@Override
-	public ItemBlock getItemBlock() {
+	public ItemBlock createItemBlock() {
 		ItemBlock ib = new ItemBlock(this) {
 			@Override
 			public int getMetadata(int metadata) {
@@ -66,6 +66,7 @@ public class AimaggBlockStorage extends AimaggBlockBasic {
 			}
 		};
 		ib.setMaxDamage(0).setHasSubtypes(true);
+		ib.setRegistryName(this.getRegistryName());
 		return ib;
 	}
 

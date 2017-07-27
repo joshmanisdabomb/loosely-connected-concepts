@@ -217,8 +217,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return null;
-		//return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.addCoord(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
+		return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.offset(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
 	}
 
 	@Override

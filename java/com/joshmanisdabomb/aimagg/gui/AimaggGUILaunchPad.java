@@ -103,7 +103,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 	    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-	    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/launchpad.png"));
+	    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/launch_pad.png"));
 	    this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	    if (!this.isButtonEnabled()) {
 	    	this.drawTexturedModalRect(this.guiLeft + 20, this.guiTop + 20, 0, 177, this.xSizeButton, this.ySizeButton);

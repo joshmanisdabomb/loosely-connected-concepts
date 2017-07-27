@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class AimaggBlockSpreaderInterface extends AimaggBlockBasicHorizontal {
@@ -18,6 +19,7 @@ public class AimaggBlockSpreaderInterface extends AimaggBlockBasicHorizontal {
 	public AimaggBlockSpreaderInterface(String internalName, int sortVal, Material material, MapColor mcolor) {
 		super(internalName, sortVal, material, mcolor);
 		this.isBlockContainer = true;
+		this.setLightOpacity(0);
 	}
 	
 	@Override
@@ -27,5 +29,25 @@ public class AimaggBlockSpreaderInterface extends AimaggBlockBasicHorizontal {
 	    }
 		return true;
 	}
+
+    @Override
+    public boolean isBlockNormalCube(IBlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
+    }
+    
+    @Override
+    public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+        return false;
+    }
+    
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
 	
 }

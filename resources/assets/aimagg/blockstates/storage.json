@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "type=ruby":  { "model": "aimagg:storage/ruby" },
+    "type=sapphire":  { "model": "aimagg:storage/sapphire" },
+    "type=topaz":  { "model": "aimagg:storage/topaz" },
+    "type=amethyst":  { "model": "aimagg:storage/amethyst" },
+    "type=uranium":  { "model": "aimagg:storage/uranium" }
+  }
+}

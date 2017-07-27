@@ -62,11 +62,11 @@ public class AimaggGUISpreaderInterface extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 	    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-	    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/spreaderinterface.png"));
+	    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/spreader_interface.png"));
 	    this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 	    
 		for (int i = 0; i < 16; i++) {
-		    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/spreaderinterface.png"));
+		    this.mc.getTextureManager().bindTexture(new ResourceLocation("aimagg:textures/gui/container/spreader_interface.png"));
 			Color cv = new Color(EnumDyeColor.byMetadata(i).getColorValue());
 		    GlStateManager.color((cv.getRed()+25)/230F, (cv.getGreen()+25)/230F, (cv.getBlue()+25)/230F, 1.0f);
 		    if (i == tab) {

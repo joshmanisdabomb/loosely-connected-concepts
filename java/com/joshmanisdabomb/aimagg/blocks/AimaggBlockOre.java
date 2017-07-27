@@ -14,7 +14,9 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAnvilBlock;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockSpecial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,14 +31,17 @@ public class AimaggBlockOre extends AimaggBlockBasic {
         this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, OreIngotStorage.RUBY));
 	}
 	
+	@Override
 	protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, new IProperty[] {TYPE});
     }
-	
+
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(TYPE, OreIngotStorage.getFromMetadata(meta));
     }
 
+	@Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(TYPE).getMetadata();
     }
@@ -55,7 +60,7 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 	}
         
 	@Override
-	public ItemBlock getItemBlock() {
+	public ItemBlock createItemBlock() {
 		ItemBlock ib = new ItemBlock(this) {
 			@Override
 			public int getMetadata(int metadata) {
@@ -68,6 +73,7 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 			}
 		};
 		ib.setMaxDamage(0).setHasSubtypes(true);
+		ib.setRegistryName(this.getRegistryName());
 		return ib;
 	}
 

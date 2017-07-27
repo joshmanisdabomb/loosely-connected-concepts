@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.items;
 
 import java.util.List;
 
+import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
@@ -65,10 +66,12 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (UpgradeCardType uc : UpgradeCardType.values()) {
-			ItemStack is = new ItemStack(this, 1, uc.getMetadata());
-            items.add(is);
-        }
+		if (tab.getTabIndex() == AimlessAgglomeration.tab.getTabIndex()) {
+			for (UpgradeCardType uc : UpgradeCardType.values()) {
+				ItemStack is = new ItemStack(this, 1, uc.getMetadata());
+	            items.add(is);
+	        }
+		}
 	}
 	
 	public static enum UpgradeCardType {

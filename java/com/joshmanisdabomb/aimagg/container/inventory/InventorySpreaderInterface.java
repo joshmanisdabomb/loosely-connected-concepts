@@ -20,6 +20,7 @@ public class InventorySpreaderInterface extends InventoryBasic {
 		this.addInventoryChangeListener(new InventorySpreaderInterfaceChangedListener());
 	}
 	
+	@Override
 	public int getSizeInventory() {
 		return 16*8;
 	}

@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "age=0":  { "model": "aimagg:spreader/cyan/age_0" },
+    "age=1":  { "model": "aimagg:spreader/cyan/age_1" },
+    "age=2":  { "model": "aimagg:spreader/cyan/age_2" },
+    "age=3":  { "model": "aimagg:spreader/cyan/age_3" },
+    "age=4":  { "model": "aimagg:spreader/cyan/age_4" },
+    "age=5":  { "model": "aimagg:spreader/cyan/age_5" },
+    "age=6":  { "model": "aimagg:spreader/cyan/age_6" },
+    "age=7":  { "model": "aimagg:spreader/cyan/age_7" },
+    "age=8":  { "model": "aimagg:spreader/cyan/age_8" },
+    "age=9":  { "model": "aimagg:spreader/cyan/age_9" },
+    "age=10":  { "model": "aimagg:spreader/cyan/age_10" },
+    "age=11":  { "model": "aimagg:spreader/cyan/age_11" },
+    "age=12":  { "model": "aimagg:spreader/cyan/age_12" },
+    "age=13":  { "model": "aimagg:spreader/cyan/age_13" },
+    "age=14":  { "model": "aimagg:spreader/cyan/age_14" },
+    "age=15":  { "model": "aimagg:spreader/cyan/age_15" }
+  }
+}

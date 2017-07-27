@@ -32,6 +32,9 @@ public class AimaggItems {
 	
 	//Missiles, Sort Values 2000-2100
 	public static Item missile;
+
+	//Spreaders, Sort Values 1000-1100
+	public static Item spreaderCore;
 	
 	//Pills, Sort Values 8000-8100
 	public static Item pill;
@@ -49,6 +52,8 @@ public class AimaggItems {
 		testItem = new AimaggItemBasic("test_item", Integer.MAX_VALUE-3);
 		
 		ingot = new AimaggItemIngot("ingot", 311);
+		
+		spreaderCore = new AimaggItemBasic("spreader_core", 1039);
 		
 		missile = new AimaggItemMissile("missile", 2050);
 		

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
+import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
+import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
 import com.joshmanisdabomb.aimagg.data.world.SpreaderData;
 
 import it.unimi.dsi.fastutil.Arrays;
@@ -14,14 +16,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggBlockSpreader extends AimaggBlockBasic {
 	
@@ -36,6 +41,11 @@ public class AimaggBlockSpreader extends AimaggBlockBasic {
 	}
 	
 	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, AGE);
+	}
+	
+	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(AGE);
 	}
@@ -45,21 +55,22 @@ public class AimaggBlockSpreader extends AimaggBlockBasic {
 		return this.getDefaultState().withProperty(AGE, meta);
 	}
 	
-	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {		
-		int speedMin = 42 - (SpreaderData.getInstance(worldIn).getSpeed(dyeColor) * 2);
+	@Override
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		int speedMin = 84 - (SpreaderData.getInstance(worldIn).getSpeed(dyeColor) * 4);
     	worldIn.scheduleUpdate(pos, this, speedMin + this.RANDOM.nextInt(speedMin + 1));
-    }
+	}
 	
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {		
-		int speedMin = 42 - (SpreaderData.getInstance(worldIn).getSpeed(dyeColor) * 2);
+		int speedMin = 84 - (SpreaderData.getInstance(worldIn).getSpeed(dyeColor) * 4);
 	    worldIn.scheduleUpdate(pos, this, speedMin + this.RANDOM.nextInt(speedMin + 1));
 	}
 	
 	@Override
 	public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {		
 		int speed = SpreaderData.getInstance(worldIn).getSpeed(dyeColor);
-		int speedMin = 42 - (speed * 2);
+		int speedMin = 84 - (speed * 4);
 		int range = SpreaderData.getInstance(worldIn).getRange(dyeColor);
 		int spread = SpreaderData.getInstance(worldIn).getSpread(dyeColor);
 		int maxFails = ((spread*2)+3)*((spread*2)+3)*((spread*2)+3);
@@ -99,18 +110,34 @@ public class AimaggBlockSpreader extends AimaggBlockBasic {
 					}
 				}
 			}
-			
+
 			if (destroy) {
 				worldIn.setBlockToAir(pos);
 			} else if (fails < maxFails) {
 				worldIn.scheduleUpdate(pos, this, speedMin + rand.nextInt(speedMin + 1));
 			}
+		} else if (eating) {
+			worldIn.setBlockToAir(pos);
 		}
-    }
 	
+    }
+    
 	@Override
-	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, AGE);
+	public ItemBlock createItemBlock() {
+		ItemBlock ib = new ItemBlock(this) {
+			@Override
+			public int getMetadata(int metadata) {
+				return metadata;
+			}
+	
+			@Override
+			public String getUnlocalizedName(ItemStack stack) {
+				return super.getUnlocalizedName();
+			}
+		};
+		ib.setMaxDamage(0).setHasSubtypes(true);
+		ib.setRegistryName(this.getRegistryName());
+		return ib;
 	}
 
 }

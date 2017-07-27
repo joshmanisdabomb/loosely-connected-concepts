@@ -22,7 +22,8 @@ public class AimaggBlockBasicHorizontal extends AimaggBlockBasic {
 	
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		super.onBlockPlacedBy(worldIn, pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), placer, stack);
+		worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()));
+		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 	
 	@Override

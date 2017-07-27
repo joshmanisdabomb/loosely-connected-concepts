@@ -3,10 +3,12 @@ package com.joshmanisdabomb.aimagg.event;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggEntities;
 import com.joshmanisdabomb.aimagg.AimaggItems;
+import com.joshmanisdabomb.aimagg.AimaggRecipes;
 import com.joshmanisdabomb.aimagg.Constants;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,6 +35,11 @@ public class AimaggRegistry {
 	@SubscribeEvent
 	public void registerEntities(RegistryEvent.Register<EntityEntry> event) {
 	    event.getRegistry().registerAll(AimaggEntities.registry.toArray(new EntityEntry[]{}));
+	}
+
+	@SubscribeEvent
+	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+	    event.getRegistry().registerAll(AimaggRecipes.registry.toArray(new IRecipe[]{}));
 	}
 	
 	@SubscribeEvent

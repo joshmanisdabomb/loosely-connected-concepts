@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.items;
 
 import java.util.List;
 
+import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
@@ -39,9 +40,11 @@ public class AimaggItemIngot extends AimaggItemBasic {
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (OreIngotStorage ois : OreIngotStorage.getAllWithIngotForm()) {
-            items.add(new ItemStack(this, 1, ois.getMetadata()));
-        }
+		if (tab.getTabIndex() == AimlessAgglomeration.tab.getTabIndex()) {
+			for (OreIngotStorage ois : OreIngotStorage.getAllWithIngotForm()) {
+	            items.add(new ItemStack(this, 1, ois.getMetadata()));
+	        }
+		}
 	}
 
 }

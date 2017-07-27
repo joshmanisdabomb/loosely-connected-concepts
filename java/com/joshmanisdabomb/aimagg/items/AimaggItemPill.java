@@ -3,6 +3,7 @@ package com.joshmanisdabomb.aimagg.items;
 import java.util.List;
 import java.util.Random;
 
+import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
@@ -41,15 +42,17 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (int i = 0; i < defaultPrimaryColors.length; i++) {
-			ItemStack is = new ItemStack(this, 1);
-			NBTTagCompound pNBT = is.getOrCreateSubCompound(Constants.MOD_ID + "_pill");
-			pNBT.setInteger("color1", defaultPrimaryColors[i]);
-			pNBT.setInteger("color2", defaultSecondaryColors[i]);
+		if (tab.getTabIndex() == AimlessAgglomeration.tab.getTabIndex()) {
+			for (int i = 0; i < defaultPrimaryColors.length; i++) {
+				ItemStack is = new ItemStack(this, 1);
+				NBTTagCompound pNBT = is.getOrCreateSubCompound(Constants.MOD_ID + "_pill");
+				pNBT.setInteger("color1", defaultPrimaryColors[i]);
+				pNBT.setInteger("color2", defaultSecondaryColors[i]);
+				items.add(is);
+			}
+			ItemStack is = new ItemStack(this, 1, 1);
 			items.add(is);
 		}
-		ItemStack is = new ItemStack(this, 1, 1);
-		items.add(is);
 	}
 	
 	@Override

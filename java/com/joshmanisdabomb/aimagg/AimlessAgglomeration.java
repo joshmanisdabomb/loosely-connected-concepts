@@ -30,7 +30,7 @@ public class AimlessAgglomeration {
 	@SidedProxy(clientSide = Constants.CLIENT_PROXY_CLASS, serverSide = Constants.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 	
-	public static final AimaggTab tab = new AimaggTab("aimaggTab");
+	public static final AimaggTab tab = new AimaggTab("aimagg_tab");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -43,7 +43,7 @@ public class AimlessAgglomeration {
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggRegistry());
 		
-		tab.setStackIcon(new ItemStack(AimaggBlocks.testBlock, 1, 1));
+		tab.setStackIcon(new ItemStack(AimaggItems.testItem, 1));
 		
 		proxy.preInit();
         AimaggPacketHandler.registerMessages(Constants.MOD_ID);

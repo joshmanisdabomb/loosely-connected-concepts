@@ -16,9 +16,9 @@ import net.minecraft.world.storage.WorldSavedData;
 public class SpreaderData extends WorldSavedData {
 
 	private static SpreaderData instance = null;
-	private final static String key = Constants.MOD_ID + "_spreadercolors";
+	private final static String key = Constants.MOD_ID + "_spreader_colors";
 
-	private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+	public NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
 	
 	private InventorySpreaderInterface isi = null;
 	
@@ -67,17 +67,17 @@ public class SpreaderData extends WorldSavedData {
 
 	public int getSpeed(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+0);
-		return is.isEmpty() ? is.getCount() : 0;
+		return is.getCount();
 	}
 
 	public int getDamage(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+1);
-		return is.isEmpty() ? is.getCount() : 0;
+		return is.getCount();
 	}
 
 	public int getRange(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+2);
-		return is.isEmpty() ? (is.getMetadata() == AimaggItemUpgradeCard.UpgradeCardType.SC_RANGEINF.getMetadata() ? 65 : is.getCount()) : 0;
+		return is.getMetadata() == AimaggItemUpgradeCard.UpgradeCardType.SC_RANGEINF.getMetadata() ? 65 : is.getCount();
 	}
 	
 	public boolean hasInfiniteRange(EnumDyeColor dyeColor) {
@@ -86,33 +86,35 @@ public class SpreaderData extends WorldSavedData {
 
 	public int getSpread(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+1);
-		return is.isEmpty() ? is.getCount() : 0;
+		return is.getCount();
 	}
 
 	public boolean isEating(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+4);
-		return is.isEmpty() ? is.getCount() > 0 : false;
+		return is.getCount() > 0;
 	}
 
 	public boolean spreadsInGround(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+5);
-		return is.isEmpty() ? is.getCount() > 0 : false;
+		return is.getCount() > 0;
 	}
 
 	public boolean spreadsInLiquid(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+6);
-		return is.isEmpty() ? is.getCount() > 0 : false;
+		return is.getCount() > 0;
 	}
 
 	public boolean spreadsInAir(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+7);
-		return is.isEmpty() ? is.getCount() > 0 : false;
+		return is.getCount() > 0;
 	}
 
 	public InventorySpreaderInterface getInventory() {
-        if (isi == null) isi = new InventorySpreaderInterface(world);
-        isi.setFromStacks(this.inventory);
-        this.save(world);
+        if (isi == null) {
+        	isi = new InventorySpreaderInterface(world);
+            isi.setFromStacks(this.inventory);
+            isi.markDirty();
+        }
         return isi;
 	}
 

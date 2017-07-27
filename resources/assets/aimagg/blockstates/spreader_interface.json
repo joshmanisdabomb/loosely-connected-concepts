@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": {"model": "aimagg:test_block_2"},
-    "facing=east":  {"model": "aimagg:test_block_2", "y": 90},
-    "facing=south": {"model": "aimagg:test_block_2", "y": 180},
-    "facing=west":  {"model": "aimagg:test_block_2", "y": 270}
+    "facing=north": {"model": "aimagg:spreader_interface"},
+    "facing=east":  {"model": "aimagg:spreader_interface", "y": 90},
+    "facing=south": {"model": "aimagg:spreader_interface", "y": 180},
+    "facing=west":  {"model": "aimagg:spreader_interface", "y": 270}
   }
 }

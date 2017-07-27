@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.items;
 
 import java.util.List;
 
+import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
 
@@ -64,11 +65,13 @@ public class AimaggItemMissile extends AimaggItemBasic {
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (MissileType m : MissileType.values()) {
-			ItemStack is = new ItemStack(this, 1, m.getMetadata());
-			is.getOrCreateSubCompound(Constants.MOD_ID + "_missile").setInteger("strength", 1);
-			items.add(is);
-        }
+		if (tab.getTabIndex() == AimlessAgglomeration.tab.getTabIndex()) {
+			for (MissileType m : MissileType.values()) {
+				ItemStack is = new ItemStack(this, 1, m.getMetadata());
+				is.getOrCreateSubCompound(Constants.MOD_ID + "_missile").setInteger("strength", 1);
+				items.add(is);
+	        }
+		}
 	}
 
 }

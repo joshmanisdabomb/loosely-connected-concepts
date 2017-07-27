@@ -69,7 +69,7 @@ public class AimaggBlockBasic extends Block {
 	public void initialise() {
 	}
 
-	public void registerRender() {
+	public void registerInventoryRender() {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName(), "inventory"));
 	}
 

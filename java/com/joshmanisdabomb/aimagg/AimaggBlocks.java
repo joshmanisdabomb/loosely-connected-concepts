@@ -78,7 +78,7 @@ public class AimaggBlocks {
 	public static void registerRenders(ModelRegistryEvent event) {
 		for (Block b : registry) {
 			if (b instanceof AimaggBlockBasic) {
-				((AimaggBlockBasic)b).registerRender();
+				((AimaggBlockBasic)b).registerInventoryRender();
 			} else {
 				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(b.getRegistryName(), "inventory"));
 			}

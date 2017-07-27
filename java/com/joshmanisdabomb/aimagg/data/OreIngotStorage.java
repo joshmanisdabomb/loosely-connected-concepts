@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
+import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockOre;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -35,7 +37,9 @@ public enum OreIngotStorage implements IStringSerializable {
 	private boolean hasIngotForm;
 	private boolean hasStorageForm;
 	
-	private final ModelResourceLocation mrl;
+	private final ModelResourceLocation mrlOre;
+	private final ModelResourceLocation mrlIngot;
+	private final ModelResourceLocation mrlStorage;
 
 	private boolean builtInWorldGen = false;
 	private int wg_dimensionID;
@@ -47,11 +51,9 @@ public enum OreIngotStorage implements IStringSerializable {
 	OreIngotStorage(int id, boolean oreForm, boolean ingotForm, boolean storageForm) {
 		this.id = id;
 		this.hasOreForm = oreForm;
-		if (this.hasIngotForm = ingotForm) {
-			mrl = new ModelResourceLocation(Constants.MOD_ID + ":ingot/" + this.name());
-		} else {
-			mrl = null;
-		}
+		this.mrlOre = (this.hasOreForm = oreForm) ? new ModelResourceLocation(Constants.MOD_ID + ":ore/" + this.name()) : null;
+		this.mrlIngot = (this.hasIngotForm = ingotForm) ? new ModelResourceLocation(Constants.MOD_ID + ":ingot/" + this.name()) : null;
+		this.mrlStorage = (this.hasStorageForm = storageForm) ? new ModelResourceLocation(Constants.MOD_ID + ":storage/" + this.name()) : null;
 		this.hasStorageForm = storageForm;
 	}
 
@@ -152,8 +154,16 @@ public enum OreIngotStorage implements IStringSerializable {
 		return null;
 	}
 
-	public ModelResourceLocation getItemModel() {
-		return mrl;
+	public ModelResourceLocation getOreModel() {
+		return mrlOre;
+	}
+
+	public ModelResourceLocation getIngotModel() {
+		return mrlIngot;
+	}
+
+	public ModelResourceLocation getStorageModel() {
+		return mrlStorage;
 	}
 
 	public static void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
@@ -179,6 +189,12 @@ public enum OreIngotStorage implements IStringSerializable {
 	private Block getOreBlock() {
 		if (!this.hasOreForm()) {return null;}
 		if (this.getMetadata() < 16) {return AimaggBlocks.ore;}
+		return null;
+	}
+	
+	private Item getIngotItem() {
+		if (!this.hasIngotForm()) {return null;}
+		if (this.getMetadata() < 16) {return AimaggItems.ingot;}
 		return null;
 	}
 	

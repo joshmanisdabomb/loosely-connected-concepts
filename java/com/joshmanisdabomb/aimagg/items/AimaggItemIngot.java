@@ -23,8 +23,8 @@ public class AimaggItemIngot extends AimaggItemBasic {
 	
 	@Override
 	public void registerRender() {
-		for (OreIngotStorage ois : OreIngotStorage.values()) {
-			ModelLoader.setCustomModelResourceLocation(this, ois.getMetadata(), ois.getItemModel());
+		for (OreIngotStorage ois : OreIngotStorage.getAllWithIngotForm()) {
+			ModelLoader.setCustomModelResourceLocation(this, ois.getMetadata(), ois.getIngotModel());
 		}
 	}
 	

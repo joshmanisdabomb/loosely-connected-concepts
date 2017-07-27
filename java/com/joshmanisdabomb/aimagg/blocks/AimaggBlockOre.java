@@ -1,11 +1,7 @@
 package com.joshmanisdabomb.aimagg.blocks;
 
-import java.util.List;
-
-import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
 
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -14,11 +10,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAnvilBlock;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBlockSpecial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -56,6 +51,13 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
         for (OreIngotStorage ois : OreIngotStorage.getAllWithOreForm()) {
         	items.add(new ItemStack(this, 1, ois.getMetadata()));
+        }
+	}
+
+	@Override
+	public void registerInventoryRender() {
+        for (OreIngotStorage ois : OreIngotStorage.getAllWithOreForm()) {
+			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), ois.getMetadata(), ois.getOreModel());
         }
 	}
         

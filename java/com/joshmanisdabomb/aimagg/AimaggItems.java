@@ -6,7 +6,9 @@ import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
+import com.joshmanisdabomb.aimagg.items.AimaggItemHeart;
 import com.joshmanisdabomb.aimagg.items.AimaggItemIngot;
+import com.joshmanisdabomb.aimagg.items.AimaggItemMaterial;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
 import com.joshmanisdabomb.aimagg.items.AimaggItemPill;
 import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard;
@@ -32,14 +34,15 @@ public class AimaggItems {
 	
 	//Missiles, Sort Values 2000-2100
 	public static Item missile;
-
-	//Spreaders, Sort Values 1000-1100
-	public static Item spreaderCore;
 	
 	//Pills, Sort Values 8000-8100
 	public static Item pill;
 	
+	//Health, Sort Values 8100-8200
+	public static Item heart;
+	
 	//Misc, Sort Values 100000-101000
+	public static Item materials;
 	public static Item vectorPearl;
 	
 	//Upgrade Cards, Sort Values 101001+
@@ -53,12 +56,13 @@ public class AimaggItems {
 		
 		ingot = new AimaggItemIngot("ingot", 311);
 		
-		spreaderCore = new AimaggItemBasic("spreader_core", 1039);
-		
 		missile = new AimaggItemMissile("missile", 2050);
 		
-		pill = new AimaggItemPill("pill", 8000);
+		pill = new AimaggItemPill("pill", 8050);
 		
+		heart = new AimaggItemHeart("heart", 8150);
+		
+		materials = new AimaggItemMaterial("material", 100000);
 		vectorPearl = new AimaggItemVectorPearl("vector_pearl", 100010);
 		
 		upgradeCard = new AimaggItemUpgradeCard("upgrade_card", 101001);

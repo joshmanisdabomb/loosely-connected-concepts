@@ -24,5 +24,10 @@ public class AimaggSlotVectorPearl extends Slot {
 	public int getItemStackLimit(ItemStack stack) {
 		return 1;
 	}
+	
+	@Override
+	public int getSlotStackLimit() {
+        return getItemStackLimit(ItemStack.EMPTY);
+    }
 
 }

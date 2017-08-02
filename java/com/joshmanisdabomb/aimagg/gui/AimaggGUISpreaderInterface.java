@@ -38,8 +38,8 @@ public class AimaggGUISpreaderInterface extends GuiContainer {
 
 	private void updateSlotPositions() {
 		for (int i = 0; i < 16*8; i++) {
-			this.inventorySlots.inventorySlots.get(i).xPos = -10000;
-			this.inventorySlots.inventorySlots.get(i).yPos = -10000;
+			this.inventorySlots.inventorySlots.get(i).xPos = -100000;
+			this.inventorySlots.inventorySlots.get(i).yPos = -100000;
 		}
 		this.inventorySlots.inventorySlots.get((tab*8)+0).xPos = AimaggContainerSpreaderInterface.defaultSpeedSlotX;
 		this.inventorySlots.inventorySlots.get((tab*8)+0).yPos = AimaggContainerSpreaderInterface.defaultSpeedSlotY;

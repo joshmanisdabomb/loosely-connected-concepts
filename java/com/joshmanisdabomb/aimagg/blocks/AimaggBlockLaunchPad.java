@@ -31,6 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntityProvider {
 	
+	//TODO Packets must be sent to clients all around when missile is loaded into launch pad.
+	//TODO Packets must be sent to clients all around when missile is launched.
     public static final AxisAlignedBB LAUNCH_PAD_AABB_SELECTION   = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 4/16D, 1.0D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_1 = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 2/16D, 1.0D);
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_2 = new AxisAlignedBB(1/16D, 2/16D, 1/16D, 15/16D, 3/16D, 15/16D);

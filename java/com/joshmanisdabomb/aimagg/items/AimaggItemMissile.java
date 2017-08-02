@@ -44,17 +44,7 @@ public class AimaggItemMissile extends AimaggItemBasic {
 		
 		NBTTagCompound mNBT = stack.getSubCompound(Constants.MOD_ID + "_missile");
         if (mNBT != null) {
-        	if (MissileType.getFromMetadata(stack.getMetadata()).usingKilotons()) {
-	        	tooltip.add(
-	        				TextFormatting.WHITE + 
-	        			    I18n.format("tooltip.missile.strength", new Object[] {TextFormatting.GREEN, mNBT.getInteger("strength")/20F, I18n.format("tooltip.missile.strength.kilotons", new Object[0])})
-	        			   );
-	        } else {
-		        	tooltip.add(
-		    				TextFormatting.WHITE + 
-		    			    I18n.format("tooltip.missile.strength", new Object[] {TextFormatting.RED, mNBT.getInteger("strength"), I18n.format("tooltip.missile.strength.tnt", new Object[0])})
-		    			   );
-	        }
+        	tooltip.add(MissileType.getFromMetadata(stack.getMetadata()).getStrengthUnits().getTooltip(mNBT.getInteger("strength")));
         }
 	}
 	

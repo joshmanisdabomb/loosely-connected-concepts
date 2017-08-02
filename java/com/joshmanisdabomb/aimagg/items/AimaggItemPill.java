@@ -6,6 +6,7 @@ import java.util.Random;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
+import com.joshmanisdabomb.aimagg.items.AimaggItemMaterial.Material;
 import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -28,6 +29,7 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 	public static final int[] defaultPrimaryColors   = new int[]{0xFFFFFF,0x42B6F4,0xFFD4D4,0xE3FF44,0xFFFFFF,0x342CAA,0xE09100,0xFFE9C1,0xFFFFFF,0x272727,0xFFFFFF,0xFFFFFF};
 	public static final int[] defaultSecondaryColors = new int[]{0xFFFFFF,0x42B6F4,0xC90000,0xE09100,0x009DE0,0x0AFF83,0xE09100,0xFFFFFF,0x272727,0xE3FF44,0x00FFFF,0xE3FF44};
 
+	//TODO Pill effects.
 	public AimaggItemPill(String internalName, int sortVal) {
 		super(internalName, sortVal);
 		this.setHasSubtypes(true);
@@ -37,7 +39,7 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 	@Override
 	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
 		NBTTagCompound pNBT = stack.getSubCompound(Constants.MOD_ID + "_pill");
-		return stack.getMetadata() == 1 ? creativePillRand.nextInt(16777216) : (pNBT == null ? (tintIndex == 0 ? 0x000000 : 0xFF00FF) : (tintIndex == 0 ? pNBT.getInteger("color1") : pNBT.getInteger("color2")));
+		return PillType.getFromMetadata(stack.getMetadata()) == PillType.RANDOM ? 0xFFFFFF : (pNBT == null ? (tintIndex == 0 ? 0x000000 : 0xFF00FF) : (tintIndex == 0 ? pNBT.getInteger("color1") : pNBT.getInteger("color2")));
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 		
-		if (stack.getMetadata() == 1) {
+		if (PillType.getFromMetadata(stack.getMetadata()) == PillType.RANDOM) {
 			tooltip.add(I18n.format("tooltip.pill.random", new Object[]{}));
 		} else {
 			NBTTagCompound pNBT = stack.getSubCompound(Constants.MOD_ID + "_pill");
@@ -69,8 +71,34 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 
 	@Override
 	public void registerRender() {
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName(), "inventory"));
-		ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName(), "inventory"));
+		for (PillType pt : PillType.values()) {
+			ModelLoader.setCustomModelResourceLocation(this, pt.getMetadata(), pt.getModel());
+		}
+	}
+	
+	public static enum PillType {
+		
+		NORMAL(),
+		RANDOM();
+		
+		private final ModelResourceLocation mrl;
+
+		PillType() {
+			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":pill/" + this.name().toLowerCase(), "inventory");
+		}
+		
+		public int getMetadata() {
+			return this.ordinal();
+		}
+		
+		public ModelResourceLocation getModel() {
+			return mrl;
+		}
+
+		public static PillType getFromMetadata(int metadata) {
+			return PillType.values()[metadata];
+		}
+		
 	}
 
 }

@@ -59,7 +59,7 @@ public class InventorySpreaderInterface extends InventoryBasic {
 
 		@Override
 		public void onInventoryChanged(IInventory invBasic) {
-			updateWorld();
+			
 		}
 
 	}

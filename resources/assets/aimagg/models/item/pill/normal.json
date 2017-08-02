@@ -1,0 +1,44 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "aimagg:items/pill/top",
+    "layer1": "aimagg:items/pill/bottom"
+  },
+  "display": {
+        "thirdperson_righthand": {
+            "rotation": [ 0, 0, 45 ],
+            "translation": [ 0, 1.3, 1 ],
+            "scale": [ 0.2, 0.2, 0.2 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ 0, 0, 45 ],
+            "translation": [ 0, 1.3, 1 ],
+            "scale": [ 0.2, 0.2, 0.2 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, -90, 25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.45, 0.45, 0.45 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, -90, 25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.45, 0.45, 0.45 ]
+        },
+        "head": {
+            "rotation": [ 0, 180, 45 ],
+            "translation": [ 0, -4.5, -6.67],
+            "scale":[ 0.5, 0.5, 0.5]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 0.4, 0],
+            "scale":[ 0.2, 0.2, 0.2 ]
+        },
+        "fixed": {
+            "scale": [0.35, 0.35, 0.35],
+            "rotation": [0, 180, 45],
+            "translation": [0, 0.5, 1]
+        }
+    }
+}

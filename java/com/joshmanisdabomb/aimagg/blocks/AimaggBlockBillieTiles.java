@@ -2,8 +2,6 @@ package com.joshmanisdabomb.aimagg.blocks;
 
 import java.util.List;
 
-import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
-import com.joshmanisdabomb.aimagg.entity.AimaggEntityNuclearExplosion;
 import com.joshmanisdabomb.aimagg.te.AimaggTEBillieTiles;
 
 import net.minecraft.block.ITileEntityProvider;
@@ -12,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -34,10 +31,10 @@ public class AimaggBlockBillieTiles extends AimaggBlockBasic implements ITileEnt
 		List<Entity> list = world.getTileEntity(pos).getWorld().getEntitiesWithinAABB(Entity.class, this.getBoundingBox(state, world, pos).expand(5, 5, 5));
 		int value = 0;
 		for (Entity e : list) {
-			if (!(e instanceof EntityItemFrame || e instanceof AimaggEntityMissile || e instanceof AimaggEntityNuclearExplosion)) {
+			/* TODO get different way of excluding these kind of entities: if (!(e instanceof EntityItemFrame || e instanceof AimaggEntityMissile || e instanceof AimaggEntityNuclearExplosion)) {
 				e.getPosition();
-			}
-	}
+			}*/
+		}
 		return value;
 	}
 	

@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.data.MissileType;
+import com.joshmanisdabomb.aimagg.world.explosion.AimaggNuclearExplosion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -72,7 +73,7 @@ public class AimaggEntityMissile extends Entity {
 					Explosion explosion = new Explosion(this.world, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), false, true);
 			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.world, explosion)) {
 			        	explosion.doExplosionA();
-			        	explosion.doExplosionB(true);
+			        	explosion.doExplosionB(false);
 			        }
 				} else {
 			        this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
@@ -83,18 +84,18 @@ public class AimaggEntityMissile extends Entity {
 					Explosion explosion = new Explosion(this.world, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), true, true);
 			        if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.world, explosion)) {
 			        	explosion.doExplosionA();
-			        	explosion.doExplosionB(true);
+			        	explosion.doExplosionB(false);
 			        }
 				} else {
 			        this.world.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 1.0D, 0.0D, 0.0D, new int[0]);
 				}
 				break;
 			case NUCLEAR:
-				if (!this.world.isRemote) {
-					AimaggEntityNuclearExplosion nukeExp = new AimaggEntityNuclearExplosion(world, this.posX, this.posY, this.posZ);
-					nukeExp.setStrength(this.getStrength());
-					this.world.spawnEntity(nukeExp);
-				}
+				AimaggNuclearExplosion explosion = new AimaggNuclearExplosion(this.world, this, this.posX, this.posY, this.posZ, 3.0F*this.getStrength(), true, true, false, true, true, 0.0F);
+				explosion.sendToClients();
+				if (!net.minecraftforge.event.ForgeEventFactory.onExplosionStart(this.world, explosion)) {
+		        	explosion.detonate();
+		        }
 				break;
 			default:
 				break;

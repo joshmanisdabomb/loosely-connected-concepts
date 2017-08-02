@@ -1,17 +1,15 @@
 package com.joshmanisdabomb.aimagg.container;
 
 import com.joshmanisdabomb.aimagg.container.inventory.InventorySpreaderInterface;
-import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotLimited;
-import com.joshmanisdabomb.aimagg.container.slot.AimaggSlotOutput;
 import com.joshmanisdabomb.aimagg.data.world.SpreaderData;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.ClickType;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.world.World;
 
 public class AimaggContainerSpreaderInterface extends Container {
@@ -50,6 +48,7 @@ public class AimaggContainerSpreaderInterface extends Container {
 		//In Liquid Slots, 6+(color*8)
 		//In Air Slots, 7+(color*8)
 		
+		// Spreader Interface Inventory, Slot 0-127, Slot IDs 0-127
 		for (int i = 0; i < 16; i++) {
 			this.addSlotToContainer(new Slot(isi, 0+(i*8), defaultSpeedSlotX, defaultSpeedSlotY));
 			this.addSlotToContainer(new Slot(isi, 1+(i*8), defaultDamageSlotX, defaultDamageSlotY));
@@ -61,14 +60,14 @@ public class AimaggContainerSpreaderInterface extends Container {
 			this.addSlotToContainer(new Slot(isi, 7+(i*8), defaultInAirSlotX, defaultInAirSlotY));
 		}
 
-	    // Player Inventory, Slot 9-35, Slot IDs 137-163
+	    // Player Inventory, Slot 9-35, Slot IDs 128-154
 	    for (int y = 0; y < 3; ++y) {
 	        for (int x = 0; x < 9; ++x) {
 	            this.addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, 8 + x * 18, 140 + y * 18));
 	        }
 	    }
 
-	    // Player Inventory, Slot 0-8, Slot IDs 164-172
+	    // Player Inventory, Slot 0-8, Slot IDs 155-163
 	    for (int x = 0; x < 9; ++x) {
 	        this.addSlotToContainer(new Slot(player.inventory, x, 8 + x * 18, 198));
 	    }
@@ -79,133 +78,182 @@ public class AimaggContainerSpreaderInterface extends Container {
 		return true;
 	}
 	
-	//run on shift click
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int fromSlot) {
-		if (playerIn.world.isRemote) {return null;}
-	    
-		ItemStack previous = null;
-	    Slot slot = (Slot) this.inventorySlots.get(fromSlot);
-	    
-	    InventorySpreaderInterface isi = SpreaderData.getInstance(playerIn.world).getInventory();
-	    
-	    if (slot != null && slot.getHasStack()) {
-	        ItemStack current = slot.getStack();
-	        previous = current.copy();
-
-	        if (fromSlot < isi.getSizeInventory()) {
-	            // From TE Inventory to Player Inventory
-	            if (!this.mergeItemStack(current, 0+isi.getSizeInventory(), 36+isi.getSizeInventory(), true)) {
-	                isi.updateWorld();
-	            	return null;
-	            }
-	        } else {
-	            // From Player Inventory to TE Inventory
-	            if (!this.mergeItemStack(current, 0, isi.getSizeInventory(), false)) {
-	            	isi.updateWorld();
-	            	return null;
-	            }
-	        }
-
-	        if (current.isEmpty())
-	            slot.putStack((ItemStack) null);
-	        else
-	            slot.onSlotChanged();
-
-	        if (current.getCount() == previous.getCount()) {
-	        	isi.updateWorld();
-	        	return null;
-	        }
-	        slot.onTake(playerIn, current);
-	    }
-	    
-	    isi.updateWorld();
-	    return previous;
-	}
+	/**
+	 * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
+	 */
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+		if (!w.isRemote) {
+			ItemStack itemstack = null;
+			Slot slot = (Slot) this.inventorySlots.get(par2);
 	
-	//run on shift click
+			if (slot.getStack() != null && !slot.getStack().isEmpty()) {
+				ItemStack itemstack1 = slot.getStack();
+				itemstack = itemstack1.copy();
+	
+				// If itemstack is in spreader interface.
+				if (par2 <= 16*8) {
+					//Place in inventory, then action bar.
+					if (!this.mergeItemStack(itemstack1, 128, 164, false)) {
+						((AimaggContainerSpreaderInterface)par1EntityPlayer.openContainer).detectAndSendChanges();
+						return ItemStack.EMPTY;
+					}
+					slot.onSlotChange(itemstack1, itemstack);
+				// If itemstack is in inventory.
+				} else if (par2 >= 128 && par2 < 155) {
+					//Place in spreader interface slots, then action bar.
+					if (!this.mergeItemStack(itemstack1, 0, (16*8)+1, false) && !this.mergeItemStack(itemstack1, 155, 164, false)) {
+						((AimaggContainerSpreaderInterface)par1EntityPlayer.openContainer).detectAndSendChanges();
+						return ItemStack.EMPTY;
+					}
+					slot.onSlotChange(itemstack1, itemstack);
+				// If itemstack is in action bar.
+				} else if (par2 >= 155 && par2 < 164) {
+					//Place in spreader interface slots, then inventory.
+					if (!this.mergeItemStack(itemstack1, 0, (16*8)+1, false) && !this.mergeItemStack(itemstack1, 128, 155, false)) {
+						((AimaggContainerSpreaderInterface)par1EntityPlayer.openContainer).detectAndSendChanges();
+						return ItemStack.EMPTY;
+					}
+					slot.onSlotChange(itemstack1, itemstack);
+				}
+	
+				if (itemstack1.isEmpty()) {
+					slot.putStack(ItemStack.EMPTY);
+				} else {
+					slot.onSlotChanged();
+				}
+	
+				if (itemstack1.getCount() == itemstack.getCount()) {
+					((AimaggContainerSpreaderInterface)par1EntityPlayer.openContainer).detectAndSendChanges();
+					return ItemStack.EMPTY;
+				}
+	
+				slot.onTake(par1EntityPlayer, itemstack1);
+			}
+			((AimaggContainerSpreaderInterface)par1EntityPlayer.openContainer).detectAndSendChanges();
+			return itemstack != null ? itemstack : ItemStack.EMPTY;
+		} else {
+			return ItemStack.EMPTY;
+		}
+	}
+
 	@Override
-	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean useEndIndex) {	    
-        boolean success = false;
-	    int index = startIndex;
+	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+		boolean flag = false;
+        int i = startIndex;
 
-	    if (useEndIndex)
-	        index = endIndex - 1;
+        if (reverseDirection)
+        {
+            i = endIndex - 1;
+        }
 
-	    Slot slot;
-	    ItemStack stackinslot;
+        if (stack.isStackable())
+        {
+            while (!stack.isEmpty())
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
 
-	    if (stack.isStackable()) {
-	        while (!stack.isEmpty() && (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex)) {
-	            slot = (Slot) this.inventorySlots.get(index);
-	            stackinslot = slot.getStack();
+                Slot slot = this.inventorySlots.get(i);
+                ItemStack itemstack = slot.getStack();
 
-	            if (stackinslot != null && stackinslot.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == stackinslot.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, stackinslot)) {
-	                int l = stackinslot.getCount() + stack.getCount();
-	                int maxsize = Math.min(stack.getMaxStackSize(), slot.getItemStackLimit(stack));
+                if (!itemstack.isEmpty() && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack))
+                {
+                    int j = itemstack.getCount() + stack.getCount();
+                    int maxSize = Math.min(slot.getSlotStackLimit(), stack.getMaxStackSize());
 
-	                if (l <= maxsize) {
-	                    stack.setCount(0);
-	                    stackinslot.setCount(l);
-	                    slot.onSlotChanged();
-	                    success = true;
-	                } else if (stackinslot.getCount() < maxsize) {
-	                    stack.setCount(stack.getCount() - stack.getMaxStackSize() - stackinslot.getCount());
-	                    stackinslot.setCount(stack.getMaxStackSize());
-	                    slot.onSlotChanged();
-	                    success = true;
-	                }
-	            }
+                    if (j <= maxSize)
+                    {
+                        stack.setCount(0);
+                        itemstack.setCount(j);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                    else if (itemstack.getCount() < maxSize)
+                    {
+                        stack.shrink(maxSize - itemstack.getCount());
+                        itemstack.setCount(maxSize);
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                }
 
-	            if (useEndIndex) {
-	                --index;
-	            } else {
-	                ++index;
-	            }
-	        }
-	    }
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
 
-	    if (!stack.isEmpty()) {
-	        if (useEndIndex) {
-	            index = endIndex - 1;
-	        } else {
-	            index = startIndex;
-	        }
+        if (!stack.isEmpty())
+        {
+            if (reverseDirection)
+            {
+                i = endIndex - 1;
+            }
+            else
+            {
+                i = startIndex;
+            }
 
-	        while (!useEndIndex && index < endIndex || useEndIndex && index >= startIndex && !stack.isEmpty()) {
-	            slot = (Slot) this.inventorySlots.get(index);
-	            stackinslot = slot.getStack();
+            while (true)
+            {
+                if (reverseDirection)
+                {
+                    if (i < startIndex)
+                    {
+                        break;
+                    }
+                }
+                else if (i >= endIndex)
+                {
+                    break;
+                }
 
-	            // Forge: Make sure to respect isItemValid in the slot.
-	            if (stackinslot == null && slot.isItemValid(stack)) {
-	                if (stack.getCount() < slot.getItemStackLimit(stack)) {
-	                    slot.putStack(stack.copy());
-	                    stack.setCount(0);
-	                    success = true;
-	                    break;
-	                } else {
-	                    ItemStack newstack = stack.copy();
-	                    newstack.setCount(slot.getItemStackLimit(stack));
-	                    slot.putStack(newstack);
-	                    stack.setCount(stack.getCount() - slot.getItemStackLimit(stack));
-	                    success = true;
-	                }
-	            }
+                Slot slot1 = this.inventorySlots.get(i);
+                ItemStack itemstack1 = slot1.getStack();
 
-	            if (useEndIndex) {
-	                --index;
-	            } else {
-	                ++index;
-	            }
-	        }
-	    }
-	    
-	    return success;
-		
-	    /*InventorySpreaderInterface isi = SpreaderData.getInstance(w).getInventory();
-		boolean rtn = super.mergeItemStack(stack, startIndex, endIndex, useEndIndex);
-		isi.updateWorld();
-		return rtn;*/
+                if (itemstack1.isEmpty() && slot1.isItemValid(stack))
+                {
+                    if (stack.getCount() > slot1.getSlotStackLimit())
+                    {
+                        slot1.putStack(stack.splitStack(slot1.getSlotStackLimit()));
+                    }
+                    else
+                    {
+                        slot1.putStack(stack.splitStack(stack.getCount()));
+                    }
+
+                    slot1.onSlotChanged();
+                    flag = true;
+                    break;
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        return flag;
 	}
 
 }

@@ -38,5 +38,10 @@ public class AimaggSlotLimited extends Slot {
 	public int getItemStackLimit(ItemStack stack) {
 		return this.stackSize;
 	}
+	
+	@Override
+	public int getSlotStackLimit() {
+        return getItemStackLimit(ItemStack.EMPTY);
+    }
 
 }

@@ -2,8 +2,8 @@ package com.joshmanisdabomb.aimagg.te.tesr;
 
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.data.MissileType;
-import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileLargeModel;
-import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
+import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileFatModel;
+import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSkinnyModel;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.model.AimaggTELaunchPadModel;
 
@@ -18,8 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
 
 	public static AimaggTELaunchPadModel model = new AimaggTELaunchPadModel();
-	public static AimaggEntityMissileSmallModel missileModel = new AimaggEntityMissileSmallModel();
-	public static AimaggEntityMissileLargeModel missileLargeModel = new AimaggEntityMissileLargeModel();
 	public static final ResourceLocation texture = new ResourceLocation(Constants.MOD_ID, "textures/tesr/launch_pad.png");
 	
 	@Override
@@ -51,13 +49,9 @@ public class AimaggTESRLaunchPad extends TileEntitySpecialRenderer {
         float f = 0.0625F;
         GlStateManager.scale(f, f, f);
         GlStateManager.enableAlpha();
-        this.bindTexture(mt.getEntityTexture());
         
-        if (mt.useLargeModel()) {
-            missileLargeModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
-        } else {
-            missileModel.render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
-        }
+        this.bindTexture(mt.getEntityTexture());
+        mt.getModelType().getLaunchPadModel().render(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
         
         GlStateManager.popMatrix();
 	}

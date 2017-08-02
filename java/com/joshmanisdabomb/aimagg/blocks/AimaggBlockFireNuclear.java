@@ -46,6 +46,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         this.setCreativeTab(null);
         this.setHardness(0.0F);
         this.setSoundType(SoundType.CLOTH);
+        this.setLightLevel(1.0F);
 	}
 	
 	/**
@@ -207,7 +208,7 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
         else
         {
         	if (random.nextInt(4) == 0) {
-        		worldIn.setBlockState(pos, AimaggBlocks.nuclearWaste.getDefaultState(), 3);
+        		worldIn.setBlockState(pos, AimaggBlocks.soft.getDefaultState().withProperty(AimaggBlockSoft.TYPE, AimaggBlockSoft.SoftBlockType.NUCLEAR_WASTE), 3);
         	} else {
         		worldIn.setBlockToAir(pos);
         	}

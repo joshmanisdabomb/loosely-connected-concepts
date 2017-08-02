@@ -77,7 +77,7 @@ public class SpreaderData extends WorldSavedData {
 
 	public int getRange(EnumDyeColor dyeColor) {
 		ItemStack is = this.inventory.get((dyeColor.getMetadata()*8)+2);
-		return is.getMetadata() == AimaggItemUpgradeCard.UpgradeCardType.SC_RANGEINF.getMetadata() ? 65 : is.getCount();
+		return is.getMetadata() == AimaggItemUpgradeCard.UpgradeCardType.SI_INFINITE_RANGE.getMetadata() ? 65 : is.getCount();
 	}
 	
 	public boolean hasInfiniteRange(EnumDyeColor dyeColor) {

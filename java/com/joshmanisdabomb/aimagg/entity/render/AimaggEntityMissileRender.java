@@ -2,10 +2,10 @@ package com.joshmanisdabomb.aimagg.entity.render;
 
 import javax.annotation.Nonnull;
 
+import com.joshmanisdabomb.aimagg.data.MissileType.ModelType;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
-import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileLargeModel;
-import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSmallModel;
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -16,8 +16,7 @@ public class AimaggEntityMissileRender extends Render<AimaggEntityMissile> {
 	
     private ResourceLocation mobTexture;
 
-    private AimaggEntityMissileSmallModel missileModel = new AimaggEntityMissileSmallModel();
-    private AimaggEntityMissileLargeModel missileLargeModel = new AimaggEntityMissileLargeModel();
+    private ModelBase[] models = ModelType.getEntityModels();
     
     public static final Factory FACTORYEXPLOSIVE = new Factory();
 
@@ -49,11 +48,7 @@ public class AimaggEntityMissileRender extends Render<AimaggEntityMissile> {
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
 
-        if (entity.getMissileType().useLargeModel()) {
-        	this.missileLargeModel.render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
-        } else {
-        	this.missileModel.render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
-        }
+        this.models[entity.getMissileType().getModelType().ordinal()].render(entity, 0.0F, 0.0F, entity.ticksExisted, entity.rotationYaw, entity.rotationPitch, 1.0F);
         	
         if (this.renderOutlines)
         {

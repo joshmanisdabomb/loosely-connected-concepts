@@ -68,36 +68,36 @@ public class AimaggContainerLaunchPad extends Container {
 			// If itemstack is in missile slot.
 			if (par2 == 0) {
 				//Place in inventory, then action bar.
-				if (!this.mergeItemStack(itemstack1, 3, 30, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
-					return null;
+				if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			// If itemstack is in fuel slot.
 			} else if (par2 == 1) {
 				//Place in inventory, then action bar.
-				if (!this.mergeItemStack(itemstack1, 3, 30, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
-					return null;
+				if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			// If itemstack is in vector pearl slot.
 			} else if (par2 == 2) {
 				//Place in action bar, then inventory.
-				if (!this.mergeItemStack(itemstack1, 30, 39, false) && !this.mergeItemStack(itemstack1, 3, 30, false)) {
-					return null;
+				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			// If itemstack is in inventory.
-			} else if (par2 >= 3 && par2 <= 29) {
+			} else if (par2 >= 3 && par2 < 30) {
 				//Place in missile slot, then fuel slot, then vector pearl slot, then action bar.
 				if (!this.mergeItemStack(itemstack1, 0, 1, false) && !this.mergeItemStack(itemstack1, 1, 2, false) && !this.mergeItemStack(itemstack1, 2, 3, false) && !this.mergeItemStack(itemstack1, 30, 39, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			// If itemstack is in action bar.
-			} else if (par2 >= 30 && par2 <= 38) {
+			} else if (par2 >= 30 && par2 < 39) {
 				//Place in missile slot, then fuel slot, then vector pearl slot, then action bar.
 				if (!this.mergeItemStack(itemstack1, 0, 1, false) && !this.mergeItemStack(itemstack1, 1, 2, false) && !this.mergeItemStack(itemstack1, 2, 3, false) && !this.mergeItemStack(itemstack1, 3, 30, false)) {
-					return null;
+					return ItemStack.EMPTY;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			}
@@ -109,7 +109,7 @@ public class AimaggContainerLaunchPad extends Container {
 			}
 
 			if (itemstack1.getCount() == itemstack.getCount()) {
-				return null;
+				return ItemStack.EMPTY;
 			}
 
 			slot.onTake(par1EntityPlayer, itemstack1);

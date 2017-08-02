@@ -185,11 +185,11 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	
 	private void initiateLaunch() {
 		//client update
-		te.launch(this.playerInv.player.capabilities.isCreativeMode);
+		te.launch(this.playerInv.player.isCreative());
 		//server update
 		AimaggPacketLaunchPadLaunch packet = new AimaggPacketLaunchPadLaunch();
 		packet.setTileEntityPosition(te.getPos());
-		packet.setCreativeMode(this.playerInv.player.capabilities.isCreativeMode);
+		packet.setCreativeMode(this.playerInv.player.isCreative());
 		AimaggPacketHandler.INSTANCE.sendToServer(packet);
 	}
 
@@ -205,7 +205,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 	
 	public boolean isButtonEnabled() {
 		//TODO Lava fuel is placeholder.
- 		return (this.te.getStackInSlot(0).getItem() instanceof AimaggItemMissile) && (this.te.getStackInSlot(1).getItem() == Items.LAVA_BUCKET || this.playerInv.player.capabilities.isCreativeMode);
+ 		return (this.te.getStackInSlot(0).getItem() instanceof AimaggItemMissile) && (this.te.getStackInSlot(1).getItem() == Items.LAVA_BUCKET || this.playerInv.player.isCreative());
 	}
 
 }

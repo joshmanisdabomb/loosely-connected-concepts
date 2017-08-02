@@ -18,7 +18,7 @@ tile.ore.uranium.name=Uranium Ore
 item.ingot.uranium.name=Unrefined Uranium
 tile.storage.uranium.name=Block of Unrefined Uranium
 
-item.spreader_core.name=Spreader Core
+item.material.spreader_essence.name=Spreader Essence
 tile.spreader_interface.name=Spreader Interface
 tile.spreader_white.name=White Spreader Block
 tile.spreader_orange.name=Orange Spreader Block
@@ -39,6 +39,8 @@ tile.spreader_black.name=Black Spreader Block
 
 tile.launch_pad.name=Missile Launch Pad
 
+item.material.rainbow_core.name=Rainbow Core
+
 item.vector_pearl.name=Vector Pearl
 item.vector_pearl.cleared=Cleared coordinates of vector pearl.
 item.vector_pearl.saved.player=Saved coordinates of the feet of the player.
@@ -50,6 +52,14 @@ item.missile.nuclear.name=Nuclear Missile
 
 item.pill.name=Pill
 
+item.heart.red_full.name=Full Red Heart
+item.heart.red_half.name=Half Red Heart
+item.heart.iron_full.name=Full Iron Heart
+item.heart.iron_half.name=Half Iron Heart
+item.heart.crystal_full.name=Full Crystal Heart
+item.heart.crystal_half.name=Half Crystal Heart
+item.heart.crystal_empty.name=Crystal Heart Container
+
 item.upgrade_card.sc_base.name=Base Upgrade Card
 item.upgrade_card.sc_speed.name=Speed Upgrade Card
 item.upgrade_card.sc_damage.name=Damage Upgrade Card
@@ -58,7 +68,10 @@ item.upgrade_card.sc_rangeinf.name=Infinite Range Upgrade Card
 item.upgrade_card.sc_spread.name=Spread Upgrade Card
 item.upgrade_card.sc_eating.name=Eating Upgrade Card
 
-tile.nuclear_waste.name=Nuclear Waste
+tile.soft.mud.name=Mud
+tile.soft.quicksand.name=Quicksand
+tile.soft.red_quicksand.name=Red Quicksand
+tile.soft.nuclear_waste.name=Nuclear Waste
 
 itemGroup.aimagg_tab=Aimless Agglomeration
 
@@ -80,13 +93,13 @@ tooltip.missile.strength.kilotons= kt
 tooltip.pill.random=Random Pill
 tooltip.pill.invalid=Invalid Pill
 
-tooltip.upgrade_card.usein=Use In: %1$s%2$s
-tooltip.upgrade_card.usein.0=Spreader Interface
+tooltip.upgrade_card.use_in=Use In: %1$s%2$s
+tooltip.upgrade_card.use_in.spreader_interface=Spreader Interface
 tooltip.upgrade_card.max=Maximum Amount: %1$s%2$d
 tooltip.upgrade_card.effect=Effect: %1$s%2$s
-tooltip.upgrade_card.effect.1=-2 Minimum Tick Rate, -4 Maximum Tick Rate
-tooltip.upgrade_card.effect.2=+0.5 Hearts Damage
-tooltip.upgrade_card.effect.3=+3 Maximum Travel Range
-tooltip.upgrade_card.effect.4=Infinite Maximum Travel Range
-tooltip.upgrade_card.effect.5=+1 Spread Range
-tooltip.upgrade_card.effect.6=Disappears on Infection
+tooltip.upgrade_card.effect.speed=-2 Minimum Tick Rate, -4 Maximum Tick Rate
+tooltip.upgrade_card.effect.damage=+0.5 Hearts Damage
+tooltip.upgrade_card.effect.range=+3 Maximum Travel Range
+tooltip.upgrade_card.effect.infinite_range=Infinite Maximum Travel Range
+tooltip.upgrade_card.effect.spread=+1 Spread Range
+tooltip.upgrade_card.effect.eating=Disappears on Spread

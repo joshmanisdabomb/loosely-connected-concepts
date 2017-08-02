@@ -28,6 +28,7 @@ public class AimaggSlotOutput extends Slot {
      * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg. Returns the new
      * stack.
      */
+    @Override
     public ItemStack decrStackSize(int amount)
     {
         if (this.getHasStack())
@@ -38,16 +39,17 @@ public class AimaggSlotOutput extends Slot {
         return super.decrStackSize(amount);
     }
 
-    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
-    {
+    @Override
+    public ItemStack onTake(EntityPlayer playerIn, ItemStack stack)  {
         this.onCrafting(stack);
-        super.onTake(playerIn, stack);
+        return super.onTake(playerIn, stack);
     }
 
     /**
      * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood. Typically increases an
      * internal count then calls onCrafting(item).
      */
+    @Override
     protected void onCrafting(ItemStack stack, int amount)
     {
         this.removeCount += amount;
@@ -57,6 +59,7 @@ public class AimaggSlotOutput extends Slot {
     /**
      * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
      */
+    @Override
     protected void onCrafting(ItemStack stack)
     {
         stack.onCrafting(this.thePlayer.world, this.thePlayer, this.removeCount);

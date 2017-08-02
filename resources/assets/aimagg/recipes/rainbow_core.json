@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "123",
+    "8P4",
+    "765"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:prismarine_crystals",
+      "data": 0
+    },
+    "1": {
+      "item": "minecraft:dye",
+      "data": 1
+    },
+    "2": {
+      "item": "minecraft:dye",
+      "data": 14
+    },
+    "3": {
+      "item": "minecraft:dye",
+      "data": 11
+    },
+    "4": {
+      "item": "minecraft:dye",
+      "data": 10
+    },
+    "5": {
+      "item": "minecraft:dye",
+      "data": 6
+    },
+    "6": {
+      "item": "minecraft:dye",
+      "data": 4
+    },
+    "7": {
+      "item": "minecraft:dye",
+      "data": 5
+    },
+    "8": {
+      "item": "minecraft:dye",
+      "data": 9
+    }
+  },
+  "result": {
+    "item": "aimagg:material",
+    "data": 1
+  }
+}

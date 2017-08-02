@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "type=mud": [
+                    { "model": "aimagg:soft/mud" },
+                    { "model": "aimagg:soft/mud", "y": 90 },
+                    { "model": "aimagg:soft/mud", "y": 180 },
+                    { "model": "aimagg:soft/mud", "y": 270 }
+                ],
+    "type=quicksand": [
+                    { "model": "aimagg:soft/quicksand" },
+                    { "model": "aimagg:soft/quicksand", "y": 90 },
+                    { "model": "aimagg:soft/quicksand", "y": 180 },
+                    { "model": "aimagg:soft/quicksand", "y": 270 }
+                ],
+    "type=red_quicksand": [
+                    { "model": "aimagg:soft/red_quicksand" },
+                    { "model": "aimagg:soft/red_quicksand", "y": 90 },
+                    { "model": "aimagg:soft/red_quicksand", "y": 180 },
+                    { "model": "aimagg:soft/red_quicksand", "y": 270 }
+                ],
+    "type=nuclear_waste": [
+                    { "model": "aimagg:soft/nuclear_waste" },
+                    { "model": "aimagg:soft/nuclear_waste", "y": 90 },
+                    { "model": "aimagg:soft/nuclear_waste", "y": 180 },
+                    { "model": "aimagg:soft/nuclear_waste", "y": 270 }
+                ]
+  }
+}

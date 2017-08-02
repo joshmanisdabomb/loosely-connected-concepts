@@ -24,6 +24,8 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 
 	public AimaggItemUpgradeCard(String internalName, int sortVal) {
 		super(internalName, sortVal);
+        this.setHasSubtypes(true);
+        this.setMaxDamage(0);
 	}
 	
 	@Override
@@ -44,17 +46,17 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 		
 		UpgradeCardType uc = UpgradeCardType.getFromMetadata(stack.getMetadata());
 		tooltip.add(
-				TextFormatting.WHITE + 
-			    I18n.format("tooltip.upgrade_card.usein", new Object[] {TextFormatting.LIGHT_PURPLE, I18n.format("tooltip.upgrade_card.usein." + uc.getUsableIn(), new Object[0])})
-			   );
+					 TextFormatting.WHITE + 
+				     I18n.format("tooltip.upgrade_card.use_in", new Object[] {TextFormatting.LIGHT_PURPLE, I18n.format("tooltip.upgrade_card.use_in." + uc.getUsedBy().name().toLowerCase(), new Object[0])})
+				   );
 		if (uc.hasEffect()) {
 			tooltip.add(
-						TextFormatting.WHITE + 
-					    I18n.format("tooltip.upgrade_card.max", new Object[] {TextFormatting.YELLOW, uc.getStackAmountInUpgradeSlot()})
+						 TextFormatting.WHITE + 
+					     I18n.format("tooltip.upgrade_card.max", new Object[] {TextFormatting.YELLOW, uc.getStackAmountInUpgradeSlot()})
 					   );
 			tooltip.add(
-						TextFormatting.WHITE + 
-					    I18n.format("tooltip.upgrade_card.effect", new Object[] {TextFormatting.GREEN, I18n.format("tooltip.upgrade_card.effect." + stack.getMetadata(), new Object[0])})
+					 	TextFormatting.WHITE + 
+					     I18n.format("tooltip.upgrade_card.effect", new Object[] {TextFormatting.GREEN, I18n.format("tooltip.upgrade_card.effect." + uc.getInternalName(), new Object[0])})
 					   );
 		}
 	}
@@ -75,40 +77,44 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 	}
 	
 	public static enum UpgradeCardType {
-		//Spreader Constructor
-		SC_BASE(0,0,64,false,"spreader_interface/base"),
-		SC_SPEED(1,0,20,true,"spreader_interface/speed"),      //Base speed is 42 ticks, using 20 cards will reduce tick rate to 2.
-		SC_DAMAGE(2,0,20,true,"spreader_interface/damage"),    //Add half a heart to damage.
-		SC_RANGE(3,0,64,true,"spreader_interface/range"),      //Base range is 5, Range increase by 5 blocks for every card.
-		SC_RANGEINF(4,0,1,true,"spreader_interface/rangeinf"), //Range can be infinite.
-		SC_SPREAD(5,0,4,true,"spreader_interface/spread"),     //Base spread is 1 block away, using 4 cards will increase spread to 5 blocks away.
-		SC_EATING(6,0,1,true,"spreader_interface/eating");     //With this card, the spreader will remove itself when infecting new blocks.
+		//Spreader Interface
+		SI_BASE(UsedBy.SPREADER_INTERFACE,64,false,"base"),
+		SI_SPEED(UsedBy.SPREADER_INTERFACE,20,true,"speed"),      //Base speed is 42 ticks, using 20 cards will reduce tick rate to 2.
+		SI_DAMAGE(UsedBy.SPREADER_INTERFACE,20,true,"damage"),    //Add half a heart to damage.
+		SI_RANGE(UsedBy.SPREADER_INTERFACE,64,true,"range"),      //Base range is 5, Range increase by 5 blocks for every card.
+		SI_INFINITE_RANGE(UsedBy.SPREADER_INTERFACE,1,true,"infinite_range"), //Range can be infinite.
+		SI_SPREAD(UsedBy.SPREADER_INTERFACE,4,true,"spread"),     //Base spread is 1 block away, using 4 cards will increase spread to 5 blocks away.
+		SI_EATING(UsedBy.SPREADER_INTERFACE,1,true,"eating");     //With this card, the spreader will remove itself when infecting new blocks.
 
 		/**
 		 **  0 is Spreader Constructor
 		 **/
-		private int usedIn;
-		private int metadata;
-		private int stackNumberInUpgradeSlot;
-		private boolean hasEffect;
-		
+		private final UsedBy usedBy;
+		private final int stackNumberInUpgradeSlot;
+		private final boolean hasEffect;
+
+		private final String internalName;
 		private final ModelResourceLocation mrl;
 
-		UpgradeCardType(int metadata, int usedIn, int stackNumberInUpgradeSlot, boolean hasEffect, String mrl) {
-			this.metadata = metadata;
-			this.usedIn = usedIn;
+		UpgradeCardType(UsedBy usedBy, int stackNumberInUpgradeSlot, boolean hasEffect, String internalName) {
+			this.usedBy = usedBy;
 			this.stackNumberInUpgradeSlot = stackNumberInUpgradeSlot;
 			this.hasEffect = hasEffect;
 			
-			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":upgrade_card/" + mrl, "inventory");
+			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":upgrade_card/" + usedBy.subfolder + "/" + internalName, "inventory");
+			this.internalName = internalName;
+		}
+		
+		public String getInternalName() {
+			return this.internalName;
 		}
 		
 		public int getMetadata() {
-			return this.metadata;
+			return this.ordinal();
 		}
 		
-		public int getUsableIn() {
-			return this.usedIn;
+		public UsedBy getUsedBy() {
+			return this.usedBy;
 		}
 
 		public int getStackAmountInUpgradeSlot() {
@@ -124,12 +130,19 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 		}
 
 		public static UpgradeCardType getFromMetadata(int metadata) {
-			for (UpgradeCardType uc : values()) {
-				if (metadata == uc.metadata) {
-					return uc;
-				}
+			return UpgradeCardType.values()[metadata];
+		}
+		
+		public static enum UsedBy {
+			
+			SPREADER_INTERFACE("spreader_interface");
+			
+			private final String subfolder;
+			
+			UsedBy(String subfolder) {
+				this.subfolder = subfolder;
 			}
-			return null;
+			
 		}
 	}
 

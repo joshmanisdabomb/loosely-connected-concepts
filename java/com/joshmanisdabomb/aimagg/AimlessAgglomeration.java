@@ -1,9 +1,12 @@
 package com.joshmanisdabomb.aimagg;
 
+import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHandler;
+import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts;
 import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
 import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
 import com.joshmanisdabomb.aimagg.event.AimaggRegistry;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
+import com.joshmanisdabomb.aimagg.gui.AimaggOverlayHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 import com.joshmanisdabomb.aimagg.world.AimaggWorldGen;
@@ -11,6 +14,7 @@ import com.joshmanisdabomb.aimagg.world.AimaggWorldGen;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -43,27 +47,33 @@ public class AimlessAgglomeration {
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggRegistry());
 		
+        AimaggPacketHandler.registerMessages(Constants.MOD_ID);
+		
 		tab.setStackIcon(new ItemStack(AimaggItems.testItem, 1));
 		
-		proxy.preInit();
-        AimaggPacketHandler.registerMessages(Constants.MOD_ID);
+		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new AimaggGUIHandler());
 		
+		CapabilityManager.INSTANCE.register(AimaggCapabilityHearts.IHearts.class, new AimaggCapabilityHearts(), AimaggCapabilityHearts.Hearts.class);
+		MinecraftForge.EVENT_BUS.register(new AimaggCapabilityHandler());
+		
 		MinecraftForge.EVENT_BUS.register(new AimaggEventHandler());
 		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new AimaggChunkManager());
 		
 		GameRegistry.registerWorldGenerator(new AimaggWorldGen(), 0);
 		
-		proxy.init();
+		proxy.init(event);
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(FMLPostInitializationEvent event) {		
+		MinecraftForge.EVENT_BUS.register(new AimaggOverlayHandler());
 		
+		proxy.postInit(event);
 	}
 	
 }

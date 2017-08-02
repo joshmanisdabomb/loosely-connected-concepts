@@ -60,13 +60,13 @@ item.heart.crystal_full.name=Full Crystal Heart
 item.heart.crystal_half.name=Half Crystal Heart
 item.heart.crystal_empty.name=Crystal Heart Container
 
-item.upgrade_card.sc_base.name=Base Upgrade Card
-item.upgrade_card.sc_speed.name=Speed Upgrade Card
-item.upgrade_card.sc_damage.name=Damage Upgrade Card
-item.upgrade_card.sc_range.name=Range Upgrade Card
-item.upgrade_card.sc_rangeinf.name=Infinite Range Upgrade Card
-item.upgrade_card.sc_spread.name=Spread Upgrade Card
-item.upgrade_card.sc_eating.name=Eating Upgrade Card
+item.upgrade_card.si_base.name=Base Upgrade Card
+item.upgrade_card.si_speed.name=Speed Upgrade Card
+item.upgrade_card.si_damage.name=Damage Upgrade Card
+item.upgrade_card.si_range.name=Range Upgrade Card
+item.upgrade_card.si_infinite_range.name=Infinite Range Upgrade Card
+item.upgrade_card.si_spread.name=Spread Upgrade Card
+item.upgrade_card.si_eating.name=Eating Upgrade Card
 
 tile.soft.mud.name=Mud
 tile.soft.quicksand.name=Quicksand

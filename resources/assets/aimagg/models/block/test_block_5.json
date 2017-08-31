@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "aimagg:blocks/test/5/default"
+  }
+}

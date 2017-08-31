@@ -22,6 +22,7 @@ public class AimaggPacketHandler {
 	public static void registerMessages() {
 		//side means side the packet is delivered to
 		INSTANCE.registerMessage(AimaggPacketCapabilityHearts.Handler.class, AimaggPacketCapabilityHearts.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketCapabilityPills.Handler.class, AimaggPacketCapabilityPills.class, nextID(), Side.CLIENT);
 		
 		INSTANCE.registerMessage(AimaggPacketLaunchPadText.Handler.class, AimaggPacketLaunchPadText.class, nextID(), Side.SERVER);
 		INSTANCE.registerMessage(AimaggPacketLaunchPadLaunch.Handler.class, AimaggPacketLaunchPadLaunch.class, nextID(), Side.SERVER);
@@ -29,5 +30,7 @@ public class AimaggPacketHandler {
 		INSTANCE.registerMessage(AimaggPacketLaunchPadMissileRenderResponse.Handler.class, AimaggPacketLaunchPadMissileRenderResponse.class, nextID(), Side.CLIENT);
 		
 		INSTANCE.registerMessage(AimaggPacketMovement.Handler.class, AimaggPacketMovement.class, nextID(), Side.CLIENT);
+		
+		INSTANCE.registerMessage(AimaggPacketRainbowPadTeleport.Handler.class, AimaggPacketRainbowPadTeleport.class, nextID(), Side.SERVER);
 	}
 }

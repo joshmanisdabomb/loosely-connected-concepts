@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "type=inactive": {"model": "aimagg:rainbow/pad_inactive"},
+    "type=active": {"model": "aimagg:rainbow/pad_active"}
+  }
+}

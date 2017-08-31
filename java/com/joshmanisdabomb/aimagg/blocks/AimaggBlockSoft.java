@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketMovement;
 
@@ -45,8 +46,8 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 	//TODO Mud may need a better custom sound.
     public static final PropertyEnum<SoftBlockType> TYPE = PropertyEnum.<SoftBlockType>create("type", SoftBlockType.class);
 
-	public AimaggBlockSoft(String internalName, int sortVal, Material material) {
-		super(internalName, sortVal, material, MapColor.AIR);
+	public AimaggBlockSoft(String internalName, Material material) {
+		super(internalName, material, SoftBlockType.MUD.getMapColor());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, SoftBlockType.MUD));
 	}
 	
@@ -158,11 +159,6 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
     public int getMetaFromState(IBlockState state) {
         return state.getValue(TYPE).getMetadata();
     }
-    
-	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+(is.getMetadata()*3);
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -244,11 +240,14 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 	}
 	
 	public static enum SoftBlockType implements IStringSerializable {
-		MUD(MapColor.OBSIDIAN, 0.8F, 0.8F, SoundType.SLIME, FallType.FALL, 0.6D, 1.0D, new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 12/16D, 1.0D)),
-		QUICKSAND(MapColor.SAND, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
-		RED_QUICKSAND(MapColor.ADOBE, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
-		NUCLEAR_WASTE(MapColor.SILVER, -1.0F, 6000000.0F, SoundType.STONE, FallType.INSTAFALL, 1.0D, 1.0D, FULL_BLOCK_AABB);
+		MUD(AimaggCategory.SOFT, 0, MapColor.OBSIDIAN, 0.8F, 0.8F, SoundType.SLIME, FallType.FALL, 0.6D, 1.0D, new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 12/16D, 1.0D)),
+		QUICKSAND(AimaggCategory.SOFT, 0, MapColor.SAND, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
+		RED_QUICKSAND(AimaggCategory.SOFT, 0, MapColor.ADOBE, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
+		NUCLEAR_WASTE(AimaggCategory.NUCLEAR, -100, MapColor.SILVER, -1.0F, 6000000.0F, SoundType.STONE, FallType.INSTAFALL, 1.0D, 1.0D, FULL_BLOCK_AABB);
 
+		private final AimaggCategory category;
+		private final int upperSortVal;
+		
 		private final MapColor mapColor;
 		private final float hardness;
 		private final float resistance;
@@ -262,7 +261,10 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 		
 		private final ModelResourceLocation mrl;
 
-		SoftBlockType(MapColor mapColor, float hardness, float resistance, SoundType st, FallType ft, double speedModifier, double speedMax, AxisAlignedBB collisionAABB) {
+		SoftBlockType(AimaggCategory cat, int upperSortVal, MapColor mapColor, float hardness, float resistance, SoundType st, FallType ft, double speedModifier, double speedMax, AxisAlignedBB collisionAABB) {
+			this.category = cat;
+			this.upperSortVal = upperSortVal;
+			
 			this.mapColor = mapColor;
 			this.hardness = hardness;
 			this.resistance = resistance;
@@ -308,16 +310,11 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 		}
 		
 		public static SoftBlockType getFromMetadata(int meta) {
-			for (SoftBlockType sb : values()) {
-				if (meta == sb.ordinal()) {
-					return sb;
-				}
-			}
-			return null;
+			return SoftBlockType.values()[meta];
 		}
 
 		public ModelResourceLocation getModel() {
-			return mrl;
+			return this.mrl;
 		}
 		
 		public AxisAlignedBB getBoundingBox() {
@@ -330,6 +327,14 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 		
 		public double getMaxSpeed() {
 			return this.speedMax;
+		}
+
+		public AimaggCategory getCategoryOverride() {
+			return this.category;
+		}
+
+		public int getUpperSortValue() {
+			return this.upperSortVal;
 		}
 		
 		public static enum FallType {

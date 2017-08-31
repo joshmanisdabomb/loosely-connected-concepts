@@ -5,9 +5,9 @@ import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.MissileType;
-import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
 import com.joshmanisdabomb.aimagg.data.world.SpreaderData;
+import com.joshmanisdabomb.aimagg.util.MissileType;
+import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import it.unimi.dsi.fastutil.Arrays;
 import net.minecraft.block.Block;
@@ -30,11 +30,13 @@ import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggBlockSpreader extends AimaggBlockBasic {
 	
-	public EnumDyeColor dyeColor;
+	public final EnumDyeColor dyeColor;
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
 	
-	public AimaggBlockSpreader(EnumDyeColor dyeColor, String internalName, int sortVal, Material material) {
-		super(internalName, sortVal, material, MapColor.getBlockColor(dyeColor));
+	//TODO use an ibakedmodel instead of 256 textures, should really save on disk space
+	
+	public AimaggBlockSpreader(EnumDyeColor dyeColor, String internalName, Material material) {
+		super(internalName, material, MapColor.getBlockColor(dyeColor));
 		this.dyeColor = dyeColor;
 		this.setLightOpacity(0);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));

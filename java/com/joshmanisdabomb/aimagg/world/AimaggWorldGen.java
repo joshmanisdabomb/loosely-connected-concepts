@@ -2,7 +2,7 @@ package com.joshmanisdabomb.aimagg.world;
 
 import java.util.Random;
 
-import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
+import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.MissileType;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -20,8 +20,8 @@ import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggItemMissile extends AimaggItemBasic {
 	
-	public AimaggItemMissile(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemMissile(String internalName) {
+		super(internalName);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
 	}
@@ -46,11 +46,6 @@ public class AimaggItemMissile extends AimaggItemBasic {
         if (mNBT != null) {
         	tooltip.add(MissileType.getFromMetadata(stack.getMetadata()).getStrengthUnits().getTooltip(mNBT.getInteger("strength")));
         }
-	}
-	
-	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+is.getMetadata();
 	}
 	
 	@Override

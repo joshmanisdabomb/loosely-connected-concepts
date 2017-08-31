@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
@@ -22,8 +22,8 @@ import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggItemUpgradeCard extends AimaggItemBasic {
 
-	public AimaggItemUpgradeCard(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemUpgradeCard(String internalName) {
+		super(internalName);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
 	}
@@ -59,11 +59,6 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 					     I18n.format("tooltip.upgrade_card.effect", new Object[] {TextFormatting.GREEN, I18n.format("tooltip.upgrade_card.effect." + uc.getInternalName(), new Object[0])})
 					   );
 		}
-	}
-	
-	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+is.getMetadata();
 	}
 
 	@Override

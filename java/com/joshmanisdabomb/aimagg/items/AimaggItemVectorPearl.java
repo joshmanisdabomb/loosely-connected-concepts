@@ -22,8 +22,8 @@ import net.minecraft.world.World;
 
 public class AimaggItemVectorPearl extends AimaggItemBasic {
 
-	public AimaggItemVectorPearl(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemVectorPearl(String internalName) {
+		super(internalName);
 		this.setMaxStackSize(1);
 	}
 	
@@ -103,7 +103,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
         	tooltip.add(
 	    				TextFormatting.GRAY + 
-	    				I18n.format("tooltip.vector_pearl.moreinfo", new Object[0])
+	    				I18n.format("tooltip.vector_pearl.more_info", new Object[] {"\n", "\n"})
 	    			   );
 		} else {
         	tooltip.add(

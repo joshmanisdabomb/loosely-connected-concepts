@@ -1,25 +1,19 @@
 package com.joshmanisdabomb.aimagg.items;
 
+import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
-import com.joshmanisdabomb.aimagg.items.AimaggItemHeart.HeartType;
-import com.joshmanisdabomb.aimagg.items.AimaggItemUpgradeCard.UpgradeCardType;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.client.model.ModelLoader;
 
 public class AimaggItemMaterial extends AimaggItemBasic {
-
-	private static int sortValueConstant;
 	
-	public AimaggItemMaterial(String string, int i) {
-		super(string, i);
-		sortValueConstant = i;
+	public AimaggItemMaterial(String string) {
+		super(string);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
 	}
@@ -37,11 +31,6 @@ public class AimaggItemMaterial extends AimaggItemBasic {
     }
 	
 	@Override
-	public int getSortValue(ItemStack is) {
-		return Material.getFromMetadata(is.getMetadata()).getSortValue();
-	}
-	
-	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (tab.getTabIndex() == AimlessAgglomeration.tab.getTabIndex()) {
 			for (Material m : Material.values()) {
@@ -52,24 +41,17 @@ public class AimaggItemMaterial extends AimaggItemBasic {
 	
 	public static enum Material {
 		
-		SPREADER_ESSENCE(null, 1030),
-		RAINBOW_CORE(null);
+		SPREADER_ESSENCE(AimaggCategory.SPREADERS, -100),
+		RAINBOW_CORE(AimaggCategory.RAINBOW, -100);
 		
 		private final ModelResourceLocation model;
-		private int sortVal;
+		private final AimaggCategory category;
+		private final int upperSortVal;
 
-		public int getSortValue() {
-			return this.sortVal;
-		}
-
-		Material(ModelResourceLocation mrl) {
-			this.model = mrl != null ? mrl : new ModelResourceLocation(Constants.MOD_ID + ":" + this.name().toLowerCase());
-			this.sortVal = sortValueConstant + this.ordinal();
-		}
-
-		Material(ModelResourceLocation mrl, int sortVal) {
-			this.model = mrl != null ? mrl : new ModelResourceLocation(Constants.MOD_ID + ":" + this.name().toLowerCase());
-			this.sortVal = sortVal;
+		Material(AimaggCategory cat, int upperSortVal) {
+			this.model = new ModelResourceLocation(Constants.MOD_ID + ":" + this.name().toLowerCase());
+			this.category = cat;
+			this.upperSortVal = upperSortVal;
 		}
 		
 		public int getMetadata() {
@@ -82,6 +64,14 @@ public class AimaggItemMaterial extends AimaggItemBasic {
 		
 		public static Material getFromMetadata(int metadata) {
 			return Material.values()[metadata];
+		}
+
+		public AimaggCategory getCategoryOverride() {
+			return this.category;
+		}
+
+		public int getUpperSortValue() {
+			return this.upperSortVal;
 		}
 		
 	}

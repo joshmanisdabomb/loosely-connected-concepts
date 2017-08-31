@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
+import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -35,8 +35,8 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 	
     public static final PropertyEnum<OreIngotStorage> TYPE = PropertyEnum.<OreIngotStorage>create("type", OreIngotStorage.class);
     
-	public AimaggBlockOre(String internalName, int sortVal, Material material) {
-		super(internalName, sortVal, material, MapColor.STONE);
+	public AimaggBlockOre(String internalName, Material material) {
+		super(internalName, material, MapColor.STONE);
 		this.id = nextid++;
         this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, OreIngotStorage.RUBY));
 	}
@@ -57,8 +57,8 @@ public class AimaggBlockOre extends AimaggBlockBasic {
     }
     
 	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+(is.getMetadata()*3);
+	public int getLowerSortValue(ItemStack is) {
+		return is.getMetadata()*3;
 	}
 	
 	@Override

@@ -1,7 +1,10 @@
 {
   "variants": {
-    "axis=y": { "model": "aimagg:test_block_3" },
-    "axis=z": { "model": "aimagg:test_block_3", "x": 90 },
-    "axis=x": { "model": "aimagg:test_block_3", "x": 90, "y": 90 }
+    "facing=north": {"model": "aimagg:test_block_3"},
+    "facing=east":  {"model": "aimagg:test_block_3", "y": 90},
+    "facing=south": {"model": "aimagg:test_block_3", "y": 180},
+    "facing=west":  {"model": "aimagg:test_block_3", "y": 270},
+    "facing=up": {"model": "aimagg:test_block_3", "x": 270},
+    "facing=down":  {"model": "aimagg:test_block_3", "x": 90}
   }
 }

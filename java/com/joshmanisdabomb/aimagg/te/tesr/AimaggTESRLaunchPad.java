@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.aimagg.te.tesr;
 
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileFatModel;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileSkinnyModel;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.te.model.AimaggTELaunchPadModel;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;

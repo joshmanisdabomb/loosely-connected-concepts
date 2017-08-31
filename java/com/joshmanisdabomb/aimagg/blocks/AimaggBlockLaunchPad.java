@@ -5,8 +5,6 @@ import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadMissileRenderRequest;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
 import net.minecraft.block.Block;
@@ -43,8 +41,8 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
     public static final AxisAlignedBB LAUNCH_PAD_AABB_COLLISION_7 = new AxisAlignedBB(14/16D, 0.0D, 14/16D, 15/16D, 32/16D, 15/16D);
 	public static final AxisAlignedBB LAUNCH_PAD_AABB_RENDER      = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 48/16D, 1.0D);
 
-	public AimaggBlockLaunchPad(String internalName, int sortVal, Material material, MapColor mcolor) {
-		super(internalName, sortVal, material, mcolor);
+	public AimaggBlockLaunchPad(String internalName, Material material, MapColor mcolor) {
+		super(internalName, material, mcolor);
 		this.isBlockContainer = true;
 		this.setLightOpacity(0);
 		this.setTickRandomly(true);

@@ -19,6 +19,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 public class AimaggOverlayHearts extends Gui {
 
 	private long lastSystemTime;
+	
+	//TODO moving hearts
 
 	public void draw(EntityPlayer player, Minecraft minecraft, RenderGameOverlayEvent.Post event) {
         if (!player.isSpectator() && !player.isCreative()) {

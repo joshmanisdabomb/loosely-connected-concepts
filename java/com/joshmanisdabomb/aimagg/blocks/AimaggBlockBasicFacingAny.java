@@ -11,34 +11,42 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class AimaggBlockBasicHorizontal extends AimaggBlockBasic {
-	
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+public class AimaggBlockBasicFacingAny extends AimaggBlockBasic {
 
-	public AimaggBlockBasicHorizontal(String internalName, int sortVal, Material material, MapColor mcolor) {
-		super(internalName, sortVal, material, mcolor);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+	public static final PropertyDirection ANY_FACING = PropertyDirection.create("facing");
+
+	//TODO Interact with wrenches that rotate blocks.
+
+	public AimaggBlockBasicFacingAny(String internalName, Material material, MapColor mcolor) {
+		super(internalName, material, mcolor);
+		this.alwaysDropWithDamage(0);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ANY_FACING, EnumFacing.NORTH));
+	}
+
+	@Override
+	public int getLowerSortValue(ItemStack is) {
+		return 0;
 	}
 	
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()));
+		worldIn.setBlockState(pos, state.withProperty(ANY_FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)));
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return state.getValue(FACING).getHorizontalIndex();
+    	return state.getValue(ANY_FACING).getIndex();
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+		return this.getDefaultState().withProperty(ANY_FACING, EnumFacing.getFront(meta));
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, FACING);
+	    return new BlockStateContainer(this, ANY_FACING);
 	}
 	
 }

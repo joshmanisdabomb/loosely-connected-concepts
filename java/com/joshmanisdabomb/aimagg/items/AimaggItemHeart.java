@@ -22,8 +22,8 @@ public class AimaggItemHeart extends AimaggItemConsumable {
 
 	//TODO Custom sound on consume.
 	
-	public AimaggItemHeart(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemHeart(String internalName) {
+		super(internalName);
 		this.setHasSubtypes(true);
         this.setMaxDamage(0);
 	}
@@ -39,11 +39,6 @@ public class AimaggItemHeart extends AimaggItemConsumable {
 	public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName() + "." + HeartType.getFromMetadata(stack.getMetadata()).name().toLowerCase();
     }
-	
-	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+is.getMetadata();
-	}
 	
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {

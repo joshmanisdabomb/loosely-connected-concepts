@@ -1,8 +1,5 @@
 {
   "variants": {
-    "facing=north": {"model": "aimagg:spreader_interface"},
-    "facing=east":  {"model": "aimagg:spreader_interface", "y": 90},
-    "facing=south": {"model": "aimagg:spreader_interface", "y": 180},
-    "facing=west":  {"model": "aimagg:spreader_interface", "y": 270}
+    "normal": {"model": "aimagg:spreader_interface"}
   }
 }

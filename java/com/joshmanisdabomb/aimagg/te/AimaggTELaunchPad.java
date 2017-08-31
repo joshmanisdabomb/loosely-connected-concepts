@@ -2,11 +2,11 @@ package com.joshmanisdabomb.aimagg.te;
 
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
-import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadMissileRenderRequest;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

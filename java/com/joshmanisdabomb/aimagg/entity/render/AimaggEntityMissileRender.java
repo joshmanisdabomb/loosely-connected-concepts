@@ -2,8 +2,8 @@ package com.joshmanisdabomb.aimagg.entity.render;
 
 import javax.annotation.Nonnull;
 
-import com.joshmanisdabomb.aimagg.data.MissileType.ModelType;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
+import com.joshmanisdabomb.aimagg.util.MissileType.ModelType;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;

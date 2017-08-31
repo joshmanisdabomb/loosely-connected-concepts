@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.aimagg.data;
+package com.joshmanisdabomb.aimagg.util;
 
 import java.util.ArrayList;
 import java.util.Random;

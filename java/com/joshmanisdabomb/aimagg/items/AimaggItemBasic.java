@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.aimagg.items;
 
 import com.joshmanisdabomb.aimagg.AimaggItems;
+import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 
@@ -12,14 +13,11 @@ import net.minecraftforge.client.model.ModelLoader;
 public class AimaggItemBasic extends Item {
 
 	private final String internalName;
-	
-	private final int sortValue;
 
-	public AimaggItemBasic(String internalName, int sortVal) {
+	public AimaggItemBasic(String internalName) {
 		this.setUnlocalizedName(this.internalName = internalName);
 		this.setRegistryName(this.getInternalName());
 		this.setCreativeTab(AimlessAgglomeration.tab);
-		this.sortValue = sortVal;
 		
 		AimaggItems.registry.add(this);
 		
@@ -29,9 +27,13 @@ public class AimaggItemBasic extends Item {
 	public String getInternalName() {
 		return internalName;
 	}
+	
+	public AimaggCategory getCategoryOverride(ItemStack is) {
+		return null;
+	}
 
-	public int getSortValue(ItemStack is) {
-		return sortValue;
+	public int getLowerSortValue(ItemStack is) {
+		return is.getMetadata();
 	}
 	
 	public void initialise() {

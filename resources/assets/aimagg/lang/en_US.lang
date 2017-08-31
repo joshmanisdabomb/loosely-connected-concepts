@@ -1,6 +1,9 @@
 item.test_item.name=Test Item
 tile.test_block.name=Test Block
-tile.test_block_2.name=Test Block (Horizontal)
+tile.test_block_2.name=Test Block (HorizontalFacing)
+tile.test_block_3.name=Test Block (Any Facing)
+tile.test_block_4.name=Test Block (Pillar)
+tile.test_block_5.name=Test Block (Connected)
 
 tile.ore.ruby.name=Ruby Ore
 item.ingot.ruby.name=Ruby
@@ -73,6 +76,9 @@ tile.soft.quicksand.name=Quicksand
 tile.soft.red_quicksand.name=Red Quicksand
 tile.soft.nuclear_waste.name=Nuclear Waste
 
+tile.rainbow_pad.inactive.name=Rainbow Dissolution Pad
+tile.rainbow_pad.active.name=Rainbow Dissolution Pad (Active)
+
 itemGroup.aimagg_tab=Aimless Agglomeration
 
 container.aimagg_spreader_interface=Spreader Interface
@@ -84,14 +90,60 @@ tooltip.press_shift_for_more=Press SHIFT for More Information
 
 tooltip.vector_pearl.blank=Blank
 tooltip.vector_pearl.coordinates=Coordinates: %1$s%2$s
-tooltip.vector_pearl.moreinfo=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
+tooltip.vector_pearl.more_info=Right click in air to set player coordinates.%1$sRight click on block to set block coordinates.%1$sRight click again to blank vector pearl.
 
 tooltip.missile.strength=Strength: %1$s%2$f%3$s
 tooltip.missile.strength.tnt= TNT
-tooltip.missile.strength.kilotons= kt
+tooltip.missile.strength.kilotons= kilotons
 
 tooltip.pill.random=Random Pill
 tooltip.pill.invalid=Invalid Pill
+tooltip.pill.unknown=Unknown
+tooltip.pill.effect.full_health=Full Health
+tooltip.pill.effect.bad_trip=Bad Trip
+tooltip.pill.effect.bad_gas=Bad Gas
+tooltip.pill.effect.health_is_food=Health is Food
+tooltip.pill.effect.explosive_diarrhea=Explosive Diarrhea
+tooltip.pill.effect.i_found_pills=I Found Pills
+tooltip.pill.effect.i_can_see_forever=I Can See Forever
+tooltip.pill.effect.i_cant_see_forever=I Can't See Forever
+tooltip.pill.effect.pretty_fly=Pretty Fly
+tooltip.pill.effect.puberty=Puberty
+tooltip.pill.effect.telepills=Telepills
+tooltip.pill.effect.balls_of_steel=Balls of Steel
+tooltip.pill.effect.amnesia=Amnesia
+tooltip.pill.effect.forty_eight_hour_energy=48 Hour Energy
+tooltip.pill.effect.health_up=Health Up
+tooltip.pill.effect.health_down=Health Down
+tooltip.pill.effect.hematemesis=Hematemesis
+tooltip.pill.effect.lemon_party=Lemon Party
+tooltip.pill.effect.luck_up=Luck Up
+tooltip.pill.effect.luck_down=Luck Down
+tooltip.pill.effect.paralysis=Paralysis
+tooltip.pill.effect.r_u_a_wizard=R U a Wizard?
+tooltip.pill.effect.percs=Percs
+tooltip.pill.effect.addicted=Addicted
+tooltip.pill.effect.infested_1=Infested!
+tooltip.pill.effect.infested_2=Infested?
+tooltip.pill.effect.relax=Re-Lax
+tooltip.pill.effect.speed_up=Speed Up
+tooltip.pill.effect.speed_down=Speed Down
+tooltip.pill.effect.damage_up=Damage Up
+tooltip.pill.effect.damage_down=Damage Down
+tooltip.pill.effect.pheromones=Pheromones
+tooltip.pill.effect.power_pill=Power Pill
+tooltip.pill.effect.attack_speed_up=Attack Speed Up
+tooltip.pill.effect.attack_speed_down=Attack Speed Down
+tooltip.pill.effect.friends_till_the_end=Friends Till The End!
+tooltip.pill.effect.question_marks=???
+tooltip.pill.effect.feels_like_im_walking_on_sunshine=Feels Like I'm Walking on Sunshine!
+tooltip.pill.effect.gulp=Gulp!
+tooltip.pill.effect.horf=Horf!
+tooltip.pill.effect.im_drowsy=I'm Drowsy...
+tooltip.pill.effect.im_excited=I'm Excited!!!
+tooltip.pill.effect.somethings_wrong=Something's Wrong...
+tooltip.pill.effect.vurp=Vurp!
+tooltip.pill.effect.xlax=X-Lax
 
 tooltip.upgrade_card.use_in=Use In: %1$s%2$s
 tooltip.upgrade_card.use_in.spreader_interface=Spreader Interface

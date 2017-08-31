@@ -146,6 +146,7 @@ public class AimaggCapabilityHearts implements IStorage<IHearts> {
 		
 		@CapabilityInject(IHearts.class)
 		public static final Capability<IHearts> HEARTS_CAPABILITY = null;
+		
 		private IHearts instance = HEARTS_CAPABILITY.getDefaultInstance();
 		
 		@Override

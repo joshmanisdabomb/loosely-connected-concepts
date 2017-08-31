@@ -20,8 +20,8 @@ public class AimaggBlockBillieTiles extends AimaggBlockBasic implements ITileEnt
 
 	public static final PropertyEnum<BillieTileType> BTT = PropertyEnum.<BillieTileType>create("btt", BillieTileType.class);
 
-	public AimaggBlockBillieTiles(String internalName, int sortVal, Material material, MapColor mcolor) {
-		super(internalName, sortVal, material, mcolor);
+	public AimaggBlockBillieTiles(String internalName, Material material, MapColor mcolor) {
+		super(internalName, material, mcolor);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(BTT, BillieTileType.STONE));
 		this.setLightOpacity(0);
 	}
@@ -31,7 +31,7 @@ public class AimaggBlockBillieTiles extends AimaggBlockBasic implements ITileEnt
 		List<Entity> list = world.getTileEntity(pos).getWorld().getEntitiesWithinAABB(Entity.class, this.getBoundingBox(state, world, pos).expand(5, 5, 5));
 		int value = 0;
 		for (Entity e : list) {
-			/* TODO get different way of excluding these kind of entities: if (!(e instanceof EntityItemFrame || e instanceof AimaggEntityMissile || e instanceof AimaggEntityNuclearExplosion)) {
+			/* if (e instanceof EntityLiving || e instanceof EntityItem) {
 				e.getPosition();
 			}*/
 		}

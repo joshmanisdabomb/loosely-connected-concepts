@@ -38,8 +38,8 @@ public class AimaggBlockFireNuclear extends AimaggBlockBasic {
     public static final PropertyBool WEST = PropertyBool.create("west");
     public static final PropertyBool UPPER = PropertyBool.create("up");
 
-	public AimaggBlockFireNuclear(String internalName, int sortVal, Material material, MapColor mcolor) {
-		super(internalName, sortVal, material, mcolor);
+	public AimaggBlockFireNuclear(String internalName, Material material, MapColor mcolor) {
+		super(internalName, material, mcolor);
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)).withProperty(UPPER, Boolean.valueOf(false)));
         this.setTickRandomly(true);
         this.disableStats();

@@ -14,10 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class AimaggBlockSpreaderInterface extends AimaggBlockBasicHorizontal {
+public class AimaggBlockSpreaderInterface extends AimaggBlockBasic {
 
-	public AimaggBlockSpreaderInterface(String internalName, int sortVal, Material material, MapColor mcolor) {
-		super(internalName, sortVal, material, mcolor);
+	public AimaggBlockSpreaderInterface(String internalName, Material material, MapColor mcolor) {
+		super(internalName, material, mcolor);
 		this.isBlockContainer = true;
 		this.setLightOpacity(0);
 	}

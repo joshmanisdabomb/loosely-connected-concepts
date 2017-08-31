@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg;
 
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHandler;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts;
+import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityPills;
 import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
 import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
 import com.joshmanisdabomb.aimagg.event.AimaggRegistry;
@@ -38,12 +39,16 @@ public class AimlessAgglomeration {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		proxy.preInitBeforeCommon(event);
+		
 		AimaggItems.init();
 		AimaggBlocks.init();
 		
 		AimaggEntities.init();
 
-		AimaggTEs.init();
+		AimaggTileEntities.init();
+		
+		AimaggDimension.init();
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggRegistry());
 		
@@ -51,14 +56,17 @@ public class AimlessAgglomeration {
 		
 		tab.setStackIcon(new ItemStack(AimaggItems.testItem, 1));
 		
-		proxy.preInit(event);
+		proxy.preInitAfterCommon(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		proxy.initBeforeCommon(event);
+		
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new AimaggGUIHandler());
 		
 		CapabilityManager.INSTANCE.register(AimaggCapabilityHearts.IHearts.class, new AimaggCapabilityHearts(), AimaggCapabilityHearts.Hearts.class);
+		CapabilityManager.INSTANCE.register(AimaggCapabilityPills.IPills.class, new AimaggCapabilityPills(), AimaggCapabilityPills.Pills.class);
 		MinecraftForge.EVENT_BUS.register(new AimaggCapabilityHandler());
 		
 		MinecraftForge.EVENT_BUS.register(new AimaggEventHandler());
@@ -66,14 +74,18 @@ public class AimlessAgglomeration {
 		
 		GameRegistry.registerWorldGenerator(new AimaggWorldGen(), 0);
 		
-		proxy.init(event);
+		proxy.initAfterCommon(event);
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {		
+	public void postInit(FMLPostInitializationEvent event) {
+		proxy.postInitBeforeCommon(event);
+		
 		MinecraftForge.EVENT_BUS.register(new AimaggOverlayHandler());
 		
-		proxy.postInit(event);
+		AimaggTab.AimaggTabSorting.sortItems();
+		
+		proxy.postInitAfterCommon(event);
 	}
 	
 }

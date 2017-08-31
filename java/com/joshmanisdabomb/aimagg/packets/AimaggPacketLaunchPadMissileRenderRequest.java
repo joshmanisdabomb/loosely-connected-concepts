@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.aimagg.packets;
 
 import com.joshmanisdabomb.aimagg.AimaggItems;
-import com.joshmanisdabomb.aimagg.data.MissileType;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

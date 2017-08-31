@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.data.MissileType;
-import com.joshmanisdabomb.aimagg.data.OreIngotStorage;
+import com.joshmanisdabomb.aimagg.util.MissileType;
+import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -18,8 +18,8 @@ public class AimaggItemIngot extends AimaggItemBasic {
 	public static int nextid = 0;
 	private int id;
 
-	public AimaggItemIngot(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemIngot(String internalName) {
+		super(internalName);
 		this.id = nextid++;
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
@@ -36,10 +36,10 @@ public class AimaggItemIngot extends AimaggItemBasic {
 	public String getUnlocalizedName(ItemStack stack) {
         return super.getUnlocalizedName() + "." + OreIngotStorage.getFromID(stack.getMetadata()).name().toLowerCase();
     }
-	
+    
 	@Override
-	public int getSortValue(ItemStack is) {
-		return super.getSortValue(is)+(is.getMetadata()*3);
+	public int getLowerSortValue(ItemStack is) {
+		return (is.getMetadata()*3)+1;
 	}
 	
 	@Override

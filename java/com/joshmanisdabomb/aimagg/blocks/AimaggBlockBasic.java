@@ -1,35 +1,24 @@
 package com.joshmanisdabomb.aimagg.blocks;
 
-import java.util.Comparator;
 import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggItems;
+import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
+import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -37,8 +26,6 @@ import net.minecraftforge.client.model.ModelLoader;
 public class AimaggBlockBasic extends Block {
 
 	private final String internalName;
-	
-	private final int sortValue;
 
 	private final ItemBlock itemBlock;
 
@@ -56,12 +43,11 @@ public class AimaggBlockBasic extends Block {
 
 	private int drops_damage = -1;
 	
-	public AimaggBlockBasic(String internalName, int sortVal, Material material, MapColor mcolor) {
+	public AimaggBlockBasic(String internalName, Material material, MapColor mcolor) {
 		super(material, mcolor);
 		this.setUnlocalizedName(this.internalName = internalName);
 		this.setRegistryName(this.internalName);
 		this.setCreativeTab(AimlessAgglomeration.tab);
-		this.sortValue = sortVal;
 		
 		AimaggBlocks.registry.add(this);
 		AimaggBlocks.ibRegistry.add(this.itemBlock = this.createItemBlock());
@@ -72,9 +58,13 @@ public class AimaggBlockBasic extends Block {
 	public String getInternalName() {
 		return internalName;
 	}
+	
+	public AimaggCategory getCategoryOverride(ItemStack is) {
+		return null;
+	}
 
-	public int getSortValue(ItemStack is) {
-		return sortValue;
+	public int getLowerSortValue(ItemStack is) {
+		return is.getMetadata();
 	}
 
 	public ItemBlock createItemBlock() {
@@ -151,6 +141,9 @@ public class AimaggBlockBasic extends Block {
     }
 	
 	public void initialise() {
+		if (this instanceof AimaggBlockAdvancedRendering) {
+			AimaggBlocks.advancedRenderRegistry.add(this);
+		}
 	}
 
 	public void registerInventoryRender() {

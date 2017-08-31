@@ -23,8 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class AimaggItemConsumable extends AimaggItemBasic {
 
-	public AimaggItemConsumable(String internalName, int sortVal) {
-		super(internalName, sortVal);
+	public AimaggItemConsumable(String internalName) {
+		super(internalName);
 		this.addPropertyOverride(new ResourceLocation("consumable_use_percent"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)
@@ -56,6 +56,7 @@ public abstract class AimaggItemConsumable extends AimaggItemBasic {
 
         if (this.canUse(worldIn, playerIn, handIn, itemstack)) {
             playerIn.setActiveHand(handIn);
+			this.playStartSound(worldIn, itemstack, playerIn);
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
         } else {
             return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
@@ -67,7 +68,7 @@ public abstract class AimaggItemConsumable extends AimaggItemBasic {
 		if (entityLiving instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
 			entityplayer.getFoodStats().addStats(this.getFoodAmount(stack, worldIn, entityLiving), this.getSaturationAmount(stack, worldIn, entityLiving));
-			this.playSound(worldIn, stack, (EntityPlayer)entityLiving);
+			this.playFinishSound(worldIn, stack, (EntityPlayer)entityLiving);
 			this.addEffects(worldIn, stack, entityplayer);
 			entityplayer.addStat(StatList.getObjectUseStats(this));
 
@@ -100,8 +101,12 @@ public abstract class AimaggItemConsumable extends AimaggItemBasic {
 		return 0.8F;
 	}
 
-	public void playSound(World worldIn, ItemStack stack, EntityPlayer entityLiving) {
-		worldIn.playSound((EntityPlayer) null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+	public void playStartSound(World worldIn, ItemStack stack, EntityPlayer entityLiving) {
+		worldIn.playSound((EntityPlayer) null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.BLOCK_ANVIL_FALL, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
+	}
+
+	public void playFinishSound(World worldIn, ItemStack stack, EntityPlayer entityLiving) {
+		worldIn.playSound((EntityPlayer) null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_VEX_CHARGE, SoundCategory.PLAYERS, 0.5F, worldIn.rand.nextFloat() * 0.1F + 0.9F);
 	}
 
 	public void addEffects(World worldIn, ItemStack stack, EntityPlayer entityplayer) {

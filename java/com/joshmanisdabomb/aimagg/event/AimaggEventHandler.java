@@ -1,38 +1,65 @@
 package com.joshmanisdabomb.aimagg.event;
 
-import java.util.List;
+import java.util.Random;
 
-import com.ibm.icu.util.BytesTrie.Result;
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad.RainbowPadType;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.HeartsProvider;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.IHearts;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketCapabilityHearts;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
+import com.joshmanisdabomb.aimagg.data.world.AimaggSeedData;
+import com.joshmanisdabomb.aimagg.entity.render.AimaggEntityPlayerRainbowPadRender;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class AimaggEventHandler {
 	
 	@SubscribeEvent
+	public void onWorldLoad(WorldEvent.Load event) {
+		if (!event.getWorld().isRemote) {
+			AimaggSeedData aimaggSeed = AimaggSeedData.getInstance(event.getWorld());
+			aimaggSeed.setAimaggSeed(new Random(Math.abs((int)(event.getWorld().getSeed() + 1337 + 420 + 69))).nextLong());
+			aimaggSeed.save(event.getWorld());
+		}
+	}
+
+	@SubscribeEvent
+	public void onPlayerJoin(PlayerLoggedInEvent event) {
+		//TODO Send aimagg seed to client via packet.
+	}
+	
+	@SubscribeEvent
 	public void onExplode(ExplosionEvent.Detonate event) {
-		List<Entity> entityList = event.getAffectedEntities();
+		/*List<Entity> entityList = event.getAffectedEntities();
 		for (Entity e : entityList) {
-			/*if (e instanceof AimaggEntityMissile) {
+			if (e instanceof AimaggEntityMissile) {
 				((AimaggEntityMissile)e).detonate();
 				e.setDead();
-			}*/
+			}
+		}*/
+	}
+	
+	@SubscribeEvent
+	public void onPlayerRender(RenderPlayerEvent.Pre event) {
+		if (AimaggEntityPlayerRainbowPadRender.isOnActivePad(event.getEntityPlayer())) {
+			AimaggEntityPlayerRainbowPadRender.getInstance(event.getRenderer().getRenderManager(), ((AbstractClientPlayer)event.getEntityPlayer()).getSkinType().equals("slim")).doRender((AbstractClientPlayer)event.getEntityPlayer(), event.getX(), event.getY(), event.getZ(), event.getEntityPlayer().rotationYaw, event.getPartialRenderTick());
+			event.setCanceled(true);
 		}
 	}
 

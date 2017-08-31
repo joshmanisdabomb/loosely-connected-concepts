@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.aimagg.data;
+package com.joshmanisdabomb.aimagg.util;
 
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.entity.model.AimaggEntityMissileFatModel;

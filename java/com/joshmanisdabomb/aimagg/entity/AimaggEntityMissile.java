@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
-import com.joshmanisdabomb.aimagg.data.MissileType;
+import com.joshmanisdabomb.aimagg.util.MissileType;
 import com.joshmanisdabomb.aimagg.world.explosion.AimaggNuclearExplosion;
 
 import net.minecraft.block.Block;

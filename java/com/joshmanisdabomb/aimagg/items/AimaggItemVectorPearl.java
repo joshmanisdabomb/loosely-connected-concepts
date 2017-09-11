@@ -37,7 +37,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			vpNBT.setInteger("xcoord", 0);
 			vpNBT.setInteger("ycoord", 0);
 			vpNBT.setInteger("zcoord", 0);
-			player.sendMessage(new TextComponentTranslation("item.vector_pearl.cleared", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.aimagg:vector_pearl.cleared", new Object[0]));
 			
 			return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		} else {
@@ -45,7 +45,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			vpNBT.setInteger("xcoord", (int)player.posX);
 			vpNBT.setInteger("ycoord", (int)player.posY);
 			vpNBT.setInteger("zcoord", (int)player.posZ);
-			player.sendMessage(new TextComponentTranslation("item.vector_pearl.saved.player", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.aimagg:vector_pearl.saved.player", new Object[0]));
 			
 			return new ActionResult(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 		}
@@ -61,7 +61,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			vpNBT.setInteger("xcoord", 0);
 			vpNBT.setInteger("ycoord", 0);
 			vpNBT.setInteger("zcoord", 0);
-			player.sendMessage(new TextComponentTranslation("item.vector_pearl.cleared", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.aimagg:vector_pearl.cleared", new Object[0]));
 			
 			return EnumActionResult.SUCCESS;
 		} else {
@@ -69,7 +69,7 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			vpNBT.setInteger("xcoord", pos.getX());
 			vpNBT.setInteger("ycoord", pos.getY());
 			vpNBT.setInteger("zcoord", pos.getZ());
-			player.sendMessage(new TextComponentTranslation("item.vector_pearl.saved.block", new Object[0]));
+			player.sendMessage(new TextComponentTranslation("item.aimagg:vector_pearl.saved.block", new Object[0]));
 			
 			return EnumActionResult.SUCCESS;
 		}
@@ -85,30 +85,30 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			if (vpNBT != null && vpNBT.getBoolean("used")) {
 	        	tooltip.add(
 		    				TextFormatting.WHITE + 
-		    				I18n.format("tooltip.vector_pearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
+		    				I18n.format("tooltip.aimagg:vector_pearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
 		    			   );
 			} else {
 	        	tooltip.add(
 		    				TextFormatting.DARK_AQUA + 
-		    				I18n.format("tooltip.vector_pearl.blank", new Object[0])
+		    				I18n.format("tooltip.aimagg:vector_pearl.blank", new Object[0])
 		    			   );
 			}
 		} else {
         	tooltip.add(
 	    				TextFormatting.DARK_AQUA + 
-	    				I18n.format("tooltip.vector_pearl.blank", new Object[0])
+	    				I18n.format("tooltip.aimagg:vector_pearl.blank", new Object[0])
 	    			   );
 		}
 		
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
         	tooltip.add(
 	    				TextFormatting.GRAY + 
-	    				I18n.format("tooltip.vector_pearl.more_info", new Object[] {"\n", "\n"})
+	    				I18n.format("tooltip.aimagg:vector_pearl.more_info", new Object[] {"\n", "\n"})
 	    			   );
 		} else {
         	tooltip.add(
 	    				TextFormatting.DARK_GRAY + 
-	    				I18n.format("tooltip.press_shift_for_more", new Object[0])
+	    				I18n.format("tooltip.aimagg:press_shift_for_more", new Object[0])
 	    			   );
 		}
 	}

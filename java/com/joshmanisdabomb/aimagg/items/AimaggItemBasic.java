@@ -15,7 +15,7 @@ public class AimaggItemBasic extends Item {
 	private final String internalName;
 
 	public AimaggItemBasic(String internalName) {
-		this.setUnlocalizedName(this.internalName = internalName);
+		this.setUnlocalizedName(Constants.MOD_ID + ":" + (this.internalName = internalName));
 		this.setRegistryName(this.getInternalName());
 		this.setCreativeTab(AimlessAgglomeration.tab);
 		

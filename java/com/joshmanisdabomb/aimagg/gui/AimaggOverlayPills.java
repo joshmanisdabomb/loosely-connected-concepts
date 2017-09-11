@@ -74,7 +74,7 @@ public class AimaggOverlayPills extends Gui {
 		}
 		
 		if ((pills.getLastType() != PillType.NORMAL || (pills.getLastPrimaryColor() != -1 && pills.getLastSecondaryColor() != -1)) && transparency > 6F && scale > 0F) {
-			String name = I18n.format("tooltip.pill.effect." + recentEffect.name().toLowerCase(), new Object[]{});
+			String name = I18n.format("tooltip.aimagg:pill.effect." + recentEffect.name().toLowerCase(), new Object[]{});
 			
 			translationX -= (minecraft.fontRenderer.getStringWidth(name) / 2F + 10) * scale;
 			translationY -= ((minecraft.fontRenderer.FONT_HEIGHT - 1) / 2F + 10) * scale;

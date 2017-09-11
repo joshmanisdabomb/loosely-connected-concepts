@@ -45,7 +45,7 @@ public class AimaggBlockBasic extends Block {
 	
 	public AimaggBlockBasic(String internalName, Material material, MapColor mcolor) {
 		super(material, mcolor);
-		this.setUnlocalizedName(this.internalName = internalName);
+		this.setUnlocalizedName(Constants.MOD_ID + ":" + (this.internalName = internalName));
 		this.setRegistryName(this.internalName);
 		this.setCreativeTab(AimlessAgglomeration.tab);
 		

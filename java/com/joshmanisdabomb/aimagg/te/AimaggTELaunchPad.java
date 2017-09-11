@@ -89,7 +89,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	}
 
 	public String getBaseName() {
-		return "container.aimagg_launch_pad";
+		return "container.aimagg:launch_pad";
 	}
 	
 	@Override

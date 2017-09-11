@@ -8,11 +8,16 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicAxis;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockChocolate;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockOre;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowGrass;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSoft;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderInterface;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockStorage;
@@ -59,8 +64,27 @@ public class AimaggBlocks {
 	
 	public static Block nuclearFire;
 	
-	public static Block rainbowPortal;
+	public static Block rainbowGemBlock;
 	public static Block rainbowPad;
+	
+	public static Block rainbowWorld;
+	public static Block rainbowGrass;
+	
+	public static Block jelly; //TODO cherry, strawberry, grape, raspberry, apple, orange, blackberry, peach, pineapple, watermelon, lemon, chocolate, cola, bubblegum, cotton candy, fruit punch
+							   //TODO american language file: jello, english langugae file: jelly
+	public static Block candyCane; //TODO all 16 colors
+	public static Block cottonCandy; //TODO pink, purple, blue, cyan colors
+	public static Block cottonCandyPole; //TODO
+	public static Block cream; //TODO like snow layers
+	public static Block chocolate; //TODO looks like lego bricks (white, milk, dark)
+	public static Block cake; //TODO sponge, lemon, chocolate, lemon
+	public static Block icedCake; //TODO 
+	
+	public static Block spikes;
+	
+	//TODO custard liquid
+	//TODO chocolate liquid
+	//TODO milkshake (strawberry, banana, chocolate, vanilla) liquid
 
 	public static ArrayList<Block> registry = new ArrayList<Block>();
 	public static ArrayList<Item> ibRegistry = new ArrayList<Item>();
@@ -101,7 +125,13 @@ public class AimaggBlocks {
 		
 		nuclearFire = new AimaggBlockFireNuclear("nuclear_fire", Material.FIRE, MapColor.LIME);
 		
+		rainbowGemBlock = new AimaggBlockBasic("rainbow_gem_block", Material.IRON, MapColor.MAGENTA);
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);
+		rainbowWorld = new AimaggBlockRainbowWorld("rainbow_world", Material.GROUND);
+		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
+		chocolate = new AimaggBlockChocolate("chocolate", Material.ROCK);
+		
+		spikes = new AimaggBlockSpikes("spikes", Material.IRON);
 	}	
 
 	@SideOnly(Side.CLIENT)

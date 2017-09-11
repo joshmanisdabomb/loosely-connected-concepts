@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=rainbow": {"model": "aimagg:rainbow/rainbow_grass"},
+    "type=sugar": {"model": "aimagg:rainbow/sugar_grass"},
+    "type=chocolate": {"model": "aimagg:rainbow/chocolate_grass"}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=dirt": {"model": "aimagg:rainbow/dirt"},
+    "type=stone": {"model": "aimagg:rainbow/stone"},
+    "type=cobblestone": {"model": "aimagg:rainbow/cobblestone"}
+  }
+}

@@ -2,9 +2,8 @@ package com.joshmanisdabomb.aimagg.event;
 
 import java.util.Random;
 
-import com.joshmanisdabomb.aimagg.AimaggBlocks;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad.RainbowPadType;
+import com.joshmanisdabomb.aimagg.AimaggDamage;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes.SpikesType;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.HeartsProvider;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.IHearts;
@@ -12,7 +11,7 @@ import com.joshmanisdabomb.aimagg.data.world.AimaggSeedData;
 import com.joshmanisdabomb.aimagg.entity.render.AimaggEntityPlayerRainbowPadRender;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -20,8 +19,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -65,6 +64,7 @@ public class AimaggEventHandler {
 
 	@SubscribeEvent
 	public void onEntityHit(LivingHurtEvent event) {
+		//TODO add sounds when iron and crystal hearts are removed
 		if (event.getEntityLiving() instanceof EntityPlayer) {
 			EntityPlayer player = ((EntityPlayer)event.getEntityLiving());
 			float amount = event.getAmount();
@@ -129,6 +129,13 @@ public class AimaggEventHandler {
 			}
 			if (amount != event.getAmount()) {AimaggCapabilityHearts.sendHeartsPacket(player);}
 			event.setAmount(amount);
+		}
+	}
+
+	@SubscribeEvent
+	public void onEntityDeath(LivingDeathEvent event) {
+		if (event.getEntity() instanceof EntityLiving && event.getSource() instanceof AimaggDamage && ((AimaggDamage)event.getSource()).getSpikesType() == SpikesType.AMPLIFIED) {
+			//
 		}
 	}
 	

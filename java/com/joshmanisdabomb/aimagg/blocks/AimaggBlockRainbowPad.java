@@ -115,7 +115,7 @@ public class AimaggBlockRainbowPad extends AimaggBlockBasicConnected {
 	
 	public static enum RainbowPadType implements IStringSerializable {
 		INACTIVE(MapColor.BLACK),
-		ACTIVE(MapColor.SAND);
+		ACTIVE(MapColor.GOLD);
 
 		private final ModelResourceLocation mrl;
 		private final MapColor mapColor;

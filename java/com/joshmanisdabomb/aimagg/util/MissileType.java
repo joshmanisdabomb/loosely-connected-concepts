@@ -136,7 +136,7 @@ public enum MissileType {
 		}
 
 		public String getTooltip(int strength) {
-			return TextFormatting.WHITE + I18n.format("tooltip.missile.strength", new Object[] {this.color, this.useDecimals ? (float)(strength*this.multiply) : (int)(strength*this.multiply), I18n.format("tooltip.missile.strength." + this.name().toLowerCase(), new Object[0])});
+			return TextFormatting.WHITE + I18n.format("tooltip.aimagg:missile.strength", new Object[] {this.color, this.useDecimals ? (float)(strength*this.multiply) : (int)(strength*this.multiply), I18n.format("tooltip.aimagg:missile.strength." + this.name().toLowerCase(), new Object[0])});
 		}
 		
 	}

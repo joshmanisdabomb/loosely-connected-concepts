@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.aimagg.event;
 
+import com.joshmanisdabomb.aimagg.AimaggBiome;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggEntities;
 import com.joshmanisdabomb.aimagg.AimaggItems;
@@ -9,6 +10,7 @@ import com.joshmanisdabomb.aimagg.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +42,13 @@ public class AimaggRegistry {
 	@SubscribeEvent
 	public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 	    event.getRegistry().registerAll(AimaggRecipes.registry.toArray(new IRecipe[]{}));
+	}
+	
+	@SubscribeEvent
+    public void registerBiomes(RegistryEvent.Register<Biome> event) {
+		for (AimaggBiome b : AimaggBiome.values()) {
+			event.getRegistry().register(b.getBiome());
+		}
 	}
 	
 	@SubscribeEvent

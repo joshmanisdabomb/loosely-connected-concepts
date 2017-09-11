@@ -94,15 +94,15 @@ public class AimaggItemPill extends AimaggItemBasic implements AimaggItemColored
 		NBTTagCompound pNBT = stack.getSubCompound(Constants.MOD_ID + "_pill");
 		
 		if (PillType.getFromMetadata(stack.getMetadata()) == PillType.RANDOM) {
-			tooltip.add(I18n.format("tooltip.pill.random", new Object[]{}));
+			tooltip.add(I18n.format("tooltip.aimagg:pill.random", new Object[]{}));
 		} else if (pNBT == null) {
-			tooltip.add(I18n.format("tooltip.pill.invalid", new Object[]{}));
+			tooltip.add(I18n.format("tooltip.aimagg:pill.invalid", new Object[]{}));
 		} else if (PillType.getFromMetadata(stack.getMetadata()) == PillType.SET) {
-			tooltip.add(I18n.format("tooltip.pill.effect." + PillEffect.values()[pNBT.getInteger("effect")].name().toLowerCase(), new Object[]{}));
+			tooltip.add(I18n.format("tooltip.aimagg:pill.effect." + PillEffect.values()[pNBT.getInteger("effect")].name().toLowerCase(), new Object[]{}));
 		} else if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.getCapability(PillsProvider.PILLS_CAPABILITY, null).isDiscovered(pNBT.getInteger("color1"), pNBT.getInteger("color2"))) {
-			tooltip.add(I18n.format("tooltip.pill.effect." + AimaggItemPill.getPillEffect(worldIn, pNBT.getInteger("color1"), pNBT.getInteger("color2")).name().toLowerCase(), new Object[]{}));
+			tooltip.add(I18n.format("tooltip.aimagg:pill.effect." + AimaggItemPill.getPillEffect(worldIn, pNBT.getInteger("color1"), pNBT.getInteger("color2")).name().toLowerCase(), new Object[]{}));
 		} else {
-			tooltip.add(I18n.format("tooltip.pill.unknown", new Object[]{}));
+			tooltip.add(I18n.format("tooltip.aimagg:pill.unknown", new Object[]{}));
 		}
 	}
 

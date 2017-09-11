@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "type=plain": {"model": "aimagg:wasteland/spikes/plain"},
+    "type=bloody": {"model": "aimagg:wasteland/spikes/bloody"},
+    "type=poison": {"model": "aimagg:wasteland/spikes/poison"},
+    "type=wither": {"model": "aimagg:wasteland/spikes/wither"},
+    "type=amplified": {"model": "aimagg:wasteland/spikes/amplified"}
+  }
+}

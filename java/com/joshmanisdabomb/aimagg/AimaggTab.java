@@ -67,8 +67,15 @@ public class AimaggTab extends CreativeTabs {
 			setUpperSortValue(AimaggItems.pill, AimaggCategory.PILLS, 0);
 			
 			setUpperSortValue(AimaggItems.heart, AimaggCategory.HEARTS, 0);
+
+			setUpperSortValue(AimaggBlocks.rainbowGemBlock, AimaggCategory.RAINBOW, 0);
+			setUpperSortValue(AimaggBlocks.rainbowPad, AimaggCategory.RAINBOW, 1);
+			setUpperSortValue(AimaggBlocks.rainbowGrass, AimaggCategory.RAINBOW, 2);
+			setUpperSortValue(AimaggBlocks.rainbowWorld, AimaggCategory.RAINBOW, 3);
+			//candy stuff
+			setUpperSortValue(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
 			
-			setUpperSortValue(AimaggBlocks.rainbowPad, AimaggCategory.RAINBOW, 0);
+			setUpperSortValue(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 0);
 			
 			setUpperSortValue(AimaggItems.vectorPearl, AimaggCategory.MISC, 0);
 			

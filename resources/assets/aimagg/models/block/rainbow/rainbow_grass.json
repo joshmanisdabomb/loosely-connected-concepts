@@ -1,0 +1,10 @@
+{
+  "parent": "block/grass",
+  "textures": {
+    "particle": "aimagg:blocks/rainbow/dirt",
+    "bottom": "aimagg:blocks/rainbow/dirt",
+    "top": "aimagg:blocks/rainbow/grass_top",
+    "side": "aimagg:blocks/rainbow/grass_side",
+    "overlay": "aimagg:blocks/rainbow/grass_overlay"
+  }
+}

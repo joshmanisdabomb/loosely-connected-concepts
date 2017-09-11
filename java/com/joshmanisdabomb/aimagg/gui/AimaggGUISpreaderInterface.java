@@ -74,8 +74,8 @@ public class AimaggGUISpreaderInterface extends GuiContainer {
 		    	this.drawTexturedModalRect(this.guiLeft + 7, this.guiTop + 28, 7, 28, 162, 106);
 		    	
 		    	int textColor = cv.darker().darker().getRGB();
-			    this.fontRenderer.drawString(I18n.format("container.aimagg_spreader_interface.modifiers", new Object[]{}), this.guiLeft + 12, this.guiTop + 31, textColor);
-			    this.fontRenderer.drawString(I18n.format("container.aimagg_spreader_interface.spread", new Object[]{}), this.guiLeft + 12, this.guiTop + 102, textColor);
+			    this.fontRenderer.drawString(I18n.format("container.aimagg:spreader_interface.modifiers", new Object[]{}), this.guiLeft + 12, this.guiTop + 31, textColor);
+			    this.fontRenderer.drawString(I18n.format("container.aimagg:spreader_interface.spread", new Object[]{}), this.guiLeft + 12, this.guiTop + 102, textColor);
 		    } else {
 		    	this.drawTexturedModalRect(this.guiLeft + 8+(i*10), this.guiTop + 15, 176, 0, 10, 13);
 		    }
@@ -89,7 +89,7 @@ public class AimaggGUISpreaderInterface extends GuiContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-	    this.fontRenderer.drawString(I18n.format("container.aimagg_spreader_interface", new Object[]{}), 6, 6, 4210752);
+	    this.fontRenderer.drawString(I18n.format("container.aimagg:spreader_interface", new Object[]{}), 6, 6, 4210752);
 	}
 
 }

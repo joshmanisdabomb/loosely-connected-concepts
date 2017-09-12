@@ -44,7 +44,7 @@ public class AimaggWorldGen implements IWorldGenerator {
 		
 		//Topaz Ore
 		if (chunkBiome == Biomes.RIVER) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 12; i++) {
 				int x = (chunkX * 16) + random.nextInt(16);
 				int z = (chunkZ * 16) + random.nextInt(16);
 				int y = 45 + random.nextInt(15);
@@ -69,7 +69,7 @@ public class AimaggWorldGen implements IWorldGenerator {
 			for (int i = 0; i < 6; i++) {
 				int x = (chunkX * 16) + random.nextInt(16);
 				int z = (chunkZ * 16) + random.nextInt(16);
-				int y = random.nextInt(128);
+				int y = random.nextInt(96);
 				new WorldGenMinable(OreIngotStorage.AMETHYST.getOreBlockState(), 7)
 				.generate(world, random, new BlockPos(x,y,z));
 			}

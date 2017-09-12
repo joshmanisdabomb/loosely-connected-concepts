@@ -28,10 +28,9 @@ public enum OreIngotStorage implements IStringSerializable {
 	SAPPHIRE(2, 3.0F, MapColor.STONE, MapColor.WATER, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
 	TOPAZ(2, 3.0F, MapColor.STONE, MapColor.ADOBE, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
 	AMETHYST(2, 3.0F, MapColor.STONE, MapColor.PURPLE, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
-	URANIUM(3, 4.0F, MapColor.STONE, MapColor.LIME, OreType.DROP_SELF, IngotType.NORMAL, StorageType.NORMAL, 0, 0, 48, 6, 1);
+	URANIUM(3, 4.0F, MapColor.STONE, MapColor.LIME, OreType.DROP_SELF, IngotType.NORMAL, StorageType.NORMAL);
 
 	public static OreIngotStorage[] oreArray;
-	public static OreIngotStorage[] oreWGArray;
 	public static OreIngotStorage[] ingotArray;
 	public static OreIngotStorage[] storageArray;
 	
@@ -53,13 +52,6 @@ public enum OreIngotStorage implements IStringSerializable {
 	private final ModelResourceLocation mrlIngot;
 	private final ModelResourceLocation mrlStorage;
 
-	private boolean builtInWorldGen = false;
-	private int wg_dimensionID;
-	private int wg_minHeight;
-	private int wg_maxHeight;
-	private int wg_blockCount;
-	private int wg_commonality;
-
 	OreIngotStorage(int harvestLevel, float hardness, MapColor oreMapColor, MapColor storageMapColor, OreType ore, IngotType ingot, StorageType storage) {
 		this.harvestLevel = harvestLevel;
 		this.hardness = hardness;
@@ -70,17 +62,6 @@ public enum OreIngotStorage implements IStringSerializable {
 		this.mrlOre = ((this.ore = ore) != OreType.NONE) ? new ModelResourceLocation(Constants.MOD_ID + ":ore/" + this.name().toLowerCase()) : null;
 		this.mrlIngot = ((this.ingot = ingot) != IngotType.NONE) ? new ModelResourceLocation(Constants.MOD_ID + ":ingot/" + this.name().toLowerCase()) : null;
 		this.mrlStorage = ((this.storage = storage) != StorageType.NONE) ? new ModelResourceLocation(Constants.MOD_ID + ":storage/" + this.name().toLowerCase()) : null;
-	}
-
-	OreIngotStorage(int harvestLevel, float hardness, MapColor oreMapColor, MapColor storageMapColor, OreType ore, IngotType ingot, StorageType storage, int wg_dimensionID, int wg_minHeight, int wg_maxHeight, int wg_blockCount, int wg_commonality) {
-		this(harvestLevel, hardness, oreMapColor, storageMapColor, ore, ingot, storage);
-		
-		this.builtInWorldGen = ore != OreType.NONE;
-		this.wg_dimensionID = wg_dimensionID;
-		this.wg_minHeight = wg_minHeight;
-		this.wg_maxHeight = wg_maxHeight;
-		this.wg_blockCount = wg_blockCount;
-		this.wg_commonality = wg_commonality;
 	}
 
 	public float getOreHardness() {
@@ -141,10 +122,6 @@ public enum OreIngotStorage implements IStringSerializable {
 	
 	public boolean hasStorageForm() {
 		return storage != StorageType.NONE;
-	}
-
-	public boolean usesBuiltInWorldGen() {
-		return builtInWorldGen;
 	}
 	
 	public static OreIngotStorage[] getAllWithOreForm() {
@@ -215,19 +192,6 @@ public enum OreIngotStorage implements IStringSerializable {
 		}
 		return list.toArray(new OreIngotStorage[list.size()]);
 	}
-	
-	public static OreIngotStorage[] getAllWithOreFormPlusWorldGen() {
-		if (oreWGArray == null) {
-			ArrayList<OreIngotStorage> list = new ArrayList<OreIngotStorage>();
-			for (OreIngotStorage ois : OreIngotStorage.values()) {
-				if (ois.hasOreForm() && ois.usesBuiltInWorldGen()) {
-					list.add(ois);
-				}
-			}
-			oreWGArray = list.toArray(new OreIngotStorage[list.size()]);
-		}
-		return oreWGArray;
-	}
 
 	@Override
 	public String getName() {
@@ -260,28 +224,6 @@ public enum OreIngotStorage implements IStringSerializable {
 
 	public ModelResourceLocation getStorageModel() {
 		return mrlStorage;
-	}
-
-	public static void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-		for (OreIngotStorage ois : getAllWithOreFormPlusWorldGen()) {
-			if (world.provider.getDimension() == ois.wg_dimensionID) {
-				if (ois.wg_commonality > 0) {
-					for (int i = 0; i < ois.wg_commonality; i++) {
-						int x = (chunkX * 16) + random.nextInt(16);
-						int z = (chunkZ * 16) + random.nextInt(16);
-						int y = ois.wg_minHeight + random.nextInt((ois.wg_maxHeight - ois.wg_minHeight) + 1);
-						new WorldGenMinable(ois.getOreBlockState(), ois.wg_blockCount)
-						.generate(world, random, new BlockPos(x,y,z));
-					}
-				} else if (random.nextInt(1-ois.wg_commonality) == 0) {
-					int x = (chunkX * 16) + random.nextInt(16);
-					int z = (chunkZ * 16) + random.nextInt(16);
-					int y = ois.wg_minHeight + random.nextInt((ois.wg_maxHeight - ois.wg_minHeight) + 1);
-					new WorldGenMinable(ois.getOreBlockState(), ois.wg_blockCount)
-					.generate(world, random, new BlockPos(x,y,z));
-				}
-			}
-		}
 	}
 
 	public Block getOreBlock() {

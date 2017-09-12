@@ -45,12 +45,12 @@ public class AimaggBlockChocolate extends AimaggBlockBasicHalf {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(TYPE, ChocolateType.getFromMetadata(meta));
+        return this.getDefaultState().withProperty(HALF, HalfType.getFromMetadata(meta)).withProperty(TYPE, ChocolateType.getFromMetadata(meta));
     }
 
 	@Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(TYPE).getMetadata();
+        return state.getValue(TYPE).getMetadata() + state.getValue(HALF).getMetadata();
     }
 	
 	@Override
@@ -83,15 +83,15 @@ public class AimaggBlockChocolate extends AimaggBlockBasicHalf {
 			
 			@Override
 			public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-				System.out.println("hello");
-				return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+				EnumActionResult ear = AimaggBlockChocolate.this.onItemBlockUse(this, player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+				return ear != null ? ear : super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 			}
 
 			@Override
 			@SideOnly(Side.CLIENT)
 			public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
-				System.out.println("hello");
-				return super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
+				Boolean b = AimaggBlockChocolate.this.canPlaceItemBlockOnSide(this, worldIn, pos, side, player, stack);
+				return b != null ? b : super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
 			}
 		};
 		ib.setMaxDamage(0).setHasSubtypes(true);
@@ -114,7 +114,7 @@ public class AimaggBlockChocolate extends AimaggBlockBasicHalf {
 
 		ChocolateType(MapColor mcolor) {
 			this.mapColor = mcolor;
-			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":rainbow/chocolate_" + this.getName());
+			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":rainbow/" + this.getName() + "_chocolate");
 		}
 
 		@Override
@@ -127,7 +127,7 @@ public class AimaggBlockChocolate extends AimaggBlockBasicHalf {
 		}
 
 		public int getMetadata() {
-			return this.ordinal();
+			return this.ordinal() * HalfType.values().length;
 		}
 
 		public MapColor getMapColor() {

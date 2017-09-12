@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.aimagg.blocks;
 
 import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockChocolate.ChocolateType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes.SpikesType;
 
@@ -18,6 +19,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -104,7 +106,7 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 
     @Override
     public boolean isOpaqueCube(IBlockState blockState) {
-        return true;//blockState.getValue(HALF) == HalfType.DOUBLE;
+        return blockState.getValue(HALF) == HalfType.DOUBLE;
     }
     
     @Override
@@ -117,7 +119,7 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
         return state.getValue(HALF) == HalfType.DOUBLE;
     }
 	
-	@Override
+    @Override
 	public ItemBlock createItemBlock() {
 		ItemBlock ib = new ItemBlock(this) {
 			@Override
@@ -127,25 +129,70 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 
 			@Override
 			public String getUnlocalizedName(ItemStack stack) {
-				return super.getUnlocalizedName();
+				return super.getUnlocalizedName() + "." + ChocolateType.getFromMetadata(stack.getMetadata()).getName();
 			}
-
+			
 			@Override
 			public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-				System.out.println("hello");
-				return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+				EnumActionResult ear = AimaggBlockBasicHalf.this.onItemBlockUse(this, player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+				return ear != null ? ear : super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 			}
 
 			@Override
 			@SideOnly(Side.CLIENT)
 			public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
-				System.out.println("hello");
-				return super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
+				Boolean b = AimaggBlockBasicHalf.this.canPlaceItemBlockOnSide(this, worldIn, pos, side, player, stack);
+				return b != null ? b : super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
 			}
 		};
 		ib.setMaxDamage(0).setHasSubtypes(true);
 		ib.setRegistryName(this.getRegistryName());
 		return ib;
+	}
+	
+	public EnumActionResult onItemBlockUse(ItemBlock ib, EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		ItemStack itemstack = player.getHeldItem(hand);
+
+		if (!itemstack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
+			if (worldIn.getBlockState(pos).getBlock() instanceof AimaggBlockBasicHalf) {
+				if ((facing == EnumFacing.UP && worldIn.getBlockState(pos).getValue(HALF) == HalfType.BOTTOM || facing == EnumFacing.DOWN && worldIn.getBlockState(pos).getValue(HALF) == HalfType.TOP) && this.getStateFromMeta(itemstack.getMetadata()).equals(worldIn.getBlockState(pos).withProperty(HALF, HalfType.BOTTOM))) {
+					if (worldIn.checkNoEntityCollision(HalfType.DOUBLE.getBoundingBox().offset(pos)) && worldIn.setBlockState(pos, worldIn.getBlockState(pos).withProperty(HALF, HalfType.DOUBLE), 11)) {
+						SoundType soundtype = this.getSoundType(worldIn.getBlockState(pos), worldIn, pos, player);
+						worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+						itemstack.shrink(1);
+
+						if (player instanceof EntityPlayerMP) {
+							CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, itemstack);
+						}
+					}
+					return EnumActionResult.SUCCESS;
+				}
+			}
+			
+			pos = pos.offset(facing);
+
+			if (worldIn.getBlockState(pos).getBlock() instanceof AimaggBlockBasicHalf) {
+				if (this.getStateFromMeta(itemstack.getMetadata()).equals(worldIn.getBlockState(pos).withProperty(HALF, HalfType.BOTTOM))) {
+					if (worldIn.checkNoEntityCollision(HalfType.DOUBLE.getBoundingBox().offset(pos)) && worldIn.setBlockState(pos, worldIn.getBlockState(pos).withProperty(HALF, HalfType.DOUBLE), 11)) {
+						SoundType soundtype = this.getSoundType(worldIn.getBlockState(pos), worldIn, pos, player);
+						worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+						itemstack.shrink(1);
+					}
+					return EnumActionResult.SUCCESS;
+				}
+			}
+
+	        return null;
+		} else {
+			return EnumActionResult.FAIL;
+		}
+    }
+	
+	public Boolean canPlaceItemBlockOnSide(ItemBlock ib, World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
+		if (worldIn.getBlockState(pos).getBlock() instanceof AimaggBlockBasicHalf && ((worldIn.getBlockState(pos).getValue(HALF) == HalfType.TOP && side == EnumFacing.DOWN) || (worldIn.getBlockState(pos).getValue(HALF) == HalfType.BOTTOM && side == EnumFacing.UP))) {
+			return true;
+		}
+		return worldIn.getBlockState(pos.offset(side)).getBlock() instanceof AimaggBlockBasicHalf && this.getStateFromMeta(stack.getMetadata()).equals(worldIn.getBlockState(pos.offset(side)).withProperty(HALF, HalfType.BOTTOM)) ? true : null;
 	}
 	
 	@Override
@@ -198,6 +245,10 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 		
 		public AxisAlignedBB getBoundingBox() {
 			return this.boundingBox;
+		}
+
+		public int getMetadata() {
+			return this.ordinal();
 		}
     	
 		public static HalfType getFromMetadata(int meta) {

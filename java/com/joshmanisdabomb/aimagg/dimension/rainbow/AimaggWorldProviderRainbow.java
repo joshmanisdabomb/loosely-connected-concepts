@@ -107,4 +107,15 @@ public class AimaggWorldProviderRainbow extends WorldProvider {
         return new AimaggChunkGeneratorRainbow(this.world, this.getSeed());
     }
 
+	@Override
+	protected void generateLightBrightnessTable() {
+		float f = 0.0F;
+
+		for (int i = 0; i <= 15; ++i) {
+			float f1 = 1.0F - (float) i / 15.0F;
+			this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * 1.0F + 0.0F;
+			this.lightBrightnessTable[i] = (this.lightBrightnessTable[i] * 0.97F) + 0.03F;
+		}
+	}
+
 }

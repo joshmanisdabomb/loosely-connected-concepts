@@ -95,6 +95,10 @@ tile.aimagg:spikes.poison.name=Poison Spike Patch
 tile.aimagg:spikes.wither.name=Wither Spike Patch
 tile.aimagg:spikes.amplified.name=Amplified Spike Patch
 
+tile.aimagg:chocolate.milk.name=Milk Chocolate Slab
+tile.aimagg:chocolate.white.name=White Chocolate Slab
+tile.aimagg:chocolate.dark.name=Dark Chocolate Slab
+
 itemGroup.aimagg:tab=Aimless Agglomeration
 
 container.aimagg:spreader_interface=Spreader Interface

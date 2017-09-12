@@ -72,13 +72,12 @@ public class AimaggBlocks {
 	
 	public static Block jelly; //TODO cherry, strawberry, grape, raspberry, apple, orange, blackberry, peach, pineapple, watermelon, lemon, chocolate, cola, bubblegum, cotton candy, fruit punch
 							   //TODO american language file: jello, english langugae file: jelly
-	public static Block candyCane; //TODO all 16 colors
+	public static Block candyCane;
 	public static Block cottonCandy; //TODO pink, purple, blue, cyan colors
 	public static Block cottonCandyPole; //TODO
 	public static Block cream; //TODO like snow layers
 	public static Block chocolate; //TODO looks like lego bricks (white, milk, dark)
-	public static Block cake; //TODO sponge, lemon, chocolate, lemon
-	public static Block icedCake; //TODO 
+	public static Block cake; //TODO sponge, red velvet, chocolate, carrot
 	
 	public static Block spikes;
 	
@@ -129,6 +128,7 @@ public class AimaggBlocks {
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);
 		rainbowWorld = new AimaggBlockRainbowWorld("rainbow_world", Material.GROUND);
 		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
+		//candyCane = new AimaggBlockCandyCane("candy_cane", Material.ROCK);
 		chocolate = new AimaggBlockChocolate("chocolate", Material.ROCK);
 		
 		spikes = new AimaggBlockSpikes("spikes", Material.IRON);

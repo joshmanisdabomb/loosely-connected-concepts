@@ -24,8 +24,6 @@ public class AimaggGenLayerRainbowBiome extends GenLayerBiome {
 	public AimaggGenLayerRainbowBiome(long p_i45560_1_, GenLayer p_i45560_3_, WorldType p_i45560_4_, ChunkGeneratorSettings p_i45560_5_) {
 		super(p_i45560_1_, p_i45560_3_, p_i45560_4_, p_i45560_5_);
 		
-		System.out.println("hello?");
-		
 		for (BiomeType type : BiomeType.values()) {
             biomes[type.ordinal()] = new ArrayList<BiomeEntry>();
             biomes[type.ordinal()].add(new BiomeEntry(AimaggBiome.RAINBOW_CANDY.getBiome(), 20));

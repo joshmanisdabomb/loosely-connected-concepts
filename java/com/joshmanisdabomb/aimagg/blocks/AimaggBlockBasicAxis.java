@@ -24,11 +24,6 @@ public class AimaggBlockBasicAxis extends AimaggBlockBasic {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));
 	}
 
-	@Override
-	public int getLowerSortValue(ItemStack is) {
-		return 0;
-	}
-
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
     	return this.getStateFromMeta(meta).withProperty(AXIS, facing.getAxis());
     }

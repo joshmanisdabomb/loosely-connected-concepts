@@ -99,6 +99,44 @@ tile.aimagg:chocolate.milk.name=Milk Chocolate Slab
 tile.aimagg:chocolate.white.name=White Chocolate Slab
 tile.aimagg:chocolate.dark.name=Dark Chocolate Slab
 
+tile.aimagg:candy_cane.red.name=Red Candy Cane
+tile.aimagg:candy_cane.yellow.name=Yellow Candy Cane
+tile.aimagg:candy_cane.green.name=Green Candy Cane
+tile.aimagg:candy_cane.blue.name=Blue Candy Cane
+tile.aimagg:refined_candy_cane.red.name=Refined Red Candy Cane
+tile.aimagg:refined_candy_cane.yellow.name=Refined Yellow Candy Cane
+tile.aimagg:refined_candy_cane.green.name=Refined Green Candy Cane
+tile.aimagg:refined_candy_cane.blue.name=Refined Blue Candy Cane
+
+tile.aimagg:jelly.strawberry.name=Strawberry Jello
+tile.aimagg:jelly.cherry.name=Cherry Jello
+tile.aimagg:jelly.grape.name=Grape Jello
+tile.aimagg:jelly.raspberry.name=Raspberry Jello
+tile.aimagg:jelly.apple.name=Apple Jello
+tile.aimagg:jelly.orange.name=Orange Jello
+tile.aimagg:jelly.blackberry.name=Blackberry Jello
+tile.aimagg:jelly.peach.name=Peach Jello
+tile.aimagg:jelly.pineapple.name=Pineapple Jello
+tile.aimagg:jelly.watermelon.name=Watermelon Jello
+tile.aimagg:jelly.lemon.name=Lemon Jello
+tile.aimagg:jelly.chocolate.name=Chocolate Jello
+tile.aimagg:jelly.cola.name=Cola Jello
+tile.aimagg:jelly.bubblegum.name=Bubblegum Jello
+tile.aimagg:jelly.lime.name=Lime Jello
+tile.aimagg:jelly.fruit_punch.name=Fruit Punch Jello
+
+tile.aimagg:scaffolding.wooden.name=Wooden Scaffolding
+tile.aimagg:scaffolding.leafy.name=Leafy Scaffolding
+
+tile.aimagg:illuminant_tile.stone.name=Stone Illuminant Tile
+tile.aimagg:illuminant_tile.cobblestone.name=Cobblestone Illuminant Tile
+tile.aimagg:illuminant_tile.granite.name=Granite Illuminant Tile
+tile.aimagg:illuminant_tile.diorite.name=Diorite Illuminant Tile
+tile.aimagg:illuminant_tile.andesite.name=Andesite Illuminant Tile
+tile.aimagg:illuminant_tile.fortstone.name=Fortstone Illuminant Tile
+tile.aimagg:illuminant_tile.twilight_stone.name=Twilight Stone Illuminant Tile
+tile.aimagg:illuminant_tile.twilight_cobblestone.name=Twilight Cobblestone Illuminant Tile
+
 itemGroup.aimagg:tab=Aimless Agglomeration
 
 container.aimagg:spreader_interface=Spreader Interface

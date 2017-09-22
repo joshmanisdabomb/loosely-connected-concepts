@@ -1,0 +1,30 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "aimagg:colorable",
+        "textures": {
+            "all": "aimagg:blocks/rainbow/jelly",
+            "particle": "aimagg:blocks/rainbow/jelly"
+        }
+    },
+    "variants": {
+        "type": {
+            "strawberry": {},
+            "cherry": {},
+            "grape": {},
+            "raspberry": {},
+            "apple": {},
+            "orange": {},
+            "blackberry": {},
+            "peach": {},
+            "pineapple": {},
+            "watermelon": {},
+            "lemon": {},
+            "chocolate": {},
+            "cola": {},
+            "bubblegum": {},
+            "lime": {},
+            "fruit_punch": {}
+        }
+    }
+}

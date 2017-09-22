@@ -1,7 +1,25 @@
 {
-  "variants": {
-    "type=dirt": {"model": "aimagg:rainbow/dirt"},
-    "type=stone": {"model": "aimagg:rainbow/stone"},
-    "type=cobblestone": {"model": "aimagg:rainbow/cobblestone"}
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "type": {
+            "dirt": {
+                "textures": {
+                    "all": "aimagg:blocks/rainbow/dirt"
+                }
+            },
+            "stone": {
+                "textures": {
+                    "all": "aimagg:blocks/rainbow/stone"
+                }
+            },
+            "cobblestone": {
+                "textures": {
+                    "all": "aimagg:blocks/rainbow/cobblestone"
+                }
+            }
+        }
+    }
 }

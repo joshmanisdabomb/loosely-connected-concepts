@@ -29,6 +29,7 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void initAfterCommon(FMLInitializationEvent event) {
+		AimaggBlocks.registerColoring();
 		AimaggItems.registerColoring();
 		AimaggBlocks.registerTileEntityRenderers();
 		MinecraftForge.EVENT_BUS.register(new AimaggKeyHandler());

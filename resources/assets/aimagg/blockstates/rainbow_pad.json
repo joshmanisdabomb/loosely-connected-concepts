@@ -1,6 +1,24 @@
 {
-  "variants": {
-    "type=inactive": {"model": "aimagg:rainbow/pad_inactive"},
-    "type=active": {"model": "aimagg:rainbow/pad_active"}
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_bottom_top"
+    },
+    "variants": {
+        "type": {
+            "inactive": {
+                "textures": {
+                    "bottom": "aimagg:blocks/rainbow/pad/inactive/bottom_default",
+                    "top": "aimagg:blocks/rainbow/pad/inactive/top_default",
+                    "side": "aimagg:blocks/rainbow/pad/inactive/side_default"
+                }
+            },
+            "active": {
+                "textures": {
+                    "bottom": "aimagg:blocks/rainbow/pad/active/bottom_default",
+                    "top": "aimagg:blocks/rainbow/pad/active/top_default",
+                    "side": "aimagg:blocks/rainbow/pad/active/side_default"
+                }
+            }
+        }
+    }
 }

@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_bottom_top",
-  "textures": {
-    "bottom": "aimagg:blocks/rainbow/pad/active/bottom_default",
-    "top": "aimagg:blocks/rainbow/pad/active/top_default",
-    "side": "aimagg:blocks/rainbow/pad/active/side_default"
-  }
-}

@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "end": "aimagg:blocks/rainbow/candy_cane_end",
+        "side": "aimagg:blocks/rainbow/candy_cane_blue"
+    }
+}

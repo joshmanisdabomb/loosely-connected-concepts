@@ -2,26 +2,35 @@ package com.joshmanisdabomb.aimagg;
 
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockAdvancedRendering;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicAxis;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBillieTiles;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCane;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCaneRefined;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockChocolate;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockColored;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockJelly;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockOre;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowGrass;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockScaffolding;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSoft;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderInterface;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockStorage;
 import com.joshmanisdabomb.aimagg.event.AimaggModelHandler;
+import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 import com.joshmanisdabomb.aimagg.util.AimaggModelLoader;
 
@@ -30,10 +39,17 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -73,22 +89,30 @@ public class AimaggBlocks {
 	public static Block jelly; //TODO cherry, strawberry, grape, raspberry, apple, orange, blackberry, peach, pineapple, watermelon, lemon, chocolate, cola, bubblegum, cotton candy, fruit punch
 							   //TODO american language file: jello, english langugae file: jelly
 	public static Block candyCane;
+	public static Block candyCaneRefined;
 	public static Block cottonCandy; //TODO pink, purple, blue, cyan colors
 	public static Block cottonCandyPole; //TODO
 	public static Block cream; //TODO like snow layers
 	public static Block chocolate; //TODO looks like lego bricks (white, milk, dark)
 	public static Block cake; //TODO sponge, red velvet, chocolate, carrot
 	
+	public static Block fortstone;
 	public static Block spikes;
+	
+	public static Block illuminantTile;
+	public static Block scaffolding;
 	
 	//TODO custard liquid
 	//TODO chocolate liquid
 	//TODO milkshake (strawberry, banana, chocolate, vanilla) liquid
 
-	public static ArrayList<Block> registry = new ArrayList<Block>();
-	public static ArrayList<Item> ibRegistry = new ArrayList<Item>();
+	public static final ArrayList<Block> registry = new ArrayList<Block>();
+	public static final ArrayList<Item> ibRegistry = new ArrayList<Item>();
 	
-	public static ArrayList<Block> advancedRenderRegistry = new ArrayList<Block>();
+	public static final ArrayList<Block> colorRegistry = new ArrayList<Block>();
+	public static final ArrayList<Item> ibColorRegistry = new ArrayList<Item>();
+	
+	public static final ArrayList<Block> advancedRenderRegistry = new ArrayList<Block>();
 	
 	public static void init() {
 		testBlock = new AimaggBlockBasic("test_block", Material.GROUND, MapColor.YELLOW);
@@ -128,10 +152,16 @@ public class AimaggBlocks {
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);
 		rainbowWorld = new AimaggBlockRainbowWorld("rainbow_world", Material.GROUND);
 		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
-		//candyCane = new AimaggBlockCandyCane("candy_cane", Material.ROCK);
+		candyCane = new AimaggBlockCandyCane("candy_cane", Material.ROCK);
+		candyCaneRefined = new AimaggBlockCandyCaneRefined("refined_candy_cane", Material.ROCK);
+		jelly = new AimaggBlockJelly("jelly", Material.SPONGE);
 		chocolate = new AimaggBlockChocolate("chocolate", Material.ROCK);
 		
+		fortstone = new AimaggBlockBasicConnected("fortstone", "wasteland/fortstone", Material.ROCK, MapColor.BLACK);
 		spikes = new AimaggBlockSpikes("spikes", Material.IRON);
+
+		illuminantTile = new AimaggBlockBillieTiles("illuminant_tile", Material.ROCK);
+		scaffolding = new AimaggBlockScaffolding("scaffolding", Material.WOOD);
 	}	
 
 	@SideOnly(Side.CLIENT)
@@ -143,6 +173,21 @@ public class AimaggBlocks {
 				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(b), 0, new ModelResourceLocation(b.getRegistryName(), "inventory"));
 			}
 		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static void registerColoring() {
+		Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler(new IBlockColor() {
+            public int colorMultiplier(IBlockState state, @Nullable IBlockAccess worldIn, @Nullable BlockPos pos, int tintIndex) {
+                return ((AimaggBlockColored)state.getBlock()).getColorFromBlock(state, worldIn, pos, tintIndex);
+            }
+        }, (Block[])colorRegistry.toArray(new Block[colorRegistry.size()]));
+		
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+            public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+                return ((AimaggBlockColored)((ItemBlock)stack.getItem()).getBlock()).getColorFromItemstack(stack, tintIndex);
+            }
+        }, (Item[])ibColorRegistry.toArray(new Item[ibColorRegistry.size()]));
 	}
 
 	@SideOnly(Side.CLIENT)

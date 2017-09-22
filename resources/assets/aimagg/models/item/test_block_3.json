@@ -1,3 +1,8 @@
 {
-  "parent": "aimagg:block/test_block_3"
+    "parent": "minecraft:block/orientable",
+    "textures": {
+        "top": "aimagg:blocks/test/3_top",
+        "front": "aimagg:blocks/test/3_front",
+        "side": "aimagg:blocks/test/3_side"
+    }
 }

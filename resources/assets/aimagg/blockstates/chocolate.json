@@ -1,13 +1,39 @@
 {
-  "variants": {
-    "half=bottom,type=milk":  { "model": "aimagg:rainbow/milk_chocolate_bottom" },
-    "half=top,type=milk":  { "model": "aimagg:rainbow/milk_chocolate_top" },
-    "half=double,type=milk":  { "model": "aimagg:rainbow/milk_chocolate_double" },
-    "half=bottom,type=white":  { "model": "aimagg:rainbow/white_chocolate_bottom" },
-    "half=top,type=white":  { "model": "aimagg:rainbow/white_chocolate_top" },
-    "half=double,type=white":  { "model": "aimagg:rainbow/white_chocolate_double" },
-    "half=bottom,type=dark":  { "model": "aimagg:rainbow/dark_chocolate_bottom" },
-    "half=top,type=dark":  { "model": "aimagg:rainbow/dark_chocolate_top" },
-    "half=double,type=dark":  { "model": "aimagg:rainbow/dark_chocolate_double" }
-  }
+    "forge_marker": 1,
+    "variants": {
+        "type": {
+            "milk": {
+                "textures": {
+                    "0": "aimagg:blocks/rainbow/chocolate/milk_block",
+                    "1": "aimagg:blocks/rainbow/chocolate/milk_top",
+                    "particle": "aimagg:blocks/rainbow/chocolate/milk_block"
+                }
+            },
+            "white": {
+                "textures": {
+                    "0": "aimagg:blocks/rainbow/chocolate/white_block",
+                    "1": "aimagg:blocks/rainbow/chocolate/white_top",
+                    "particle": "aimagg:blocks/rainbow/chocolate/white_block"
+                }
+            },
+            "dark": {
+                "textures": {
+                    "0": "aimagg:blocks/rainbow/chocolate/dark_block",
+                    "1": "aimagg:blocks/rainbow/chocolate/dark_top",
+                    "particle": "aimagg:blocks/rainbow/chocolate/dark_block"
+                }
+            }
+        },
+        "half": {
+            "bottom": {
+                "model": "aimagg:chocolate_bottom"
+            },
+            "top": {
+                "model": "aimagg:chocolate_top"
+            },
+            "double": {
+                "model": "aimagg:Chocolate_double"
+            }
+        }
+    }
 }

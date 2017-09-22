@@ -1,8 +1,19 @@
 {
-  "variants": {
-    "facing=north": {"model": "aimagg:test_block_2"},
-    "facing=east":  {"model": "aimagg:test_block_2", "y": 90},
-    "facing=south": {"model": "aimagg:test_block_2", "y": 180},
-    "facing=west":  {"model": "aimagg:test_block_2", "y": 270}
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:orientable",
+        "textures": {
+            "top": "aimagg:blocks/test/2_top",
+            "front": "aimagg:blocks/test/2_front",
+            "side": "aimagg:blocks/test/2_side"
+        }
+    },
+    "variants": {
+        "facing": {
+            "north": {},
+            "east": {"y": 90},
+            "south": {"y": 180},
+            "west": {"y": 270}
+        }
+    }
 }

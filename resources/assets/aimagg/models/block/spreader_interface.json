@@ -1,15 +1,5 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
-	"textures": {
-		"0": "aimagg:blocks/spreader_interface/lid_top",
-		"1": "aimagg:blocks/spreader_interface/lid_side",
-		"2": "aimagg:blocks/spreader_interface/base_side",
-		"3": "aimagg:blocks/spreader_interface/base_top",
-		"4": "aimagg:blocks/spreader_interface/core_side",
-		"5": "aimagg:blocks/spreader_interface/legs",
-		"6": "aimagg:blocks/spreader_interface/port",
-        "particle": "aimagg:blocks/spreader_interface/particle"
-	},
 	"elements": [
 		{
 			"name": "leg_1",

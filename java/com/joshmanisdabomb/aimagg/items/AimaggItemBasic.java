@@ -1,7 +1,10 @@
 package com.joshmanisdabomb.aimagg.items;
 
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockAdvancedRendering;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockColored;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 
@@ -21,7 +24,7 @@ public class AimaggItemBasic extends Item {
 		
 		AimaggItems.registry.add(this);
 		
-		this.initialise();
+		this.init();
 	}
 
 	public String getInternalName() {
@@ -36,10 +39,15 @@ public class AimaggItemBasic extends Item {
 		return is.getMetadata();
 	}
 	
-	public void initialise() {
+	public final void init() {
 		if (this instanceof AimaggItemColored) {
 			AimaggItems.colorRegistry.add(this);
 		}
+		this.initialise();
+	}
+	
+	public void initialise() {
+		
 	}
 
 	public void registerRender() {

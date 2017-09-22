@@ -1,7 +1,0 @@
-{
-  "parent": "block/block",
-  "textures": {
-    "particle": "aimagg:blocks/launch_pad/particle"
-  },
-  "elements": []
-}

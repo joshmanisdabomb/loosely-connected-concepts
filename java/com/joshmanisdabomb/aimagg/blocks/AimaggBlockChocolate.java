@@ -33,6 +33,8 @@ public class AimaggBlockChocolate extends AimaggBlockBasicHalf {
 
 	public static final PropertyEnum<ChocolateType> TYPE = PropertyEnum.<ChocolateType>create("type", ChocolateType.class);
 
+	//TODO possible to have multiple types of chocolate in the same block
+	
 	public AimaggBlockChocolate(String internalName, Material material) {
 		super(internalName, material, ChocolateType.MILK.getMapColor());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, HalfType.BOTTOM).withProperty(TYPE, ChocolateType.MILK));

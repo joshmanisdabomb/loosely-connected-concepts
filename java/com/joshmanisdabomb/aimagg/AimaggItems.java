@@ -74,10 +74,8 @@ public class AimaggItems {
 
 	@SideOnly(Side.CLIENT)
 	public static void registerColoring() {
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor()
-        {
-            public int getColorFromItemstack(ItemStack stack, int tintIndex)
-            {
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(new IItemColor() {
+            public int getColorFromItemstack(ItemStack stack, int tintIndex) {
                 return ((AimaggItemColored)stack.getItem()).getColorFromItemstack(stack, tintIndex);
             }
         }, (Item[])colorRegistry.toArray(new Item[colorRegistry.size()]));

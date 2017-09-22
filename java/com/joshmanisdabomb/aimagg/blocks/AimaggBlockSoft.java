@@ -89,7 +89,8 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 			}
 		}
 	}
-	
+
+    @Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return FULL_BLOCK_AABB;
     }

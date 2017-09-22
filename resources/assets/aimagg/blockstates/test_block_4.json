@@ -1,7 +1,22 @@
 {
-  "variants": {
-    "axis=y": { "model": "aimagg:test_block_4" },
-    "axis=z": { "model": "aimagg:test_block_4", "x": 90 },
-    "axis=x": { "model": "aimagg:test_block_4", "x": 90, "y": 90 }
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_column",
+        "textures": {
+            "end": "aimagg:blocks/test/4_end",
+            "side": "aimagg:blocks/test/4_side"
+        }
+    },
+    "variants": {
+        "axis": {
+            "x": {
+                "x": 90,
+                "y": 90
+            },
+            "y": {},
+            "z": {
+                "x": 90
+            }
+        }
+    }
 }

@@ -1,9 +1,35 @@
 {
-  "variants": {
-    "type=ruby":  { "model": "aimagg:storage/ruby" },
-    "type=sapphire":  { "model": "aimagg:storage/sapphire" },
-    "type=topaz":  { "model": "aimagg:storage/topaz" },
-    "type=amethyst":  { "model": "aimagg:storage/amethyst" },
-    "type=uranium":  { "model": "aimagg:storage/uranium" }
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "type": {
+            "ruby": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/ruby"
+                }
+            },
+            "sapphire": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/sapphire"
+                }
+            },
+            "topaz": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/topaz"
+                }
+            },
+            "amethyst": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/amethyst"
+                }
+            },
+            "uranium": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/uranium"
+                }
+            }
+        }
+    }
 }

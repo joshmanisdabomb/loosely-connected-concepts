@@ -52,7 +52,7 @@ public class AimaggBlockBasic extends Block {
 		AimaggBlocks.registry.add(this);
 		AimaggBlocks.ibRegistry.add(this.itemBlock = this.createItemBlock());
 		
-		this.initialise();
+		this.init();
 	}
 
 	public String getInternalName() {
@@ -140,10 +140,19 @@ public class AimaggBlockBasic extends Block {
         return this.drops_damage > 0 ? this.drops_damage : this.getMetaFromState(state);
     }
 	
-	public void initialise() {
+	public final void init() {
+		if (this instanceof AimaggBlockColored) {
+			AimaggBlocks.colorRegistry.add(this);
+			AimaggBlocks.ibColorRegistry.add(this.getItemBlock());
+		}
 		if (this instanceof AimaggBlockAdvancedRendering) {
 			AimaggBlocks.advancedRenderRegistry.add(this);
 		}
+		this.initialise();
+	}
+	
+	public void initialise() {
+		
 	}
 
 	public void registerInventoryRender() {

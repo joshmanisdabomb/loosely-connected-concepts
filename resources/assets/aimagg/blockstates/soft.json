@@ -1,28 +1,55 @@
 {
-  "variants": {
-    "type=mud": [
-                    { "model": "aimagg:soft/mud" },
-                    { "model": "aimagg:soft/mud", "y": 90 },
-                    { "model": "aimagg:soft/mud", "y": 180 },
-                    { "model": "aimagg:soft/mud", "y": 270 }
-                ],
-    "type=quicksand": [
-                    { "model": "aimagg:soft/quicksand" },
-                    { "model": "aimagg:soft/quicksand", "y": 90 },
-                    { "model": "aimagg:soft/quicksand", "y": 180 },
-                    { "model": "aimagg:soft/quicksand", "y": 270 }
-                ],
-    "type=red_quicksand": [
-                    { "model": "aimagg:soft/red_quicksand" },
-                    { "model": "aimagg:soft/red_quicksand", "y": 90 },
-                    { "model": "aimagg:soft/red_quicksand", "y": 180 },
-                    { "model": "aimagg:soft/red_quicksand", "y": 270 }
-                ],
-    "type=nuclear_waste": [
-                    { "model": "aimagg:soft/nuclear_waste" },
-                    { "model": "aimagg:soft/nuclear_waste", "y": 90 },
-                    { "model": "aimagg:soft/nuclear_waste", "y": 180 },
-                    { "model": "aimagg:soft/nuclear_waste", "y": 270 }
-                ]
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "type": {
+            "mud": {
+                "textures": {
+                    "all": "aimagg:blocks/soft/mud"
+                }
+            },
+            "quicksand": {
+                "textures": {
+                    "all": "aimagg:blocks/soft/quicksand"
+                }
+            },
+            "red_quicksand": {
+                "textures": {
+                    "all": "aimagg:blocks/soft/red_quicksand"
+                }
+            },
+            "nuclear_waste": {
+                "textures": {
+                    "all": "aimagg:blocks/soft/nuclear_waste"
+                }
+            }
+        },
+        //workaround because i can't find a solution for natural rotation
+        "type=mud": [
+            {},
+            {"y": 90},
+            {"y": 180},
+            {"y": 270}
+        ],
+        "type=quicksand": [
+            {},
+            {"y": 90},
+            {"y": 180},
+            {"y": 270}
+        ],
+        "type=red_quicksand": [
+            {},
+            {"y": 90},
+            {"y": 180},
+            {"y": 270}
+        ],
+        "type=nuclear_waste": [
+            {},
+            {"y": 90},
+            {"y": 180},
+            {"y": 270}
+        ]
+    }
 }

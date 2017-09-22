@@ -1,0 +1,10 @@
+{
+  "parent": "aimagg:block/scaffolding",
+  "textures": {
+    "particle": "aimagg:blocks/leafy_planks_oak",
+    "outer": "aimagg:blocks/leafy_planks_oak",
+    "screw": "aimagg:blocks/leafy_planks_oak",
+    "support": "aimagg:blocks/leafy_log_oak",
+    "platform": "aimagg:blocks/leafy_planks_oak"
+  }
+}

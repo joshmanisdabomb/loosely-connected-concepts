@@ -1,9 +1,38 @@
 {
-  "variants": {
-    "type=plain": {"model": "aimagg:wasteland/spikes/plain"},
-    "type=bloody": {"model": "aimagg:wasteland/spikes/bloody"},
-    "type=poison": {"model": "aimagg:wasteland/spikes/poison"},
-    "type=wither": {"model": "aimagg:wasteland/spikes/wither"},
-    "type=amplified": {"model": "aimagg:wasteland/spikes/amplified"}
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "aimagg:spikes",
+        "textures": {
+            "particle": "aimagg:blocks/wasteland/spikes/particle"
+        }
+    },
+    "variants": {
+        "type": {
+            "plain": {
+                "textures": {
+                    "0": "aimagg:blocks/wasteland/spikes/plain"
+                }
+            },
+            "bloody": {
+                "textures": {
+                    "0": "aimagg:blocks/wasteland/spikes/bloody"
+                }
+            },
+            "poison": {
+                "textures": {
+                    "0": "aimagg:blocks/wasteland/spikes/poison"
+                }
+            },
+            "wither": {
+                "textures": {
+                    "0": "aimagg:blocks/wasteland/spikes/wither"
+                }
+            },
+            "amplified": {
+                "textures": {
+                    "0": "aimagg:blocks/wasteland/spikes/amplified"
+                }
+            }
+        }
+    }
 }

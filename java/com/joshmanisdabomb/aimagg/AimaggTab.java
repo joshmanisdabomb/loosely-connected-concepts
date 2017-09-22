@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBillieTiles.BillieTileType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSoft;
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMaterial;
@@ -72,12 +73,17 @@ public class AimaggTab extends CreativeTabs {
 			setUpperSortValue(AimaggBlocks.rainbowPad, AimaggCategory.RAINBOW, 1);
 			setUpperSortValue(AimaggBlocks.rainbowGrass, AimaggCategory.RAINBOW, 2);
 			setUpperSortValue(AimaggBlocks.rainbowWorld, AimaggCategory.RAINBOW, 3);
-			//candy stuff
+			setUpperSortValue(AimaggBlocks.candyCane, AimaggCategory.RAINBOW, 4);
+			setUpperSortValue(AimaggBlocks.candyCaneRefined, AimaggCategory.RAINBOW, 5);
+			setUpperSortValue(AimaggBlocks.jelly, AimaggCategory.RAINBOW, 6);
 			setUpperSortValue(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
-			
-			setUpperSortValue(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 0);
-			
-			setUpperSortValue(AimaggItems.vectorPearl, AimaggCategory.MISC, 0);
+
+			setUpperSortValue(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 1);
+			setUpperSortValue(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 1);
+
+			setUpperSortValue(AimaggBlocks.scaffolding, AimaggCategory.MISC, 0);
+			setUpperSortValue(AimaggBlocks.illuminantTile, AimaggCategory.MISC, 1);
+			setUpperSortValue(AimaggItems.vectorPearl, AimaggCategory.MISC, 2);
 			
 			setUpperSortValue(AimaggItems.upgradeCard, AimaggCategory.UPGRADECARDS, 0);
 		}

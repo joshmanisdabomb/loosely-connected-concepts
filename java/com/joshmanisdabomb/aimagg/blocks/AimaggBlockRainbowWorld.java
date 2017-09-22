@@ -86,8 +86,8 @@ public class AimaggBlockRainbowWorld extends AimaggBlockBasic {
 	public static enum RainbowWorldType implements IStringSerializable {
 
 		DIRT(MapColor.SAND),
-		STONE(MapColor.ICE),
-		COBBLESTONE(MapColor.ICE);
+		STONE(MapColor.PURPLE),
+		COBBLESTONE(MapColor.PURPLE);
 		
 		private final ModelResourceLocation mrl;
 		private final MapColor mapColor;

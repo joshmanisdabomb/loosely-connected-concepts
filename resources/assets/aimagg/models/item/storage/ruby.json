@@ -1,3 +1,6 @@
 {
-  "parent": "aimagg:block/storage/ruby"
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "aimagg:blocks/storage/ruby"
+    }
 }

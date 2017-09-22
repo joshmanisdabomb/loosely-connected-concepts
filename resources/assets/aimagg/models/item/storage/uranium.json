@@ -1,3 +1,6 @@
 {
-  "parent": "aimagg:block/storage/uranium"
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "aimagg:blocks/storage/uranium"
+    }
 }

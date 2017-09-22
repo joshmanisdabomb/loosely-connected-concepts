@@ -1,5 +1,13 @@
 {
-  "variants": {
-    "normal": {"model": "aimagg:test_block"}
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "normal": [ {
+            "textures": {
+                "all": "aimagg:blocks/test/1"
+            }
+        } ]
+    }
 }

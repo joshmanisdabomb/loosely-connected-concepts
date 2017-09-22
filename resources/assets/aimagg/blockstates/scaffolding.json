@@ -1,0 +1,40 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "aimagg:scaffolding"
+    },
+    "variants": {
+        "type": {
+            "wooden": {
+                "textures": {
+                    "particle": "minecraft:blocks/planks_oak",
+                    "outer": "minecraft:blocks/planks_oak",
+                    "screw": "minecraft:blocks/planks_oak",
+                    "support": "minecraft:blocks/log_oak",
+                    "platform": "minecraft:blocks/planks_oak"
+                }
+            },
+            "leafy": {
+                "textures": {
+                    "particle": "aimagg:blocks/leafy_planks_oak",
+                    "outer": "aimagg:blocks/leafy_planks_oak",
+                    "screw": "aimagg:blocks/leafy_planks_oak",
+                    "support": "aimagg:blocks/leafy_log_oak",
+                    "platform": "aimagg:blocks/leafy_planks_oak"
+                }
+            }
+        },
+        "marked": {
+            "true": {
+                "textures": {
+                    "particle": "aimagg:blocks/glowing",
+                    "outer": "aimagg:blocks/glowing",
+                    "screw": "aimagg:blocks/glowing",
+                    "support": "aimagg:blocks/glowing",
+                    "platform": "aimagg:blocks/glowing"
+                }
+            },
+            "false": {}
+        }
+    }
+}

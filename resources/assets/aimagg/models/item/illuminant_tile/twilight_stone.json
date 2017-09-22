@@ -1,0 +1,7 @@
+{
+    "parent": "aimagg:block/illuminant_tile",
+    "textures": {
+        "base": "aimagg:blocks/billie/twilight_stone",
+        "light": "aimagg:blocks/billie/light_0"
+    }
+}

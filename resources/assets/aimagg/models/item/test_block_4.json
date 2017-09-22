@@ -1,3 +1,7 @@
 {
-  "parent": "aimagg:block/test_block_4"
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "end": "aimagg:blocks/test/4_end",
+        "side": "aimagg:blocks/test/4_side"
+    }
 }

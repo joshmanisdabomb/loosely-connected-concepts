@@ -96,6 +96,16 @@ public class AimaggBlockStorage extends AimaggBlockBasic {
 	public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return (state.getValue(TYPE)).getStorageMapColor();
     }
+	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getStorageLightValue();
+	}
+	
+	@Override
+	public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getStorageLightOpacity();
+	}
 
 	@Override
 	public void registerInventoryRender() {

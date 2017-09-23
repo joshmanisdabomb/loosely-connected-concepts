@@ -28,7 +28,8 @@ public enum OreIngotStorage implements IStringSerializable {
 	SAPPHIRE(2, 3.0F, MapColor.STONE, MapColor.WATER, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
 	TOPAZ(2, 3.0F, MapColor.STONE, MapColor.ADOBE, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
 	AMETHYST(2, 3.0F, MapColor.STONE, MapColor.PURPLE, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL),
-	URANIUM(3, 4.0F, MapColor.STONE, MapColor.LIME, OreType.DROP_SELF, IngotType.NORMAL, StorageType.NORMAL);
+	URANIUM(3, 4.0F, MapColor.STONE, MapColor.LIME, OreType.DROP_SELF, IngotType.NORMAL, StorageType.NORMAL),
+	NEON(0, 6.0F, MapColor.PURPLE, MapColor.SNOW, OreType.DROP_INGOT, IngotType.NORMAL, StorageType.NORMAL);
 
 	public static OreIngotStorage[] oreArray;
 	public static OreIngotStorage[] ingotArray;
@@ -87,6 +88,14 @@ public enum OreIngotStorage implements IStringSerializable {
 	public MapColor getOreMapColor() {
 		return this.oreMapColor;
 	}
+	
+	public int getOreLightValue() {
+		return this == OreIngotStorage.NEON ? 15 : 0;
+	}
+	
+	public int getOreLightOpacity() {
+		return this == OreIngotStorage.NEON ? 0 : 255;
+	}
 
 	public float getStorageHardness() {
 		return this.hardness * (5.0F/3.0F);
@@ -110,6 +119,14 @@ public enum OreIngotStorage implements IStringSerializable {
 	
 	public MapColor getStorageMapColor() {
 		return this.storageMapColor;
+	}
+	
+	public int getStorageLightValue() {
+		return this == OreIngotStorage.NEON ? 15 : 0;
+	}
+	
+	public int getStorageLightOpacity() {
+		return this == OreIngotStorage.NEON ? 0 : 255;
 	}
 
 	public boolean hasOreForm() {

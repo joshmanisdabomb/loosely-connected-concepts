@@ -5,14 +5,13 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
+import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketMovement;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -24,6 +23,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityFallingBlock;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -53,6 +53,10 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 	
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		if (entityIn instanceof EntitySpider && state.getValue(TYPE) != SoftBlockType.NUCLEAR_WASTE) {
+			((EntitySpider)entityIn).setBesideClimbableBlock(false);
+		}
+		
 		if (entityIn instanceof EntityFallingBlock) {
 			worldIn.setBlockState(new BlockPos((int)Math.floor(entityIn.posX), (int)Math.floor(entityIn.posY+0.5), (int)Math.floor(entityIn.posZ)), ((EntityFallingBlock)entityIn).getBlock(), 3);
 			entityIn.setDead();
@@ -241,7 +245,7 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 	}
 	
 	public static enum SoftBlockType implements IStringSerializable {
-		MUD(AimaggCategory.SOFT, 0, MapColor.OBSIDIAN, 0.8F, 0.8F, SoundType.SLIME, FallType.FALL, 0.6D, 1.0D, new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 12/16D, 1.0D)),
+		MUD(AimaggCategory.SOFT, 0, MapColor.OBSIDIAN, 0.8F, 0.8F, SoundType.SLIME, FallType.FALL, 0.6D, 1.0D, new AxisAlignedBB(1/32D, 0.0D, 1/32D, 31/32D, 12/16D, 31/32D)),
 		QUICKSAND(AimaggCategory.SOFT, 0, MapColor.SAND, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
 		RED_QUICKSAND(AimaggCategory.SOFT, 0, MapColor.ADOBE, 1.3F, 0.7F, SoundType.SAND, FallType.FALL, 0.4D, 0.0D, NULL_AABB),
 		NUCLEAR_WASTE(AimaggCategory.NUCLEAR, -100, MapColor.SILVER, -1.0F, 6000000.0F, SoundType.STONE, FallType.INSTAFALL, 1.0D, 1.0D, FULL_BLOCK_AABB);

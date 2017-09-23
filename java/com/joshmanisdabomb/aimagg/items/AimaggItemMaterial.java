@@ -42,7 +42,8 @@ public class AimaggItemMaterial extends AimaggItemBasic {
 	public static enum Material {
 		
 		SPREADER_ESSENCE(AimaggCategory.SPREADERS, -100),
-		RAINBOW_CORE(AimaggCategory.RAINBOW, -100);
+		RAINBOW_CORE(AimaggCategory.RAINBOW, -100),
+		NEON_PIXEL(AimaggCategory.RAINBOW, -80); //TODO should probably be in a computer category
 		
 		private final ModelResourceLocation model;
 		private final AimaggCategory category;

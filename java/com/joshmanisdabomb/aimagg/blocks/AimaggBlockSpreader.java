@@ -24,11 +24,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class AimaggBlockSpreader extends AimaggBlockBasic {
+public class AimaggBlockSpreader extends AimaggBlockBasic implements AimaggBlockColored {
 	
 	public final EnumDyeColor dyeColor;
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
@@ -123,6 +127,22 @@ public class AimaggBlockSpreader extends AimaggBlockBasic {
 		}
 	
     }
+
+	@Override
+	public int getColorFromBlock(IBlockState state, IBlockAccess worldIn, BlockPos pos, int tintIndex) {
+		return tintIndex == 0 ? this.dyeColor.getColorValue() : 0xFFFFFF;
+	}
+
+	@Override
+	public int getColorFromItemstack(ItemStack stack, int tintIndex) {
+		return tintIndex == 0 ? this.dyeColor.getColorValue() : 0xFFFFFF;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.TRANSLUCENT;
+	}
     
 	@Override
 	public ItemBlock createItemBlock() {

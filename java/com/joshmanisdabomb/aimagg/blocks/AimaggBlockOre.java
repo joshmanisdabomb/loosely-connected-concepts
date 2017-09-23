@@ -138,6 +138,16 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 				return 0;
 	    }
 	}
+	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getOreLightValue();
+	}
+	
+	@Override
+	public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getOreLightOpacity();
+	}
 
 	@Override
 	public void registerInventoryRender() {

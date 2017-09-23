@@ -57,6 +57,7 @@ public class AimaggBlockBillieTiles extends AimaggBlockBasic {
 	public AimaggBlockBillieTiles(String internalName, Material material) {
 		super(internalName, material, BillieTileType.STONE.getMapColor());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BillieTileType.STONE).withProperty(LIGHT, 0));
+		this.setLightOpacity(255);
 	}
 	
 	@Override

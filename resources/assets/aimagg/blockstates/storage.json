@@ -29,6 +29,11 @@
                 "textures": {
                     "all": "aimagg:blocks/storage/uranium"
                 }
+            },
+            "neon": {
+                "textures": {
+                    "all": "aimagg:blocks/storage/neon"
+                }
             }
         }
     }

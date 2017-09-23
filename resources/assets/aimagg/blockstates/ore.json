@@ -29,6 +29,11 @@
                 "textures": {
                     "all": "aimagg:blocks/ore/uranium"
                 }
+            },
+            "neon": {
+                "textures": {
+                    "all": "aimagg:blocks/ore/neon"
+                }
             }
         }
     }

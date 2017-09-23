@@ -1,20 +1,94 @@
 {
-  "variants": {
-    "age=0":  { "model": "aimagg:spreader/orange/age_0" },
-    "age=1":  { "model": "aimagg:spreader/orange/age_1" },
-    "age=2":  { "model": "aimagg:spreader/orange/age_2" },
-    "age=3":  { "model": "aimagg:spreader/orange/age_3" },
-    "age=4":  { "model": "aimagg:spreader/orange/age_4" },
-    "age=5":  { "model": "aimagg:spreader/orange/age_5" },
-    "age=6":  { "model": "aimagg:spreader/orange/age_6" },
-    "age=7":  { "model": "aimagg:spreader/orange/age_7" },
-    "age=8":  { "model": "aimagg:spreader/orange/age_8" },
-    "age=9":  { "model": "aimagg:spreader/orange/age_9" },
-    "age=10":  { "model": "aimagg:spreader/orange/age_10" },
-    "age=11":  { "model": "aimagg:spreader/orange/age_11" },
-    "age=12":  { "model": "aimagg:spreader/orange/age_12" },
-    "age=13":  { "model": "aimagg:spreader/orange/age_13" },
-    "age=14":  { "model": "aimagg:spreader/orange/age_14" },
-    "age=15":  { "model": "aimagg:spreader/orange/age_15" }
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "model": "aimagg:spreader",
+        "textures": {
+            "base": "aimagg:blocks/spreader/orange",
+            "particle": "aimagg:blocks/spreader/orange"
+        }
+    },
+    "variants": {
+        "age": {
+            "0": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_0"
+                }
+            },
+            "1": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_1"
+                }
+            },
+            "2": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_2"
+                }
+            },
+            "3": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_3"
+                }
+            },
+            "4": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_4"
+                }
+            },
+            "5": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_5"
+                }
+            },
+            "6": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_6"
+                }
+            },
+            "7": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_7"
+                }
+            },
+            "8": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_8"
+                }
+            },
+            "9": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_9"
+                }
+            },
+            "10": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_10"
+                }
+            },
+            "11": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_11"
+                }
+            },
+            "12": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_12"
+                }
+            },
+            "13": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_13"
+                }
+            },
+            "14": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_14"
+                }
+            },
+            "15": {
+                "textures": {
+                    "age": "aimagg:blocks/spreader/age_15"
+                }
+            }
+        }
+    }
 }

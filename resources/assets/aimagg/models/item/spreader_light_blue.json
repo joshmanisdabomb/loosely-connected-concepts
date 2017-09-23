@@ -1,3 +1,6 @@
 {
-  "parent": "aimagg:block/spreader/light_blue/age_0"
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "aimagg:blocks/spreader/light_blue"
+    }
 }

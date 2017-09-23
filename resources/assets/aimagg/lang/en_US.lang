@@ -20,6 +20,9 @@ tile.aimagg:storage.amethyst.name=Block of Amethyst
 tile.aimagg:ore.uranium.name=Uranium Ore
 item.aimagg:ingot.uranium.name=Unrefined Uranium
 tile.aimagg:storage.uranium.name=Block of Unrefined Uranium
+tile.aimagg:ore.neon.name=Neon Ore
+item.aimagg:ingot.neon.name=Neon Orb
+tile.aimagg:storage.neon.name=Block of Neon
 
 item.aimagg:material.spreader_essence.name=Spreader Essence
 tile.aimagg:spreader_interface.name=Spreader Interface
@@ -43,6 +46,7 @@ tile.aimagg:spreader_black.name=Black Spreader Block
 tile.aimagg:launch_pad.name=Missile Launch Pad
 
 item.aimagg:material.rainbow_core.name=Rainbow Core
+item.aimagg:material.neon_pixel.name=Neon Pixel
 
 item.aimagg:vector_pearl.name=Vector Pearl
 item.aimagg:vector_pearl.cleared=Cleared coordinates of vector pearl.
@@ -136,6 +140,8 @@ tile.aimagg:illuminant_tile.andesite.name=Andesite Illuminant Tile
 tile.aimagg:illuminant_tile.fortstone.name=Fortstone Illuminant Tile
 tile.aimagg:illuminant_tile.twilight_stone.name=Twilight Stone Illuminant Tile
 tile.aimagg:illuminant_tile.twilight_cobblestone.name=Twilight Cobblestone Illuminant Tile
+
+tile.aimagg:fortstone.name=Fortstone
 
 itemGroup.aimagg:tab=Aimless Agglomeration
 

@@ -19,6 +19,11 @@
                 "textures": {
                     "all": "aimagg:blocks/rainbow/cobblestone"
                 }
+            },
+            "core_ore": {
+                "textures": {
+                    "all": "aimagg:blocks/rainbow/core_ore"
+                }
             }
         }
     }

@@ -90,7 +90,7 @@ public enum OreIngotStorage implements IStringSerializable {
 	}
 	
 	public int getOreLightValue() {
-		return this == OreIngotStorage.NEON ? 15 : 0;
+		return this == OreIngotStorage.NEON ? 6 : 0;
 	}
 	
 	public int getOreLightOpacity() {
@@ -126,7 +126,7 @@ public enum OreIngotStorage implements IStringSerializable {
 	}
 	
 	public int getStorageLightOpacity() {
-		return this == OreIngotStorage.NEON ? 0 : 255;
+		return this == OreIngotStorage.NEON ? 255 : 255;
 	}
 
 	public boolean hasOreForm() {

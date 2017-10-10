@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    " # ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "aimagg:material", "data": 3
+    },
+    "X": {
+      "item": "aimagg:ingot", "data": 5
+    }
+  },
+  "result": {
+    "item": "aimagg:neon_pickaxe"
+  }
+}

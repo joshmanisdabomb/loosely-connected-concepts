@@ -3,9 +3,7 @@ package com.joshmanisdabomb.aimagg.blocks;
 import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
-import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
-import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 
@@ -17,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -139,6 +138,10 @@ public class AimaggBlockBasic extends Block {
 	public int damageDropped(IBlockState state) {
         return this.drops_damage > 0 ? this.drops_damage : this.getMetaFromState(state);
     }
+
+	public boolean isCustomToolEffective(ToolMaterial toolMaterial, ItemStack stack, IBlockState state) {
+		return false;
+	}
 	
 	public final void init() {
 		if (this instanceof AimaggBlockColored) {

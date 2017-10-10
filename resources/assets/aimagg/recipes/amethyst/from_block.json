@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "aimagg:storage", "data": 3
+    }
+  },
+  "result": {
+    "item": "aimagg:ingot", "data": 3, "count": 9
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "X",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "aimagg:ingot", "data": 1
+    }
+  },
+  "result": {
+    "item": "aimagg:sapphire_sword"
+  }
+}

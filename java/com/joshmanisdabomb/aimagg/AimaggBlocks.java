@@ -10,6 +10,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicAxis;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicGrass;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBillieTiles;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCane;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCaneRefined;
@@ -29,6 +30,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderInterface;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockStorage;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWool;
 import com.joshmanisdabomb.aimagg.event.AimaggModelHandler;
 import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
@@ -44,6 +46,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.renderer.color.IBlockColor;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -74,11 +77,28 @@ public class AimaggBlocks {
 	public static Block[] spreaders = new Block[16];
 	public static Block spreaderInterface;
 	
+	public static Block computerCase;
+	public static Block computerMonitor;
+	public static Block computerComponent;
+	
 	public static Block launchPad;
 
 	//TODO uh oh another tile entity public static Block pillPrinter;
 	
 	public static Block nuclearFire;
+	
+	public static Block classicGrass;
+	public static Block classicWorld;
+	public static Block classicWool;
+	public static Block classicFence;
+	public static Block classicLeaves;
+	public static Block classicSapling;
+	public static Block classicChest;
+	public static Block classicFlower;
+	public static Block gear;
+	public static Block desaturatedWool;
+	public static Block reactor;
+	public static Block stonecutter;
 	
 	public static Block rainbowGemBlock;
 	public static Block rainbowPad;
@@ -142,11 +162,17 @@ public class AimaggBlocks {
 		((AimaggBlockBasic)spreaderInterface).setSoundType(SoundType.METAL);
 		spreaderInterface.setHarvestLevel("pickaxe", 2);
 
+		//computerCase = new AimaggBlockComputerCase("computer_case", Material.IRON);
+		
 		launchPad = new AimaggBlockLaunchPad("launch_pad", Material.IRON, MapColor.IRON).setHardness(10.0F); //has soundtype, hardness and resistance
 		((AimaggBlockBasic)launchPad).setSoundType(SoundType.METAL);
 		launchPad.setHarvestLevel("pickaxe", 2);
 		
 		nuclearFire = new AimaggBlockFireNuclear("nuclear_fire", Material.FIRE, MapColor.LIME);
+		
+		classicGrass = new AimaggBlockBasicGrass("classic_grass", Material.GRASS, MapColor.GRASS, Blocks.DIRT.getDefaultState());
+		classicWool = new AimaggBlockWool(true, "classic_wool", Material.CLOTH);
+		desaturatedWool = new AimaggBlockWool(false, "desaturated_wool", Material.CLOTH);
 		
 		rainbowGemBlock = new AimaggBlockBasic("rainbow_gem_block", Material.IRON, MapColor.MAGENTA);
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);

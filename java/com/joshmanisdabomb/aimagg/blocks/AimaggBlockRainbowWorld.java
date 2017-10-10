@@ -1,5 +1,9 @@
 package com.joshmanisdabomb.aimagg.blocks;
 
+import java.util.Random;
+
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
+import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.Constants;
 
 import net.minecraft.block.material.MapColor;
@@ -83,18 +87,32 @@ public class AimaggBlockRainbowWorld extends AimaggBlockBasic {
         return state.getValue(TYPE).getMapColor();
     }
 	
+	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getLightValue();
+	}
+	
+	@Override
+	public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return state.getValue(TYPE).getLightOpacity();
+	}
+	
 	public static enum RainbowWorldType implements IStringSerializable {
 
-		DIRT(MapColor.SAND),
-		STONE(MapColor.PURPLE),
-		COBBLESTONE(MapColor.PURPLE);
+		DIRT(MapColor.SAND, false),
+		STONE(MapColor.PURPLE, false),
+		COBBLESTONE(MapColor.PURPLE, false),
+		CORE_ORE(MapColor.PURPLE, true);
 		
 		private final ModelResourceLocation mrl;
 		private final MapColor mapColor;
+		
+		private final boolean bright;
 
-		RainbowWorldType(MapColor mcolor) {
+		RainbowWorldType(MapColor mcolor, boolean bright) {
 			this.mapColor = mcolor;
 			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":rainbow/" + this.getName());
+			this.bright = bright;
     	}
 
 		@Override
@@ -116,6 +134,14 @@ public class AimaggBlockRainbowWorld extends AimaggBlockBasic {
 
 		public MapColor getMapColor() {
 			return this.mapColor;
+		}
+		
+		public int getLightValue() {
+			return this.bright ? 6 : 0;
+		}
+		
+		public int getLightOpacity() {
+			return this.bright ? 255 : 255;
 		}
 		
 	}

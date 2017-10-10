@@ -47,6 +47,7 @@ tile.aimagg:launch_pad.name=Missile Launch Pad
 
 item.aimagg:material.rainbow_core.name=Rainbow Core
 item.aimagg:material.neon_pixel.name=Neon Pixel
+item.aimagg:material.lollipop_stick.name=Lollipop Stick
 
 item.aimagg:vector_pearl.name=Vector Pearl
 item.aimagg:vector_pearl.cleared=Cleared coordinates of vector pearl.
@@ -92,6 +93,7 @@ tile.aimagg:rainbow_grass.chocolate.name=Chocolate-Coated Twinkling Dirt
 tile.aimagg:rainbow_world.dirt.name=Twinkling Dirt
 tile.aimagg:rainbow_world.stone.name=Twilight Stone
 tile.aimagg:rainbow_world.cobblestone.name=Twilight Cobblestone
+tile.aimagg:rainbow_world.core_ore.name=Rainbow Core Ore
 
 tile.aimagg:spikes.plain.name=Spike Patch
 tile.aimagg:spikes.bloody.name=Bloody Spike Patch
@@ -142,6 +144,113 @@ tile.aimagg:illuminant_tile.twilight_stone.name=Twilight Stone Illuminant Tile
 tile.aimagg:illuminant_tile.twilight_cobblestone.name=Twilight Cobblestone Illuminant Tile
 
 tile.aimagg:fortstone.name=Fortstone
+
+item.aimagg:ruby_sword.name=Ruby Sword
+item.aimagg:ruby_pickaxe.name=Ruby Pickaxe
+item.aimagg:ruby_shovel.name=Ruby Shovel
+item.aimagg:ruby_axe.name=Ruby Axe
+item.aimagg:ruby_hoe.name=Ruby Hoe
+item.aimagg:ruby_helmet.name=Ruby Helmet
+item.aimagg:ruby_chestplate.name=Ruby Chestplate
+item.aimagg:ruby_leggings.name=Ruby Leggings
+item.aimagg:ruby_boots.name=Ruby Boots
+
+item.aimagg:topaz_sword.name=Topaz Sword
+item.aimagg:topaz_pickaxe.name=Topaz Pickaxe
+item.aimagg:topaz_shovel.name=Topaz Shovel
+item.aimagg:topaz_axe.name=Topaz Axe
+item.aimagg:topaz_hoe.name=Topaz Hoe
+item.aimagg:topaz_helmet.name=Topaz Helmet
+item.aimagg:topaz_chestplate.name=Topaz Chestplate
+item.aimagg:topaz_leggings.name=Topaz Leggings
+item.aimagg:topaz_boots.name=Topaz Boots
+
+item.aimagg:emerald_sword.name=Emerald Sword
+item.aimagg:emerald_pickaxe.name=Emerald Pickaxe
+item.aimagg:emerald_shovel.name=Emerald Shovel
+item.aimagg:emerald_axe.name=Emerald Axe
+item.aimagg:emerald_hoe.name=Emerald Hoe
+item.aimagg:emerald_helmet.name=Emerald Helmet
+item.aimagg:emerald_chestplate.name=Emerald Chestplate
+item.aimagg:emerald_leggings.name=Emerald Leggings
+item.aimagg:emerald_boots.name=Emerald Boots
+
+item.aimagg:sapphire_sword.name=Sapphire Sword
+item.aimagg:sapphire_pickaxe.name=Sapphire Pickaxe
+item.aimagg:sapphire_shovel.name=Sapphire Shovel
+item.aimagg:sapphire_axe.name=Sapphire Axe
+item.aimagg:sapphire_hoe.name=Sapphire Hoe
+item.aimagg:sapphire_helmet.name=Sapphire Helmet
+item.aimagg:sapphire_chestplate.name=Sapphire Chestplate
+item.aimagg:sapphire_leggings.name=Sapphire Leggings
+item.aimagg:sapphire_boots.name=Sapphire Boots
+
+item.aimagg:amethyst_sword.name=Amethyst Sword
+item.aimagg:amethyst_pickaxe.name=Amethyst Pickaxe
+item.aimagg:amethyst_shovel.name=Amethyst Shovel
+item.aimagg:amethyst_axe.name=Amethyst Axe
+item.aimagg:amethyst_hoe.name=Amethyst Hoe
+item.aimagg:amethyst_helmet.name=Amethyst Helmet
+item.aimagg:amethyst_chestplate.name=Amethyst Chestplate
+item.aimagg:amethyst_leggings.name=Amethyst Leggings
+item.aimagg:amethyst_boots.name=Amethyst Boots
+
+item.aimagg:neon_sword.name=Neon Sword
+item.aimagg:neon_pickaxe.name=Neon Pickaxe
+item.aimagg:neon_shovel.name=Neon Shovel
+item.aimagg:neon_axe.name=Neon Axe
+item.aimagg:neon_hoe.name=Neon Hoe
+item.aimagg:neon_helmet.name=Neon Helmet
+item.aimagg:neon_chestplate.name=Neon Chestplate
+item.aimagg:neon_leggings.name=Neon Leggings
+item.aimagg:neon_boots.name=Neon Boots
+
+item.aimagg:classic_leather_helmet.name=Classic Leather Cap
+item.aimagg:classic_leather_chestplate.name=Classic Leather Tunic
+item.aimagg:classic_leather_leggings.name=Classic Leather Pants
+item.aimagg:classic_leather_boots.name=Classic Leather Boots
+item.aimagg:classic_studded_helmet.name=Classic Studded Cap
+item.aimagg:classic_studded_chestplate.name=Classic Studded Tunic
+item.aimagg:classic_studded_leggings.name=Classic Studded Pants
+item.aimagg:classic_studded_boots.name=Classic Studded Boots
+
+tile.aimagg:classic_grass.name=Classic Grass
+
+item.aimagg:classic_pork.raw.name=Classic Raw Porkchop
+item.aimagg:classic_pork.cooked.name=Classic Cooked Porkchop
+
+tile.aimagg:classic_wool.0.name=Classic White Wool
+tile.aimagg:classic_wool.1.name=Classic Light Gray Wool
+tile.aimagg:classic_wool.2.name=Classic Gray Wool
+tile.aimagg:classic_wool.3.name=Classic Red Wool
+tile.aimagg:classic_wool.4.name=Classic Orange Wool
+tile.aimagg:classic_wool.5.name=Classic Yellow Wool
+tile.aimagg:classic_wool.6.name=Classic Lime Wool
+tile.aimagg:classic_wool.7.name=Classic Green Wool
+tile.aimagg:classic_wool.8.name=Classic Turquoise Wool
+tile.aimagg:classic_wool.9.name=Classic Aqua Wool
+tile.aimagg:classic_wool.10.name=Classic Light Blue Wool
+tile.aimagg:classic_wool.11.name=Classic Lavender Wool
+tile.aimagg:classic_wool.12.name=Classic Purple Wool
+tile.aimagg:classic_wool.13.name=Classic Light Purple Wool
+tile.aimagg:classic_wool.14.name=Classic Magenta Wool
+tile.aimagg:classic_wool.15.name=Classic Hot Pink Wool
+tile.aimagg:desaturated_wool.0.name=Desaturated White Wool
+tile.aimagg:desaturated_wool.1.name=Desaturated Orange Wool
+tile.aimagg:desaturated_wool.2.name=Desaturated Magenta Wool
+tile.aimagg:desaturated_wool.3.name=Desaturated Light Blue Wool
+tile.aimagg:desaturated_wool.4.name=Desaturated Yellow Wool
+tile.aimagg:desaturated_wool.5.name=Desaturated Lime Wool
+tile.aimagg:desaturated_wool.6.name=Desaturated Pink Wool
+tile.aimagg:desaturated_wool.7.name=Desaturated Gray Wool
+tile.aimagg:desaturated_wool.8.name=Desaturated Light Gray Wool
+tile.aimagg:desaturated_wool.9.name=Desaturated Cyan Wool
+tile.aimagg:desaturated_wool.10.name=Desaturated Purple Wool
+tile.aimagg:desaturated_wool.11.name=Desaturated Blue Wool
+tile.aimagg:desaturated_wool.12.name=Desaturated Brown Wool
+tile.aimagg:desaturated_wool.13.name=Desaturated Green Wool
+tile.aimagg:desaturated_wool.14.name=Desaturated Red Wool
+tile.aimagg:desaturated_wool.15.name=Desaturated Black Wool
 
 itemGroup.aimagg:tab=Aimless Agglomeration
 

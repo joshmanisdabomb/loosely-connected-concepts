@@ -44,60 +44,106 @@ public class AimaggTab extends CreativeTabs {
 	public static class AimaggTabSorting implements Comparator<ItemStack> {
 		
 		public static void sortItems() {
-			setUpperSortValue(AimaggBlocks.testBlock, AimaggCategory.TESTING, 0);
-			setUpperSortValue(AimaggBlocks.testBlock2, AimaggCategory.TESTING, 1);
-			setUpperSortValue(AimaggBlocks.testBlock3, AimaggCategory.TESTING, 2);
-			setUpperSortValue(AimaggBlocks.testBlock4, AimaggCategory.TESTING, 3);
-			setUpperSortValue(AimaggBlocks.testBlock5, AimaggCategory.TESTING, 4);
-			setUpperSortValue(AimaggItems.testItem, AimaggCategory.TESTING, 7);
+			setPosition(AimaggBlocks.testBlock, AimaggCategory.TESTING, 0);
+			setPosition(AimaggBlocks.testBlock2, AimaggCategory.TESTING, 1);
+			setPosition(AimaggBlocks.testBlock3, AimaggCategory.TESTING, 2);
+			setPosition(AimaggBlocks.testBlock4, AimaggCategory.TESTING, 3);
+			setPosition(AimaggBlocks.testBlock5, AimaggCategory.TESTING, 4);
+			setPosition(AimaggItems.testItem, AimaggCategory.TESTING, 7);
 
-			for (AimaggBlockSoft.SoftBlockType sb : AimaggBlockSoft.SoftBlockType.values()) {setUpperSortValue(AimaggBlocks.soft, sb.getCategoryOverride(), sb.getUpperSortValue(), sb.getMetadata());}
+			for (AimaggBlockSoft.SoftBlockType sb : AimaggBlockSoft.SoftBlockType.values()) {setPosition(AimaggBlocks.soft, sb.getCategoryOverride(), sb.getUpperSortValue(), sb.getMetadata());}
 			
-			setUpperSortValue(AimaggBlocks.ore, AimaggCategory.OIS, 0);
-			setUpperSortValue(AimaggItems.ingot, AimaggCategory.OIS, 0);
-			setUpperSortValue(AimaggBlocks.storage, AimaggCategory.OIS, 0);
+			setPosition(AimaggBlocks.ore, AimaggCategory.OIS, 0);
+			setPosition(AimaggItems.ingot, AimaggCategory.OIS, 0);
+			setPosition(AimaggBlocks.storage, AimaggCategory.OIS, 0);
 			
-			for (AimaggItemMaterial.Material m : AimaggItemMaterial.Material.values()) {setUpperSortValue(AimaggItems.materials, m.getCategoryOverride(), m.getUpperSortValue(), m.getMetadata());}
-			
-			setUpperSortValue(AimaggBlocks.spreaderInterface, AimaggCategory.SPREADERS, 0);
-			for (int i = 0; i < 16; i++) {setUpperSortValue(AimaggBlocks.spreaders[i], AimaggCategory.SPREADERS, i+1);}
+			for (AimaggItemMaterial.Material m : AimaggItemMaterial.Material.values()) {setPosition(AimaggItems.materials, m.getCategoryOverride(), m.getUpperSortValue(), m.getMetadata());}
 
-			setUpperSortValue(AimaggBlocks.launchPad, AimaggCategory.MISSILES, 0);
-			setUpperSortValue(AimaggItems.missile, AimaggCategory.MISSILES, 1);
+			for (int i = 0; i < AimaggItems.rubyEquipment.getAllItems().length; i++) {
+				if (AimaggItems.rubyEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.rubyEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+20);
+				}
+			}
+			for (int i = 0; i < AimaggItems.topazEquipment.getAllItems().length; i++) {
+				if (AimaggItems.topazEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.topazEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+40);
+				}
+			}
+			for (int i = 0; i < AimaggItems.emeraldEquipment.getAllItems().length; i++) {
+				if (AimaggItems.emeraldEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.emeraldEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+60);
+				}
+			}
+			for (int i = 0; i < AimaggItems.sapphireEquipment.getAllItems().length; i++) {
+				if (AimaggItems.sapphireEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.sapphireEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+80);
+				}
+			}
+			for (int i = 0; i < AimaggItems.amethystEquipment.getAllItems().length; i++) {
+				if (AimaggItems.amethystEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.amethystEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+100);
+				}
+			}
+			for (int i = 0; i < AimaggItems.neonEquipment.getAllItems().length; i++) {
+				if (AimaggItems.neonEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.neonEquipment.getAllItems()[i], AimaggCategory.EQUIPMENT, i+120);
+				}
+			}
 			
-			setUpperSortValue(AimaggItems.pill, AimaggCategory.PILLS, 0);
+			setPosition(AimaggBlocks.spreaderInterface, AimaggCategory.SPREADERS, 0);
+			for (int i = 0; i < 16; i++) {setPosition(AimaggBlocks.spreaders[i], AimaggCategory.SPREADERS, i+1);}
+
+			setPosition(AimaggBlocks.launchPad, AimaggCategory.MISSILES, 0);
+			setPosition(AimaggItems.missile, AimaggCategory.MISSILES, 1);
 			
-			setUpperSortValue(AimaggItems.heart, AimaggCategory.HEARTS, 0);
-
-			setUpperSortValue(AimaggBlocks.rainbowGemBlock, AimaggCategory.RAINBOW, 0);
-			setUpperSortValue(AimaggBlocks.rainbowPad, AimaggCategory.RAINBOW, 1);
-			setUpperSortValue(AimaggBlocks.rainbowGrass, AimaggCategory.RAINBOW, 2);
-			setUpperSortValue(AimaggBlocks.rainbowWorld, AimaggCategory.RAINBOW, 3);
-			setUpperSortValue(AimaggBlocks.candyCane, AimaggCategory.RAINBOW, 4);
-			setUpperSortValue(AimaggBlocks.candyCaneRefined, AimaggCategory.RAINBOW, 5);
-			setUpperSortValue(AimaggBlocks.jelly, AimaggCategory.RAINBOW, 6);
-			setUpperSortValue(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
-
-			setUpperSortValue(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 1);
-			setUpperSortValue(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 1);
-
-			setUpperSortValue(AimaggBlocks.scaffolding, AimaggCategory.MISC, 0);
-			setUpperSortValue(AimaggBlocks.illuminantTile, AimaggCategory.MISC, 1);
-			setUpperSortValue(AimaggItems.vectorPearl, AimaggCategory.MISC, 2);
+			setPosition(AimaggItems.pill, AimaggCategory.PILLS, 0);
 			
-			setUpperSortValue(AimaggItems.upgradeCard, AimaggCategory.UPGRADECARDS, 0);
+			setPosition(AimaggItems.heart, AimaggCategory.HEARTS, 0);
+
+			setPosition(AimaggBlocks.rainbowGemBlock, AimaggCategory.RAINBOW, 0);
+			setPosition(AimaggBlocks.rainbowPad, AimaggCategory.RAINBOW, 1);
+			setPosition(AimaggBlocks.rainbowGrass, AimaggCategory.RAINBOW, 2);
+			setPosition(AimaggBlocks.rainbowWorld, AimaggCategory.RAINBOW, 3);
+			setPosition(AimaggBlocks.candyCane, AimaggCategory.RAINBOW, 4);
+			setPosition(AimaggBlocks.candyCaneRefined, AimaggCategory.RAINBOW, 5);
+			setPosition(AimaggBlocks.jelly, AimaggCategory.RAINBOW, 6);
+			setPosition(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
+
+			setPosition(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 1);
+			setPosition(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 1);
+			
+			for (int i = 0; i < AimaggItems.classicLeatherEquipment.getAllItems().length; i++) {
+				if (AimaggItems.classicLeatherEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.classicLeatherEquipment.getAllItems()[i], AimaggCategory.VERSION, i-40);
+				}
+			}
+			for (int i = 0; i < AimaggItems.classicStuddedEquipment.getAllItems().length; i++) {
+				if (AimaggItems.classicStuddedEquipment.getAllItems()[i] != null) {
+					setPosition(AimaggItems.classicStuddedEquipment.getAllItems()[i], AimaggCategory.VERSION, i-20);
+				}
+			}
+			setPosition(AimaggBlocks.classicGrass, AimaggCategory.VERSION, 0);
+			setPosition(AimaggBlocks.classicWool, AimaggCategory.VERSION, 1);
+			setPosition(AimaggBlocks.desaturatedWool, AimaggCategory.VERSION, 2);
+			setPosition(AimaggItems.classicPorkchop, AimaggCategory.VERSION, 3);
+
+			setPosition(AimaggBlocks.scaffolding, AimaggCategory.MISC, 0);
+			setPosition(AimaggBlocks.illuminantTile, AimaggCategory.MISC, 1);
+			setPosition(AimaggItems.vectorPearl, AimaggCategory.MISC, 2);
+			
+			setPosition(AimaggItems.upgradeCard, AimaggCategory.UPGRADECARDS, 0);
 		}
 
-		private static void setUpperSortValue(Object o, AimaggCategory cat, int upperSortVal) {
-			setUpperSortValue(o, cat, upperSortVal, -1);
+		private static void setPosition(Object o, AimaggCategory cat, int upperSortVal) {
+			setPosition(o, cat, upperSortVal, -1);
 		}
 		
-		private static void setUpperSortValue(Object o, AimaggCategory cat, int upperSortVal, int metadata) {
+		private static void setPosition(Object o, AimaggCategory cat, int upperSortVal, int metadata) {
 			Item i = null;
-			if (o instanceof AimaggBlockBasic) {
-				i = Item.getItemFromBlock((AimaggBlockBasic)o);
-			} else if (o instanceof AimaggItemBasic) {
-				i = (AimaggItemBasic)o;
+			if (o instanceof Block) {
+				i = Item.getItemFromBlock((Block)o);
+			} else if (o instanceof Item) {
+				i = (Item)o;
 			}
 			cat.upperSortValueList.put(Item.REGISTRY.getNameForObject(i) + "|" + metadata, upperSortVal);
 		}
@@ -141,6 +187,7 @@ public class AimaggTab extends CreativeTabs {
 		SOFT,
 		OIS,
 		MATERIALS,
+		EQUIPMENT,
 		SPREADERS,
 		MISSILES,
 		PILLS,
@@ -148,6 +195,7 @@ public class AimaggTab extends CreativeTabs {
 		NUCLEAR,
 		RAINBOW,
 		WASTELAND,
+		VERSION, //TODO working name please change
 		MISC,
 		UPGRADECARDS,
 		TESTING;

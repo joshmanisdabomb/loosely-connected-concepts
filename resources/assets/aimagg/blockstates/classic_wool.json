@@ -1,0 +1,90 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "color": {
+            "0": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_white"
+                }
+            },
+            "1": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_silver"
+                }
+            },
+            "2": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_gray"
+                }
+            },
+            "3": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_red"
+                }
+            },
+            "4": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_orange"
+                }
+            },
+            "5": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_yellow"
+                }
+            },
+            "6": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_lime"
+                }
+            },
+            "7": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_green"
+                }
+            },
+            "8": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_turquoise"
+                }
+            },
+            "9": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_aqua"
+                }
+            },
+            "10": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_light_blue"
+                }
+            },
+            "11": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_lavender"
+                }
+            },
+            "12": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_purple"
+                }
+            },
+            "13": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_light_purple"
+                }
+            },
+            "14": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_magenta"
+                }
+            },
+            "15": {
+                "textures": {
+                    "all": "aimagg:blocks/versions/classic_wool_hot_pink"
+                }
+            }
+        }
+    }
+}

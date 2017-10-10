@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "aimagg:material", "data": 2
+    }
+  },
+  "result": {
+    "item": "aimagg:ingot", "data": 5
+  }
+}

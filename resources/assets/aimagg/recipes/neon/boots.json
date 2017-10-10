@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "aimagg:ingot", "data": 5
+    }
+  },
+  "result": {
+    "item": "aimagg:neon_boots"
+  }
+}

@@ -2,24 +2,19 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "aimagg:ingot",
-      "data": 2
+      "item": "aimagg:ingot", "data": 2
     },
     {
-      "item": "minecraft:nether_star",
-      "data": 0
+      "item": "minecraft:nether_star", "data": 0
     },
     {
-      "item": "minecraft:fermented_spider_eye",
-      "data": 0
+      "item": "minecraft:fermented_spider_eye", "data": 0
     },
     {
-      "item": "minecraft:slime_ball",
-      "data": 0
+      "item": "minecraft:slime_ball", "data": 0
     }
   ],
   "result": {
-    "item": "aimagg:material",
-    "data": 0
+    "item": "aimagg:material", "data": 0
   }
 }

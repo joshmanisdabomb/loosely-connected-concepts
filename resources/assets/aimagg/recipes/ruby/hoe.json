@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    " #",
+    " #"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "aimagg:ingot", "data": 0
+    }
+  },
+  "result": {
+    "item": "aimagg:ruby_hoe"
+  }
+}

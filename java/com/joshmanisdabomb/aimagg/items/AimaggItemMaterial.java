@@ -43,7 +43,8 @@ public class AimaggItemMaterial extends AimaggItemBasic {
 		
 		SPREADER_ESSENCE(AimaggCategory.SPREADERS, -100),
 		RAINBOW_CORE(AimaggCategory.RAINBOW, -100),
-		NEON_PIXEL(AimaggCategory.RAINBOW, -80); //TODO should probably be in a computer category
+		NEON_PIXEL(AimaggCategory.RAINBOW, -99), //TODO should probably be in a computer category
+		LOLLIPOP_STICK(AimaggCategory.RAINBOW, -98);
 		
 		private final ModelResourceLocation model;
 		private final AimaggCategory category;

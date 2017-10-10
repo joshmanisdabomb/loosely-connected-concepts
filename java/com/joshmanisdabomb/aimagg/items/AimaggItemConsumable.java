@@ -70,8 +70,8 @@ public abstract class AimaggItemConsumable extends AimaggItemBasic {
 			entityplayer.getFoodStats().addStats(this.getFoodAmount(stack, worldIn, entityLiving), this.getSaturationAmount(stack, worldIn, entityLiving));
 			this.playFinishSound(worldIn, stack, (EntityPlayer)entityLiving);
 			this.addEffects(worldIn, stack, entityplayer);
+			
 			entityplayer.addStat(StatList.getObjectUseStats(this));
-
 			if (entityplayer instanceof EntityPlayerMP) {
 				CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) entityplayer, stack);
 			}

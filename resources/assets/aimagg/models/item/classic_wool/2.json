@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "aimagg:blocks/versions/classic_wool_gray"
+    }
+}

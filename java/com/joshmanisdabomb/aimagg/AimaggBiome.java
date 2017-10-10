@@ -13,11 +13,14 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public enum AimaggBiome {
 
-	RAINBOW_CANDY(new AimaggBiomeRainbowCandy(new BiomeProperties("Rainbow (Candy)").setBaseHeight(0.03F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, true),
-	RAINBOW_FLOWER(new AimaggBiomeRainbowFlower(new BiomeProperties("Rainbow (Flower)").setBaseHeight(0.03F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
-	RAINBOW_CHOCOLATE(new AimaggBiomeRainbowChocolate(new BiomeProperties("Rainbow (Chocolate)").setBaseHeight(0.03F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
-	RAINBOW_STARLIGHT(new AimaggBiomeRainbowStarlight(new BiomeProperties("Rainbow (Starlight)").setBaseHeight(0.03F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false);
-
+	RAINBOW_CANDY(new AimaggBiomeRainbowCandy(new BiomeProperties("Rainbow (Candy)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, true),
+	RAINBOW_FLOWER(new AimaggBiomeRainbowFlower(new BiomeProperties("Rainbow (Flower)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
+	RAINBOW_CHOCOLATE(new AimaggBiomeRainbowChocolate(new BiomeProperties("Rainbow (Chocolate)").setBaseHeight(0.14F).setHeightVariation(0.6F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
+	RAINBOW_STARLIGHT(new AimaggBiomeRainbowStarlight(new BiomeProperties("Rainbow (Starlight)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false)
+	;//,CLASSIC(new AimaggBiomeClassic(new BiomeProperties("Classic")), BiomeType.WARM, 1, false, false, true),
+	//CLASSIC_WINTER(new AimaggBiomeClassicWinter(new BiomeProperties("Classic (Winter)").setTemperature(0.0F).setSnowEnabled().setRainfall(1.0F)), BiomeType.ICY, 1, false, false, true),
+	//CLASSIC_HELL(new AimaggBiomeClassicHell(new BiomeProperties("Classic (Hell)")), BiomeType.WARM, 1, false, false, true);
+	
 	private final Biome biome;
 	private final BiomeType biomeType;
 

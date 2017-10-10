@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "aimagg:sapphire/from_block"
+    ]
+  },
+  "criteria": {
+    "has_sapphire_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "aimagg:ingot",
+            "data": 1
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "aimagg:sapphire/from_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_sapphire_storage",
+      "has_the_recipe"
+    ]
+  ]
+}

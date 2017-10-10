@@ -148,7 +148,6 @@ public class AimaggBlockJelly extends AimaggBlockBasic implements AimaggBlockCol
 			this.blockColor = color;
 			this.mapColor = mcolor;
 			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":rainbow/jelly");
-			//this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":rainbow/jelly_" + this.getName());
     	}
 
 		@Override

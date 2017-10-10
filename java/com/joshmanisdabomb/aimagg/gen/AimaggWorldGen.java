@@ -2,10 +2,15 @@ package com.joshmanisdabomb.aimagg.gen;
 
 import java.util.Random;
 
+import com.google.common.base.Predicate;
+import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggDimension;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
 import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +24,15 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class AimaggWorldGen implements IWorldGenerator {
 
+	public static final Predicate<IBlockState> PREDICATE_RAINBOW_STONE = new Predicate<IBlockState>() {
+
+		@Override
+		public boolean apply(IBlockState input) {
+			return input == AimaggBlocks.rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.STONE);
+		}
+		
+	};
+	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.provider.getDimension() == 0) {
@@ -84,7 +98,26 @@ public class AimaggWorldGen implements IWorldGenerator {
 	}
 
 	private void generateRainbow(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+		Biome chunkBiome = world.getBiome(new BlockPos((chunkX * 16) + 8,64,(chunkZ * 16) + 8));
 		
+		//Rainbow Core Ore
+		for (int i = 0; i < 8; i++) {
+			int x = (chunkX * 16) + 8;
+			int z = (chunkZ * 16) + 8;
+			int y = random.nextInt(60);
+			if (world.getBlockState(new BlockPos(x,y,z)) == AimaggBlocks.rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.STONE)) {
+				world.setBlockState(new BlockPos(x,y,z), AimaggBlocks.rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.CORE_ORE), 2);
+			}
+		}
+
+		//Neon Ore
+		for (int i = 0; i < 3; i++) {
+			int x = (chunkX * 16) + 8;
+			int z = (chunkZ * 16) + 8;
+			int y = random.nextInt(60);
+			new WorldGenMinable(OreIngotStorage.NEON.getOreBlockState(), 9, PREDICATE_RAINBOW_STONE)
+			.generate(world, random, new BlockPos(x,y,z));
+		}
 	}
 
 }

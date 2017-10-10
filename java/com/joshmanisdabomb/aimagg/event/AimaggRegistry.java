@@ -6,6 +6,7 @@ import com.joshmanisdabomb.aimagg.AimaggEntities;
 import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimaggRecipes;
 import com.joshmanisdabomb.aimagg.Constants;
+import com.joshmanisdabomb.aimagg.items.equipment.AimaggEquipment;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -31,6 +32,7 @@ public class AimaggRegistry {
 	@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event) {
 	    event.getRegistry().registerAll(AimaggItems.registry.toArray(new Item[]{}));
+	    event.getRegistry().registerAll(AimaggEquipment.registry.toArray(new Item[]{}));
 	    event.getRegistry().registerAll(AimaggBlocks.ibRegistry.toArray(new Item[]{}));
 	}
 

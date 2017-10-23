@@ -1,0 +1,9 @@
+{
+    "parent": "aimagg:block/computer_case",
+	"textures": {
+        "light": "aimagg:blocks/invisible",
+		"front": "aimagg:blocks/computing/computer_case/brown_front",
+		"fan": "aimagg:blocks/computing/computer_case/brown_fan",
+		"base": "aimagg:blocks/computing/computer_case/brown_base"
+	}
+}

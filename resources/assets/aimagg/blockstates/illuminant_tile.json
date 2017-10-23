@@ -57,7 +57,7 @@
         "light": {
             "0": {
                 "textures": {
-                    "light": "aimagg:blocks/billie/light_0"
+                    "light": "aimagg:blocks/invisible"
                 }
             },
             "1": {

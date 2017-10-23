@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "aimagg:launch_pad"
+    ]
+  },
+  "criteria": {
+    "has_fortstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "aimagg:fortstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "aimagg:launch_pad"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fortstone",
+      "has_the_recipe"
+    ]
+  ]
+}

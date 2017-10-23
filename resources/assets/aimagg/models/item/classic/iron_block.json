@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/cube_bottom_top",
+    "textures": {
+		"bottom": "aimagg:blocks/versions/classic_iron_bottom",
+		"top": "aimagg:blocks/versions/classic_iron_top",
+		"side": "aimagg:blocks/versions/classic_iron_side"
+	}
+}

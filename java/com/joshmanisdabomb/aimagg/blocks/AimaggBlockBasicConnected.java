@@ -73,7 +73,8 @@ public class AimaggBlockBasicConnected extends AimaggBlockBasic implements Aimag
     public int getMetaFromState(IBlockState state) {
         return 0;
     }
-	
+
+	@Override
 	public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
 		return state;
     }

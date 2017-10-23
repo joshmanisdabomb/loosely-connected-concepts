@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.joshmanisdabomb.aimagg.AimaggTab.AimaggCategory;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketMovement;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketMovementClient;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -67,7 +67,7 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 				entityIn.motionX *= state.getValue(TYPE).getSpeedModifier();
 				entityIn.motionZ *= state.getValue(TYPE).getSpeedModifier();
 				if (entityIn instanceof EntityPlayerMP) {
-					AimaggPacketMovement packet = new AimaggPacketMovement();
+					AimaggPacketMovementClient packet = new AimaggPacketMovementClient();
 					packet.setEntityID(entityIn.getEntityId());
 					packet.multiplyEntityVelocityX(state.getValue(TYPE).getSpeedModifier());
 					packet.multiplyEntityVelocityZ(state.getValue(TYPE).getSpeedModifier());
@@ -77,7 +77,7 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 		} else if (state.getValue(TYPE).getSpeedModifier() != 1.0D && entityIn.getPosition().down().equals(pos)) {
 			entityIn.setSprinting(false);
 			if (!worldIn.isRemote) {
-				AimaggPacketMovement packet = new AimaggPacketMovement();
+				AimaggPacketMovementClient packet = new AimaggPacketMovementClient();
 				if (entityIn.motionX < state.getValue(TYPE).getMaxSpeed() && entityIn.motionX > -state.getValue(TYPE).getMaxSpeed()) {
 					entityIn.motionX *= state.getValue(TYPE).getSpeedModifier();
 					packet.multiplyEntityVelocityX(state.getValue(TYPE).getSpeedModifier());
@@ -125,7 +125,7 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 		if ((worldIn.isAirBlock(pos.down()) || BlockFalling.canFallThrough(worldIn.getBlockState(pos.down()))) && pos.getY() >= 0) {
 			int i = 32;
 
-			if (!state.getValue(TYPE).canInstafall() && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
+			if (!state.getValue(TYPE).canInstafall() && !BlockFalling.fallInstantly && worldIn.isAreaLoaded(pos.add(-32, -32, -32), pos.add(32, 32, 32))) {
 				if (!worldIn.isRemote) {
 					EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldIn, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, worldIn.getBlockState(pos));
 					worldIn.spawnEntity(entityfallingblock);
@@ -238,8 +238,7 @@ public class AimaggBlockSoft extends AimaggBlockBasic {
 				double d0 = (double) ((float) pos.getX() + rand.nextFloat());
 				double d1 = (double) pos.getY() - 0.05D;
 				double d2 = (double) ((float) pos.getZ() + rand.nextFloat());
-				worldIn.spawnParticle(EnumParticleTypes.FALLING_DUST, d0, d1, d2, 0.0D, 0.0D, 0.0D,
-						Block.getStateId(stateIn));
+				worldIn.spawnParticle(EnumParticleTypes.FALLING_DUST, d0, d1, d2, 0.0D, 0.0D, 0.0D, Block.getStateId(stateIn));
 			}
 		}
 	}

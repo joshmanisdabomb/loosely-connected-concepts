@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "121",
+    "1c1",
+    "121"
+  ],
+  "key": {
+    "1": {
+      "item": "minecraft:obsidian"
+    },
+    "2": {
+      "item": "minecraft:lapis_block"
+    },
+    "c": {
+      "item": "aimagg:material", "data": 1
+    }
+  },
+  "result": {
+    "item": "aimagg:rainbow_pad", "data": 0, "count": 9
+  }
+}

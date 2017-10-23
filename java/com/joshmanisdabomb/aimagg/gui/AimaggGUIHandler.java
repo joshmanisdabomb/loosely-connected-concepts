@@ -1,8 +1,11 @@
 package com.joshmanisdabomb.aimagg.gui;
 
+import com.joshmanisdabomb.aimagg.container.AimaggContainerBouncePad;
+import com.joshmanisdabomb.aimagg.container.AimaggContainerComputerCase;
 import com.joshmanisdabomb.aimagg.container.AimaggContainerLaunchPad;
 import com.joshmanisdabomb.aimagg.container.AimaggContainerSpreaderInterface;
-import com.joshmanisdabomb.aimagg.data.world.SpreaderData;
+import com.joshmanisdabomb.aimagg.te.AimaggTEBouncePad;
+import com.joshmanisdabomb.aimagg.te.AimaggTEComputerCase;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +17,8 @@ public class AimaggGUIHandler implements IGuiHandler {
 
 	public static final int SpreaderInterfaceID = 0;
 	public static final int LaunchPadID = 1;
+	public static final int ComputerCaseID = 2;
+	public static final int BouncePadID = 3;
 	
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -22,6 +27,10 @@ public class AimaggGUIHandler implements IGuiHandler {
 				return new AimaggContainerSpreaderInterface(player, world);
 			} else if (ID == LaunchPadID) {
 				return new AimaggContainerLaunchPad(player, (AimaggTELaunchPad)world.getTileEntity(new BlockPos(x,y,z)));
+			} else if (ID == ComputerCaseID) {
+				return new AimaggContainerComputerCase(player, (AimaggTEComputerCase)world.getTileEntity(new BlockPos(x,y,z)));
+			} else if (ID == BouncePadID) {
+				return new AimaggContainerBouncePad(player, (AimaggTEBouncePad)world.getTileEntity(new BlockPos(x,y,z)));
 			}
 		}
 		return null;
@@ -34,6 +43,10 @@ public class AimaggGUIHandler implements IGuiHandler {
 				return new AimaggGUISpreaderInterface(player, world);
 			} else if (ID == LaunchPadID) {
 				return new AimaggGUILaunchPad(player, (AimaggTELaunchPad)world.getTileEntity(new BlockPos(x,y,z)));
+			} else if (ID == ComputerCaseID) {
+				return new AimaggGUIComputerCase(player, (AimaggTEComputerCase)world.getTileEntity(new BlockPos(x,y,z)));
+			} else if (ID == BouncePadID) {
+				return new AimaggGUIBouncePad(player, (AimaggTEBouncePad)world.getTileEntity(new BlockPos(x,y,z)));
 			}
 		}
 		return null;

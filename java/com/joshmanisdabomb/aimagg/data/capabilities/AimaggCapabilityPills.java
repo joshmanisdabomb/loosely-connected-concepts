@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityPills.IPills;
 import com.joshmanisdabomb.aimagg.items.AimaggItemPill.PillType;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketCapabilityPills;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketCapabilityPillsClient;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.util.PillModifier;
 
@@ -68,7 +68,7 @@ public class AimaggCapabilityPills implements IStorage<IPills> {
 	
 	public static void sendPillsPacket(Entity entity) {
 		if (entity instanceof EntityPlayerMP) {
-			AimaggPacketCapabilityPills packet = new AimaggPacketCapabilityPills();
+			AimaggPacketCapabilityPillsClient packet = new AimaggPacketCapabilityPillsClient();
 			packet.setFromCapability(entity.getCapability(PillsProvider.PILLS_CAPABILITY, null));
 			AimaggPacketHandler.INSTANCE.sendTo(packet, (EntityPlayerMP)entity);
 		}

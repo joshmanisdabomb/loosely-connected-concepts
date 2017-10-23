@@ -1,0 +1,158 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "aimagg:computer_case"
+    },
+    "variants": {
+		"facing": {
+            "north": {},
+            "east": {"y": 90},
+            "south": {"y": 180},
+            "west": {"y": 270},
+            "up": {"x": 270},
+            "down": {"x": 90}
+        },
+		"power_state": {
+			"true": {
+				"textures": {
+                    "light": "aimagg:blocks/computing/computer_case/on_light"
+                }
+			},
+			"false": {
+				"textures": {
+                    "light": "aimagg:blocks/invisible"
+                }
+			}
+        },
+        "color": {
+            "white": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/white_front",
+                    "front": "aimagg:blocks/computing/computer_case/white_front",
+                    "fan": "aimagg:blocks/computing/computer_case/white_fan",
+                    "base": "aimagg:blocks/computing/computer_case/white_base"
+                }
+            },
+            "orange": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/orange_front",
+                    "front": "aimagg:blocks/computing/computer_case/orange_front",
+                    "fan": "aimagg:blocks/computing/computer_case/orange_fan",
+                    "base": "aimagg:blocks/computing/computer_case/orange_base"
+                }
+            },
+            "magenta": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/magenta_front",
+                    "front": "aimagg:blocks/computing/computer_case/magenta_front",
+                    "fan": "aimagg:blocks/computing/computer_case/magenta_fan",
+                    "base": "aimagg:blocks/computing/computer_case/magenta_base"
+                }
+            },
+            "light_blue": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/light_blue_front",
+                    "front": "aimagg:blocks/computing/computer_case/light_blue_front",
+                    "fan": "aimagg:blocks/computing/computer_case/light_blue_fan",
+                    "base": "aimagg:blocks/computing/computer_case/light_blue_base"
+                }
+            },
+            "yellow": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/yellow_front",
+                    "front": "aimagg:blocks/computing/computer_case/yellow_front",
+                    "fan": "aimagg:blocks/computing/computer_case/yellow_fan",
+                    "base": "aimagg:blocks/computing/computer_case/yellow_base"
+                }
+            },
+            "lime": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/lime_front",
+                    "front": "aimagg:blocks/computing/computer_case/lime_front",
+                    "fan": "aimagg:blocks/computing/computer_case/lime_fan",
+                    "base": "aimagg:blocks/computing/computer_case/lime_base"
+                }
+            },
+            "pink": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/pink_front",
+                    "front": "aimagg:blocks/computing/computer_case/pink_front",
+                    "fan": "aimagg:blocks/computing/computer_case/pink_fan",
+                    "base": "aimagg:blocks/computing/computer_case/pink_base"
+                }
+            },
+            "gray": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/gray_front",
+                    "front": "aimagg:blocks/computing/computer_case/gray_front",
+                    "fan": "aimagg:blocks/computing/computer_case/gray_fan",
+                    "base": "aimagg:blocks/computing/computer_case/gray_base"
+                }
+            },
+            "silver": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/silver_front",
+                    "front": "aimagg:blocks/computing/computer_case/silver_front",
+                    "fan": "aimagg:blocks/computing/computer_case/silver_fan",
+                    "base": "aimagg:blocks/computing/computer_case/silver_base"
+                }
+            },
+            "cyan": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/cyan_front",
+                    "front": "aimagg:blocks/computing/computer_case/cyan_front",
+                    "fan": "aimagg:blocks/computing/computer_case/cyan_fan",
+                    "base": "aimagg:blocks/computing/computer_case/cyan_base"
+                }
+            },
+            "purple": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/purple_front",
+                    "front": "aimagg:blocks/computing/computer_case/purple_front",
+                    "fan": "aimagg:blocks/computing/computer_case/purple_fan",
+                    "base": "aimagg:blocks/computing/computer_case/purple_base"
+                }
+            },
+            "blue": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/blue_front",
+                    "front": "aimagg:blocks/computing/computer_case/blue_front",
+                    "fan": "aimagg:blocks/computing/computer_case/blue_fan",
+                    "base": "aimagg:blocks/computing/computer_case/blue_base"
+                }
+            },
+            "brown": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/brown_front",
+                    "front": "aimagg:blocks/computing/computer_case/brown_front",
+                    "fan": "aimagg:blocks/computing/computer_case/brown_fan",
+                    "base": "aimagg:blocks/computing/computer_case/brown_base"
+                }
+            },
+            "green": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/green_front",
+                    "front": "aimagg:blocks/computing/computer_case/green_front",
+                    "fan": "aimagg:blocks/computing/computer_case/green_fan",
+                    "base": "aimagg:blocks/computing/computer_case/green_base"
+                }
+            },
+            "red": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/red_front",
+                    "front": "aimagg:blocks/computing/computer_case/red_front",
+                    "fan": "aimagg:blocks/computing/computer_case/red_fan",
+                    "base": "aimagg:blocks/computing/computer_case/red_base"
+                }
+            },
+            "black": {
+                "textures": {
+                    "particle": "aimagg:blocks/computing/computer_case/black_front",
+                    "front": "aimagg:blocks/computing/computer_case/black_front",
+                    "fan": "aimagg:blocks/computing/computer_case/black_fan",
+                    "base": "aimagg:blocks/computing/computer_case/black_base"
+                }
+            }
+        }
+    }
+}

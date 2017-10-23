@@ -3,12 +3,14 @@ package com.joshmanisdabomb.aimagg.event;
 import java.util.Random;
 
 import com.joshmanisdabomb.aimagg.AimaggDamage;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBouncePad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes.SpikesType;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.HeartsProvider;
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.IHearts;
 import com.joshmanisdabomb.aimagg.data.world.AimaggSeedData;
 import com.joshmanisdabomb.aimagg.entity.render.AimaggEntityPlayerRainbowPadRender;
+import com.joshmanisdabomb.aimagg.te.AimaggTEBouncePad;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.EntityLiving;
@@ -19,13 +21,17 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CombatRules;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggEventHandler {
 	
@@ -55,6 +61,7 @@ public class AimaggEventHandler {
 	}
 	
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onPlayerRender(RenderPlayerEvent.Pre event) {
 		if (AimaggEntityPlayerRainbowPadRender.isOnActivePad(event.getEntityPlayer())) {
 			AimaggEntityPlayerRainbowPadRender.getInstance(event.getRenderer().getRenderManager(), ((AbstractClientPlayer)event.getEntityPlayer()).getSkinType().equals("slim")).doRender((AbstractClientPlayer)event.getEntityPlayer(), event.getX(), event.getY(), event.getZ(), event.getEntityPlayer().rotationYaw, event.getPartialRenderTick());
@@ -136,6 +143,14 @@ public class AimaggEventHandler {
 	public void onEntityDeath(LivingDeathEvent event) {
 		if (event.getEntity() instanceof EntityLiving && event.getSource() instanceof AimaggDamage && ((AimaggDamage)event.getSource()).getSpikesType() == SpikesType.AMPLIFIED) {
 			//
+		}
+	}
+	
+	@SubscribeEvent
+	public void onEntityFall(LivingFallEvent event) {
+		BlockPos p = event.getEntityLiving().getPosition();
+		if (event.getEntityLiving().getEntityWorld().getBlockState(p).getBlock() instanceof AimaggBlockBouncePad) {
+			event.setCanceled(event.isCanceled() || ((AimaggTEBouncePad)event.getEntityLiving().getEntityWorld().getTileEntity(p)).shouldBounce());
 		}
 	}
 	

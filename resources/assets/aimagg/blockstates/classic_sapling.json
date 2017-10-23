@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cross"
+    },
+    "variants": {
+        "normal": [ {
+            "textures": {
+			    "cross": "aimagg:blocks/versions/classic_sapling"
+            }
+        } ]
+    }
+}

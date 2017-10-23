@@ -21,16 +21,22 @@ public class AimaggPacketHandler {
 	
 	public static void registerMessages() {
 		//side means side the packet is delivered to
-		INSTANCE.registerMessage(AimaggPacketCapabilityHearts.Handler.class, AimaggPacketCapabilityHearts.class, nextID(), Side.CLIENT);
-		INSTANCE.registerMessage(AimaggPacketCapabilityPills.Handler.class, AimaggPacketCapabilityPills.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketCapabilityHeartsClient.Handler.class, AimaggPacketCapabilityHeartsClient.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketCapabilityPillsClient.Handler.class, AimaggPacketCapabilityPillsClient.class, nextID(), Side.CLIENT);
 		
-		INSTANCE.registerMessage(AimaggPacketLaunchPadText.Handler.class, AimaggPacketLaunchPadText.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(AimaggPacketLaunchPadLaunch.Handler.class, AimaggPacketLaunchPadLaunch.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(AimaggPacketLaunchPadMissileRenderRequest.Handler.class, AimaggPacketLaunchPadMissileRenderRequest.class, nextID(), Side.SERVER);
-		INSTANCE.registerMessage(AimaggPacketLaunchPadMissileRenderResponse.Handler.class, AimaggPacketLaunchPadMissileRenderResponse.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadTextServer.Handler.class, AimaggPacketLaunchPadTextServer.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadLaunchServer.Handler.class, AimaggPacketLaunchPadLaunchServer.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadUpdateRequestServer.Handler.class, AimaggPacketLaunchPadUpdateRequestServer.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketLaunchPadUpdateResponseClient.Handler.class, AimaggPacketLaunchPadUpdateResponseClient.class, nextID(), Side.CLIENT);
 		
-		INSTANCE.registerMessage(AimaggPacketMovement.Handler.class, AimaggPacketMovement.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketComputerCasePowerServer.Handler.class, AimaggPacketComputerCasePowerServer.class, nextID(), Side.SERVER);
 		
-		INSTANCE.registerMessage(AimaggPacketRainbowPadTeleport.Handler.class, AimaggPacketRainbowPadTeleport.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketBouncePadTextServer.Handler.class, AimaggPacketBouncePadTextServer.class, nextID(), Side.SERVER);
+		INSTANCE.registerMessage(AimaggPacketBouncePadTextClient.Handler.class, AimaggPacketBouncePadTextClient.class, nextID(), Side.CLIENT);
+		INSTANCE.registerMessage(AimaggPacketBouncePadExtensionClient.Handler.class, AimaggPacketBouncePadExtensionClient.class, nextID(), Side.CLIENT);
+		
+		INSTANCE.registerMessage(AimaggPacketMovementClient.Handler.class, AimaggPacketMovementClient.class, nextID(), Side.CLIENT);
+		
+		INSTANCE.registerMessage(AimaggPacketRainbowPadTeleportServer.Handler.class, AimaggPacketRainbowPadTeleportServer.class, nextID(), Side.SERVER);
 	}
 }

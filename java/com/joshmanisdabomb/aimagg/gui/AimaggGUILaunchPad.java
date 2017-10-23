@@ -10,8 +10,8 @@ import com.joshmanisdabomb.aimagg.container.AimaggContainerLaunchPad;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
 import com.joshmanisdabomb.aimagg.items.AimaggItemVectorPearl;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadLaunch;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadText;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadLaunchServer;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadTextServer;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
 
 import net.minecraft.client.gui.GuiTextField;
@@ -141,17 +141,14 @@ public class AimaggGUILaunchPad extends GuiContainer {
 				this.destinationz.setText(Integer.toString(vpNBT.getInteger("zcoord")));
 				this.textUpdate();
 			}
-			this.destinationx.drawTextBox();
-			this.destinationy.drawTextBox();
-			this.destinationz.drawTextBox();
 		} else {
 			this.destinationx.setEnabled(true);
 			this.destinationy.setEnabled(true);
 			this.destinationz.setEnabled(true);
-			this.destinationx.drawTextBox();
-			this.destinationy.drawTextBox();
-			this.destinationz.drawTextBox();
 		}
+		this.destinationx.drawTextBox();
+		this.destinationy.drawTextBox();
+		this.destinationz.drawTextBox();
 
         GlStateManager.translate((float)this.guiLeft, (float)this.guiTop, 0.0F);
 	}
@@ -187,7 +184,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 		//client update
 		te.launch(this.playerInv.player.isCreative());
 		//server update
-		AimaggPacketLaunchPadLaunch packet = new AimaggPacketLaunchPadLaunch();
+		AimaggPacketLaunchPadLaunchServer packet = new AimaggPacketLaunchPadLaunchServer();
 		packet.setTileEntityPosition(te.getPos());
 		packet.setCreativeMode(this.playerInv.player.isCreative());
 		AimaggPacketHandler.INSTANCE.sendToServer(packet);
@@ -197,7 +194,7 @@ public class AimaggGUILaunchPad extends GuiContainer {
 		//client update
 		te.setDestination(Integer.valueOf(destinationx.getText()),Integer.valueOf(destinationy.getText()),Integer.valueOf(destinationz.getText()));
 		//server update
-		AimaggPacketLaunchPadText packet = new AimaggPacketLaunchPadText();
+		AimaggPacketLaunchPadTextServer packet = new AimaggPacketLaunchPadTextServer();
 		packet.setTileEntityPosition(te.getPos());
 		packet.setDestination(new BlockPos(Integer.valueOf(destinationx.getText()),Integer.valueOf(destinationy.getText()),Integer.valueOf(destinationz.getText())));
 		AimaggPacketHandler.INSTANCE.sendToServer(packet);

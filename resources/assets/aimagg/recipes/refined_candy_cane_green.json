@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "aimagg:refined_candy_cane",
+  "ingredients": [
+    {
+      "item": "aimagg:candy_cane", "data": 6
+    }
+  ],
+  "result": {
+    "item": "aimagg:refined_candy_cane", "data": 6, "count": 4
+  }
+}

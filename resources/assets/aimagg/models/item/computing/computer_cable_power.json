@@ -1,0 +1,6 @@
+{
+    "parent": "aimagg:block/cable_item",
+	"textures": {
+        "cable": "aimagg:blocks/computing/computer_cable_power"
+	}
+}

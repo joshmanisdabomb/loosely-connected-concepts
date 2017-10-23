@@ -57,6 +57,8 @@ public class AimaggTab extends CreativeTabs {
 			setPosition(AimaggItems.ingot, AimaggCategory.OIS, 0);
 			setPosition(AimaggBlocks.storage, AimaggCategory.OIS, 0);
 			
+			setPosition(AimaggBlocks.bouncePad, AimaggCategory.MOVEMENT, 0);
+			
 			for (AimaggItemMaterial.Material m : AimaggItemMaterial.Material.values()) {setPosition(AimaggItems.materials, m.getCategoryOverride(), m.getUpperSortValue(), m.getMetadata());}
 
 			for (int i = 0; i < AimaggItems.rubyEquipment.getAllItems().length; i++) {
@@ -109,8 +111,12 @@ public class AimaggTab extends CreativeTabs {
 			setPosition(AimaggBlocks.jelly, AimaggCategory.RAINBOW, 6);
 			setPosition(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
 
+			setPosition(AimaggBlocks.wastelandWorld, AimaggCategory.WASTELAND, 0);
 			setPosition(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 1);
-			setPosition(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 1);
+			setPosition(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 2);
+			
+			setPosition(AimaggBlocks.computerCase, AimaggCategory.COMPUTING, 0);
+			setPosition(AimaggBlocks.computerCable, AimaggCategory.COMPUTING, 3);
 			
 			for (int i = 0; i < AimaggItems.classicLeatherEquipment.getAllItems().length; i++) {
 				if (AimaggItems.classicLeatherEquipment.getAllItems()[i] != null) {
@@ -123,9 +129,12 @@ public class AimaggTab extends CreativeTabs {
 				}
 			}
 			setPosition(AimaggBlocks.classicGrass, AimaggCategory.VERSION, 0);
-			setPosition(AimaggBlocks.classicWool, AimaggCategory.VERSION, 1);
-			setPosition(AimaggBlocks.desaturatedWool, AimaggCategory.VERSION, 2);
-			setPosition(AimaggItems.classicPorkchop, AimaggCategory.VERSION, 3);
+			setPosition(AimaggBlocks.classicSapling, AimaggCategory.VERSION, 1);
+			setPosition(AimaggBlocks.classicLeaves, AimaggCategory.VERSION, 2);
+			setPosition(AimaggBlocks.classicWorld, AimaggCategory.VERSION, 3);
+			setPosition(AimaggBlocks.classicWool, AimaggCategory.VERSION, 4);
+			setPosition(AimaggBlocks.desaturatedWool, AimaggCategory.VERSION, 5);
+			setPosition(AimaggItems.classicPorkchop, AimaggCategory.VERSION, 6);
 
 			setPosition(AimaggBlocks.scaffolding, AimaggCategory.MISC, 0);
 			setPosition(AimaggBlocks.illuminantTile, AimaggCategory.MISC, 1);
@@ -185,6 +194,7 @@ public class AimaggTab extends CreativeTabs {
 	public static enum AimaggCategory {
 		
 		SOFT,
+		MOVEMENT,
 		OIS,
 		MATERIALS,
 		EQUIPMENT,
@@ -195,6 +205,7 @@ public class AimaggTab extends CreativeTabs {
 		NUCLEAR,
 		RAINBOW,
 		WASTELAND,
+		COMPUTING,
 		VERSION, //TODO working name please change
 		MISC,
 		UPGRADECARDS,

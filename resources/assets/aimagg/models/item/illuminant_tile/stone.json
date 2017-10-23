@@ -1,7 +1,6 @@
 {
-    "parent": "aimagg:block/illuminant_tile",
+    "parent": "minecraft:block/cube_all",
     "textures": {
-        "base": "aimagg:blocks/billie/stone",
-        "light": "aimagg:blocks/billie/light_0"
+        "all": "aimagg:blocks/billie/stone"
     }
 }

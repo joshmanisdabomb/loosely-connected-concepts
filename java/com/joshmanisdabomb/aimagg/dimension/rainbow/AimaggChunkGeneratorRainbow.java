@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
-import com.joshmanisdabomb.aimagg.dimension.rainbow.gen.MapGenCavesRainbow;
+import com.joshmanisdabomb.aimagg.gen.rainbow.MapGenCavesRainbow;
 
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;

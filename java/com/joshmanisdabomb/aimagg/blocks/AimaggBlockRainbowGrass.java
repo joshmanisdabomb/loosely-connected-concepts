@@ -2,6 +2,7 @@ package com.joshmanisdabomb.aimagg.blocks;
 
 import java.util.Random;
 
+import com.google.common.base.Predicate;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
 
@@ -31,8 +32,8 @@ public class AimaggBlockRainbowGrass extends AimaggBlockBasicGrass {
 	
     public static final PropertyEnum<RainbowGrassType> TYPE = PropertyEnum.<RainbowGrassType>create("type", RainbowGrassType.class);
 
-	public AimaggBlockRainbowGrass(String internalName, Material material, IBlockState state) {
-		super(internalName, material, RainbowGrassType.RAINBOW.getMapColor(), state);
+	public AimaggBlockRainbowGrass(String internalName, Material material, Predicate<IBlockState> growOver, IBlockState state) {
+		super(internalName, material, RainbowGrassType.RAINBOW.getMapColor(), growOver, state);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, RainbowGrassType.RAINBOW));
 	}
 	

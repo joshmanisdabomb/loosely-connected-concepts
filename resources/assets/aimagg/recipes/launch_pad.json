@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ttt",
+    "ppp",
+    "bbb"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:iron_block"
+    },
+    "p": {
+      "item": "minecraft:redstone_block"
+    },
+    "t": {
+      "item": "aimagg:fortstone"
+    }
+  },
+  "result": {
+    "item": "aimagg:launch_pad"
+  }
+}

@@ -95,6 +95,8 @@ tile.aimagg:rainbow_world.stone.name=Twilight Stone
 tile.aimagg:rainbow_world.cobblestone.name=Twilight Cobblestone
 tile.aimagg:rainbow_world.core_ore.name=Rainbow Core Ore
 
+tile.aimagg:wasteland_world.cracked_mud.name=Cracked Mud
+
 tile.aimagg:spikes.plain.name=Spike Patch
 tile.aimagg:spikes.bloody.name=Bloody Spike Patch
 tile.aimagg:spikes.poison.name=Poison Spike Patch
@@ -215,6 +217,19 @@ item.aimagg:classic_studded_leggings.name=Classic Studded Pants
 item.aimagg:classic_studded_boots.name=Classic Studded Boots
 
 tile.aimagg:classic_grass.name=Classic Grass
+tile.aimagg:classic_leaves.name=Classic Leaves
+tile.aimagg:classic_sapling.name=Classic Sapling
+
+tile.aimagg:classic_world.cobblestone.name=Classic Cobblestone
+tile.aimagg:classic_world.mossy_cobblestone.name=Classic Moss Stone
+tile.aimagg:classic_world.gravel.name=Classic Gravel
+tile.aimagg:classic_world.bricks.name=Classic Bricks
+tile.aimagg:classic_world.sponge.name=Classic Sponge
+tile.aimagg:classic_world.iron_block.name=Classic Block of Iron
+tile.aimagg:classic_world.gold_block.name=Classic Block of Gold
+tile.aimagg:classic_world.diamond_block.name=Classic Block of Diamond
+tile.aimagg:classic_world.smooth_iron_block.name=Classic Smooth Block of Iron
+tile.aimagg:classic_world.glowing_obsidian.name=Glowing Obsidian
 
 item.aimagg:classic_pork.raw.name=Classic Raw Porkchop
 item.aimagg:classic_pork.cooked.name=Classic Cooked Porkchop
@@ -252,12 +267,57 @@ tile.aimagg:desaturated_wool.13.name=Desaturated Green Wool
 tile.aimagg:desaturated_wool.14.name=Desaturated Red Wool
 tile.aimagg:desaturated_wool.15.name=Desaturated Black Wool
 
+tile.aimagg:computer_case.white.name=White Computer Case
+tile.aimagg:computer_case.orange.name=Orange Computer Case
+tile.aimagg:computer_case.magenta.name=Magenta Computer Case
+tile.aimagg:computer_case.lightBlue.name=Light Blue Computer Case
+tile.aimagg:computer_case.yellow.name=Yellow Computer Case
+tile.aimagg:computer_case.lime.name=Lime Computer Case
+tile.aimagg:computer_case.pink.name=Pink Computer Case
+tile.aimagg:computer_case.gray.name=Gray Computer Case
+tile.aimagg:computer_case.silver.name=Light Gray Computer Case
+tile.aimagg:computer_case.cyan.name=Cyan Computer Case
+tile.aimagg:computer_case.purple.name=Purple Computer Case
+tile.aimagg:computer_case.blue.name=Blue Computer Case
+tile.aimagg:computer_case.brown.name=Brown Computer Case
+tile.aimagg:computer_case.green.name=Green Computer Case
+tile.aimagg:computer_case.red.name=Red Computer Case
+tile.aimagg:computer_case.black.name=Black Computer Case
+
+tile.aimagg:computer_cable.name=Computing Cable
+
+item.aimagg:material.spring.name=Iron Spring
+tile.aimagg:bounce_pad.name=Bounce Pad
+
 itemGroup.aimagg:tab=Aimless Agglomeration
 
 container.aimagg:spreader_interface=Spreader Interface
 container.aimagg:spreader_interface.modifiers=Modifiers
 container.aimagg:spreader_interface.spread=Spread Types
+
 container.aimagg:launch_pad=Missile Launch Pad
+
+container.aimagg:computer_case=Computer Case
+
+container.aimagg:bounce_pad=Bounce Pad
+container.aimagg:bounce_pad.north=North
+container.aimagg:bounce_pad.east=East
+container.aimagg:bounce_pad.south=South
+container.aimagg:bounce_pad.west=West
+container.aimagg:bounce_pad.up=Up
+container.aimagg:bounce_pad.down=Down
+container.aimagg:bounce_pad.strength.north=Northward Strength:
+container.aimagg:bounce_pad.strength.east=Eastward Strength:
+container.aimagg:bounce_pad.strength.south=Southward Strength:
+container.aimagg:bounce_pad.strength.west=Westward Strength:
+container.aimagg:bounce_pad.strength.up=Upward Strength:
+container.aimagg:bounce_pad.strength.down=Downward Strength:
+container.aimagg:bounce_pad.strength.x=X Strength:
+container.aimagg:bounce_pad.strength.y=Y Strength:
+container.aimagg:bounce_pad.strength.z=Z Strength:
+container.aimagg:bounce_pad.input_range.primary=How fast you'll travel %1$s, ranging from 0.00 to 10.00.
+container.aimagg:bounce_pad.input_range.secondary.1=How fast you'll travel on the %1$s axis, ranging from -5.00 to 5.00.
+container.aimagg:bounce_pad.input_range.secondary.2=Positive strength for %1$s, negative strength for %2$s.
 
 tooltip.aimagg:press_shift_for_more=Press SHIFT for More Information
 
@@ -328,6 +388,11 @@ tooltip.aimagg:upgrade_card.effect.range=+3 Maximum Travel Range
 tooltip.aimagg:upgrade_card.effect.infinite_range=Infinite Maximum Travel Range
 tooltip.aimagg:upgrade_card.effect.spread=+1 Spread Range
 tooltip.aimagg:upgrade_card.effect.eating=Disappears on Spread
+
+tooltip.aimagg:computer_cable.only=Only Connects: %1$s%2$s
+tooltip.aimagg:computer_cable.monitor=Monitors
+tooltip.aimagg:computer_cable.data=Data Sources
+tooltip.aimagg:computer_cable.power=Power Sources
 
 death.attack.aimagg:pill=%1$s overdosed on pills
 death.attack.aimagg:spikes=%1$s was impaled by spikes

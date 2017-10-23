@@ -39,23 +39,45 @@ public class AimaggItemMaterial extends AimaggItemBasic {
 		}
 	}
 	
+	@Override
+	public ItemStack getContainerItem(ItemStack is) {
+        if (this.hasContainerItem(is)) {
+        	return new ItemStack(is.getItem(), 1, is.getMetadata());
+        } else {
+        	return ItemStack.EMPTY;
+        }
+    }
+
+	@Override
+    public boolean hasContainerItem(ItemStack stack) {
+        return Material.getFromMetadata(stack.getMetadata()).hasContainerItem(stack);
+    }
+	
 	public static enum Material {
 		
-		SPREADER_ESSENCE(AimaggCategory.SPREADERS, -100),
-		RAINBOW_CORE(AimaggCategory.RAINBOW, -100),
-		NEON_PIXEL(AimaggCategory.RAINBOW, -99), //TODO should probably be in a computer category
-		LOLLIPOP_STICK(AimaggCategory.RAINBOW, -98);
+		SPREADER_ESSENCE(true, AimaggCategory.SPREADERS, -100),
+		RAINBOW_CORE(false, AimaggCategory.RAINBOW, -100),
+		NEON_PIXEL(false, AimaggCategory.RAINBOW, -99), //TODO should probably be in a computer category
+		LOLLIPOP_STICK(false, AimaggCategory.RAINBOW, -98),
+		SPRING(false, AimaggCategory.MOVEMENT, -100);
 		
 		private final ModelResourceLocation model;
 		private final AimaggCategory category;
 		private final int upperSortVal;
+		
+		private final boolean infiniteCrafting;
 
-		Material(AimaggCategory cat, int upperSortVal) {
+		Material(boolean infiniteCrafting, AimaggCategory cat, int upperSortVal) {
+			this.infiniteCrafting = infiniteCrafting;
 			this.model = new ModelResourceLocation(Constants.MOD_ID + ":" + this.name().toLowerCase());
 			this.category = cat;
 			this.upperSortVal = upperSortVal;
 		}
 		
+		public boolean hasContainerItem(ItemStack stack) {
+			return this.infiniteCrafting;
+		}
+
 		public int getMetadata() {
 			return this.ordinal();
 		}

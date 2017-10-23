@@ -84,18 +84,18 @@ public class AimaggItemVectorPearl extends AimaggItemBasic {
 			
 			if (vpNBT != null && vpNBT.getBoolean("used")) {
 	        	tooltip.add(
-		    				TextFormatting.WHITE + 
+		    				TextFormatting.GRAY + 
 		    				I18n.format("tooltip.aimagg:vector_pearl.coordinates", new Object[] {TextFormatting.YELLOW, vpNBT.getInteger("xcoord") + "," + vpNBT.getInteger("ycoord") + "," + vpNBT.getInteger("zcoord")})
 		    			   );
 			} else {
 	        	tooltip.add(
-		    				TextFormatting.DARK_AQUA + 
+		    				TextFormatting.DARK_GREEN + 
 		    				I18n.format("tooltip.aimagg:vector_pearl.blank", new Object[0])
 		    			   );
 			}
 		} else {
         	tooltip.add(
-	    				TextFormatting.DARK_AQUA + 
+	    				TextFormatting.DARK_GREEN + 
 	    				I18n.format("tooltip.aimagg:vector_pearl.blank", new Object[0])
 	    			   );
 		}

@@ -46,16 +46,16 @@ public class AimaggItemUpgradeCard extends AimaggItemBasic {
 		
 		UpgradeCardType uc = UpgradeCardType.getFromMetadata(stack.getMetadata());
 		tooltip.add(
-					 TextFormatting.WHITE + 
+					 TextFormatting.GRAY + 
 				     I18n.format("tooltip.aimagg:upgrade_card.use_in", new Object[] {TextFormatting.LIGHT_PURPLE, I18n.format("tooltip.aimagg:upgrade_card.use_in." + uc.getUsedBy().name().toLowerCase(), new Object[0])})
 				   );
 		if (uc.hasEffect()) {
 			tooltip.add(
-						 TextFormatting.WHITE + 
+						 TextFormatting.GRAY + 
 					     I18n.format("tooltip.aimagg:upgrade_card.max", new Object[] {TextFormatting.YELLOW, uc.getStackAmountInUpgradeSlot()})
 					   );
 			tooltip.add(
-					 	TextFormatting.WHITE + 
+					 	TextFormatting.GRAY + 
 					     I18n.format("tooltip.aimagg:upgrade_card.effect", new Object[] {TextFormatting.GREEN, I18n.format("tooltip.aimagg:upgrade_card.effect." + uc.getInternalName(), new Object[0])})
 					   );
 		}

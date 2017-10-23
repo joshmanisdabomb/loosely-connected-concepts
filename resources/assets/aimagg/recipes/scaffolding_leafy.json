@@ -1,0 +1,69 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aimagg:scaffolding",
+  "pattern": [
+    "www",
+    "sls",
+    "www"
+  ],
+  "key": {
+    "w": [
+      {
+        "item": "minecraft:planks",
+        "data": 0
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 1
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 2
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 3
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 4
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 5
+      }
+    ],
+    "s": {
+      "item": "minecraft:stick"
+    },
+	"l": [
+      {
+        "item": "minecraft:leaves",
+        "data": 0
+      },
+      {
+        "item": "minecraft:leaves",
+        "data": 1
+      },
+      {
+        "item": "minecraft:leaves",
+        "data": 2
+      },
+      {
+        "item": "minecraft:leaves",
+        "data": 3
+      },
+      {
+        "item": "minecraft:leaves2",
+        "data": 0
+      },
+      {
+        "item": "minecraft:leaves2",
+        "data": 1
+      }
+    ]
+  },
+  "result": {
+    "item": "aimagg:scaffolding", "data": 1, "count": 32
+  }
+}

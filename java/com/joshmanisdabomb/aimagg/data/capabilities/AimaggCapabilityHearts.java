@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.aimagg.data.capabilities;
 
 import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityHearts.IHearts;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketCapabilityHearts;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketCapabilityHeartsClient;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 
 import net.minecraft.entity.Entity;
@@ -37,7 +37,7 @@ public class AimaggCapabilityHearts implements IStorage<IHearts> {
 	
 	public static void sendHeartsPacket(Entity entity) {
 		if (entity instanceof EntityPlayerMP) {
-			AimaggPacketCapabilityHearts packet = new AimaggPacketCapabilityHearts();
+			AimaggPacketCapabilityHeartsClient packet = new AimaggPacketCapabilityHeartsClient();
 			packet.setFromCapability(entity.getCapability(HeartsProvider.HEARTS_CAPABILITY, null));
 			AimaggPacketHandler.INSTANCE.sendTo(packet, (EntityPlayerMP)entity);
 		}

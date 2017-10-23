@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "aimagg:spreader",
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "aimagg:material", "data": 0
+    },
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:dye", "data": 7
+    }
+  ],
+  "result": {
+    "item": "aimagg:spreader_silver", "data": 0, "count": 3
+  }
+}

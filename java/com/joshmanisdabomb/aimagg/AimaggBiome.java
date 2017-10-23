@@ -4,6 +4,8 @@ import com.joshmanisdabomb.aimagg.biome.AimaggBiomeRainbowCandy;
 import com.joshmanisdabomb.aimagg.biome.AimaggBiomeRainbowChocolate;
 import com.joshmanisdabomb.aimagg.biome.AimaggBiomeRainbowFlower;
 import com.joshmanisdabomb.aimagg.biome.AimaggBiomeRainbowStarlight;
+import com.joshmanisdabomb.aimagg.biome.AimaggBiomeWasteland;
+import com.joshmanisdabomb.aimagg.biome.AimaggBiomeWasteland.AimaggBiomeWastelandCity;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.BiomeProperties;
@@ -13,13 +15,15 @@ import net.minecraftforge.common.BiomeManager.BiomeType;
 
 public enum AimaggBiome {
 
-	RAINBOW_CANDY(new AimaggBiomeRainbowCandy(new BiomeProperties("Rainbow (Candy)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, true),
-	RAINBOW_FLOWER(new AimaggBiomeRainbowFlower(new BiomeProperties("Rainbow (Flower)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
-	RAINBOW_CHOCOLATE(new AimaggBiomeRainbowChocolate(new BiomeProperties("Rainbow (Chocolate)").setBaseHeight(0.14F).setHeightVariation(0.6F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false),
-	RAINBOW_STARLIGHT(new AimaggBiomeRainbowStarlight(new BiomeProperties("Rainbow (Starlight)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 1, false, false, false)
-	;//,CLASSIC(new AimaggBiomeClassic(new BiomeProperties("Classic")), BiomeType.WARM, 1, false, false, true),
-	//CLASSIC_WINTER(new AimaggBiomeClassicWinter(new BiomeProperties("Classic (Winter)").setTemperature(0.0F).setSnowEnabled().setRainfall(1.0F)), BiomeType.ICY, 1, false, false, true),
-	//CLASSIC_HELL(new AimaggBiomeClassicHell(new BiomeProperties("Classic (Hell)")), BiomeType.WARM, 1, false, false, true);
+	RAINBOW_CANDY(new AimaggBiomeRainbowCandy(new BiomeProperties("Rainbow (Candy)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 20, false, false, true),
+	RAINBOW_FLOWER(new AimaggBiomeRainbowFlower(new BiomeProperties("Rainbow (Flower)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 20, false, false, false),
+	RAINBOW_CHOCOLATE(new AimaggBiomeRainbowChocolate(new BiomeProperties("Rainbow (Chocolate)").setBaseHeight(0.14F).setHeightVariation(0.6F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 20, false, false, false),
+	RAINBOW_STARLIGHT(new AimaggBiomeRainbowStarlight(new BiomeProperties("Rainbow (Starlight)").setBaseHeight(0.04F).setHeightVariation(0.06F).setRainfall(0.1F).setWaterColor(0xFF0099).setTemperature(0.5F)), BiomeType.COOL, 20, false, false, false),
+	WASTELAND(new AimaggBiomeWasteland(new BiomeProperties("Wasteland").setBaseHeight(0.04F).setHeightVariation(0.02F).setRainfall(0.0F).setRainDisabled().setWaterColor(0x000000).setTemperature(1.01F)), BiomeType.DESERT, 60, true, false, false),
+	WASTELAND_CITY(new AimaggBiomeWastelandCity(new BiomeProperties("Wasteland (Lost City)").setBaseHeight(0.04F).setHeightVariation(0.0F).setRainfall(0.0F).setRainDisabled().setWaterColor(0x000000).setTemperature(1.01F)), BiomeType.DESERT, 1, false, false, false)
+	;//,CLASSIC(new AimaggBiomeClassic(new BiomeProperties("Classic")).setRainfall(0.0F).setRainDisabled(), BiomeType.WARM, 20, false, false, true),
+	//CLASSIC_WINTER(new AimaggBiomeClassicWinter(new BiomeProperties("Classic (Winter)").setTemperature(0.0F).setSnowEnabled().setRainfall(1.0F)), BiomeType.ICY, 20, false, false, true),
+	//CLASSIC_HELL(new AimaggBiomeClassicHell(new BiomeProperties("Classic (Hell)")).setRainfall(0.0F).setTemperature(4.0F).setRainDisabled(), BiomeType.DESERT, 20, false, false, true);
 	
 	private final Biome biome;
 	private final BiomeType biomeType;
@@ -31,7 +35,7 @@ public enum AimaggBiome {
 
 	AimaggBiome(Biome b, BiomeType bt, int weight, boolean spawnInOverworld, boolean spawnStructuresHere, boolean canSpawnHere) {
 		this.biome = b;
-		b.setRegistryName(this.name());
+		b.setRegistryName(this.name().toLowerCase());
 		this.biomeType = bt;
 		this.weight = weight;
 		this.spawnInOverworld = spawnInOverworld;

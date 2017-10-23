@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockAdvancedRendering;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicAxis;
@@ -11,11 +12,18 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicGrass;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicSapling;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBillieTiles;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBouncePad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCane;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCaneRefined;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockChocolate;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicLeaves;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicWool;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicWorld;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockColored;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockComputerCable;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockComputerCase;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockJelly;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
@@ -30,13 +38,18 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpikes;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderInterface;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockStorage;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWool;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWastelandWorld;
 import com.joshmanisdabomb.aimagg.event.AimaggModelHandler;
-import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
+import com.joshmanisdabomb.aimagg.gen.classic.WorldGenBigClassicTree;
+import com.joshmanisdabomb.aimagg.gen.classic.WorldGenClassicTree;
+import com.joshmanisdabomb.aimagg.te.AimaggTEBouncePad;
 import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
+import com.joshmanisdabomb.aimagg.te.render.AimaggTESRBouncePad;
+import com.joshmanisdabomb.aimagg.te.render.AimaggTESRLaunchPad;
 import com.joshmanisdabomb.aimagg.util.AimaggModelLoader;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -71,6 +84,8 @@ public class AimaggBlocks {
 	
 	public static Block soft;
 	
+	public static Block bouncePad;
+	
 	public static Block ore;
 	public static Block storage;
 	
@@ -79,13 +94,14 @@ public class AimaggBlocks {
 	
 	public static Block computerCase;
 	public static Block computerMonitor;
-	public static Block computerComponent;
+	public static Block computerComponent; //TODO mouse, keyboard
+	public static Block computerCable;
 	
 	public static Block launchPad;
 
 	//TODO uh oh another tile entity public static Block pillPrinter;
 	
-	public static Block nuclearFire;
+	public static Block nuclearFire; //TODO atom splitter or similar
 	
 	public static Block classicGrass;
 	public static Block classicWorld;
@@ -95,7 +111,9 @@ public class AimaggBlocks {
 	public static Block classicSapling;
 	public static Block classicChest;
 	public static Block classicFlower;
-	public static Block gear;
+	public static Block cryingObsidian;
+	public static Block lockedChest;
+	public static Block gear; //TODO vertical redstone
 	public static Block desaturatedWool;
 	public static Block reactor;
 	public static Block stonecutter;
@@ -115,7 +133,8 @@ public class AimaggBlocks {
 	public static Block cream; //TODO like snow layers
 	public static Block chocolate; //TODO looks like lego bricks (white, milk, dark)
 	public static Block cake; //TODO sponge, red velvet, chocolate, carrot
-	
+
+	public static Block wastelandWorld;
 	public static Block fortstone;
 	public static Block spikes;
 	
@@ -148,6 +167,8 @@ public class AimaggBlocks {
 
 		soft = new AimaggBlockSoft("soft", Material.GROUND);
 		
+		bouncePad = new AimaggBlockBouncePad("bounce_pad", Material.CLOTH, MapColor.PURPLE); //TODO Check if the map color is still valid bb.
+		
 		ore = new AimaggBlockOre("ore", Material.ROCK);
 		storage = new AimaggBlockStorage("storage", Material.IRON);
 		
@@ -161,8 +182,11 @@ public class AimaggBlocks {
 		spreaderInterface = new AimaggBlockSpreaderInterface("spreader_interface", Material.IRON, MapColor.IRON).setHardness(7.0F);
 		((AimaggBlockBasic)spreaderInterface).setSoundType(SoundType.METAL);
 		spreaderInterface.setHarvestLevel("pickaxe", 2);
-
-		//computerCase = new AimaggBlockComputerCase("computer_case", Material.IRON);
+		
+		computerCase = new AimaggBlockComputerCase("computer_case", Material.IRON);
+		computerMonitor = null;
+		computerComponent = null;
+		computerCable = new AimaggBlockComputerCable("computer_cable", Material.IRON);
 		
 		launchPad = new AimaggBlockLaunchPad("launch_pad", Material.IRON, MapColor.IRON).setHardness(10.0F); //has soundtype, hardness and resistance
 		((AimaggBlockBasic)launchPad).setSoundType(SoundType.METAL);
@@ -170,19 +194,50 @@ public class AimaggBlocks {
 		
 		nuclearFire = new AimaggBlockFireNuclear("nuclear_fire", Material.FIRE, MapColor.LIME);
 		
-		classicGrass = new AimaggBlockBasicGrass("classic_grass", Material.GRASS, MapColor.GRASS, Blocks.DIRT.getDefaultState());
-		classicWool = new AimaggBlockWool(true, "classic_wool", Material.CLOTH);
-		desaturatedWool = new AimaggBlockWool(false, "desaturated_wool", Material.CLOTH);
+		classicGrass = new AimaggBlockBasicGrass("classic_grass", Material.GRASS, MapColor.GRASS, new Predicate<IBlockState>(){
+			@Override
+			public boolean apply(IBlockState state) {
+				return state == Blocks.DIRT.getDefaultState();
+			}
+		}, Blocks.DIRT.getDefaultState());
+		classicWorld = new AimaggBlockClassicWorld("classic_world", Material.GROUND);
+		classicWool = new AimaggBlockClassicWool(true, "classic_wool", Material.CLOTH);
+		classicFence = null;
+		classicLeaves = new AimaggBlockClassicLeaves("classic_leaves", MapColor.LIME, new Predicate<IBlockState>(){
+			@Override
+			public boolean apply(IBlockState state) {
+				return state.getBlock() instanceof BlockLog;
+			}
+		});
+		classicSapling = new AimaggBlockBasicSapling("classic_sapling", MapColor.FOLIAGE, new WorldGenClassicTree(true), new WorldGenBigClassicTree(true));
+		classicChest = null;
+		classicFlower = null;
+		cryingObsidian = null;
+		lockedChest = null;
+		gear = null;
+		desaturatedWool = new AimaggBlockClassicWool(false, "desaturated_wool", Material.CLOTH);
+		reactor = null;
+		stonecutter = null;
 		
 		rainbowGemBlock = new AimaggBlockBasic("rainbow_gem_block", Material.IRON, MapColor.MAGENTA);
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);
 		rainbowWorld = new AimaggBlockRainbowWorld("rainbow_world", Material.GROUND);
-		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
+		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, new Predicate<IBlockState>(){
+			@Override
+			public boolean apply(IBlockState state) {
+				return state == rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT);
+			}
+		}, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
 		candyCane = new AimaggBlockCandyCane("candy_cane", Material.ROCK);
 		candyCaneRefined = new AimaggBlockCandyCaneRefined("refined_candy_cane", Material.ROCK);
 		jelly = new AimaggBlockJelly("jelly", Material.SPONGE);
 		chocolate = new AimaggBlockChocolate("chocolate", Material.ROCK);
+		cream = null;
+		cottonCandy = null;
+		cottonCandyPole = null;
+		cake = null;
 		
+		wastelandWorld = new AimaggBlockWastelandWorld("wasteland_world", Material.GROUND);
 		fortstone = new AimaggBlockBasicConnected("fortstone", "wasteland/fortstone", Material.ROCK, MapColor.BLACK);
 		spikes = new AimaggBlockSpikes("spikes", Material.IRON);
 
@@ -230,11 +285,6 @@ public class AimaggBlocks {
 				}
 			});
 		}
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public static void registerTileEntityRenderers() {
-		ClientRegistry.bindTileEntitySpecialRenderer(AimaggTELaunchPad.class, new com.joshmanisdabomb.aimagg.te.tesr.AimaggTESRLaunchPad());
 	}
 	
 }

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "aimagg:illuminant_tile",
+  "pattern": [
+    "btb",
+    "bpb",
+    "blb"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:stone", "data": 4
+    },
+    "t": {
+      "item": "minecraft:wooden_pressure_plate"
+    },
+    "p": {
+      "item": "minecraft:redstone"
+    },
+    "l": {
+      "item": "aimagg:ingot", "data": 5
+    }
+  },
+  "result": {
+    "item": "aimagg:illuminant_tile", "data": 3, "count": 6
+  }
+}

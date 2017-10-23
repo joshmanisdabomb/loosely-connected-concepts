@@ -4,8 +4,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.joshmanisdabomb.aimagg.entity.render.AimaggEntityPlayerRainbowPadRender;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadLaunch;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketRainbowPadTeleport;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadLaunchServer;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketRainbowPadTeleportServer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -17,7 +17,7 @@ public class AimaggKeyHandler {
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isKeyDown()) {
 			if (AimaggEntityPlayerRainbowPadRender.isOnActivePad(Minecraft.getMinecraft().player)) {
-				AimaggPacketRainbowPadTeleport packet = new AimaggPacketRainbowPadTeleport();
+				AimaggPacketRainbowPadTeleportServer packet = new AimaggPacketRainbowPadTeleportServer();
 				AimaggPacketHandler.INSTANCE.sendToServer(packet);
 			}
 		}

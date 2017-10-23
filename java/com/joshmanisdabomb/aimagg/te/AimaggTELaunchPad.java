@@ -5,7 +5,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.entity.AimaggEntityMissile;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMissile;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
-import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadMissileRenderRequest;
+import com.joshmanisdabomb.aimagg.packets.AimaggPacketLaunchPadUpdateRequestServer;
 import com.joshmanisdabomb.aimagg.util.MissileType;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -66,7 +66,7 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 
         //This should probably go in a better place.
         if (this.world != null ? this.world.isRemote : false) {
-			AimaggPacketLaunchPadMissileRenderRequest packet = new AimaggPacketLaunchPadMissileRenderRequest();
+			AimaggPacketLaunchPadUpdateRequestServer packet = new AimaggPacketLaunchPadUpdateRequestServer();
 			packet.setTileEntityPosition(this.getPos());
 			AimaggPacketHandler.INSTANCE.sendToServer(packet);
         }
@@ -86,6 +86,15 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		this.readFromNBT(pkt.getNbtCompound());
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		NBTTagCompound compound = super.getUpdateTag();
+		compound.setInteger("destinationx", this.destinationx);
+		compound.setInteger("destinationy", this.destinationy);
+		compound.setInteger("destinationz", this.destinationz);
+		return compound;
 	}
 
 	public String getBaseName() {
@@ -218,16 +227,6 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
 		
 		this.markDirty();
 	}
-	
-	@SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared() {
-        return 16384D;
-    }
-	
-	@Override
-	public AxisAlignedBB getRenderBoundingBox() {
-		return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.offset(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
-	}
 
 	@Override
 	public boolean isEmpty() {
@@ -246,6 +245,21 @@ public class AimaggTELaunchPad extends TileEntity implements IInventory {
         } else {
             return player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
         }
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public double getMaxRenderDistanceSquared() {
+        return 16384D;
+    }
+	
+    public double getPacketDistanceSquared() {
+        return 16384D;
+    }
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return AimaggBlockLaunchPad.LAUNCH_PAD_AABB_RENDER.offset(this.getPos());
 	}
 	
 }

@@ -3,7 +3,9 @@ package com.joshmanisdabomb.aimagg.proxy;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggEntities;
 import com.joshmanisdabomb.aimagg.AimaggItems;
+import com.joshmanisdabomb.aimagg.AimaggTileEntities;
 import com.joshmanisdabomb.aimagg.event.AimaggKeyHandler;
+import com.joshmanisdabomb.aimagg.gui.AimaggOverlayHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -31,7 +33,7 @@ public class ClientProxy implements CommonProxy {
 	public void initAfterCommon(FMLInitializationEvent event) {
 		AimaggBlocks.registerColoring();
 		AimaggItems.registerColoring();
-		AimaggBlocks.registerTileEntityRenderers();
+		AimaggTileEntities.registerTileEntityRenderers();
 		MinecraftForge.EVENT_BUS.register(new AimaggKeyHandler());
 	}
 
@@ -42,7 +44,7 @@ public class ClientProxy implements CommonProxy {
 
 	@Override
 	public void postInitAfterCommon(FMLPostInitializationEvent event) {
-		
+		MinecraftForge.EVENT_BUS.register(new AimaggOverlayHandler());
 	}
 
 }

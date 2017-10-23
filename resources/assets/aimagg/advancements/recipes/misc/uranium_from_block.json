@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "aimagg:uranium_from_block"
+    ]
+  },
+  "criteria": {
+    "has_uranium_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "aimagg:ingot",
+            "data": 4
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "aimagg:uranium_from_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_uranium_storage",
+      "has_the_recipe"
+    ]
+  ]
+}

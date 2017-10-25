@@ -36,7 +36,7 @@ public class AimaggBlockRainbowPad extends AimaggBlockBasicConnected {
     public static final PropertyEnum<RainbowPadType> TYPE = PropertyEnum.<RainbowPadType>create("type", RainbowPadType.class);
 
 	public AimaggBlockRainbowPad(String internalName, Material material) {
-		super(internalName, "rainbow/pad", material, RainbowPadType.ACTIVE.getMapColor());
+		super(ConnectionType.STANDARD_THREE_TEXTURE, internalName, "rainbow/pad", material, RainbowPadType.ACTIVE.getMapColor());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, RainbowPadType.INACTIVE));
 	}
 	

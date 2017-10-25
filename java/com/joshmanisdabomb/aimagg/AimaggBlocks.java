@@ -9,6 +9,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockAdvancedRendering;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasic;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicAxis;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected.ConnectionType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicGrass;
@@ -162,7 +163,7 @@ public class AimaggBlocks {
 		((AimaggBlockBasic)testBlock3).setSoundType(SoundType.CLOTH);
 		testBlock4 = new AimaggBlockBasicAxis("test_block_4", Material.GROUND, MapColor.YELLOW);
 		((AimaggBlockBasic)testBlock4).setSoundType(SoundType.CLOTH);
-		testBlock5 = new AimaggBlockBasicConnected("test_block_5", "test/5", Material.GROUND, MapColor.YELLOW);
+		testBlock5 = new AimaggBlockBasicConnected(ConnectionType.INSIDE_ONE_TEXTURE, "test_block_5", "test/5", Material.GROUND, MapColor.YELLOW);
 		((AimaggBlockBasic)testBlock5).setSoundType(SoundType.CLOTH);
 
 		soft = new AimaggBlockSoft("soft", Material.GROUND);
@@ -238,7 +239,7 @@ public class AimaggBlocks {
 		cake = null;
 		
 		wastelandWorld = new AimaggBlockWastelandWorld("wasteland_world", Material.GROUND);
-		fortstone = new AimaggBlockBasicConnected("fortstone", "wasteland/fortstone", Material.ROCK, MapColor.BLACK);
+		fortstone = new AimaggBlockBasicConnected(ConnectionType.INSIDE_ONE_TEXTURE, "fortstone", "wasteland/fortstone", Material.ROCK, MapColor.BLACK);
 		spikes = new AimaggBlockSpikes("spikes", Material.IRON);
 
 		illuminantTile = new AimaggBlockBillieTiles("illuminant_tile", Material.ROCK);

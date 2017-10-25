@@ -36,6 +36,7 @@ You can read more about the predecessor Yet Another Mod by clicking [here](https
 
 ## Downloads ##
 ### Alpha 1.6: Survival Spark ###
+ * [Alpha 1.6.1](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.6.1.jar) [(source)](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.6.1-sources.jar) for 1.12.2 on 25 October 2017
  * [Alpha 1.6](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.6.jar) [(source)](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.6-sources.jar) for 1.12.2 on 23 October 2017
 ### Alpha 1.5: New Meets Old ###
  * [Alpha 1.5](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.5.jar) [(source)](https://bitbucket.org/joshmanisdabomb/aimless-agglomeration/downloads/AimlessAgglomeration-1.12.2-a1.5-sources.jar) for 1.12.2 on 10 October 2017

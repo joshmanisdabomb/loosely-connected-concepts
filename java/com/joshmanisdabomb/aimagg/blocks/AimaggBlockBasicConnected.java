@@ -11,11 +11,12 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
@@ -25,11 +26,11 @@ import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.common.property.Properties;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AimaggBlockBasicConnected extends AimaggBlockBasic implements AimaggBlockAdvancedRendering {
 
+	//TODO figure out inside corners
+	
 	public static final IUnlistedProperty<Boolean> N = Properties.toUnlisted(PropertyBool.create("n"));
 	public static final IUnlistedProperty<Boolean> E = Properties.toUnlisted(PropertyBool.create("e"));
     public static final IUnlistedProperty<Boolean> S = Properties.toUnlisted(PropertyBool.create("s"));
@@ -51,11 +52,14 @@ public class AimaggBlockBasicConnected extends AimaggBlockBasic implements Aimag
     
 	protected final String textureFolder;
 	protected final ModelResourceLocation model;
+	
+	private final ConnectionType connectionType;
 
-	public AimaggBlockBasicConnected(String internalName, String textureFolder, Material material, MapColor mcolor) {
+	public AimaggBlockBasicConnected(ConnectionType ct, String internalName, String textureFolder, Material material, MapColor mcolor) {
 		super(internalName, material, mcolor);
 		
 		this.model = new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName(), "normal");
+		this.connectionType = ct;
 		this.textureFolder = textureFolder;
 	}
 	
@@ -119,18 +123,48 @@ public class AimaggBlockBasicConnected extends AimaggBlockBasic implements Aimag
 	
 	@Override
 	public Collection<ResourceLocation> getTextures() {
-		return ImmutableSet.of(new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_base"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_corners"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_lines_h"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_lines_v"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_base"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_corners"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_lines_h"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_lines_v"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_base"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_corners"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_lines_h"),
-							   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_lines_v"));
+		if (this.connectionType.hasThreeTextures()) {
+			return ImmutableSet.of(new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_base"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_corners"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_lines_h"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/top_lines_v"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_base"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_corners"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_lines_h"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/side_lines_v"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_base"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_corners"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_lines_h"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/bottom_lines_v"));
+		} else {
+			return ImmutableSet.of(new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/base"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/corners"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/lines_h"),
+								   new ResourceLocation(Constants.MOD_ID, "blocks/" + textureFolder + "/lines_v"));
+		}
+	}
+	
+	public static enum ConnectionType {
+		STANDARD_ONE_TEXTURE(false, false),
+		STANDARD_THREE_TEXTURE(false, true),
+		INSIDE_ONE_TEXTURE(true, false),
+		INSIDE_THREE_TEXTURE(true, true);
+		
+		private final boolean insideCorners;
+		private final boolean threeTextures;
+
+		ConnectionType(boolean insideCorners, boolean threeTextures) {
+			this.insideCorners = insideCorners;
+			this.threeTextures = threeTextures;
+		}
+		
+		public boolean includesInsideCorners() {
+			return this.insideCorners;
+		}
+		
+		public boolean hasThreeTextures() {
+			return this.threeTextures;
+		}
 	}
 	
 }

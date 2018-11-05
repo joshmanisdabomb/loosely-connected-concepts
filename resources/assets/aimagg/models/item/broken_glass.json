@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+	"textures": {
+		"all": "aimagg:blocks/wasteland/broken_glass/1"
+	}
+}

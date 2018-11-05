@@ -59,15 +59,6 @@ public class AimaggEventHandler {
 			}
 		}*/
 	}
-	
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void onPlayerRender(RenderPlayerEvent.Pre event) {
-		if (AimaggEntityPlayerRainbowPadRender.isOnActivePad(event.getEntityPlayer())) {
-			AimaggEntityPlayerRainbowPadRender.getInstance(event.getRenderer().getRenderManager(), ((AbstractClientPlayer)event.getEntityPlayer()).getSkinType().equals("slim")).doRender((AbstractClientPlayer)event.getEntityPlayer(), event.getX(), event.getY(), event.getZ(), event.getEntityPlayer().rotationYaw, event.getPartialRenderTick());
-			event.setCanceled(true);
-		}
-	}
 
 	@SubscribeEvent
 	public void onEntityHit(LivingHurtEvent event) {

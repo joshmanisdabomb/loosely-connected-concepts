@@ -1,28 +1,16 @@
 package com.joshmanisdabomb.aimagg.items.equipment;
 
-import com.google.common.collect.Multimap;
 import com.joshmanisdabomb.aimagg.Constants;
-import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.equipment.AimaggEquipment.AimaggItemCustomTool;
+import com.joshmanisdabomb.aimagg.util.AimaggHarvestLevel.Specialization;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 class AimaggItemCustomSword extends AimaggItemCustomTool {
 
-	public AimaggItemCustomSword(String internalName, ToolMaterial tm) {
-		super(internalName, tm);
+	public AimaggItemCustomSword(String internalName, ToolMaterial tm, Specialization s) {
+		super(internalName, tm, s);
 	}
 
 	@Override

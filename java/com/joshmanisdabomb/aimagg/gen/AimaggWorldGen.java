@@ -1,5 +1,7 @@
 package com.joshmanisdabomb.aimagg.gen;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
@@ -7,12 +9,13 @@ import com.joshmanisdabomb.aimagg.AimaggBlocks;
 import com.joshmanisdabomb.aimagg.AimaggDimension;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
+import com.joshmanisdabomb.aimagg.gen.structure.AimaggGenStructure;
+import com.joshmanisdabomb.aimagg.gen.structure.AimaggGenStructure.AimaggStructure;
+import com.joshmanisdabomb.aimagg.gen.structure.wasteland_city.AimaggGenStructureWastelandCity;
 import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -32,6 +35,8 @@ public class AimaggWorldGen implements IWorldGenerator {
 		}
 		
 	};
+		
+	public static final List<AimaggGenStructure> LARGE_STRUCTURES = Arrays.asList(new AimaggGenStructure[]{new AimaggGenStructureWastelandCity()});
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
@@ -95,6 +100,11 @@ public class AimaggWorldGen implements IWorldGenerator {
 		int y = random.nextInt(32);
 		new WorldGenMinable(OreIngotStorage.URANIUM.getOreBlockState(), 5)
 		.generate(world, random, new BlockPos(x,y,z));
+		
+		//Structure Generation
+		for (AimaggGenStructure s : LARGE_STRUCTURES) {
+			s.generate(random, chunkX, chunkZ, world, chunkGenerator, chunkProvider);
+		}
 	}
 
 	private void generateRainbow(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {

@@ -32,7 +32,7 @@
                 "model": "aimagg:chocolate_top"
             },
             "double": {
-                "model": "aimagg:Chocolate_double"
+                "model": "aimagg:chocolate_double"
             }
         }
     }

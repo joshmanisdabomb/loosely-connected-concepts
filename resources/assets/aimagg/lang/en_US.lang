@@ -1,6 +1,6 @@
 item.aimagg:test_item.name=Test Item
 tile.aimagg:test_block.name=Test Block
-tile.aimagg:test_block_2.name=Test Block (HorizontalFacing)
+tile.aimagg:test_block_2.name=Test Block (Horizontal Facing)
 tile.aimagg:test_block_3.name=Test Block (Any Facing)
 tile.aimagg:test_block_4.name=Test Block (Pillar)
 tile.aimagg:test_block_5.name=Test Block (Connected)
@@ -220,6 +220,8 @@ tile.aimagg:classic_grass.name=Classic Grass
 tile.aimagg:classic_leaves.name=Classic Leaves
 tile.aimagg:classic_sapling.name=Classic Sapling
 
+tile.aimagg:classic_chest.name=Classic Chest
+
 tile.aimagg:classic_world.cobblestone.name=Classic Cobblestone
 tile.aimagg:classic_world.mossy_cobblestone.name=Classic Moss Stone
 tile.aimagg:classic_world.gravel.name=Classic Gravel
@@ -320,6 +322,10 @@ container.aimagg:bounce_pad.input_range.secondary.1=How fast you'll travel on th
 container.aimagg:bounce_pad.input_range.secondary.2=Positive strength for %1$s, negative strength for %2$s.
 
 tooltip.aimagg:press_shift_for_more=Press SHIFT for More Information
+
+tooltip.aimagg:tool.specialization.1=Only effective against %1$s.
+tooltip.aimagg:tool.specialization.2=The only effective tool against %1$s.
+tooltip.aimagg:tool.specialization.rainbow=rainbow blocks
 
 tooltip.aimagg:vector_pearl.blank=Blank
 tooltip.aimagg:vector_pearl.coordinates=Coordinates: %1$s%2$s

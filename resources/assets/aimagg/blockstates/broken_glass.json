@@ -1,0 +1,40 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "minecraft:cube_all"
+    },
+    "variants": {
+        "normal": [
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/1"
+				}
+			},
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/2"
+				}
+			},
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/3"
+				}
+			},
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/4"
+				}
+			},
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/5"
+				}
+			},
+			{
+				"textures": {
+					"all": "aimagg:blocks/wasteland/broken_glass/6"
+				}
+			}
+		]
+    }
+}

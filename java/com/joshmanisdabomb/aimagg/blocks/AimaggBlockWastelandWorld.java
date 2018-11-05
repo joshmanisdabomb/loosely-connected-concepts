@@ -89,7 +89,8 @@ public class AimaggBlockWastelandWorld extends AimaggBlockBasic {
 	
 	public static enum WastelandWorldType implements IStringSerializable {
 
-		CRACKED_MUD(MapColor.WOOD);
+		CRACKED_MUD(MapColor.WOOD),
+		BRITTLEWOOD_PLANKS(MapColor.LIGHT_BLUE_STAINED_HARDENED_CLAY, new ModelResourceLocation(Constants.MOD_ID + ":wasteland/brittlewood_planks"));
 		
 		private final ModelResourceLocation mrl;
 		private final MapColor mapColor;
@@ -97,6 +98,11 @@ public class AimaggBlockWastelandWorld extends AimaggBlockBasic {
 		WastelandWorldType(MapColor mcolor) {
 			this.mapColor = mcolor;
 			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":wasteland/" + this.getName());
+    	}
+
+		WastelandWorldType(MapColor mcolor, ModelResourceLocation mrl) {
+			this.mapColor = mcolor;
+			this.mrl = mrl;
     	}
 
 		@Override

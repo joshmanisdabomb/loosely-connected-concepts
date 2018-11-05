@@ -104,9 +104,7 @@ public class AimaggBlockOre extends AimaggBlockBasic {
         switch (state.getValue(TYPE).getOreType()) {
         	case DROP_SELF:
         		return Item.getItemFromBlock(this);
-        	case DROP_INGOT:
-        	case DROP_INGOTS_LIKE_REDSTONE:
-        	case DROP_INGOTS_LIKE_LAPIS:
+        	case DROP_INGOT: case DROP_INGOTS_LIKE_REDSTONE: case DROP_INGOTS_LIKE_LAPIS:
         		return state.getValue(TYPE).getIngotItem();
 			default:
 				return null;
@@ -127,8 +125,7 @@ public class AimaggBlockOre extends AimaggBlockBasic {
 	public int quantityDropped(IBlockState state, int fortune, Random random) {
 		//TODO Add fortune support.
 		switch (state.getValue(TYPE).getOreType()) {
-	    	case DROP_SELF:
-	    	case DROP_INGOT:
+	    	case DROP_SELF: case DROP_INGOT:
 	    		return 1;
 	    	case DROP_INGOTS_LIKE_REDSTONE:
 	    		return 4 + random.nextInt(2);

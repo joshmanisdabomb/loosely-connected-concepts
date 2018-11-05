@@ -50,8 +50,8 @@ public class AimaggBlockBouncePad extends AimaggBlockBasic implements ITileEntit
 		super(internalName, material, mcolor);
 		this.isBlockContainer = true;
 		this.setLightOpacity(0);
-		this.alwaysDropWithDamage(0);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
+		this.setDrops(this, 1, 0);
 	}
 	
 	@Override

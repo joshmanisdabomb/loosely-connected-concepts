@@ -49,7 +49,12 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, HalfType.BOTTOM));
 	}
     
-    @Override
+    public AimaggBlockBasicHalf(String internalName, IBlockState modelState) {
+    	super(internalName, modelState.getMaterial(), MapColor.AIR);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, HalfType.BOTTOM));
+	}
+
+	@Override
     public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
     	return state.getValue(HALF) == HalfType.DOUBLE ? 255 : 0;
     }
@@ -96,7 +101,7 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 
 	@Override
 	public void registerInventoryRender() {
-		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), HalfType.BOTTOM.ordinal(), new ModelResourceLocation(Constants.MOD_ID + ":" + this.getInternalName() + "_bottom", "inventory"));
+		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), HalfType.BOTTOM.ordinal(), new ModelResourceLocation(Constants.MOD_ID + ":shaped/" + this.getInternalName(), "inventory"));
 	}
 
     @Override
@@ -129,7 +134,7 @@ public class AimaggBlockBasicHalf extends AimaggBlockBasic {
 
 			@Override
 			public String getUnlocalizedName(ItemStack stack) {
-				return super.getUnlocalizedName() + "." + ChocolateType.getFromMetadata(stack.getMetadata()).getName();
+				return super.getUnlocalizedName() + "." + HalfType.getFromMetadata(stack.getMetadata()).getName();
 			}
 			
 			@Override

@@ -7,6 +7,7 @@ import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimlessAgglomeration;
 import com.joshmanisdabomb.aimagg.Constants;
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
+import com.joshmanisdabomb.aimagg.util.AimaggHarvestLevel.Specialization;
 import com.joshmanisdabomb.aimagg.util.OreIngotStorage;
 
 import net.minecraft.block.state.IBlockState;
@@ -83,8 +84,8 @@ public class AimaggEquipment {
 		if (sword == ToolType.NORMAL) {
 			this.sword = new ItemSword(tm).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.sword);
-		} else if (sword == ToolType.SPECIALISED) {
-			this.sword = new AimaggItemCustomSword(currentInternalName, tm);
+		} else if (sword.getSpecialization() != null) {
+			this.sword = new AimaggItemCustomSword(currentInternalName, tm, sword.getSpecialization());
 		} else {
 			this.sword = null;
 		}
@@ -93,8 +94,8 @@ public class AimaggEquipment {
 		if (pickaxe == ToolType.NORMAL) {
 			this.pickaxe = new ItemUnnecessarySubclassPickaxe(tm).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.pickaxe);
-		} else if (pickaxe == ToolType.SPECIALISED) {
-			this.pickaxe = new AimaggItemCustomPickaxe(currentInternalName, tm);
+		} else if (pickaxe.getSpecialization() != null) {
+			this.pickaxe = new AimaggItemCustomPickaxe(currentInternalName, tm, pickaxe.getSpecialization());
 		} else {
 			this.pickaxe = null;
 		}
@@ -103,8 +104,8 @@ public class AimaggEquipment {
 		if (shovel == ToolType.NORMAL) {
 			this.shovel = new ItemSpade(tm).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.shovel);
-		} else if (shovel == ToolType.SPECIALISED) {
-			this.shovel = new AimaggItemCustomShovel(currentInternalName, tm);
+		} else if (shovel.getSpecialization() != null) {
+			this.shovel = new AimaggItemCustomShovel(currentInternalName, tm, shovel.getSpecialization());
 		} else {
 			this.shovel = null;
 		}
@@ -113,8 +114,8 @@ public class AimaggEquipment {
 		if (axe == ToolType.NORMAL) {
 			this.axe = new ItemUnnecessarySubclassAxe(tm).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.axe);
-		} else if (axe == ToolType.SPECIALISED) {
-			this.axe = new AimaggItemCustomAxe(currentInternalName, tm);
+		} else if (axe.getSpecialization() != null) {
+			this.axe = new AimaggItemCustomAxe(currentInternalName, tm, axe.getSpecialization());
 		} else {
 			this.axe = null;
 		}
@@ -123,8 +124,8 @@ public class AimaggEquipment {
 		if (hoe == ToolType.NORMAL) {
 			this.hoe = new ItemHoe(tm).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.hoe);
-		} else if (hoe == ToolType.SPECIALISED) {
-			this.hoe = new AimaggItemCustomHoe(currentInternalName, tm);
+		} else if (hoe.getSpecialization() != null) {
+			this.hoe = new AimaggItemCustomHoe(currentInternalName, tm, hoe.getSpecialization());
 		} else {
 			this.hoe = null;
 		}
@@ -133,8 +134,8 @@ public class AimaggEquipment {
 		if (shears == ToolType.NORMAL) {
 			this.shears = new ItemShears().setMaxDamage(MathHelper.floor(tm.getMaxUses() * DURABILITY_SHEARS_RATIO)).setUnlocalizedName(Constants.MOD_ID + ":" + currentInternalName).setRegistryName(currentInternalName).setCreativeTab(AimlessAgglomeration.tab);
 			AimaggEquipment.registry.add(this.shears);
-		} else if (shears == ToolType.SPECIALISED) {
-			this.shears = new AimaggItemCustomShears(currentInternalName, tm);
+		} else if (shears.getSpecialization() != null) {
+			this.shears = new AimaggItemCustomShears(currentInternalName, tm, shears.getSpecialization());
 		} else {
 			this.shears = null;
 		}
@@ -184,9 +185,11 @@ public class AimaggEquipment {
 	static abstract class AimaggItemCustomTool extends AimaggItemBasic {
 
 		final ToolMaterial toolMaterial;
+		final Specialization s;
 		
-		public AimaggItemCustomTool(String internalName, ToolMaterial tm) {
+		public AimaggItemCustomTool(String internalName, ToolMaterial tm, Specialization s) {
 			super(internalName);
+			this.s = s;
 			this.toolMaterial = tm;
 			this.setMaxStackSize(1);
 	        this.setMaxDamage(tm.getMaxUses());
@@ -199,6 +202,10 @@ public class AimaggEquipment {
 		public abstract int getHitDurabilityLoss();
 		
 		public abstract int getBreakDurabilityLoss();
+		
+		public Specialization getSpecialization() {
+			return this.s;
+		}
 
 		@Override
 		public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
@@ -259,7 +266,21 @@ public class AimaggEquipment {
 	public static enum ToolType {
 		NONE,
 		NORMAL,
-		SPECIALISED;
+		SPECIALISED_RAINBOW(Specialization.RAINBOW);
+		
+		private final Specialization s;
+
+		ToolType() {
+			this.s = null;
+		}
+		
+		ToolType(Specialization s) {
+			this.s = s;
+		}
+		
+		public Specialization getSpecialization() {
+			return s;
+		}
 	}
 	
 	public static enum ArmorType {

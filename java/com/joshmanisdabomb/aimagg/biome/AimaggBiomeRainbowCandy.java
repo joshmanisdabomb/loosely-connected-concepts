@@ -32,7 +32,7 @@ public class AimaggBiomeRainbowCandy extends AimaggBiomeRainbow {
 	public static class BiomeRainbowCandyDecorator extends BiomeDecorator {
 
 	    public int treesPerChunk = 1;
-
+	    
 		@Override
 		public void genDecorations(Biome biome, World world, Random random) {
 			if (net.minecraftforge.event.terraingen.TerrainGen.decorate(world, random, chunkPos, net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.TREE)) {

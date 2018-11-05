@@ -2,27 +2,17 @@ package com.joshmanisdabomb.aimagg.biome;
 
 import java.util.Random;
 
-import com.joshmanisdabomb.aimagg.AimaggBiome;
 import com.joshmanisdabomb.aimagg.AimaggBlocks;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
-import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld.RainbowWorldType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWastelandWorld;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWastelandWorld.WastelandWorldType;
-import com.joshmanisdabomb.aimagg.dimension.rainbow.AimaggChunkGeneratorRainbow;
 
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.ChunkGeneratorSettings;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class AimaggBiomeWasteland extends Biome {
 
@@ -41,8 +31,6 @@ public class AimaggBiomeWasteland extends Biome {
 		
 		public AimaggBiomeWastelandCity(BiomeProperties properties) {
 			super(properties);
-	        this.topBlock = AimaggBlocks.classicGrass.getDefaultState();
-	        this.fillerBlock = Blocks.DIRT.getDefaultState();
 		}
 		
 	}
@@ -91,13 +79,9 @@ public class AimaggBiomeWasteland extends Biome {
 		
 		@Override
 		protected void genDecorations(Biome biomeIn, World worldIn, Random random) {
-			
+							
 	    }
 		
-	}
-	
-	public static boolean isWastelandBiome(Biome b) {
-		return b.equals(AimaggBiome.WASTELAND.getBiome()) || b.equals(AimaggBiome.WASTELAND_CITY.getBiome());
 	}
 
 }

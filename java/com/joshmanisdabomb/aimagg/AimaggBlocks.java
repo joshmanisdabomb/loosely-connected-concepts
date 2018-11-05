@@ -12,13 +12,17 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicConnected.ConnectionType;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingAny;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicFacingHorizontal;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicGlass;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicGrass;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicHalf;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicSapling;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBasicStairs;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBillieTiles;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockBouncePad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCane;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockCandyCaneRefined;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockChocolate;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicChest;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicLeaves;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicWool;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockClassicWorld;
@@ -29,6 +33,7 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockFireNuclear;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockJelly;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockLaunchPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockOre;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockPoop;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowGrass;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowPad;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockRainbowWorld;
@@ -40,13 +45,10 @@ import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreader;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockSpreaderInterface;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockStorage;
 import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWastelandWorld;
+import com.joshmanisdabomb.aimagg.blocks.AimaggBlockWastelandWorld.WastelandWorldType;
 import com.joshmanisdabomb.aimagg.event.AimaggModelHandler;
 import com.joshmanisdabomb.aimagg.gen.classic.WorldGenBigClassicTree;
 import com.joshmanisdabomb.aimagg.gen.classic.WorldGenClassicTree;
-import com.joshmanisdabomb.aimagg.te.AimaggTEBouncePad;
-import com.joshmanisdabomb.aimagg.te.AimaggTELaunchPad;
-import com.joshmanisdabomb.aimagg.te.render.AimaggTESRBouncePad;
-import com.joshmanisdabomb.aimagg.te.render.AimaggTESRLaunchPad;
 import com.joshmanisdabomb.aimagg.util.AimaggModelLoader;
 
 import net.minecraft.block.Block;
@@ -71,7 +73,6 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -82,6 +83,8 @@ public class AimaggBlocks {
 	public static Block testBlock3;
 	public static Block testBlock4;
 	public static Block testBlock5;
+	
+	public static Block structureFoundation;
 	
 	public static Block soft;
 	
@@ -134,17 +137,23 @@ public class AimaggBlocks {
 	public static Block cream; //TODO like snow layers
 	public static Block chocolate; //TODO looks like lego bricks (white, milk, dark)
 	public static Block cake; //TODO sponge, red velvet, chocolate, carrot
-
-	public static Block wastelandWorld;
-	public static Block fortstone;
-	public static Block spikes;
-	
-	public static Block illuminantTile;
-	public static Block scaffolding;
 	
 	//TODO custard liquid
 	//TODO chocolate liquid
 	//TODO milkshake (strawberry, banana, chocolate, vanilla) liquid
+
+	public static Block wastelandWorld;
+	public static Block brittlewood;
+	public static Block brittlewoodStairs;
+	public static Block brittlewoodSlab;
+	public static Block brokenGlass;
+	public static Block fortstone;
+	public static Block poop;
+	public static Block trap; //TODO bear trap that stuns you, activates redstone
+	public static Block spikes;
+	
+	public static Block illuminantTile;
+	public static Block scaffolding;
 
 	public static final ArrayList<Block> registry = new ArrayList<Block>();
 	public static final ArrayList<Item> ibRegistry = new ArrayList<Item>();
@@ -166,18 +175,21 @@ public class AimaggBlocks {
 		testBlock5 = new AimaggBlockBasicConnected(ConnectionType.INSIDE_ONE_TEXTURE, "test_block_5", "test/5", Material.GROUND, MapColor.YELLOW);
 		((AimaggBlockBasic)testBlock5).setSoundType(SoundType.CLOTH);
 
+		structureFoundation = new AimaggBlockBasic("structure_foundation", Material.GROUND, MapColor.LIME);
+		structureFoundation.setCreativeTab(null);
+		
 		soft = new AimaggBlockSoft("soft", Material.GROUND);
 		
-		bouncePad = new AimaggBlockBouncePad("bounce_pad", Material.CLOTH, MapColor.PURPLE); //TODO Check if the map color is still valid bb.
+		bouncePad = new AimaggBlockBouncePad("bounce_pad", Material.IRON, MapColor.GOLD);
 		
 		ore = new AimaggBlockOre("ore", Material.ROCK);
 		storage = new AimaggBlockStorage("storage", Material.IRON);
 		
 		for (int i = 0; i < 16; i++) {
 			spreaders[i] = new AimaggBlockSpreader(EnumDyeColor.byMetadata(i), "spreader_" + EnumDyeColor.byMetadata(i).getName(), Material.CLOTH).setHardness(0.2F).setResistance(0.05F);
-			((AimaggBlockBasic)spreaders[i]).setDrops(spreaders[i], 1, 1, 0.1F, 0, 0, 0.0F);
-			((AimaggBlockBasic)spreaders[i]).alwaysDropWithDamage(0);
-			((AimaggBlockBasic)spreaders[i]).setSilkTouchDrops(spreaders[i], 1);
+			((AimaggBlockBasic)spreaders[i]).setHarvestLevel("shovel", 0);
+			((AimaggBlockBasic)spreaders[i]).setDrops(spreaders[i], 1, 1, 0, 0.1F, 0, 0, 0.15F);
+			((AimaggBlockBasic)spreaders[i]).setSilkTouchDrops(spreaders[i], 1, 1, 0, 1.0F);
 			((AimaggBlockBasic)spreaders[i]).setSoundType(SoundType.CLOTH);
 		}
 		spreaderInterface = new AimaggBlockSpreaderInterface("spreader_interface", Material.IRON, MapColor.IRON).setHardness(7.0F);
@@ -211,7 +223,7 @@ public class AimaggBlocks {
 			}
 		});
 		classicSapling = new AimaggBlockBasicSapling("classic_sapling", MapColor.FOLIAGE, new WorldGenClassicTree(true), new WorldGenBigClassicTree(true));
-		classicChest = null;
+		classicChest = new AimaggBlockClassicChest("classic_chest", Material.WOOD, MapColor.WOOD);
 		classicFlower = null;
 		cryingObsidian = null;
 		lockedChest = null;
@@ -222,6 +234,8 @@ public class AimaggBlocks {
 		
 		rainbowGemBlock = new AimaggBlockBasic("rainbow_gem_block", Material.IRON, MapColor.MAGENTA);
 		rainbowPad = new AimaggBlockRainbowPad("rainbow_pad", Material.ROCK);
+		((AimaggBlockBasic)rainbowPad).setDrops(rainbowPad, 1, 0);
+		((AimaggBlockBasic)rainbowPad).setSilkTouchDrops(rainbowPad, 1, 1, 0, 1.0F);
 		rainbowWorld = new AimaggBlockRainbowWorld("rainbow_world", Material.GROUND);
 		rainbowGrass = new AimaggBlockRainbowGrass("rainbow_grass", Material.GRASS, new Predicate<IBlockState>(){
 			@Override
@@ -229,6 +243,8 @@ public class AimaggBlocks {
 				return state == rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT);
 			}
 		}, rainbowWorld.getDefaultState().withProperty(AimaggBlockRainbowWorld.TYPE, RainbowWorldType.DIRT));
+		((AimaggBlockBasic)rainbowGrass).setDrops(rainbowWorld, 1, RainbowWorldType.DIRT.getMetadata());
+		((AimaggBlockBasic)rainbowGrass).setSilkTouchDrops(rainbowGrass, 1, 1, -1, 1.0F);
 		candyCane = new AimaggBlockCandyCane("candy_cane", Material.ROCK);
 		candyCaneRefined = new AimaggBlockCandyCaneRefined("refined_candy_cane", Material.ROCK);
 		jelly = new AimaggBlockJelly("jelly", Material.SPONGE);
@@ -239,7 +255,12 @@ public class AimaggBlocks {
 		cake = null;
 		
 		wastelandWorld = new AimaggBlockWastelandWorld("wasteland_world", Material.GROUND);
+		brittlewood = new AimaggBlockBasicAxis("brittlewood", Material.WOOD, MapColor.WHITE_STAINED_HARDENED_CLAY);
+		brittlewoodStairs = new AimaggBlockBasicStairs("brittlewood_stairs", wastelandWorld.getDefaultState().withProperty(AimaggBlockWastelandWorld.TYPE, WastelandWorldType.BRITTLEWOOD_PLANKS));
+		brittlewoodSlab = new AimaggBlockBasicHalf("brittlewood_slab", wastelandWorld.getDefaultState().withProperty(AimaggBlockWastelandWorld.TYPE, WastelandWorldType.BRITTLEWOOD_PLANKS));
+		brokenGlass = new AimaggBlockBasicGlass("broken_glass", Material.GLASS, MapColor.AIR);
 		fortstone = new AimaggBlockBasicConnected(ConnectionType.INSIDE_ONE_TEXTURE, "fortstone", "wasteland/fortstone", Material.ROCK, MapColor.BLACK);
+		poop = new AimaggBlockPoop("poop", Material.GROUND);
 		spikes = new AimaggBlockSpikes("spikes", Material.IRON);
 
 		illuminantTile = new AimaggBlockBillieTiles("illuminant_tile", Material.ROCK);

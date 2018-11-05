@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.joshmanisdabomb.aimagg.items.AimaggItemBasic;
 import com.joshmanisdabomb.aimagg.items.AimaggItemColored;
+import com.joshmanisdabomb.aimagg.items.AimaggItemGauntlet;
 import com.joshmanisdabomb.aimagg.items.AimaggItemHeart;
 import com.joshmanisdabomb.aimagg.items.AimaggItemIngot;
 import com.joshmanisdabomb.aimagg.items.AimaggItemMaterial;
@@ -39,6 +40,8 @@ public class AimaggItems {
 	public static AimaggEquipment amethystEquipment;
 	public static AimaggEquipment neonEquipment;
 	
+	public static Item gauntlet;
+	
 	public static Item missile;
 	
 	public static Item pill;
@@ -68,7 +71,9 @@ public class AimaggItems {
 		emeraldEquipment = new AimaggEquipment(AimaggEquipment.EMERALD_TM, AimaggEquipment.EMERALD_AM, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NONE, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL);
 		sapphireEquipment = new AimaggEquipment(AimaggEquipment.SAPPHIRE_TM, AimaggEquipment.SAPPHIRE_AM, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NONE, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL);
 		amethystEquipment = new AimaggEquipment(AimaggEquipment.AMETHYST_TM, AimaggEquipment.AMETHYST_AM, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NORMAL, ToolType.NONE, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL);
-		neonEquipment = new AimaggEquipment(AimaggEquipment.NEON_TM, AimaggEquipment.NEON_AM, ToolType.SPECIALISED, ToolType.SPECIALISED, ToolType.SPECIALISED, ToolType.SPECIALISED, ToolType.NORMAL, ToolType.NONE, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL);
+		neonEquipment = new AimaggEquipment(AimaggEquipment.NEON_TM, AimaggEquipment.NEON_AM, ToolType.SPECIALISED_RAINBOW, ToolType.SPECIALISED_RAINBOW, ToolType.SPECIALISED_RAINBOW, ToolType.SPECIALISED_RAINBOW, ToolType.NORMAL, ToolType.NONE, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL, ArmorType.NORMAL);
+		
+		//gauntlet = new AimaggItemGauntlet("gauntlet");
 		
 		missile = new AimaggItemMissile("missile");
 		

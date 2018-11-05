@@ -19,8 +19,8 @@ public class AimaggBlockBasicFacingAny extends AimaggBlockBasic {
 
 	public AimaggBlockBasicFacingAny(String internalName, Material material, MapColor mcolor) {
 		super(internalName, material, mcolor);
-		this.alwaysDropWithDamage(0);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ANY_FACING, EnumFacing.NORTH));
+		this.setDrops(this, 1, 0);
 	}
 
 	@Override

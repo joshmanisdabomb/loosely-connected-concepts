@@ -9,6 +9,11 @@
                 "textures": {
                     "all": "aimagg:blocks/wasteland/cracked_mud"
                 }
+            },
+            "brittlewood_planks": {
+                "textures": {
+                    "all": "aimagg:blocks/wasteland/brittlewood/planks"
+                }
             }
         }
     }

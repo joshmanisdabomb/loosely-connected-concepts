@@ -92,6 +92,8 @@ public class AimaggTab extends CreativeTabs {
 				}
 			}
 			
+			//setPosition(AimaggItems.gauntlet, AimaggCategory.EQUIPMENT, 0);
+			
 			setPosition(AimaggBlocks.spreaderInterface, AimaggCategory.SPREADERS, 0);
 			for (int i = 0; i < 16; i++) {setPosition(AimaggBlocks.spreaders[i], AimaggCategory.SPREADERS, i+1);}
 
@@ -112,8 +114,13 @@ public class AimaggTab extends CreativeTabs {
 			setPosition(AimaggBlocks.chocolate, AimaggCategory.RAINBOW, 10);
 
 			setPosition(AimaggBlocks.wastelandWorld, AimaggCategory.WASTELAND, 0);
-			setPosition(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 1);
-			setPosition(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 2);
+			setPosition(AimaggBlocks.brittlewood, AimaggCategory.WASTELAND, 1);
+			setPosition(AimaggBlocks.brittlewoodSlab, AimaggCategory.WASTELAND, 2);
+			setPosition(AimaggBlocks.brittlewoodStairs, AimaggCategory.WASTELAND, 3);
+			setPosition(AimaggBlocks.brokenGlass, AimaggCategory.WASTELAND, 4);
+			setPosition(AimaggBlocks.fortstone, AimaggCategory.WASTELAND, 5);
+			setPosition(AimaggBlocks.poop, AimaggCategory.WASTELAND, 6);
+			setPosition(AimaggBlocks.spikes, AimaggCategory.WASTELAND, 7);
 			
 			setPosition(AimaggBlocks.computerCase, AimaggCategory.COMPUTING, 0);
 			setPosition(AimaggBlocks.computerCable, AimaggCategory.COMPUTING, 3);
@@ -131,10 +138,11 @@ public class AimaggTab extends CreativeTabs {
 			setPosition(AimaggBlocks.classicGrass, AimaggCategory.VERSION, 0);
 			setPosition(AimaggBlocks.classicSapling, AimaggCategory.VERSION, 1);
 			setPosition(AimaggBlocks.classicLeaves, AimaggCategory.VERSION, 2);
-			setPosition(AimaggBlocks.classicWorld, AimaggCategory.VERSION, 3);
-			setPosition(AimaggBlocks.classicWool, AimaggCategory.VERSION, 4);
-			setPosition(AimaggBlocks.desaturatedWool, AimaggCategory.VERSION, 5);
-			setPosition(AimaggItems.classicPorkchop, AimaggCategory.VERSION, 6);
+			setPosition(AimaggBlocks.classicChest, AimaggCategory.VERSION, 3);
+			setPosition(AimaggBlocks.classicWorld, AimaggCategory.VERSION, 4);
+			setPosition(AimaggBlocks.classicWool, AimaggCategory.VERSION, 5);
+			setPosition(AimaggBlocks.desaturatedWool, AimaggCategory.VERSION, 6);
+			setPosition(AimaggItems.classicPorkchop, AimaggCategory.VERSION, 7);
 
 			setPosition(AimaggBlocks.scaffolding, AimaggCategory.MISC, 0);
 			setPosition(AimaggBlocks.illuminantTile, AimaggCategory.MISC, 1);

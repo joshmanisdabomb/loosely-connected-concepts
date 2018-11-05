@@ -183,7 +183,7 @@ public class AimaggBlockSpikes extends AimaggBlockBasic {
 		private final PotionEffect[] effects;
 
 		SpikesType(MapColor mcolor, float damage, PotionEffect[] effects) {
-			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":wasteland/spikes/" + this.getName());
+			this.mrl = new ModelResourceLocation(Constants.MOD_ID + ":wasteland/spikes_" + this.getName());
 			this.mapColor = mcolor;
 			this.damage = damage;
 			this.effects = effects;

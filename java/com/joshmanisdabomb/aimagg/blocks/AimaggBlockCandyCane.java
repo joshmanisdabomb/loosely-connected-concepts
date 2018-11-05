@@ -36,6 +36,11 @@ public class AimaggBlockCandyCane extends AimaggBlockBasicAxis {
 		super(internalName, material, CandyCaneType.RED.getMapColor());
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y).withProperty(TYPE, CandyCaneType.RED));
 	}
+
+	@Override
+	public int damageDropped(IBlockState state) {
+		return state.getValue(TYPE).getMetadata();
+    }
 	
 	@Override
 	protected BlockStateContainer createBlockState() {

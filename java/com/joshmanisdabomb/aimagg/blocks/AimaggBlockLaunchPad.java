@@ -108,7 +108,7 @@ public class AimaggBlockLaunchPad extends AimaggBlockBasic implements ITileEntit
 	@Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
+        return side != EnumFacing.DOWN || worldIn.getBlockState(pos.down()).isBlockNormalCube();
     }
 
     @Override

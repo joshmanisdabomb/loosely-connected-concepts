@@ -20,8 +20,8 @@ public class AimaggBlockBasicAxis extends AimaggBlockBasic {
 
 	public AimaggBlockBasicAxis(String internalName, Material material, MapColor mcolor) {
 		super(internalName, material, mcolor);
-		this.alwaysDropWithDamage(0);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));
+		this.setDrops(this, 1, 0);
 	}
 
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {

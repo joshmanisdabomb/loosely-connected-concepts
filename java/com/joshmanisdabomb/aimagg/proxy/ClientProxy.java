@@ -5,6 +5,7 @@ import com.joshmanisdabomb.aimagg.AimaggEntities;
 import com.joshmanisdabomb.aimagg.AimaggItems;
 import com.joshmanisdabomb.aimagg.AimaggTileEntities;
 import com.joshmanisdabomb.aimagg.event.AimaggKeyHandler;
+import com.joshmanisdabomb.aimagg.event.AimaggRenderHandler;
 import com.joshmanisdabomb.aimagg.gui.AimaggOverlayHandler;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -35,6 +36,7 @@ public class ClientProxy implements CommonProxy {
 		AimaggItems.registerColoring();
 		AimaggTileEntities.registerTileEntityRenderers();
 		MinecraftForge.EVENT_BUS.register(new AimaggKeyHandler());
+		MinecraftForge.EVENT_BUS.register(new AimaggRenderHandler());
 	}
 
 	@Override

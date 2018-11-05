@@ -6,10 +6,10 @@ import com.joshmanisdabomb.aimagg.data.capabilities.AimaggCapabilityPills;
 import com.joshmanisdabomb.aimagg.event.AimaggChunkManager;
 import com.joshmanisdabomb.aimagg.event.AimaggEventHandler;
 import com.joshmanisdabomb.aimagg.event.AimaggRegistry;
+import com.joshmanisdabomb.aimagg.event.AimaggRenderHandler;
 import com.joshmanisdabomb.aimagg.event.AimaggTerrainHandler;
 import com.joshmanisdabomb.aimagg.gen.AimaggWorldGen;
 import com.joshmanisdabomb.aimagg.gui.AimaggGUIHandler;
-import com.joshmanisdabomb.aimagg.gui.AimaggOverlayHandler;
 import com.joshmanisdabomb.aimagg.packets.AimaggPacketHandler;
 import com.joshmanisdabomb.aimagg.proxy.CommonProxy;
 

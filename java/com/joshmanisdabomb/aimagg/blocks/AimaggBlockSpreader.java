@@ -37,8 +37,6 @@ public class AimaggBlockSpreader extends AimaggBlockBasic implements AimaggBlock
 	public final EnumDyeColor dyeColor;
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
 	
-	//TODO use an ibakedmodel instead of 256 textures, should really save on disk space
-	
 	public AimaggBlockSpreader(EnumDyeColor dyeColor, String internalName, Material material) {
 		super(internalName, material, MapColor.getBlockColor(dyeColor));
 		this.dyeColor = dyeColor;

@@ -1,11 +1,14 @@
 package com.joshmanisdabomb.lcc;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -13,17 +16,16 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.stream.Collectors;
-
-@Mod("lcc")
-public class LooselyConnectedConcepts
+@Mod(LCC.modid)
+public class LCC
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    @SuppressWarnings("unused")
+	private static final Logger LOGGER = LogManager.getLogger();
+    
+	public static final String modid = "lcc";
 
-    public LooselyConnectedConcepts() {
+    public LCC() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
@@ -33,33 +35,39 @@ public class LooselyConnectedConcepts
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    	
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+    	
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
-        InterModComms.sendTo("lcc", "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+        
     }
 
     private void processIMC(final InterModProcessEvent event) {
-        LOGGER.info("Got IMC", event.getIMCStream().
-            map(m->m.getMessageSupplier().get()).
-            collect(Collectors.toList()));
+        
     }
     
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        LOGGER.info("HELLO from server starting");
+        
     }
-
+    
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
+        @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            LOGGER.info("HELLO from Register Block");
+        	LCCBlocks.init(blockRegistryEvent);
+        	blockRegistryEvent.getRegistry().registerAll(LCCBlocks.all.toArray(new Block[0]));
+        }
+        
+        @SubscribeEvent
+        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
+        	LCCItems.init(itemRegistryEvent);
+        	itemRegistryEvent.getRegistry().registerAll(LCCBlocks.allItem.toArray(new ItemBlock[0]));
+        	itemRegistryEvent.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
         }
     }
 }

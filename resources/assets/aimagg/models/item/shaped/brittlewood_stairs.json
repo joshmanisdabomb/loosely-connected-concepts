@@ -1,8 +1,0 @@
-{
-    "parent": "minecraft:block/stairs",
-    "textures": {
-		"bottom": "aimagg:blocks/wasteland/brittlewood/planks",
-		"top": "aimagg:blocks/wasteland/brittlewood/planks",
-		"side": "aimagg:blocks/wasteland/brittlewood/planks"
-	}
-}

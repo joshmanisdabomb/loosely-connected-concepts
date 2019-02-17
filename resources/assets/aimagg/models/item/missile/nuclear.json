@@ -1,7 +1,0 @@
-{
-	"parent": "aimagg:item/missile/base_fat",
-	"textures": {
-		"body": "aimagg:items/missile/body_fat",
-		"missile": "aimagg:items/missile/nuclear"
-	}
-}

@@ -1,7 +1,0 @@
-{
-    "parent": "minecraft:block/cube_column",
-    "textures": {
-        "end": "aimagg:blocks/wasteland/brittlewood/end",
-        "side": "aimagg:blocks/wasteland/brittlewood/side"
-    }
-}

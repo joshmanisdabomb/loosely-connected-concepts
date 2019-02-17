@@ -1,6 +1,0 @@
-{
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "aimagg:blocks/versions/desat_wool_magenta"
-    }
-}

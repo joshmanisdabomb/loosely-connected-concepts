@@ -1,6 +1,0 @@
-{
-    "parent": "item/handheld",
-    "textures": {
-        "layer0": "aimagg:items/equipment/emerald_pickaxe"
-    }
-}

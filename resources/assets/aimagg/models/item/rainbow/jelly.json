@@ -1,6 +1,0 @@
-{
-    "parent": "aimagg:block/colorable",
-    "textures": {
-        "all": "aimagg:blocks/rainbow/jelly"
-    }
-}

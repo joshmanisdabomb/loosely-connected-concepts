@@ -1,7 +1,0 @@
-{
-    "parent": "block/fire_side_alt",
-    "textures": {
-        "particle": "aimagg:blocks/nuclear_fire/fire_layer_0",
-        "fire": "aimagg:blocks/nuclear_fire/fire_layer_0"
-    }
-}

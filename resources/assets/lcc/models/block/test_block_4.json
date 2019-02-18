@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "lcc:block/test/4_end",
+    "side": "lcc:block/test/4_side"
+  }
+}

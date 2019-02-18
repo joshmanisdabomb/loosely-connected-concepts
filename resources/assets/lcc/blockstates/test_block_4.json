@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": { "model": "lcc:block/test_block_4" },
+    "axis=z": { "model": "lcc:block/test_block_4", "x": 90 },
+    "axis=x": { "model": "lcc:block/test_block_4", "x": 90, "y": 90 }
+  }
+}

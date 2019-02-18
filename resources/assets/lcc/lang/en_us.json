@@ -1,4 +1,8 @@
 {
   "block.lcc.test_block": "Test Block",
+  "block.lcc.test_block_2": "Test Block (Horizontal Facing)",
+  "block.lcc.test_block_3": "Test Block (Any Facing)",
+  "block.lcc.test_block_4": "Test Block (Pillar)",
+  "block.lcc.test_block_5": "Test Block (Connected)",
   "item.lcc.test_item": "Test Item"
 }

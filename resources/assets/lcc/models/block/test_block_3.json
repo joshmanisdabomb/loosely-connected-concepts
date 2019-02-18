@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "lcc:block/test/2_side",
+    "front": "lcc:block/test/2_front",
+    "side": "lcc:block/test/2_side"
+  }
+}

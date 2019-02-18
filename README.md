@@ -16,4 +16,5 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  
 ## Downloads ##
 ### Other Versions ###
+ * [Alpha 0.1](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.13.2-a0.1.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/6bb4e68699ca9cfd102efd6497fbd9b9b2767953) for 1.13.2 on 18 February 2019
  * [Pre-Alpha](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.13.2-prealpha.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/f0f36ef34a0112b85fe2d06dfc5256f9a6679767) for 1.13.2 on 17 February 2019

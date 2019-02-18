@@ -15,10 +15,12 @@ public class BlockTestPillar extends BlockRotatedPillar implements LCCBlockHelpe
         this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.AXIS, EnumFacing.Axis.Y));
     }
 
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
         builder.add(BlockStateProperties.AXIS);
     }
 
+    @Override
     public IBlockState getStateForPlacement(BlockItemUseContext context) {
         return traitPillarPlacement(context);
     }

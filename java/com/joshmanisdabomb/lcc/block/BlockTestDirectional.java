@@ -15,10 +15,12 @@ public class BlockTestDirectional extends BlockDirectional implements LCCBlockHe
         this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.FACING, EnumFacing.NORTH));
     }
 
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
         builder.add(BlockStateProperties.FACING);
     }
 
+    @Override
     public IBlockState getStateForPlacement(BlockItemUseContext context) {
         return traitDirectionalPlacement(context);
     }

@@ -4,5 +4,6 @@
   "block.lcc.test_block_3": "Test Block (Any Facing)",
   "block.lcc.test_block_4": "Test Block (Pillar)",
   "block.lcc.test_block_5": "Test Block (Connected)",
-  "item.lcc.test_item": "Test Item"
+  "item.lcc.test_item": "Test Item",
+  "itemGroup.lcc": "Loosely Connected Concepts"
 }

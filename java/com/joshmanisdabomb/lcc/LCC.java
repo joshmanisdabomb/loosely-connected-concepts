@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc;
 
+import net.minecraft.item.ItemGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,13 +18,13 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(LCC.modid)
+@Mod(LCC.MODID)
 public class LCC
 {
-    @SuppressWarnings("unused")
-	private static final Logger LOGGER = LogManager.getLogger();
+	static final Logger LOGGER = LogManager.getLogger();
     
-	public static final String modid = "lcc";
+	public static final String MODID = "lcc";
+	public static final LCCGroup itemGroup = new LCCGroup();
 
     public LCC() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -35,7 +36,7 @@ public class LCC
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-    	
+        LCCGroup.LCCGroupSort.sortItems();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

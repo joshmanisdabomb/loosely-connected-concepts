@@ -15,10 +15,12 @@ public class BlockTestHorizontal extends BlockHorizontal implements LCCBlockHelp
         this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.HORIZONTAL_FACING, EnumFacing.NORTH));
     }
 
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
     }
 
+    @Override
     public IBlockState getStateForPlacement(BlockItemUseContext context) {
         return traitHorizontalPlacement(context);
     }

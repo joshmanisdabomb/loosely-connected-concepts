@@ -81,6 +81,9 @@ public class LCCGroup extends ItemGroup {
             setPosition(LCCItems.uranium_nugget, LCCGroupCategory.RESOURCES, 13);
             setPosition(LCCItems.uranium, LCCGroupCategory.RESOURCES, 14);
             setPosition(LCCBlocks.uranium_storage, LCCGroupCategory.RESOURCES, 15);
+            setPosition(LCCItems.enriched_uranium_nugget, LCCGroupCategory.RESOURCES, 16);
+            setPosition(LCCItems.enriched_uranium, LCCGroupCategory.RESOURCES, 17);
+            setPosition(LCCBlocks.enriched_uranium_storage, LCCGroupCategory.RESOURCES, 18);
         }
 
         private static void setPosition(Object o, LCCGroupCategory cat, int sortVal) {

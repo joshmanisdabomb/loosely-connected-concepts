@@ -20,6 +20,8 @@ public class LCCItems {
 	public static Item amethyst;
 	public static Item uranium_nugget;
 	public static Item uranium;
+	public static Item enriched_uranium_nugget;
+	public static Item enriched_uranium;
 
 	public static void init(Register<Item> itemRegistryEvent) {
 		//Test Items
@@ -32,6 +34,8 @@ public class LCCItems {
 		all.add(amethyst = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst"));
 		all.add(uranium_nugget = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "uranium_nugget"));
 		all.add(uranium = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "uranium"));
+		all.add(enriched_uranium_nugget = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "enriched_uranium_nugget"));
+		all.add(enriched_uranium = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "enriched_uranium"));
 	}
 	
 }

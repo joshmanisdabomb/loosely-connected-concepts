@@ -38,6 +38,7 @@ public class LCCBlocks {
 	public static Block amethyst_storage;
 	public static Block uranium_ore;
 	public static Block uranium_storage;
+	public static Block enriched_uranium_storage;
 
 	public static void init(Register<Block> blockRegistryEvent) {
 		//Test Blocks
@@ -73,6 +74,8 @@ public class LCCBlocks {
 		createDefaultItemBlock(uranium_ore);
 		all.add(uranium_storage = new Block(Block.Properties.create(Material.ROCK, EnumDyeColor.LIME)).setRegistryName(LCC.MODID, "uranium_storage"));
 		createDefaultItemBlock(uranium_storage);
+		all.add(enriched_uranium_storage = new Block(Block.Properties.create(Material.ROCK, EnumDyeColor.LIME)).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
+		createDefaultItemBlock(enriched_uranium_storage);
 	}
 
 	private static void createDefaultItemBlock(Block b) {

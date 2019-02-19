@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": [
+      { "model": "lcc:block/sapphire_storage" }
+    ]
+  }
+}

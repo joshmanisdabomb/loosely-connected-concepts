@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.LCCResources;
+import com.joshmanisdabomb.lcc.LCCBlocks;
+import com.joshmanisdabomb.lcc.LCCItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.IItemProvider;
@@ -11,21 +12,22 @@ import java.util.Random;
 
 public class BlockResourceOre extends Block {
 
-    private final LCCResources r;
-
-    public BlockResourceOre(Block.Properties p, LCCResources r) {
+    public BlockResourceOre(Block.Properties p) {
         super(p);
-        this.r = r;
     }
 
     @Override
     public IItemProvider getItemDropped(IBlockState state, World worldIn, BlockPos pos, int fortune) {
-        return r.oreType == LCCResources.OreType.DROP_INGOT ? r.ingot : this;
+        if (this == LCCBlocks.ruby_ore) return LCCItems.ruby;
+        if (this == LCCBlocks.topaz_ore) return LCCItems.topaz;
+        if (this == LCCBlocks.sapphire_ore) return LCCItems.sapphire;
+        if (this == LCCBlocks.amethyst_ore) return LCCItems.amethyst;
+        return this;
     }
 
     @Override
     public int getItemsToDropCount(IBlockState state, int fortune, World worldIn, BlockPos pos, Random random) {
-        if (r.oreType == LCCResources.OreType.DROP_INGOT) {
+        if (this == LCCBlocks.ruby_ore || this == LCCBlocks.topaz_ore || this == LCCBlocks.sapphire_ore || this == LCCBlocks.amethyst_ore) {
             return (Math.max(0, random.nextInt(fortune + 2) - 1) + 1);
         } else {
             return 1;

@@ -65,21 +65,22 @@ public class LCCGroup extends ItemGroup {
             setPosition(LCCItems.test_item, LCCGroupCategory.TESTING, 5);
 
             //Resources
-            int sv = 0;
-            for (LCCResources r : LCCResources.values()) {
-                if (r.nugget != null) {
-                    setPosition(r.nugget, LCCGroupCategory.RESOURCES, sv++);
-                }
-                if (r.ore != null) {
-                    setPosition(r.ore, LCCGroupCategory.RESOURCES, sv++);
-                }
-                if (r.ingot != null) {
-                    setPosition(r.ingot, LCCGroupCategory.RESOURCES, sv++);
-                }
-                if (r.storage != null) {
-                    setPosition(r.storage, LCCGroupCategory.RESOURCES, sv++);
-                }
-            }
+            setPosition(LCCBlocks.ruby_ore, LCCGroupCategory.RESOURCES, 0);
+            setPosition(LCCItems.ruby, LCCGroupCategory.RESOURCES, 1);
+            setPosition(LCCBlocks.ruby_storage, LCCGroupCategory.RESOURCES, 2);
+            setPosition(LCCBlocks.topaz_ore, LCCGroupCategory.RESOURCES, 3);
+            setPosition(LCCItems.topaz, LCCGroupCategory.RESOURCES, 4);
+            setPosition(LCCBlocks.topaz_storage, LCCGroupCategory.RESOURCES, 5);
+            setPosition(LCCBlocks.sapphire_ore, LCCGroupCategory.RESOURCES, 6);
+            setPosition(LCCItems.sapphire, LCCGroupCategory.RESOURCES, 7);
+            setPosition(LCCBlocks.sapphire_storage, LCCGroupCategory.RESOURCES, 8);
+            setPosition(LCCBlocks.amethyst_ore, LCCGroupCategory.RESOURCES, 9);
+            setPosition(LCCItems.amethyst, LCCGroupCategory.RESOURCES, 10);
+            setPosition(LCCBlocks.amethyst_storage, LCCGroupCategory.RESOURCES, 11);
+            setPosition(LCCBlocks.uranium_ore, LCCGroupCategory.RESOURCES, 12);
+            setPosition(LCCItems.uranium_nugget, LCCGroupCategory.RESOURCES, 13);
+            setPosition(LCCItems.uranium, LCCGroupCategory.RESOURCES, 14);
+            setPosition(LCCBlocks.uranium_storage, LCCGroupCategory.RESOURCES, 15);
         }
 
         private static void setPosition(Object o, LCCGroupCategory cat, int sortVal) {

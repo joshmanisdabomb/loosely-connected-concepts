@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc;
 
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,6 +70,12 @@ public class LCC
         	LCCItems.init(itemRegistryEvent);
         	itemRegistryEvent.getRegistry().registerAll(LCCBlocks.allItem.toArray(new ItemBlock[0]));
         	itemRegistryEvent.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
+        }
+
+        @SubscribeEvent
+        public static void onEntitiesRegistry(final RegistryEvent.Register<EntityType<?>> entityRegistryEvent) {
+            LCCEntities.init(entityRegistryEvent);
+            entityRegistryEvent.getRegistry().registerAll(LCCEntities.all.toArray(new EntityType<?>[0]));
         }
     }
 }

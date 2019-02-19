@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class LCCBlocks {
 	
-	public static final ArrayList<Block> all = new ArrayList<Block>();
-	public static final ArrayList<ItemBlock> allItem = new ArrayList<ItemBlock>();
+	public static final ArrayList<Block> all = new ArrayList<>();
+	public static final ArrayList<ItemBlock> allItem = new ArrayList<>();
 
 	//Test Blocks
 	public static Block test_block;

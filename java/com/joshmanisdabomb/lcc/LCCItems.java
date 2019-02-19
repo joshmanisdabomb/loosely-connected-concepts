@@ -8,7 +8,7 @@ import net.minecraftforge.event.RegistryEvent.Register;
 
 public class LCCItems {
 
-	public static final ArrayList<Item> all = new ArrayList<Item>();
+	public static final ArrayList<Item> all = new ArrayList<>();
 
 	//Test Items
 	public static Item test_item;

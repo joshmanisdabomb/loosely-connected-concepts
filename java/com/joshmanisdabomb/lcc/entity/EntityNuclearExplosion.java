@@ -32,21 +32,30 @@ public class EntityNuclearExplosion extends Entity {
         BlockPos center = this.getPosition();
         BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos();
         if (!this.world.isRemote) {
-            for (int i = -q; i <= q; i++) {
-                for (int j = -q; j <= q; j++) {
-                    for (int k = -q; k <= q; k++) {
+            for (int i = 0; i <= q; i++) {
+                for (int j = 0; j <= q; j++) {
+                    for (int k = 0; k <= q; k++) {
                         mb.setPos(center.getX() + i, center.getY() + j, center.getZ() + k);
                         double distance = mb.getDistance(center);
-                        if (distance < q && distance >= q-4 && !this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f) {
-                            float f = this.rand.nextFloat();
-                            if (f < 0.05f * progress) {
-                                world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(BlockFire.AGE, rand.nextInt(15)), 3);
-                            } else if (f < 0.3f * progress) {
-                                world.setBlockState(mb, LCCBlocks.nuclear_waste.getDefaultState(), 3);
-                            } else if (f < 1f * progress && this.world.getFluidState(mb) == Fluids.EMPTY.getDefaultState()) {
-                                //keep block
-                            } else {
-                                world.setBlockState(mb, Blocks.AIR.getDefaultState(), 3);
+                        if (distance < q && distance >= q - 3) {
+                            for (int i2 = ((i != 0) ? -1 : 0); i2 <= ((i != 0) ? 1 : 0); i2 += 2) {
+                                for (int j2 = ((j != 0) ? -1 : 0); j2 <= ((j != 0) ? 1 : 0); j2 += 2) {
+                                    for (int k2 = ((k != 0) ? -1 : 0); k2 <= ((k != 0) ? 1 : 0); k2 += 2) {
+                                        mb.setPos(center.getX() + (i * i2), center.getY() + (j * j2), center.getZ() + (k * k2));
+                                        if (!this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f) {
+                                            float f = this.rand.nextFloat();
+                                            if (f < 0.035f * progress) {
+                                                world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(BlockFire.AGE, rand.nextInt(15)), 3);
+                                            } else if (f < 0.3f * progress) {
+                                                world.setBlockState(mb, LCCBlocks.nuclear_waste.getDefaultState(), 3);
+                                            } else if (f < 0.7f * progress && this.world.getFluidState(mb) == Fluids.EMPTY.getDefaultState()) {
+                                                //keep block
+                                            } else {
+                                                world.setBlockState(mb, Blocks.AIR.getDefaultState(), 3);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

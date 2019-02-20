@@ -2,12 +2,11 @@ package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.entity.EntityNuclearExplosion;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraftforge.event.RegistryEvent;
 
 import java.util.ArrayList;
 
-public class LCCEntities {
+public abstract class LCCEntities {
 
     public static ArrayList<EntityType<?>> all = new ArrayList<>();
 

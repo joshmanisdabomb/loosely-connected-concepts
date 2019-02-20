@@ -1,12 +1,11 @@
 package com.joshmanisdabomb.lcc;
 
-import java.util.ArrayList;
-
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.RegistryEvent.Register;
 
-public class LCCItems {
+import java.util.ArrayList;
+
+public abstract class LCCItems {
 
 	public static final ArrayList<Item> all = new ArrayList<>();
 

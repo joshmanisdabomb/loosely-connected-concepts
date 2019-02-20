@@ -3,18 +3,14 @@ package com.joshmanisdabomb.lcc.block;
 import com.joshmanisdabomb.lcc.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockPortal;
-import net.minecraft.block.BlockTNT;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

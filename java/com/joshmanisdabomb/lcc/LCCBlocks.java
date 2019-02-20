@@ -8,12 +8,11 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
 
-public class LCCBlocks {
+public abstract class LCCBlocks {
 	
 	public static final ArrayList<Block> all = new ArrayList<>();
 	public static final ArrayList<ItemBlock> allItem = new ArrayList<>();

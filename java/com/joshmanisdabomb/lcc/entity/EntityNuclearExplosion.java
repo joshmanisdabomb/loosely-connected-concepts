@@ -4,11 +4,9 @@ import com.joshmanisdabomb.lcc.LCCBlocks;
 import com.joshmanisdabomb.lcc.LCCEntities;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Fluids;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 

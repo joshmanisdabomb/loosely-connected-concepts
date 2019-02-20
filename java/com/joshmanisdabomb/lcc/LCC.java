@@ -1,13 +1,8 @@
 package com.joshmanisdabomb.lcc;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemGroup;
-import net.minecraftforge.fml.common.IWorldGenerator;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,6 +15,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(LCC.MODID)
 public class LCC
@@ -40,7 +37,7 @@ public class LCC
 
     private void setup(final FMLCommonSetupEvent event) {
         LCCGroup.LCCGroupSort.sortItems();
-
+        BiomeBasedGenerator.init();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

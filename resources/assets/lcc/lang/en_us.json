@@ -5,6 +5,7 @@
   "block.lcc.test_block_4": "Test Block (Pillar)",
   "block.lcc.test_block_5": "Test Block (Connected)",
   "item.lcc.test_item": "Test Item",
+
   "block.lcc.ruby_ore": "Ruby Ore",
   "item.lcc.ruby": "Ruby",
   "block.lcc.ruby_storage": "Ruby Block",
@@ -24,5 +25,8 @@
   "item.lcc.enriched_uranium_nugget": "Enriched Uranium Nugget",
   "item.lcc.enriched_uranium": "Enriched Uranium",
   "block.lcc.enriched_uranium_storage": "Enriched Uranium Block",
+
+  "block.lcc.nuclear_debris": "Nuclear Debris",
+
   "itemGroup.lcc": "Loosely Connected Concepts"
 }

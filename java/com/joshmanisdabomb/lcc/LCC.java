@@ -2,6 +2,8 @@ package com.joshmanisdabomb.lcc;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.fml.common.IWorldGenerator;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +24,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(LCC.MODID)
 public class LCC
 {
-	static final Logger LOGGER = LogManager.getLogger();
+	private static final Logger LOGGER = LogManager.getLogger();
     
 	public static final String MODID = "lcc";
 	public static final LCCGroup itemGroup = new LCCGroup();
@@ -38,6 +40,7 @@ public class LCC
 
     private void setup(final FMLCommonSetupEvent event) {
         LCCGroup.LCCGroupSort.sortItems();
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -54,7 +57,7 @@ public class LCC
     
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        
+
     }
     
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.entity;
 
+import com.joshmanisdabomb.lcc.LCCBlocks;
 import com.joshmanisdabomb.lcc.LCCEntities;
+import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.init.Blocks;
@@ -30,17 +32,17 @@ public class EntityNuclearExplosion extends Entity {
         BlockPos center = this.getPosition();
         BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos();
         if (!this.world.isRemote) {
-            for (int i = -q; i < q; i++) {
-                for (int j = -q; j < q; j++) {
-                    for (int k = -q; k < q; k++) {
+            for (int i = -q; i <= q; i++) {
+                for (int j = -q; j <= q; j++) {
+                    for (int k = -q; k <= q; k++) {
                         mb.setPos(center.getX() + i, center.getY() + j, center.getZ() + k);
                         double distance = mb.getDistance(center);
                         if (distance < q && distance >= q-4 && !this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f) {
                             float f = this.rand.nextFloat();
-                            if (f < 0.2f * progress) {
-                                world.setBlockState(mb, Blocks.FIRE.getDefaultState(), 3);
+                            if (f < 0.05f * progress) {
+                                world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(BlockFire.AGE, rand.nextInt(15)), 3);
                             } else if (f < 0.3f * progress) {
-                                world.setBlockState(mb, Blocks.BEDROCK.getDefaultState(), 3);
+                                world.setBlockState(mb, LCCBlocks.nuclear_waste.getDefaultState(), 3);
                             } else if (f < 1f * progress && this.world.getFluidState(mb) == Fluids.EMPTY.getDefaultState()) {
                                 //keep block
                             } else {

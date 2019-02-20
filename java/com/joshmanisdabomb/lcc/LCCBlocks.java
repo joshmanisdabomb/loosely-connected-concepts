@@ -1,10 +1,8 @@
 package com.joshmanisdabomb.lcc;
 
-import com.joshmanisdabomb.lcc.block.BlockResourceOre;
-import com.joshmanisdabomb.lcc.block.BlockTestDirectional;
-import com.joshmanisdabomb.lcc.block.BlockTestHorizontal;
-import com.joshmanisdabomb.lcc.block.BlockTestPillar;
+import com.joshmanisdabomb.lcc.block.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.EnumDyeColor;
@@ -39,6 +37,10 @@ public class LCCBlocks {
 	public static Block uranium_ore;
 	public static Block uranium_storage;
 	public static Block enriched_uranium_storage;
+
+	//Nuclear
+	public static Block nuclear_waste;
+	public static Block nuclear_fire;
 
 	public static void init(Register<Block> blockRegistryEvent) {
 		//Test Blocks
@@ -76,6 +78,11 @@ public class LCCBlocks {
 		createDefaultItemBlock(uranium_storage);
 		all.add(enriched_uranium_storage = new Block(Block.Properties.create(Material.ROCK, EnumDyeColor.LIME)).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
 		createDefaultItemBlock(enriched_uranium_storage);
+
+		//Nuclear
+		all.add(nuclear_waste = new BlockNuclearWaste(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F)).setRegistryName(LCC.MODID, "nuclear_waste"));
+		createDefaultItemBlock(nuclear_waste);
+		all.add(nuclear_fire = new BlockNuclearFire(Block.Properties.create(Material.FIRE, EnumDyeColor.LIME).doesNotBlockMovement().needsRandomTick().hardnessAndResistance(0.0F).lightValue(15).sound(SoundType.CLOTH)).setRegistryName(LCC.MODID, "nuclear_fire"));
 	}
 
 	private static void createDefaultItemBlock(Block b) {

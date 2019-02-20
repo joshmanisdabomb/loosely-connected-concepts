@@ -84,6 +84,9 @@ public class LCCGroup extends ItemGroup {
             setPosition(LCCItems.enriched_uranium_nugget, LCCGroupCategory.RESOURCES, 16);
             setPosition(LCCItems.enriched_uranium, LCCGroupCategory.RESOURCES, 17);
             setPosition(LCCBlocks.enriched_uranium_storage, LCCGroupCategory.RESOURCES, 18);
+
+            //Nuclear
+            setPosition(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
         }
 
         private static void setPosition(Object o, LCCGroupCategory cat, int sortVal) {
@@ -126,6 +129,7 @@ public class LCCGroup extends ItemGroup {
     public enum LCCGroupCategory {
 
         RESOURCES,
+        NUCLEAR,
         TESTING;
 
         protected HashMap<String, Integer> sortValueList = new HashMap<String, Integer>();

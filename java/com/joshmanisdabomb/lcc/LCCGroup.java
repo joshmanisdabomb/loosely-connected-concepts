@@ -87,6 +87,9 @@ public class LCCGroup extends ItemGroup {
 
             //Nuclear
             setPosition(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
+
+            //Power
+            setPosition(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);
         }
 
         private static void setPosition(Object o, LCCGroupCategory cat, int sortVal) {
@@ -130,6 +133,7 @@ public class LCCGroup extends ItemGroup {
 
         RESOURCES,
         NUCLEAR,
+        POWER,
         TESTING;
 
         protected HashMap<String, Integer> sortValueList = new HashMap<String, Integer>();

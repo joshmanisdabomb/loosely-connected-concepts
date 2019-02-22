@@ -26,7 +26,7 @@
   "item.lcc.enriched_uranium": "Enriched Uranium",
   "block.lcc.enriched_uranium_storage": "Enriched Uranium Block",
 
-  "block.lcc.nuclear_debris": "Nuclear Debris",
+  "block.lcc.nuclear_waste": "Nuclear Debris",
 
   "itemGroup.lcc": "Loosely Connected Concepts"
 }

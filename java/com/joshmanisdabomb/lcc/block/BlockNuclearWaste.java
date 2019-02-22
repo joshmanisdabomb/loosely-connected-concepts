@@ -28,13 +28,13 @@ public class BlockNuclearWaste extends BlockFalling {
                 worldIn.removeBlock(pos);
             }
 
-            BlockPos blockpos;
-            for(blockpos = pos.down(); canFallThrough(worldIn.getBlockState(blockpos)) && blockpos.getY() > 0; blockpos = blockpos.down()) {
+            BlockPos.MutableBlockPos mb;
+            for(mb = new BlockPos.MutableBlockPos(pos); canFallThrough(worldIn.getBlockState(mb)) && mb.getY() > 0; mb.add(0,-1,0)) {
                 ;
             }
 
-            if (blockpos.getY() > 0) {
-                worldIn.setBlockState(blockpos.up(), state);
+            if (mb.getY() > 0) {
+                worldIn.setBlockState(mb.up(), state);
             }
         }
     }

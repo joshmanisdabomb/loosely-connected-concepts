@@ -52,7 +52,7 @@ public abstract class BiomeBasedGenerator {
 
         //Uranium Ore
         ReplaceBlockConfig uranium_config = new ReplaceBlockConfig(BlockMatcher.forBlock(Blocks.STONE), LCCBlocks.uranium_ore.getDefaultState());
-        CountRangeConfig uranium_placement = new CountRangeConfig(1, 0, 0, 12);
+        CountRangeConfig uranium_placement = new CountRangeConfig(2, 0, 0, 12);
         for (Biome b : Biome.BIOMES) {
             b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.REPLACE_BLOCK, uranium_config, Biome.COUNT_RANGE, uranium_placement));
         }

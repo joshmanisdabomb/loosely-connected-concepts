@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc;
 
+import com.joshmanisdabomb.lcc.event.RenderEventHandler;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -30,7 +31,7 @@ public class LCC
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -40,8 +41,8 @@ public class LCC
         BiomeBasedGenerator.init();
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) {
-    	
+    private void onClientSetup(final FMLClientSetupEvent event) {
+    	MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
@@ -51,7 +52,7 @@ public class LCC
     private void processIMC(final InterModProcessEvent event) {
         
     }
-    
+
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
 

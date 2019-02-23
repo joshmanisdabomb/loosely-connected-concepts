@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc;
 
+import com.joshmanisdabomb.lcc.item.render.teisr.TEISRGauntlet;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent.Register;
 import com.joshmanisdabomb.lcc.item.ItemGauntlet;
@@ -41,7 +42,7 @@ public abstract class LCCItems {
 		all.add(enriched_uranium = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "enriched_uranium"));
 
 		//Power
-		all.add(gauntlet = new ItemGauntlet(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "gauntlet"));
+		all.add(gauntlet = new ItemGauntlet(new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TEISRGauntlet::new)).setRegistryName(LCC.MODID, "gauntlet"));
 	}
 	
 }

@@ -28,5 +28,7 @@
 
   "block.lcc.nuclear_waste": "Nuclear Debris",
 
+  "item.lcc.gauntlet": "Power Gauntlet",
+
   "itemGroup.lcc": "Loosely Connected Concepts"
 }

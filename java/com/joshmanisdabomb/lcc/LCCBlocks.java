@@ -41,7 +41,7 @@ public abstract class LCCBlocks {
 	public static Block nuclear_waste;
 	public static Block nuclear_fire;
 
-	public static void init(Register<Block> blockRegistryEvent) {
+	public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add(test_block = new Block(Block.Properties.create(Material.ROCK, EnumDyeColor.YELLOW)).setRegistryName(LCC.MODID, "test_block"));
 		createDefaultItemBlock(test_block);

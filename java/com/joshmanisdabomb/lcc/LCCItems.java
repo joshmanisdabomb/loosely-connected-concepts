@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc;
 
+import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 import com.joshmanisdabomb.lcc.item.render.teisr.TEISRGauntlet;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent.Register;
-import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public abstract class LCCItems {
 	//Power
 	public static Item gauntlet;
 
-	public static void init(Register<Item> itemRegistryEvent) {
+	public static void init(Register<Item> e) {
 		//Test Items
 		all.add(test_item = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "test_item"));
 

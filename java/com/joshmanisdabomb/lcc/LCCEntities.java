@@ -13,7 +13,7 @@ public abstract class LCCEntities {
     //Explosions
     public static EntityType<?> nuclear_explosion;
 
-    public static void init(RegistryEvent.Register<EntityType<?>> entityRegistryEvent) {
+    public static void init(RegistryEvent.Register<EntityType<?>> e) {
         //Explosions
         all.add(nuclear_explosion = EntityType.Builder.create(EntityNuclearExplosion.class, EntityNuclearExplosion::new).build("lcc:nuclear_explosion").setRegistryName(LCC.MODID, "nuclear_explosion"));
     }

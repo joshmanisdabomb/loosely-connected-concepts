@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.item.render.teisr;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.item.render.model.ModelGauntlet;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BannerTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.item.ItemStack;

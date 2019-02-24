@@ -10,11 +10,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class RenderEventHandler {
 
     @SubscribeEvent
-    public void onHandEvent(RenderSpecificHandEvent event) {
+    public void onHandEvent(RenderSpecificHandEvent e) {
         Minecraft mc = Minecraft.getInstance();
-        if (event.getHand() == EnumHand.MAIN_HAND && event.getItemStack().getItem() == LCCItems.gauntlet) {
-            mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, event.getPartialTicks(), event.getInterpolatedPitch(), EnumHand.MAIN_HAND, event.getSwingProgress(), ItemStack.EMPTY, event.getEquipProgress());
-            //event.setCanceled(true);
+        if (e.getHand() == EnumHand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
+            mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), EnumHand.MAIN_HAND, e.getSwingProgress(), ItemStack.EMPTY, e.getEquipProgress());
+            //e.setCanceled(true);
         }
     }
 

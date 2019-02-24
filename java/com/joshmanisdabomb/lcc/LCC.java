@@ -1,5 +1,8 @@
 package com.joshmanisdabomb.lcc;
 
+import com.joshmanisdabomb.lcc.data.capability.CapabilityEventHandler;
+import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
+import com.joshmanisdabomb.lcc.event.GeneralEventHandler;
 import com.joshmanisdabomb.lcc.event.RenderEventHandler;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import net.minecraft.block.Block;
@@ -7,6 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,47 +40,54 @@ public class LCC
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
+    private void setup(final FMLCommonSetupEvent e) {
         LCCGroup.LCCGroupSort.sortItems();
+
         BiomeBasedGenerator.init();
+
+        MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
+
+        CapabilityManager.INSTANCE.register(CapabilityGauntlet.CIGauntlet.class, new CapabilityGauntlet(), () -> new CapabilityGauntlet.CGauntlet());
+
+        MinecraftForge.EVENT_BUS.register(new CapabilityEventHandler());
     }
 
-    private void onClientSetup(final FMLClientSetupEvent event) {
+    private void onClientSetup(final FMLClientSetupEvent e) {
     	MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event) {
+    private void enqueueIMC(final InterModEnqueueEvent e) {
         
     }
 
-    private void processIMC(final InterModProcessEvent event) {
+    private void processIMC(final InterModProcessEvent e) {
         
     }
 
     @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
+    public void onServerStarting(FMLServerStartingEvent e) {
 
     }
     
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
-        	LCCBlocks.init(blockRegistryEvent);
-        	blockRegistryEvent.getRegistry().registerAll(LCCBlocks.all.toArray(new Block[0]));
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> e) {
+        	LCCBlocks.init(e);
+        	e.getRegistry().registerAll(LCCBlocks.all.toArray(new Block[0]));
         }
         
         @SubscribeEvent
-        public static void onItemsRegistry(final RegistryEvent.Register<Item> itemRegistryEvent) {
-        	LCCItems.init(itemRegistryEvent);
-        	itemRegistryEvent.getRegistry().registerAll(LCCBlocks.allItem.toArray(new ItemBlock[0]));
-        	itemRegistryEvent.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
+        public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
+        	LCCItems.init(e);
+        	e.getRegistry().registerAll(LCCBlocks.allItem.toArray(new ItemBlock[0]));
+        	e.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
         }
 
         @SubscribeEvent
-        public static void onEntitiesRegistry(final RegistryEvent.Register<EntityType<?>> entityRegistryEvent) {
-            LCCEntities.init(entityRegistryEvent);
-            entityRegistryEvent.getRegistry().registerAll(LCCEntities.all.toArray(new EntityType<?>[0]));
+        public static void onEntitiesRegistry(final RegistryEvent.Register<EntityType<?>> e) {
+            LCCEntities.init(e);
+            e.getRegistry().registerAll(LCCEntities.all.toArray(new EntityType<?>[0]));
         }
     }
 }

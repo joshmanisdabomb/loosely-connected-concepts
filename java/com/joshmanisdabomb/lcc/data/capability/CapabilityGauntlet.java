@@ -47,7 +47,26 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         void stopPunched();
 
+        boolean canStomp();
+
+        void stomp();
+
+        boolean isStomping();
+
+        void stopStomp();
+
         void tick();
+
+        int getUppercutCooldownRaw();
+
+        int getPunchCooldownRaw();
+
+        int getPunchDurationRaw();
+
+        int getStompCooldownRaw();
+
+        int getStompDurationRaw();
+
     }
 
     public static class CGauntlet implements CIGauntlet {
@@ -56,18 +75,22 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         public static final int PUNCH_COOLDOWN = 80;
         public static final int PUNCH_MAX_DURATION = 10;
         public static final int PUNCH_EFFECT_MAX_DURATION = 10;
+        public static final int STOMP_COOLDOWN = 200;
+        public static final int STOMP_MAX_DURATION = 600;
 
-        private int uppercutCooldown = 0;
-        private int punchCooldown = 0;
+        private int uppercutCooldown = -4;
+        private int punchCooldown = -4;
         private float punchStrength = 0.0F;
         private int punchDuration = 0;
         private int punchEffectDuration = 0;
         private double punchVelocityX = 0.0D;
         private double punchVelocityZ = 0.0D;
+        private int stompCooldown = -4;
+        private int stompDuration = 0;
 
         @Override
         public boolean canUppercut() {
-            return uppercutCooldown <= 0 && punchDuration <= 0;
+            return uppercutCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
         }
 
         @Override
@@ -77,7 +100,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public boolean canPunch() {
-            return punchCooldown <= 0 && punchDuration <= 0;
+            return punchCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
         }
 
         @Override
@@ -130,11 +153,59 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         }
 
         @Override
+        public boolean canStomp() {
+            return stompCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
+        }
+
+        @Override
+        public void stomp() {
+            stompCooldown = STOMP_COOLDOWN;
+            stompDuration = STOMP_MAX_DURATION;
+        }
+
+        @Override
+        public boolean isStomping() {
+            return stompDuration > 0;
+        }
+
+        @Override
+        public void stopStomp() {
+            stompDuration = 0;
+        }
+
+        @Override
         public void tick() {
-            if (uppercutCooldown > 0) uppercutCooldown--;
-            if (punchCooldown > 0) punchCooldown--;
+            if (uppercutCooldown > -4) uppercutCooldown--;
+            if (punchCooldown > -4) punchCooldown--;
             if (punchDuration > 0) punchDuration--;
             if (punchEffectDuration > 0) punchEffectDuration--;
+            if (stompCooldown > -4) stompCooldown--;
+            if (stompDuration > 0) stompDuration--;
+        }
+
+        @Override
+        public int getUppercutCooldownRaw() {
+            return uppercutCooldown;
+        }
+
+        @Override
+        public int getPunchCooldownRaw() {
+            return punchCooldown;
+        }
+
+        @Override
+        public int getPunchDurationRaw() {
+            return punchDuration;
+        }
+
+        @Override
+        public int getStompCooldownRaw() {
+            return stompCooldown;
+        }
+
+        @Override
+        public int getStompDurationRaw() {
+            return stompDuration;
         }
 
     }

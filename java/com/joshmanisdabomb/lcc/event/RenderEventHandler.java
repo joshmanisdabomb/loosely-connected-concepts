@@ -14,7 +14,6 @@ public class RenderEventHandler {
         Minecraft mc = Minecraft.getInstance();
         if (e.getHand() == EnumHand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
             mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), EnumHand.MAIN_HAND, e.getSwingProgress(), ItemStack.EMPTY, e.getEquipProgress());
-            //e.setCanceled(true);
         }
     }
 

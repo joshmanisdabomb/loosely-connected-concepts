@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.event;
 
+import com.joshmanisdabomb.lcc.LCCDamage;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
+import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,42 +27,7 @@ public class GeneralEventHandler {
     public void onPlayerTick(LivingEvent.LivingUpdateEvent e) {
         EntityLivingBase entity = e.getEntityLiving();
         entity.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
-            gauntlet.tick();
-            if (gauntlet.isPunched()) {
-                if (entity.collidedHorizontally || Math.max(Math.abs(entity.motionX), Math.abs(entity.motionZ)) < 0.8D) {
-                    gauntlet.stopPunched();
-                    entity.motionX = 0.0F;
-                    entity.motionZ = 0.0F;
-                } else {
-                    entity.motionY = 0.0F;
-                    entity.isAirBorne = true;
-                }
-            } else if (gauntlet.isPunching()) {
-                List<Entity> entities = entity.world.getEntitiesInAABBexcluding(entity, entity.getBoundingBox().grow(1.0F), (en) -> true);
-                if (entities.size() > 0) {
-                    for (Entity other : entities) {
-                        other.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
-                            other.addVelocity(gauntlet.getPunchVelocityX(), 0.3F, gauntlet.getPunchVelocityZ());
-                            other.fallDistance = 0.0F;
-                            other.isAirBorne = true;
-                            gauntlet2.punched(gauntlet.getPunchStrength());
-                        });
-                    }
-                    gauntlet.stopPunch();
-                    entity.motionX = 0.0F;
-                    entity.motionY = 0.0F;
-                    entity.motionZ = 0.0F;
-                    entity.fallDistance = Math.min(entity.fallDistance, 0.0F);
-                    entity.isAirBorne = true;
-                } else if (entity.collidedHorizontally || Math.max(Math.abs(entity.motionX), Math.abs(entity.motionZ)) < 0.8D) {
-                    gauntlet.stopPunch();
-                    entity.motionX = 0.0F;
-                    entity.motionZ = 0.0F;
-                } else {
-                    entity.motionY = 0.0F;
-                    entity.isAirBorne = true;
-                }
-            }
+            GauntletFunctionality.tick(gauntlet, entity.getHeldItem(EnumHand.MAIN_HAND), entity);
         });
     }
 

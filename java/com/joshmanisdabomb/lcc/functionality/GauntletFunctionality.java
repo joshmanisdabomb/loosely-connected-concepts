@@ -17,6 +17,17 @@ public abstract class GauntletFunctionality {
 
     public static final Predicate<Entity> PUNCHABLES = (e) -> e instanceof EntityLivingBase || e instanceof EntityBoat || e instanceof EntityMinecart;
 
+    public static final int UPPERCUT_COOLDOWN = 80;
+    public static final int PUNCH_COOLDOWN = 60;
+    public static final int PUNCH_MAX_DURATION = 9;
+    public static final int PUNCH_EFFECT_MAX_DURATION = 13;
+    public static final int STOMP_COOLDOWN = 200;
+    public static final int STOMP_MAX_DURATION = 600;
+
+    public static float getStrength(ItemStack stack, int timeLeft) {
+        return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
+    }
+
     public static void performUppercut(CapabilityGauntlet.CIGauntlet gauntlet, ItemStack stack, EntityLivingBase actor) {
         if (gauntlet.canUppercut() || (actor instanceof EntityPlayer && ((EntityPlayer)actor).isCreative())) {
             float f = actor.rotationYaw;
@@ -46,7 +57,7 @@ public abstract class GauntletFunctionality {
 
     public static void performPunch(CapabilityGauntlet.CIGauntlet gauntlet, ItemStack stack, EntityLivingBase actor, int timeLeft) {
         if (gauntlet.canPunch() || (actor instanceof EntityPlayer && ((EntityPlayer)actor).isCreative())) {
-            float strength = Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
+            float strength = getStrength(stack, timeLeft);
             float f = actor.rotationYaw;
             float f1 = actor.rotationPitch;
             float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F)) * MathHelper.cos(f1 * ((float)Math.PI / 180F));

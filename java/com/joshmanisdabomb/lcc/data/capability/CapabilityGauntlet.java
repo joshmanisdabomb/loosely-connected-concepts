@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.nbt.INBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -71,13 +72,6 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
     public static class CGauntlet implements CIGauntlet {
 
-        public static final int UPPERCUT_COOLDOWN = 100;
-        public static final int PUNCH_COOLDOWN = 80;
-        public static final int PUNCH_MAX_DURATION = 10;
-        public static final int PUNCH_EFFECT_MAX_DURATION = 10;
-        public static final int STOMP_COOLDOWN = 200;
-        public static final int STOMP_MAX_DURATION = 600;
-
         private int uppercutCooldown = -4;
         private int punchCooldown = -4;
         private float punchStrength = 0.0F;
@@ -95,7 +89,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public void uppercut() {
-            uppercutCooldown = UPPERCUT_COOLDOWN;
+            uppercutCooldown = GauntletFunctionality.UPPERCUT_COOLDOWN;
         }
 
         @Override
@@ -105,9 +99,9 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public void punch(float strength, double velocityX, double velocityZ) {
-            punchCooldown = PUNCH_COOLDOWN;
+            punchCooldown = GauntletFunctionality.PUNCH_COOLDOWN;
             punchStrength = strength;
-            punchDuration = (int)Math.ceil(PUNCH_MAX_DURATION * strength);
+            punchDuration = (int)Math.ceil(GauntletFunctionality.PUNCH_MAX_DURATION * strength);
             punchVelocityX = velocityX;
             punchVelocityZ = velocityZ;
         }
@@ -124,7 +118,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public void punched(float strength) {
-            punchEffectDuration = (int)Math.ceil(PUNCH_EFFECT_MAX_DURATION * strength);
+            punchEffectDuration = (int)Math.ceil(GauntletFunctionality.PUNCH_EFFECT_MAX_DURATION * strength);
         }
 
         @Override
@@ -159,8 +153,8 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public void stomp() {
-            stompCooldown = STOMP_COOLDOWN;
-            stompDuration = STOMP_MAX_DURATION;
+            stompCooldown = GauntletFunctionality.STOMP_COOLDOWN;
+            stompDuration = GauntletFunctionality.STOMP_MAX_DURATION;
         }
 
         @Override

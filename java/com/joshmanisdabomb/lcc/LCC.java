@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEventHandler;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.event.GeneralEventHandler;
+import com.joshmanisdabomb.lcc.event.OverlayEventHandler;
 import com.joshmanisdabomb.lcc.event.RenderEventHandler;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import net.minecraft.block.Block;
@@ -54,6 +55,7 @@ public class LCC
 
     private void onClientSetup(final FMLClientSetupEvent e) {
     	MinecraftForge.EVENT_BUS.register(new RenderEventHandler());
+        MinecraftForge.EVENT_BUS.register(new OverlayEventHandler());
     }
 
     private void enqueueIMC(final InterModEnqueueEvent e) {

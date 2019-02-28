@@ -36,6 +36,7 @@ public abstract class GauntletFunctionality {
             float f4 = MathHelper.cos(f * ((float)Math.PI / 180F)) * MathHelper.cos(f1 * ((float)Math.PI / 180F));
             float f5 = MathHelper.sqrt(f2 * f2 + f4 * f4);
             float f6 = 3.0F / 4.0F;
+            if (f5 == 0) f5 = 1;
             f2 = f2 * (f6 / f5);
             f4 = f4 * (f6 / f5);
             actor.setVelocity((double)f2, 0, (double)f4);
@@ -101,6 +102,7 @@ public abstract class GauntletFunctionality {
                         other.hurtResistantTime = 0;
                     });
                 }
+                gauntlet.stopPunched();
                 actor.motionX = 0.0F;
                 actor.motionY = 0.0F;
                 actor.motionZ = 0.0F;

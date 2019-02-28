@@ -143,7 +143,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Override
         public void stopPunched() {
-            punchDuration = 0;
+            punchEffectDuration = 0;
         }
 
         @Override

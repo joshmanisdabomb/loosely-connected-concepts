@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.LCCBlocks;
-import com.joshmanisdabomb.lcc.LCCItems;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.IItemProvider;

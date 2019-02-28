@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc;
+package com.joshmanisdabomb.lcc.registry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

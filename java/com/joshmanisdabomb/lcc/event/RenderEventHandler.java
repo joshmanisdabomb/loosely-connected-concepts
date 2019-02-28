@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.event;
 
-import com.joshmanisdabomb.lcc.LCCItems;
+import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.functionality;
 
-import com.joshmanisdabomb.lcc.LCCDamage;
+import com.joshmanisdabomb.lcc.registry.LCCDamage;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -101,7 +101,6 @@ public abstract class GauntletFunctionality {
                         other.hurtResistantTime = 0;
                     });
                 }
-                gauntlet.stopPunch();
                 actor.motionX = 0.0F;
                 actor.motionY = 0.0F;
                 actor.motionZ = 0.0F;

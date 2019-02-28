@@ -1,5 +1,6 @@
-package com.joshmanisdabomb.lcc;
+package com.joshmanisdabomb.lcc.registry;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.entity.EntityNuclearExplosion;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;

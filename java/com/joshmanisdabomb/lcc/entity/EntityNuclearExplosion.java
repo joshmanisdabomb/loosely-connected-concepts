@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity;
 
-import com.joshmanisdabomb.lcc.LCCBlocks;
-import com.joshmanisdabomb.lcc.LCCEntities;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import net.minecraft.block.BlockFire;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;

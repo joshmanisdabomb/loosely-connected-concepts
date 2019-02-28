@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.gen;
 
-import com.joshmanisdabomb.lcc.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.Biome;

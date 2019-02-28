@@ -1,25 +1,19 @@
 package com.joshmanisdabomb.lcc.item;
 
-import com.joshmanisdabomb.lcc.LCCDamage;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
-
-import java.util.List;
 
 public class ItemGauntlet extends Item {
 

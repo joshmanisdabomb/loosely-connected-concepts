@@ -1,5 +1,6 @@
-package com.joshmanisdabomb.lcc;
+package com.joshmanisdabomb.lcc.registry;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

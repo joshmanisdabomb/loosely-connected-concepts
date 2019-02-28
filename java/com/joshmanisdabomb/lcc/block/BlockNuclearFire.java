@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.BlockFaceShape;

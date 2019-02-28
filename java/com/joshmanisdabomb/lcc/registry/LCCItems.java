@@ -1,5 +1,6 @@
-package com.joshmanisdabomb.lcc;
+package com.joshmanisdabomb.lcc.registry;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 import com.joshmanisdabomb.lcc.item.render.teisr.TEISRGauntlet;
 import net.minecraft.item.Item;

@@ -31,7 +31,7 @@ public class OverlayGauntlet extends Gui implements LCCOverlay {
     public void draw(EntityPlayer player, Minecraft minecraft, RenderGameOverlayEvent.Post event) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         if (!player.isSpectator() && stack.getItem() instanceof ItemGauntlet) {
-            minecraft.getTextureManager().bindTexture(new ResourceLocation(LCC.MODID + ":textures/gui/icons.png"));
+            minecraft.getTextureManager().bindTexture(new ResourceLocation(LCC.MODID, "textures/gui/icons.png"));
 
             player.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
 

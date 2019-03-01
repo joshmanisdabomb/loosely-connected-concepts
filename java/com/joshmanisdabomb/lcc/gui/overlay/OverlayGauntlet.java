@@ -27,14 +27,15 @@ public class OverlayGauntlet extends Gui implements LCCOverlay {
     public static final int ABILITY_CHARGE_U = ABILITY_WIDTH*12;
     public static final int ABILITY_USE_U = ABILITY_WIDTH*13;
 
+    public static final ResourceLocation GAUNTLET_ICONS = new ResourceLocation(LCC.MODID, "textures/gui/gauntlet.png");
+
     @Override
     public void draw(EntityPlayer player, Minecraft minecraft, RenderGameOverlayEvent.Post event) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         if (!player.isSpectator() && stack.getItem() instanceof ItemGauntlet) {
-            minecraft.getTextureManager().bindTexture(new ResourceLocation(LCC.MODID, "textures/gui/icons.png"));
+            minecraft.getTextureManager().bindTexture(GAUNTLET_ICONS);
 
             player.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
-
                 int abilityY = Minecraft.getInstance().mainWindow.getScaledHeight()/2 + 10;
 
                 int punchX = Minecraft.getInstance().mainWindow.getScaledWidth()/2 - ABILITY_WIDTH/2;

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEventHandler;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
+import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.GeneralEventHandler;
 import com.joshmanisdabomb.lcc.event.InputEventHandler;
 import com.joshmanisdabomb.lcc.event.OverlayEventHandler;
@@ -51,8 +52,7 @@ public class LCC
 
         MinecraftForge.EVENT_BUS.register(new GeneralEventHandler());
 
-        CapabilityManager.INSTANCE.register(CapabilityGauntlet.CIGauntlet.class, new CapabilityGauntlet(), CapabilityGauntlet.CGauntlet::new);
-
+        LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEventHandler());
     }
 

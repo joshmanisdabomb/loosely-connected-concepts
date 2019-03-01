@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.event;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
+import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
+import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 import com.joshmanisdabomb.lcc.registry.LCCPotions;
 import net.minecraft.entity.EntityLiving;
@@ -36,6 +38,9 @@ public class GeneralEventHandler {
     @SubscribeEvent
     public void onEntityTick(LivingEvent.LivingUpdateEvent e) {
         EntityLivingBase entity = e.getEntityLiving();
+        entity.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            HeartsFunctionality.tick(hearts, entity);
+        });
         entity.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
             GauntletFunctionality.tick(gauntlet, entity.getHeldItem(EnumHand.MAIN_HAND), entity);
         });
@@ -61,7 +66,7 @@ public class GeneralEventHandler {
     public void onEntityAttacked(LivingAttackEvent e) {
         if (e.getSource().getClass().equals(EntityDamageSource.class) && e.getSource().getTrueSource() instanceof EntityLivingBase) {
             EntityLivingBase attacker = ((EntityLivingBase)e.getSource().getTrueSource());
-            if (attacker.isPotionActive(LCCPotions.stun) || (attacker.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemGauntlet && !e.getSource().getDamageType().startsWith("lcc:gauntlet_"))) {
+            if (attacker.isPotionActive(LCCPotions.stun) || (attacker.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemGauntlet && !e.getSource().getDamageType().startsWith("lcc.gauntlet_"))) {
                 e.setCanceled(true);
             }
         }

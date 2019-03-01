@@ -18,19 +18,17 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
     }
 
     @Override
-    public void readNBT(Capability<CIGauntlet> capability, CIGauntlet instance, EnumFacing side, INBTBase nbt) {
-
-    }
+    public void readNBT(Capability<CIGauntlet> capability, CIGauntlet instance, EnumFacing side, INBTBase nbt) {}
 
     public interface CIGauntlet {
 
         boolean canUppercut();
 
-        void uppercut();
+        void uppercut(float cooldown);
 
         boolean canPunch();
 
-        void punch(float strength, double velocityX, double velocityZ);
+        void punch(float cooldown, float strength, double velocityX, double velocityZ, int gemID);
 
         boolean isPunching();
 
@@ -43,6 +41,8 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         double getPunchVelocityX();
 
         double getPunchVelocityZ();
+
+        int getPunchGemID();
 
         boolean isPunched();
 
@@ -79,6 +79,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         private int punchEffectDuration = 0;
         private double punchVelocityX = 0.0D;
         private double punchVelocityZ = 0.0D;
+        private int punchGemID = 0;
         private int stompCooldown = -4;
         private int stompDuration = 0;
 
@@ -88,8 +89,8 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         }
 
         @Override
-        public void uppercut() {
-            uppercutCooldown = GauntletFunctionality.UPPERCUT_COOLDOWN;
+        public void uppercut(float cooldown) {
+            uppercutCooldown = (int)Math.ceil(cooldown);
         }
 
         @Override
@@ -98,12 +99,13 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         }
 
         @Override
-        public void punch(float strength, double velocityX, double velocityZ) {
-            punchCooldown = GauntletFunctionality.PUNCH_COOLDOWN;
+        public void punch(float cooldown, float strength, double velocityX, double velocityZ, int gemID) {
+            punchCooldown = (int)Math.ceil(cooldown);
             punchStrength = strength;
             punchDuration = (int)Math.ceil(GauntletFunctionality.PUNCH_MAX_DURATION * strength);
             punchVelocityX = velocityX;
             punchVelocityZ = velocityZ;
+            punchGemID = gemID;
         }
 
         @Override
@@ -135,6 +137,9 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         public double getPunchVelocityZ() {
             return punchVelocityZ;
         }
+
+        @Override
+        public int getPunchGemID() { return punchGemID; }
 
         @Override
         public boolean isPunched() {
@@ -214,7 +219,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
         @Nonnull
         @Override
         public <T> LazyOptional<T> getCapability(Capability<T> capability, EnumFacing facing) {
-            return capability == DEFAULT_CAPABILITY ? LazyOptional.of(() -> (T) instance) : null;
+            return capability == DEFAULT_CAPABILITY ? LazyOptional.of(() -> (T) instance) : LazyOptional.empty();
         }
 
     }

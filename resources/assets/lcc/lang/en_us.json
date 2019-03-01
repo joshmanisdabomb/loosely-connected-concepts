@@ -30,5 +30,12 @@
 
   "item.lcc.gauntlet": "Power Gauntlet",
 
-  "itemGroup.lcc": "Loosely Connected Concepts"
+  "itemGroup.lcc": "Loosely Connected Concepts",
+
+  "death.attack.lcc.gauntlet_uppercut": "%1$s was struck by %2$s's uppercut",
+  "death.attack.lcc.gauntlet_uppercut.item": "%1$s was struck by %2$s's uppercut using %3$s",
+  "death.attack.lcc.gauntlet_punch": "%1$s was obliterated by %2$s's punch",
+  "death.attack.lcc.gauntlet_punch.item": "%1$s was obliterated by %2$s's punch using %3$s",
+  "death.attack.lcc.gauntlet_punch_wall": "%1$s was launched into the wall",
+  "death.attack.lcc.gauntlet_punch_wall.player": "%1$s was launched into the wall by %2$s's punch"
 }

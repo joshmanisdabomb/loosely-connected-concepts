@@ -2,12 +2,15 @@ package com.joshmanisdabomb.lcc.functionality;
 
 import com.joshmanisdabomb.lcc.registry.LCCDamage;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
+import com.joshmanisdabomb.lcc.registry.LCCPotions;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
@@ -15,14 +18,15 @@ import java.util.function.Predicate;
 
 public abstract class GauntletFunctionality {
 
-    public static final Predicate<Entity> PUNCHABLES = (e) -> e instanceof EntityLivingBase || e instanceof EntityBoat || e instanceof EntityMinecart;
+    public static final Predicate<Entity> PUNCHABLES = (e) -> !(e instanceof EntityPlayerSP) && e instanceof EntityLivingBase || e instanceof EntityBoat || e instanceof EntityMinecart;
 
-    public static final int UPPERCUT_COOLDOWN = 80;
-    public static final int PUNCH_COOLDOWN = 60;
+    public static final int UPPERCUT_COOLDOWN = 92;
+    public static final int PUNCH_COOLDOWN = 78;
     public static final int PUNCH_MAX_DURATION = 9;
     public static final int PUNCH_EFFECT_MAX_DURATION = 13;
     public static final int STOMP_COOLDOWN = 200;
     public static final int STOMP_MAX_DURATION = 600;
+    public static final int STUN_MAX_DURATION = 13;
 
     public static float getStrength(ItemStack stack, int timeLeft) {
         return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
@@ -47,7 +51,7 @@ public abstract class GauntletFunctionality {
             if (entities.size() > 0) {
                 for (Entity other : entities) {
                     other.fallDistance = -3.0F;
-                    other.attackEntityFrom(LCCDamage.causeGauntletPunchDamage(actor), 6.0F);
+                    if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), 6.0F);
                     other.hurtResistantTime = 0;
                     other.setVelocity((double)f2*1.8F, 1.6F, (double)f4*1.8F);
                 }
@@ -81,7 +85,7 @@ public abstract class GauntletFunctionality {
         if (gauntlet.isPunched()) {
             if (actor.collidedHorizontally || Math.max(Math.abs(actor.motionX), Math.abs(actor.motionZ)) < 0.8D) {
                 gauntlet.stopPunched();
-                actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, 14.0F);
+                if (actor.isServerWorld()) actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, 14.0F);
                 actor.motionX = 0.0F;
                 actor.motionZ = 0.0F;
                 actor.hurtResistantTime = 0;
@@ -94,10 +98,13 @@ public abstract class GauntletFunctionality {
             if (entities.size() > 0) {
                 for (Entity other : entities) {
                     other.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
+                        if (other instanceof EntityLivingBase) {
+                            ((EntityLivingBase)other).addPotionEffect(new PotionEffect(LCCPotions.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.getPunchStrength()), 0, true, true, true));
+                        }
                         other.fallDistance = 0.0F;
                         other.isAirBorne = true;
                         gauntlet2.punched(gauntlet.getPunchStrength());
-                        other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), 11.0F * gauntlet.getPunchStrength());
+                        if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletPunchDamage(actor), 11.0F * gauntlet.getPunchStrength());
                         other.addVelocity(gauntlet.getPunchVelocityX(), 0.3F, gauntlet.getPunchVelocityZ());
                         other.hurtResistantTime = 0;
                     });

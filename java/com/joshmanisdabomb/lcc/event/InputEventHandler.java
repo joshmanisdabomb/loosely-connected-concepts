@@ -6,12 +6,29 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class InputEventHandler {
+
+    @SubscribeEvent
+    public void onPlayerInput(InputUpdateEvent e) {
+        EntityPlayer player = e.getEntityPlayer();
+        if (player.isPotionActive(LCCPotions.stun) && !player.isCreative()) {
+            e.getMovementInput().forwardKeyDown = false;
+            e.getMovementInput().backKeyDown = false;
+            e.getMovementInput().leftKeyDown = false;
+            e.getMovementInput().rightKeyDown = false;
+            e.getMovementInput().jump = false;
+            e.getMovementInput().sneak = false;
+            e.getMovementInput().moveForward = 0.0F;
+            e.getMovementInput().moveStrafe = 0.0F;
+        }
+    }
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
@@ -21,13 +38,6 @@ public class InputEventHandler {
             KeyBinding.setKeyBindState(settings.keyBindAttack.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindUseItem.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindPickBlock.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindForward.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindBack.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindLeft.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindRight.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindJump.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindSneak.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindSprint.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindDrop.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindSwapHands.getKey(), false);
         }

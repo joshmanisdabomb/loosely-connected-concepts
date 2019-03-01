@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.item;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
+import com.joshmanisdabomb.lcc.registry.LCCPotions;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +24,7 @@ public class ItemGauntlet extends Item {
 
     @Override
     public boolean onEntitySwing(ItemStack stack, EntityLivingBase entity) {
-        if (entity instanceof EntityPlayer) {
+        if (entity instanceof EntityPlayer && !entity.isPotionActive(LCCPotions.stun)) {
             entity.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
                 GauntletFunctionality.performUppercut(gauntlet, stack, entity);
             });

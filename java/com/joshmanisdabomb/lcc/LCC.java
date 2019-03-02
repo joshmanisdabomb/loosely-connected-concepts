@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEventHandler;
-import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.GeneralEventHandler;
 import com.joshmanisdabomb.lcc.event.InputEventHandler;
@@ -15,7 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

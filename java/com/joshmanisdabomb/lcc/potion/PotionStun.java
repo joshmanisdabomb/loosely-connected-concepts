@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.potion;
 
 import com.joshmanisdabomb.lcc.registry.LCCPotions;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.potion.Potion;

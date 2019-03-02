@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.functionality;
 
+import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
 import com.joshmanisdabomb.lcc.registry.LCCDamage;
-import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCPotions;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -51,7 +51,7 @@ public abstract class GauntletFunctionality {
     public static final float TEMPHEALTH_PUNCH = 2.0F;
 
     public static final Vec3d UPPERCUT_BB = new Vec3d(2.0D, 2.0D, 2.0D);
-    public static final Vec3d PUNCH_BB = new Vec3d(1.3D, 0.5D, 1.3D);
+    public static final Vec3d PUNCH_BB = new Vec3d(1.35D, 1.15D, 1.35D);
 
     public static float getStrength(ItemStack stack, int timeLeft) {
         return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
@@ -80,7 +80,7 @@ public abstract class GauntletFunctionality {
                     other.fallDistance = FALL_UPPERCUTEE_COMPENSATION;
                     if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), UPPERCUT_DAMAGE*gm.damage);
                     other.hurtResistantTime = 0;
-                    other.setVelocity((double)f2*1.8F*gm.knockback, (UPPERCUT_SPEED_VERTICAL*gm.speed)-0.08F, (double)f4*1.8F*gm.knockback);
+                    other.setVelocity((double)f2*1.9F*gm.knockback, (UPPERCUT_SPEED_VERTICAL*gm.speed)-0.03F, (double)f4*1.9F*gm.knockback);
                 }
             }
             gauntlet.uppercut(UPPERCUT_COOLDOWN*gm.cooldown);

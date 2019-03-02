@@ -1,17 +1,12 @@
 package com.joshmanisdabomb.lcc.gui.overlay;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
-import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
-import com.joshmanisdabomb.lcc.item.ItemGauntlet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.GuiIngameForge;
@@ -63,9 +58,6 @@ public class OverlayHearts extends Gui implements LCCOverlay {
 
     //TODO: support for temporary health above 20.0F
     private void drawHealthType(int typeV, float health, float healthMax) {
-        if (healthMax > 0) {
-            GuiIngameForge.left_height += this.originalHeartSeparation;
-        }
         int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - GuiIngameForge.left_height;
         for (float i = (int)Math.ceil(healthMax); i > 0; i -= (i % 2 == 1) ? 1 : 2) {
             if (i % 2 == 1) {
@@ -80,6 +72,9 @@ public class OverlayHearts extends Gui implements LCCOverlay {
             } else {
                 this.drawTexturedModalRect(originalHeartX + (MathHelper.floor(MathHelper.ceil(i / 2) - 1) * 8), heartY, HEART_NONCONTAINER_U + heartColour, typeV + heartHardcore, HEART_WIDTH, HEART_HEIGHT);
             }
+        }
+        if (healthMax > 0) {
+            GuiIngameForge.left_height += this.originalHeartSeparation;
         }
     }
 

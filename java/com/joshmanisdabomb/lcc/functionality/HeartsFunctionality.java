@@ -1,10 +1,8 @@
 package com.joshmanisdabomb.lcc.functionality;
 
-import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 public abstract class HeartsFunctionality {
@@ -15,7 +13,7 @@ public abstract class HeartsFunctionality {
 
     public static void tick(CapabilityHearts.CIHearts hearts, EntityLivingBase actor) {
         if (hearts.getTemporaryHealth() > 0) {
-            hearts.addTemporaryHealth(-0.02F, Float.MAX_VALUE);
+            hearts.addTemporaryHealth(-0.019F, Float.MAX_VALUE);
         }
     }
 

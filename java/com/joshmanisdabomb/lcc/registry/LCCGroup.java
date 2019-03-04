@@ -58,32 +58,83 @@ public class LCCGroup extends ItemGroup {
         public static void sortItems() {
             //Test Blocks
             setPosition(LCCBlocks.test_block, LCCGroupCategory.TESTING, 0);
-            setPosition(LCCBlocks.test_block_2, LCCGroupCategory.TESTING, 1);
-            setPosition(LCCBlocks.test_block_3, LCCGroupCategory.TESTING, 2);
-            setPosition(LCCBlocks.test_block_4, LCCGroupCategory.TESTING, 3);
-            setPosition(LCCBlocks.test_block_5, LCCGroupCategory.TESTING, 4);
-            setPosition(LCCItems.test_item, LCCGroupCategory.TESTING, 5);
+            setPosition(LCCBlocks.test_block_2, LCCGroupCategory.TESTING, 10);
+            setPosition(LCCBlocks.test_block_3, LCCGroupCategory.TESTING, 20);
+            setPosition(LCCBlocks.test_block_4, LCCGroupCategory.TESTING, 30);
+            setPosition(LCCBlocks.test_block_5, LCCGroupCategory.TESTING, 40);
+            setPosition(LCCItems.test_item, LCCGroupCategory.TESTING, 50);
 
             //Resources
             setPosition(LCCBlocks.ruby_ore, LCCGroupCategory.RESOURCES, 0);
-            setPosition(LCCItems.ruby, LCCGroupCategory.RESOURCES, 1);
-            setPosition(LCCBlocks.ruby_storage, LCCGroupCategory.RESOURCES, 2);
-            setPosition(LCCBlocks.topaz_ore, LCCGroupCategory.RESOURCES, 3);
-            setPosition(LCCItems.topaz, LCCGroupCategory.RESOURCES, 4);
-            setPosition(LCCBlocks.topaz_storage, LCCGroupCategory.RESOURCES, 5);
-            setPosition(LCCBlocks.sapphire_ore, LCCGroupCategory.RESOURCES, 6);
-            setPosition(LCCItems.sapphire, LCCGroupCategory.RESOURCES, 7);
-            setPosition(LCCBlocks.sapphire_storage, LCCGroupCategory.RESOURCES, 8);
-            setPosition(LCCBlocks.amethyst_ore, LCCGroupCategory.RESOURCES, 9);
-            setPosition(LCCItems.amethyst, LCCGroupCategory.RESOURCES, 10);
-            setPosition(LCCBlocks.amethyst_storage, LCCGroupCategory.RESOURCES, 11);
-            setPosition(LCCBlocks.uranium_ore, LCCGroupCategory.RESOURCES, 12);
-            setPosition(LCCItems.uranium_nugget, LCCGroupCategory.RESOURCES, 13);
-            setPosition(LCCItems.uranium, LCCGroupCategory.RESOURCES, 14);
-            setPosition(LCCBlocks.uranium_storage, LCCGroupCategory.RESOURCES, 15);
-            setPosition(LCCItems.enriched_uranium_nugget, LCCGroupCategory.RESOURCES, 16);
-            setPosition(LCCItems.enriched_uranium, LCCGroupCategory.RESOURCES, 17);
-            setPosition(LCCBlocks.enriched_uranium_storage, LCCGroupCategory.RESOURCES, 18);
+            setPosition(LCCItems.ruby, LCCGroupCategory.RESOURCES, 10);
+            setPosition(LCCBlocks.ruby_storage, LCCGroupCategory.RESOURCES, 20);
+            setPosition(LCCBlocks.topaz_ore, LCCGroupCategory.RESOURCES, 30);
+            setPosition(LCCItems.topaz, LCCGroupCategory.RESOURCES, 40);
+            setPosition(LCCBlocks.topaz_storage, LCCGroupCategory.RESOURCES, 50);
+            setPosition(LCCBlocks.sapphire_ore, LCCGroupCategory.RESOURCES, 60);
+            setPosition(LCCItems.sapphire, LCCGroupCategory.RESOURCES, 70);
+            setPosition(LCCBlocks.sapphire_storage, LCCGroupCategory.RESOURCES, 80);
+            setPosition(LCCBlocks.amethyst_ore, LCCGroupCategory.RESOURCES, 90);
+            setPosition(LCCItems.amethyst, LCCGroupCategory.RESOURCES, 100);
+            setPosition(LCCBlocks.amethyst_storage, LCCGroupCategory.RESOURCES, 110);
+            setPosition(LCCBlocks.uranium_ore, LCCGroupCategory.RESOURCES, 120);
+            setPosition(LCCItems.uranium_nugget, LCCGroupCategory.RESOURCES, 130);
+            setPosition(LCCItems.uranium, LCCGroupCategory.RESOURCES, 140);
+            setPosition(LCCBlocks.uranium_storage, LCCGroupCategory.RESOURCES, 150);
+            setPosition(LCCItems.enriched_uranium_nugget, LCCGroupCategory.RESOURCES, 160);
+            setPosition(LCCItems.enriched_uranium, LCCGroupCategory.RESOURCES, 170);
+            setPosition(LCCBlocks.enriched_uranium_storage, LCCGroupCategory.RESOURCES, 180);
+
+            //Tools
+            setPosition(LCCItems.ruby_sword, LCCGroupCategory.TOOLS, 0);
+            setPosition(LCCItems.ruby_pickaxe, LCCGroupCategory.TOOLS, 10);
+            setPosition(LCCItems.ruby_shovel, LCCGroupCategory.TOOLS, 20);
+            setPosition(LCCItems.ruby_axe, LCCGroupCategory.TOOLS, 30);
+            setPosition(LCCItems.ruby_hoe, LCCGroupCategory.TOOLS, 40);
+            setPosition(LCCItems.ruby_helmet, LCCGroupCategory.TOOLS, 50);
+            setPosition(LCCItems.ruby_chestplate, LCCGroupCategory.TOOLS, 60);
+            setPosition(LCCItems.ruby_leggings, LCCGroupCategory.TOOLS, 70);
+            setPosition(LCCItems.ruby_boots, LCCGroupCategory.TOOLS, 80);
+
+            setPosition(LCCItems.topaz_sword, LCCGroupCategory.TOOLS, 100);
+            setPosition(LCCItems.topaz_pickaxe, LCCGroupCategory.TOOLS, 110);
+            setPosition(LCCItems.topaz_shovel, LCCGroupCategory.TOOLS, 120);
+            setPosition(LCCItems.topaz_axe, LCCGroupCategory.TOOLS, 130);
+            setPosition(LCCItems.topaz_hoe, LCCGroupCategory.TOOLS, 140);
+            setPosition(LCCItems.topaz_helmet, LCCGroupCategory.TOOLS, 150);
+            setPosition(LCCItems.topaz_chestplate, LCCGroupCategory.TOOLS, 160);
+            setPosition(LCCItems.topaz_leggings, LCCGroupCategory.TOOLS, 170);
+            setPosition(LCCItems.topaz_boots, LCCGroupCategory.TOOLS, 180);
+
+            setPosition(LCCItems.emerald_sword, LCCGroupCategory.TOOLS, 200);
+            setPosition(LCCItems.emerald_pickaxe, LCCGroupCategory.TOOLS, 210);
+            setPosition(LCCItems.emerald_shovel, LCCGroupCategory.TOOLS, 220);
+            setPosition(LCCItems.emerald_axe, LCCGroupCategory.TOOLS, 230);
+            setPosition(LCCItems.emerald_hoe, LCCGroupCategory.TOOLS, 240);
+            setPosition(LCCItems.emerald_helmet, LCCGroupCategory.TOOLS, 250);
+            setPosition(LCCItems.emerald_chestplate, LCCGroupCategory.TOOLS, 260);
+            setPosition(LCCItems.emerald_leggings, LCCGroupCategory.TOOLS, 270);
+            setPosition(LCCItems.emerald_boots, LCCGroupCategory.TOOLS, 280);
+
+            setPosition(LCCItems.sapphire_sword, LCCGroupCategory.TOOLS, 300);
+            setPosition(LCCItems.sapphire_pickaxe, LCCGroupCategory.TOOLS, 310);
+            setPosition(LCCItems.sapphire_shovel, LCCGroupCategory.TOOLS, 320);
+            setPosition(LCCItems.sapphire_axe, LCCGroupCategory.TOOLS, 330);
+            setPosition(LCCItems.sapphire_hoe, LCCGroupCategory.TOOLS, 340);
+            setPosition(LCCItems.sapphire_helmet, LCCGroupCategory.TOOLS, 350);
+            setPosition(LCCItems.sapphire_chestplate, LCCGroupCategory.TOOLS, 360);
+            setPosition(LCCItems.sapphire_leggings, LCCGroupCategory.TOOLS, 370);
+            setPosition(LCCItems.sapphire_boots, LCCGroupCategory.TOOLS, 380);
+
+            setPosition(LCCItems.amethyst_sword, LCCGroupCategory.TOOLS, 400);
+            setPosition(LCCItems.amethyst_pickaxe, LCCGroupCategory.TOOLS, 410);
+            setPosition(LCCItems.amethyst_shovel, LCCGroupCategory.TOOLS, 420);
+            setPosition(LCCItems.amethyst_axe, LCCGroupCategory.TOOLS, 430);
+            setPosition(LCCItems.amethyst_hoe, LCCGroupCategory.TOOLS, 440);
+            setPosition(LCCItems.amethyst_helmet, LCCGroupCategory.TOOLS, 450);
+            setPosition(LCCItems.amethyst_chestplate, LCCGroupCategory.TOOLS, 460);
+            setPosition(LCCItems.amethyst_leggings, LCCGroupCategory.TOOLS, 470);
+            setPosition(LCCItems.amethyst_boots, LCCGroupCategory.TOOLS, 480);
 
             //Nuclear
             setPosition(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
@@ -132,6 +183,7 @@ public class LCCGroup extends ItemGroup {
     public enum LCCGroupCategory {
 
         RESOURCES,
+        TOOLS,
         NUCLEAR,
         POWER,
         TESTING;

@@ -31,24 +31,12 @@ public class LCCGroup extends ItemGroup {
         super.fill(items);
         items.sort(compar);
 
-        int categoryCount = 0;
-        LCCGroupCategory c = null;
-        for (int x = 0; x < items.size(); x++) {
-            ItemStack is = items.get(x);
-            if (is != ItemStack.EMPTY) {
-                LCCGroupCategory c2 = LCCGroupCategory.getCategoryFromList(is.getItem().getRegistryName().toString(), is.getDamage());
-                if (c == null) {
-                    c = c2;
-                    categoryCount++;
-                } else if (c != c2) {
-                    for (int y = 0; y < 9 - (categoryCount % 9); y++) {
-                        items.add(x, ItemStack.EMPTY);
-                    }
-                    c = c2;
-                    categoryCount = 0;
-                } else {
-                    categoryCount++;
-                }
+        int itemCount = 0;
+        for (LCCGroupCategory c : LCCGroupCategory.values()) {
+            itemCount += c.sortValueList.size();
+            int emptySpaces = 9 - (((c.sortValueList.size() - 1) % 9) + 1);
+            for (int i = 0; i < emptySpaces; i++) {
+                items.add(itemCount++, ItemStack.EMPTY);
             }
         }
     }

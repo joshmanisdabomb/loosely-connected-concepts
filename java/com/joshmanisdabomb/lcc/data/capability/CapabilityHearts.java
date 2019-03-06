@@ -16,6 +16,7 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     @Override
     public INBTBase writeNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side) {
         NBTTagCompound nbt = new NBTTagCompound();
+        nbt.setFloat("red_max", instance.getRedMaxHealth());
         nbt.setFloat("iron", instance.getIronHealth());
         nbt.setFloat("iron_max", instance.getIronMaxHealth());
         nbt.setFloat("crystal", instance.getCrystalHealth());
@@ -27,6 +28,7 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     @Override
     public void readNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side, INBTBase nbt) {
         NBTTagCompound nbtc = (NBTTagCompound)nbt;
+        instance.setRedMaxHealth(nbtc.getFloat("red_max"));
         instance.setIronHealth(nbtc.getFloat("iron"));
         instance.setIronMaxHealth(nbtc.getFloat("iron_max"));
         instance.setCrystalHealth(nbtc.getFloat("crystal"));
@@ -35,6 +37,8 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     }
 
     public interface CIHearts {
+
+        float getRedMaxHealth();
 
         float getIronHealth();
 
@@ -46,6 +50,8 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
 
         float getTemporaryHealth();
 
+        void setRedMaxHealth(float value);
+
         void setIronHealth(float value);
 
         void setIronMaxHealth(float value);
@@ -55,6 +61,8 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
         void setCrystalMaxHealth(float value);
 
         void setTemporaryHealth(float value, float limit);
+
+        void addRedMaxHealth(float value);
 
         void addIronHealth(float value);
 
@@ -70,11 +78,17 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
 
     public static class CHearts implements CIHearts {
 
+        private float redMax = 0.0F;
         private float iron = 0.0F;
         private float ironMax = 0.0F;
         private float crystal = 0.0F;
         private float crystalMax = 0.0F;
         private float temporary = 0.0F;
+
+        @Override
+        public float getRedMaxHealth() {
+            return ironMax;
+        }
 
         @Override
         public float getIronHealth() {
@@ -102,6 +116,11 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
         }
 
         @Override
+        public void setRedMaxHealth(float value) {
+            redMax = Math.min(Math.max(value, 0), HeartsFunctionality.RED_LIMIT);
+        }
+
+        @Override
         public void setIronHealth(float value) {
             iron = Math.min(Math.max(value, 0), this.getIronMaxHealth());
         }
@@ -126,6 +145,10 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
             temporary = Math.min(Math.max(value, 0), limit);
         }
 
+        @Override
+        public void addRedMaxHealth(float value) {
+            redMax = Math.min(Math.max(redMax + value, 0), HeartsFunctionality.RED_LIMIT);
+        }
         @Override
         public void addIronHealth(float value) {
             iron = Math.min(Math.max(iron + value, 0), this.getIronMaxHealth());

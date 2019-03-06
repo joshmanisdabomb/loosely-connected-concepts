@@ -81,6 +81,18 @@
 
   "item.lcc.gauntlet": "Doom Gauntlet",
 
+  "item.lcc.red_heart_half": "Red Heart Half",
+  "item.lcc.red_heart": "Red Heart",
+  "item.lcc.red_heart_container": "Red Heart Container",
+  "item.lcc.iron_heart_half": "Iron Heart Half",
+  "item.lcc.iron_heart": "Iron Heart",
+  "item.lcc.iron_heart_container": "Iron Heart Container",
+  "item.lcc.crystal_heart_half": "Crystal Heart Half",
+  "item.lcc.crystal_heart": "Crystal Heart",
+  "item.lcc.crystal_heart_container": "Crystal Heart Container",
+  "item.lcc.temporary_heart_half": "Temporary Heart Half",
+  "item.lcc.temporary_heart": "Temporary Heart",
+
   "itemGroup.lcc": "Loosely Connected Concepts",
 
   "death.attack.lcc.gauntlet_uppercut": "%1$s was struck by %2$s's uppercut",

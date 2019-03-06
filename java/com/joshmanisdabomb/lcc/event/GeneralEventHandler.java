@@ -19,6 +19,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -73,7 +74,6 @@ public class GeneralEventHandler {
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent e) {
         EntityPlayer player = e.getEntityPlayer();
-        System.out.println(e.getClass().getCanonicalName());
         if (player.isPotionActive(LCCPotions.stun) && !player.isCreative()) {
             if (e.isCancelable()) {
                 e.setCancellationResult(EnumActionResult.FAIL);
@@ -82,6 +82,14 @@ public class GeneralEventHandler {
                 e.setResult(Event.Result.DENY);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onEntityHurt(LivingHurtEvent e) {
+        EntityLivingBase entity = e.getEntityLiving();
+        entity.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            HeartsFunctionality.hurt(hearts, entity, e);
+        });
     }
 
 }

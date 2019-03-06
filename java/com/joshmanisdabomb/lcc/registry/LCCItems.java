@@ -1,10 +1,8 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.item.ItemCustomArmor;
-import com.joshmanisdabomb.lcc.item.ItemGauntlet;
-import com.joshmanisdabomb.lcc.item.ItemSillySubclassAxe;
-import com.joshmanisdabomb.lcc.item.ItemSillySubclassPickaxe;
+import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
+import com.joshmanisdabomb.lcc.item.*;
 import com.joshmanisdabomb.lcc.item.render.teisr.TEISRGauntlet;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
@@ -83,6 +81,22 @@ public abstract class LCCItems {
 	//Power
 	public static Item gauntlet;
 
+	//Health
+	public static Item red_heart_half;
+	public static Item red_heart;
+	public static Item red_heart_container;
+
+	public static Item iron_heart_half;
+	public static Item iron_heart;
+	public static Item iron_heart_container;
+
+	public static Item crystal_heart_half;
+	public static Item crystal_heart;
+	public static Item crystal_heart_container;
+
+	public static Item temporary_heart_half;
+	public static Item temporary_heart;
+
 	public static void init(Register<Item> e) {
 		//Test Items
 		all.add(test_item = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "test_item"));
@@ -150,6 +164,19 @@ public abstract class LCCItems {
 
 		//Power
 		all.add(gauntlet = new ItemGauntlet(new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TEISRGauntlet::new)).setRegistryName(LCC.MODID, "gauntlet"));
+
+		//Health
+		all.add(red_heart_half = new ItemHeart(HeartsFunctionality.HeartType.RED, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_half"));
+		all.add(red_heart = new ItemHeart(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart"));
+		all.add(red_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_container"));
+		all.add(iron_heart_half = new ItemHeart(HeartsFunctionality.HeartType.IRON, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_half"));
+		all.add(iron_heart = new ItemHeart(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart"));
+		all.add(iron_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_container"));
+		all.add(crystal_heart_half = new ItemHeart(HeartsFunctionality.HeartType.CRYSTAL, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_half"));
+		all.add(crystal_heart = new ItemHeart(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart"));
+		all.add(crystal_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_container"));
+		all.add(temporary_heart_half = new ItemHeart(HeartsFunctionality.HeartType.TEMPORARY, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart_half"));
+		all.add(temporary_heart = new ItemHeart(HeartsFunctionality.HeartType.TEMPORARY, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart"));
 	}
 	
 }

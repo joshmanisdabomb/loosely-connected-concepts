@@ -58,7 +58,7 @@ public class OverlayHearts extends Gui implements LCCOverlay {
 
     //TODO: support for temporary health above 20.0F
     private void drawHealthType(int typeV, float health, float healthMax) {
-        int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - GuiIngameForge.left_height;
+        int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - GuiIngameForge.left_height - 1;
         for (float i = (int)Math.ceil(healthMax); i > 0; i -= (i % 2 == 1) ? 1 : 2) {
             if (i % 2 == 1) {
                 this.drawTexturedModalRect(originalHeartX + (MathHelper.floor(MathHelper.ceil(i / 2) - 1) * 8), heartY, HEART_CONTAINER_HALF_Ud, typeV, HEART_WIDTH, HEART_HEIGHT);

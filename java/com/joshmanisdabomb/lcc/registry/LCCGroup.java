@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.registry;
 
+import com.joshmanisdabomb.lcc.LCC;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -16,7 +17,7 @@ public class LCCGroup extends ItemGroup {
     public final LCCGroupSort compar = new LCCGroupSort();
 
     public LCCGroup() {
-        super("lcc");
+        super(LCC.MODID);
     }
 
     @Override
@@ -129,6 +130,19 @@ public class LCCGroup extends ItemGroup {
 
             //Power
             setPosition(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);
+
+            //Health
+            setPosition(LCCItems.red_heart_half, LCCGroupCategory.HEALTH, 0);
+            setPosition(LCCItems.red_heart, LCCGroupCategory.HEALTH, 10);
+            setPosition(LCCItems.red_heart_container, LCCGroupCategory.HEALTH, 20);
+            setPosition(LCCItems.iron_heart_half, LCCGroupCategory.HEALTH, 30);
+            setPosition(LCCItems.iron_heart, LCCGroupCategory.HEALTH, 40);
+            setPosition(LCCItems.iron_heart_container, LCCGroupCategory.HEALTH, 50);
+            setPosition(LCCItems.crystal_heart_half, LCCGroupCategory.HEALTH, 60);
+            setPosition(LCCItems.crystal_heart, LCCGroupCategory.HEALTH, 70);
+            setPosition(LCCItems.crystal_heart_container, LCCGroupCategory.HEALTH, 80);
+            setPosition(LCCItems.temporary_heart_half, LCCGroupCategory.HEALTH, 90);
+            setPosition(LCCItems.temporary_heart, LCCGroupCategory.HEALTH, 100);
         }
 
         private static void setPosition(Object o, LCCGroupCategory cat, int sortVal) {
@@ -174,6 +188,7 @@ public class LCCGroup extends ItemGroup {
         TOOLS,
         NUCLEAR,
         POWER,
+        HEALTH,
         TESTING;
 
         protected HashMap<String, Integer> sortValueList = new HashMap<String, Integer>();

@@ -17,10 +17,10 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     public INBTBase writeNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side) {
         NBTTagCompound nbt = new NBTTagCompound();
         nbt.setFloat("red_max", instance.getRedMaxHealth());
-        nbt.setFloat("iron", instance.getIronHealth());
         nbt.setFloat("iron_max", instance.getIronMaxHealth());
-        nbt.setFloat("crystal", instance.getCrystalHealth());
+        nbt.setFloat("iron", instance.getIronHealth());
         nbt.setFloat("crystal_max", instance.getCrystalMaxHealth());
+        nbt.setFloat("crystal", instance.getCrystalHealth());
         nbt.setFloat("temporary", instance.getTemporaryHealth());
         return nbt;
     }
@@ -29,10 +29,10 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     public void readNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side, INBTBase nbt) {
         NBTTagCompound nbtc = (NBTTagCompound)nbt;
         instance.setRedMaxHealth(nbtc.getFloat("red_max"));
-        instance.setIronHealth(nbtc.getFloat("iron"));
         instance.setIronMaxHealth(nbtc.getFloat("iron_max"));
-        instance.setCrystalHealth(nbtc.getFloat("crystal"));
+        instance.setIronHealth(nbtc.getFloat("iron"));
         instance.setCrystalMaxHealth(nbtc.getFloat("crystal_max"));
+        instance.setCrystalHealth(nbtc.getFloat("crystal"));
         instance.setTemporaryHealth(nbtc.getFloat("temporary"), Float.MAX_VALUE);
     }
 
@@ -79,10 +79,10 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
     public static class CHearts implements CIHearts {
 
         private float redMax = 0.0F;
-        private float iron = 0.0F;
         private float ironMax = 0.0F;
-        private float crystal = 0.0F;
+        private float iron = 0.0F;
         private float crystalMax = 0.0F;
+        private float crystal = 0.0F;
         private float temporary = 0.0F;
 
         @Override

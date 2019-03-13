@@ -4,10 +4,13 @@ import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
+import com.joshmanisdabomb.lcc.network.PacketHeartsUpdate;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +19,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
+
+import java.util.function.Supplier;
 
 public class ItemHeart extends Item {
 
@@ -33,7 +39,7 @@ public class ItemHeart extends Item {
     }
 
     protected boolean canUse(CapabilityHearts.CIHearts hearts, EntityLivingBase entity) {
-        return !this.ht.isFullHealth(hearts, entity);
+        return this.ht == HeartsFunctionality.HeartType.TEMPORARY ? this.ht.getHealth(hearts, entity) < HeartsFunctionality.TEMPORARY_USUAL_LIMIT : !this.ht.isFullHealth(hearts, entity);
     }
 
     @Override
@@ -42,8 +48,15 @@ public class ItemHeart extends Item {
         if (ticks >= 30 && ticks % 10 == 0) {
             entity.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 this.onHeartEffect(hearts, entity);
-                if (!(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isCreative()) stack.shrink(1);
-                if (stack.isEmpty() || !this.canUse(hearts, entity)) entity.stopActiveHand();
+                if (!(entity instanceof EntityPlayer) || !((EntityPlayer)entity).isCreative()) {
+                    stack.shrink(1);
+                }
+                if (stack.isEmpty() || !this.canUse(hearts, entity)) {
+                    entity.stopActiveHand();
+                }
+                if (entity instanceof EntityPlayerMP) {
+                    LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP)entity), new PacketHeartsUpdate(hearts));
+                }
             });
         }
     }

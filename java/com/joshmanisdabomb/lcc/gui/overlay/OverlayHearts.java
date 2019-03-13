@@ -43,7 +43,7 @@ public class OverlayHearts extends Gui implements LCCOverlay {
 
         originalHeartX = (Minecraft.getInstance().mainWindow.getScaledWidth() / 2) - 91;
         originalHeartRows = MathHelper.ceil((player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() + player.getAbsorptionAmount()) / 20.0F);
-        originalHeartSeparation = Math.max(10 - (originalHeartRows - 2), 3);
+        originalHeartSeparation = Math.min(Math.max(10 - (originalHeartRows - 2), 3), 10);
         heartColour = player.isPotionActive(MobEffects.POISON) ? HEART_POISON_Ud : player.isPotionActive(MobEffects.WITHER) ? HEART_WITHER_Ud : 0;
         heartHardcore = minecraft.world.getWorldInfo().isHardcore() ? HEART_HARDCORE_Vd : 0;
 
@@ -58,7 +58,7 @@ public class OverlayHearts extends Gui implements LCCOverlay {
 
     //TODO: support for temporary health above 20.0F
     private void drawHealthType(int typeV, float health, float healthMax) {
-        int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - GuiIngameForge.left_height - 1;
+        int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - GuiIngameForge.left_height;
         for (float i = (int)Math.ceil(healthMax); i > 0; i -= (i % 2 == 1) ? 1 : 2) {
             if (i % 2 == 1) {
                 this.drawTexturedModalRect(originalHeartX + (MathHelper.floor(MathHelper.ceil(i / 2) - 1) * 8), heartY, HEART_CONTAINER_HALF_Ud, typeV, HEART_WIDTH, HEART_HEIGHT);

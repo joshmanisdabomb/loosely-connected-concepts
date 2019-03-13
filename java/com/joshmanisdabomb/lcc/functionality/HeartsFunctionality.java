@@ -1,10 +1,14 @@
 package com.joshmanisdabomb.lcc.functionality;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
+import com.joshmanisdabomb.lcc.network.PacketHeartsUpdate;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public abstract class HeartsFunctionality {
 
@@ -40,6 +44,9 @@ public abstract class HeartsFunctionality {
                 ht.addHealth(hearts, entity, -damage, Float.MAX_VALUE);
                 damage -= absorption;
             }
+        }
+        if (entity instanceof EntityPlayerMP) {
+            LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP)entity), new PacketHeartsUpdate(hearts));
         }
         e.setAmount(Math.max(damage, 0.0F));
     }

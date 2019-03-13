@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.event.InputEventHandler;
 import com.joshmanisdabomb.lcc.event.OverlayEventHandler;
 import com.joshmanisdabomb.lcc.event.RenderEventHandler;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -52,6 +53,8 @@ public class LCC
 
         LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEventHandler());
+
+        LCCPacketHandler.init();
     }
 
     private void onClientSetup(final FMLClientSetupEvent e) {

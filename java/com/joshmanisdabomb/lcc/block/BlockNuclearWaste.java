@@ -22,14 +22,14 @@ public class BlockNuclearWaste extends BlockFalling {
 
     private void checkFallable(World worldIn, BlockPos pos) {
         if (canFallThrough(worldIn.getBlockState(pos.down())) && pos.getY() >= 0) {
-            IBlockState state = getDefaultState();
+            IBlockState state = this.getDefaultState();
             if (worldIn.getBlockState(pos).getBlock() == this) {
                 state = worldIn.getBlockState(pos);
                 worldIn.removeBlock(pos);
             }
 
-            BlockPos.MutableBlockPos mb;
-            for(mb = new BlockPos.MutableBlockPos(pos); canFallThrough(worldIn.getBlockState(mb)) && mb.getY() > 0; mb.add(0,-1,0)) {
+            BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos(pos);
+            for (; canFallThrough(worldIn.getBlockState(mb)) && mb.getY() > 0; mb.move(0, -1, 0)) {
                 ;
             }
 

@@ -41,22 +41,31 @@ public class CapabilityEventHandler {
 
     @SubscribeEvent
     public void onPlayerSpawn(PlayerRespawnEvent event) {
-        if (event.getPlayer() instanceof EntityPlayerMP) {
-
+        EntityPlayer player = event.getPlayer();
+        if (player instanceof EntityPlayerMP) {
+            player.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) player), new PacketHeartsUpdate(hearts));
+            });
         }
     }
 
     @SubscribeEvent
     public void onPlayerSwitchDimension(PlayerChangedDimensionEvent event) {
-        if (event.getPlayer() instanceof EntityPlayerMP) {
-
+        EntityPlayer player = event.getPlayer();
+        if (player instanceof EntityPlayerMP) {
+            player.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) player), new PacketHeartsUpdate(hearts));
+            });
         }
     }
 
     @SubscribeEvent
     public void onPlayerJoin(PlayerLoggedInEvent event) {
-        if (event.getPlayer() instanceof EntityPlayerMP) {
-
+        EntityPlayer player = event.getPlayer();
+        if (player instanceof EntityPlayerMP) {
+            player.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) player), new PacketHeartsUpdate(hearts));
+            });
         }
     }
 

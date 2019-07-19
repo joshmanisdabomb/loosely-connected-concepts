@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.IItemTier;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.LazyLoadBase;

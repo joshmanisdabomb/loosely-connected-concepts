@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -10,15 +10,15 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntlet.CIGauntlet> {
+public class GauntletCapability implements Capability.IStorage<GauntletCapability.CIGauntlet> {
 
     @Override
-    public INBTBase writeNBT(Capability<CIGauntlet> capability, CIGauntlet instance, EnumFacing side) {
+    public INBT writeNBT(Capability<CIGauntlet> capability, CIGauntlet instance, Direction side) {
         return null;
     }
 
     @Override
-    public void readNBT(Capability<CIGauntlet> capability, CIGauntlet instance, EnumFacing side, INBTBase nbt) {}
+    public void readNBT(Capability<CIGauntlet> capability, CIGauntlet instance, Direction side, INBT nbt) {}
 
     public interface CIGauntlet {
 
@@ -218,7 +218,7 @@ public class CapabilityGauntlet implements Capability.IStorage<CapabilityGauntle
 
         @Nonnull
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> capability, EnumFacing facing) {
+        public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
             return capability == DEFAULT_CAPABILITY ? LazyOptional.of(() -> (T) instance) : LazyOptional.empty();
         }
 

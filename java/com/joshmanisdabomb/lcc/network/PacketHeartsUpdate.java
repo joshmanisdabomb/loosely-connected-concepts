@@ -1,10 +1,9 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
+import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -27,7 +26,7 @@ public class PacketHeartsUpdate implements LCCPacket {
         this.temporary = temporary;
     }
 
-    public PacketHeartsUpdate(CapabilityHearts.CIHearts hearts) {
+    public PacketHeartsUpdate(HeartsCapability.CIHearts hearts) {
         this(hearts.getRedMaxHealth(), hearts.getIronMaxHealth(), hearts.getIronHealth(), hearts.getCrystalMaxHealth(), hearts.getCrystalHealth(), hearts.getTemporaryHealth());
     }
 
@@ -46,9 +45,9 @@ public class PacketHeartsUpdate implements LCCPacket {
 
     public static void handle(final PacketHeartsUpdate msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            EntityPlayer player = Minecraft.getInstance().player;
+            PlayerEntity player = Minecraft.getInstance().player;
             if (player != null) {
-                player.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.setRedMaxHealth(msg.redMax);
                     hearts.setIronMaxHealth(msg.ironMax);
                     hearts.setIronHealth(msg.iron);

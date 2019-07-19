@@ -1,28 +1,21 @@
 package com.joshmanisdabomb.lcc.event;
 
 import com.joshmanisdabomb.lcc.registry.LCCItems;
-import net.java.games.input.Controller;
-import net.java.games.input.Keyboard;
-import net.minecraft.client.KeyboardListener;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Hand;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.io.IOException;
-import java.util.Scanner;
-
-public class RenderEventHandler {
+public class RenderEvents {
 
     @SubscribeEvent
     public void onHandEvent(RenderSpecificHandEvent e) {
         Minecraft mc = Minecraft.getInstance();
 
-        if (e.getHand() == EnumHand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
-            mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), EnumHand.MAIN_HAND, e.getSwingProgress(), ItemStack.EMPTY, e.getEquipProgress());
+        if (e.getHand() == Hand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
+            mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), Hand.MAIN_HAND, e.getSwingProgress(), ItemStack.EMPTY, e.getEquipProgress());
             GlStateManager.rotatef(-35.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotatef(-75.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotatef(175.0F, 0.0F, 0.0F, 1.0F);

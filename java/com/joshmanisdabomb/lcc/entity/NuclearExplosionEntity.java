@@ -1,21 +1,23 @@
 package com.joshmanisdabomb.lcc.entity;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
-import com.joshmanisdabomb.lcc.registry.LCCEntities;
-import net.minecraft.block.BlockFire;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Fluids;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityNuclearExplosion extends Entity {
+public class NuclearExplosionEntity extends Entity {
 
     private static final int TEMP_LIFETIME = 70;
 
-    public EntityNuclearExplosion(World worldIn) {
-        super(LCCEntities.nuclear_explosion, worldIn);
+    public NuclearExplosionEntity(EntityType<? extends NuclearExplosionEntity> type, World worldIn) {
+        super(type, worldIn);
     }
 
     @Override
@@ -34,7 +36,7 @@ public class EntityNuclearExplosion extends Entity {
                 for (int j = 0; j <= q; j++) {
                     for (int k = 0; k <= q; k++) {
                         mb.setPos(center.getX() + i, center.getY() + j, center.getZ() + k);
-                        double distance = mb.getDistance(center);
+                        double distance = MathHelper.sqrt(mb.distanceSq(center));
                         if (distance < q && distance >= q - 3) {
                             for (int i2 = ((i != 0) ? -1 : 0); i2 <= ((i != 0) ? 1 : 0); i2 += 2) {
                                 for (int j2 = ((j != 0) ? -1 : 0); j2 <= ((j != 0) ? 1 : 0); j2 += 2) {
@@ -43,7 +45,7 @@ public class EntityNuclearExplosion extends Entity {
                                         if (!this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f) {
                                             float f = this.rand.nextFloat();
                                             if (f < 0.035f * progress) {
-                                                world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(BlockFire.AGE, rand.nextInt(15)), 3);
+                                                world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(FireBlock.AGE, rand.nextInt(15)), 3);
                                             } else if (f < 0.3f * progress) {
                                                 world.setBlockState(mb, LCCBlocks.nuclear_waste.getDefaultState(), 3);
                                             } else if (f < 0.7f * progress && this.world.getFluidState(mb) == Fluids.EMPTY.getDefaultState()) {
@@ -69,13 +71,18 @@ public class EntityNuclearExplosion extends Entity {
     }
 
     @Override
-    protected void readAdditional(NBTTagCompound compound) {
+    protected void readAdditional(CompoundNBT compound) {
         this.ticksExisted = compound.getInt("Age");
     }
 
     @Override
-    protected void writeAdditional(NBTTagCompound compound) {
-        compound.setInt("Age", this.ticksExisted);
+    protected void writeAdditional(CompoundNBT compound) {
+        compound.putInt("Age", this.ticksExisted);
+    }
+
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return null;
     }
 
 }

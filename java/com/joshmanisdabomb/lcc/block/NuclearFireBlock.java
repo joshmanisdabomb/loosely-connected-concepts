@@ -2,44 +2,44 @@ package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FireBlock;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReaderBase;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-public class BlockNuclearFire extends BlockFire {
+public class NuclearFireBlock extends FireBlock {
 
-    public BlockNuclearFire(Block.Properties p) {
+    public NuclearFireBlock(Block.Properties p) {
         super(p);
     }
 
-    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState) {
         if (oldState.getBlock() != state.getBlock()) {
             if (!state.isValidPosition(worldIn, pos)) {
-                worldIn.removeBlock(pos);
+                worldIn.removeBlock(pos, false);
             }
         }
     }
 
-    public void tick(IBlockState state, World world, BlockPos pos, Random random) {
-        if (world.getGameRules().getBoolean("doFireTick")) {
+    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+        if (world.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
             if (!world.isAreaLoaded(pos, 2)) return; // Forge: prevent loading unloaded chunks when spreading fire
             if (!state.isValidPosition(world, pos)) {
-                world.removeBlock(pos);
+                world.removeBlock(pos, false);
             }
 
             int i = state.get(AGE);
             if (i == 15) {
-                world.removeBlock(pos);
+                world.removeBlock(pos, false);
             } else {
                 BlockPos mbDown = pos.down();
                 if (!world.isAirBlock(mbDown) && world.getBlockState(mbDown).getBlockHardness(world, mbDown) != -1.0f) {
@@ -68,7 +68,7 @@ public class BlockNuclearFire extends BlockFire {
                     }
                 }
                 if (random.nextFloat() < ((float)i/15)) {
-                    world.removeBlock(pos);
+                    world.removeBlock(pos, false);
                 } else {
                     world.setBlockState(pos, state.with(AGE, i + 1), 4);
                 }
@@ -77,16 +77,16 @@ public class BlockNuclearFire extends BlockFire {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 
     }
 
-    public int tickRate(IWorldReaderBase worldIn) {
+    public int tickRate(IWorldReader worldIn) {
         return 0;
     }
 
-    public boolean canCatchFire(IBlockReader world, BlockPos pos, EnumFacing face) {
-        return world.getBlockState(pos).getBlockFaceShape(world, pos, face) == BlockFaceShape.SOLID;
+    public boolean canCatchFire(IBlockReader world, BlockPos pos, Direction face) {
+        return Block.hasSolidSide(world.getBlockState(pos), world, pos, face);
     }
 
 }

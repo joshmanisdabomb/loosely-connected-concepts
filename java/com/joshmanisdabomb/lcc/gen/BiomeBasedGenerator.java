@@ -1,15 +1,15 @@
 package com.joshmanisdabomb.lcc.gen;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.MinableConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
+import net.minecraft.world.gen.placement.Placement;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,38 +23,38 @@ public abstract class BiomeBasedGenerator {
 
     public static void init() {
         //Ruby Ore
-        MinableConfig ruby_config = new MinableConfig(MinableConfig.IS_ROCK, LCCBlocks.ruby_ore.getDefaultState(), 6);
+        OreFeatureConfig ruby_config = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LCCBlocks.ruby_ore.getDefaultState(), 6);
         DepthAverageConfig ruby_placement = new DepthAverageConfig(6, 40, 40);
         for (Biome b : rubyBiomes) {
-            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.MINABLE, ruby_config, Biome.DEPTH_AVERAGE, ruby_placement));
+            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, ruby_config, Placement.COUNT_DEPTH_AVERAGE, ruby_placement));
         }
 
         //Topaz Ore
-        MinableConfig topaz_config = new MinableConfig(MinableConfig.IS_ROCK, LCCBlocks.topaz_ore.getDefaultState(), 6);
+        OreFeatureConfig topaz_config = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LCCBlocks.topaz_ore.getDefaultState(), 6);
         DepthAverageConfig topaz_placement = new DepthAverageConfig(4, 58, 11);
         for (Biome b : topazBiomes) {
-            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.MINABLE, topaz_config, Biome.DEPTH_AVERAGE, topaz_placement));
+            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, topaz_config, Placement.COUNT_DEPTH_AVERAGE, topaz_placement));
         }
 
         //Sapphire Ore
-        MinableConfig sapphire_config = new MinableConfig(MinableConfig.IS_ROCK, LCCBlocks.sapphire_ore.getDefaultState(), 6);
+        OreFeatureConfig sapphire_config = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LCCBlocks.sapphire_ore.getDefaultState(), 6);
         DepthAverageConfig sapphire_placement = new DepthAverageConfig(4, 58, 11);
         for (Biome b : sapphireBiomes) {
-            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.MINABLE, sapphire_config, Biome.DEPTH_AVERAGE, sapphire_placement));
+            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, sapphire_config, Placement.COUNT_DEPTH_AVERAGE, sapphire_placement));
         }
 
         //Amethyst Ore
-        MinableConfig amethyst_config = new MinableConfig(MinableConfig.IS_ROCK, LCCBlocks.amethyst_ore.getDefaultState(), 6);
+        OreFeatureConfig amethyst_config = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, LCCBlocks.amethyst_ore.getDefaultState(), 6);
         DepthAverageConfig amethyst_placement = new DepthAverageConfig(4, 58, 11);
         for (Biome b : amethystBiomes) {
-            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.MINABLE, amethyst_config, Biome.DEPTH_AVERAGE, amethyst_placement));
+            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, amethyst_config, Placement.COUNT_DEPTH_AVERAGE, amethyst_placement));
         }
 
         //Uranium Ore
-        ReplaceBlockConfig uranium_config = new ReplaceBlockConfig(BlockMatcher.forBlock(Blocks.STONE), LCCBlocks.uranium_ore.getDefaultState());
+        ReplaceBlockConfig uranium_config = new ReplaceBlockConfig(Blocks.STONE.getDefaultState(), LCCBlocks.uranium_ore.getDefaultState());
         CountRangeConfig uranium_placement = new CountRangeConfig(2, 0, 0, 12);
         for (Biome b : Biome.BIOMES) {
-            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createCompositeFeature(Feature.REPLACE_BLOCK, uranium_config, Biome.COUNT_RANGE, uranium_placement));
+            b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.EMERALD_ORE, uranium_config, Placement.COUNT_RANGE, uranium_placement));
         }
     }
 

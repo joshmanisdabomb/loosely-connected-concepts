@@ -1,20 +1,20 @@
 package com.joshmanisdabomb.lcc.functionality;
 
-import com.joshmanisdabomb.lcc.data.capability.CapabilityGauntlet;
-import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
+import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.registry.LCCDamage;
+import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
-import com.joshmanisdabomb.lcc.registry.LCCPotions;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.BoatEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.Items;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 
 public abstract class GauntletFunctionality {
 
-    public static final Predicate<Entity> PUNCHABLES = (e) -> !(e instanceof EntityPlayerSP) && ((e instanceof EntityLivingBase && ((EntityLivingBase)e).deathTime <= 0) || e instanceof EntityBoat || e instanceof EntityMinecart);
+    public static final Predicate<Entity> PUNCHABLES = (e) -> !(e instanceof ClientPlayerEntity) && ((e instanceof LivingEntity && ((LivingEntity)e).deathTime <= 0) || e instanceof BoatEntity || e instanceof MinecartEntity);
 
     public static final int UPPERCUT_COOLDOWN = 92;
     public static final int PUNCH_COOLDOWN = 78;
@@ -57,9 +57,9 @@ public abstract class GauntletFunctionality {
         return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
     }
 
-    public static void performUppercut(CapabilityGauntlet.CIGauntlet gauntlet, ItemStack stack, EntityLivingBase actor) {
+    public static void performUppercut(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor) {
         GemModifier gm = GemModifier.getGem(LCCItems.ruby);
-        if (gauntlet.canUppercut() || (actor instanceof EntityPlayer && ((EntityPlayer)actor).isCreative())) {
+        if (gauntlet.canUppercut() || (actor instanceof PlayerEntity && ((PlayerEntity)actor).isCreative())) {
             float f = actor.rotationYaw;
             float f1 = actor.rotationPitch;
             float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F)) * MathHelper.cos(f1 * ((float)Math.PI / 180F));
@@ -73,7 +73,7 @@ public abstract class GauntletFunctionality {
             actor.isAirBorne = true;
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(UPPERCUT_BB.x, UPPERCUT_BB.y, UPPERCUT_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
-                actor.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_UPPERCUT*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
                 for (Entity other : entities) {
@@ -87,9 +87,9 @@ public abstract class GauntletFunctionality {
         }
     }
 
-    public static void performPunch(CapabilityGauntlet.CIGauntlet gauntlet, ItemStack stack, EntityLivingBase actor, int timeLeft) {
+    public static void performPunch(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor, int timeLeft) {
         GemModifier gm = GemModifier.getGem(LCCItems.ruby);
-        if (gauntlet.canPunch() || (actor instanceof EntityPlayer && ((EntityPlayer)actor).isCreative())) {
+        if (gauntlet.canPunch() || (actor instanceof PlayerEntity && ((PlayerEntity)actor).isCreative())) {
             float strength = getStrength(stack, timeLeft);
             float f = actor.rotationYaw;
             float f1 = actor.rotationPitch;
@@ -100,7 +100,7 @@ public abstract class GauntletFunctionality {
             if (f5 == 0) f5 = 1F;
             f2 = f2 * (f6 / f5);
             f4 = f4 * (f6 / f5);
-            actor.motionY = 0.0F;
+            actor.setMotion(actor.getMotion().x, 0F, actor.getMotion().z);
             actor.addVelocity((double)f2 * gm.speed, 0, (double)f4 * gm.speed);
             actor.isAirBorne = true;
             actor.fallDistance = Math.min(FALL_PUNCH_COMPENSATION, actor.fallDistance);
@@ -108,30 +108,29 @@ public abstract class GauntletFunctionality {
         }
     }
 
-    public static void tick(CapabilityGauntlet.CIGauntlet gauntlet, ItemStack stack, EntityLivingBase actor) {
+    public static void tick(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor) {
         gauntlet.tick();
         if (gauntlet.isPunched()) {
-            if (actor.collidedHorizontally || Math.max(Math.abs(actor.motionX), Math.abs(actor.motionZ)) < 0.8D) {
+            if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
                 gauntlet.stopPunched();
                 if (actor.isServerWorld()) actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, PUNCH_WALL_DAMAGE);
-                actor.motionX = 0.0F;
-                actor.motionZ = 0.0F;
+                actor.setMotion(0F, actor.getMotion().y, 0F);
                 actor.hurtResistantTime = 0;
             } else {
-                actor.motionY = 0.0F;
+                actor.setMotion(actor.getMotion().x, 0F, actor.getMotion().z);
                 actor.isAirBorne = true;
             }
         } else if (gauntlet.isPunching()) {
             GemModifier gm = GemModifier.values()[0];
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(PUNCH_BB.x, PUNCH_BB.y, PUNCH_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
-                actor.getCapability(CapabilityHearts.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_PUNCH*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
                 for (Entity other : entities) {
-                    other.getCapability(CapabilityGauntlet.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
-                        if (other instanceof EntityLivingBase) {
-                            ((EntityLivingBase)other).addPotionEffect(new PotionEffect(LCCPotions.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.getPunchStrength() * gm.stun), 0, true, false, true));
+                    other.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
+                        if (other instanceof LivingEntity) {
+                            ((LivingEntity)other).addPotionEffect(new EffectInstance(LCCEffects.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.getPunchStrength() * gm.stun), 0, true, false, true));
                         }
                         other.fallDistance = FALL_PUNCHED_COMPENSATION;
                         other.isAirBorne = true;
@@ -142,17 +141,14 @@ public abstract class GauntletFunctionality {
                     });
                 }
                 gauntlet.stopPunched();
-                actor.motionX = (-gauntlet.getPunchVelocityX() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ()));
-                actor.motionY = 0.08F;
-                actor.motionZ = (-gauntlet.getPunchVelocityZ() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ()));
+                actor.setMotion((-gauntlet.getPunchVelocityX() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())), 0.08F, (-gauntlet.getPunchVelocityZ() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())));
                 actor.fallDistance = Math.min(actor.fallDistance, 0.0F);
                 actor.isAirBorne = true;
-            } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.motionX), Math.abs(actor.motionZ)) < 0.8D) {
+            } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
                 gauntlet.stopPunch();
-                actor.motionX = 0.0F;
-                actor.motionZ = 0.0F;
+                actor.setMotion(0F, actor.getMotion().y, 0F);
             } else {
-                actor.motionY = 0.0F;
+                actor.setMotion(actor.getMotion().x, 0F, actor.getMotion().z);
                 actor.isAirBorne = true;
             }
         }

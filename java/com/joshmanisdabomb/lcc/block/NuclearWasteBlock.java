@@ -1,20 +1,20 @@
 package com.joshmanisdabomb.lcc.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FallingBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class BlockNuclearWaste extends BlockFalling {
+public class NuclearWasteBlock extends FallingBlock {
 
-    public BlockNuclearWaste(Block.Properties p) {
+    public NuclearWasteBlock(Block.Properties p) {
         super(p);
     }
 
-    public void tick(IBlockState state, World worldIn, BlockPos pos, Random random) {
+    public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
         if (!worldIn.isRemote) {
             this.checkFallable(worldIn, pos);
         }
@@ -22,10 +22,10 @@ public class BlockNuclearWaste extends BlockFalling {
 
     private void checkFallable(World worldIn, BlockPos pos) {
         if (canFallThrough(worldIn.getBlockState(pos.down())) && pos.getY() >= 0) {
-            IBlockState state = this.getDefaultState();
+            BlockState state = this.getDefaultState();
             if (worldIn.getBlockState(pos).getBlock() == this) {
                 state = worldIn.getBlockState(pos);
-                worldIn.removeBlock(pos);
+                worldIn.removeBlock(pos, false);
             }
 
             BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos(pos);

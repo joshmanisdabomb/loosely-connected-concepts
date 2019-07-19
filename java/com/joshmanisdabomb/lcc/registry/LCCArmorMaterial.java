@@ -1,12 +1,12 @@
 package com.joshmanisdabomb.lcc.registry;
 
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -40,13 +40,13 @@ public enum LCCArmorMaterial implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(EntityEquipmentSlot slotIn) {
-        return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
+    public int getDurability(EquipmentSlotType equipmentSlotType) {
+        return MAX_DAMAGE_ARRAY[equipmentSlotType.getIndex()] * this.maxDamageFactor;
     }
 
     @Override
-    public int getDamageReductionAmount(EntityEquipmentSlot slotIn) {
-        return this.damageReductionAmountArray[slotIn.getIndex()];
+    public int getDamageReductionAmount(EquipmentSlotType equipmentSlotType) {
+        return this.damageReductionAmountArray[equipmentSlotType.getIndex()];
     }
 
     @Override

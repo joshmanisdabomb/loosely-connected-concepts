@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.lcc.functionality;
 
-import com.joshmanisdabomb.lcc.data.capability.CapabilityHearts;
+import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.network.PacketHeartsUpdate;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -19,13 +19,13 @@ public abstract class HeartsFunctionality {
 
     public static final HeartType[] HURT_TYPES = {HeartType.TEMPORARY, HeartType.CRYSTAL, HeartType.IRON};
 
-    public static void tick(CapabilityHearts.CIHearts hearts, EntityLivingBase actor) {
+    public static void tick(HeartsCapability.CIHearts hearts, LivingEntity actor) {
         if (hearts.getTemporaryHealth() > 0) {
             hearts.addTemporaryHealth(-0.019F, Float.MAX_VALUE);
         }
     }
 
-    public static void capabilityClone(CapabilityHearts.CIHearts heartsOriginal, CapabilityHearts.CIHearts heartsNew, EntityPlayer playerOriginal, EntityPlayer playerNew, PlayerEvent.Clone event) {
+    public static void capabilityClone(HeartsCapability.CIHearts heartsOriginal, HeartsCapability.CIHearts heartsNew, PlayerEntity playerOriginal, PlayerEntity playerNew, PlayerEvent.Clone event) {
         if (!event.isWasDeath()) {
             heartsNew.setIronMaxHealth(heartsOriginal.getIronMaxHealth());
             heartsNew.setIronHealth(heartsOriginal.getIronHealth());
@@ -35,7 +35,7 @@ public abstract class HeartsFunctionality {
         }
     }
 
-    public static void hurt(CapabilityHearts.CIHearts hearts, EntityLivingBase entity, LivingHurtEvent e) {
+    public static void hurt(HeartsCapability.CIHearts hearts, LivingEntity entity, LivingHurtEvent e) {
         float damage = e.getAmount();
         for (HeartType ht : HURT_TYPES) {
             if (damage <= 0.0F) break;
@@ -45,8 +45,8 @@ public abstract class HeartsFunctionality {
                 damage -= absorption;
             }
         }
-        if (entity instanceof EntityPlayerMP) {
-            LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP)entity), new PacketHeartsUpdate(hearts));
+        if (entity instanceof ServerPlayerEntity) {
+            LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)entity), new PacketHeartsUpdate(hearts));
         }
         e.setAmount(Math.max(damage, 0.0F));
     }
@@ -57,7 +57,7 @@ public abstract class HeartsFunctionality {
         CRYSTAL,
         TEMPORARY;
 
-        public float getHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity) {
+        public float getHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return entity.getHealth();
@@ -72,7 +72,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public float getMaxHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity) {
+        public float getMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return entity.getMaxHealth();
@@ -87,7 +87,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void setHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity, float value, float temporaryLimit) {
+        public void setHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value, float temporaryLimit) {
             switch (this) {
                 case RED:
                     entity.setHealth(value);
@@ -106,7 +106,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void addHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity, float value, float temporaryLimit) {
+        public void addHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value, float temporaryLimit) {
             switch (this) {
                 case RED:
                     entity.setHealth(entity.getHealth() + value);
@@ -125,7 +125,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void setMaxHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity, float value) {
+        public void setMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value) {
             switch (this) {
                 case RED:
                     hearts.setRedMaxHealth(value);
@@ -142,7 +142,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void addMaxHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity, float value) {
+        public void addMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value) {
             switch (this) {
                 case RED:
                     hearts.addRedMaxHealth(value);
@@ -159,11 +159,11 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public boolean isFullHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity) {
+        public boolean isFullHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
             return this.getHealth(hearts, entity) >= this.getMaxHealth(hearts, entity);
         }
 
-        public boolean isFullMaxHealth(CapabilityHearts.CIHearts hearts, EntityLivingBase entity) {
+        public boolean isFullMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return hearts.getRedMaxHealth() >= HeartsFunctionality.RED_LIMIT;

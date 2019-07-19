@@ -1,21 +1,21 @@
 package com.joshmanisdabomb.lcc.event;
 
-import com.joshmanisdabomb.lcc.registry.LCCPotions;
+import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class InputEventHandler {
+public class InputEvents {
 
     @SubscribeEvent
     public void onPlayerInput(InputUpdateEvent e) {
-        EntityPlayer player = e.getEntityPlayer();
-        if (player.isPotionActive(LCCPotions.stun) && !player.isCreative()) {
+        PlayerEntity player = e.getEntityPlayer();
+        if (player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
             e.getMovementInput().forwardKeyDown = false;
             e.getMovementInput().backKeyDown = false;
             e.getMovementInput().leftKeyDown = false;
@@ -29,9 +29,9 @@ public class InputEventHandler {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
-        EntityPlayerSP player = Minecraft.getInstance().player;
+        ClientPlayerEntity player = Minecraft.getInstance().player;
         GameSettings settings = Minecraft.getInstance().gameSettings;
-        if (player != null && player.isPotionActive(LCCPotions.stun) && !player.isCreative()) {
+        if (player != null && player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
             KeyBinding.setKeyBindState(settings.keyBindAttack.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindUseItem.getKey(), false);
             KeyBinding.setKeyBindState(settings.keyBindPickBlock.getKey(), false);

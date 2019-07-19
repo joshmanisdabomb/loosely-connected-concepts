@@ -2,9 +2,12 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
-import com.joshmanisdabomb.lcc.item.*;
-import com.joshmanisdabomb.lcc.item.render.teisr.TEISRGauntlet;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import com.joshmanisdabomb.lcc.item.CustomArmorItem;
+import com.joshmanisdabomb.lcc.item.GauntletItem;
+import com.joshmanisdabomb.lcc.item.HeartContainerItem;
+import com.joshmanisdabomb.lcc.item.HeartItem;
+import com.joshmanisdabomb.lcc.item.render.ister.GauntletRenderer;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent.Register;
 
@@ -112,71 +115,71 @@ public abstract class LCCItems {
 		all.add(enriched_uranium = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "enriched_uranium"));
 
 		//Tools
-		all.add(ruby_sword = new ItemSword(LCCItemTier.RUBY, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_sword"));
-		all.add(ruby_pickaxe = new ItemSillySubclassPickaxe(LCCItemTier.RUBY, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_pickaxe"));
-		all.add(ruby_shovel = new ItemSpade(LCCItemTier.RUBY, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_shovel"));
-		all.add(ruby_axe = new ItemSillySubclassAxe(LCCItemTier.RUBY, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_axe"));
-		all.add(ruby_hoe = new ItemHoe(LCCItemTier.RUBY, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_hoe"));
-		all.add(ruby_helmet = new ItemCustomArmor(LCCArmorMaterial.RUBY, EntityEquipmentSlot.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_helmet"));
-		all.add(ruby_chestplate = new ItemCustomArmor(LCCArmorMaterial.RUBY, EntityEquipmentSlot.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_chestplate"));
-		all.add(ruby_leggings = new ItemCustomArmor(LCCArmorMaterial.RUBY, EntityEquipmentSlot.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_leggings"));
-		all.add(ruby_boots = new ItemCustomArmor(LCCArmorMaterial.RUBY, EntityEquipmentSlot.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_boots"));
+		all.add(ruby_sword = new SwordItem(LCCItemTier.RUBY, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_sword"));
+		all.add(ruby_pickaxe = new PickaxeItem(LCCItemTier.RUBY, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_pickaxe"));
+		all.add(ruby_shovel = new ShovelItem(LCCItemTier.RUBY, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_shovel"));
+		all.add(ruby_axe = new AxeItem(LCCItemTier.RUBY, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_axe"));
+		all.add(ruby_hoe = new HoeItem(LCCItemTier.RUBY, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_hoe"));
+		all.add(ruby_helmet = new CustomArmorItem(LCCArmorMaterial.RUBY, EquipmentSlotType.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_helmet"));
+		all.add(ruby_chestplate = new CustomArmorItem(LCCArmorMaterial.RUBY, EquipmentSlotType.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_chestplate"));
+		all.add(ruby_leggings = new CustomArmorItem(LCCArmorMaterial.RUBY, EquipmentSlotType.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_leggings"));
+		all.add(ruby_boots = new CustomArmorItem(LCCArmorMaterial.RUBY, EquipmentSlotType.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby_boots"));
 
-		all.add(topaz_sword = new ItemSword(LCCItemTier.TOPAZ, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_sword"));
-		all.add(topaz_pickaxe = new ItemSillySubclassPickaxe(LCCItemTier.TOPAZ, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_pickaxe"));
-		all.add(topaz_shovel = new ItemSpade(LCCItemTier.TOPAZ, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_shovel"));
-		all.add(topaz_axe = new ItemSillySubclassAxe(LCCItemTier.TOPAZ, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_axe"));
-		all.add(topaz_hoe = new ItemHoe(LCCItemTier.TOPAZ, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_hoe"));
-		all.add(topaz_helmet = new ItemCustomArmor(LCCArmorMaterial.TOPAZ, EntityEquipmentSlot.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_helmet"));
-		all.add(topaz_chestplate = new ItemCustomArmor(LCCArmorMaterial.TOPAZ, EntityEquipmentSlot.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_chestplate"));
-		all.add(topaz_leggings = new ItemCustomArmor(LCCArmorMaterial.TOPAZ, EntityEquipmentSlot.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_leggings"));
-		all.add(topaz_boots = new ItemCustomArmor(LCCArmorMaterial.TOPAZ, EntityEquipmentSlot.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_boots"));
+		all.add(topaz_sword = new SwordItem(LCCItemTier.TOPAZ, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_sword"));
+		all.add(topaz_pickaxe = new PickaxeItem(LCCItemTier.TOPAZ, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_pickaxe"));
+		all.add(topaz_shovel = new ShovelItem(LCCItemTier.TOPAZ, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_shovel"));
+		all.add(topaz_axe = new AxeItem(LCCItemTier.TOPAZ, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_axe"));
+		all.add(topaz_hoe = new HoeItem(LCCItemTier.TOPAZ, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_hoe"));
+		all.add(topaz_helmet = new CustomArmorItem(LCCArmorMaterial.TOPAZ, EquipmentSlotType.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_helmet"));
+		all.add(topaz_chestplate = new CustomArmorItem(LCCArmorMaterial.TOPAZ, EquipmentSlotType.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_chestplate"));
+		all.add(topaz_leggings = new CustomArmorItem(LCCArmorMaterial.TOPAZ, EquipmentSlotType.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_leggings"));
+		all.add(topaz_boots = new CustomArmorItem(LCCArmorMaterial.TOPAZ, EquipmentSlotType.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "topaz_boots"));
 
-		all.add(emerald_sword = new ItemSword(LCCItemTier.EMERALD, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_sword"));
-		all.add(emerald_pickaxe = new ItemSillySubclassPickaxe(LCCItemTier.EMERALD, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_pickaxe"));
-		all.add(emerald_shovel = new ItemSpade(LCCItemTier.EMERALD, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_shovel"));
-		all.add(emerald_axe = new ItemSillySubclassAxe(LCCItemTier.EMERALD, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_axe"));
-		all.add(emerald_hoe = new ItemHoe(LCCItemTier.EMERALD, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_hoe"));
-		all.add(emerald_helmet = new ItemCustomArmor(LCCArmorMaterial.EMERALD, EntityEquipmentSlot.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_helmet"));
-		all.add(emerald_chestplate = new ItemCustomArmor(LCCArmorMaterial.EMERALD, EntityEquipmentSlot.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_chestplate"));
-		all.add(emerald_leggings = new ItemCustomArmor(LCCArmorMaterial.EMERALD, EntityEquipmentSlot.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_leggings"));
-		all.add(emerald_boots = new ItemCustomArmor(LCCArmorMaterial.EMERALD, EntityEquipmentSlot.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_boots"));
+		all.add(emerald_sword = new SwordItem(LCCItemTier.EMERALD, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_sword"));
+		all.add(emerald_pickaxe = new PickaxeItem(LCCItemTier.EMERALD, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_pickaxe"));
+		all.add(emerald_shovel = new ShovelItem(LCCItemTier.EMERALD, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_shovel"));
+		all.add(emerald_axe = new AxeItem(LCCItemTier.EMERALD, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_axe"));
+		all.add(emerald_hoe = new HoeItem(LCCItemTier.EMERALD, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_hoe"));
+		all.add(emerald_helmet = new CustomArmorItem(LCCArmorMaterial.EMERALD, EquipmentSlotType.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_helmet"));
+		all.add(emerald_chestplate = new CustomArmorItem(LCCArmorMaterial.EMERALD, EquipmentSlotType.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_chestplate"));
+		all.add(emerald_leggings = new CustomArmorItem(LCCArmorMaterial.EMERALD, EquipmentSlotType.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_leggings"));
+		all.add(emerald_boots = new CustomArmorItem(LCCArmorMaterial.EMERALD, EquipmentSlotType.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "emerald_boots"));
 
-		all.add(sapphire_sword = new ItemSword(LCCItemTier.SAPPHIRE, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_sword"));
-		all.add(sapphire_pickaxe = new ItemSillySubclassPickaxe(LCCItemTier.SAPPHIRE, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_pickaxe"));
-		all.add(sapphire_shovel = new ItemSpade(LCCItemTier.SAPPHIRE, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_shovel"));
-		all.add(sapphire_axe = new ItemSillySubclassAxe(LCCItemTier.SAPPHIRE, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_axe"));
-		all.add(sapphire_hoe = new ItemHoe(LCCItemTier.SAPPHIRE, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_hoe"));
-		all.add(sapphire_helmet = new ItemCustomArmor(LCCArmorMaterial.SAPPHIRE, EntityEquipmentSlot.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_helmet"));
-		all.add(sapphire_chestplate = new ItemCustomArmor(LCCArmorMaterial.SAPPHIRE, EntityEquipmentSlot.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_chestplate"));
-		all.add(sapphire_leggings = new ItemCustomArmor(LCCArmorMaterial.SAPPHIRE, EntityEquipmentSlot.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_leggings"));
-		all.add(sapphire_boots = new ItemCustomArmor(LCCArmorMaterial.SAPPHIRE, EntityEquipmentSlot.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_boots"));
+		all.add(sapphire_sword = new SwordItem(LCCItemTier.SAPPHIRE, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_sword"));
+		all.add(sapphire_pickaxe = new PickaxeItem(LCCItemTier.SAPPHIRE, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_pickaxe"));
+		all.add(sapphire_shovel = new ShovelItem(LCCItemTier.SAPPHIRE, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_shovel"));
+		all.add(sapphire_axe = new AxeItem(LCCItemTier.SAPPHIRE, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_axe"));
+		all.add(sapphire_hoe = new HoeItem(LCCItemTier.SAPPHIRE, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_hoe"));
+		all.add(sapphire_helmet = new CustomArmorItem(LCCArmorMaterial.SAPPHIRE, EquipmentSlotType.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_helmet"));
+		all.add(sapphire_chestplate = new CustomArmorItem(LCCArmorMaterial.SAPPHIRE, EquipmentSlotType.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_chestplate"));
+		all.add(sapphire_leggings = new CustomArmorItem(LCCArmorMaterial.SAPPHIRE, EquipmentSlotType.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_leggings"));
+		all.add(sapphire_boots = new CustomArmorItem(LCCArmorMaterial.SAPPHIRE, EquipmentSlotType.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "sapphire_boots"));
 
-		all.add(amethyst_sword = new ItemSword(LCCItemTier.AMETHYST, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_sword"));
-		all.add(amethyst_pickaxe = new ItemSillySubclassPickaxe(LCCItemTier.AMETHYST, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_pickaxe"));
-		all.add(amethyst_shovel = new ItemSpade(LCCItemTier.AMETHYST, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_shovel"));
-		all.add(amethyst_axe = new ItemSillySubclassAxe(LCCItemTier.AMETHYST, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_axe"));
-		all.add(amethyst_hoe = new ItemHoe(LCCItemTier.AMETHYST, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_hoe"));
-		all.add(amethyst_helmet = new ItemCustomArmor(LCCArmorMaterial.AMETHYST, EntityEquipmentSlot.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_helmet"));
-		all.add(amethyst_chestplate = new ItemCustomArmor(LCCArmorMaterial.AMETHYST, EntityEquipmentSlot.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_chestplate"));
-		all.add(amethyst_leggings = new ItemCustomArmor(LCCArmorMaterial.AMETHYST, EntityEquipmentSlot.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_leggings"));
-		all.add(amethyst_boots = new ItemCustomArmor(LCCArmorMaterial.AMETHYST, EntityEquipmentSlot.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_boots"));
+		all.add(amethyst_sword = new SwordItem(LCCItemTier.AMETHYST, 3, -2.4F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_sword"));
+		all.add(amethyst_pickaxe = new PickaxeItem(LCCItemTier.AMETHYST, 1, -2.8F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_pickaxe"));
+		all.add(amethyst_shovel = new ShovelItem(LCCItemTier.AMETHYST, 1.5F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_shovel"));
+		all.add(amethyst_axe = new AxeItem(LCCItemTier.AMETHYST, 5.0F, -3.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_axe"));
+		all.add(amethyst_hoe = new HoeItem(LCCItemTier.AMETHYST, 0.0F, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_hoe"));
+		all.add(amethyst_helmet = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.HEAD, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_helmet"));
+		all.add(amethyst_chestplate = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_chestplate"));
+		all.add(amethyst_leggings = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_leggings"));
+		all.add(amethyst_boots = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.FEET, (new Item.Properties()).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "amethyst_boots"));
 
 		//Power
-		all.add(gauntlet = new ItemGauntlet(new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TEISRGauntlet::new)).setRegistryName(LCC.MODID, "gauntlet"));
+		all.add(gauntlet = new GauntletItem(new Item.Properties().group(LCC.itemGroup).setTEISR(() -> GauntletRenderer::new)).setRegistryName(LCC.MODID, "gauntlet"));
 
 		//Health
-		all.add(red_heart_half = new ItemHeart(HeartsFunctionality.HeartType.RED, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_half"));
-		all.add(red_heart = new ItemHeart(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart"));
-		all.add(red_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_container"));
-		all.add(iron_heart_half = new ItemHeart(HeartsFunctionality.HeartType.IRON, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_half"));
-		all.add(iron_heart = new ItemHeart(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart"));
-		all.add(iron_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_container"));
-		all.add(crystal_heart_half = new ItemHeart(HeartsFunctionality.HeartType.CRYSTAL, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_half"));
-		all.add(crystal_heart = new ItemHeart(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart"));
-		all.add(crystal_heart_container = new ItemHeartContainer(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_container"));
-		all.add(temporary_heart_half = new ItemHeart(HeartsFunctionality.HeartType.TEMPORARY, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart_half"));
-		all.add(temporary_heart = new ItemHeart(HeartsFunctionality.HeartType.TEMPORARY, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart"));
+		all.add(red_heart_half = new HeartItem(HeartsFunctionality.HeartType.RED, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_half"));
+		all.add(red_heart = new HeartItem(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart"));
+		all.add(red_heart_container = new HeartContainerItem(HeartsFunctionality.HeartType.RED, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "red_heart_container"));
+		all.add(iron_heart_half = new HeartItem(HeartsFunctionality.HeartType.IRON, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_half"));
+		all.add(iron_heart = new HeartItem(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart"));
+		all.add(iron_heart_container = new HeartContainerItem(HeartsFunctionality.HeartType.IRON, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "iron_heart_container"));
+		all.add(crystal_heart_half = new HeartItem(HeartsFunctionality.HeartType.CRYSTAL, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_half"));
+		all.add(crystal_heart = new HeartItem(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart"));
+		all.add(crystal_heart_container = new HeartContainerItem(HeartsFunctionality.HeartType.CRYSTAL, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "crystal_heart_container"));
+		all.add(temporary_heart_half = new HeartItem(HeartsFunctionality.HeartType.TEMPORARY, 1.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart_half"));
+		all.add(temporary_heart = new HeartItem(HeartsFunctionality.HeartType.TEMPORARY, 2.0F, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "temporary_heart"));
 	}
 	
 }

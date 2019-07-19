@@ -1,16 +1,16 @@
-package com.joshmanisdabomb.lcc.item.render.teisr;
+package com.joshmanisdabomb.lcc.item.render.ister;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.item.render.model.ModelGauntlet;
+import com.joshmanisdabomb.lcc.item.render.model.GauntletModel;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class TEISRGauntlet extends TileEntityItemStackRenderer {
+public class GauntletRenderer extends ItemStackTileEntityRenderer {
 
-    private final ModelGauntlet mg = new ModelGauntlet();
+    private final GauntletModel gm = new GauntletModel();
     public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/gauntlet.png");
 
     @Override
@@ -19,7 +19,7 @@ public class TEISRGauntlet extends TileEntityItemStackRenderer {
 
         GlStateManager.pushMatrix();
         GlStateManager.scalef(1.0F, -1.0F, -1.0F);
-        mg.render(is);
+        gm.render(is);
         GlStateManager.popMatrix();
     }
 

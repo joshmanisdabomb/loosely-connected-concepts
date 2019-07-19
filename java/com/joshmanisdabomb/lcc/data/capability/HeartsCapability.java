@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -11,23 +11,23 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CIHearts> {
+public class HeartsCapability implements Capability.IStorage<HeartsCapability.CIHearts> {
 
     @Override
-    public INBTBase writeNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side) {
-        NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setFloat("red_max", instance.getRedMaxHealth());
-        nbt.setFloat("iron_max", instance.getIronMaxHealth());
-        nbt.setFloat("iron", instance.getIronHealth());
-        nbt.setFloat("crystal_max", instance.getCrystalMaxHealth());
-        nbt.setFloat("crystal", instance.getCrystalHealth());
-        nbt.setFloat("temporary", instance.getTemporaryHealth());
+    public INBT writeNBT(Capability<CIHearts> capability, CIHearts instance, Direction side) {
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putFloat("red_max", instance.getRedMaxHealth());
+        nbt.putFloat("iron_max", instance.getIronMaxHealth());
+        nbt.putFloat("iron", instance.getIronHealth());
+        nbt.putFloat("crystal_max", instance.getCrystalMaxHealth());
+        nbt.putFloat("crystal", instance.getCrystalHealth());
+        nbt.putFloat("temporary", instance.getTemporaryHealth());
         return nbt;
     }
 
     @Override
-    public void readNBT(Capability<CIHearts> capability, CIHearts instance, EnumFacing side, INBTBase nbt) {
-        NBTTagCompound nbtc = (NBTTagCompound)nbt;
+    public void readNBT(Capability<CIHearts> capability, CIHearts instance, Direction side, INBT nbt) {
+        CompoundNBT nbtc = (CompoundNBT)nbt;
         instance.setRedMaxHealth(nbtc.getFloat("red_max"));
         instance.setIronMaxHealth(nbtc.getFloat("iron_max"));
         instance.setIronHealth(nbtc.getFloat("iron"));
@@ -176,7 +176,7 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
 
     }
 
-    public static class CHeartsProvider implements ICapabilitySerializable<NBTTagCompound> {
+    public static class CHeartsProvider implements ICapabilitySerializable<CompoundNBT> {
 
         @CapabilityInject(CIHearts.class)
         public static final Capability<CIHearts> DEFAULT_CAPABILITY = null;
@@ -185,17 +185,17 @@ public class CapabilityHearts implements Capability.IStorage<CapabilityHearts.CI
 
         @Nonnull
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> capability, EnumFacing facing) {
+        public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
             return capability == DEFAULT_CAPABILITY ? LazyOptional.of(() -> (T) instance) : LazyOptional.empty();
         }
 
         @Override
-        public NBTTagCompound serializeNBT() {
-            return (NBTTagCompound)DEFAULT_CAPABILITY.getStorage().writeNBT(DEFAULT_CAPABILITY, this.instance, null);
+        public CompoundNBT serializeNBT() {
+            return (CompoundNBT)DEFAULT_CAPABILITY.getStorage().writeNBT(DEFAULT_CAPABILITY, this.instance, null);
         }
 
         @Override
-        public void deserializeNBT(NBTTagCompound nbt) {
+        public void deserializeNBT(CompoundNBT nbt) {
             DEFAULT_CAPABILITY.getStorage().readNBT(DEFAULT_CAPABILITY, this.instance, null, nbt);
         }
 

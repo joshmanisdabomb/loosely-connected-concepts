@@ -20,6 +20,7 @@ import net.minecraft.potion.Effect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -37,6 +38,8 @@ public class LCC
     
 	public static final String MODID = "lcc";
 	public static final LCCGroup itemGroup = new LCCGroup();
+
+	public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public LCC() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

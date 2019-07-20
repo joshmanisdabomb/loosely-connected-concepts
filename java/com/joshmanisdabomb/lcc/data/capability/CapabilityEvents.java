@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.data.capability;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
-import com.joshmanisdabomb.lcc.network.PacketHeartsUpdate;
+import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -34,7 +34,7 @@ public class CapabilityEvents {
         playerOriginal.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(heartsOriginal -> {
             playerNew.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(heartsNew -> {
                 HeartsFunctionality.capabilityClone(heartsOriginal, heartsNew, playerOriginal, playerNew, event);
-                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new PacketHeartsUpdate(heartsNew));
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new HeartsUpdatePacket(heartsNew));
             });
         });
     }
@@ -44,7 +44,7 @@ public class CapabilityEvents {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
-                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new PacketHeartsUpdate(hearts));
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }
     }
@@ -54,7 +54,7 @@ public class CapabilityEvents {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
-                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new PacketHeartsUpdate(hearts));
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }
     }
@@ -64,7 +64,7 @@ public class CapabilityEvents {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
-                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new PacketHeartsUpdate(hearts));
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }
     }

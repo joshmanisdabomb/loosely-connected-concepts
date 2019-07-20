@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.item;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
-import com.joshmanisdabomb.lcc.network.PacketHeartsUpdate;
+import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -49,7 +49,7 @@ public class HeartItem extends Item {
                     entity.stopActiveHand();
                 }
                 if (entity instanceof ServerPlayerEntity) {
-                    LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)entity), new PacketHeartsUpdate(hearts));
+                    LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)entity), new HeartsUpdatePacket(hearts));
                 }
             });
         }

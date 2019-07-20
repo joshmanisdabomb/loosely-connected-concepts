@@ -82,7 +82,7 @@ public class NuclearFireBlock extends FireBlock {
     }
 
     public int tickRate(IWorldReader worldIn) {
-        return 0;
+        return 180;
     }
 
     public boolean canCatchFire(IBlockReader world, BlockPos pos, Direction face) {

@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.event;
 
 import com.joshmanisdabomb.lcc.gui.overlay.LCCOverlay;
-import com.joshmanisdabomb.lcc.gui.overlay.OverlayGauntlet;
-import com.joshmanisdabomb.lcc.gui.overlay.OverlayHearts;
+import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay;
+import com.joshmanisdabomb.lcc.gui.overlay.HeartsOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -10,8 +10,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class OverlayEvents {
 
-    public LCCOverlay gauntlet = new OverlayGauntlet();
-    public LCCOverlay hearts = new OverlayHearts();
+    public LCCOverlay gauntlet = new GauntletOverlay();
+    public LCCOverlay hearts = new HeartsOverlay();
 
     @SubscribeEvent
     public void onRenderGui(RenderGameOverlayEvent.Post event) {

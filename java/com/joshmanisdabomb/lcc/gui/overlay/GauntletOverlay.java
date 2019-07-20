@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
-public class OverlayGauntlet extends AbstractGui implements LCCOverlay {
+public class GauntletOverlay extends AbstractGui implements LCCOverlay {
 
     public static final int ABILITY_WIDTH = 18;
     public static final int ABILITY_HEIGHT = 5;

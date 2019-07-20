@@ -18,7 +18,7 @@ public class LCCPacketHandler {
 
     public static void init() {
         int id = 0;
-        INSTANCE.registerMessage(id++, PacketHeartsUpdate.class, PacketHeartsUpdate::encode, PacketHeartsUpdate::decode, PacketHeartsUpdate::handle);
+        INSTANCE.registerMessage(id++, HeartsUpdatePacket.class, HeartsUpdatePacket::encode, HeartsUpdatePacket::decode, HeartsUpdatePacket::handle);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

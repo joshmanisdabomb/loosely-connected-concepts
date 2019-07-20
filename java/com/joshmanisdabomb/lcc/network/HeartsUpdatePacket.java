@@ -8,7 +8,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PacketHeartsUpdate implements LCCPacket {
+public class HeartsUpdatePacket implements LCCPacket {
 
     private final float redMax;
     private final float ironMax;
@@ -17,7 +17,7 @@ public class PacketHeartsUpdate implements LCCPacket {
     private final float crystal;
     private final float temporary;
 
-    public PacketHeartsUpdate(float redMax, float ironMax, float iron, float crystalMax, float crystal, float temporary) {
+    public HeartsUpdatePacket(float redMax, float ironMax, float iron, float crystalMax, float crystal, float temporary) {
         this.redMax = redMax;
         this.ironMax = ironMax;
         this.iron = iron;
@@ -26,11 +26,11 @@ public class PacketHeartsUpdate implements LCCPacket {
         this.temporary = temporary;
     }
 
-    public PacketHeartsUpdate(HeartsCapability.CIHearts hearts) {
+    public HeartsUpdatePacket(HeartsCapability.CIHearts hearts) {
         this(hearts.getRedMaxHealth(), hearts.getIronMaxHealth(), hearts.getIronHealth(), hearts.getCrystalMaxHealth(), hearts.getCrystalHealth(), hearts.getTemporaryHealth());
     }
 
-    public static void encode(PacketHeartsUpdate msg, PacketBuffer buf) {
+    public static void encode(HeartsUpdatePacket msg, PacketBuffer buf) {
         buf.writeFloat(msg.redMax);
         buf.writeFloat(msg.ironMax);
         buf.writeFloat(msg.iron);
@@ -39,11 +39,11 @@ public class PacketHeartsUpdate implements LCCPacket {
         buf.writeFloat(msg.temporary);
     }
 
-    public static PacketHeartsUpdate decode(PacketBuffer buf) {
-        return new PacketHeartsUpdate(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
+    public static HeartsUpdatePacket decode(PacketBuffer buf) {
+        return new HeartsUpdatePacket(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
 
-    public static void handle(final PacketHeartsUpdate msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(final HeartsUpdatePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             PlayerEntity player = Minecraft.getInstance().player;
             if (player != null) {

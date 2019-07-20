@@ -13,7 +13,7 @@ import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
-public class OverlayHearts extends AbstractGui implements LCCOverlay {
+public class HeartsOverlay extends AbstractGui implements LCCOverlay {
 
     public static final int HEART_WIDTH = 9;
     public static final int HEART_HEIGHT = 9;

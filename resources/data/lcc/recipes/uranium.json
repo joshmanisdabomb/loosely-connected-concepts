@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:uranium_storage"
+    }
+  ],
+  "result": {
+    "item": "lcc:uranium",
+    "count": 9
+  }
+}

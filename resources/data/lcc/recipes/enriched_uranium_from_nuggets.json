@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "enriched_uranium",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "lcc:enriched_uranium_nugget"
+    }
+  },
+  "result": {
+    "item": "lcc:enriched_uranium"
+  }
+}

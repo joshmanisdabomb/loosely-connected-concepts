@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "lcc:amethyst"
+    }
+  },
+  "result": {
+    "item": "lcc:amethyst_storage"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "lcc:ruby"
+    }
+  },
+  "result": {
+    "item": "lcc:ruby_storage"
+  }
+}

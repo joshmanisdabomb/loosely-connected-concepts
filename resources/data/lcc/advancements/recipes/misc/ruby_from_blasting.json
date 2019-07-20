@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:ruby_from_blasting"
+    ]
+  },
+  "criteria": {
+    "has_ruby_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:ruby_from_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ruby_ore",
+      "has_the_recipe"
+    ]
+  ]
+}

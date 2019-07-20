@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "lcc:sapphire_ore"
+  },
+  "result": "lcc:sapphire",
+  "experience": 1.0,
+  "cookingtime": 200
+}

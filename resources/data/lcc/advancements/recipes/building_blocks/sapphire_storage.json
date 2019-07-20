@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:sapphire_storage"
+    ]
+  },
+  "criteria": {
+    "has_at_least_9_sapphire": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:sapphire",
+            "count": {
+              "min": 9
+            }
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:sapphire_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_at_least_9_sapphire",
+      "has_the_recipe"
+    ]
+  ]
+}

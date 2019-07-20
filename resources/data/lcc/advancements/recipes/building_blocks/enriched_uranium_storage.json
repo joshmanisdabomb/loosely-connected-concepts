@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enriched_uranium_storage"
+    ]
+  },
+  "criteria": {
+    "has_at_least_9_enriched_uranium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:enriched_uranium",
+            "count": {
+              "min": 9
+            }
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enriched_uranium_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_at_least_9_enriched_uranium",
+      "has_the_recipe"
+    ]
+  ]
+}

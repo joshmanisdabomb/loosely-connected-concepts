@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:ruby_storage"
+    ]
+  },
+  "criteria": {
+    "has_at_least_9_ruby": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby",
+            "count": {
+              "min": 9
+            }
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:ruby_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_at_least_9_ruby",
+      "has_the_recipe"
+    ]
+  ]
+}

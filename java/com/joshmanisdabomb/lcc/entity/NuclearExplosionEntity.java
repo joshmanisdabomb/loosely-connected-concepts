@@ -44,9 +44,9 @@ public class NuclearExplosionEntity extends Entity {
                                         mb.setPos(center.getX() + (i * i2), center.getY() + (j * j2), center.getZ() + (k * k2));
                                         if (!this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f) {
                                             float f = this.rand.nextFloat();
-                                            if (f < 0.035f * progress) {
+                                            if (f < 0.035f * (progress * 10)) {
                                                 world.setBlockState(mb, LCCBlocks.nuclear_fire.getDefaultState().with(FireBlock.AGE, rand.nextInt(15)), 3);
-                                            } else if (f < 0.3f * progress) {
+                                            } else if (f < 0.7f - (0.7F * progress)) {
                                                 world.setBlockState(mb, LCCBlocks.nuclear_waste.getDefaultState(), 3);
                                             } else if (f < 0.7f * progress && this.world.getFluidState(mb) == Fluids.EMPTY.getDefaultState()) {
                                                 //keep block

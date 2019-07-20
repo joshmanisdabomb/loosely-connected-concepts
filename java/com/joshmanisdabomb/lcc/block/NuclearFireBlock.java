@@ -22,7 +22,8 @@ public class NuclearFireBlock extends FireBlock {
         super(p);
     }
 
-    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState) {
+    @Override
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (oldState.getBlock() != state.getBlock()) {
             if (!state.isValidPosition(worldIn, pos)) {
                 worldIn.removeBlock(pos, false);
@@ -30,6 +31,7 @@ public class NuclearFireBlock extends FireBlock {
         }
     }
 
+    @Override
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
         if (world.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
             if (!world.isAreaLoaded(pos, 2)) return; // Forge: prevent loading unloaded chunks when spreading fire
@@ -81,12 +83,18 @@ public class NuclearFireBlock extends FireBlock {
 
     }
 
+    @Override
     public int tickRate(IWorldReader worldIn) {
-        return 180;
+        return -1;
     }
 
+    @Override
     public boolean canCatchFire(IBlockReader world, BlockPos pos, Direction face) {
         return Block.hasSolidSide(world.getBlockState(pos), world, pos, face);
     }
 
+    @Override
+    public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos) {
+        return false;
+    }
 }

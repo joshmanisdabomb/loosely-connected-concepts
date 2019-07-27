@@ -1,8 +1,7 @@
 package com.joshmanisdabomb.lcc.network;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -45,17 +44,7 @@ public class HeartsUpdatePacket implements LCCPacket {
 
     public static void handle(final HeartsUpdatePacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            PlayerEntity player = Minecraft.getInstance().player;
-            if (player != null) {
-                player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
-                    hearts.setRedMaxHealth(msg.redMax);
-                    hearts.setIronMaxHealth(msg.ironMax);
-                    hearts.setIronHealth(msg.iron);
-                    hearts.setCrystalMaxHealth(msg.crystalMax);
-                    hearts.setCrystalHealth(msg.crystal);
-                    hearts.setTemporaryHealth(msg.temporary, Float.MAX_VALUE);
-                });
-            }
+            LCC.proxy.handleHeartsUpdatePacket(msg.redMax, msg.ironMax, msg.iron, msg.crystalMax, msg.crystal, msg.temporary);
         });
         ctx.get().setPacketHandled(true);
     }

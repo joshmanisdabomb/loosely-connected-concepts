@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.lcc.functionality;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.registry.LCCDamage;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.BoatEntity;
@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 
 public abstract class GauntletFunctionality {
 
-    public static final Predicate<Entity> PUNCHABLES = (e) -> !(e instanceof ClientPlayerEntity) && ((e instanceof LivingEntity && ((LivingEntity)e).deathTime <= 0) || e instanceof BoatEntity || e instanceof MinecartEntity);
+    public static final Predicate<Entity> PUNCHABLES = (e) -> ((e instanceof LivingEntity && ((LivingEntity)e).deathTime <= 0) || e instanceof BoatEntity || e instanceof MinecartEntity);
 
     public static final int UPPERCUT_COOLDOWN = 92;
     public static final int PUNCH_COOLDOWN = 78;
@@ -68,9 +69,10 @@ public abstract class GauntletFunctionality {
             if (f5 == 0) f5 = 1F;
             f2 = f2 * (UPPERCUT_SPEED_HORIZONTAL / f5);
             f4 = f4 * (UPPERCUT_SPEED_HORIZONTAL / f5);
-            actor.setVelocity((double)f2, UPPERCUT_SPEED_VERTICAL*gm.speed, (double)f4);
+            actor.setMotion((double)f2, UPPERCUT_SPEED_VERTICAL*gm.speed, (double)f4);
             actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION*gm.speed, actor.fallDistance);
             actor.isAirBorne = true;
+            LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(UPPERCUT_BB.x, UPPERCUT_BB.y, UPPERCUT_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
                 actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
@@ -78,9 +80,9 @@ public abstract class GauntletFunctionality {
                 });
                 for (Entity other : entities) {
                     other.fallDistance = FALL_UPPERCUTEE_COMPENSATION;
-                    if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), UPPERCUT_DAMAGE*gm.damage);
                     other.hurtResistantTime = 0;
-                    other.setVelocity((double)f2*1.9F*gm.knockback, (UPPERCUT_SPEED_VERTICAL*gm.speed)-0.03F, (double)f4*1.9F*gm.knockback);
+                    if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), UPPERCUT_DAMAGE*gm.damage);
+                    other.setMotion((double)f2*1.9F*gm.knockback, (UPPERCUT_SPEED_VERTICAL*gm.speed)-0.03F, (double)f4*1.9F*gm.knockback);
                 }
             }
             gauntlet.uppercut(UPPERCUT_COOLDOWN*gm.cooldown);
@@ -111,11 +113,15 @@ public abstract class GauntletFunctionality {
     public static void tick(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor) {
         gauntlet.tick();
         if (gauntlet.isPunched()) {
-            if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
+            if (actor.isInWaterOrBubbleColumn() || actor.isInLava()) {
                 gauntlet.stopPunched();
-                if (actor.isServerWorld()) actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, PUNCH_WALL_DAMAGE);
-                actor.setMotion(0F, actor.getMotion().y, 0F);
+                actor.isAirBorne = true;
+            } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
+                gauntlet.stopPunched();
                 actor.hurtResistantTime = 0;
+                if (actor.isServerWorld()) actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, PUNCH_WALL_DAMAGE);
+                actor.hurtResistantTime = 15;
+                actor.setMotion(0F, actor.getMotion().y, 0F);
             } else {
                 actor.setMotion(actor.getMotion().x, 0F, actor.getMotion().z);
                 actor.isAirBorne = true;
@@ -137,7 +143,7 @@ public abstract class GauntletFunctionality {
                         gauntlet2.punched(gauntlet.getPunchStrength());
                         if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletPunchDamage(actor), PUNCH_DAMAGE * gauntlet.getPunchStrength() * gm.damage);
                         other.addVelocity(gauntlet.getPunchVelocityX() * gm.knockback, 0.08F, gauntlet.getPunchVelocityZ() * gm.knockback);
-                        other.hurtResistantTime = 0;
+                        other.hurtResistantTime = 15;
                     });
                 }
                 gauntlet.stopPunched();

@@ -19,6 +19,7 @@ public class LCCPacketHandler {
     public static void init() {
         int id = -1;
         INSTANCE.registerMessage(++id, HeartsUpdatePacket.class, HeartsUpdatePacket::encode, HeartsUpdatePacket::decode, HeartsUpdatePacket::handle);
+        INSTANCE.registerMessage(++id, LCCEntitySpawnPacket.class, LCCEntitySpawnPacket::encode, LCCEntitySpawnPacket::decode, LCCEntitySpawnPacket::handle);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

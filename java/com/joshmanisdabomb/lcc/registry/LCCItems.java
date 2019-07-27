@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.item.CustomArmorItem;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
 import com.joshmanisdabomb.lcc.item.HeartContainerItem;
 import com.joshmanisdabomb.lcc.item.HeartItem;
-import com.joshmanisdabomb.lcc.item.render.ister.GauntletRenderer;
+import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent.Register;

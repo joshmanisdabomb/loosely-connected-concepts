@@ -67,6 +67,8 @@ public class LCC
     	MinecraftForge.EVENT_BUS.register(new RenderEvents());
         MinecraftForge.EVENT_BUS.register(new OverlayEvents());
         MinecraftForge.EVENT_BUS.register(new InputEvents());
+
+        LCCEntities.initRenderers();
     }
 
     private void enqueueIMC(final InterModEnqueueEvent e) {

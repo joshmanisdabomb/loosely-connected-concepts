@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class Proxy {
 
-    public void addParticle(World world, IParticleData particleData, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public void addParticle(World world, IParticleData particleData, boolean forceAlwaysRender, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 
     }
 
@@ -17,6 +17,10 @@ public abstract class Proxy {
     }
 
     public void handleLCCEntitySpawnPacket(ResourceLocation type, int id, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float pitch, float yaw, UUID uuid) {
+
+    }
+
+    public void handleParticleSpawnPacket(IParticleData data, boolean forceAlwaysRender, double posX, double posY, double posZ, double speedX, double speedY, double speedZ) {
 
     }
 

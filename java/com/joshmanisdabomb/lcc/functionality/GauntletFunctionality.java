@@ -72,7 +72,7 @@ public abstract class GauntletFunctionality {
             actor.setMotion((double)f2, UPPERCUT_SPEED_VERTICAL*gm.speed, (double)f4);
             actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION*gm.speed, actor.fallDistance);
             actor.isAirBorne = true;
-            LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+            LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(UPPERCUT_BB.x, UPPERCUT_BB.y, UPPERCUT_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
                 actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {

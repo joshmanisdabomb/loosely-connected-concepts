@@ -18,7 +18,7 @@ public class ClientProxy extends Proxy {
 
     @Override
     public void addParticle(World world, IParticleData particleData, boolean forceAlwaysRender, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        //world.addParticle(particleData, forceAlwaysRender, x, y, z, xSpeed, ySpeed, zSpeed);
+
     }
 
     @Override

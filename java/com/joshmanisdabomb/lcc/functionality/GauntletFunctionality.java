@@ -16,6 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -73,8 +76,11 @@ public abstract class GauntletFunctionality {
             actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION*gm.speed, actor.fallDistance);
             actor.isAirBorne = true;
             LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+            GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_ENDER_DRAGON_SHOOT, 1.0F, 1.5F);
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(UPPERCUT_BB.x, UPPERCUT_BB.y, UPPERCUT_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
+                GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.25F);
+                GauntletFunctionality.playHitSound(actor);
                 actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_UPPERCUT*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
@@ -107,6 +113,8 @@ public abstract class GauntletFunctionality {
             actor.isAirBorne = true;
             actor.fallDistance = Math.min(FALL_PUNCH_COMPENSATION, actor.fallDistance);
             gauntlet.punch(PUNCH_COOLDOWN*gm.cooldown, strength, f2, f4, gm.ordinal());
+            LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+            GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_SHOOT, 1.0F, 1.0F);
         }
     }
 
@@ -117,6 +125,8 @@ public abstract class GauntletFunctionality {
                 gauntlet.stopPunched();
                 actor.isAirBorne = true;
             } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
+                LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+                GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
                 gauntlet.stopPunched();
                 actor.hurtResistantTime = 0;
                 if (actor.isServerWorld()) actor.attackEntityFrom(LCCDamage.GAUNTLET_PUNCH_WALL, PUNCH_WALL_DAMAGE);
@@ -130,6 +140,10 @@ public abstract class GauntletFunctionality {
             GemModifier gm = GemModifier.values()[0];
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(PUNCH_BB.x, PUNCH_BB.y, PUNCH_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
+                LCC.proxy.addParticle(actor.world, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+                GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
+                GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.25F);
+                GauntletFunctionality.playHitSound(actor);
                 actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_PUNCH*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
@@ -146,7 +160,7 @@ public abstract class GauntletFunctionality {
                         other.hurtResistantTime = 15;
                     });
                 }
-                gauntlet.stopPunched();
+                gauntlet.stopPunch();
                 actor.setMotion((-gauntlet.getPunchVelocityX() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())), 0.08F, (-gauntlet.getPunchVelocityZ() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())));
                 actor.fallDistance = Math.min(actor.fallDistance, 0.0F);
                 actor.isAirBorne = true;
@@ -158,6 +172,14 @@ public abstract class GauntletFunctionality {
                 actor.isAirBorne = true;
             }
         }
+    }
+
+    private static void playSound(LivingEntity actor, SoundEvent event, float volume, float pitch) {
+        actor.world.playSound(actor instanceof PlayerEntity ? (PlayerEntity)actor : null, actor.posX, actor.posY, actor.posZ, event, actor instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE, volume, pitch);
+    }
+
+    private static void playHitSound(LivingEntity actor) {
+        actor.world.playSound(actor.posX, actor.posY + actor.getEyeHeight(), actor.posZ, SoundEvents.ENTITY_ARROW_HIT_PLAYER, SoundCategory.PLAYERS, 0.18F, 0.45F, false);
     }
 
     public enum GemModifier {

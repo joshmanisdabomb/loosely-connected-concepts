@@ -88,5 +88,7 @@ public class LCC
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry extends RegistryModEvents {}
 
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class Model extends ModelModEvents {}
 
 }

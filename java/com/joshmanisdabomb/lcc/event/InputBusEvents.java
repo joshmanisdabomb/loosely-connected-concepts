@@ -10,7 +10,7 @@ import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class InputEvents {
+public class InputBusEvents {
 
     @SubscribeEvent
     public void onPlayerInput(InputUpdateEvent e) {

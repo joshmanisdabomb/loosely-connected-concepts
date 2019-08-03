@@ -1,11 +1,9 @@
 package com.joshmanisdabomb.lcc;
 
+import com.joshmanisdabomb.lcc.block.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
-import com.joshmanisdabomb.lcc.event.GeneralEvents;
-import com.joshmanisdabomb.lcc.event.InputEvents;
-import com.joshmanisdabomb.lcc.event.OverlayEvents;
-import com.joshmanisdabomb.lcc.event.RenderEvents;
+import com.joshmanisdabomb.lcc.event.*;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
@@ -13,10 +11,13 @@ import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.proxy.ServerProxy;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,7 +56,7 @@ public class LCC
 
         BiomeBasedGenerator.init();
 
-        MinecraftForge.EVENT_BUS.register(new GeneralEvents());
+        MinecraftForge.EVENT_BUS.register(new GeneralBusEvents());
 
         LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEvents());
@@ -64,9 +65,9 @@ public class LCC
     }
 
     private void onClientSetup(final FMLClientSetupEvent e) {
-    	MinecraftForge.EVENT_BUS.register(new RenderEvents());
-        MinecraftForge.EVENT_BUS.register(new OverlayEvents());
-        MinecraftForge.EVENT_BUS.register(new InputEvents());
+    	MinecraftForge.EVENT_BUS.register(new RenderBusEvents());
+        MinecraftForge.EVENT_BUS.register(new OverlayBusEvents());
+        MinecraftForge.EVENT_BUS.register(new InputBusEvents());
 
         LCCEntities.initRenderers();
     }
@@ -85,30 +86,7 @@ public class LCC
     }
     
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents {
-        @SubscribeEvent
-        public static void onBlockRegistry(final RegistryEvent.Register<Block> e) {
-        	LCCBlocks.init(e);
-        	e.getRegistry().registerAll(LCCBlocks.all.toArray(new Block[0]));
-        }
-        
-        @SubscribeEvent
-        public static void onItemRegistry(final RegistryEvent.Register<Item> e) {
-        	LCCItems.init(e);
-        	e.getRegistry().registerAll(LCCBlocks.allItem.toArray(new BlockItem[0]));
-        	e.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
-        }
+    public static class Registry extends RegistryModEvents {}
 
-        @SubscribeEvent
-        public static void onEntityRegistry(final RegistryEvent.Register<EntityType<?>> e) {
-            LCCEntities.init(e);
-            e.getRegistry().registerAll(LCCEntities.all.toArray(new EntityType<?>[0]));
-        }
 
-        @SubscribeEvent
-        public static void onPotionRegistry(final RegistryEvent.Register<Effect> e) {
-            LCCEffects.init(e);
-            e.getRegistry().registerAll(LCCEffects.all.toArray(new Effect[0]));
-        }
-    }
 }

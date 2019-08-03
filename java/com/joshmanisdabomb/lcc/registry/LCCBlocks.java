@@ -59,25 +59,25 @@ public abstract class LCCBlocks {
 		//Resources
 		all.add(ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "ruby_ore"));
 		createDefaultBlockItem(ruby_ore);
-		all.add(ruby_storage = new Block(Block.Properties.create(Material.ROCK, MaterialColor.TNT).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "ruby_storage"));
+		all.add(ruby_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.TNT).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "ruby_storage"));
 		createDefaultBlockItem(ruby_storage);
 		all.add(topaz_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "topaz_ore"));
 		createDefaultBlockItem(topaz_ore);
-		all.add(topaz_storage = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "topaz_storage"));
+		all.add(topaz_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "topaz_storage"));
 		createDefaultBlockItem(topaz_storage);
 		all.add(sapphire_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "sapphire_ore"));
 		createDefaultBlockItem(sapphire_ore);
-		all.add(sapphire_storage = new Block(Block.Properties.create(Material.ROCK, DyeColor.BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "sapphire_storage"));
+		all.add(sapphire_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "sapphire_storage"));
 		createDefaultBlockItem(sapphire_storage);
 		all.add(amethyst_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "amethyst_ore"));
 		createDefaultBlockItem(amethyst_ore);
-		all.add(amethyst_storage = new Block(Block.Properties.create(Material.ROCK, DyeColor.PURPLE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "amethyst_storage"));
+		all.add(amethyst_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.PURPLE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "amethyst_storage"));
 		createDefaultBlockItem(amethyst_storage);
 		all.add(uranium_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "uranium_ore"));
 		createDefaultBlockItem(uranium_ore);
-		all.add(uranium_storage = new Block(Block.Properties.create(Material.ROCK, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "uranium_storage"));
+		all.add(uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "uranium_storage"));
 		createDefaultBlockItem(uranium_storage);
-		all.add(enriched_uranium_storage = new Block(Block.Properties.create(Material.ROCK, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F)).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
+		all.add(enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
 		createDefaultBlockItem(enriched_uranium_storage);
 
 		//Nuclear

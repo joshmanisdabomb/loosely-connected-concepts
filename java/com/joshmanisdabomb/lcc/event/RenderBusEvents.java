@@ -8,7 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class RenderEvents {
+public class RenderBusEvents {
 
     @SubscribeEvent
     public void onHandEvent(RenderSpecificHandEvent e) {

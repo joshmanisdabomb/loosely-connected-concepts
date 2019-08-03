@@ -22,7 +22,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class GeneralEvents {
+public class GeneralBusEvents {
 
     @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed e) {

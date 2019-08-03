@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.functionality;
 
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
-import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

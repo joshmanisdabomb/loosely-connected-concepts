@@ -67,8 +67,22 @@ public abstract class VertexUtility {
     public static BakedQuad create2DFace(@Nonnull Direction side, double x1, double y1, double x2, double y2, double z, TextureAtlasSprite sprite, int uvX1, int uvY1, int uvX2, int uvY2) {
         double[] vertices = DIRECTION_TO_VERTICES.get(side).clone();
 
+        //Change face's extension from center of block based on z.
         for (int i = side.getAxis().ordinal(); i < 12; i+=3) vertices[i] = 0.5 + (z*0.5*side.getAxisDirection().getOffset());
 
+        //Fix some bugs that I'm not smart enough for with magical ways
+        if (side == Direction.EAST || side == Direction.NORTH) {
+            double x = x1;
+            x1 = 1-x2;
+            x2 = 1-x;
+        }
+        if (side != Direction.UP) {
+            double y = y1;
+            y1 = 1-y2;
+            y2 = 1-y;
+        }
+
+        //Change vertex points based on axis and direction.
         boolean pos = side.getAxisDirection() == Direction.AxisDirection.POSITIVE;
         switch (side.getAxis()) {
             case X:

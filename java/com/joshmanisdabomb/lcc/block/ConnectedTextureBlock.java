@@ -17,25 +17,25 @@ import java.util.stream.Collectors;
 
 public interface ConnectedTextureBlock extends AdvancedBlockRender {
 
-    public static final ModelProperty<Boolean> UP = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> DOWN = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> NORTH = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> EAST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> SOUTH = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> WEST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> NORTH_EAST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> SOUTH_EAST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> NORTH_WEST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> SOUTH_WEST = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> NORTH_UP = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> EAST_UP = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> SOUTH_UP = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> WEST_UP = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> NORTH_DOWN = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> EAST_DOWN = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> SOUTH_DOWN = new ModelProperty<Boolean>();
-    public static final ModelProperty<Boolean> WEST_DOWN = new ModelProperty<Boolean>();
-    public static final HashMap<BlockPos, ModelProperty<Boolean>> OFFSET_TO_PROPERTY_MAP = Util.make(new HashMap<>(), (map) -> {
+    ModelProperty<Boolean> UP = new ModelProperty<>();
+    ModelProperty<Boolean> DOWN = new ModelProperty<>();
+    ModelProperty<Boolean> NORTH = new ModelProperty<>();
+    ModelProperty<Boolean> EAST = new ModelProperty<>();
+    ModelProperty<Boolean> SOUTH = new ModelProperty<>();
+    ModelProperty<Boolean> WEST = new ModelProperty<>();
+    ModelProperty<Boolean> NORTH_EAST = new ModelProperty<>();
+    ModelProperty<Boolean> SOUTH_EAST = new ModelProperty<>();
+    ModelProperty<Boolean> NORTH_WEST = new ModelProperty<>();
+    ModelProperty<Boolean> SOUTH_WEST = new ModelProperty<>();
+    ModelProperty<Boolean> NORTH_UP = new ModelProperty<>();
+    ModelProperty<Boolean> EAST_UP = new ModelProperty<>();
+    ModelProperty<Boolean> SOUTH_UP = new ModelProperty<>();
+    ModelProperty<Boolean> WEST_UP = new ModelProperty<>();
+    ModelProperty<Boolean> NORTH_DOWN = new ModelProperty<>();
+    ModelProperty<Boolean> EAST_DOWN = new ModelProperty<>();
+    ModelProperty<Boolean> SOUTH_DOWN = new ModelProperty<>();
+    ModelProperty<Boolean> WEST_DOWN = new ModelProperty<>();
+    HashMap<BlockPos, ModelProperty<Boolean>> OFFSET_TO_PROPERTY_MAP = Util.make(new HashMap<>(), (map) -> {
         map.put(BlockPos.ZERO.offset(Direction.UP), UP);
         map.put(BlockPos.ZERO.offset(Direction.DOWN), DOWN);
         map.put(BlockPos.ZERO.offset(Direction.NORTH), NORTH);
@@ -56,14 +56,25 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
         map.put(BlockPos.ZERO.offset(Direction.WEST).offset(Direction.DOWN), WEST_DOWN);
     });
 
-    boolean connectWith(BlockState state, BlockState other);
+    @Override
+    default IBakedModel newModel(Block block, IBakedModel defaultModel) {
+        return new ConnectedTextureBlockModel((Block)this, defaultModel);
+    }
 
     @Override
     default Collection<ResourceLocation> getTextures() {
         return this.getConnectedTextures().values().stream().distinct().collect(Collectors.toList());
     }
 
+    boolean connectWith(BlockState state, BlockState other);
+
     HashMap<TextureType, ResourceLocation> getConnectedTextures();
+
+    boolean hasInnerSeams();
+
+    default int borderWidth() {
+        return 4;
+    }
 
     default HashMap<TextureType, ResourceLocation> traitGetTexturesForNonSided(String folder) {
         HashMap<TextureType, ResourceLocation> map = new HashMap<>();
@@ -91,13 +102,6 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
         return map;
     }
 
-    boolean hasInnerSeams();
-
-    @Override
-    default IBakedModel newModel(Block block, IBakedModel defaultModel) {
-        return new ConnectedTextureBlockModel((Block)this, defaultModel);
-    }
-
     enum TextureType {
         TOP_BASE,
         TOP_CORNERS,
@@ -111,6 +115,38 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
         BOTTOM_CORNERS,
         BOTTOM_LINES_H,
         BOTTOM_LINES_V;
+
+        public static TextureType base(Direction side) {
+            switch(side) {
+                case UP: return TOP_BASE;
+                case DOWN: return BOTTOM_BASE;
+                default: return SIDE_BASE;
+            }
+        }
+
+        public static TextureType corners(Direction side) {
+            switch(side) {
+                case UP: return TOP_CORNERS;
+                case DOWN: return BOTTOM_CORNERS;
+                default: return SIDE_CORNERS;
+            }
+        }
+
+        public static TextureType lines_h(Direction side) {
+            switch(side) {
+                case UP: return TOP_LINES_H;
+                case DOWN: return BOTTOM_LINES_H;
+                default: return SIDE_LINES_H;
+            }
+        }
+
+        public static TextureType lines_v(Direction side) {
+            switch(side) {
+                case UP: return TOP_LINES_V;
+                case DOWN: return BOTTOM_LINES_V;
+                default: return SIDE_LINES_V;
+            }
+        }
     }
 
 }

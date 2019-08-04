@@ -15,7 +15,6 @@ import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
@@ -42,9 +41,8 @@ public class ConnectedTextureBlockModel implements IBakedModel {
     @Override
     public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
-        ConnectedTextureBlock ct = (ConnectedTextureBlock) state.getBlock();
         for (Map.Entry<BlockPos, ModelProperty<Boolean>> e : ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.entrySet()) {
-            tileData.setData(e.getValue(), ct.connectWith(state, world.getBlockState(pos.add(e.getKey()))));
+            tileData.setData(e.getValue(), ((ConnectedTextureBlock)this.block).connectWith(state, world.getBlockState(pos.add(e.getKey()))));
         }
         return tileData;
     }
@@ -54,12 +52,17 @@ public class ConnectedTextureBlockModel implements IBakedModel {
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData tileData) {
         List<BakedQuad> quads = new ArrayList<>();
 
-        //System.out.println(tileData.getData(ConnectedTextureBlock.UP));
-
+        int uvOffset = ((ConnectedTextureBlock)this.block).borderWidth();
+        double vertexOffset = uvOffset / 16D;
         if (side != null) {
-            quads.add(VertexUtility.create2DFace(side, 0.1, 0.1, 0.9, 0.9, 1, this.getTexture(ConnectedTextureBlock.TextureType.TOP_BASE), 0, 0, 16, 16));
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, this.getTexture(ConnectedTextureBlock.TextureType.base(side)), uvOffset, uvOffset, 16-uvOffset, 16-uvOffset));
+
+            quads.add(VertexUtility.create2DFace(side, 0, vertexOffset, vertexOffset, 1-vertexOffset, 1, this.getTexture(ConnectedTextureBlock.TextureType.lines_v(side)), 0, uvOffset, uvOffset, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, vertexOffset, 1, 1-vertexOffset, 1, this.getTexture(ConnectedTextureBlock.TextureType.lines_v(side)), 16-uvOffset, uvOffset, 16, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, 0, 1-vertexOffset, vertexOffset, 1, this.getTexture(ConnectedTextureBlock.TextureType.lines_h(side)), uvOffset, 0, 16-uvOffset, uvOffset));
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, 1, this.getTexture(ConnectedTextureBlock.TextureType.lines_h(side)), uvOffset, 16-uvOffset, 16-uvOffset, 16));
         }
-        //return defaultModel.getQuads(state, side, rand, extraData);
+
         return quads;
     }
 

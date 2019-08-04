@@ -28,6 +28,14 @@ public abstract class VertexUtility {
         map.put(Direction.SOUTH, SOUTH);
         map.put(Direction.WEST, WEST);
     });
+    public static final HashMap<Direction, Direction[]> PERPENDICULARS = Util.make(new HashMap<>(), map -> {
+        map.put(Direction.UP, new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST});
+        map.put(Direction.DOWN, new Direction[]{Direction.SOUTH, Direction.EAST, Direction.NORTH, Direction.WEST});
+        map.put(Direction.NORTH, new Direction[]{Direction.UP, Direction.WEST, Direction.DOWN, Direction.EAST});
+        map.put(Direction.EAST, new Direction[]{Direction.UP, Direction.NORTH, Direction.DOWN, Direction.SOUTH});
+        map.put(Direction.SOUTH, new Direction[]{Direction.UP, Direction.EAST, Direction.DOWN, Direction.WEST});
+        map.put(Direction.WEST, new Direction[]{Direction.UP, Direction.SOUTH, Direction.DOWN, Direction.NORTH});
+    });
 
     private static void putVertex(UnpackedBakedQuad.Builder builder, Vec3d normal, double x, double y, double z, float u, float v, TextureAtlasSprite sprite) {
         for (int e = 0; e < DefaultVertexFormats.ITEM.getElementCount(); e++) {

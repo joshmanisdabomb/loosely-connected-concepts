@@ -17,43 +17,16 @@ import java.util.stream.Collectors;
 
 public interface ConnectedTextureBlock extends AdvancedBlockRender {
 
-    ModelProperty<Boolean> UP = new ModelProperty<>();
-    ModelProperty<Boolean> DOWN = new ModelProperty<>();
-    ModelProperty<Boolean> NORTH = new ModelProperty<>();
-    ModelProperty<Boolean> EAST = new ModelProperty<>();
-    ModelProperty<Boolean> SOUTH = new ModelProperty<>();
-    ModelProperty<Boolean> WEST = new ModelProperty<>();
-    ModelProperty<Boolean> NORTH_EAST = new ModelProperty<>();
-    ModelProperty<Boolean> SOUTH_EAST = new ModelProperty<>();
-    ModelProperty<Boolean> NORTH_WEST = new ModelProperty<>();
-    ModelProperty<Boolean> SOUTH_WEST = new ModelProperty<>();
-    ModelProperty<Boolean> NORTH_UP = new ModelProperty<>();
-    ModelProperty<Boolean> EAST_UP = new ModelProperty<>();
-    ModelProperty<Boolean> SOUTH_UP = new ModelProperty<>();
-    ModelProperty<Boolean> WEST_UP = new ModelProperty<>();
-    ModelProperty<Boolean> NORTH_DOWN = new ModelProperty<>();
-    ModelProperty<Boolean> EAST_DOWN = new ModelProperty<>();
-    ModelProperty<Boolean> SOUTH_DOWN = new ModelProperty<>();
-    ModelProperty<Boolean> WEST_DOWN = new ModelProperty<>();
-    HashMap<BlockPos, ModelProperty<Boolean>> OFFSET_TO_PROPERTY_MAP = Util.make(new HashMap<>(), (map) -> {
-        map.put(BlockPos.ZERO.offset(Direction.UP), UP);
-        map.put(BlockPos.ZERO.offset(Direction.DOWN), DOWN);
-        map.put(BlockPos.ZERO.offset(Direction.NORTH), NORTH);
-        map.put(BlockPos.ZERO.offset(Direction.EAST), EAST);
-        map.put(BlockPos.ZERO.offset(Direction.SOUTH), SOUTH);
-        map.put(BlockPos.ZERO.offset(Direction.WEST), WEST);
-        map.put(BlockPos.ZERO.offset(Direction.NORTH).offset(Direction.EAST), NORTH_EAST);
-        map.put(BlockPos.ZERO.offset(Direction.SOUTH).offset(Direction.EAST), SOUTH_EAST);
-        map.put(BlockPos.ZERO.offset(Direction.NORTH).offset(Direction.WEST), NORTH_WEST);
-        map.put(BlockPos.ZERO.offset(Direction.SOUTH).offset(Direction.WEST), SOUTH_WEST);
-        map.put(BlockPos.ZERO.offset(Direction.NORTH).offset(Direction.UP), NORTH_UP);
-        map.put(BlockPos.ZERO.offset(Direction.EAST).offset(Direction.UP), EAST_UP);
-        map.put(BlockPos.ZERO.offset(Direction.SOUTH).offset(Direction.UP), SOUTH_UP);
-        map.put(BlockPos.ZERO.offset(Direction.WEST).offset(Direction.UP), WEST_UP);
-        map.put(BlockPos.ZERO.offset(Direction.NORTH).offset(Direction.DOWN), NORTH_DOWN);
-        map.put(BlockPos.ZERO.offset(Direction.EAST).offset(Direction.DOWN), EAST_DOWN);
-        map.put(BlockPos.ZERO.offset(Direction.SOUTH).offset(Direction.DOWN), SOUTH_DOWN);
-        map.put(BlockPos.ZERO.offset(Direction.WEST).offset(Direction.DOWN), WEST_DOWN);
+    HashMap<BlockPos, ModelProperty<Boolean>> OFFSET_TO_PROPERTY_MAP = Util.make(new HashMap<>(), map -> {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                for (int k = -1; k <= 1; k++) {
+                    if (i != 0 || j != 0 || k != 0) {
+                        map.put(new BlockPos(i, j, k), new ModelProperty<>());
+                    }
+                }
+            }
+        }
     });
 
     @Override

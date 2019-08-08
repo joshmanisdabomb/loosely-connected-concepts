@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.block;
+package com.joshmanisdabomb.lcc.block.render;
 
 import com.joshmanisdabomb.lcc.LCC;
 import net.minecraft.block.Block;

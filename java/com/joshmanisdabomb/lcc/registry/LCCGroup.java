@@ -125,10 +125,16 @@ public class LCCGroup extends ItemGroup {
             setPosition(LCCItems.amethyst_leggings, LCCGroupCategory.TOOLS, 470);
             setPosition(LCCItems.amethyst_boots, LCCGroupCategory.TOOLS, 480);
 
-            //Nuclear
+            //Spreaders
+            setPosition(LCCBlocks.spreader_interface, LCCGroupCategory.SPREADERS, 0);
+            for (int i = 0; i < 16; i++) {
+                setPosition(LCCBlocks.spreaders[i], LCCGroupCategory.SPREADERS, i+1);
+            }
+
+            //Nuclear TODO: lump in with explosives
             setPosition(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
-            //Power
+            //Power TODO: rename
             setPosition(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);
 
             //Health
@@ -186,6 +192,7 @@ public class LCCGroup extends ItemGroup {
 
         RESOURCES,
         TOOLS,
+        SPREADERS,
         NUCLEAR,
         POWER,
         HEALTH,

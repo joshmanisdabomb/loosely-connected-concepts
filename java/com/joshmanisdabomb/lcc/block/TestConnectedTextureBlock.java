@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.block.render.ConnectedTextureBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;

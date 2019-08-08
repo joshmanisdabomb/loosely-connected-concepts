@@ -43,7 +43,11 @@ public abstract class LCCBlocks {
 	public static Block nuclear_waste;
 	public static Block nuclear_fire;
 
-	public static void init(Register<Block> e) {
+	//Spreaders
+	public static Block spreader_interface;
+    public static Block[] spreaders = new Block[16];
+
+    public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block"));
 		createDefaultBlockItem(test_block);
@@ -84,7 +88,16 @@ public abstract class LCCBlocks {
 		all.add(nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL)).setRegistryName(LCC.MODID, "nuclear_waste"));
 		createDefaultBlockItem(nuclear_waste);
 		all.add(nuclear_fire = new NuclearFireBlock(Block.Properties.create(Material.FIRE, DyeColor.LIME).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).lightValue(15).sound(SoundType.CLOTH).noDrops()).setRegistryName(LCC.MODID, "nuclear_fire"));
-	}
+
+    	//Spreaders
+		all.add(spreader_interface = new SpreaderInterfaceBlock(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(7.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "spreader_interface"));
+		createDefaultBlockItem(spreader_interface);
+		for (int i = 0; i < 16; i++) {
+			DyeColor c = DyeColor.byId(i);
+			all.add(spreaders[i] = new SpreaderBlock(c, Block.Properties.create(Material.EARTH, c.getMapColor()).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + c.getName()));
+			createDefaultBlockItem(spreaders[i]);
+		}
+    }
 
 	private static void createDefaultBlockItem(Block b) {
 		allItem.add((BlockItem)new BlockItem(b, new Item.Properties().group(LCC.itemGroup)).setRegistryName(b.getRegistryName()));

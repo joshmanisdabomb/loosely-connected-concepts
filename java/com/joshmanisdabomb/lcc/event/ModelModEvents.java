@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.event;
 
-import com.joshmanisdabomb.lcc.block.AdvancedBlockRender;
+import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -15,6 +15,7 @@ public abstract class ModelModEvents {
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             ModelResourceLocation mrl = ((AdvancedBlockRender)block).getCustomModelLocation();
             IBakedModel model = e.getModelRegistry().get(mrl);
+            System.out.println(model);
             if (model != null) {
                 e.getModelRegistry().put(mrl, ((AdvancedBlockRender)block).newModel(block, model));
             }
@@ -22,7 +23,7 @@ public abstract class ModelModEvents {
     }
 
     @SubscribeEvent
-    public static void onTextureStitch(TextureStitchEvent.Pre e) {
+    public static void onTextureStitch(final TextureStitchEvent.Pre e) {
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             ((AdvancedBlockRender) block).getTextures().forEach(e::addSprite);
         });

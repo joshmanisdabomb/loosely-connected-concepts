@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block.model;
 
-import com.joshmanisdabomb.lcc.block.AdvancedBlockRender;
-import com.joshmanisdabomb.lcc.block.ConnectedTextureBlock;
+import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
+import com.joshmanisdabomb.lcc.block.render.ConnectedTextureBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -61,14 +61,14 @@ public class ConnectedTextureBlockModel implements IBakedModel {
             final Direction[] perpendiculars = VertexUtility.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-            boolean cUp = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cDown = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cUpLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0]).move(perpendiculars[3]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cUpRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]).move(perpendiculars[0]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cDownRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
-            boolean cDownLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cUp = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cDown = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cUpLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0]).move(perpendiculars[3]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cUpRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]).move(perpendiculars[0]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cDownRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cDownLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
 
             quads.add(VertexUtility.create2DFace(side, vertexOffset, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, getTexture(ConnectedTextureBlock.TextureType.base(side)), uvOffset, uvOffset, 16-uvOffset, 16-uvOffset));
 

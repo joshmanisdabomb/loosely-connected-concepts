@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc;
 
-import com.joshmanisdabomb.lcc.block.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.*;
@@ -10,16 +9,7 @@ import com.joshmanisdabomb.lcc.proxy.ClientProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.proxy.ServerProxy;
 import com.joshmanisdabomb.lcc.registry.*;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public abstract class LCCEntities {
 
-    public static ArrayList<EntityType<?>> all = new ArrayList<>();
+    public static final ArrayList<EntityType<?>> all = new ArrayList<>();
 
     //Explosions
     public static EntityType<?> nuclear_explosion;

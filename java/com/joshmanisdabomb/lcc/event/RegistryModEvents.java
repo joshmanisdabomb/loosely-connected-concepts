@@ -1,14 +1,14 @@
 package com.joshmanisdabomb.lcc.event;
 
-import com.joshmanisdabomb.lcc.registry.LCCBlocks;
-import com.joshmanisdabomb.lcc.registry.LCCEffects;
-import com.joshmanisdabomb.lcc.registry.LCCEntities;
-import com.joshmanisdabomb.lcc.registry.LCCItems;
+import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effect;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -37,6 +37,18 @@ public abstract class RegistryModEvents {
     public static void onPotionRegistry(final RegistryEvent.Register<Effect> e) {
         LCCEffects.init(e);
         e.getRegistry().registerAll(LCCEffects.all.toArray(new Effect[0]));
+    }
+
+    @SubscribeEvent
+    public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> e) {
+        LCCTileEntities.init(e);
+        e.getRegistry().registerAll(LCCTileEntities.all.toArray(new TileEntityType<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> e) {
+        LCCContainers.init(e);
+        e.getRegistry().registerAll(LCCContainers.all.toArray(new ContainerType<?>[0]));
     }
 
 }

@@ -125,10 +125,14 @@ public class LCCGroup extends ItemGroup {
             setPosition(LCCItems.amethyst_leggings, LCCGroupCategory.TOOLS, 470);
             setPosition(LCCItems.amethyst_boots, LCCGroupCategory.TOOLS, 480);
 
+            //Rainbow
+            setPosition(LCCItems.chromatic_core, LCCGroupCategory.RAINBOW, 0);
+
             //Spreaders
-            setPosition(LCCBlocks.spreader_interface, LCCGroupCategory.SPREADERS, 0);
+            setPosition(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);
+            setPosition(LCCBlocks.spreader_interface, LCCGroupCategory.SPREADERS, 1);
             for (int i = 0; i < 16; i++) {
-                setPosition(LCCBlocks.spreaders[i], LCCGroupCategory.SPREADERS, i+1);
+                setPosition(LCCBlocks.spreaders[i], LCCGroupCategory.SPREADERS, i+2);
             }
 
             //Nuclear TODO: lump in with explosives
@@ -192,6 +196,7 @@ public class LCCGroup extends ItemGroup {
 
         RESOURCES,
         TOOLS,
+        RAINBOW,
         SPREADERS,
         NUCLEAR,
         POWER,

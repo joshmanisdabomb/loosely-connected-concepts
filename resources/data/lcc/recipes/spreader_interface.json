@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    " B ",
+    "LSL"
+  ],
+  "key": {
+    "C": {
+      "item": "lcc:chromatic_core"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    },
+    "S": {
+      "item": "lcc:spreader_essence"
+    },
+    "L": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:spreader_interface"
+  }
+}

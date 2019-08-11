@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "aimagg:items/spreader_essence"
+    "layer0": "lcc:item/spreader_essence"
   }
 }

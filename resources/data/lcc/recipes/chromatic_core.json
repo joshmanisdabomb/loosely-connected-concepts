@@ -1,0 +1,40 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "123",
+    "4X5",
+    "678"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:glass"
+    },
+    "1": {
+      "item": "minecraft:red_dye"
+    },
+    "2": {
+      "item": "minecraft:orange_dye"
+    },
+    "3": {
+      "item": "minecraft:yellow_dye"
+    },
+    "4": {
+      "item": "minecraft:lime_dye"
+    },
+    "5": {
+      "item": "minecraft:cyan_dye"
+    },
+    "6": {
+      "item": "minecraft:blue_dye"
+    },
+    "7": {
+      "item": "minecraft:purple_dye"
+    },
+    "8": {
+      "item": "minecraft:pink_dye"
+    }
+  },
+  "result": {
+    "item": "lcc:chromatic_core"
+  }
+}

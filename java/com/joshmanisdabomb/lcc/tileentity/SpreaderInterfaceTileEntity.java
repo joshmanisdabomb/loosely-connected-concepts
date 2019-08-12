@@ -38,7 +38,7 @@ public class SpreaderInterfaceTileEntity extends TileEntity implements INamedCon
 
     @Override
     public ITextComponent getDisplayName() {
-        return this.customName != null ? this.customName : new TranslationTextComponent("container.lcc.spreader_interface");
+        return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.spreader_interface");
     }
 
     @Nullable

@@ -6,11 +6,12 @@ import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-public class SpreaderInterfaceContainer extends Container {
+public class SpreaderInterfaceContainer extends Container implements LCCContainerHelper {
 
     private final SpreaderInterfaceTileEntity te;
 
@@ -22,11 +23,18 @@ public class SpreaderInterfaceContainer extends Container {
         this.te = te;
         this.player = player;
         this.playerInv = new InvWrapper(inv);
+
+        this.traitAddPlayerSlots(this.playerInv, 36, 137);
     }
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return isWithinUsableDistance(IWorldPosCallable.of(te.getWorld(), te.getPos()), player, LCCBlocks.spreader_interface);
+    }
+
+    @Override
+    public Slot addSlotFromHelper(Slot slot) {
+        return this.addSlot(slot);
     }
 
 }

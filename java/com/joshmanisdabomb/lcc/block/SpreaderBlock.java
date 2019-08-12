@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IntegerProperty;
@@ -18,6 +19,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.Random;
 
@@ -55,20 +57,28 @@ public class SpreaderBlock extends Block implements LCCBlockHelper {
 
     @Override
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
-        int age = state.get(AGE);
-
-        System.out.println("Color: " + color.getName());
-        System.out.println("Age: " + AGE);
         if (!world.isRemote) {
             SpreaderCapability.Provider.getGlobalCapability(world.getServer()).ifPresent(spreader -> {
-                System.out.println("Enabled: " + spreader.enabled.getOrDefault(color, false));
-                System.out.println("Speed Level: " + spreader.speedLevel.getOrDefault(color, 0));
-                System.out.println("Damage Level: " + spreader.damageLevel.getOrDefault(color, 0));
-                System.out.println("Decay Level: " + spreader.decayLevel.getOrDefault(color, 0));
-                System.out.println("Eating: " + spreader.eating.getOrDefault(color, false));
-                System.out.println("Through Ground: " + spreader.throughGround.getOrDefault(color, true));
-                System.out.println("Through Water: " + spreader.throughWater.getOrDefault(color, false));
-                System.out.println("Through Air: " + spreader.throughAir.getOrDefault(color, false));
+                if (spreader.isEnabled(color)) {
+                    BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos(pos);
+                    for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                            for (int k = -1; k <= 1; k++) {
+                                if (random.nextInt(3) == 0 && isSpreadable(world, world.getBlockState(mpos.setPos(pos.getX()+i,pos.getY()+j,pos.getZ()+k)), mpos, spreader)) {
+                                    world.setBlockState(pos, state.with(AGE, state.get(AGE) + spreader.getDecayAge(color, random)));
+                                }
+                            }
+                        }
+                    }
+
+                    if (spreader.isEater(color) && random.nextInt(3) == 0) {
+                        world.destroyBlock(pos, false);
+                    } else {
+                        world.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, random));
+                    }
+                } else {
+                    world.getPendingBlockTicks().scheduleTick(pos, this, random.nextInt(121) + 120);
+                }
             });
         }
 
@@ -81,6 +91,16 @@ public class SpreaderBlock extends Block implements LCCBlockHelper {
 
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
+    }
+
+    private boolean isSpreadable(World world, BlockState state, BlockPos pos, SpreaderCapability spreader) {
+        if (state.getBlock() == this) return false;
+        boolean liquid = state.getMaterial().isLiquid();
+        if (spreader.throughLiquid(color) && liquid) return true;
+        boolean air = state.isAir(world, pos);
+        if (spreader.throughAir(color) && air) return true;
+        if (spreader.throughGround(color) && !liquid && !air) return true;
+        return false;
     }
 
 }

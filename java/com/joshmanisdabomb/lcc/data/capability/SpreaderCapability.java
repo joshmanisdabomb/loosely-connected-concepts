@@ -3,10 +3,9 @@ package com.joshmanisdabomb.lcc.data.capability;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
@@ -16,6 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import java.util.Random;
 
 public class SpreaderCapability {
 
@@ -27,8 +27,59 @@ public class SpreaderCapability {
     public final HashMap<DyeColor, Boolean> eating = new HashMap<>();
 
     public final HashMap<DyeColor, Boolean> throughGround = new HashMap<>();
-    public final HashMap<DyeColor, Boolean> throughWater = new HashMap<>();
+    public final HashMap<DyeColor, Boolean> throughLiquid = new HashMap<>();
     public final HashMap<DyeColor, Boolean> throughAir = new HashMap<>();
+
+    public boolean isEnabled(DyeColor color) {
+        return enabled.getOrDefault(color, false);
+    }
+
+    public int getSpeedLevel(DyeColor color) {
+        return speedLevel.getOrDefault(color, 0);
+    }
+
+    public int getTickSpeed(DyeColor color, Random random) {
+        int s = this.getSpeedLevel(color) * 10;
+        return random.nextInt(121 - s) + (120 - s);
+    }
+
+    public int getDamageLevel(DyeColor color) {
+        return damageLevel.getOrDefault(color, 0);
+    }
+
+    public int getDecayLevel(DyeColor color) {
+        return decayLevel.getOrDefault(color, 0);
+    }
+
+    public int getDecayPercentage(DyeColor color) {
+        int d = this.getDecayLevel(color);
+        return (int)Math.ceil((250 * Math.pow(0.9, d)) / 5) * 5;
+    }
+
+    public int getDecayAge(DyeColor color, Random random) {
+        int d = this.getDecayPercentage(color);
+        if (d == 100) return 1;
+        else if (d > 100) {
+            int i = d / 100;
+            return i + (random.nextFloat() <= (d % 100 / 100F) ? 1 : 0);
+        } else return random.nextFloat() <= (d % 100 / 100F) ? 1 : 0;
+    }
+
+    public boolean isEater(DyeColor color) {
+        return eating.getOrDefault(color, false);
+    }
+
+    public boolean throughGround(DyeColor color) {
+        return throughGround.getOrDefault(color, true);
+    }
+
+    public boolean throughLiquid(DyeColor color) {
+        return throughLiquid.getOrDefault(color, false);
+    }
+
+    public boolean throughAir(DyeColor color) {
+        return throughAir.getOrDefault(color, false);
+    }
 
     public static class Storage implements Capability.IStorage<SpreaderCapability> {
 
@@ -43,7 +94,7 @@ public class SpreaderCapability {
                 nbtc.putInt("decayLevel", instance.decayLevel.getOrDefault(c, 0));
                 nbtc.putBoolean("eating", instance.eating.getOrDefault(c, false));
                 nbtc.putBoolean("throughGround", instance.throughGround.getOrDefault(c, true));
-                nbtc.putBoolean("throughWater", instance.throughWater.getOrDefault(c, false));
+                nbtc.putBoolean("throughLiquid", instance.throughLiquid.getOrDefault(c, false));
                 nbtc.putBoolean("throughAir", instance.throughAir.getOrDefault(c, false));
             }
             return nbt;
@@ -60,7 +111,7 @@ public class SpreaderCapability {
                 instance.decayLevel.put(c, nbtc2.getInt("decayLevel"));
                 instance.eating.put(c, nbtc2.getBoolean("eating"));
                 instance.throughGround.put(c, nbtc2.getBoolean("throughGround"));
-                instance.throughWater.put(c, nbtc2.getBoolean("throughWater"));
+                instance.throughLiquid.put(c, nbtc2.getBoolean("throughLiquid"));
                 instance.throughAir.put(c, nbtc2.getBoolean("throughAir"));
             }
         }

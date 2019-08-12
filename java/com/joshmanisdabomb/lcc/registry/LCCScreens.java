@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
-import com.joshmanisdabomb.lcc.gui.SpreaderInterfaceScreen;
+import com.joshmanisdabomb.lcc.gui.inventory.SpreaderInterfaceScreen;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.api.distmarker.Dist;

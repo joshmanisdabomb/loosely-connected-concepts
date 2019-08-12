@@ -7,6 +7,7 @@ public abstract class LCCCapabilities {
     public static void init() {
         CapabilityManager.INSTANCE.register(GauntletCapability.CIGauntlet.class, new GauntletCapability(), GauntletCapability.CGauntlet::new);
         CapabilityManager.INSTANCE.register(HeartsCapability.CIHearts.class, new HeartsCapability(), HeartsCapability.CHearts::new);
+        CapabilityManager.INSTANCE.register(SpreaderCapability.class, new SpreaderCapability.Storage(), SpreaderCapability::new);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
+import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.DyeColor;
@@ -8,6 +11,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -52,19 +56,19 @@ public class SpreaderBlock extends Block implements LCCBlockHelper {
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
         int age = state.get(AGE);
 
-        if (age < 15) {
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    for (int k = -1; k <= 1; k++) {
-                        BlockPos pos2 = pos.add(i,j,k);
-                        BlockState state2 = world.getBlockState(pos2);
-                        if (random.nextInt(2) == 0 && state2.getBlock() != this && !state2.getMaterial().isLiquid() && !state2.isAir(world, pos2)) {
-                            world.setBlockState(pos2, state.with(AGE, age + random.nextInt(2)));
-                        }
-                    }
-                }
-            }
-        }
+        System.out.println("Color: " + color.getName());
+        System.out.println("Age: " + AGE);
+        world.getCapability(SpreaderCapability.Provider.DEFAULT_CAPABILITY).ifPresent(spreader -> {
+            System.out.println("Enabled: " + spreader.enabled.getOrDefault(color, true));
+            System.out.println("Speed Level: " + spreader.speedLevel.getOrDefault(color, 0));
+            System.out.println("Damage Level: " + spreader.damageLevel.getOrDefault(color, 0));
+            System.out.println("Decay Level: " + spreader.decayLevel.getOrDefault(color, 0));
+            System.out.println("Eating: " + spreader.eating.getOrDefault(color, false));
+            System.out.println("Through Ground: " + spreader.throughGround.getOrDefault(color, true));
+            System.out.println("Through Water: " + spreader.throughWater.getOrDefault(color, false));
+            System.out.println("Through Air: " + spreader.throughAir.getOrDefault(color, false));
+        });
+
     }
 
     @OnlyIn(Dist.CLIENT)

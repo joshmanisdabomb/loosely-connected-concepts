@@ -5,9 +5,12 @@ import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,11 +23,21 @@ public class CapabilityEvents {
 
     public static final ResourceLocation GAUNTLET_CAPABILITY = new ResourceLocation(LCC.MODID, "gauntlet");
     public static final ResourceLocation HEARTS_CAPABILITY = new ResourceLocation(LCC.MODID, "hearts");
+    public static final ResourceLocation SPREADER_CAPABILITY = new ResourceLocation(LCC.MODID, "spreader");
 
     @SubscribeEvent
     public void attachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
-        event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.CGauntletProvider());
-        event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.CHeartsProvider());
+        if (event.getObject() instanceof LivingEntity) {
+            event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.CGauntletProvider());
+            event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.CHeartsProvider());
+        }
+    }
+
+    @SubscribeEvent
+    public void attachCapabilityToWorld(AttachCapabilitiesEvent<World> event) {
+        if (event.getObject().getDimension().getType() == DimensionType.OVERWORLD) {
+            event.addCapability(SPREADER_CAPABILITY, new SpreaderCapability.Provider());
+        }
     }
 
     @SubscribeEvent

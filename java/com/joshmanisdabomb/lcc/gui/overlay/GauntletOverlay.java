@@ -36,7 +36,7 @@ public class GauntletOverlay extends AbstractGui implements LCCOverlay {
         if (!player.isSpectator() && stack.getItem() instanceof GauntletItem) {
             minecraft.getTextureManager().bindTexture(GAUNTLET_ICONS);
 
-            player.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
+            player.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
                 int abilityY = Minecraft.getInstance().mainWindow.getScaledHeight()/2 + 10;
 
                 int punchX = Minecraft.getInstance().mainWindow.getScaledWidth()/2 - ABILITY_WIDTH/2;

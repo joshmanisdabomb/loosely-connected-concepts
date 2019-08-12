@@ -48,7 +48,7 @@ public class HeartsOverlay extends AbstractGui implements LCCOverlay {
         heartColour = player.isPotionActive(Effects.POISON) ? HEART_POISON_Ud : player.isPotionActive(Effects.WITHER) ? HEART_WITHER_Ud : 0;
         heartHardcore = minecraft.world.getWorldInfo().isHardcore() ? HEART_HARDCORE_Vd : 0;
 
-        player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+        player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
             this.drawHealthType(HEART_IRON_V, hearts.getIronHealth(), hearts.getIronMaxHealth());
             this.drawHealthType(HEART_CRYSTAL_V, hearts.getCrystalHealth(), hearts.getCrystalMaxHealth());
             this.drawHealthType(HEART_TEMPORARY_V, hearts.getTemporaryHealth(), hearts.getTemporaryHealth());

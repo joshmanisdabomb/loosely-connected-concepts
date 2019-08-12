@@ -19,13 +19,13 @@ public abstract class HeartsFunctionality {
 
     public static final HeartType[] HURT_TYPES = {HeartType.TEMPORARY, HeartType.CRYSTAL, HeartType.IRON};
 
-    public static void tick(HeartsCapability.CIHearts hearts, LivingEntity actor) {
+    public static void tick(HeartsCapability hearts, LivingEntity actor) {
         if (hearts.getTemporaryHealth() > 0) {
             hearts.addTemporaryHealth(-0.019F, Float.MAX_VALUE);
         }
     }
 
-    public static void capabilityClone(HeartsCapability.CIHearts heartsOriginal, HeartsCapability.CIHearts heartsNew, PlayerEntity playerOriginal, PlayerEntity playerNew, PlayerEvent.Clone event) {
+    public static void capabilityClone(HeartsCapability heartsOriginal, HeartsCapability heartsNew, PlayerEntity playerOriginal, PlayerEntity playerNew, PlayerEvent.Clone event) {
         if (!event.isWasDeath()) {
             heartsNew.setIronMaxHealth(heartsOriginal.getIronMaxHealth());
             heartsNew.setIronHealth(heartsOriginal.getIronHealth());
@@ -35,7 +35,7 @@ public abstract class HeartsFunctionality {
         }
     }
 
-    public static void hurt(HeartsCapability.CIHearts hearts, LivingEntity entity, LivingHurtEvent e) {
+    public static void hurt(HeartsCapability hearts, LivingEntity entity, LivingHurtEvent e) {
         float damage = e.getAmount();
         for (HeartType ht : HURT_TYPES) {
             if (damage <= 0.0F) break;
@@ -57,7 +57,7 @@ public abstract class HeartsFunctionality {
         CRYSTAL,
         TEMPORARY;
 
-        public float getHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+        public float getHealth(HeartsCapability hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return entity.getHealth();
@@ -72,7 +72,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public float getMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+        public float getMaxHealth(HeartsCapability hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return entity.getMaxHealth();
@@ -87,7 +87,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void setHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value, float temporaryLimit) {
+        public void setHealth(HeartsCapability hearts, LivingEntity entity, float value, float temporaryLimit) {
             switch (this) {
                 case RED:
                     entity.setHealth(value);
@@ -106,7 +106,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void addHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value, float temporaryLimit) {
+        public void addHealth(HeartsCapability hearts, LivingEntity entity, float value, float temporaryLimit) {
             switch (this) {
                 case RED:
                     entity.setHealth(entity.getHealth() + value);
@@ -125,7 +125,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void setMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value) {
+        public void setMaxHealth(HeartsCapability hearts, LivingEntity entity, float value) {
             switch (this) {
                 case RED:
                     hearts.setRedMaxHealth(value);
@@ -142,7 +142,7 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public void addMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity, float value) {
+        public void addMaxHealth(HeartsCapability hearts, LivingEntity entity, float value) {
             switch (this) {
                 case RED:
                     hearts.addRedMaxHealth(value);
@@ -159,11 +159,11 @@ public abstract class HeartsFunctionality {
             }
         }
 
-        public boolean isFullHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+        public boolean isFullHealth(HeartsCapability hearts, LivingEntity entity) {
             return this.getHealth(hearts, entity) >= this.getMaxHealth(hearts, entity);
         }
 
-        public boolean isFullMaxHealth(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+        public boolean isFullMaxHealth(HeartsCapability hearts, LivingEntity entity) {
             switch (this) {
                 case RED:
                     return hearts.getRedMaxHealth() >= HeartsFunctionality.RED_LIMIT;

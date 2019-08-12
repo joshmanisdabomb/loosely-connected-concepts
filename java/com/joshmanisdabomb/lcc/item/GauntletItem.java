@@ -25,7 +25,7 @@ public class GauntletItem extends Item {
     @Override
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity) {
         if (entity instanceof PlayerEntity && !entity.isPotionActive(LCCEffects.stun)) {
-            entity.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
+            entity.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
                 GauntletFunctionality.performUppercut(gauntlet, stack, entity);
             });
         }
@@ -49,14 +49,14 @@ public class GauntletItem extends Item {
 
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entity, int timeLeft) {
-        entity.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
+        entity.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
             GauntletFunctionality.performPunch(gauntlet, stack, entity, timeLeft);
         });
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        LazyOptional<GauntletCapability.CIGauntlet> cap = player.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY);
+        LazyOptional<GauntletCapability> cap = player.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY);
         if (!cap.isPresent()) return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
         cap.ifPresent(gauntlet -> {
             if (gauntlet.canPunch() || player.isCreative()) {

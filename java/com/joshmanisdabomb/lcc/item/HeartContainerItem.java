@@ -10,12 +10,12 @@ public class HeartContainerItem extends HeartItem {
         super(ht, value, p);
     }
 
-    protected void onHeartEffect(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+    protected void onHeartEffect(HeartsCapability hearts, LivingEntity entity) {
         this.ht.addMaxHealth(hearts, entity, this.value);
         this.ht.addHealth(hearts, entity, this.value, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
     }
 
-    protected boolean canUse(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+    protected boolean canUse(HeartsCapability hearts, LivingEntity entity) {
         return !this.ht.isFullMaxHealth(hearts, entity);
     }
 

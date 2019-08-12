@@ -28,8 +28,8 @@ public class CapabilityEvents {
     @SubscribeEvent
     public void attachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof LivingEntity) {
-            event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.CGauntletProvider());
-            event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.CHeartsProvider());
+            event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.Provider());
+            event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.Provider());
         }
     }
 
@@ -44,8 +44,8 @@ public class CapabilityEvents {
     public void onPlayerClone(PlayerEvent.Clone event) {
         PlayerEntity playerOriginal = event.getOriginal();
         PlayerEntity playerNew = event.getEntityPlayer();
-        playerOriginal.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(heartsOriginal -> {
-            playerNew.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(heartsNew -> {
+        playerOriginal.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(heartsOriginal -> {
+            playerNew.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(heartsNew -> {
                 HeartsFunctionality.capabilityClone(heartsOriginal, heartsNew, playerOriginal, playerNew, event);
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new HeartsUpdatePacket(heartsNew));
             });
@@ -56,7 +56,7 @@ public class CapabilityEvents {
     public void onPlayerSpawn(PlayerRespawnEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
-            player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }
@@ -66,7 +66,7 @@ public class CapabilityEvents {
     public void onPlayerSwitchDimension(PlayerChangedDimensionEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
-            player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }
@@ -76,7 +76,7 @@ public class CapabilityEvents {
     public void onPlayerJoin(PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
-            player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
         }

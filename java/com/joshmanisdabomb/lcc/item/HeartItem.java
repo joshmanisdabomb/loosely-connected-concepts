@@ -28,11 +28,11 @@ public class HeartItem extends Item {
         this.value = value;
     }
 
-    protected void onHeartEffect(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+    protected void onHeartEffect(HeartsCapability hearts, LivingEntity entity) {
         this.ht.addHealth(hearts, entity, this.value, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
     }
 
-    protected boolean canUse(HeartsCapability.CIHearts hearts, LivingEntity entity) {
+    protected boolean canUse(HeartsCapability hearts, LivingEntity entity) {
         return this.ht == HeartsFunctionality.HeartType.TEMPORARY ? this.ht.getHealth(hearts, entity) < HeartsFunctionality.TEMPORARY_USUAL_LIMIT : !this.ht.isFullHealth(hearts, entity);
     }
 
@@ -40,7 +40,7 @@ public class HeartItem extends Item {
     public void onUsingTick(ItemStack stack, LivingEntity entity, int ticks) {
         ticks = this.getUseDuration(stack) - ticks;
         if (ticks >= 30 && ticks % 10 == 0) {
-            entity.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            entity.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 this.onHeartEffect(hearts, entity);
                 if (!(entity instanceof PlayerEntity) || !((PlayerEntity)entity).isCreative()) {
                     stack.shrink(1);
@@ -67,7 +67,7 @@ public class HeartItem extends Item {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        LazyOptional<HeartsCapability.CIHearts> cap = player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY);
+        LazyOptional<HeartsCapability> cap = player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY);
         if (!cap.isPresent()) return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
         cap.ifPresent(hearts -> {
             if (this.canUse(hearts, player)) {

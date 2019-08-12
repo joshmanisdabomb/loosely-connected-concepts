@@ -34,10 +34,10 @@ public class GeneralBusEvents {
     @SubscribeEvent
     public void onEntityTick(LivingEvent.LivingUpdateEvent e) {
         LivingEntity entity = e.getEntityLiving();
-        entity.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+        entity.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
             HeartsFunctionality.tick(hearts, entity);
         });
-        entity.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
+        entity.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
             GauntletFunctionality.tick(gauntlet, entity.getHeldItem(Hand.MAIN_HAND), entity);
         });
         if (entity.isPotionActive(LCCEffects.stun)) {
@@ -83,7 +83,7 @@ public class GeneralBusEvents {
     @SubscribeEvent
     public void onEntityHurt(LivingHurtEvent e) {
         LivingEntity entity = e.getEntityLiving();
-        entity.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+        entity.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
             HeartsFunctionality.hurt(hearts, entity, e);
         });
     }

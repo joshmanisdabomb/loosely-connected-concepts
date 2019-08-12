@@ -61,7 +61,7 @@ public abstract class GauntletFunctionality {
         return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
     }
 
-    public static void performUppercut(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor) {
+    public static void performUppercut(GauntletCapability gauntlet, ItemStack stack, LivingEntity actor) {
         GemModifier gm = GemModifier.getGem(LCCItems.ruby);
         if (gauntlet.canUppercut() || (actor instanceof PlayerEntity && ((PlayerEntity)actor).isCreative())) {
             float f = actor.rotationYaw;
@@ -81,7 +81,7 @@ public abstract class GauntletFunctionality {
             if (entities.size() > 0) {
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.25F);
                 GauntletFunctionality.playHitSound(actor);
-                actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                actor.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_UPPERCUT*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
                 for (Entity other : entities) {
@@ -95,7 +95,7 @@ public abstract class GauntletFunctionality {
         }
     }
 
-    public static void performPunch(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor, int timeLeft) {
+    public static void performPunch(GauntletCapability gauntlet, ItemStack stack, LivingEntity actor, int timeLeft) {
         GemModifier gm = GemModifier.getGem(LCCItems.ruby);
         if (gauntlet.canPunch() || (actor instanceof PlayerEntity && ((PlayerEntity)actor).isCreative())) {
             float strength = getStrength(stack, timeLeft);
@@ -118,7 +118,7 @@ public abstract class GauntletFunctionality {
         }
     }
 
-    public static void tick(GauntletCapability.CIGauntlet gauntlet, ItemStack stack, LivingEntity actor) {
+    public static void tick(GauntletCapability gauntlet, ItemStack stack, LivingEntity actor) {
         gauntlet.tick();
         if (gauntlet.isPunched()) {
             if (actor.isInWaterOrBubbleColumn() || actor.isInLava()) {
@@ -144,11 +144,11 @@ public abstract class GauntletFunctionality {
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.25F);
                 GauntletFunctionality.playHitSound(actor);
-                actor.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                actor.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_PUNCH*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
                 for (Entity other : entities) {
-                    other.getCapability(GauntletCapability.CGauntletProvider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
+                    other.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
                         if (other instanceof LivingEntity) {
                             ((LivingEntity)other).addPotionEffect(new EffectInstance(LCCEffects.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.getPunchStrength() * gm.stun), 0, true, false, true));
                         }

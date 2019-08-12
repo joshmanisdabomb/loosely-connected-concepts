@@ -25,7 +25,7 @@ public class HeartsUpdatePacket implements LCCPacket {
         this.temporary = temporary;
     }
 
-    public HeartsUpdatePacket(HeartsCapability.CIHearts hearts) {
+    public HeartsUpdatePacket(HeartsCapability hearts) {
         this(hearts.getRedMaxHealth(), hearts.getIronMaxHealth(), hearts.getIronHealth(), hearts.getCrystalMaxHealth(), hearts.getCrystalHealth(), hearts.getTemporaryHealth());
     }
 

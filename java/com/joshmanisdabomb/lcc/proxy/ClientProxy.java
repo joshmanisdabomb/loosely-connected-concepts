@@ -25,7 +25,7 @@ public class ClientProxy extends Proxy {
     public void handleHeartsUpdatePacket(float redMax, float ironMax, float iron, float crystalMax, float crystal, float temporary) {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player != null) {
-            player.getCapability(HeartsCapability.CHeartsProvider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+            player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 hearts.setRedMaxHealth(redMax);
                 hearts.setIronMaxHealth(ironMax);
                 hearts.setIronHealth(iron);

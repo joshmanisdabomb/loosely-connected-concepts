@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.DyeColor;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -58,16 +59,18 @@ public class SpreaderBlock extends Block implements LCCBlockHelper {
 
         System.out.println("Color: " + color.getName());
         System.out.println("Age: " + AGE);
-        world.getCapability(SpreaderCapability.Provider.DEFAULT_CAPABILITY).ifPresent(spreader -> {
-            System.out.println("Enabled: " + spreader.enabled.getOrDefault(color, true));
-            System.out.println("Speed Level: " + spreader.speedLevel.getOrDefault(color, 0));
-            System.out.println("Damage Level: " + spreader.damageLevel.getOrDefault(color, 0));
-            System.out.println("Decay Level: " + spreader.decayLevel.getOrDefault(color, 0));
-            System.out.println("Eating: " + spreader.eating.getOrDefault(color, false));
-            System.out.println("Through Ground: " + spreader.throughGround.getOrDefault(color, true));
-            System.out.println("Through Water: " + spreader.throughWater.getOrDefault(color, false));
-            System.out.println("Through Air: " + spreader.throughAir.getOrDefault(color, false));
-        });
+        if (!world.isRemote) {
+            SpreaderCapability.Provider.getGlobalCapability(world.getServer()).ifPresent(spreader -> {
+                System.out.println("Enabled: " + spreader.enabled.getOrDefault(color, false));
+                System.out.println("Speed Level: " + spreader.speedLevel.getOrDefault(color, 0));
+                System.out.println("Damage Level: " + spreader.damageLevel.getOrDefault(color, 0));
+                System.out.println("Decay Level: " + spreader.decayLevel.getOrDefault(color, 0));
+                System.out.println("Eating: " + spreader.eating.getOrDefault(color, false));
+                System.out.println("Through Ground: " + spreader.throughGround.getOrDefault(color, true));
+                System.out.println("Through Water: " + spreader.throughWater.getOrDefault(color, false));
+                System.out.println("Through Air: " + spreader.throughAir.getOrDefault(color, false));
+            });
+        }
 
     }
 

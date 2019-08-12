@@ -4,7 +4,11 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -65,11 +69,14 @@ public class SpreaderCapability {
 
     public static class Provider implements ICapabilitySerializable<CompoundNBT> {
 
-
         @CapabilityInject(SpreaderCapability.class)
         public static final Capability<SpreaderCapability> DEFAULT_CAPABILITY = null;
 
         private SpreaderCapability instance = DEFAULT_CAPABILITY.getDefaultInstance();
+
+        public static LazyOptional<SpreaderCapability> getGlobalCapability(MinecraftServer server) {
+            return DimensionManager.getWorld(server, DimensionType.OVERWORLD, false, false).getCapability(SpreaderCapability.Provider.DEFAULT_CAPABILITY);
+        }
 
         @Nonnull
         @Override

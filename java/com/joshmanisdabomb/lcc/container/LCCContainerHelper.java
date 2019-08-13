@@ -25,7 +25,7 @@ public interface LCCContainerHelper {
         this.traitAddSlots(inventory, x, y, 9, 9, 3);
 
         //Hotbar
-        this.traitAddSlots(inventory, x, y + 58, 0, 9, 18);
+        this.traitAddSlots(inventory, x, y + 58, 0, 9, 1);
     }
 
 }

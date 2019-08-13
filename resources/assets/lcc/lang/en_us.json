@@ -81,6 +81,7 @@
 
   "item.lcc.spreader_essence": "Spreader Essence",
   "block.lcc.spreader_interface": "Spreader Interface",
+  "block.lcc.spreader_interface.cost": "Cost:",
   "block.lcc.spreader_white": "White Spreader",
   "block.lcc.spreader_orange": "Orange Spreader",
   "block.lcc.spreader_magenta": "Magenta Spreader",

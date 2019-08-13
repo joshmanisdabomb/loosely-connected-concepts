@@ -24,7 +24,7 @@ public class SpreaderInterfaceContainer extends Container implements LCCContaine
         this.player = player;
         this.playerInv = new InvWrapper(inv);
 
-        this.traitAddPlayerSlots(this.playerInv, 36, 137);
+        this.traitAddPlayerSlots(this.playerInv, 36, 149);
     }
 
     @Override

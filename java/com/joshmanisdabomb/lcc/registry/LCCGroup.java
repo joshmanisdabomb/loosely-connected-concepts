@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import net.minecraft.block.Block;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -131,8 +132,8 @@ public class LCCGroup extends ItemGroup {
             //Spreaders
             setPosition(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);
             setPosition(LCCBlocks.spreader_interface, LCCGroupCategory.SPREADERS, 1);
-            for (int i = 0; i < 16; i++) {
-                setPosition(LCCBlocks.spreaders[i], LCCGroupCategory.SPREADERS, i+2);
+            for (DyeColor color : DyeColor.values()) {
+                setPosition(LCCBlocks.spreaders.get(color), LCCGroupCategory.SPREADERS, color.getId()+2);
             }
 
             //Nuclear TODO: lump in with explosives

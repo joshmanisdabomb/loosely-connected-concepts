@@ -13,6 +13,7 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class LCCBlocks {
 	
@@ -45,7 +46,7 @@ public abstract class LCCBlocks {
 
 	//Spreaders
 	public static Block spreader_interface;
-    public static Block[] spreaders = new Block[16];
+    public static HashMap<DyeColor, Block> spreaders = new HashMap<>();
 
     public static void init(Register<Block> e) {
 		//Test Blocks
@@ -92,10 +93,11 @@ public abstract class LCCBlocks {
     	//Spreaders
 		all.add(spreader_interface = new SpreaderInterfaceBlock(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(7.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "spreader_interface"));
 		createDefaultBlockItem(spreader_interface);
-		for (int i = 0; i < 16; i++) {
-			DyeColor c = DyeColor.byId(i);
-			all.add(spreaders[i] = new SpreaderBlock(c, Block.Properties.create(Material.EARTH, c.getMapColor()).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + c.getName()));
-			createDefaultBlockItem(spreaders[i]);
+		for (DyeColor color : DyeColor.values()) {
+			Block b;
+			all.add(b = new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color.getMapColor()).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + color.getName()));
+			spreaders.put(color, b);
+			createDefaultBlockItem(b);
 		}
     }
 

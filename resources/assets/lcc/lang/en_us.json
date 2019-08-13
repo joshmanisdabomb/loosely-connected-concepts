@@ -80,8 +80,6 @@
   "item.lcc.chromatic_core": "Chromatic Core",
 
   "item.lcc.spreader_essence": "Spreader Essence",
-  "block.lcc.spreader_interface": "Spreader Interface",
-  "block.lcc.spreader_interface.cost": "Cost:",
   "block.lcc.spreader_white": "White Spreader",
   "block.lcc.spreader_orange": "Orange Spreader",
   "block.lcc.spreader_magenta": "Magenta Spreader",
@@ -98,6 +96,15 @@
   "block.lcc.spreader_green": "Green Spreader",
   "block.lcc.spreader_red": "Red Spreader",
   "block.lcc.spreader_black": "Black Spreader",
+
+  "block.lcc.spreader_interface": "Spreader Interface",
+  "block.lcc.spreader_interface.cost": "Cost",
+  "block.lcc.spreader_interface.speed": "Speed",
+  "block.lcc.spreader_interface.speed.value": "%1$d - %2$d ticks",
+  "block.lcc.spreader_interface.damage": "Damage",
+  "block.lcc.spreader_interface.damage.value": "%1$d hearts",
+  "block.lcc.spreader_interface.decay": "Decay",
+  "block.lcc.spreader_interface.decay.value": "%1$d%%",
 
   "block.lcc.nuclear_waste": "Nuclear Debris",
 

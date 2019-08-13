@@ -6,24 +6,36 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.AbstractSlider;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.BeaconContainer;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.HashMap;
+
 @OnlyIn(Dist.CLIENT)
 public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceContainer> {
 
-    private ResourceLocation GUI = new ResourceLocation(LCC.MODID, "textures/gui/container/spreader_interface.png");
+    public static final ResourceLocation GUI = new ResourceLocation(LCC.MODID, "textures/gui/container/spreader_interface.png");
 
     private DyeColor tab = DyeColor.WHITE;
+
+    private HashMap<DyeColor, Slider> speed = new HashMap<>();
+    private HashMap<DyeColor, Slider> damage = new HashMap<>();
+    private HashMap<DyeColor, Slider> decay = new HashMap<>();
+
+    private SpriteButton buttonConfirm;
+    private SpriteButton buttonCancel;
 
     public SpreaderInterfaceScreen(SpreaderInterfaceContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
@@ -32,14 +44,98 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     }
 
     @Override
+    protected void init() {
+        super.init();
+        this.buttonConfirm = this.addButton(new SpriteButton(this.guiLeft + 167, this.guiTop + 111, 88) {
+            @Override
+            public void onPress() {
+
+            }
+
+            @Override
+            public void renderToolTip(int x, int y) {
+                SpreaderInterfaceScreen.this.renderTooltip(I18n.format("gui.done"), x, y);
+            }
+        });
+        this.buttonConfirm.active = false;
+        this.buttonCancel = this.addButton(new SpriteButton(this.guiLeft + 193, this.guiTop + 111, 110) {
+            @Override
+            public void onPress() {
+                SpreaderInterfaceScreen.this.minecraft.player.closeScreen();
+            }
+
+            @Override
+            public void renderToolTip(int x, int y) {
+                SpreaderInterfaceScreen.this.renderTooltip(I18n.format("gui.cancel"), x, y);
+            }
+        });
+        this.buttonCancel.active = true;
+        for (DyeColor color : DyeColor.values()) {
+            Slider s;
+
+            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 44, 124, 15, 0) {
+
+                @Override
+                protected void updateMessage() {
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.speed.value", this.value, this.value));
+                }
+
+                @Override
+                protected void applyValue() {
+
+                }
+
+            });
+            s.visible = color == tab;
+            this.speed.put(color, s);
+
+            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 64, 124, 15, 0) {
+
+                @Override
+                protected void updateMessage() {
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.damage.value", this.value));
+                }
+
+                @Override
+                protected void applyValue() {
+
+                }
+
+            });
+            s.visible = color == tab;
+            this.damage.put(color, s);
+
+            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 84, 124, 15, 0) {
+
+                @Override
+                protected void updateMessage() {
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.decay.value", this.value));
+                }
+
+                @Override
+                protected void applyValue() {
+
+                }
+
+            });
+            s.visible = color == tab;
+            this.decay.put(color, s);
+        }
+    }
+
+    @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        if (mouseX >= i + 202 && mouseX <= i + 202 + 16 && mouseY >= j + 10 && mouseY <= j + 10 + 16) {
+        if (mouseX >= this.guiLeft + 202 && mouseX <= this.guiLeft + 202 + 16 && mouseY >= this.guiTop + 10 && mouseY <= this.guiTop + 10 + 16) {
             this.renderTooltip(new ItemStack(LCCBlocks.spreaders.get(tab)), mouseX, mouseY);
+        }
+        for (Widget widget : this.buttons) {
+            if (widget.isHovered()) {
+                widget.renderToolTip(mouseX, mouseY);
+                break;
+            }
         }
     }
 
@@ -54,19 +150,17 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(GUI);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.blit(i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
         this.changeDrawingColor(tab);
-        this.blit(i+7, j+34, 7, 34, 216, 72);
+        this.blit(this.guiLeft + 7, this.guiTop + 34, 7, 34, 216, 72);
 
         for (DyeColor color : DyeColor.values()) {
             this.changeDrawingColor(color);
             if (color == tab) {
-                this.blit(i+8+(color.getId() * 10), j+21, 240, 0, 10, 14);
+                this.blit(this.guiLeft+8+(color.getId() * 10), this.guiTop + 21, 240, 0, 10, 14);
             } else {
-                this.blit(i+8+(color.getId() * 10), j+21, 230, 0, 10, 13);
+                this.blit(this.guiLeft+8+(color.getId() * 10), this.guiTop + 21, 230, 0, 10, 13);
             }
         }
 
@@ -76,8 +170,8 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.translatef(0.5F, 0.5F, 32.0F);
 
-        this.itemRenderer.renderItemIntoGUI(new ItemStack(LCCBlocks.spreaders.get(tab)), i + 202, j + 10);
-        //this.itemRenderer.renderItemOverlays(Minecraft.getInstance().fontRenderer, new ItemStack(Items.EMERALD, Integer.MAX_VALUE), i + 42, j + 109);
+        this.itemRenderer.renderItemIntoGUI(new ItemStack(LCCBlocks.spreaders.get(tab)), this.guiLeft + 202, this.guiTop + 10);
+        //this.itemRenderer.renderItemOverlays(Minecraft.getInstance().fontRenderer, new ItemStack(Items.EMERALD, Integer.MAX_VALUE), this.guiLeft + 42, this.guiTop + 109);
 
         GlStateManager.translatef(-0.5F, -0.5F, -32.0F);
         RenderHelper.enableStandardItemLighting();
@@ -99,15 +193,23 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double mouseDX, double mouseDY) {
         this.changeTabs(mouseX, mouseY);
+        if (this.getFocused() != null && this.isDragging() && button == 0 && this.getFocused().mouseDragged(mouseX, mouseY, button, mouseDX, mouseDY)) return true;
         return super.mouseDragged(mouseX, mouseY, button, mouseDX, mouseDY);
     }
 
     private void changeTabs(double mouseX, double mouseY) {
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
         for (DyeColor color : DyeColor.values()) {
-            if (mouseX >= i+8+(color.getId() * 10) && mouseX < i+18+(color.getId() * 10) && mouseY >= j+21 && mouseY < j+35) {
-                tab = color;
+            if (mouseX >= this.guiLeft + 8 + (color.getId() * 10) && mouseX < this.guiLeft + 18 + (color.getId() * 10) && mouseY >= this.guiTop + 21 && mouseY < this.guiTop + 35) {
+                if (color != tab) {
+                    speed.get(tab).visible = false;
+                    damage.get(tab).visible = false;
+                    decay.get(tab).visible = false;
+                    speed.get(color).visible = true;
+                    damage.get(color).visible = true;
+                    decay.get(color).visible = true;
+
+                    tab = color;
+                }
             }
         }
     }
@@ -119,6 +221,61 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         } else {
             GlStateManager.color4f(0.0F, 0.0F, 0.0F, 1.0F);
         }
+    }
+
+    private abstract class SpriteButton extends AbstractButton {
+
+        private final int ix;
+
+        public SpriteButton(int x, int y, int ix) {
+            super(x, y, 22, 22, "");
+            this.ix = ix;
+        }
+
+        @Override
+        public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+            Minecraft.getInstance().getTextureManager().bindTexture(GUI);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            int blit = 0;
+            if (!this.active) {
+                blit += this.width * 2;
+            } else if (this.isHovered()) {
+                blit += this.width * 3;
+            }
+
+            this.blit(this.x, this.y, blit, 231, this.width, this.height);
+            this.blit(this.x, this.y, this.ix, 231, 22, 22);
+        }
+
+    }
+
+    private abstract class Slider extends AbstractSlider {
+
+        protected Slider(int x, int y, int w, int h, double initialValue) {
+            super(null, x, y, 121, 12, initialValue);
+            this.updateMessage();
+        }
+
+        @Override
+        public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+            Minecraft.getInstance().getTextureManager().bindTexture(GUI);
+            GlStateManager.enableBlend();
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.blit(this.x, this.y, 132, 231, 124, 12);
+
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.blit(this.x + (int)(this.value * (double)(this.width - 4)), this.y, this.isHovered() ? 140 : 132, 243, 8, 12);
+
+            this.drawCenteredString(SpreaderInterfaceScreen.this.font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
+        }
+
+        @Override
+        protected void renderBg(Minecraft p_renderBg_1_, int p_renderBg_2_, int p_renderBg_3_) {
+
+        }
+
     }
 
 }

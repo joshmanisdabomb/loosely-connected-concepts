@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.container;
 
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCContainers;
 import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
@@ -15,12 +16,16 @@ public class SpreaderInterfaceContainer extends Container implements LCCContaine
 
     private final SpreaderInterfaceTileEntity te;
 
+    public final SpreaderCapability oldSettings;
+
     private final PlayerEntity player;
     private final IItemHandler playerInv;
 
-    public SpreaderInterfaceContainer(int windowId, SpreaderInterfaceTileEntity te, PlayerEntity player, PlayerInventory inv) {
+    public SpreaderInterfaceContainer(int windowId, SpreaderInterfaceTileEntity te, SpreaderCapability oldSettings, PlayerEntity player, PlayerInventory inv) {
         super(LCCContainers.spreader_interface, windowId);
         this.te = te;
+        this.oldSettings = oldSettings;
+
         this.player = player;
         this.playerInv = new InvWrapper(inv);
 

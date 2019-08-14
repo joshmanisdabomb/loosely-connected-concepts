@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -44,7 +45,7 @@ public class SpreaderInterfaceTileEntity extends TileEntity implements INamedCon
     @Nullable
     @Override
     public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return new SpreaderInterfaceContainer(i, this, playerEntity, playerInventory);
+        return new SpreaderInterfaceContainer(i, this, SpreaderCapability.Provider.getGlobalCapability(playerEntity.getServer()).orElse(null), playerEntity, playerInventory);
     }
 
     public void setCustomName(ITextComponent displayName) {

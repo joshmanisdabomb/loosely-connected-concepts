@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -9,6 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -66,12 +68,17 @@ public class SpreaderInterfaceBlock extends ContainerBlock implements LCCBlockHe
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (!world.isRemote) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof INamedContainerProvider) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, tileEntity.getPos());
-            } else {
-                throw new IllegalStateException("Named container provider missing.");
-            }
+            SpreaderCapability.Provider.getGlobalCapability(world.getServer()).ifPresent(spreader -> {
+                TileEntity tileEntity = world.getTileEntity(pos);
+                if (tileEntity instanceof INamedContainerProvider) {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, buf -> {
+                        buf.writeBlockPos(tileEntity.getPos());
+                        spreader.writeToPacket(buf);
+                    });
+                } else {
+                    throw new IllegalStateException("Named container provider missing.");
+                }
+            });
             return true;
         }
         return super.onBlockActivated(state, world, pos, player, hand, result);

@@ -2,14 +2,15 @@ package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.AbstractSlider;
-import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.AbstractButton;
+import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
@@ -30,15 +31,20 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
 
     private DyeColor tab = DyeColor.WHITE;
 
-    private HashMap<DyeColor, Slider> speed = new HashMap<>();
-    private HashMap<DyeColor, Slider> damage = new HashMap<>();
-    private HashMap<DyeColor, Slider> decay = new HashMap<>();
+    private final SpreaderCapability newSettings;
+    private final SpreaderCapability oldSettings;
+
+    private HashMap<DyeColor, Widget[]> tabWidgets = new HashMap<>();
 
     private SpriteButton buttonConfirm;
     private SpriteButton buttonCancel;
 
     public SpreaderInterfaceScreen(SpreaderInterfaceContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
+
+        this.oldSettings = container.oldSettings;
+        this.newSettings = new SpreaderCapability().clone(this.oldSettings);
+
         this.xSize = 230;
         this.ySize = 231;
     }
@@ -71,55 +77,104 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         });
         this.buttonCancel.active = true;
         for (DyeColor color : DyeColor.values()) {
-            Slider s;
+            Widget[] widgets = new Widget[8];
 
-            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 44, 124, 15, 0) {
+            widgets[0] = this.addButton(new SmallCheckboxButton(this.guiLeft + 10, this.guiTop + 37, this.newSettings.isEnabled(color)) {
+
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    SpreaderInterfaceScreen.this.newSettings.enabled.put(color, this.func_212942_a());
+                }
+
+            });
+
+            widgets[1] = this.addButton(new SmallCheckboxButton(this.guiLeft + 63, this.guiTop + 52, this.newSettings.isEater(color)) {
+
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    SpreaderInterfaceScreen.this.newSettings.eating.put(color, this.func_212942_a());
+                }
+
+            });
+
+            widgets[2] = this.addButton(new SmallCheckboxButton(this.guiLeft + 63, this.guiTop + 65, this.newSettings.throughGround(color)) {
+
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    SpreaderInterfaceScreen.this.newSettings.throughGround.put(color, this.func_212942_a());
+                }
+
+            });
+
+            widgets[3] = this.addButton(new SmallCheckboxButton(this.guiLeft + 63, this.guiTop + 78, this.newSettings.throughLiquid(color)) {
+
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    SpreaderInterfaceScreen.this.newSettings.throughLiquid.put(color, this.func_212942_a());
+                }
+
+            });
+
+            widgets[4] = this.addButton(new SmallCheckboxButton(this.guiLeft + 63, this.guiTop + 91, this.newSettings.throughAir(color)) {
+
+                @Override
+                public void onPress() {
+                    super.onPress();
+                    SpreaderInterfaceScreen.this.newSettings.throughAir.put(color, this.func_212942_a());
+                }
+
+            });
+
+            widgets[5] = this.addButton(new IntSlider(this.guiLeft + 125, this.guiTop + 55, this.newSettings.getSpeedLevel(color), 0, 11) {
 
                 @Override
                 protected void updateMessage() {
-                    this.setMessage(I18n.format("block.lcc.spreader_interface.speed.value", this.value, this.value));
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.speed.value", SpreaderInterfaceScreen.this.newSettings.getMaxTickSpeed(color), SpreaderInterfaceScreen.this.newSettings.getMinTickSpeed(color)));
                 }
 
                 @Override
                 protected void applyValue() {
-
+                    SpreaderInterfaceScreen.this.newSettings.speedLevel.put(color, this.getSpreaderValue());
                 }
 
             });
-            s.visible = color == tab;
-            this.speed.put(color, s);
 
-            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 64, 124, 15, 0) {
+            widgets[6] = this.addButton(new IntSlider(this.guiLeft + 125, this.guiTop + 70, this.newSettings.getDamageLevel(color), 0, 6) {
 
                 @Override
                 protected void updateMessage() {
-                    this.setMessage(I18n.format("block.lcc.spreader_interface.damage.value", this.value));
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.damage.value", SpreaderInterfaceScreen.this.newSettings.getDamageLevel(color) * 0.5F));
                 }
 
                 @Override
                 protected void applyValue() {
-
+                    SpreaderInterfaceScreen.this.newSettings.damageLevel.put(color, this.getSpreaderValue());
                 }
 
             });
-            s.visible = color == tab;
-            this.damage.put(color, s);
 
-            s = this.addButton(new Slider(this.guiLeft + 90, this.guiTop + 84, 124, 15, 0) {
+            widgets[7] = this.addButton(new IntSlider(this.guiLeft + 125, this.guiTop + 85, this.newSettings.getDecayLevel(color), 0, 15) {
 
                 @Override
                 protected void updateMessage() {
-                    this.setMessage(I18n.format("block.lcc.spreader_interface.decay.value", this.value));
+                    this.setMessage(I18n.format("block.lcc.spreader_interface.decay.value", SpreaderInterfaceScreen.this.newSettings.getDecayPercentage(color)));
                 }
 
                 @Override
                 protected void applyValue() {
-
+                    SpreaderInterfaceScreen.this.newSettings.decayLevel.put(color, this.getSpreaderValue());
                 }
 
             });
-            s.visible = color == tab;
-            this.decay.put(color, s);
+
+            for (int i = 0; i < 8; i++) {
+                widgets[i].visible = color == tab;
+            }
+            this.tabWidgets.put(color, widgets);
         }
     }
 
@@ -144,6 +199,14 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         this.font.drawString(this.title.getFormattedText(), 8.0F, 8.0F, 4210752);
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 94), 4210752);
         this.font.drawString(I18n.format("block.lcc.spreader_interface.cost"), 8.0F, 118, 4210752);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.enabled"), 27, 39.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.speed"), 120 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.speed")), 57.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.damage"), 120 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.damage")), 72.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.decay"), 120 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.decay")), 87.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.eating"), 59 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.eating")), 54.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.throughGround"), 59 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.throughGround")), 67.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.throughLiquid"), 59 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.throughLiquid")), 80.5F, 0);
+        this.font.drawString(I18n.format("block.lcc.spreader_interface.throughAir"), 59 - this.font.getStringWidth(I18n.format("block.lcc.spreader_interface.throughAir")), 93.5F, 0);
     }
 
     @Override
@@ -201,13 +264,10 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         for (DyeColor color : DyeColor.values()) {
             if (mouseX >= this.guiLeft + 8 + (color.getId() * 10) && mouseX < this.guiLeft + 18 + (color.getId() * 10) && mouseY >= this.guiTop + 21 && mouseY < this.guiTop + 35) {
                 if (color != tab) {
-                    speed.get(tab).visible = false;
-                    damage.get(tab).visible = false;
-                    decay.get(tab).visible = false;
-                    speed.get(color).visible = true;
-                    damage.get(color).visible = true;
-                    decay.get(color).visible = true;
-
+                    for (int i = 0; i < 8; i++) {
+                        this.tabWidgets.get(tab)[i].visible = false;
+                        this.tabWidgets.get(color)[i].visible = true;
+                    }
                     tab = color;
                 }
             }
@@ -233,7 +293,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         }
 
         @Override
-        public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+        public void renderButton(int mouseX, int mouseY, float partialTicks) {
             Minecraft.getInstance().getTextureManager().bindTexture(GUI);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             int blit = 0;
@@ -249,33 +309,57 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
 
     }
 
-    private abstract class Slider extends AbstractSlider {
+    private abstract class IntSlider extends AbstractSlider {
 
-        protected Slider(int x, int y, int w, int h, double initialValue) {
-            super(null, x, y, 121, 12, initialValue);
+        private final int min;
+        private final int max;
+
+        protected IntSlider(int x, int y, double initialValue, int min, int max) {
+            super(null, x, y, 90, 12, initialValue);
+            this.min = min;
+            this.max = max;
             this.updateMessage();
         }
 
         @Override
-        public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+        public void renderButton(int mouseX, int mouseY, float partialTicks) {
             Minecraft.getInstance().getTextureManager().bindTexture(GUI);
             GlStateManager.enableBlend();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.blit(this.x, this.y, 132, 231, 124, 12);
-
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.blit(this.x + (int)(this.value * (double)(this.width - 4)), this.y, this.isHovered() ? 140 : 132, 243, 8, 12);
+            this.blit(this.x, this.y, 132, 231, this.width, this.height);
+            this.blit(this.x + (int)(this.value * (double)(this.width - 8)), this.y, this.isHovered() ? 140 : 132, 243, 8, 12);
 
             this.drawCenteredString(SpreaderInterfaceScreen.this.font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, this.getFGColor() | MathHelper.ceil(this.alpha * 255.0F) << 24);
         }
 
         @Override
-        protected void renderBg(Minecraft p_renderBg_1_, int p_renderBg_2_, int p_renderBg_3_) {
+        protected void renderBg(Minecraft mc, int p_renderBg_2_, int partialTicks) {
 
         }
 
+        public int getSpreaderValue() {
+            if (this.value <= 0.02F) return min;
+            if (this.value >= 0.98F) return max;
+            return MathHelper.floor(this.value * ((max-min)-1)) + min + 1;
+        }
+
+    }
+
+    public abstract class SmallCheckboxButton extends CheckboxButton {
+
+        public SmallCheckboxButton(int x, int y, boolean initialValue) {
+            super(x, y, 12, 12, "", initialValue);
+        }
+
+        @Override
+        public void renderButton(int mouseX, int mouseY, float partialTicks) {
+            Minecraft.getInstance().getTextureManager().bindTexture(GUI);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            this.blit(this.x, this.y, 148, 243, this.width, this.height);
+            if (this.func_212942_a()) this.blit(this.x, this.y, 160, 243, this.width, this.height);
+        }
     }
 
 }

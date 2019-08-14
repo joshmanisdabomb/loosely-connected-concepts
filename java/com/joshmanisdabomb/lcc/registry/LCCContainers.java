@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
+import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.container.ContainerType;
@@ -20,7 +21,7 @@ public abstract class LCCContainers {
     public static void init(RegistryEvent.Register<ContainerType<?>> e) {
         all.add(spreader_interface = IForgeContainerType.create((windowId, inv, data) -> {
             BlockPos pos = data.readBlockPos();
-            return new SpreaderInterfaceContainer(windowId, ((SpreaderInterfaceTileEntity)Minecraft.getInstance().world.getTileEntity(pos)), Minecraft.getInstance().player, inv);
+            return new SpreaderInterfaceContainer(windowId, ((SpreaderInterfaceTileEntity)Minecraft.getInstance().world.getTileEntity(pos)), new SpreaderCapability().readFromPacket(data), Minecraft.getInstance().player, inv);
         }).setRegistryName(LCC.MODID, "spreader_interface"));
     }
 

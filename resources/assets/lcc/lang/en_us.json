@@ -99,12 +99,17 @@
 
   "block.lcc.spreader_interface": "Spreader Interface",
   "block.lcc.spreader_interface.cost": "Cost",
+  "block.lcc.spreader_interface.enabled": "Active",
   "block.lcc.spreader_interface.speed": "Speed",
   "block.lcc.spreader_interface.speed.value": "%1$d - %2$d ticks",
   "block.lcc.spreader_interface.damage": "Damage",
   "block.lcc.spreader_interface.damage.value": "%1$d hearts",
   "block.lcc.spreader_interface.decay": "Decay",
   "block.lcc.spreader_interface.decay.value": "%1$d%%",
+  "block.lcc.spreader_interface.eating": "Eating",
+  "block.lcc.spreader_interface.throughGround": "Ground",
+  "block.lcc.spreader_interface.throughLiquid": "Liquid",
+  "block.lcc.spreader_interface.throughAir": "Air",
 
   "block.lcc.nuclear_waste": "Nuclear Debris",
 

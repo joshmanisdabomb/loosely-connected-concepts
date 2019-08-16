@@ -1,16 +1,18 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.registry.LCCItems;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -152,6 +154,70 @@ public class SpreaderCapability {
         this.throughLiquid.putAll(other.throughLiquid);
         this.throughAir.putAll(other.throughAir);
         return this;
+    }
+
+    public HashMap<Object, Integer> calculateCosts(SpreaderCapability old, HashMap<Object, Integer> costs) {
+        costs.clear();
+        for (DyeColor color : DyeColor.values()) {
+            boolean changed = false;
+            if (old.isEnabled(color) != this.isEnabled(color)) {
+                changed = true;
+                if (this.isEnabled(color)) costs.put(LCCItems.spreader_essence, costs.getOrDefault(LCCItems.spreader_essence, 0) + 1);
+            }
+            if (old.getSpeedLevel(color) != this.getSpeedLevel(color)) {
+                changed = true;
+                costs.put(Items.SUGAR, costs.getOrDefault(Items.SUGAR, 0) + Math.max(this.getSpeedLevel(color) - old.getSpeedLevel(color), 0));
+            }
+            if (old.getDamageLevel(color) != this.getDamageLevel(color)) {
+                changed = true;
+                costs.put(Items.MAGMA_BLOCK, costs.getOrDefault(Items.MAGMA_BLOCK, 0) + Math.max(this.getDamageLevel(color) - old.getDamageLevel(color), 0));
+            }
+            if (old.getDecayLevel(color) != this.getDecayLevel(color)) {
+                changed = true;
+                costs.put(Items.REDSTONE, costs.getOrDefault(Items.REDSTONE, 0) + Math.max(this.getDecayLevel(color) - old.getDecayLevel(color), 0));
+            }
+            if (old.isEater(color) != this.isEater(color)) {
+                changed = true;
+                if (this.isEater(color)) costs.put(ItemTags.LEAVES, costs.getOrDefault(ItemTags.LEAVES, 0) + 1);
+            }
+            if (old.throughGround(color) != this.throughGround(color)) {
+                changed = true;
+                if (this.throughGround(color)) costs.put(Items.DIRT, costs.getOrDefault(Items.DIRT, 0) + 1);
+            }
+            if (old.throughLiquid(color) != this.throughLiquid(color)) {
+                changed = true;
+                if (this.throughLiquid(color)) costs.put(Items.SOUL_SAND, costs.getOrDefault(Items.SOUL_SAND, 0) + 1);
+            }
+            if (old.throughAir(color) != this.throughAir(color)) {
+                changed = true;
+                if (this.throughAir(color)) costs.put(Items.PHANTOM_MEMBRANE, costs.getOrDefault(Items.PHANTOM_MEMBRANE, 0) + 1);
+            }
+            if (changed) costs.put(LCCItems.spreader_essence, costs.getOrDefault(LCCItems.spreader_essence, 0) + 1);
+        }
+        return costs;
+    }
+
+    public static void subtractCosts(PlayerInventory playerInventory, HashMap<Object, Integer> costsRaw) {
+        final HashMap<Object, Integer> costs = new HashMap<>(costsRaw);
+        playerInventory.mainInventory.stream().forEach(s -> {
+            Item i = s.getStack().getItem();
+            Integer cost = costs.get(i);
+            if (cost == null) {
+                costs.keySet().stream().filter(key -> key instanceof Tag).forEach(key -> {
+                    if (i.isIn((Tag<Item>)key)) {
+                        if (costs.get(key) > 0) {
+                            costs.put(key, costs.get(key) - s.getStack().getCount());
+                            s.setCount(Math.max(-costs.get(key), 0));
+                        }
+                    }
+                });
+            } else {
+                if (cost > 0) {
+                    costs.put(i, cost - s.getStack().getCount());
+                    s.setCount(Math.max(-costs.get(i), 0));
+                }
+            }
+        });
     }
 
     public static class Storage implements Capability.IStorage<SpreaderCapability> {

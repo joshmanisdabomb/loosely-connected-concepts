@@ -3,8 +3,11 @@ package com.joshmanisdabomb.lcc.gui.inventory;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
 import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
+import com.joshmanisdabomb.lcc.network.SpreaderInterfaceUpdatePacket;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.AbstractSlider;
@@ -14,15 +17,24 @@ import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceContainer> {
@@ -39,6 +51,12 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     private SpriteButton buttonConfirm;
     private SpriteButton buttonCancel;
 
+    private final HashMap<Object, Integer> costs = new HashMap<>();
+
+    private Random rand = new Random();
+    private IItemProvider leafBlock = Blocks.OAK_LEAVES;
+    private long nextLeafBlock = System.currentTimeMillis() + 3000;
+
     public SpreaderInterfaceScreen(SpreaderInterfaceContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
 
@@ -52,10 +70,14 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     @Override
     protected void init() {
         super.init();
-        this.buttonConfirm = this.addButton(new SpriteButton(this.guiLeft + 167, this.guiTop + 111, 88) {
+        this.buttonConfirm = this.addButton(new SpriteButton(this.guiLeft + 171, this.guiTop + 111, 88) {
             @Override
             public void onPress() {
-
+                if (!SpreaderInterfaceScreen.this.playerInventory.player.isCreative()) {
+                    SpreaderCapability.subtractCosts(SpreaderInterfaceScreen.this.playerInventory, SpreaderInterfaceScreen.this.costs);
+                }
+                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new SpreaderInterfaceUpdatePacket(SpreaderInterfaceScreen.this.playerInventory.player.getUniqueID(), SpreaderInterfaceScreen.this.newSettings));
+                SpreaderInterfaceScreen.this.minecraft.player.closeScreen();
             }
 
             @Override
@@ -63,8 +85,8 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 SpreaderInterfaceScreen.this.renderTooltip(I18n.format("gui.done"), x, y);
             }
         });
-        this.buttonConfirm.active = false;
-        this.buttonCancel = this.addButton(new SpriteButton(this.guiLeft + 193, this.guiTop + 111, 110) {
+        this.buttonConfirm.active = playerInventory.player.isCreative();
+        this.buttonCancel = this.addButton(new SpriteButton(this.guiLeft + 196, this.guiTop + 111, 110) {
             @Override
             public void onPress() {
                 SpreaderInterfaceScreen.this.minecraft.player.closeScreen();
@@ -85,6 +107,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 public void onPress() {
                     super.onPress();
                     SpreaderInterfaceScreen.this.newSettings.enabled.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -95,6 +118,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 public void onPress() {
                     super.onPress();
                     SpreaderInterfaceScreen.this.newSettings.eating.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -105,6 +129,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 public void onPress() {
                     super.onPress();
                     SpreaderInterfaceScreen.this.newSettings.throughGround.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -115,6 +140,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 public void onPress() {
                     super.onPress();
                     SpreaderInterfaceScreen.this.newSettings.throughLiquid.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -125,6 +151,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 public void onPress() {
                     super.onPress();
                     SpreaderInterfaceScreen.this.newSettings.throughAir.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -139,6 +166,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 protected void applyValue() {
                     SpreaderInterfaceScreen.this.newSettings.speedLevel.put(color, this.getSpreaderValue());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -153,6 +181,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 protected void applyValue() {
                     SpreaderInterfaceScreen.this.newSettings.damageLevel.put(color, this.getSpreaderValue());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -167,6 +196,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 protected void applyValue() {
                     SpreaderInterfaceScreen.this.newSettings.decayLevel.put(color, this.getSpreaderValue());
+                    SpreaderInterfaceScreen.this.updateCosts();
                 }
 
             });
@@ -176,6 +206,15 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
             }
             this.tabWidgets.put(color, widgets);
         }
+    }
+
+    @Override
+    public void tick() {
+        if (System.currentTimeMillis() > this.nextLeafBlock) {
+            this.leafBlock = BlockTags.LEAVES.getRandomElement(this.rand);
+            this.nextLeafBlock = System.currentTimeMillis() + 3000;
+        }
+        super.tick();
     }
 
     @Override
@@ -227,14 +266,49 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
             }
         }
 
+        if (!this.playerInventory.player.isCreative()) {
+            //highlight slots to be used
+            this.changeDrawingColor(null);
+            HashMap<Object, Integer> costs = new HashMap<>(this.costs);
+            for (Slot s : this.container.inventorySlots) {
+                Item i = s.getStack().getItem();
+                Integer cost = costs.get(i);
+                if (cost == null) {
+                    costs.keySet().stream().filter(key -> key instanceof Tag).forEach(key -> {
+                        if (i.isIn((Tag<Item>)key)) {
+                            costs.put(key, costs.get(key) - s.getStack().getCount());
+                            this.blit(this.guiLeft + s.xPos - 1, this.guiTop + s.yPos - 1, 230, 14, 18, 18);
+                        }
+                    });
+                } else {
+                    costs.put(i, cost - s.getStack().getCount());
+                    this.blit(this.guiLeft + s.xPos - 1, this.guiTop + s.yPos - 1, 230, 14, 18, 18);
+                }
+            }
+
+            //allow done button if all costs are 0 or less
+            this.buttonConfirm.active = !costs.isEmpty();
+            for (Integer i : costs.values()) {
+                if (i > 0) {
+                    this.buttonConfirm.active = false;
+                    break;
+                }
+            }
+        }
+
         //render items
-        this.changeDrawingColor(null);
         this.itemRenderer.zLevel = 200.0F;
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.translatef(0.5F, 0.5F, 32.0F);
 
         this.itemRenderer.renderItemIntoGUI(new ItemStack(LCCBlocks.spreaders.get(tab)), this.guiLeft + 202, this.guiTop + 10);
-        //this.itemRenderer.renderItemOverlays(Minecraft.getInstance().fontRenderer, new ItemStack(Items.EMERALD, Integer.MAX_VALUE), this.guiLeft + 42, this.guiTop + 109);
+
+        int i = 0;
+        for (Map.Entry<Object, Integer> e : this.costs.entrySet()) {
+            ItemStack s = new ItemStack(e.getKey() == ItemTags.LEAVES ? this.leafBlock : (IItemProvider)e.getKey(), e.getValue());
+            this.itemRenderer.renderItemIntoGUI(s, this.guiLeft + 37 + (i*17), this.guiTop + 113);
+            this.itemRenderer.renderItemOverlays(this.font, s, this.guiLeft + 37 + (i++*17), this.guiTop + 113);
+        }
 
         GlStateManager.translatef(-0.5F, -0.5F, -32.0F);
         RenderHelper.enableStandardItemLighting();
@@ -274,12 +348,16 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         }
     }
 
+    private void updateCosts() {
+        this.newSettings.calculateCosts(this.oldSettings, this.costs);
+    }
+
     private void changeDrawingColor(DyeColor color) {
         if (color != null) {
             float[] c = color.getColorComponentValues();
             GlStateManager.color4f((c[0] + 0.2F) / 1.2F, (c[1] + 0.2F) / 1.2F, (c[2] + 0.2F) / 1.2F, 1.0F);
         } else {
-            GlStateManager.color4f(0.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 

@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/cube_all",
+    "parent": "lcc:block/spreader",
     "textures": {
-        "all": "lcc:block/spreader/pink"
+        "all": "lcc:block/spreader/age_0"
     }
 }

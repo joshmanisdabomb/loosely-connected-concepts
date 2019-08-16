@@ -1,0 +1,6 @@
+{   
+	"parent": "lcc:block/spreader",
+	"textures": {
+		"all": "lcc:block/spreader/age_6"
+    }
+}

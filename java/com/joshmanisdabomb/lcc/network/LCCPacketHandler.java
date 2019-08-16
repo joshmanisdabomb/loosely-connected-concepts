@@ -8,7 +8,7 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class LCCPacketHandler {
 
-    public static final String PROTOCOL_VERSION = "1";
+    public static final String PROTOCOL_VERSION = "2";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(LCC.MODID, "main"),
         () -> PROTOCOL_VERSION,
@@ -21,6 +21,7 @@ public class LCCPacketHandler {
         INSTANCE.registerMessage(++id, HeartsUpdatePacket.class, HeartsUpdatePacket::encode, HeartsUpdatePacket::decode, HeartsUpdatePacket::handle);
         INSTANCE.registerMessage(++id, LCCEntitySpawnPacket.class, LCCEntitySpawnPacket::encode, LCCEntitySpawnPacket::decode, LCCEntitySpawnPacket::handle);
         INSTANCE.registerMessage(++id, ParticleSpawnPacket.class, ParticleSpawnPacket::encode, ParticleSpawnPacket::decode, ParticleSpawnPacket::handle);
+        INSTANCE.registerMessage(++id, SpreaderInterfaceUpdatePacket.class, SpreaderInterfaceUpdatePacket::encode, SpreaderInterfaceUpdatePacket::decode, SpreaderInterfaceUpdatePacket::handle);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

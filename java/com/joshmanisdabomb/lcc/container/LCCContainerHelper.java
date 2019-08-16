@@ -1,9 +1,6 @@
 package com.joshmanisdabomb.lcc.container;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 

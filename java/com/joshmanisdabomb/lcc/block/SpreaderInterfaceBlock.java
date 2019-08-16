@@ -10,9 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -81,7 +79,7 @@ public class SpreaderInterfaceBlock extends ContainerBlock implements LCCBlockHe
             });
             return true;
         }
-        return super.onBlockActivated(state, world, pos, player, hand, result);
+        return true;
     }
 
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {

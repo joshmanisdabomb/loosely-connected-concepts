@@ -2,13 +2,21 @@ package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
-import com.joshmanisdabomb.lcc.event.*;
+import com.joshmanisdabomb.lcc.event.bus.GeneralEvents;
+import com.joshmanisdabomb.lcc.event.bus.InputEvents;
+import com.joshmanisdabomb.lcc.event.bus.OverlayEvents;
+import com.joshmanisdabomb.lcc.event.bus.RenderEvents;
+import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
+import com.joshmanisdabomb.lcc.event.mod.ModelEvents;
+import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.proxy.ServerProxy;
-import com.joshmanisdabomb.lcc.registry.*;
+import com.joshmanisdabomb.lcc.registry.LCCEntities;
+import com.joshmanisdabomb.lcc.registry.LCCGroup;
+import com.joshmanisdabomb.lcc.registry.LCCScreens;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -46,7 +54,7 @@ public class LCC
 
         BiomeBasedGenerator.init();
 
-        MinecraftForge.EVENT_BUS.register(new GeneralBusEvents());
+        MinecraftForge.EVENT_BUS.register(new GeneralEvents());
 
         LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEvents());
@@ -55,9 +63,9 @@ public class LCC
     }
 
     private void onClientSetup(final FMLClientSetupEvent e) {
-    	MinecraftForge.EVENT_BUS.register(new RenderBusEvents());
-        MinecraftForge.EVENT_BUS.register(new OverlayBusEvents());
-        MinecraftForge.EVENT_BUS.register(new InputBusEvents());
+    	MinecraftForge.EVENT_BUS.register(new RenderEvents());
+        MinecraftForge.EVENT_BUS.register(new OverlayEvents());
+        MinecraftForge.EVENT_BUS.register(new InputEvents());
 
         LCCEntities.initRenderers();
 
@@ -78,9 +86,12 @@ public class LCC
     }
     
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class Registry extends RegistryModEvents {}
+    public static class Registry extends RegistryEvents {}
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
-    public static class Model extends ModelModEvents {}
+    public static class Model extends ModelEvents {}
+
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class Color extends ColorEvents {}
 
 }

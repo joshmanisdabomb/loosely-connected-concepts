@@ -5,20 +5,26 @@ import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -86,6 +92,29 @@ public class GeneralEvents {
         entity.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
             HeartsFunctionality.hurt(hearts, entity, e);
         });
+    }
+
+    @SubscribeEvent
+    public void onBlockPlace(BlockEvent.EntityPlaceEvent e) {
+        if (e.getPlacedBlock() == Blocks.SOUL_SAND.getDefaultState()) {
+            for (Direction side : Direction.values()) {
+                if (side.getAxis() != Direction.Axis.Y && e.getWorld().getFluidState(e.getPos().offset(side)).isTagged(FluidTags.WATER)) {
+                    e.getWorld().setBlockState(e.getPos(), LCCBlocks.hydrated_soul_sand.getDefaultState(), 3);
+                    break;
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onNeighborNotify(BlockEvent.NeighborNotifyEvent e) {
+        if (e.getWorld().getFluidState(e.getPos()).isTagged(FluidTags.WATER)) {
+            for (Direction side : Direction.values()) {
+                if (side.getAxis() != Direction.Axis.Y && e.getWorld().getBlockState(e.getPos().offset(side)) == Blocks.SOUL_SAND.getDefaultState()) {
+                    e.getWorld().setBlockState(e.getPos().offset(side), LCCBlocks.hydrated_soul_sand.getDefaultState(), 3);
+                }
+            }
+        }
     }
 
 }

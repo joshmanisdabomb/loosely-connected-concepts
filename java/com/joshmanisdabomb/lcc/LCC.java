@@ -50,7 +50,7 @@ public class LCC
     }
 
     private void setup(final FMLCommonSetupEvent e) {
-        LCCGroup.LCCGroupSort.sortItems();
+        LCCGroup.initSorting();
 
         BiomeBasedGenerator.init();
 

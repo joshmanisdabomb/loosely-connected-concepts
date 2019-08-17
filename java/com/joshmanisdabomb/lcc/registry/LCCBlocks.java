@@ -27,6 +27,9 @@ public abstract class LCCBlocks {
 	public static Block test_block_4;
 	public static Block test_block_5;
 
+	//Bounce Pads
+	public static Block hydrated_soul_sand;
+
 	//Resources
 	public static Block ruby_ore;
 	public static Block ruby_storage;
@@ -48,7 +51,7 @@ public abstract class LCCBlocks {
 	public static Block spreader_interface;
     public static HashMap<DyeColor, Block> spreaders = new HashMap<>();
 
-    public static void init(Register<Block> e) {
+	public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block"));
 		createDefaultBlockItem(test_block);
@@ -60,6 +63,10 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(test_block_4);
 		all.add(test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block_5"));
 		createDefaultBlockItem(test_block_5);
+
+		//Hydrated Soul Sand
+		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F).sound(SoundType.SAND)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
+		createDefaultBlockItem(hydrated_soul_sand);
 
 		//Resources
 		all.add(ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "ruby_ore"));

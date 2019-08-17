@@ -87,11 +87,6 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public boolean isSideInvisible(BlockState state, BlockState other, Direction side) {
-        return other.getBlock() == this || super.isSideInvisible(state, other, side);
-    }
-
     private boolean isSpreadable(World world, BlockState state, BlockPos pos, SpreaderCapability spreader) {
         if (state.getBlock() == this) return false;
         boolean liquid = state.getMaterial().isLiquid();

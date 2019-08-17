@@ -65,7 +65,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(test_block_5);
 
 		//Hydrated Soul Sand
-		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F).sound(SoundType.SAND)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
+		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(SoundType.SAND)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
 
 		//Resources

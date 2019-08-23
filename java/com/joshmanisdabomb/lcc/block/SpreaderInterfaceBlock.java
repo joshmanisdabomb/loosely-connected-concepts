@@ -48,6 +48,7 @@ public class SpreaderInterfaceBlock extends ContainerBlock implements LCCBlockHe
         return SHAPE;
     }
 
+    @Override
     public BlockRenderType getRenderType(BlockState p_149645_1_) {
         return BlockRenderType.MODEL;
     }
@@ -82,6 +83,7 @@ public class SpreaderInterfaceBlock extends ContainerBlock implements LCCBlockHe
         return true;
     }
 
+    @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileentity = worldIn.getTileEntity(pos);

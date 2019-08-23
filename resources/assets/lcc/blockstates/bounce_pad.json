@@ -1,0 +1,10 @@
+{
+  "multipart": [
+    { "apply": { "model": "lcc:block/bounce_pad" } },
+    { "when": { "setting": "0" }, "apply": { "model": "lcc:block/bounce_pad_0" } },
+    { "when": { "setting": "1" }, "apply": { "model": "lcc:block/bounce_pad_1" } },
+    { "when": { "setting": "2" }, "apply": { "model": "lcc:block/bounce_pad_2" } },
+    { "when": { "setting": "3" }, "apply": { "model": "lcc:block/bounce_pad_3" } },
+    { "when": { "setting": "4" }, "apply": { "model": "lcc:block/bounce_pad_4" } }
+  ]
+}

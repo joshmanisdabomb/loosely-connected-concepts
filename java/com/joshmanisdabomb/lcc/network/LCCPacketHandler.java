@@ -22,6 +22,7 @@ public class LCCPacketHandler {
         INSTANCE.registerMessage(++id, LCCEntitySpawnPacket.class, LCCEntitySpawnPacket::encode, LCCEntitySpawnPacket::decode, LCCEntitySpawnPacket::handle);
         INSTANCE.registerMessage(++id, ParticleSpawnPacket.class, ParticleSpawnPacket::encode, ParticleSpawnPacket::decode, ParticleSpawnPacket::handle);
         INSTANCE.registerMessage(++id, SpreaderInterfaceUpdatePacket.class, SpreaderInterfaceUpdatePacket::encode, SpreaderInterfaceUpdatePacket::decode, SpreaderInterfaceUpdatePacket::handle);
+        INSTANCE.registerMessage(++id, BouncePadExtensionPacket.class, BouncePadExtensionPacket::encode, BouncePadExtensionPacket::decode, BouncePadExtensionPacket::handle);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

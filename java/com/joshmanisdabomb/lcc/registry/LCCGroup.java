@@ -9,7 +9,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +68,7 @@ public class LCCGroup extends ItemGroup {
 
         //Bounce Pads
         set(LCCBlocks.hydrated_soul_sand, LCCGroupCategory.BOUNCE_PAD, 0);
+        set(LCCBlocks.bounce_pad, LCCGroupCategory.BOUNCE_PAD, 10);
 
         //Resources
         set(LCCBlocks.ruby_ore, LCCGroupCategory.RESOURCES, 0);

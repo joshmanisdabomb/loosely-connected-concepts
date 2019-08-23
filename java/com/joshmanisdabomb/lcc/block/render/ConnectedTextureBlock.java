@@ -9,6 +9,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
 
 import java.util.Collection;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 public interface ConnectedTextureBlock extends AdvancedBlockRender {
 
+    @OnlyIn(Dist.CLIENT)
     HashMap<BlockPos, ModelProperty<Boolean>> OFFSET_TO_PROPERTY_MAP = Util.make(new HashMap<>(), map -> {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -30,25 +33,32 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
     });
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     default IBakedModel newModel(Block block, IBakedModel defaultModel) {
         return new ConnectedTextureBlockModel((Block)this, defaultModel);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     default Collection<ResourceLocation> getTextures() {
         return this.getConnectedTextures().values().stream().distinct().collect(Collectors.toList());
     }
 
+    @OnlyIn(Dist.CLIENT)
     boolean connectWith(BlockState state, BlockState other);
 
+    @OnlyIn(Dist.CLIENT)
     HashMap<TextureType, ResourceLocation> getConnectedTextures();
 
+    @OnlyIn(Dist.CLIENT)
     boolean hasInnerSeams();
 
+    @OnlyIn(Dist.CLIENT)
     default int borderWidth() {
         return 4;
     }
 
+    @OnlyIn(Dist.CLIENT)
     default HashMap<TextureType, ResourceLocation> traitGetTexturesForNonSided(String folder) {
         HashMap<TextureType, ResourceLocation> map = new HashMap<>();
 
@@ -75,6 +85,7 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
         return map;
     }
 
+    @OnlyIn(Dist.CLIENT)
     enum TextureType {
         TOP_BASE,
         TOP_CORNERS,

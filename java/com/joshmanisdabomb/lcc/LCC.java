@@ -17,6 +17,9 @@ import com.joshmanisdabomb.lcc.proxy.ServerProxy;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.registry.LCCGroup;
 import com.joshmanisdabomb.lcc.registry.LCCScreens;
+import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -68,6 +71,7 @@ public class LCC
         MinecraftForge.EVENT_BUS.register(new InputEvents());
 
         LCCEntities.initRenderers();
+        LCCTileEntities.initRenderers();
 
         LCCScreens.init();
     }
@@ -88,10 +92,10 @@ public class LCC
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class Registry extends RegistryEvents {}
 
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class Model extends ModelEvents {}
 
-    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class Color extends ColorEvents {}
 
 }

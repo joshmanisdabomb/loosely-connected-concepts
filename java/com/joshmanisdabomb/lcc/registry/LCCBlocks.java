@@ -29,6 +29,7 @@ public abstract class LCCBlocks {
 
 	//Bounce Pads
 	public static Block hydrated_soul_sand;
+	public static Block bounce_pad;
 
 	//Resources
 	public static Block ruby_ore;
@@ -67,6 +68,8 @@ public abstract class LCCBlocks {
 		//Hydrated Soul Sand
 		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(SoundType.SAND)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
+		all.add(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "bounce_pad"));
+		createDefaultBlockItem(bounce_pad);
 
 		//Resources
 		all.add(ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)).setRegistryName(LCC.MODID, "ruby_ore"));

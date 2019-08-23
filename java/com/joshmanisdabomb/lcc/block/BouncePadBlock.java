@@ -1,16 +1,21 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.network.BouncePadExtensionPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.tileentity.BouncePadTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -51,7 +56,9 @@ public class BouncePadBlock extends Block {
 
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
-        world.setBlockState(pos, state.with(SETTING, (state.get(SETTING)+1) % 5));
+        int newSetting = (state.get(SETTING)+1) % 5;
+        world.setBlockState(pos, state.with(SETTING, newSetting));
+        world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_DISPENSER_DISPENSE, SoundCategory.BLOCKS, 0.4F, 0.8F + (newSetting * 0.1F), false);
         return true;
     }
 
@@ -62,8 +69,9 @@ public class BouncePadBlock extends Block {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (entity instanceof PlayerEntity && ((PlayerEntity)entity).abilities.isFlying) return;
         entity.fallDistance = 0.0F;
-        entity.setPosition(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5);
+        entity.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
         entity.setMotion(entity.getMotion().mul(1.0D, 0.0D, 1.0D).add(0.0D, MOTION_MAP[state.get(SETTING)], 0.0D));
 
         if (!world.isRemote) {

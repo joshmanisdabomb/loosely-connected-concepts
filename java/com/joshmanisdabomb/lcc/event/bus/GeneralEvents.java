@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
@@ -7,6 +8,7 @@ import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
+import com.joshmanisdabomb.lcc.registry.LCCParticles;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -121,22 +123,24 @@ public class GeneralEvents {
 
     @SubscribeEvent
     public void onEntityJump(LivingEvent.LivingJumpEvent e) {
-        AxisAlignedBB axisalignedbb = e.getEntityLiving().getBoundingBox();
+        LivingEntity entity = e.getEntityLiving();
+        AxisAlignedBB axisalignedbb = entity.getBoundingBox();
 
         try (
             BlockPos.PooledMutableBlockPos bp = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
             BlockPos.PooledMutableBlockPos bp1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
             BlockPos.PooledMutableBlockPos bp2 = BlockPos.PooledMutableBlockPos.retain();
         ) {
-            if (e.getEntityLiving().world.isAreaLoaded(bp, bp1)) {
+            if (entity.world.isAreaLoaded(bp, bp1)) {
                 for(int i = bp.getX(); i <= bp1.getX(); ++i) {
                     for(int j = bp.getY(); j <= bp1.getY(); ++j) {
                         for(int k = bp.getZ(); k <= bp1.getZ(); ++k) {
                             bp2.setPos(i, j, k);
-                            BlockState state = e.getEntityLiving().world.getBlockState(bp2);
+                            BlockState state = entity.world.getBlockState(bp2);
 
                             if (state == LCCBlocks.hydrated_soul_sand.getDefaultState()) {
-                                e.getEntityLiving().setMotion(e.getEntityLiving().getMotion().add(0, 0.4, 0));
+                                entity.setMotion(entity.getMotion().add(0, 0.4, 0));
+                                LCC.proxy.addParticle(entity.world, entity, LCCParticles.hydrated_soul_sand_bubble, false, entity.posX, entity.posY, entity.posZ, 1.0D, 0.0D, 0.0D);
                                 return;
                             }
                         }

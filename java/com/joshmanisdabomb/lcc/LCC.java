@@ -14,10 +14,7 @@ import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.proxy.ServerProxy;
-import com.joshmanisdabomb.lcc.registry.LCCEntities;
-import com.joshmanisdabomb.lcc.registry.LCCGroup;
-import com.joshmanisdabomb.lcc.registry.LCCScreens;
-import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
+import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -71,6 +68,7 @@ public class LCC
 
         LCCEntities.initRenderers();
         LCCTileEntities.initRenderers();
+        LCCParticles.initFactories();
 
         LCCScreens.init();
     }

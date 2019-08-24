@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
@@ -48,6 +49,12 @@ public abstract class RegistryEvents {
     public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> e) {
         LCCContainers.init(e);
         e.getRegistry().registerAll(LCCContainers.all.toArray(new ContainerType<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onParticleRegistry(final RegistryEvent.Register<ParticleType<?>> e) {
+        LCCParticles.init(e);
+        e.getRegistry().registerAll(LCCParticles.all.toArray(new ParticleType<?>[0]));
     }
 
 }

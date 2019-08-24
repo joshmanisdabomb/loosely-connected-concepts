@@ -1,15 +1,12 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.network.BouncePadExtensionPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.tileentity.BouncePadTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;

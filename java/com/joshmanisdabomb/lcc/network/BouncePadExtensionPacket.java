@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.network;
 
 import com.joshmanisdabomb.lcc.tileentity.BouncePadTileEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;

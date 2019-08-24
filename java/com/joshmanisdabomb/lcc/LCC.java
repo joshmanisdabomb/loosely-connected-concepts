@@ -19,7 +19,6 @@ import com.joshmanisdabomb.lcc.registry.LCCGroup;
 import com.joshmanisdabomb.lcc.registry.LCCScreens;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;

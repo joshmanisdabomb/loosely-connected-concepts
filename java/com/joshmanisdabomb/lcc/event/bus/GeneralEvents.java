@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -17,6 +18,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -111,6 +114,33 @@ public class GeneralEvents {
             for (Direction side : Direction.values()) {
                 if (side.getAxis() != Direction.Axis.Y && e.getWorld().getBlockState(e.getPos().offset(side)) == Blocks.SOUL_SAND.getDefaultState()) {
                     e.getWorld().setBlockState(e.getPos().offset(side), LCCBlocks.hydrated_soul_sand.getDefaultState(), 3);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityJump(LivingEvent.LivingJumpEvent e) {
+        AxisAlignedBB axisalignedbb = e.getEntityLiving().getBoundingBox();
+
+        try (
+            BlockPos.PooledMutableBlockPos bp = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
+            BlockPos.PooledMutableBlockPos bp1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
+            BlockPos.PooledMutableBlockPos bp2 = BlockPos.PooledMutableBlockPos.retain();
+        ) {
+            if (e.getEntityLiving().world.isAreaLoaded(bp, bp1)) {
+                for(int i = bp.getX(); i <= bp1.getX(); ++i) {
+                    for(int j = bp.getY(); j <= bp1.getY(); ++j) {
+                        for(int k = bp.getZ(); k <= bp1.getZ(); ++k) {
+                            bp2.setPos(i, j, k);
+                            BlockState state = e.getEntityLiving().world.getBlockState(bp2);
+
+                            if (state == LCCBlocks.hydrated_soul_sand.getDefaultState()) {
+                                e.getEntityLiving().setMotion(e.getEntityLiving().getMotion().add(0, 0.4, 0));
+                                return;
+                            }
+                        }
+                    }
                 }
             }
         }

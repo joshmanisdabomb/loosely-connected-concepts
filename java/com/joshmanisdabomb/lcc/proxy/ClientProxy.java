@@ -18,8 +18,9 @@ public class ClientProxy extends Proxy {
 
     @Override
     public void addParticle(World world, Entity actor, IParticleData particleData, boolean forceAlwaysRender, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        if (Minecraft.getInstance().player == actor)
-        Minecraft.getInstance().world.addParticle(particleData, forceAlwaysRender, x, y, z, xSpeed, ySpeed, zSpeed);
+        if (Minecraft.getInstance().isIntegratedServerRunning() || Minecraft.getInstance().player == actor) {
+            Minecraft.getInstance().world.addParticle(particleData, forceAlwaysRender, x, y, z, xSpeed, ySpeed, zSpeed);
+        }
     }
 
     @Override

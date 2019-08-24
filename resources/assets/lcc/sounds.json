@@ -1,0 +1,83 @@
+{
+  "block.lcc.hydrated_soul_sand.jump": {
+    "category": "block",
+    "subtitle": "subtitle.lcc.block.hydrated_soul_sand.jump",
+    "sounds": [ "lcc:block/hydrated_soul_sand_jump" ]
+  },
+  "block.lcc.hydrated_soul_sand.break": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/hydrated_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/hydrated_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/hydrated_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/hydrated_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.lcc.hydrated_soul_sand.fall": {
+    "sounds": [
+      "lcc:step/hydrated_soul_sand1",
+      "lcc:step/hydrated_soul_sand2",
+      "lcc:step/hydrated_soul_sand3",
+      "lcc:step/hydrated_soul_sand4",
+      "lcc:step/hydrated_soul_sand5"
+    ]
+  },
+  "block.lcc.hydrated_soul_sand.hit": {
+    "sounds": [
+      "lcc:step/hydrated_soul_sand1",
+      "lcc:step/hydrated_soul_sand2",
+      "lcc:step/hydrated_soul_sand3",
+      "lcc:step/hydrated_soul_sand4",
+      "lcc:step/hydrated_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.lcc.hydrated_soul_sand.place": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/hydrated_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/hydrated_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/hydrated_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/hydrated_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.lcc.hydrated_soul_sand.step": {
+    "sounds": [
+      "lcc:step/hydrated_soul_sand1",
+      "lcc:step/hydrated_soul_sand2",
+      "lcc:step/hydrated_soul_sand3",
+      "lcc:step/hydrated_soul_sand4",
+      "lcc:step/hydrated_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.lcc.bounce_pad.jump": {
+    "category": "block",
+    "subtitle": "subtitle.lcc.block.bounce_pad.jump",
+    "sounds": [ "lcc:block/hydrated_soul_sand_jump" ]
+  }
+}

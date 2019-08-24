@@ -9,17 +9,16 @@ import com.joshmanisdabomb.lcc.item.GauntletItem;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCParticles;
+import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.Hand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -140,7 +139,9 @@ public class GeneralEvents {
 
                             if (state == LCCBlocks.hydrated_soul_sand.getDefaultState()) {
                                 entity.setMotion(entity.getMotion().add(0, 0.4, 0));
-                                LCC.proxy.addParticle(entity.world, entity, LCCParticles.hydrated_soul_sand_bubble, false, entity.posX, entity.posY, entity.posZ, 1.0D, 0.0D, 0.0D);
+                                entity.fallDistance = -1.0F;
+                                LCC.proxy.addParticle(entity.world, entity, LCCParticles.hydrated_soul_sand_jump, false, i + 0.5, j + 1, k + 0.5, 1.0D, 1.0D, 1.0D);
+                                entity.world.playSound(i + 0.5, j + 0.5, k + 0.5, LCCSounds.block_hydrated_soul_sand_jump, SoundCategory.BLOCKS, 0.4F, 1.3F, false);
                                 return;
                             }
                         }

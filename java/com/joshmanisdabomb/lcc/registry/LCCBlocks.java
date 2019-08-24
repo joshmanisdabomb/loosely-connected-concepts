@@ -67,7 +67,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(test_block_5);
 
 		//Bounce Pads
-		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(SoundType.SAND)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
+		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
 		all.add(hydrated_soul_sand_bubble_column = new CustomBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? CustomBubbleColumnBlock.ColumnType.UPWARDS : CustomBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));
 		all.add(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "bounce_pad"));

@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -55,6 +56,11 @@ public abstract class RegistryEvents {
     public static void onParticleRegistry(final RegistryEvent.Register<ParticleType<?>> e) {
         LCCParticles.init(e);
         e.getRegistry().registerAll(LCCParticles.all.toArray(new ParticleType<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onSoundRegistry(final RegistryEvent.Register<SoundEvent> e) {
+        e.getRegistry().registerAll(LCCSounds.all.toArray(new SoundEvent[0]));
     }
 
 }

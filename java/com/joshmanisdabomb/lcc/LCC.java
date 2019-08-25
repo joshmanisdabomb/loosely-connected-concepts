@@ -12,16 +12,17 @@ import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
 import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
+import com.joshmanisdabomb.lcc.proxy.DedicatedServerProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
-import com.joshmanisdabomb.lcc.proxy.ServerProxy;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +35,7 @@ public class LCC
 	public static final String MODID = "lcc";
 	public static final LCCGroup itemGroup = new LCCGroup();
 
-	public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+	public static final Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> DedicatedServerProxy::new);
 
     public LCC() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);

@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 public class BouncePadBlock extends Block {
 
     public static final IntegerProperty SETTING = IntegerProperty.create("setting", 0, 4);
-    public static final double[] MOTION_MAP = new double[]{1D, 1.4D, 1.8D, 2.2D, 2.6D};
+    public static final double[] MOTION_VALUES = new double[]{1D, 1.4D, 1.8D, 2.2D, 2.6D};
 
     public static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D);
 
@@ -67,9 +67,10 @@ public class BouncePadBlock extends Block {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (entity instanceof PlayerEntity && ((PlayerEntity)entity).abilities.isFlying) return;
+        entity.onGround = false;
         entity.fallDistance = 0.0F;
-        entity.setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        entity.setMotion(entity.getMotion().mul(1.0D, 0.0D, 1.0D).add(0.0D, MOTION_MAP[state.get(SETTING)], 0.0D));
+        entity.setPosition(pos.getX() + 0.5, pos.getY() + 0.99, pos.getZ() + 0.5);
+        entity.setMotion(entity.getMotion().mul(1.0D, 0.0D, 1.0D).add(0.0D, MOTION_VALUES[state.get(SETTING)], 0.0D));
 
         if (!world.isRemote) {
             BouncePadTileEntity te = (BouncePadTileEntity) world.getTileEntity(pos);

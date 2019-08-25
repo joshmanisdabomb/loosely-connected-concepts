@@ -24,13 +24,13 @@ public abstract class LCCSounds {
 
     public static void init() {
         ResourceLocation loc;
-        all.add(block_hydrated_soul_sand_break = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.break")).setRegistryName(loc));
-        all.add(block_hydrated_soul_sand_fall = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.fall")).setRegistryName(loc));
-        all.add(block_hydrated_soul_sand_hit = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.hit")).setRegistryName(loc));
-        all.add(block_hydrated_soul_sand_place = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.place")).setRegistryName(loc));
-        all.add(block_hydrated_soul_sand_step = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.step")).setRegistryName(loc));
-        all.add(block_hydrated_soul_sand_jump = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.hydrated_soul_sand.jump")).setRegistryName(loc));
-        all.add(block_bounce_pad_jump = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.lcc.bounce_pad.jump")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_break = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.break")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_fall = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.fall")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_hit = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.hit")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_place = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.place")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_step = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.step")).setRegistryName(loc));
+        all.add(block_hydrated_soul_sand_jump = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.hydrated_soul_sand.jump")).setRegistryName(loc));
+        all.add(block_bounce_pad_jump = new SoundEvent(loc = new ResourceLocation(LCC.MODID, "block.bounce_pad.jump")).setRegistryName(loc));
 
         hydrated_soul_sand = new SoundType(1.0F, 1.0F, block_hydrated_soul_sand_break, block_hydrated_soul_sand_step, block_hydrated_soul_sand_place, block_hydrated_soul_sand_hit, block_hydrated_soul_sand_fall);
     }

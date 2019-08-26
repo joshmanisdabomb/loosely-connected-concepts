@@ -66,9 +66,10 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.test_block_5, LCCGroupCategory.TESTING, 40);
         set(LCCItems.test_item, LCCGroupCategory.TESTING, 50);
 
-        //Bounce Pads
-        set(LCCBlocks.hydrated_soul_sand, LCCGroupCategory.BOUNCE_PAD, 0);
-        set(LCCBlocks.bounce_pad, LCCGroupCategory.BOUNCE_PAD, 10);
+        //Gizmos
+        set(LCCBlocks.road, LCCGroupCategory.GIZMOS, 0);
+        set(LCCBlocks.hydrated_soul_sand, LCCGroupCategory.GIZMOS, 100);
+        set(LCCBlocks.bounce_pad, LCCGroupCategory.GIZMOS, 110);
 
         //Resources
         set(LCCBlocks.ruby_ore, LCCGroupCategory.RESOURCES, 0);
@@ -215,7 +216,7 @@ public class LCCGroup extends ItemGroup {
 
         RESOURCES,
         TOOLS,
-        BOUNCE_PAD,
+        GIZMOS,
         RAINBOW,
         SPREADERS,
         NUCLEAR,

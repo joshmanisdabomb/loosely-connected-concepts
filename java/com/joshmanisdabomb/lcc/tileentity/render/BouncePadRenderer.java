@@ -24,4 +24,5 @@ public class BouncePadRenderer extends TileEntityRenderer<BouncePadTileEntity> {
 
         GlStateManager.popMatrix();
     }
+
 }

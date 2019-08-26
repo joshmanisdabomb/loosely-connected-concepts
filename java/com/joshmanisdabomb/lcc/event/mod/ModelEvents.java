@@ -13,10 +13,11 @@ public abstract class ModelEvents {
     @SubscribeEvent
     public static void onModelBakeEvent(final ModelBakeEvent e) {
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
-            ModelResourceLocation mrl = ((AdvancedBlockRender)block).getCustomModelLocation();
-            IBakedModel model = e.getModelRegistry().get(mrl);
-            if (model != null) {
-                e.getModelRegistry().put(mrl, ((AdvancedBlockRender)block).newModel(block, model));
+            IBakedModel model = ((AdvancedBlockRender)block).newModel(block);
+            for (ModelResourceLocation mrl : ((AdvancedBlockRender)block).getModelLocations()) {
+                if (e.getModelRegistry().get(mrl) != null) {
+                    e.getModelRegistry().put(mrl, model);
+                }
             }
         });
     }

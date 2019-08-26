@@ -27,7 +27,8 @@ public abstract class LCCBlocks {
 	public static Block test_block_4;
 	public static Block test_block_5;
 
-	//Bounce Pads
+	//Gizmos
+	public static Block road;
 	public static Block hydrated_soul_sand;
 	public static Block hydrated_soul_sand_bubble_column;
 	public static Block bounce_pad;
@@ -66,7 +67,10 @@ public abstract class LCCBlocks {
 		all.add(test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block_5"));
 		createDefaultBlockItem(test_block_5);
 
-		//Bounce Pads
+		//Gizmos
+		//TODO shovel for soul sand and pickaxe for road
+		all.add(road = new RoadBlock(Block.Properties.create(Material.ROCK, DyeColor.GRAY).hardnessAndResistance(2.0F).doesNotBlockMovement().sound(SoundType.STONE)).setRegistryName(LCC.MODID, "road"));
+		createDefaultBlockItem(road);
 		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
 		all.add(hydrated_soul_sand_bubble_column = new CustomBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? CustomBubbleColumnBlock.ColumnType.UPWARDS : CustomBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));

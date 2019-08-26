@@ -9,9 +9,10 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.IBooleanFunction;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -20,28 +21,41 @@ import net.minecraftforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class ConnectedTextureBlockModel implements IBakedModel {
 
     private final Block block;
-    private final IBakedModel defaultModel;
 
-    private final HashMap<ConnectedTextureBlock.TextureType, TextureAtlasSprite> bakedTextures = new HashMap<>();
+    private final ConnectedTextureBlock.ConnectedTextureMap.BakedConnectedTextureMap bakedTextures;
 
-    public ConnectedTextureBlockModel(Block b, IBakedModel defaultModel) {
+    public ConnectedTextureBlockModel(Block b) {
         this.block = b;
-        this.defaultModel = defaultModel;
 
-        for (Map.Entry<ConnectedTextureBlock.TextureType, ResourceLocation> e : ((ConnectedTextureBlock) b).getConnectedTextures().entrySet()) {
-            bakedTextures.put(e.getKey(), ModelLoader.defaultTextureGetter().apply(e.getValue()));
-        }
+        this.bakedTextures = ((ConnectedTextureBlock)b).getConnectedTextureMap().bake(ModelLoader.defaultTextureGetter());
     }
 
     @Nonnull
     @Override
     public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+        System.out.println(Block.shouldSideBeRendered(state, world, pos, Direction.UP));
+        System.out.println(state.isSideInvisible(state, Direction.UP));
+        System.out.println(world.getBlockState(pos.up()).isSideInvisible(state, Direction.UP));
+        System.out.println(world.getBlockState(pos.up()).isSideInvisible(state, Direction.DOWN));
+        System.out.println(state.isSolid());
+
+        VoxelShape voxelshape = world.getBlockState(pos.up()).func_215702_a(world, pos, Direction.UP);
+        VoxelShape voxelshape1 = state.func_215702_a(world, pos.up(), Direction.DOWN);
+        boolean flag = VoxelShapes.compare(voxelshape, voxelshape1, IBooleanFunction.ONLY_FIRST);
+        System.out.println(voxelshape);
+        System.out.println(voxelshape1);
+        System.out.println(flag);
+
         tileData = AdvancedBlockRender.DATA;
+        tileData.setData(AdvancedBlockRender.STATE, world.getBlockState(pos));
         for (Map.Entry<BlockPos, ModelProperty<Boolean>> e : ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.entrySet()) {
             tileData.setData(e.getValue(), ((ConnectedTextureBlock)this.block).connectWith(state, world.getBlockState(pos.add(e.getKey()))));
         }
@@ -54,14 +68,13 @@ public class ConnectedTextureBlockModel implements IBakedModel {
         final List<BakedQuad> quads = new ArrayList<>();
 
         if (side != null) {
-            final boolean innerSeams = ((ConnectedTextureBlock)this.block).hasInnerSeams();
-            final int uvOffset = ((ConnectedTextureBlock)this.block).borderWidth();
-            final double vertexOffset = uvOffset / 16D;
+            final boolean innerSeams = ((ConnectedTextureBlock)this.block).hasInnerSeams(state);
 
             final Direction[] perpendiculars = VertexUtility.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-            final boolean cUp = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
+            final boolean cUpDirect = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0])));
+            final boolean cUp = cUpDirect && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
             final boolean cRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
             final boolean cDown = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
             final boolean cLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
@@ -70,25 +83,35 @@ public class ConnectedTextureBlockModel implements IBakedModel {
             final boolean cDownRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[2]).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
             final boolean cDownLeft = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[3]).move(perpendiculars[2]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
 
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, getTexture(ConnectedTextureBlock.TextureType.base(side)), uvOffset, uvOffset, 16-uvOffset, 16-uvOffset));
+            final int uvOffset = ((ConnectedTextureBlock)this.block).borderWidth(state, side);
+            final double vertexOffset = uvOffset / 16D;
+
+            final int blockHeight = ((ConnectedTextureBlock)this.block).blockHeight(state);
+
+            final int yUVDiff = perpendiculars[0] == Direction.UP ? 16 - blockHeight : 0;
+            final double yVertexDiff = yUVDiff / 16D;
+            final double z = side == Direction.UP ? ((blockHeight - 8) / 8D) : 1;
+
+            //middle
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, vertexOffset + yVertexDiff, 1-vertexOffset, 1-vertexOffset, z, bakedTextures.base(state, side), uvOffset, uvOffset + yUVDiff, 16-uvOffset, 16-uvOffset));
 
             //top
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, 0, 1-vertexOffset, vertexOffset, 1, getSideTexture(cUp, false, side), uvOffset, 0, 16-uvOffset, uvOffset));
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, yVertexDiff, 1-vertexOffset, vertexOffset + yVertexDiff, z, bakedTextures.side(state, cUp, false, side), uvOffset, cUp ? yUVDiff : 0, 16-uvOffset, uvOffset + (cUp ? yUVDiff : 0)));
             //right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, vertexOffset, 1, 1-vertexOffset, 1, getSideTexture(cRight, true, side), 16-uvOffset, uvOffset, 16, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, vertexOffset, 1, 1-vertexOffset, z, bakedTextures.side(state, cRight, true, side), 16-uvOffset, uvOffset, 16, 16-uvOffset));
             //bottom
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, 1, getSideTexture(cDown, false, side), uvOffset, 16-uvOffset, 16-uvOffset, 16));
+            quads.add(VertexUtility.create2DFace(side, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, z, bakedTextures.side(state, cDown, false, side), uvOffset, 16-uvOffset, 16-uvOffset, 16));
             //left
-            quads.add(VertexUtility.create2DFace(side, 0, vertexOffset, vertexOffset, 1-vertexOffset, 1, getSideTexture(cLeft, true, side), 0, uvOffset, uvOffset, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, 0, vertexOffset, vertexOffset, 1-vertexOffset, z, bakedTextures.side(state, cLeft, true, side), 0, uvOffset, uvOffset, 16-uvOffset));
 
             //top left
-            quads.add(VertexUtility.create2DFace(side, 0, 0, vertexOffset, vertexOffset, 1, getCornerTexture(cUp, cLeft, cUpLeft, side), getCornerU(0, uvOffset, cUp, cLeft, cUpLeft), 0, getCornerU(uvOffset, uvOffset, cUp, cLeft, cUpLeft), uvOffset));
+            quads.add(VertexUtility.create2DFace(side, 0, yVertexDiff, vertexOffset, vertexOffset + yVertexDiff, z, bakedTextures.corner(state, cUp, cLeft, cUpLeft, side), 0, cUp && cLeft && cUpLeft ? yUVDiff : 0, uvOffset, uvOffset + (cUp && cLeft && cUpLeft ? yUVDiff : 0)));
             //top right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, 0, 1, vertexOffset, 1, getCornerTexture(cUp, cRight, cUpRight, side), getCornerU(16-uvOffset, uvOffset, cUp, cRight, cUpRight), 0, getCornerU(16, uvOffset, cUp, cRight, cUpRight), uvOffset));
+            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, yVertexDiff, 1, vertexOffset + yVertexDiff, z, bakedTextures.corner(state, cUp, cRight, cUpRight, side), 16-uvOffset, cUp && cRight && cUpRight ? yUVDiff : 0, 16, uvOffset + (cUp && cRight && cUpRight ? yUVDiff : 0)));
             //bottom right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, 1-vertexOffset, 1, 1, 1, getCornerTexture(cDown, cRight, cDownRight, side), getCornerU(16-uvOffset, uvOffset, cDown, cRight, cDownRight), 16-uvOffset, getCornerU(16, uvOffset, cDown, cRight, cDownRight), 16));
+            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, 1-vertexOffset, 1, 1, z, bakedTextures.corner(state, cDown, cRight, cDownRight, side), 16-uvOffset, 16-uvOffset, 16, 16));
             //bottom left
-            quads.add(VertexUtility.create2DFace(side, 0, 1-vertexOffset, vertexOffset, 1, 1, getCornerTexture(cDown, cLeft, cDownLeft, side), getCornerU(0, uvOffset, cDown, cLeft, cDownLeft), 16-uvOffset, getCornerU(uvOffset, uvOffset, cDown, cLeft, cDownLeft), 16));
+            quads.add(VertexUtility.create2DFace(side, 0, 1-vertexOffset, vertexOffset, 1, z, bakedTextures.corner(state, cDown, cLeft, cDownLeft, side), 0, 16-uvOffset, uvOffset, 16));
         }
 
         return quads;
@@ -116,42 +139,17 @@ public class ConnectedTextureBlockModel implements IBakedModel {
 
     @Override
     public TextureAtlasSprite getParticleTexture() {
-        return this.getTexture(ConnectedTextureBlock.TextureType.SIDE_BASE);
+        return this.getParticleTexture(EmptyModelData.INSTANCE);
+    }
+
+    @Override
+    public TextureAtlasSprite getParticleTexture(@Nonnull IModelData data) {
+        return this.bakedTextures.get(data.getData(AdvancedBlockRender.STATE), ConnectedTextureBlock.ConnectedTextureType.PARTICLE);
     }
 
     @Override
     public ItemOverrideList getOverrides() {
         return null;
-    }
-
-    private TextureAtlasSprite getTexture(ConnectedTextureBlock.TextureType tt) {
-        return bakedTextures.get(tt);
-    }
-
-    private TextureAtlasSprite getSideTexture(boolean connection, boolean vertical, Direction side) {
-        return this.getTexture(connection ? ConnectedTextureBlock.TextureType.base(side) : (vertical ? ConnectedTextureBlock.TextureType.lines_v(side) : ConnectedTextureBlock.TextureType.lines_h(side)));
-    }
-
-    private TextureAtlasSprite getCornerTexture(boolean connectionV, boolean connectionH, boolean connectionVH, Direction side) {
-        if (connectionVH && connectionV && connectionH) {
-            return this.getTexture(ConnectedTextureBlock.TextureType.base(side));
-        } else if (!connectionVH && connectionV && connectionH) {
-            return this.getTexture(ConnectedTextureBlock.TextureType.corners(side));
-        } else if (connectionV) {
-            return this.getTexture(ConnectedTextureBlock.TextureType.lines_v(side));
-        } else if (connectionH) {
-            return this.getTexture(ConnectedTextureBlock.TextureType.lines_h(side));
-        } else {
-            return this.getTexture(ConnectedTextureBlock.TextureType.corners(side));
-        }
-    }
-
-    private int getCornerU(int u, int borderWidth, boolean connectionV, boolean connectionH, boolean connectionVH) {
-        if (!connectionVH && connectionV && connectionH) {
-            return MathHelper.signum(u - 8) > 0 ? u - borderWidth : u + borderWidth;
-        } else {
-            return u;
-        }
     }
 
 }

@@ -41,19 +41,6 @@ public class ConnectedTextureBlockModel implements IBakedModel {
     @Nonnull
     @Override
     public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
-        System.out.println(Block.shouldSideBeRendered(state, world, pos, Direction.UP));
-        System.out.println(state.isSideInvisible(state, Direction.UP));
-        System.out.println(world.getBlockState(pos.up()).isSideInvisible(state, Direction.UP));
-        System.out.println(world.getBlockState(pos.up()).isSideInvisible(state, Direction.DOWN));
-        System.out.println(state.isSolid());
-
-        VoxelShape voxelshape = world.getBlockState(pos.up()).func_215702_a(world, pos, Direction.UP);
-        VoxelShape voxelshape1 = state.func_215702_a(world, pos.up(), Direction.DOWN);
-        boolean flag = VoxelShapes.compare(voxelshape, voxelshape1, IBooleanFunction.ONLY_FIRST);
-        System.out.println(voxelshape);
-        System.out.println(voxelshape1);
-        System.out.println(flag);
-
         tileData = AdvancedBlockRender.DATA;
         tileData.setData(AdvancedBlockRender.STATE, world.getBlockState(pos));
         for (Map.Entry<BlockPos, ModelProperty<Boolean>> e : ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.entrySet()) {

@@ -1,10 +1,17 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
+import com.joshmanisdabomb.lcc.item.model.GauntletModel;
+import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.HandSide;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -15,23 +22,37 @@ public class RenderEvents {
         Minecraft mc = Minecraft.getInstance();
 
         if (e.getHand() == Hand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
-            mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), Hand.MAIN_HAND, e.getSwingProgress(), ItemStack.EMPTY, e.getEquipProgress());
-            GlStateManager.rotatef(-35.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotatef(-75.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef(175.0F, 0.0F, 0.0F, 1.0F);
-            //GlStateManager.rotatef((float)MathHelper.clamp(mc.player.posX, -360, 360), 1.0F, 0.0F, 0.0F);
-            //GlStateManager.rotatef((float)MathHelper.clamp(mc.player.posY - 200, -360, 360), 0.0F, 1.0F, 0.0F);
-            //GlStateManager.rotatef((float)MathHelper.clamp(mc.player.posZ, -360, 360), 0.0F, 0.0F, 1.0F);
-            double f = 9.486972888484538 * 0.0625;
-            double f1 = -0.5449205513527204 * 0.0625;
-            double f2 = 7.521918554545667 * 0.0625;
-            GlStateManager.translated(f, f1, f2);
-            float fx = 30.38779732888174F;
-            float fy = 1.5F;//198.1828506694462F - 200;
-            float fz = 21.05712457328804F;
-            GlStateManager.rotatef(fx, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotatef(fy, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef(fz, 0.0F, 0.0F, 1.0F);
+            boolean flag = mc.player.getPrimaryHand() != HandSide.LEFT;
+            float f = flag ? 1.0F : -1.0F;
+            float f1 = MathHelper.sqrt(e.getSwingProgress());
+            float f2 = -0.3F * MathHelper.sin(f1 * (float)Math.PI);
+            float f3 = 0.4F * MathHelper.sin(f1 * ((float)Math.PI * 2F));
+            float f4 = -0.4F * MathHelper.sin(e.getSwingProgress() * (float)Math.PI);
+            GlStateManager.translatef(f * (f2 + 0.64000005F), f3 + -0.6F + e.getEquipProgress() * -0.6F, f4 + -0.71999997F);
+            GlStateManager.rotatef(f * 45.0F, 0.0F, 1.0F, 0.0F);
+            float f5 = MathHelper.sin(e.getSwingProgress() * e.getSwingProgress() * (float)Math.PI);
+            float f6 = MathHelper.sin(f1 * (float)Math.PI);
+            GlStateManager.rotatef(f * f6 * 70.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotatef(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
+            AbstractClientPlayerEntity abstractclientplayerentity = mc.player;
+            mc.getTextureManager().bindTexture(abstractclientplayerentity.getLocationSkin());
+            GlStateManager.translatef(f * -1.0F, 3.6F, 3.5F);
+            GlStateManager.rotatef(f * 120.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotatef(200.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotatef(f * -135.0F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.translatef(f * 5.6F, 0.0F, 0.0F);
+
+            EntityRenderer<AbstractClientPlayerEntity> r = mc.getRenderManager().getRenderer(mc.player);
+            PlayerRenderer pr = (PlayerRenderer)r;
+            if (flag) pr.renderRightArm(mc.player);
+            else pr.renderLeftArm(mc.player);
+
+            GauntletRenderer gr = new GauntletRenderer();
+            GlStateManager.scalef(1.0F, -1.0F, -1.0F);
+            GlStateManager.translatef(f * -0.425f, -1, 0);
+            gr.renderByItem(mc.player.getHeldItem(Hand.MAIN_HAND));
+
+            e.setCanceled(true);
         }
     }
 

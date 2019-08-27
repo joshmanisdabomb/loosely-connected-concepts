@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.*;
+import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -54,7 +55,10 @@ public abstract class LCCBlocks {
 	public static Block spreader_interface;
     public static HashMap<DyeColor, Block> spreaders = new HashMap<>();
 
-	public static void init(Register<Block> e) {
+	//Nostalgia
+	public static Block time_rift;
+
+    public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block"));
 		createDefaultBlockItem(test_block);
@@ -115,6 +119,10 @@ public abstract class LCCBlocks {
 			spreaders.put(color, b);
 			createDefaultBlockItem(b);
 		}
+
+		//Nostalgia
+		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.ROCK, DyeColor.BLACK).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));
+		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
     }
 
 	private static void createDefaultBlockItem(Block b) {

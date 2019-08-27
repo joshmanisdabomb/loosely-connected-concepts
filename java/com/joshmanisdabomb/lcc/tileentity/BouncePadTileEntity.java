@@ -17,6 +17,7 @@ public class BouncePadTileEntity extends TileEntity implements ITickableTileEnti
 
     @Override
     public void tick() {
+        //TODO: Save previous extension and interpolate for smoother bounce pad movement.
         if (world.isRemote) {
             this.extension = Math.max(this.extension - Math.max(this.extension * 0.07F, 0.07F), 0);
         }

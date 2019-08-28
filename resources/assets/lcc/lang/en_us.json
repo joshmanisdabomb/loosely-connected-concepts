@@ -131,6 +131,8 @@
   "item.lcc.temporary_heart_half": "Temporary Heart Half",
   "item.lcc.temporary_heart": "Temporary Heart",
 
+  "block.lcc.time_rift": "Time Rift",
+
   "itemGroup.lcc": "Loosely Connected Concepts",
 
   "death.attack.lcc.gauntlet_uppercut": "%1$s was struck by %2$s's uppercut",

@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 
 public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
 
@@ -27,6 +28,8 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
 
         this.bindTexture(TEXTURE);
         GlStateManager.activeTexture(GLX.GL_TEXTURE1);
+        float size = MathHelper.lerp(partialTicks, te.lastSize, te.size);
+        GlStateManager.scalef(size,size,size);
         model.render(0.0625F, partialTicks);
         GlStateManager.activeTexture(GLX.GL_TEXTURE0);
 

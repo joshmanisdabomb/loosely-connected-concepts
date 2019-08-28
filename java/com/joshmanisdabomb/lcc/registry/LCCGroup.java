@@ -156,6 +156,9 @@ public class LCCGroup extends ItemGroup {
         //Nuclear TODO: lump in with explosives
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
+        //Nostalgia
+        set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);
+
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);
 
@@ -220,6 +223,7 @@ public class LCCGroup extends ItemGroup {
         RAINBOW,
         SPREADERS,
         NUCLEAR,
+        NOSTALGIA,
         POWER,
         HEALTH,
         TESTING;

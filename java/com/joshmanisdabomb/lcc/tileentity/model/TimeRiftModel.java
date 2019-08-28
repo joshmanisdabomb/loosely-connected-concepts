@@ -67,7 +67,7 @@ public class TimeRiftModel extends Model {
         part.offsetY += motions[key].getY() * partialTicks;
         part.offsetZ += motions[key].getZ() * partialTicks;
         motions[key] = motions[key].mul(1.0F - (0.02F * partialTicks), 1.0F - (0.02F * partialTicks), 1.0F - (0.02F * partialTicks));
-        double distance = Math.pow(MathHelper.absMax(MathHelper.absMax(part.offsetX, part.offsetY), part.offsetZ) * 2, 3);
+        double distance = Math.min(Math.pow(MathHelper.absMax(MathHelper.absMax(part.offsetX, part.offsetY), part.offsetZ) * 2, 5) * 2, 1);
         colors[key] = colors[key].mul(0,0,0).add(0,distance,distance);
         if (part.offsetX > bound || part.offsetX < -bound || part.offsetY > bound || part.offsetY < -bound || part.offsetZ > bound || part.offsetZ < -bound) {
             part.offsetX = part.offsetY = part.offsetZ = 0;

@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
@@ -61,6 +62,12 @@ public abstract class RegistryEvents {
     @SubscribeEvent
     public static void onSoundRegistry(final RegistryEvent.Register<SoundEvent> e) {
         e.getRegistry().registerAll(LCCSounds.all.toArray(new SoundEvent[0]));
+    }
+
+    @SubscribeEvent
+    public static void onRecipeRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> e) {
+        LCCRecipes.init(e);
+        e.getRegistry().registerAll(LCCRecipes.all.toArray(new IRecipeSerializer<?>[0]));
     }
 
 }

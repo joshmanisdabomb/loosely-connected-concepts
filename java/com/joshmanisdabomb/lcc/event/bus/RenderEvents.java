@@ -17,11 +17,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class RenderEvents {
 
+    public static final GauntletRenderer GAUNTLET = new GauntletRenderer();
+
     @SubscribeEvent
     public void onHandEvent(RenderSpecificHandEvent e) {
         Minecraft mc = Minecraft.getInstance();
 
         if (e.getHand() == Hand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
+            GlStateManager.pushMatrix();
             boolean flag = mc.player.getPrimaryHand() != HandSide.LEFT;
             float f = flag ? 1.0F : -1.0F;
             float f1 = MathHelper.sqrt(e.getSwingProgress());
@@ -47,12 +50,12 @@ public class RenderEvents {
             if (flag) pr.renderRightArm(mc.player);
             else pr.renderLeftArm(mc.player);
 
-            GauntletRenderer gr = new GauntletRenderer();
             GlStateManager.scalef(1.0F, -1.0F, -1.0F);
             GlStateManager.translatef(f * -0.425f, -1, 0);
-            gr.renderByItem(mc.player.getHeldItem(Hand.MAIN_HAND));
+            GAUNTLET.render(e.getItemStack(), true);
 
             e.setCanceled(true);
+            GlStateManager.popMatrix();
         }
     }
 

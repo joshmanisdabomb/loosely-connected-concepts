@@ -51,7 +51,7 @@ public class GauntletModel extends Model {
         subGem5.addBox(-4.0F, -1.0F, 0.0F, 1, 1, 1, 0.0F, false);
     }
 
-    public void render(ItemStack is) {
+    public void render(ItemStack is, boolean onHand) {
         baseBack.render(0.0625F);
         baseFront.render(0.0625F);
         support1.render(0.0625F);

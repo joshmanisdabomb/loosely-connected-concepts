@@ -15,11 +15,14 @@ public class GauntletRenderer extends ItemStackTileEntityRenderer {
 
     @Override
     public void renderByItem(ItemStack is) {
-        Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
+        this.render(is, false);
+    }
 
+    public void render(ItemStack is, boolean onHand) {
+        Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
         GlStateManager.pushMatrix();
         GlStateManager.scalef(1.0F, -1.0F, -1.0F);
-        gm.render(is);
+        gm.render(is, onHand);
         GlStateManager.popMatrix();
     }
 

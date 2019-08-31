@@ -14,11 +14,11 @@ import net.minecraft.world.World;
 import java.util.Random;
 import java.util.function.Function;
 
-public class CustomBubbleColumnBlock extends BubbleColumnBlock {
+public class FunctionalBubbleColumnBlock extends BubbleColumnBlock {
 
     private final Function<BlockState, ColumnType> bases;
 
-    public CustomBubbleColumnBlock(Function<BlockState, ColumnType> bases, Properties properties) {
+    public FunctionalBubbleColumnBlock(Function<BlockState, ColumnType> bases, Properties properties) {
         super(properties);
         this.bases = bases;
     }

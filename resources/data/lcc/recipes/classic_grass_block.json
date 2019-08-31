@@ -3,6 +3,6 @@
   "ingredient": {
     "item": "minecraft:grass_block"
   },
-  "result": "minecraft:diamond_block",
+  "result": "lcc:classic_grass_block",
   "count": 1
 }

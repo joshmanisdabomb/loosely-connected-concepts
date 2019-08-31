@@ -57,6 +57,7 @@ public abstract class LCCBlocks {
 
 	//Nostalgia
 	public static Block time_rift;
+	public static Block classic_grass_block;
 
     public static void init(Register<Block> e) {
 		//Test Blocks
@@ -77,7 +78,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(road);
 		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
-		all.add(hydrated_soul_sand_bubble_column = new CustomBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? CustomBubbleColumnBlock.ColumnType.UPWARDS : CustomBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));
+		all.add(hydrated_soul_sand_bubble_column = new FunctionalBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? FunctionalBubbleColumnBlock.ColumnType.UPWARDS : FunctionalBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));
 		all.add(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "bounce_pad"));
 		createDefaultBlockItem(bounce_pad);
 
@@ -123,6 +124,8 @@ public abstract class LCCBlocks {
 		//Nostalgia
 		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.ROCK, DyeColor.BLACK).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));
 		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
+		all.add(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).hardnessAndResistance(0.6F).tickRandomly().hardnessAndResistance(0.6F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_grass_block"));
+		createDefaultBlockItem(classic_grass_block);
     }
 
 	private static void createDefaultBlockItem(Block b) {

@@ -158,6 +158,7 @@ public class LCCGroup extends ItemGroup {
 
         //Nostalgia
         set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);
+        set(LCCBlocks.classic_grass_block, LCCGroupCategory.NOSTALGIA, 1);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

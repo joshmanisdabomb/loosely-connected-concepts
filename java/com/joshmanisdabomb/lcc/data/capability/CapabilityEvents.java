@@ -14,9 +14,6 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 public class CapabilityEvents {
@@ -54,7 +51,7 @@ public class CapabilityEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerSpawn(PlayerRespawnEvent event) {
+    public void onPlayerSpawn(PlayerEvent.PlayerRespawnEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
@@ -64,7 +61,7 @@ public class CapabilityEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerSwitchDimension(PlayerChangedDimensionEvent event) {
+    public void onPlayerSwitchDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
@@ -74,7 +71,7 @@ public class CapabilityEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerJoin(PlayerLoggedInEvent event) {
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {

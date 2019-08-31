@@ -66,7 +66,7 @@ public class TimeRiftModel extends Model {
         part.offsetX += motions[key].getX() * partialTicks;
         part.offsetY += motions[key].getY() * partialTicks;
         part.offsetZ += motions[key].getZ() * partialTicks;
-        motions[key] = motions[key].mul(1.0F - (0.02F * partialTicks), 1.0F - (0.02F * partialTicks), 1.0F - (0.02F * partialTicks));
+        motions[key] = motions[key].mul(1.0F - (0.03F * partialTicks), 1.0F - (0.03F * partialTicks), 1.0F - (0.03F * partialTicks));
         double distance = Math.min(Math.pow(MathHelper.absMax(MathHelper.absMax(part.offsetX, part.offsetY), part.offsetZ) * 2, 5) * 2, 1);
         colors[key] = colors[key].mul(0,0,0).add(0,distance,distance);
         if (part.offsetX > bound || part.offsetX < -bound || part.offsetY > bound || part.offsetY < -bound || part.offsetZ > bound || part.offsetZ < -bound) {
@@ -76,7 +76,7 @@ public class TimeRiftModel extends Model {
     }
 
     private Vec3d moveAmount() {
-        List<Double> d = Arrays.asList(((rand.nextDouble() * 0.02) + 0.03) * (rand.nextBoolean() ? 1 : -1), ((rand.nextDouble() * 0.08) - 0.04), ((rand.nextDouble() * 0.08) - 0.04));
+        List<Double> d = Arrays.asList(((rand.nextDouble() * 0.02) + 0.02) * (rand.nextBoolean() ? 1 : -1), ((rand.nextDouble() * 0.04) - 0.02), ((rand.nextDouble() * 0.04) - 0.02));
         Collections.shuffle(d);
         return new Vec3d(d.get(0), d.get(1), d.get(2));
     }

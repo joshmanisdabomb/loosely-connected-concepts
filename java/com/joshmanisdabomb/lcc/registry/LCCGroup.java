@@ -158,7 +158,14 @@ public class LCCGroup extends ItemGroup {
 
         //Nostalgia
         set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);
-        set(LCCBlocks.classic_grass_block, LCCGroupCategory.NOSTALGIA, 1);
+        set(LCCBlocks.classic_grass_block, LCCGroupCategory.NOSTALGIA, 1000);
+        set(LCCBlocks.classic_cobblestone, LCCGroupCategory.NOSTALGIA, 1010);
+        set(LCCBlocks.classic_planks, LCCGroupCategory.NOSTALGIA, 1020);
+        set(LCCBlocks.classic_leaves, LCCGroupCategory.NOSTALGIA, 1030);
+        set(LCCBlocks.classic_sapling, LCCGroupCategory.NOSTALGIA, 1040);
+        set(LCCBlocks.classic_gravel, LCCGroupCategory.NOSTALGIA, 1050);
+        set(LCCBlocks.classic_sponge, LCCGroupCategory.NOSTALGIA, 1060);
+        set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1070);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

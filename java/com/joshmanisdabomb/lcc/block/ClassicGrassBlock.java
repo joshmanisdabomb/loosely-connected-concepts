@@ -7,6 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
 
 public class ClassicGrassBlock extends FunctionalGrassBlock {
 
@@ -20,9 +21,7 @@ public class ClassicGrassBlock extends FunctionalGrassBlock {
 
     @Override
     public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction side, IPlantable plantable) {
-        net.minecraftforge.common.PlantType type = plantable.getPlantType(world, pos.offset(side));
-
-        return plantable == Blocks.POPPY || plantable == Blocks.DANDELION;
+        return plantable == Blocks.POPPY || plantable == Blocks.DANDELION || plantable == LCCBlocks.classic_sapling;
     }
 
 }

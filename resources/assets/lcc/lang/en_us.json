@@ -133,6 +133,13 @@
 
   "block.lcc.time_rift": "Time Rift",
   "block.lcc.classic_grass_block": "Classic Grass Block",
+  "block.lcc.classic_cobblestone": "Classic Cobblestone",
+  "block.lcc.classic_planks": "Classic Planks",
+  "block.lcc.classic_leaves": "Classic Leaves",
+  "block.lcc.classic_sapling": "Classic Sapling",
+  "block.lcc.classic_gravel": "Classic Gravel",
+  "block.lcc.classic_sponge": "Classic Sponge",
+  "block.lcc.classic_mossy_cobblestone": "Classic Mossy Cobblestone",
 
   "itemGroup.lcc": "Loosely Connected Concepts",
 

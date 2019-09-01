@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.*;
+import com.joshmanisdabomb.lcc.misc.ClassicDyeColor;
 import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
@@ -58,6 +58,27 @@ public abstract class LCCBlocks {
 	//Nostalgia
 	public static Block time_rift;
 	public static Block classic_grass_block;
+	public static Block classic_cobblestone;
+	public static Block classic_planks;
+	public static Block classic_sapling;
+	public static Block classic_gravel;
+	public static Block classic_log;
+	public static Block classic_leaves;
+	public static Block classic_sponge;
+	public static Block classic_glass;
+	public static HashMap<ClassicDyeColor, Block> classic_cloth = new HashMap<>();
+	public static Block classic_rose;
+	public static Block classic_cyan_flower;
+	public static Block classic_iron_block;
+	public static Block classic_smooth_iron_block;
+	public static Block classic_gold_block;
+	public static Block classic_smooth_gold_block;
+	public static Block classic_diamond_block;
+	public static Block classic_smooth_diamond_block;
+	public static Block classic_bricks;
+	public static Block classic_tnt;
+	public static Block classic_chest;
+	public static Block classic_mossy_cobblestone;
 
     public static void init(Register<Block> e) {
 		//Test Blocks
@@ -73,13 +94,12 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(test_block_5);
 
 		//Gizmos
-		//TODO shovel for soul sand and pickaxe for road
-		all.add(road = new RoadBlock(Block.Properties.create(Material.ROCK, DyeColor.GRAY).hardnessAndResistance(2.0F).doesNotBlockMovement().sound(SoundType.STONE)).setRegistryName(LCC.MODID, "road"));
+		all.add(road = new RoadBlock(Block.Properties.create(Material.ROCK, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).doesNotBlockMovement().sound(SoundType.STONE)).setRegistryName(LCC.MODID, "road"));
 		createDefaultBlockItem(road);
-		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
+		all.add(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
 		createDefaultBlockItem(hydrated_soul_sand);
 		all.add(hydrated_soul_sand_bubble_column = new FunctionalBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? FunctionalBubbleColumnBlock.ColumnType.UPWARDS : FunctionalBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));
-		all.add(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "bounce_pad"));
+		all.add(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "bounce_pad"));
 		createDefaultBlockItem(bounce_pad);
 
 		//Resources
@@ -124,8 +144,27 @@ public abstract class LCCBlocks {
 		//Nostalgia
 		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.ROCK, DyeColor.BLACK).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));
 		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
-		all.add(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).hardnessAndResistance(0.6F).tickRandomly().hardnessAndResistance(0.6F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_grass_block"));
+		all.add(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_grass_block"));
 		createDefaultBlockItem(classic_grass_block);
+		all.add(classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_cobblestone"));
+		createDefaultBlockItem(classic_cobblestone);
+		all.add(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)).setRegistryName(LCC.MODID, "classic_planks"));
+		createDefaultBlockItem(classic_planks);
+		all.add(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_leaves"));
+		createDefaultBlockItem(classic_leaves);
+		all.add(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_sapling"));
+		createDefaultBlockItem(classic_sapling);
+		all.add(classic_gravel = new FallingBlock(Block.Properties.create(Material.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).sound(SoundType.GROUND)) {
+			@Override
+			public int getDustColor(BlockState p_189876_1_) {
+				return 0x9C9193;
+			}
+		}.setRegistryName(LCC.MODID, "classic_gravel"));
+		createDefaultBlockItem(classic_gravel);
+		all.add(classic_sponge = new ClassicSpongeBlock(Block.Properties.create(Material.SPONGE).hardnessAndResistance(0.6F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_sponge"));
+		createDefaultBlockItem(classic_sponge);
+		all.add(classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_mossy_cobblestone"));
+		createDefaultBlockItem(classic_mossy_cobblestone);
     }
 
 	private static void createDefaultBlockItem(Block b) {

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.tags.FluidTags;
@@ -39,6 +40,7 @@ public class FunctionalGrassBlock extends GrassBlock {
     }
 
     @Override
+    @AdaptedFromSource
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
@@ -64,11 +66,13 @@ public class FunctionalGrassBlock extends GrassBlock {
     }
 
     @Override
+    @AdaptedFromSource
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.SOLID;
     }
 
     @Override
+    @AdaptedFromSource
     public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction side, IPlantable plantable) {
         net.minecraftforge.common.PlantType type = plantable.getPlantType(world, pos.offset(side));
 

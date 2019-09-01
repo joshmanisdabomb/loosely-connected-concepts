@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.BubbleColumnBlock;
@@ -24,11 +25,13 @@ public class FunctionalBubbleColumnBlock extends BubbleColumnBlock {
     }
 
     @Override
+    @AdaptedFromSource
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         this.place(worldIn, pos.up(), this.getDrag(worldIn, pos.down()));
     }
 
     @Override
+    @AdaptedFromSource
     public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
         this.place(worldIn, pos.up(), this.getDrag(worldIn, pos));
     }
@@ -49,12 +52,14 @@ public class FunctionalBubbleColumnBlock extends BubbleColumnBlock {
     }
 
     @Override
+    @AdaptedFromSource
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
         BlockState state2 = worldIn.getBlockState(pos.down());
         return state2.getBlock() == this || this.bases.apply(state2) != ColumnType.NONE;
     }
 
     @Override
+    @AdaptedFromSource
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (!stateIn.isValidPosition(worldIn, currentPos)) {
             return Blocks.WATER.getDefaultState();

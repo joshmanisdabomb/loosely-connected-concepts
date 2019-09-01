@@ -1,8 +1,6 @@
 package com.joshmanisdabomb.lcc.proxy;
 
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
-import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity;
-import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -34,19 +32,15 @@ public class ClientProxy extends Proxy {
     @Override
     public void handleLCCEntitySpawnPacket(ResourceLocation type, int id, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float pitch, float yaw, UUID uuid) {
         ClientWorld world = Minecraft.getInstance().world;
-        EntityType.byKey(type.toString()).ifPresent((t) -> {
-            Entity e = null;
+        EntityType.byKey(type.toString()).ifPresent(t -> {
+            Entity e = t.create(world);
 
-            if (t == LCCEntities.nuclear_explosion) e = new NuclearExplosionEntity((EntityType<? extends NuclearExplosionEntity>)LCCEntities.nuclear_explosion, world);
+            e.setPosition(posX, posY, posZ);
+            e.setMotion(motionX, motionY, motionZ);
+            e.rotationPitch = pitch;
+            e.rotationYaw = yaw;
 
-            if (e != null) {
-                e.setPosition(posX, posY, posZ);
-                e.setMotion(motionX, motionY, motionZ);
-                e.rotationPitch = pitch;
-                e.rotationYaw = yaw;
-
-                world.addEntity(id, e);
-            }
+            world.addEntity(id, e);
         });
     }
 

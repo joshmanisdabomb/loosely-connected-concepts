@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,14 +24,20 @@ public class FunctionalLeavesBlock extends LeavesBlock implements IShearableBloc
         this.trunk = trunk;
     }
 
+    @Override
+    @AdaptedFromSource
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
         world.setBlockState(pos, this.updateDistance(state, world, pos), 3);
     }
 
+    @Override
+    @AdaptedFromSource
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.updateDistance(this.getDefaultState().with(PERSISTENT, true), context.getWorld(), context.getPos());
     }
 
+    @Override
+    @AdaptedFromSource
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
         int i = this.getDistance(facingState) + 1;
         if (i != 1 || state.get(DISTANCE) != i) {

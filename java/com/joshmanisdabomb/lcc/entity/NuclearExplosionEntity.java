@@ -11,7 +11,6 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -101,8 +100,7 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        this.traitCreateSpawnPacket();
-        return new SSpawnObjectPacket(this, 0);
+        return this.traitCreateSpawnPacket();
     }
 
 }

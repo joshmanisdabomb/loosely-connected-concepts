@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.*;
+import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity;
 import com.joshmanisdabomb.lcc.misc.ClassicDyeColor;
 import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
 import net.minecraft.block.*;
@@ -156,7 +157,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(classic_cobblestone);
 		all.add(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)).setRegistryName(LCC.MODID, "classic_planks"));
 		createDefaultBlockItem(classic_planks);
-		all.add(classic_leaves = new FunctionalLeavesBlockI(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_leaves"));
+		all.add(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_leaves"));
 		createDefaultBlockItem(classic_leaves);
 		all.add(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_sapling"));
 		createDefaultBlockItem(classic_sapling);
@@ -184,6 +185,22 @@ public abstract class LCCBlocks {
 		all.add(classic_cyan_flower = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_cyan_flower.getDefaultState(), Effects.LEVITATION, 5, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_cyan_flower"));
 		createDefaultBlockItem(classic_cyan_flower);
 		all.add(potted_classic_cyan_flower = new FlowerPotBlock(LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)).setRegistryName(LCC.MODID, "potted_classic_cyan_flower"));
+		all.add(classic_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_iron_block"));
+		createDefaultBlockItem(classic_iron_block);
+		all.add(classic_smooth_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_smooth_iron_block"));
+		createDefaultBlockItem(classic_smooth_iron_block);
+		all.add(classic_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_gold_block"));
+		createDefaultBlockItem(classic_gold_block);
+		all.add(classic_smooth_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_smooth_gold_block"));
+		createDefaultBlockItem(classic_smooth_gold_block);
+		all.add(classic_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_diamond_block"));
+		createDefaultBlockItem(classic_diamond_block);
+		all.add(classic_smooth_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "classic_smooth_diamond_block"));
+		createDefaultBlockItem(classic_smooth_diamond_block);
+		all.add(classic_bricks = new Block(Block.Properties.create(Material.ROCK, MaterialColor.RED).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_bricks"));
+		createDefaultBlockItem(classic_bricks);
+		all.add(classic_tnt = new FunctionalTNTBlock(ClassicTNTEntity::new, true, Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_tnt"));
+		createDefaultBlockItem(classic_tnt);
 		all.add(classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_mossy_cobblestone"));
 		createDefaultBlockItem(classic_mossy_cobblestone);
     }

@@ -172,7 +172,15 @@ public class LCCGroup extends ItemGroup {
         }
         set(LCCBlocks.classic_rose, LCCGroupCategory.NOSTALGIA, 1100);
         set(LCCBlocks.classic_cyan_flower, LCCGroupCategory.NOSTALGIA, 1110);
-        set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1120);
+        set(LCCBlocks.classic_iron_block, LCCGroupCategory.NOSTALGIA, 1120);
+        set(LCCBlocks.classic_smooth_iron_block, LCCGroupCategory.NOSTALGIA, 1125);
+        set(LCCBlocks.classic_gold_block, LCCGroupCategory.NOSTALGIA, 1130);
+        set(LCCBlocks.classic_smooth_gold_block, LCCGroupCategory.NOSTALGIA, 1135);
+        set(LCCBlocks.classic_diamond_block, LCCGroupCategory.NOSTALGIA, 1140);
+        set(LCCBlocks.classic_smooth_diamond_block, LCCGroupCategory.NOSTALGIA, 1145);
+        set(LCCBlocks.classic_bricks, LCCGroupCategory.NOSTALGIA, 1150);
+        set(LCCBlocks.classic_tnt, LCCGroupCategory.NOSTALGIA, 1160);
+        set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1500);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

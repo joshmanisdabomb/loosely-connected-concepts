@@ -19,7 +19,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -99,10 +101,13 @@ public class GeneralEvents {
         PlayerEntity player = e.getPlayer();
         BlockState state = e.getWorld().getBlockState(e.getPos());
         if (state.getBlock() == Blocks.FLOWER_POT) {
-            if (e.getItemStack().getItem() instanceof IPottableBlock) {
-                e.getWorld().setBlockState(e.getPos(), ((IPottableBlock)e.getItemStack().getItem()).getPottedState(), 3);
+            ItemStack is = e.getItemStack();
+            if (is.getItem() instanceof IPottableBlock) {
+                e.getWorld().setBlockState(e.getPos(), ((IPottableBlock)is.getItem()).getPottedState(), 3);
                 e.setUseBlock(Event.Result.DENY);
                 e.setUseItem(Event.Result.DENY);
+                player.addStat(Stats.POT_FLOWER);
+                if (!player.abilities.isCreativeMode) is.shrink(1);
             }
         }
     }

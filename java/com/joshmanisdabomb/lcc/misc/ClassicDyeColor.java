@@ -21,9 +21,14 @@ public enum ClassicDyeColor {
     LIGHT_GRAY(MaterialColor.LIGHT_GRAY),
     WHITE(MaterialColor.QUARTZ);
 
-    private final MaterialColor map;
+    public final MaterialColor mapColor;
 
-    ClassicDyeColor(MaterialColor map) {
-        this.map = map;
+    ClassicDyeColor(MaterialColor mapColor) {
+        this.mapColor = mapColor;
     }
+
+    public String getName() {
+        return this.name().toLowerCase();
+    }
+
 }

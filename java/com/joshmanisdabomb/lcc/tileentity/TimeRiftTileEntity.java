@@ -4,8 +4,6 @@ import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe;
 import com.joshmanisdabomb.lcc.registry.LCCRecipes;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;

@@ -1,6 +1,9 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.ClassicSpongeBlock;
+import com.joshmanisdabomb.lcc.block.IPottableBlock;
+import com.joshmanisdabomb.lcc.block.IShearableBlock;
 import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
@@ -16,6 +19,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -34,8 +38,10 @@ public class GeneralEvents {
 
     @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed e) {
-        if (e.getEntityPlayer().getHeldItem(Hand.MAIN_HAND).getItem() instanceof GauntletItem) {
+        if (e.getPlayer().getHeldItem(Hand.MAIN_HAND).getItem() instanceof GauntletItem) {
             e.setNewSpeed(-1);
+        } else if (e.getPlayer().getHeldItem(Hand.MAIN_HAND).getItem() instanceof ShearsItem && e.getState().getBlock() instanceof IShearableBlock) {
+            e.setNewSpeed(((IShearableBlock)e.getState().getBlock()).getBreakSpeed(e.getState(), e.getPlayer().getEntityWorld(), e.getPos(), e.getPlayer().getHeldItem(Hand.MAIN_HAND), e.getPlayer()));
         }
     }
 
@@ -77,13 +83,26 @@ public class GeneralEvents {
 
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent e) {
-        PlayerEntity player = e.getEntityPlayer();
+        PlayerEntity player = e.getPlayer();
         if (player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
             if (e.isCancelable()) {
                 e.setCancellationResult(ActionResultType.FAIL);
                 e.setCanceled(true);
             } else if (e.hasResult()) {
                 e.setResult(Event.Result.DENY);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerInteractRightClick(PlayerInteractEvent.RightClickBlock e) {
+        PlayerEntity player = e.getPlayer();
+        BlockState state = e.getWorld().getBlockState(e.getPos());
+        if (state.getBlock() == Blocks.FLOWER_POT) {
+            if (e.getItemStack().getItem() instanceof IPottableBlock) {
+                e.getWorld().setBlockState(e.getPos(), ((IPottableBlock)e.getItemStack().getItem()).getPottedState(), 3);
+                e.setUseBlock(Event.Result.DENY);
+                e.setUseItem(Event.Result.DENY);
             }
         }
     }
@@ -111,6 +130,20 @@ public class GeneralEvents {
     @SubscribeEvent
     public void onNeighborNotify(BlockEvent.NeighborNotifyEvent e) {
         if (e.getWorld().getFluidState(e.getPos()).isTagged(FluidTags.WATER)) {
+            //Cancel when sponge is nearby.
+            BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+            for (int i = -2; i <= 2; i++) {
+                for (int j = -2; j <= 2; j++) {
+                    for (int k = -2; k <= 2; k++) {
+                        BlockState state = e.getWorld().getBlockState(bp.setPos(e.getPos()).move(i,j,k));
+                        if ((i != 0 || j != 0 || k != 0) && state.getBlock() == LCCBlocks.classic_sponge) {
+                            ((ClassicSpongeBlock)state.getBlock()).absorb(state, e.getWorld(), bp, e.getPos(), false);
+                            e.setCanceled(true);
+                        }
+                    }
+                }
+            }
+            //Hydrate neighbour soul sand.
             for (Direction side : Direction.values()) {
                 if (side.getAxis() != Direction.Axis.Y && e.getWorld().getBlockState(e.getPos().offset(side)) == Blocks.SOUL_SAND.getDefaultState()) {
                     e.getWorld().setBlockState(e.getPos().offset(side), LCCBlocks.hydrated_soul_sand.getDefaultState(), 3);

@@ -7,7 +7,10 @@ import net.minecraft.client.renderer.model.Model;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public class TimeRiftModel extends Model {
 

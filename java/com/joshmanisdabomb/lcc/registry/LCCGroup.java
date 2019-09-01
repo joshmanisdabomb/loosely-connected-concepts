@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.misc.ClassicDyeColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -165,7 +166,13 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.classic_sapling, LCCGroupCategory.NOSTALGIA, 1040);
         set(LCCBlocks.classic_gravel, LCCGroupCategory.NOSTALGIA, 1050);
         set(LCCBlocks.classic_sponge, LCCGroupCategory.NOSTALGIA, 1060);
-        set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1070);
+        set(LCCBlocks.classic_glass, LCCGroupCategory.NOSTALGIA, 1070);
+        for (ClassicDyeColor color : ClassicDyeColor.values()) {
+            set(LCCBlocks.classic_cloth.get(color), LCCGroupCategory.NOSTALGIA, 1080+color.ordinal());
+        }
+        set(LCCBlocks.classic_rose, LCCGroupCategory.NOSTALGIA, 1100);
+        set(LCCBlocks.classic_cyan_flower, LCCGroupCategory.NOSTALGIA, 1110);
+        set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1120);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

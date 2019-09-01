@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
-import com.joshmanisdabomb.lcc.item.model.GauntletModel;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -8,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.MathHelper;

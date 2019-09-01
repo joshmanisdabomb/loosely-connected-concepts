@@ -2,8 +2,9 @@ package com.joshmanisdabomb.lcc.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class FunctionalLeavesBlock extends LeavesBlock {
+public class FunctionalLeavesBlock extends LeavesBlock implements IShearableBlock {
 
     private final Predicate<BlockState> trunk;
 
@@ -69,4 +70,8 @@ public class FunctionalLeavesBlock extends LeavesBlock {
         return true;
     }
 
+    @Override
+    public float getBreakSpeed(BlockState state, World world, BlockPos pos, ItemStack shears, PlayerEntity entity) {
+        return 15.0F;
+    }
 }

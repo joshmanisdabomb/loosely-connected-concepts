@@ -73,7 +73,7 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
                     }
 
                     if (spreader.isEater(color) && random.nextInt(3) == 0) {
-                        world.destroyBlock(pos, false);
+                        world.removeBlock(pos, false);
                     } else {
                         world.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, random));
                     }

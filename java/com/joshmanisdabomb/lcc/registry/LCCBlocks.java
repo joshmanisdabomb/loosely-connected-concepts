@@ -10,6 +10,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Effects;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 
@@ -61,14 +62,16 @@ public abstract class LCCBlocks {
 	public static Block classic_cobblestone;
 	public static Block classic_planks;
 	public static Block classic_sapling;
+	public static Block potted_classic_sapling;
 	public static Block classic_gravel;
-	public static Block classic_log;
 	public static Block classic_leaves;
 	public static Block classic_sponge;
 	public static Block classic_glass;
 	public static HashMap<ClassicDyeColor, Block> classic_cloth = new HashMap<>();
 	public static Block classic_rose;
+	public static Block potted_classic_rose;
 	public static Block classic_cyan_flower;
+	public static Block potted_classic_cyan_flower;
 	public static Block classic_iron_block;
 	public static Block classic_smooth_iron_block;
 	public static Block classic_gold_block;
@@ -77,8 +80,11 @@ public abstract class LCCBlocks {
 	public static Block classic_smooth_diamond_block;
 	public static Block classic_bricks;
 	public static Block classic_tnt;
-	public static Block classic_chest;
 	public static Block classic_mossy_cobblestone;
+	public static Block classic_chest;
+	public static Block nether_reactor;
+	public static Block crying_obsidian;
+	public static Block glowing_obsidian;
 
     public static void init(Register<Block> e) {
 		//Test Blocks
@@ -136,7 +142,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(spreader_interface);
 		for (DyeColor color : DyeColor.values()) {
 			Block b;
-			all.add(b = new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color.getMapColor()).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + color.getName()));
+			all.add(b = new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + color.getName()));
 			spreaders.put(color, b);
 			createDefaultBlockItem(b);
 		}
@@ -150,10 +156,11 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(classic_cobblestone);
 		all.add(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)).setRegistryName(LCC.MODID, "classic_planks"));
 		createDefaultBlockItem(classic_planks);
-		all.add(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_leaves"));
+		all.add(classic_leaves = new FunctionalLeavesBlockI(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_leaves"));
 		createDefaultBlockItem(classic_leaves);
 		all.add(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_sapling"));
 		createDefaultBlockItem(classic_sapling);
+		all.add(potted_classic_sapling = new FlowerPotBlock(LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)).setRegistryName(LCC.MODID, "potted_classic_sapling"));
 		all.add(classic_gravel = new FallingBlock(Block.Properties.create(Material.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).sound(SoundType.GROUND)) {
 			@Override
 			public int getDustColor(BlockState p_189876_1_) {
@@ -163,6 +170,20 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(classic_gravel);
 		all.add(classic_sponge = new ClassicSpongeBlock(Block.Properties.create(Material.SPONGE).hardnessAndResistance(0.6F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_sponge"));
 		createDefaultBlockItem(classic_sponge);
+		all.add(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)).setRegistryName(LCC.MODID, "classic_glass"));
+		createDefaultBlockItem(classic_glass);
+		for (ClassicDyeColor color : ClassicDyeColor.values()) {
+			Block b;
+			all.add(b = new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH)).setRegistryName(LCC.MODID, "classic_cloth_" + color.getName()));
+			classic_cloth.put(color, b);
+			createDefaultBlockItem(b);
+		}
+		all.add(classic_rose = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_rose.getDefaultState(), Effects.ABSORPTION, 4, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_rose"));
+		createDefaultBlockItem(classic_rose);
+		all.add(potted_classic_rose = new FlowerPotBlock(LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)).setRegistryName(LCC.MODID, "potted_classic_rose"));
+		all.add(classic_cyan_flower = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_cyan_flower.getDefaultState(), Effects.LEVITATION, 5, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_cyan_flower"));
+		createDefaultBlockItem(classic_cyan_flower);
+		all.add(potted_classic_cyan_flower = new FlowerPotBlock(LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)).setRegistryName(LCC.MODID, "potted_classic_cyan_flower"));
 		all.add(classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_mossy_cobblestone"));
 		createDefaultBlockItem(classic_mossy_cobblestone);
     }

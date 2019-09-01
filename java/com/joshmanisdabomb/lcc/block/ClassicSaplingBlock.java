@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SaplingBlock;
-import net.minecraft.block.trees.BigTree;
 import net.minecraft.block.trees.Tree;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -21,7 +20,7 @@ import net.minecraftforge.common.IPlantable;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class ClassicSaplingBlock extends SaplingBlock {
+public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock {
 
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE_0_1;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_0_7;
@@ -70,6 +69,11 @@ public class ClassicSaplingBlock extends SaplingBlock {
     @Override
     public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
         return true;
+    }
+
+    @Override
+    public BlockState getPottedState() {
+        return LCCBlocks.potted_classic_sapling.getDefaultState();
     }
 
 }

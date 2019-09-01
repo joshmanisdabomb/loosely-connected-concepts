@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "lcc:block/nostalgia/chest_front",
+        "down": "lcc:block/nostalgia/chest_top",
+        "up": "lcc:block/nostalgia/chest_top",
+        "north": "lcc:block/nostalgia/chest_right_front",
+        "east": "lcc:block/nostalgia/chest_side",
+        "south": "lcc:block/nostalgia/chest_left_back",
+        "west": "lcc:block/nostalgia/chest_side"
+    }
+}

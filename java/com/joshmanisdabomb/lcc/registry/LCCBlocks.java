@@ -201,6 +201,8 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(classic_bricks);
 		all.add(classic_tnt = new FunctionalTNTBlock(ClassicTNTEntity::new, true, Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT)).setRegistryName(LCC.MODID, "classic_tnt"));
 		createDefaultBlockItem(classic_tnt);
+		all.add(classic_chest = new ClassicChestBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)).setRegistryName(LCC.MODID, "classic_chest"));
+		createDefaultBlockItem(classic_chest);
 		all.add(classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "classic_mossy_cobblestone"));
 		createDefaultBlockItem(classic_mossy_cobblestone);
     }

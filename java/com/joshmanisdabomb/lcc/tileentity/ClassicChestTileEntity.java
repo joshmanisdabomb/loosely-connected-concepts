@@ -1,16 +1,16 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
+import com.joshmanisdabomb.lcc.block.ClassicChestBlock;
 import com.joshmanisdabomb.lcc.container.ClassicChestContainer;
-import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -85,6 +85,16 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
 
     public void setCustomName(ITextComponent displayName) {
         this.customName = displayName;
+    }
+
+    public boolean isPrimary() {
+        return this.getWorld().getBlockState(this.getPos()).get(ClassicChestBlock.TYPE) != ChestType.LEFT;
+    }
+
+    public ClassicChestTileEntity getAttached() {
+        BlockState state = this.getWorld().getBlockState(this.getPos());
+        if (state.get(ClassicChestBlock.TYPE) == ChestType.SINGLE) return null;
+        return (ClassicChestTileEntity)this.getWorld().getTileEntity(this.getPos().offset(((ClassicChestBlock)state.getBlock()).getDirectionToAttached(state)));
     }
 
 }

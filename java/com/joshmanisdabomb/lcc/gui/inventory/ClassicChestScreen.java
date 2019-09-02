@@ -5,7 +5,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -21,7 +20,7 @@ public class ClassicChestScreen extends ContainerScreen<ClassicChestContainer> i
         this.passEvents = false;
         int i = 222;
         int j = 114;
-        this.ySize = 114 + 3 * 18;
+        this.ySize = 114 + (container.doubleChest ? 6 : 3) * 18;
     }
 
     public void render(int p_render_1_, int p_render_2_, float p_render_3_) {
@@ -46,7 +45,7 @@ public class ClassicChestScreen extends ContainerScreen<ClassicChestContainer> i
         this.minecraft.getTextureManager().bindTexture(CHEST_GUI_TEXTURE);
         int i = (this.width - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        this.blit(i, j, 0, 0, this.xSize, 3 * 18 + 17);
-        this.blit(i, j + 3 * 18 + 17, 0, 126, this.xSize, 96);
+        this.blit(i, j, 0, 0, this.xSize, (container.doubleChest ? 6 : 3) * 18 + 17);
+        this.blit(i, j + (container.doubleChest ? 6 : 3) * 18 + 17, 0, 126, this.xSize, 96);
     }
 }

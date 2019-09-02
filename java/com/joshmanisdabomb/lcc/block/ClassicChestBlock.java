@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
@@ -62,8 +61,10 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote) {
+            if (this.isBlocked(world, pos)) return false;
+            if (state.get(TYPE) != ChestType.SINGLE && this.isBlocked(world, pos.offset(this.getDirectionToAttached(state)))) return false;
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof INamedContainerProvider && !this.isBlocked(world, pos)) {
+            if (tileEntity instanceof INamedContainerProvider) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, buf -> {
                     buf.writeBlockPos(tileEntity.getPos());
                 });
@@ -140,14 +141,18 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
 
     @Override
     @AdaptedFromSource
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory)tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof ClassicChestTileEntity) {
+                ((ClassicChestTileEntity)tileentity).inventory.ifPresent(h -> {
+                    for (int i = 0; i < h.getSlots(); i++) {
+                        InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+                    }
+                });
+                world.updateComparatorOutputLevel(pos, this);
             }
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 

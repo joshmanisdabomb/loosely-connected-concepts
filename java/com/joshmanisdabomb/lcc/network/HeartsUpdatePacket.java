@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class HeartsUpdatePacket implements LCCPacket {
 
@@ -42,11 +42,19 @@ public class HeartsUpdatePacket implements LCCPacket {
         return new HeartsUpdatePacket(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
 
-    public static void handle(final HeartsUpdatePacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            LCC.proxy.handleHeartsUpdatePacket(msg.redMax, msg.ironMax, msg.iron, msg.crystalMax, msg.crystal, msg.temporary);
-        });
-        ctx.get().setPacketHandled(true);
+    @OnlyIn(Dist.CLIENT)
+    public void handleClient() {
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                hearts.setRedMaxHealth(redMax);
+                hearts.setIronMaxHealth(ironMax);
+                hearts.setIronHealth(iron);
+                hearts.setCrystalMaxHealth(crystalMax);
+                hearts.setCrystalHealth(crystal);
+                hearts.setTemporaryHealth(temporary, Float.MAX_VALUE);
+            });
+        }
     }
 
 }

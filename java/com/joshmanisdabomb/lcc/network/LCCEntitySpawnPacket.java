@@ -1,14 +1,15 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.LCC;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public class LCCEntitySpawnPacket implements LCCPacket {
 
@@ -50,11 +51,19 @@ public class LCCEntitySpawnPacket implements LCCPacket {
         return new LCCEntitySpawnPacket(buf.readResourceLocation(), buf.readInt(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readFloat(), buf.readFloat(), buf.readUniqueId());
     }
 
-    public static void handle(final LCCEntitySpawnPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            LCC.proxy.handleLCCEntitySpawnPacket(msg.type, msg.id, msg.posX, msg.posY, msg.posZ, msg.motionX, msg.motionY, msg.motionZ, msg.pitch, msg.yaw, msg.uuid);
+    @OnlyIn(Dist.CLIENT)
+    public void handleClient() {
+        ClientWorld world = Minecraft.getInstance().world;
+        EntityType.byKey(type.toString()).ifPresent(t -> {
+            Entity e = t.create(world);
+
+            e.setPosition(posX, posY, posZ);
+            e.setMotion(motionX, motionY, motionZ);
+            e.rotationPitch = pitch;
+            e.rotationYaw = yaw;
+
+            world.addEntity(id, e);
         });
-        ctx.get().setPacketHandled(true);
     }
 
 }

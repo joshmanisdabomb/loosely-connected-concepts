@@ -182,6 +182,7 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.classic_tnt, LCCGroupCategory.NOSTALGIA, 1160);
         set(LCCBlocks.classic_mossy_cobblestone, LCCGroupCategory.NOSTALGIA, 1170);
         set(LCCBlocks.classic_chest, LCCGroupCategory.NOSTALGIA, 1180);
+        set(LCCBlocks.crying_obsidian, LCCGroupCategory.NOSTALGIA, 2000);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

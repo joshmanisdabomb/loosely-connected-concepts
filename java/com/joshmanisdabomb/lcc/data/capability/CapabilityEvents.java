@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.capability;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
+import com.joshmanisdabomb.lcc.network.CryingObsidianUpdatePacket;
 import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.Entity;
@@ -21,12 +22,16 @@ public class CapabilityEvents {
     public static final ResourceLocation GAUNTLET_CAPABILITY = new ResourceLocation(LCC.MODID, "gauntlet");
     public static final ResourceLocation HEARTS_CAPABILITY = new ResourceLocation(LCC.MODID, "hearts");
     public static final ResourceLocation SPREADER_CAPABILITY = new ResourceLocation(LCC.MODID, "spreader");
+    public static final ResourceLocation CRYING_OBSIDIAN_CAPABILITY = new ResourceLocation(LCC.MODID, "crying_obsidian");
 
     @SubscribeEvent
     public void attachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof LivingEntity) {
             event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.Provider());
             event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.Provider());
+            if (event.getObject() instanceof PlayerEntity) {
+                event.addCapability(CRYING_OBSIDIAN_CAPABILITY, new CryingObsidianCapability.Provider());
+            }
         }
     }
 
@@ -48,6 +53,14 @@ public class CapabilityEvents {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new HeartsUpdatePacket(heartsNew));
             });
         });
+        System.out.println(playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).isPresent());
+        System.out.println(playerNew.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).isPresent());
+        playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coOriginal -> {
+            playerNew.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coNew -> {
+                coNew.pos = coOriginal.pos;
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new CryingObsidianUpdatePacket(coNew));
+            });
+        });
     }
 
     @SubscribeEvent
@@ -56,6 +69,9 @@ public class CapabilityEvents {
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
+            });
+            player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(co -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CryingObsidianUpdatePacket(co));
             });
         }
     }
@@ -67,6 +83,9 @@ public class CapabilityEvents {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
             });
+            player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(co -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CryingObsidianUpdatePacket(co));
+            });
         }
     }
 
@@ -76,6 +95,9 @@ public class CapabilityEvents {
         if (player instanceof ServerPlayerEntity) {
             player.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new HeartsUpdatePacket(hearts));
+            });
+            player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(co -> {
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CryingObsidianUpdatePacket(co));
             });
         }
     }

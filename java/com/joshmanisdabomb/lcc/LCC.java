@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.bus.GeneralEvents;
 import com.joshmanisdabomb.lcc.event.bus.InputEvents;
-import com.joshmanisdabomb.lcc.event.bus.OverlayEvents;
 import com.joshmanisdabomb.lcc.event.bus.RenderEvents;
+import com.joshmanisdabomb.lcc.event.bus.UIEvents;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
 import com.joshmanisdabomb.lcc.event.mod.ModelEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
@@ -63,7 +63,7 @@ public class LCC
 
     private void onClientSetup(final FMLClientSetupEvent e) {
     	MinecraftForge.EVENT_BUS.register(new RenderEvents());
-        MinecraftForge.EVENT_BUS.register(new OverlayEvents());
+        MinecraftForge.EVENT_BUS.register(new UIEvents());
         MinecraftForge.EVENT_BUS.register(new InputEvents());
 
         LCCEntities.initRenderers();

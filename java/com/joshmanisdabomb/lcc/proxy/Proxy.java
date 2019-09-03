@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.proxy;
 
+import com.joshmanisdabomb.lcc.network.LCCPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.network.ParticleSpawnPacket;
 import net.minecraft.client.Minecraft;
@@ -7,11 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.particles.IParticleData;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.network.PacketDistributor;
-
-import java.util.UUID;
 
 public abstract class Proxy {
 
@@ -25,16 +24,15 @@ public abstract class Proxy {
         }
     }
 
-    public void handleHeartsUpdatePacket(float redMax, float ironMax, float iron, float crystalMax, float crystal, float temporary) {
-
-    }
-
-    public void handleLCCEntitySpawnPacket(ResourceLocation type, int id, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float pitch, float yaw, UUID uuid) {
-
-    }
-
-    public void handleParticleSpawnPacket(IParticleData data, boolean forceAlwaysRender, double posX, double posY, double posZ, double speedX, double speedY, double speedZ) {
-
+    public void handlePacket(LogicalSide side, LCCPacket msg) {
+        switch (side) {
+            case CLIENT:
+                msg.handleClient();
+                break;
+            case SERVER:
+                msg.handleLogicalServer();
+                break;
+        }
     }
 
     public World getClientWorld() {

@@ -1,13 +1,12 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.LCC;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.function.Supplier;
 
 public class ParticleSpawnPacket implements LCCPacket {
 
@@ -48,11 +47,9 @@ public class ParticleSpawnPacket implements LCCPacket {
         return new ParticleSpawnPacket(data, forceAlwaysRender, posX, posY, posZ, speedX, speedY, speedZ);
     }
 
-    public static void handle(final ParticleSpawnPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            LCC.proxy.handleParticleSpawnPacket(msg.data, msg.forceAlwaysRender, msg.posX, msg.posY, msg.posZ, msg.speedX, msg.speedY, msg.speedZ);
-        });
-        ctx.get().setPacketHandled(true);
+    @OnlyIn(Dist.CLIENT)
+    public void handleClient() {
+        Minecraft.getInstance().world.addParticle(data, forceAlwaysRender, posX, posY, posZ, speedX, speedY, speedZ);
     }
 
 }

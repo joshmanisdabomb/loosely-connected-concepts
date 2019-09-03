@@ -6,11 +6,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 public class SpreaderInterfaceUpdatePacket implements LCCPacket {
 
@@ -31,21 +29,18 @@ public class SpreaderInterfaceUpdatePacket implements LCCPacket {
         return new SpreaderInterfaceUpdatePacket(buf.readUniqueId(), new SpreaderCapability().readFromPacket(buf));
     }
 
-    public static void handle(final SpreaderInterfaceUpdatePacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+    public void handleLogicalServer() {
+        MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
 
-            SpreaderCapability oldSettings = SpreaderCapability.Provider.getGlobalCapability(s).orElse(new SpreaderCapability());
-            HashMap<Object, Integer> costs = msg.newSettings.calculateCosts(oldSettings, new HashMap<>());
+        SpreaderCapability oldSettings = SpreaderCapability.Provider.getGlobalCapability(s).orElse(new SpreaderCapability());
+        HashMap<Object, Integer> costs = this.newSettings.calculateCosts(oldSettings, new HashMap<>());
 
-            ServerPlayerEntity player = s.getPlayerList().getPlayerByUUID(msg.player);
-            if (!player.isCreative()) {
-                SpreaderCapability.subtractCosts(player.inventory, costs);
-            }
+        ServerPlayerEntity player = s.getPlayerList().getPlayerByUUID(this.player);
+        if (!player.isCreative()) {
+            SpreaderCapability.subtractCosts(player.inventory, costs);
+        }
 
-            oldSettings.clone(msg.newSettings);
-        });
-        ctx.get().setPacketHandled(true);
+        oldSettings.clone(this.newSettings);
     }
 
 }

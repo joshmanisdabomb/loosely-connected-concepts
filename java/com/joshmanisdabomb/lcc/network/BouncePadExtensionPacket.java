@@ -34,14 +34,11 @@ public class BouncePadExtensionPacket implements LCCPacket {
         return new BouncePadExtensionPacket(buf.readBlockPos(), buf.readFloat());
     }
 
-    public static void handle(final BouncePadExtensionPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            ((BouncePadTileEntity)Minecraft.getInstance().world.getTileEntity(msg.pos)).extension = msg.extension;
-            int setting = Minecraft.getInstance().world.getBlockState(msg.pos).get(BouncePadBlock.SETTING);
-            Minecraft.getInstance().world.addParticle(LCCParticles.hydrated_soul_sand_jump, false, msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, 0.875, ((setting + 1)*4) - 2, 0.5 + ((setting + 1) * 0.2));
-            Minecraft.getInstance().world.playSound(msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, LCCSounds.block_bounce_pad_jump, SoundCategory.BLOCKS, 0.4F, 0.95F + ((4-setting)*0.05F), false);
-        });
-        ctx.get().setPacketHandled(true);
+    public static void handleClient(final BouncePadExtensionPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        ((BouncePadTileEntity)Minecraft.getInstance().world.getTileEntity(msg.pos)).extension = msg.extension;
+        int setting = Minecraft.getInstance().world.getBlockState(msg.pos).get(BouncePadBlock.SETTING);
+        Minecraft.getInstance().world.addParticle(LCCParticles.hydrated_soul_sand_jump, false, msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, 0.875, ((setting + 1)*4) - 2, 0.5 + ((setting + 1) * 0.2));
+        Minecraft.getInstance().world.playSound(msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, LCCSounds.block_bounce_pad_jump, SoundCategory.BLOCKS, 0.4F, 0.95F + ((4-setting)*0.05F), false);
     }
 
 }

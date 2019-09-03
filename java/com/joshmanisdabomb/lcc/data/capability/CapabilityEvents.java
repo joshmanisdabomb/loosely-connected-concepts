@@ -58,6 +58,7 @@ public class CapabilityEvents {
         playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coOriginal -> {
             playerNew.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coNew -> {
                 coNew.pos = coOriginal.pos;
+                coNew.dimension = coOriginal.dimension;
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new CryingObsidianUpdatePacket(coNew));
             });
         });

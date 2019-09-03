@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.IModelData;
@@ -24,6 +25,9 @@ public interface AdvancedBlockRender {
 
     @OnlyIn(Dist.CLIENT)
     ModelProperty<BlockState> STATE = new ModelProperty<>();
+
+    @OnlyIn(Dist.CLIENT)
+    ModelProperty<BlockPos> POS = new ModelProperty<>();
 
     @OnlyIn(Dist.CLIENT)
     default Collection<ModelResourceLocation> getModelLocations() {

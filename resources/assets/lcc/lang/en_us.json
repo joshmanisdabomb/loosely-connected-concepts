@@ -169,8 +169,9 @@
   "block.lcc.classic_mossy_cobblestone": "Classic Mossy Cobblestone",
   "block.lcc.classic_chest": "Classic Chest",
   "block.lcc.nether_reactor": "Nether Reactor",
-  "block.lcc.nether_reactor.correct": "Active!",
+  "block.lcc.nether_reactor.active": "Active!",
   "block.lcc.nether_reactor.incorrect": "Not the correct pattern!",
+  "block.lcc.nether_reactor.players": "All players need to be close to the reactor.",
   "block.lcc.crying_obsidian": "Crying Obsidian",
   "block.lcc.glowing_obsidian": "Glowing Obsidian",
 

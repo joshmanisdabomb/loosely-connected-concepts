@@ -25,6 +25,8 @@ import javax.annotation.Nullable;
 
 public class BouncePadBlock extends Block {
 
+    //TODO: 6 directions
+
     public static final IntegerProperty SETTING = IntegerProperty.create("setting", 0, 4);
     public static final double[] MOTION_VALUES = new double[]{1D, 1.4D, 1.8D, 2.2D, 2.6D};
 

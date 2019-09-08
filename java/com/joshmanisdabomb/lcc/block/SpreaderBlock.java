@@ -22,8 +22,6 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
 
     private final DyeColor color;
 
-    private final Random rand = new Random(2500);
-
     public SpreaderBlock(DyeColor color, Properties properties) {
         super(properties);
         this.color = color;
@@ -43,14 +41,14 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         SpreaderCapability.Provider.getGlobalCapability(worldIn.getServer()).ifPresent(spreader -> {
-            if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, rand));
+            if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, worldIn.rand));
         });
     }
 
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         SpreaderCapability.Provider.getGlobalCapability(worldIn.getServer()).ifPresent(spreader -> {
-            if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, rand));
+            if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, worldIn.rand));
         });
     }
 

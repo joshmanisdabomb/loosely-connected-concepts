@@ -22,6 +22,7 @@ public abstract class LCCTileEntities {
     public static TileEntityType<?> bounce_pad;
 
     public static TileEntityType<?> time_rift;
+    public static TileEntityType<?> nether_reactor;
     public static TileEntityType<?> classic_chest;
 
     public static void init(RegistryEvent.Register<TileEntityType<?>> e) {
@@ -29,6 +30,7 @@ public abstract class LCCTileEntities {
         all.add(bounce_pad = TileEntityType.Builder.create(BouncePadTileEntity::new, LCCBlocks.bounce_pad).build(null).setRegistryName(LCC.MODID, "bounce_pad"));
         all.add(time_rift = TileEntityType.Builder.create(TimeRiftTileEntity::new, LCCBlocks.time_rift).build(null).setRegistryName(LCC.MODID, "time_rift"));
         all.add(classic_chest = TileEntityType.Builder.create(ClassicChestTileEntity::new, LCCBlocks.classic_chest).build(null).setRegistryName(LCC.MODID, "classic_chest"));
+        all.add(nether_reactor = TileEntityType.Builder.create(NetherReactorTileEntity::new, LCCBlocks.nether_reactor).build(null).setRegistryName(LCC.MODID, "nether_reactor"));
     }
 
     @OnlyIn(Dist.CLIENT)

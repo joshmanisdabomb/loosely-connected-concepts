@@ -207,8 +207,12 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(classic_mossy_cobblestone);
 		all.add(classic_chest = new ClassicChestBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)).setRegistryName(LCC.MODID, "classic_chest"));
 		createDefaultBlockItem(classic_chest);
+		all.add(nether_reactor = new NetherReactorBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(4.0F, 5.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "nether_reactor"));
+		createDefaultBlockItem(nether_reactor);
 		all.add(crying_obsidian = new CryingObsidianBlock(Block.Properties.create(Material.ROCK, MaterialColor.BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "crying_obsidian"));
 		createDefaultBlockItem(crying_obsidian);
+		all.add(glowing_obsidian = new Block(Block.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).lightValue(12).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "glowing_obsidian"));
+		createDefaultBlockItem(glowing_obsidian);
     }
 
 	private static void createDefaultBlockItem(Block b) {

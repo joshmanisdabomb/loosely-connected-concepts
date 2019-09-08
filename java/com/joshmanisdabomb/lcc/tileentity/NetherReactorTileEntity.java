@@ -6,22 +6,28 @@ import com.joshmanisdabomb.lcc.block.NetherReactorBlock;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.gen.feature.template.*;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameterSets;
+import net.minecraft.world.storage.loot.LootTable;
+
+import java.util.List;
 
 public class NetherReactorTileEntity extends TileEntity implements ITickableTileEntity {
 
@@ -31,9 +37,11 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
     public static final StructureProcessor NETHER_SPIRE_ALWAYS_NETHERRACK = new RuleStructureProcessor(ImmutableList.of(new RuleEntry(new BlockMatchRuleTest(Blocks.LIGHT_BLUE_CONCRETE), AlwaysTrueRuleTest.INSTANCE, Blocks.NETHERRACK.getDefaultState())));
     public static final StructureProcessor NETHER_SPIRE_AIR = new RuleStructureProcessor(ImmutableList.of(new RuleEntry(new BlockMatchRuleTest(Blocks.MAGENTA_CONCRETE), AlwaysTrueRuleTest.INSTANCE, Blocks.AIR.getDefaultState())));
     public static final StructureProcessor NETHER_SPIRE_IGNORE = new BlockIgnoreStructureProcessor(ImmutableList.of(Blocks.MAGENTA_CONCRETE));
-    public static final StructureProcessor NETHER_SPIRE_INTEGRITY = new RuleStructureProcessor(ImmutableList.of(new RuleEntry(new RandomBlockMatchRuleTest(Blocks.NETHERRACK, 0.2F), new BlockMatchRuleTest(Blocks.NETHERRACK), Blocks.AIR.getDefaultState())));
+    public static final StructureProcessor NETHER_SPIRE_INTEGRITY = new RuleStructureProcessor(ImmutableList.of(new RuleEntry(new RandomBlockMatchRuleTest(Blocks.NETHERRACK, 0.25F), new BlockMatchRuleTest(Blocks.NETHERRACK), Blocks.AIR.getDefaultState())));
 
     private final ServerBossInfo bossInfo = new ServerBossInfo(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS);
+
+    private final float[] reactionVariance = new float[10];
 
     private ITextComponent customName;
 
@@ -79,12 +87,34 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
                     }
                 }
             } else if (this.activeTicks == 840) {
+                bossInfo.setColor(BossInfo.Color.BLUE);
                 for (int i = -1; i <= 1; i++) {
                     for (int k = -1; k <= 1; k++) {
                         this.world.setBlockState(bp.setPos(pos).move(i,1,k), Blocks.OBSIDIAN.getDefaultState(), 3);
                     }
                 }
+            } else if (!world.isRemote && this.activeTicks == 750 + Math.round(this.reactionVariance[9] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 680 + Math.round(this.reactionVariance[8] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 610 + Math.round(this.reactionVariance[7] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 540 + Math.round(this.reactionVariance[6] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 480 + Math.round(this.reactionVariance[5] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 410 + Math.round(this.reactionVariance[4] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 360 + Math.round(this.reactionVariance[3] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 290 + Math.round(this.reactionVariance[2] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 220 + Math.round(this.reactionVariance[1] * 60)) {
+                this.spawn();
+            } else if (!world.isRemote && this.activeTicks == 150 + Math.round(this.reactionVariance[0] * 60)) {
+                this.spawn();
             } else if (this.activeTicks == 130) {
+                bossInfo.setColor(BossInfo.Color.RED);
                 this.world.setBlockState(bp.setPos(pos).move(Direction.DOWN).move(Direction.NORTH).move(Direction.EAST), LCCBlocks.glowing_obsidian.getDefaultState(), 3);
                 this.world.setBlockState(bp.setPos(pos).move(Direction.DOWN).move(Direction.NORTH).move(Direction.WEST), LCCBlocks.glowing_obsidian.getDefaultState(), 3);
                 this.world.setBlockState(bp.setPos(pos).move(Direction.DOWN).move(Direction.SOUTH).move(Direction.EAST), LCCBlocks.glowing_obsidian.getDefaultState(), 3);
@@ -113,19 +143,38 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
         }
     }
 
+    private void spawn() {
+        LootTable loot = world.getServer().getLootTableManager().getLootTableFromLocation(new ResourceLocation(LCC.MODID, "gameplay/nether_reactor"));
+        LootContext.Builder builder = new LootContext.Builder((ServerWorld)world).withRandom(world.rand);
+
+        for(ItemStack itemstack : loot.generate(builder.build(LootParameterSets.EMPTY))) {
+            float p = ((world.rand.nextFloat() * 5) + 2) * (world.rand.nextBoolean() ? 1 : -1);
+            float s = (world.rand.nextFloat() * 14) - 7;
+            boolean xp = world.rand.nextBoolean();
+            Vec3d position = new Vec3d(pos).add(0.5 + (xp ? p : s), -0.5, 0.5 + (xp ? s : p));
+
+            ItemEntity i = new ItemEntity(world, position.getX(), position.getY(), position.getZ(), itemstack);
+            world.addEntity(i);
+            i.setDefaultPickupDelay();
+        }
+    }
+
     private void bossInfoTracking() {
         if (!world.isRemote) {
             AxisAlignedBB range = new AxisAlignedBB(pos.down(), pos.up(2)).grow(9, 0, 9);
-            MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-            s.getPlayerList().getPlayers().stream().filter(player -> !bossInfo.getPlayers().contains(player) && player.dimension == world.dimension.getType() && range.intersects(player.getBoundingBox())).forEach(this.bossInfo::addPlayer);
-            s.getPlayerList().getPlayers().stream().filter(player -> bossInfo.getPlayers().contains(player) && (player.dimension != world.dimension.getType() || !range.intersects(player.getBoundingBox()))).forEach(this.bossInfo::removePlayer);
+            List<ServerPlayerEntity> players = world.getServer().getPlayerList().getPlayers();
+            players.stream().filter(player -> !bossInfo.getPlayers().contains(player) && player.dimension == world.dimension.getType() && range.intersects(player.getBoundingBox())).forEach(this.bossInfo::addPlayer);
+            players.stream().filter(player -> bossInfo.getPlayers().contains(player) && (player.dimension != world.dimension.getType() || !range.intersects(player.getBoundingBox()))).forEach(this.bossInfo::removePlayer);
         }
     }
 
     public void activate() {
         this.activeTicks = 0;
+        for (int v = 0; v < 10; v++) {
+            this.reactionVariance[v] = world.rand.nextFloat();
+        }
 
-        world.setDayTime((24000 * Math.round(world.getDayTime() / 24000F)) + 13000);
+        world.setDayTime((24000 * (long)Math.ceil(world.getDayTime() / 24000F)) + 14000);
 
         if (!world.isRemote) {
             this.bossInfoTracking();

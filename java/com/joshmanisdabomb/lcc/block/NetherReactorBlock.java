@@ -5,8 +5,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
@@ -19,8 +20,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.LogicalSidedProvider;
 
 import javax.annotation.Nullable;
 
@@ -68,7 +67,9 @@ public class NetherReactorBlock extends Block {
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (state.get(STATE) == ReactorState.READY) {
             if (!world.isRemote) {
-                if (!this.checkStructure(world, pos)) {
+                if (pos.getY() < 4 || pos.getY() > 221) {
+                    player.sendMessage(new TranslationTextComponent("block.lcc.nether_reactor.y"));
+                } else if (!this.checkStructure(world, pos)) {
                     player.sendMessage(new TranslationTextComponent("block.lcc.nether_reactor.incorrect"));
                 } else if (!player.isCreative() && !this.checkForPlayers(world, pos)) {
                     player.sendMessage(new TranslationTextComponent("block.lcc.nether_reactor.players"));
@@ -101,9 +102,18 @@ public class NetherReactorBlock extends Block {
     protected boolean checkForPlayers(World world, BlockPos pos) {
         AxisAlignedBB range = new AxisAlignedBB(pos.down(), pos.up(2)).grow(9, 0, 9);
 
-        MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         //TODO: config option, big servers won't feasibly get everyone together
-        return s.getPlayerList().getPlayers().stream().allMatch(player -> player.dimension == world.dimension.getType() && range.intersects(player.getBoundingBox()));
+        return world.getServer().getPlayerList().getPlayers().stream().allMatch(player -> player.dimension == world.dimension.getType() && range.intersects(player.getBoundingBox()));
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (stack.hasDisplayName()) {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+            if (tileentity instanceof NetherReactorTileEntity) {
+                ((NetherReactorTileEntity)tileentity).setCustomName(stack.getDisplayName());
+            }
+        }
     }
 
     public enum ReactorState implements IStringSerializable {

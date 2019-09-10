@@ -3,9 +3,13 @@ package com.joshmanisdabomb.lcc.tileentity;
 import com.google.common.collect.ImmutableList;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.NetherReactorBlock;
+import com.joshmanisdabomb.lcc.entity.ClassicZombiePigmanEntity;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.block.Blocks;
+import net.minecraft.command.arguments.EntityAnchorArgument;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -94,25 +98,30 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
                     }
                 }
             } else if (!world.isRemote && this.activeTicks == 750 + Math.round(this.reactionVariance[9] * 60)) {
-                this.spawn();
+                this.spawnItems();
             } else if (!world.isRemote && this.activeTicks == 680 + Math.round(this.reactionVariance[8] * 60)) {
-                this.spawn();
+                this.spawnItems();
+                this.spawnPigmen();
             } else if (!world.isRemote && this.activeTicks == 610 + Math.round(this.reactionVariance[7] * 60)) {
-                this.spawn();
+                this.spawnItems();
             } else if (!world.isRemote && this.activeTicks == 540 + Math.round(this.reactionVariance[6] * 60)) {
-                this.spawn();
+                this.spawnItems();
+                this.spawnPigmen();
             } else if (!world.isRemote && this.activeTicks == 480 + Math.round(this.reactionVariance[5] * 60)) {
-                this.spawn();
+                this.spawnItems();
             } else if (!world.isRemote && this.activeTicks == 410 + Math.round(this.reactionVariance[4] * 60)) {
-                this.spawn();
+                this.spawnItems();
+                this.spawnPigmen();
             } else if (!world.isRemote && this.activeTicks == 360 + Math.round(this.reactionVariance[3] * 60)) {
-                this.spawn();
+                this.spawnItems();
             } else if (!world.isRemote && this.activeTicks == 290 + Math.round(this.reactionVariance[2] * 60)) {
-                this.spawn();
+                this.spawnItems();
+                this.spawnPigmen();
             } else if (!world.isRemote && this.activeTicks == 220 + Math.round(this.reactionVariance[1] * 60)) {
-                this.spawn();
+                this.spawnItems();
             } else if (!world.isRemote && this.activeTicks == 150 + Math.round(this.reactionVariance[0] * 60)) {
-                this.spawn();
+                this.spawnItems();
+                this.spawnPigmen();
             } else if (this.activeTicks == 130) {
                 bossInfo.setColor(BossInfo.Color.RED);
                 this.world.setBlockState(bp.setPos(pos).move(Direction.DOWN).move(Direction.NORTH).move(Direction.EAST), LCCBlocks.glowing_obsidian.getDefaultState(), 3);
@@ -143,7 +152,7 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
         }
     }
 
-    private void spawn() {
+    private void spawnItems() {
         LootTable loot = world.getServer().getLootTableManager().getLootTableFromLocation(new ResourceLocation(LCC.MODID, "gameplay/nether_reactor"));
         LootContext.Builder builder = new LootContext.Builder((ServerWorld)world).withRandom(world.rand);
 
@@ -156,6 +165,21 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
             ItemEntity i = new ItemEntity(world, position.getX(), position.getY(), position.getZ(), itemstack);
             world.addEntity(i);
             i.setDefaultPickupDelay();
+        }
+    }
+
+    private void spawnPigmen() {
+        int pigmen = world.rand.nextInt(3) + 1;
+
+        for (int i = 0; i < pigmen; i++) {
+            float p = ((world.rand.nextFloat() * 5) + 2) * (world.rand.nextBoolean() ? 1 : -1);
+            float s = (world.rand.nextFloat() * 14) - 7;
+            boolean xp = world.rand.nextBoolean();
+
+            ClassicZombiePigmanEntity pigman = new ClassicZombiePigmanEntity(world);
+            pigman.setPosition(pos.getX() + 0.5 + (xp ? p : s), pos.getY() - 0.5, pos.getZ() + 0.5 + (xp ? s : p));
+            pigman.onInitialSpawn(world,  this.world.getDifficultyForLocation(new BlockPos(pos)), SpawnReason.EVENT, null, null);
+            world.addEntity(pigman);
         }
     }
 

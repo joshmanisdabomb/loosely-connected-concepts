@@ -53,8 +53,6 @@ public class CapabilityEvents {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)playerNew), new HeartsUpdatePacket(heartsNew));
             });
         });
-        System.out.println(playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).isPresent());
-        System.out.println(playerNew.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).isPresent());
         playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coOriginal -> {
             playerNew.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).ifPresent(coNew -> {
                 coNew.pos = coOriginal.pos;

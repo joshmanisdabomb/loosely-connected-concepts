@@ -188,6 +188,8 @@
   "death.attack.lcc.gauntlet_punch_wall.player": "%1$s was launched into the wall by %2$s's punch",
 
   "entity.lcc.nuclear_explosion": "Nuclear Explosion",
+  "entity.lcc.classic_tnt": "Classic TNT",
+  "entity.lcc.classic_zombie_pigman": "Classic Zombie Pigman",
   
   "subtitle.lcc.block.hydrated_soul_sand.jump": "Hydrated Soul Sand squelches",
   "subtitle.lcc.block.bounce_pad.jump": "Bounce Pad protracts"

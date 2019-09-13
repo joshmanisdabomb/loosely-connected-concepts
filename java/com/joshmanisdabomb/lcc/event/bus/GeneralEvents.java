@@ -42,8 +42,7 @@ public class GeneralEvents {
     public void onBreakSpeed(PlayerEvent.BreakSpeed e) {
         if (e.getPlayer().getHeldItem(Hand.MAIN_HAND).getItem() instanceof GauntletItem) {
             e.setNewSpeed(-1);
-        } else if (e.getPlayer().getHeldItem(Hand.MAIN_HAND).getItem() instanceof ShearsItem && e.getState().getBlock() instanceof IShearableBlock) {
-            e.setNewSpeed(((IShearableBlock)e.getState().getBlock()).getBreakSpeed(e.getState(), e.getPlayer().getEntityWorld(), e.getPos(), e.getPlayer().getHeldItem(Hand.MAIN_HAND), e.getPlayer()));
+            e.setCanceled(true);
         }
     }
 
@@ -92,22 +91,6 @@ public class GeneralEvents {
                 e.setCanceled(true);
             } else if (e.hasResult()) {
                 e.setResult(Event.Result.DENY);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerInteractRightClick(PlayerInteractEvent.RightClickBlock e) {
-        PlayerEntity player = e.getPlayer();
-        BlockState state = e.getWorld().getBlockState(e.getPos());
-        if (state.getBlock() == Blocks.FLOWER_POT) {
-            ItemStack is = e.getItemStack();
-            if (is.getItem() instanceof IPottableBlock) {
-                e.getWorld().setBlockState(e.getPos(), ((IPottableBlock)is.getItem()).getPottedState(), 3);
-                e.setUseBlock(Event.Result.DENY);
-                e.setUseItem(Event.Result.DENY);
-                player.addStat(Stats.POT_FLOWER);
-                if (!player.abilities.isCreativeMode) is.shrink(1);
             }
         }
     }

@@ -175,6 +175,7 @@
   "block.lcc.nether_reactor.y": "The reactor must be placed between y=4 and y=221",
   "block.lcc.crying_obsidian": "Crying Obsidian",
   "block.lcc.glowing_obsidian": "Glowing Obsidian",
+  "block.lcc.cog": "Cog",
 
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 

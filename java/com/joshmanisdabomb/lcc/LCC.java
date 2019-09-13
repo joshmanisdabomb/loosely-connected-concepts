@@ -2,10 +2,7 @@ package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
-import com.joshmanisdabomb.lcc.event.bus.GeneralEvents;
-import com.joshmanisdabomb.lcc.event.bus.InputEvents;
-import com.joshmanisdabomb.lcc.event.bus.RenderEvents;
-import com.joshmanisdabomb.lcc.event.bus.UIEvents;
+import com.joshmanisdabomb.lcc.event.bus.*;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
 import com.joshmanisdabomb.lcc.event.mod.ModelEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
@@ -54,6 +51,7 @@ public class LCC
         BiomeBasedGenerator.init();
 
         MinecraftForge.EVENT_BUS.register(new GeneralEvents());
+        MinecraftForge.EVENT_BUS.register(new InterfaceEvents());
 
         LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEvents());

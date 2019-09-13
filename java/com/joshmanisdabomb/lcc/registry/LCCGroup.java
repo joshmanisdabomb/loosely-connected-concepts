@@ -185,6 +185,7 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.nether_reactor, LCCGroupCategory.NOSTALGIA, 2000);
         set(LCCBlocks.glowing_obsidian, LCCGroupCategory.NOSTALGIA, 2010);
         set(LCCBlocks.crying_obsidian, LCCGroupCategory.NOSTALGIA, 2020);
+        set(LCCBlocks.cog, LCCGroupCategory.NOSTALGIA, 2030);
 
         //Power TODO: rename
         set(LCCItems.gauntlet, LCCGroupCategory.POWER, 0);

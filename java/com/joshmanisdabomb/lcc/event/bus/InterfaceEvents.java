@@ -51,21 +51,10 @@ public class InterfaceEvents {
     @SubscribeEvent
     public void onBreakBlock(BlockEvent.BreakEvent e) {
         if (e.getState().getBlock() instanceof MultipartBlock) {
-            PlayerEntity player = e.getPlayer();
-            double reach = player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue() - (player.isCreative() ? 0 : 0.5F);
-            Vec3d start = new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
-            Vec3d look = player.getLookVec();
-            Vec3d end = start.add(look.x * reach, look.y * reach, look.z * reach);
-            BlockRayTraceResult target = e.getWorld().rayTraceBlocks(new RayTraceContext(start, end, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, player));
-
-            if (target.getType() == RayTraceResult.Type.BLOCK) {
-                for (VoxelShape s : ((MultipartBlock)e.getState().getBlock()).getParts(e.getState(), e.getWorld(), e.getPos())) {
-                    if (s.toBoundingBoxList().stream().anyMatch(box -> box.grow(0.001F).contains(target.getHitVec().subtract(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ())))) {
-                        boolean cancel = ((MultipartBlock)e.getState().getBlock()).onShapeHarvested(e.getState(), e.getWorld(), e.getPos(), e.getPlayer(), s);
-                        e.setCanceled(cancel);
-                        return;
-                    }
-                }
+            VoxelShape s = ((MultipartBlock)e.getState().getBlock()).getPartFromTrace(e.getPlayer(), e.getState(), e.getWorld(), e.getPos());
+            if (s != null) {
+                boolean cancel = ((MultipartBlock)e.getState().getBlock()).onShapeHarvested(e.getState(), e.getWorld(), e.getPos(), e.getPlayer(), s);
+                e.setCanceled(cancel);
             }
         }
     }

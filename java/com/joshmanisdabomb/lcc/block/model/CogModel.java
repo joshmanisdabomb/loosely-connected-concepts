@@ -50,8 +50,8 @@ public class CogModel implements IBakedModel {
         for (Map.Entry<Direction, EnumProperty<CogBlock.CogState>> e : FACING_TO_PROPERTIES.entrySet()) {
             CogBlock.CogState cogState = state.get(e.getValue());
             if (cogState != CogBlock.CogState.NONE) {
-                quads.add(VertexUtility.create2DFace(e.getKey(), -0.0625, -0.0625, 1.0625, 1.0625, 1.0001, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
-                quads.add(VertexUtility.create2DFace(e.getKey().getOpposite(), -0.0625, -0.0625, 1.0625, 1.0625, -0.9999, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
+                quads.add(VertexUtility.create2DFace(e.getKey(), -0.0625, -0.0625, 1.0625, 1.0625, 31/32F, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
+                quads.add(VertexUtility.create2DFace(e.getKey().getOpposite(), -0.0625, -0.0625, 1.0625, 1.0625, -31/32F, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
             }
         }
 

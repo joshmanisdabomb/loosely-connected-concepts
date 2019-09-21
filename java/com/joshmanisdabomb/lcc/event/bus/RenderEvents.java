@@ -90,10 +90,8 @@ public class RenderEvents {
             double offsetX = e.getInfo().getProjectedView().x;
             double offsetY = e.getInfo().getProjectedView().y;
             double offsetZ = e.getInfo().getProjectedView().z;
-            for (VoxelShape s : ((MultipartBlock)state.getBlock()).getParts(state, world, pos)) {
-                if (s.toBoundingBoxList().stream().anyMatch(box -> box.grow(0.001F).contains(e.getTarget().getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ())))) {
-                    WorldRenderer.drawShape(s, pos.getX() - offsetX, pos.getY() - offsetY, pos.getZ() - offsetZ, 0, 0, 0, 0.4F);
-                }
+            for (VoxelShape s : ((MultipartBlock)state.getBlock()).getPartsFromTrace(e.getTarget().getHitVec(), state, world, pos)) {
+                WorldRenderer.drawShape(s, pos.getX() - offsetX, pos.getY() - offsetY, pos.getZ() - offsetZ, 0, 0, 0, 0.4F);
             }
             GlStateManager.popMatrix();
             GlStateManager.matrixMode(5888);

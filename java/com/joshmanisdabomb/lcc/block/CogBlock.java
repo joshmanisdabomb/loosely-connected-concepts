@@ -6,10 +6,16 @@ import com.joshmanisdabomb.lcc.block.model.CogModel;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -17,6 +23,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -39,6 +46,9 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         map.put(Direction.UP, UP);
         map.put(Direction.DOWN, DOWN);
     });
+    public static final Map<EnumProperty<CogState>, Direction> PROPERTIES_TO_FACING = Util.make(new HashMap<>(), map -> {
+        FACING_TO_PROPERTIES.forEach((key, value) -> map.put(value, key));
+    });
     public static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(1.0F, 1.0F, 0.0F, 15.0F, 15.0F, 1.0F);
     public static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(1.0F, 1.0F, 15.0F, 15.0F, 15.0F, 16.0F);
     public static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(15.0F, 1.0F, 1.0F, 16.0F, 15.0F, 15.0F);
@@ -53,10 +63,13 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         map.put(Direction.UP, UP_SHAPE);
         map.put(Direction.DOWN, DOWN_SHAPE);
     });
+    public static final Map<VoxelShape, Direction> SHAPES_TO_FACING = Util.make(new HashMap<>(), map -> {
+        FACING_TO_SHAPES.forEach((key, value) -> map.put(value, key));
+    });
 
     public CogBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, CogState.INACTIVE).with(EAST, CogState.INACTIVE).with(SOUTH, CogState.INACTIVE).with(WEST, CogState.INACTIVE).with(UP, CogState.INACTIVE).with(DOWN, CogState.INACTIVE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, CogState.NONE).with(EAST, CogState.NONE).with(SOUTH, CogState.NONE).with(WEST, CogState.NONE).with(UP, CogState.NONE).with(DOWN, CogState.NONE));
     }
 
     @Override
@@ -70,8 +83,53 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
-        return VoxelShapes.empty();
+    public BlockState updateEmptyState(BlockState check) {
+        return FACING_TO_PROPERTIES.values().stream().allMatch(p -> check.get(p) == CogState.NONE) ? Blocks.AIR.getDefaultState() : check;
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        Direction face = context.getFace();
+        BlockPos pos = context.getPos();
+        BlockPos posFrom = context.getPos().offset(face.getOpposite());
+        BlockState state = context.getWorld().getBlockState(pos);
+        BlockState from = context.getWorld().getBlockState(posFrom);
+
+        if (from.getBlock() == this) {
+            VoxelShape shape = this.getPartFromTrace(context.getHitVec(), from, context.getWorld(), posFrom);
+            if (face.getOpposite() == SHAPES_TO_FACING.get(shape)) {
+                return null;
+            } else {
+                if (state.getBlock() == this) {
+                    return this.updateEmptyState(state.with(FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape)), CogState.INACTIVE));
+                } else {
+                    return this.updateEmptyState(this.getDefaultState().with(FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape)), CogState.INACTIVE));
+                }
+            }
+        }
+
+        if (state.getBlock() == this) {
+            return this.updateEmptyState(state.with(FACING_TO_PROPERTIES.get(context.getFace().getOpposite()), CogState.INACTIVE));
+        } else {
+            return this.updateEmptyState(this.getDefaultState().with(FACING_TO_PROPERTIES.get(context.getFace().getOpposite()), CogState.INACTIVE));
+        }
+    }
+
+    @Override
+    public boolean isReplaceable(BlockState state, BlockItemUseContext context) {
+        return context.getItem().getItem() == this.asItem() && !context.replacingClickedOnBlock();
+    }
+
+    @Override
+    public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
+        EnumProperty<CogState> cog = FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape));
+        world.setBlockState(pos, this.updateEmptyState(state.with(cog, CogState.NONE)), 3);
+        return true;
+    }
+
+    @Override
+    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
+        return this.updateEmptyState(super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos));
     }
 
     @Override
@@ -82,9 +140,8 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     }
 
     @Override
-    public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
-        System.out.println(FACING_TO_SHAPES.entrySet().stream().filter(e -> e.getValue() == shape).map(Map.Entry::getKey).findFirst().get());
-        return true;
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+        return VoxelShapes.empty();
     }
 
     @Override

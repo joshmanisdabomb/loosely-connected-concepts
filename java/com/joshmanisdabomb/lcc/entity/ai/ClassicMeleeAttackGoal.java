@@ -1,14 +1,10 @@
 package com.joshmanisdabomb.lcc.entity.ai;
 
-import com.joshmanisdabomb.lcc.entity.ClassicZombiePigmanEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.math.BlockPos;
 
 public class ClassicMeleeAttackGoal extends MeleeAttackGoal {
 

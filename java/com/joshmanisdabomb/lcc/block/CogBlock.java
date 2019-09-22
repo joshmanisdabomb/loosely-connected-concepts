@@ -4,18 +4,18 @@ import com.google.common.collect.Maps;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.model.CogModel;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
+import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -24,9 +24,11 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,6 +74,35 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, CogState.NONE).with(EAST, CogState.NONE).with(SOUTH, CogState.NONE).with(WEST, CogState.NONE).with(UP, CogState.NONE).with(DOWN, CogState.NONE));
     }
 
+    protected boolean hasCog(Direction d, BlockState state) {
+        return state.get(FACING_TO_PROPERTIES.get(d)) != CogState.NONE;
+    }
+
+    protected BlockState addCog(Direction d, BlockState state) {
+        return state.with(FACING_TO_PROPERTIES.get(d), CogState.INACTIVE);
+    }
+
+    protected BlockState removeCog(Direction d, BlockState state) {
+        return state.with(FACING_TO_PROPERTIES.get(d), CogState.NONE);
+    }
+
+    protected BlockState destroyCog(Direction d, BlockState state, IWorld world, BlockPos pos, boolean effects, boolean drops) {
+        if ((effects || drops) && this.hasCog(d, state)) {
+            if (effects) world.playEvent(2001, pos, Block.getStateId(this.getDefaultState().with(FACING_TO_PROPERTIES.get(d), CogState.INACTIVE)));
+            if (drops && world instanceof World) Block.spawnDrops(state, (World)world, pos, null);
+        }
+        return this.removeCog(d, state);
+    }
+
+    protected boolean validCogPosition(Direction d, BlockState state, IWorld world, BlockPos pos) {
+        BlockPos from = pos.offset(d);
+        return world.getBlockState(from).func_224755_d(world, from, d);
+    }
+
+    protected boolean oneCog(BlockState state) {
+        return FACING_TO_PROPERTIES.values().stream().filter(p -> state.get(p) != CogState.NONE).count() == 1;
+    }
+
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(UP, DOWN, NORTH, EAST, SOUTH, WEST);
@@ -84,7 +115,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     @Override
     public BlockState updateEmptyState(BlockState check) {
-        return FACING_TO_PROPERTIES.values().stream().allMatch(p -> check.get(p) == CogState.NONE) ? Blocks.AIR.getDefaultState() : check;
+        return Arrays.stream(Direction.values()).noneMatch(d -> this.hasCog(d, check)) ? Blocks.AIR.getDefaultState() : check;
     }
 
     @Override
@@ -97,22 +128,17 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
         if (from.getBlock() == this) {
             VoxelShape shape = this.getPartFromTrace(context.getHitVec(), from, context.getWorld(), posFrom);
-            if (face.getOpposite() == SHAPES_TO_FACING.get(shape)) {
+            Direction face2 = SHAPES_TO_FACING.get(shape);
+            if (face.getOpposite() == face2) {
                 return null;
             } else {
-                if (state.getBlock() == this) {
-                    return this.updateEmptyState(state.with(FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape)), CogState.INACTIVE));
-                } else {
-                    return this.updateEmptyState(this.getDefaultState().with(FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape)), CogState.INACTIVE));
-                }
+                if (!this.validCogPosition(face2, state, context.getWorld(), pos)) return null;
+                return this.updateEmptyState(this.addCog(face2, state.getBlock() == this ? state : this.getDefaultState()));
             }
         }
 
-        if (state.getBlock() == this) {
-            return this.updateEmptyState(state.with(FACING_TO_PROPERTIES.get(context.getFace().getOpposite()), CogState.INACTIVE));
-        } else {
-            return this.updateEmptyState(this.getDefaultState().with(FACING_TO_PROPERTIES.get(context.getFace().getOpposite()), CogState.INACTIVE));
-        }
+        if (!this.validCogPosition(face.getOpposite(), state, context.getWorld(), pos)) return null;
+        return this.updateEmptyState(this.addCog(face.getOpposite(), state.getBlock() == this ? state : this.getDefaultState()));
     }
 
     @Override
@@ -122,14 +148,31 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     @Override
     public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
-        EnumProperty<CogState> cog = FACING_TO_PROPERTIES.get(SHAPES_TO_FACING.get(shape));
-        world.setBlockState(pos, this.updateEmptyState(state.with(cog, CogState.NONE)), 3);
+        world.setBlockState(pos, this.updateEmptyState(this.destroyCog(SHAPES_TO_FACING.get(shape), state, world, pos, !this.oneCog(state), true)), 3);
         return true;
     }
 
     @Override
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
-        return this.updateEmptyState(super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos));
+    public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
+        return !this.oneCog(state);
+    }
+
+    @Override
+    public SoundType getSoundType(BlockState state) {
+        return !this.oneCog(state) ? LCCSounds.cog_multiple : super.getSoundType(state);
+    }
+
+    @Override
+    public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
+        return this.getSoundType(state);
+    }
+
+    @Override
+    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos) {
+        if (this.hasCog(facing, state) && !this.validCogPosition(facing, state, world, pos) && world instanceof World) {
+            state = this.destroyCog(facing, state, world, pos, !this.oneCog(state), true);
+        }
+        return this.updateEmptyState(state);
     }
 
     @Override

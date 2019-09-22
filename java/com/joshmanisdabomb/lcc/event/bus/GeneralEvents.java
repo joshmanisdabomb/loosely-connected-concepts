@@ -2,8 +2,6 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.ClassicSpongeBlock;
-import com.joshmanisdabomb.lcc.block.IPottableBlock;
-import com.joshmanisdabomb.lcc.block.IShearableBlock;
 import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
@@ -19,9 +17,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;

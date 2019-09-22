@@ -7,8 +7,6 @@ import com.joshmanisdabomb.lcc.entity.ClassicZombiePigmanEntity;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.arguments.EntityAnchorArgument;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;

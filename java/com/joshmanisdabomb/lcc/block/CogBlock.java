@@ -126,7 +126,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         BlockState state = context.getWorld().getBlockState(pos);
         BlockState from = context.getWorld().getBlockState(posFrom);
 
-        if (from.getBlock() == this) {
+        if (!context.replacingClickedOnBlock() && from.getBlock() == this) {
             VoxelShape shape = this.getPartFromTrace(context.getHitVec(), from, context.getWorld(), posFrom);
             Direction face2 = SHAPES_TO_FACING.get(shape);
             if (face.getOpposite() == face2) {

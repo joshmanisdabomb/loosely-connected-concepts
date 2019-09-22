@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.block;
 import com.google.common.collect.Maps;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.model.CogModel;
+import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
+import com.joshmanisdabomb.lcc.block.network.CogNetwork;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.Block;
@@ -27,6 +29,7 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -69,17 +72,20 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         FACING_TO_SHAPES.forEach((key, value) -> map.put(value, key));
     });
 
+    public static final CogNetwork NETWORK = new CogNetwork(32);
+
     public CogBlock(Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, CogState.NONE).with(EAST, CogState.NONE).with(SOUTH, CogState.NONE).with(WEST, CogState.NONE).with(UP, CogState.NONE).with(DOWN, CogState.NONE));
     }
 
-    protected boolean hasCog(Direction d, BlockState state) {
+    public boolean hasCog(Direction d, BlockState state) {
         return state.get(FACING_TO_PROPERTIES.get(d)) != CogState.NONE;
     }
 
-    protected BlockState addCog(Direction d, BlockState state) {
-        return state.with(FACING_TO_PROPERTIES.get(d), CogState.INACTIVE);
+    protected BlockState setCog(Direction d, BlockState state, boolean active, boolean check) {
+        if (check && this.hasCog(d, state)) return state;
+        return state.with(FACING_TO_PROPERTIES.get(d), active ? CogState.ACTIVE : CogState.INACTIVE);
     }
 
     protected BlockState removeCog(Direction d, BlockState state) {
@@ -100,7 +106,62 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     }
 
     protected boolean oneCog(BlockState state) {
-        return FACING_TO_PROPERTIES.values().stream().filter(p -> state.get(p) != CogState.NONE).count() == 1;
+        return this.getCogs(state).size() == 1;
+    }
+
+    public List<Direction> getCogs(BlockState state) {
+        return Arrays.stream(Direction.values()).filter(d -> this.hasCog(d, state)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (oldState.getBlock() != state.getBlock() && !world.isRemote) {
+            this.updateRedstone(state, world, pos);
+        }
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() == newState.getBlock() && !world.isRemote) {
+            this.updateRedstone(newState, world, pos);
+        }
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        if (world.getBlockState(fromPos).getBlock() != this && !world.isRemote) {
+            this.updateRedstone(state, world, pos);
+        }
+    }
+
+    protected void updateRedstone(BlockState state, World world, BlockPos pos) {
+        BlockNetwork.NetworkResult r = NETWORK.discover(world, new ImmutablePair<>(pos, null));
+        boolean active = r.getNodes().size() != 0;
+        for (BlockPos bp : r.getTraversables()) {
+            final BlockState state2 = world.getBlockState(bp);
+            BlockState state2New = null;
+            for (Direction d : this.getCogs(state2)) {
+                state2New = this.setCog(d, state2New != null ? state2New : state2, active, false);
+            }
+            if (state2New != null) {
+                world.setBlockState(bp, state2New, 3);
+            }
+        }
+    }
+
+    @Override
+    public boolean canProvidePower(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        return blockState.getWeakPower(blockAccess, pos, side);
+    }
+
+    @Override
+    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        return 15;
     }
 
     @Override
@@ -115,7 +176,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     @Override
     public BlockState updateEmptyState(BlockState check) {
-        return Arrays.stream(Direction.values()).noneMatch(d -> this.hasCog(d, check)) ? Blocks.AIR.getDefaultState() : check;
+        return this.getCogs(check).size() == 0 ? Blocks.AIR.getDefaultState() : check;
     }
 
     @Override
@@ -133,12 +194,12 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
                 return null;
             } else {
                 if (!this.validCogPosition(face2, state, context.getWorld(), pos)) return null;
-                return this.updateEmptyState(this.addCog(face2, state.getBlock() == this ? state : this.getDefaultState()));
+                return this.updateEmptyState(this.setCog(face2, state.getBlock() == this ? state : this.getDefaultState(), false, true));
             }
         }
 
         if (!this.validCogPosition(face.getOpposite(), state, context.getWorld(), pos)) return null;
-        return this.updateEmptyState(this.addCog(face.getOpposite(), state.getBlock() == this ? state : this.getDefaultState()));
+        return this.updateEmptyState(this.setCog(face.getOpposite(), state.getBlock() == this ? state : this.getDefaultState(), false, true));
     }
 
     @Override
@@ -171,6 +232,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos) {
         if (this.hasCog(facing, state) && !this.validCogPosition(facing, state, world, pos) && world instanceof World) {
             state = this.destroyCog(facing, state, world, pos, !this.oneCog(state), true);
+            this.updateRedstone(state, (World)world, pos);
         }
         return this.updateEmptyState(state);
     }

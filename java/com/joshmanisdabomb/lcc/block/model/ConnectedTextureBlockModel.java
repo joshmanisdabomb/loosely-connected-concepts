@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.model;
 
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.block.render.ConnectedTextureBlock;
+import com.joshmanisdabomb.lcc.misc.Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -54,7 +55,7 @@ public class ConnectedTextureBlockModel implements IBakedModel {
         if (side != null) {
             final boolean innerSeams = ((ConnectedTextureBlock)this.block).hasInnerSeams(state);
 
-            final Direction[] perpendiculars = VertexUtility.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
+            final Direction[] perpendiculars = Util.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
             final boolean cUpDirect = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0])));

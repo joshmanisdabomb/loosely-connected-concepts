@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.block.network;
 import com.joshmanisdabomb.lcc.block.CogBlock;
 import com.joshmanisdabomb.lcc.misc.Util;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.RedstoneWireBlock;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -37,7 +39,7 @@ public class CogNetwork extends BlockNetwork<Pair<BlockPos, Direction>> {
 
                 if (adjacent.getBlock() instanceof CogBlock) {
                     if (((CogBlock)adjacent.getBlock()).hasCog(d, adjacent)) positions.add(new ImmutablePair<>(adjacentPos, d));
-                } else if (adjacent.canProvidePower() && world.getRedstonePower(adjacentPos, d.getOpposite()) > 0) {
+                } else if (adjacent.canProvidePower() && (world.getRedstonePower(adjacentPos, pd) > 0 || (adjacent.getBlock() instanceof RedstoneWireBlock && adjacent.get(BlockStateProperties.POWER_0_15) > 0))) {
                     nodes.add(adjacentPos);
                 }
 

@@ -7,10 +7,7 @@ import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
 import com.joshmanisdabomb.lcc.block.network.CogNetwork;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.Entity;
@@ -18,18 +15,17 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -74,6 +70,10 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     public static final CogNetwork NETWORK = new CogNetwork(32);
 
+    private CogNetwork.NetworkResult currentUpdateNetwork = null;
+
+    //TODO: Try fix cog networks powering themselves.
+
     public CogBlock(Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(NORTH, CogState.NONE).with(EAST, CogState.NONE).with(SOUTH, CogState.NONE).with(WEST, CogState.NONE).with(UP, CogState.NONE).with(DOWN, CogState.NONE));
@@ -81,6 +81,10 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     public boolean hasCog(Direction d, BlockState state) {
         return state.get(FACING_TO_PROPERTIES.get(d)) != CogState.NONE;
+    }
+
+    protected boolean hasActiveCog(Direction d, BlockState state) {
+        return state.get(FACING_TO_PROPERTIES.get(d)) == CogState.ACTIVE;
     }
 
     protected BlockState setCog(Direction d, BlockState state, boolean active, boolean check) {
@@ -113,55 +117,100 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         return Arrays.stream(Direction.values()).filter(d -> this.hasCog(d, state)).collect(Collectors.toList());
     }
 
+    public List<Direction> getActiveCogs(BlockState state) {
+        return Arrays.stream(Direction.values()).filter(d -> this.hasActiveCog(d, state)).collect(Collectors.toList());
+    }
+
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (oldState.getBlock() != state.getBlock() && !world.isRemote) {
-            this.updateRedstone(state, world, pos);
+            world.getPendingBlockTicks().scheduleTick(pos, this, 1, TickPriority.EXTREMELY_HIGH);
         }
     }
 
     @Override
     public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (state.getBlock() == newState.getBlock() && !world.isRemote) {
-            this.updateRedstone(newState, world, pos);
+        if (newState.getBlock() == this && (state.getBlock() != this || !this.getCogs(state).equals(this.getCogs(newState))) && !world.isRemote) {
+            world.getPendingBlockTicks().scheduleTick(pos, this, 1, TickPriority.EXTREMELY_HIGH);
         }
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        if (world.getBlockState(fromPos).getBlock() != this && !world.isRemote) {
-            this.updateRedstone(state, world, pos);
-        }
+    public void tick(BlockState state, World world, BlockPos pos, Random ramd) {
+        this.updateRedstone(state, world, pos);
     }
 
     protected void updateRedstone(BlockState state, World world, BlockPos pos) {
-        BlockNetwork.NetworkResult r = NETWORK.discover(world, new ImmutablePair<>(pos, null));
-        boolean active = r.getNodes().size() != 0;
-        for (BlockPos bp : r.getTraversables()) {
-            final BlockState state2 = world.getBlockState(bp);
-            BlockState state2New = null;
-            for (Direction d : this.getCogs(state2)) {
-                state2New = this.setCog(d, state2New != null ? state2New : state2, active, false);
+        this.currentUpdateNetwork = NETWORK.discover(world, new ImmutablePair<>(pos, null));
+        List<BlockPos> tr = this.currentUpdateNetwork.getTraversablePositions();
+        int active = this.currentUpdateNetwork.getNodePositions().size();
+        //do not self power redstone wire
+        for (BlockPos bp : this.currentUpdateNetwork.getNodePositions()) {
+            BlockState node = world.getBlockState(bp);
+            if (node.getBlock() instanceof RedstoneWireBlock) {
+                System.out.println(node.get(BlockStateProperties.POWER_0_15));
+                System.out.println(bp);
+                for (Direction d : Direction.values()) {
+                    BlockPos bp2 = bp.offset(d);
+                    if (tr.contains(bp2)) {
+                        System.out.println(bp);
+                        world.neighborChanged(bp, this, bp2);
+                    }
+                }
             }
-            if (state2New != null) {
-                world.setBlockState(bp, state2New, 3);
+        }
+        for (BlockPos bp : this.currentUpdateNetwork.getNodePositions()) {
+            BlockState node = world.getBlockState(bp);
+            if (node.getBlock() instanceof RedstoneWireBlock) {
+                System.out.println(node.get(BlockStateProperties.POWER_0_15));
+                System.out.println(bp);
+                for (Direction d : Direction.values()) {
+                    BlockPos bp2 = bp.offset(d);
+                    if (tr.contains(bp2)) {
+                        if (node.get(BlockStateProperties.POWER_0_15) == 0) active--;
+                        break;
+                    }
+                }
+            }
+        }
+        CogNetwork.NetworkResult nr = this.currentUpdateNetwork;
+        this.currentUpdateNetwork = null;
+        for (Pair<BlockPos, Direction> t : nr.getTraversables()) {
+            if (t.getRight() == null) continue;
+            BlockPos bp = nr.toPosition(t);
+            BlockState cog = world.getBlockState(bp);
+            world.setBlockState(bp, this.setCog(t.getRight(), cog, active > 0, false), 3);
+        }
+        for (BlockPos bp : nr.getNodePositions()) {
+            BlockState node = world.getBlockState(bp);
+            if (node.getBlock() instanceof RedstoneWireBlock) {
+                for (Direction d : Direction.values()) {
+                    BlockPos bp2 = bp.offset(d);
+                    if (tr.contains(bp2)) {
+                        world.neighborChanged(bp, this, bp2);
+                    }
+                }
             }
         }
     }
 
     @Override
-    public boolean canProvidePower(BlockState state) {
+    public boolean canProvidePower(BlockState p_149744_1_) {
         return true;
     }
 
     @Override
-    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        return blockState.getWeakPower(blockAccess, pos, side);
+    public int getStrongPower(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+        return state.getWeakPower(world, pos, side);
     }
 
     @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        return 15;
+    public int getWeakPower(BlockState state, IBlockReader world, BlockPos pos, Direction side) {
+        if (this.currentUpdateNetwork != null && this.currentUpdateNetwork.getTraversablePositions().contains(pos)) return 0;
+        for (Direction pd : com.joshmanisdabomb.lcc.misc.Util.PERPENDICULARS.get(side)) {
+            if (this.hasActiveCog(pd, state)) return 15;
+        }
+        return 0;
     }
 
     @Override
@@ -230,11 +279,21 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     @Override
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos pos, BlockPos facingPos) {
-        if (this.hasCog(facing, state) && !this.validCogPosition(facing, state, world, pos) && world instanceof World) {
-            state = this.destroyCog(facing, state, world, pos, !this.oneCog(state), true);
-            this.updateRedstone(state, (World)world, pos);
+        if (this.currentUpdateNetwork != null && this.currentUpdateNetwork.getTraversablePositions().contains(pos)) return state;
+        if (world instanceof World) {
+            if (this.hasCog(facing, state) && !this.validCogPosition(facing, state, world, pos)) {
+                state = this.destroyCog(facing, state, world, pos, !this.oneCog(state), true);
+            }
+            if (facingState.getBlock() != this && !((World)world).isRemote) {
+                world.getPendingBlockTicks().scheduleTick(pos, this, 1, TickPriority.EXTREMELY_HIGH);
+            }
         }
         return this.updateEmptyState(state);
+    }
+
+    @Override
+    public boolean shouldCheckWeakPower(BlockState state, IWorldReader world, BlockPos pos, Direction side) {
+        return false;
     }
 
     @Override

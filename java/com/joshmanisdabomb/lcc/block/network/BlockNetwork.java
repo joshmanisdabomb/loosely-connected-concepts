@@ -23,24 +23,25 @@ public abstract class BlockNetwork<T> {
         for(int i = 0; i < traversables.size(); i++) {
             T traversable = traversables.get(i);
             for (T otherTraversable : this.traverse(world, traversable, nodes)) {
-                if (startPos.withinDistance(this.toPosition(otherTraversable), this.distance) && !traversables.contains(otherTraversable)) {
+                BlockPos bp = this.toPosition(otherTraversable);
+                if ((startPos.equals(bp) || startPos.withinDistance(bp, this.distance)) && !traversables.contains(otherTraversable)) {
                     traversables.add(otherTraversable);
                 }
             }
         }
-        return new NetworkResult(traversables.stream().map(this::toPosition).distinct().collect(Collectors.toList()), nodes.stream().distinct().collect(Collectors.toList()));
+        return new NetworkResult(traversables, nodes.stream().distinct().collect(Collectors.toList()));
     }
 
     protected abstract List<T> traverse(World world, T current, List<BlockPos> nodes);
 
     protected abstract BlockPos toPosition(T traversable);
 
-    public static final class NetworkResult {
+    public final class NetworkResult {
 
-        private final List<BlockPos> traversables;
+        private final List<T> traversables;
         private final List<BlockPos> nodes;
 
-        public NetworkResult(List<BlockPos> traversables, List<BlockPos> nodes) {
+        public NetworkResult(List<T> traversables, List<BlockPos> nodes) {
             this.traversables = traversables;
             this.nodes = nodes;
         }
@@ -50,11 +51,19 @@ public abstract class BlockNetwork<T> {
             return this.getClass().getSimpleName() + ": " + this.traversables.size() + " traversables, " + this.nodes.size() + " nodes";
         }
 
-        public List<BlockPos> getTraversables() {
+        public BlockPos toPosition(T traversable) {
+            return BlockNetwork.this.toPosition(traversable);
+        }
+
+        public List<T> getTraversables() {
             return new ArrayList<>(this.traversables);
         }
 
-        public List<BlockPos> getNodes() {
+        public List<BlockPos> getTraversablePositions() {
+            return this.traversables.stream().map(this::toPosition).distinct().collect(Collectors.toList());
+        }
+
+        public List<BlockPos> getNodePositions() {
             return new ArrayList<>(this.nodes);
         }
 

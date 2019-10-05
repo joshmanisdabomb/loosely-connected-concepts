@@ -7,6 +7,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -31,7 +32,7 @@ public interface MultipartBlock {
      * Simulates the effects of harvesting of a single part of the multipart block.
      */
     default void harvestPartEffects(BlockState singlePart, IWorld world, BlockPos pos) {
-        world.playEvent(2001, pos, Block.getStateId(singlePart));
+        world.playEvent(Constants.WorldEvents.BREAK_BLOCK_EFFECTS, pos, Block.getStateId(singlePart));
     }
 
     /**

@@ -21,30 +21,18 @@ public class ComputingModel extends Model {
 
         module_top = new RendererModel(this);
         module_top.setRotationPoint(0.0F, 0.0F, 0.0F);
-        module_top.addBox(-8.0F, -8.0F, -8.0F, 16, 8, 16);
+        module_top.addBox(-8.0F, 0, -8.0F, 16, 8, 16);
 
         module_bottom = new RendererModel(this);
         module_bottom.setRotationPoint(0.0F, 0.0F, 0.0F);
-        module_bottom.addBox(-8.0F, 0, -8.0F, 16, 8, 16);
+        module_bottom.addBox(-8.0F, -8.0F, -8.0F, 16, 8, 16);
     }
 
-    public void render(ComputingTileEntity te, float scale) {
-        BlockState computing_block = te.getBlockState();
-        if (computing_block.getBlock() != LCCBlocks.computing) return;
-        SlabType module = computing_block.get(ComputingBlock.MODULES);
-        if (module != SlabType.TOP) {
-            float[] c = DyeColor.BLACK.getColorComponentValues();
-            GlStateManager.color4f(c[0], c[1], c[2], 1.0F);
-            module_top.setTextureOffset(0, 0);
-            module_top.render(scale);
-        }
-        if (module != SlabType.BOTTOM) {
-            float[] c = DyeColor.PINK.getColorComponentValues();
-            GlStateManager.color4f(c[0], c[1], c[2], 1.0F);
-            module_bottom.setTextureOffset(0, 96);
-            module_bottom.render(scale);
-        }
-        GlStateManager.color4f(1, 1, 1, 1);
+    public void renderModule(ComputingTileEntity te, float scale, SlabType module) {
+        boolean isTop = module == SlabType.TOP;
+        RendererModel m = isTop ? module_top : module_bottom;
+        m.setTextureOffset(0, isTop ? 0 : 96);
+        m.render(scale);
     }
 
 }

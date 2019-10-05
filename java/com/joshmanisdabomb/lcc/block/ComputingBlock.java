@@ -2,11 +2,12 @@ package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
+import com.joshmanisdabomb.lcc.tileentity.ClassicChestTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -23,8 +24,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -33,7 +32,7 @@ import java.util.Collections;
 
 public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, MultipartBlock {
 
-    public static final EnumProperty<SlabType> MODULES = EnumProperty.create("modules", SlabType.class);
+    public static final EnumProperty<SlabType> MODULE = EnumProperty.create("module", SlabType.class);
 
     public static final VoxelShape BOTTOM_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
     public static final VoxelShape TOP_SHAPE = Block.makeCuboidShape(0.0D, 8.0D, 0.0D, 16.0D, 16.0D, 16.0D);
@@ -44,29 +43,30 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     public ComputingBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(MODULES, SlabType.BOTTOM));
+        this.setDefaultState(this.stateContainer.getBaseState().with(MODULE, SlabType.BOTTOM));
     }
 
     protected BlockState removeModule(BlockState state, IWorld world, BlockPos pos, SlabType module, boolean effects, boolean drops) {
-        BlockState singlePart = this.getDefaultState().with(MODULES, module);
+        BlockState singlePart = this.getDefaultState().with(MODULE, module);
         if (effects) this.harvestPartEffects(singlePart, world, pos);
         if (drops && world instanceof World) this.spawnPartDrops(singlePart, (World)world, pos);
-        return state.with(MODULES, module == SlabType.TOP ? SlabType.BOTTOM : SlabType.TOP);
+        ((ComputingTileEntity)world.getTileEntity(pos)).clearModule(module);
+        return state.with(MODULE, flip(module));
     }
 
     @Override
     public boolean func_220074_n(BlockState state) {
-        return state.get(MODULES) != SlabType.DOUBLE;
+        return state.get(MODULE) != SlabType.DOUBLE;
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(MODULES);
+        builder.add(MODULE);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        SlabType s = state.get(MODULES);
+        SlabType s = state.get(MODULE);
         switch(s) {
             case DOUBLE: return VoxelShapes.fullCube();
             case TOP: return TOP_SHAPE;
@@ -77,26 +77,38 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockPos pos = context.getPos();
+        World world = context.getWorld();
         BlockState state = context.getWorld().getBlockState(pos);
+        ItemStack stack = context.getItem();
+        ComputingBlockItem item = (ComputingBlockItem)stack.getItem();
         if (state.getBlock() == this) {
-            return state.with(MODULES, SlabType.DOUBLE);
+            SlabType module = state.get(MODULE);
+            ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
+            te.setModule(item.getModule(), item.getColor(), context.getPlacementHorizontalFacing().getOpposite(), stack.hasDisplayName() ? stack.getDisplayName() : null, flip(module));
+            return state.with(MODULE, SlabType.DOUBLE);
         } else {
             Direction direction = context.getFace();
             switch (direction) {
-                case DOWN:
-                    return this.getDefaultState().with(MODULES, SlabType.TOP);
-                case UP:
-                    return this.getDefaultState().with(MODULES, SlabType.BOTTOM);
-                default:
-                    return this.getDefaultState().with(MODULES, !(context.getHitVec().y - (double)pos.getY() > 0.5D) ? SlabType.BOTTOM : SlabType.TOP);
+                case DOWN: return this.getDefaultState().with(MODULE, SlabType.TOP);
+                case UP: return this.getDefaultState().with(MODULE, SlabType.BOTTOM);
+                default: return this.getDefaultState().with(MODULE, !(context.getHitVec().y - (double)pos.getY() > 0.5D) ? SlabType.BOTTOM : SlabType.TOP);
             }
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof ComputingTileEntity) {
+            ComputingBlockItem item = (ComputingBlockItem)stack.getItem();
+            ((ComputingTileEntity)te).setModule(item.getModule(), item.getColor(), placer.getHorizontalFacing().getOpposite(), stack.hasDisplayName() ? stack.getDisplayName() : null, state.get(MODULE));
         }
     }
 
     @Override
     public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
         ItemStack stack = useContext.getItem();
-        SlabType module = state.get(MODULES);
+        SlabType module = state.get(MODULE);
         if (module != SlabType.DOUBLE && stack.getItem() instanceof ComputingBlockItem) {
             if (useContext.replacingClickedOnBlock()) {
                 boolean flag = useContext.getHitVec().y - (double)useContext.getPos().getY() > 0.5D;
@@ -127,7 +139,7 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     @Override
     public Collection<VoxelShape> getParts(BlockState state, IWorld world, BlockPos pos) {
-        SlabType s = state.get(MODULES);
+        SlabType s = state.get(MODULE);
         switch(s) {
             case DOUBLE: return DOUBLE_SHAPES;
             case TOP: return TOP_SHAPES;
@@ -137,10 +149,13 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     @Override
     public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
-        SlabType s = state.get(MODULES);
+        SlabType s = state.get(MODULE);
         if (s == SlabType.DOUBLE) {
-            if (shape == TOP_SHAPE) world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.TOP, true, !player.isCreative()), 3);
-            else world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.BOTTOM, true, !player.isCreative()), 3);
+            if (shape == TOP_SHAPE) {
+                world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.TOP, true, !player.isCreative()), 3);
+            } else {
+                world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.BOTTOM, true, !player.isCreative()), 3);
+            }
             return true;
         }
         return false;
@@ -164,6 +179,14 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    public static SlabType flip(SlabType module) {
+        switch (module) {
+            case TOP: return SlabType.BOTTOM;
+            case BOTTOM: return SlabType.TOP;
+            default: return SlabType.DOUBLE;
+        }
     }
 
 }

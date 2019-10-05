@@ -1,16 +1,12 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.block.SpreaderBlock;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.*;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
@@ -191,7 +187,7 @@ public abstract class LCCItems {
 
 		//Computing
 		for (DyeColor color : DyeColor.values()) {
-			all.add(i = new ComputingBlockItem(color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
 			computer_casing.put(color, i);
 		}
 

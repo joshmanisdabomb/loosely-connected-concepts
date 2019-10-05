@@ -19,7 +19,9 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -28,7 +30,7 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
 
     private ITextComponent customName;
 
-    public final LazyOptional<IItemHandler> inventory = LazyOptional.of(() -> new ItemStackHandler(27) {
+    public final LazyOptional<IItemHandlerModifiable> inventory = LazyOptional.of(() -> new ItemStackHandler(27) {
 
         @Override
         protected void onContentsChanged(int slot) {
@@ -36,6 +38,9 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
         }
 
     });
+
+    private ClassicChestTileEntity other = null;
+    private LazyOptional<CombinedInvWrapper> totalInventory = LazyOptional.empty();
 
     public ClassicChestTileEntity() {
         super(LCCTileEntities.classic_chest);
@@ -67,7 +72,7 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return inventory.cast();
+            return this.getTotalInventory().cast();
         }
         return super.getCapability(cap, side);
     }
@@ -95,6 +100,19 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
         BlockState state = this.getWorld().getBlockState(this.getPos());
         if (state.get(ClassicChestBlock.TYPE) == ChestType.SINGLE) return null;
         return (ClassicChestTileEntity)this.getWorld().getTileEntity(this.getPos().offset(((ClassicChestBlock)state.getBlock()).getDirectionToAttached(state)));
+    }
+
+    public LazyOptional<IItemHandler> getTotalInventory() {
+        ClassicChestTileEntity te2 = this.getAttached();
+        if (te2 == null) {
+            other = null;
+            return inventory.cast();
+        }
+        if (other == null || other != te2) {
+            other = te2;
+            return (totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(inventory.orElse(null), te2.inventory.orElse(null)))).cast();
+        }
+        return totalInventory.cast();
     }
 
 }

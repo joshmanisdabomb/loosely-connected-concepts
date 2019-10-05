@@ -159,7 +159,7 @@ public abstract class LCCBlocks {
 		}
 
 		//Computing
-		all.add(computing = new ComputingBlock(Block.Properties.create(Material.EARTH, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_block"));
+		all.add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_block"));
 
 		//Nostalgia
 		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));

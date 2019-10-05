@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.registry;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.tileentity.*;
 import com.joshmanisdabomb.lcc.tileentity.render.BouncePadRenderer;
+import com.joshmanisdabomb.lcc.tileentity.render.ComputingRenderer;
 import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,6 +40,7 @@ public abstract class LCCTileEntities {
     public static void initRenderers() {
         ClientRegistry.bindTileEntitySpecialRenderer(BouncePadTileEntity.class, new BouncePadRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TimeRiftTileEntity.class, new TimeRiftRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(ComputingTileEntity.class, new ComputingRenderer());
     }
 
 }

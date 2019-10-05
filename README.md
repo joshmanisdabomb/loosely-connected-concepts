@@ -12,16 +12,17 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Hearts and Heart Containers
  * Doom Gauntlet
  * Spreaders and Spreader Interface
+ * Dimensional rift to access classic and pocket edition items.
+ * Roads using connected textures.
+ * Bounce pads.
 
 ## Plans ##
  * Standalone nuke, nuclear explosion.
  * Missiles with good ballistic movement.
- * Bounce pads and slippery speed block.
- * Roads using connected textures.
  * Rainbow dimension.
+ * Slippery speed block.
  * Wasteland biome (including new Derek boss fight)
  * Ruined cities which can be restored.
- * Dimensional rift to access classic and Bedrock-exclusive items.
  * Computer with sortable storage solutions (physical and remote via "cloud").
  * 2D printer to print item with custom texture in-game.
  * 3D printer to print block with custom texture and model in-game.
@@ -30,6 +31,7 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  
 ## Downloads ##
 ### Other Versions ###
+ * [Alpha 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 04 October 2019
  * [Alpha 0.5](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a0.5.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 17 August 2019
  * [Alpha 0.4](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.3-a0.4.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/4e0d31d185f6fe2c89f51ffd8ec9683e27ed4e34) for 1.14.3 on 20 July 2019
  * [Alpha 0.3](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.13.2-a0.3.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/73ce6959c2fe6d0ea9c140444435bb1f934bd3e7) for 1.13.2 on 20 February 2019

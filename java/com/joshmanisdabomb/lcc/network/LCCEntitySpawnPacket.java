@@ -51,6 +51,7 @@ public class LCCEntitySpawnPacket implements LCCPacket {
         return new LCCEntitySpawnPacket(buf.readResourceLocation(), buf.readInt(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readFloat(), buf.readFloat(), buf.readUniqueId());
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleClient() {
         ClientWorld world = Minecraft.getInstance().world;

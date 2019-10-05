@@ -35,6 +35,7 @@ public class CryingObsidianSpawnPacket implements LCCPacket {
         return new CryingObsidianSpawnPacket(buf.readUniqueId());
     }
 
+    @Override
     public void handleLogicalServer() {
         MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         ServerPlayerEntity playerOriginal = s.getPlayerList().getPlayerByUUID(this.player);

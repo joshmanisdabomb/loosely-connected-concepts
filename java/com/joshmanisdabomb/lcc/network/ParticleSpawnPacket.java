@@ -47,6 +47,7 @@ public class ParticleSpawnPacket implements LCCPacket {
         return new ParticleSpawnPacket(data, forceAlwaysRender, posX, posY, posZ, speedX, speedY, speedZ);
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleClient() {
         Minecraft.getInstance().world.addParticle(data, forceAlwaysRender, posX, posY, posZ, speedX, speedY, speedZ);

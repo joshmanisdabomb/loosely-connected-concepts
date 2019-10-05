@@ -38,6 +38,7 @@ public class CryingObsidianUpdatePacket implements LCCPacket {
         }
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleClient() {
         PlayerEntity player = Minecraft.getInstance().player;

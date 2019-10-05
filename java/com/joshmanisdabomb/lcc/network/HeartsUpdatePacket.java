@@ -42,6 +42,7 @@ public class HeartsUpdatePacket implements LCCPacket {
         return new HeartsUpdatePacket(buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleClient() {
         PlayerEntity player = Minecraft.getInstance().player;

@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.Random;
@@ -34,11 +36,13 @@ public class BouncePadExtensionPacket implements LCCPacket {
         return new BouncePadExtensionPacket(buf.readBlockPos(), buf.readFloat());
     }
 
-    public static void handleClient(final BouncePadExtensionPacket msg, Supplier<NetworkEvent.Context> ctx) {
-        ((BouncePadTileEntity)Minecraft.getInstance().world.getTileEntity(msg.pos)).extension = msg.extension;
-        int setting = Minecraft.getInstance().world.getBlockState(msg.pos).get(BouncePadBlock.SETTING);
-        Minecraft.getInstance().world.addParticle(LCCParticles.hydrated_soul_sand_jump, false, msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, 0.875, ((setting + 1)*4) - 2, 0.5 + ((setting + 1) * 0.2));
-        Minecraft.getInstance().world.playSound(msg.pos.getX() + 0.5, msg.pos.getY() + 0.4375, msg.pos.getZ() + 0.5, LCCSounds.block_bounce_pad_jump, SoundCategory.BLOCKS, 0.4F, 0.95F + ((4-setting)*0.05F), false);
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void handleClient() {
+        ((BouncePadTileEntity)Minecraft.getInstance().world.getTileEntity(this.pos)).extension = this.extension;
+        int setting = Minecraft.getInstance().world.getBlockState(this.pos).get(BouncePadBlock.SETTING);
+        Minecraft.getInstance().world.addParticle(LCCParticles.hydrated_soul_sand_jump, false, this.pos.getX() + 0.5, this.pos.getY() + 0.4375, this.pos.getZ() + 0.5, 0.875, ((setting + 1)*4) - 2, 0.5 + ((setting + 1) * 0.2));
+        Minecraft.getInstance().world.playSound(this.pos.getX() + 0.5, this.pos.getY() + 0.4375, this.pos.getZ() + 0.5, LCCSounds.block_bounce_pad_jump, SoundCategory.BLOCKS, 0.4F, 0.95F + ((4-setting)*0.05F), false);
     }
 
 }

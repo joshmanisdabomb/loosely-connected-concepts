@@ -29,6 +29,7 @@ public class SpreaderInterfaceUpdatePacket implements LCCPacket {
         return new SpreaderInterfaceUpdatePacket(buf.readUniqueId(), new SpreaderCapability().readFromPacket(buf));
     }
 
+    @Override
     public void handleLogicalServer() {
         MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
 

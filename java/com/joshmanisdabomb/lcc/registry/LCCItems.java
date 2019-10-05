@@ -1,17 +1,20 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.SpreaderBlock;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
-import com.joshmanisdabomb.lcc.item.CustomArmorItem;
-import com.joshmanisdabomb.lcc.item.GauntletItem;
-import com.joshmanisdabomb.lcc.item.HeartContainerItem;
-import com.joshmanisdabomb.lcc.item.HeartItem;
+import com.joshmanisdabomb.lcc.item.*;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class LCCItems {
 
@@ -84,6 +87,13 @@ public abstract class LCCItems {
 	//Rainbow
 	public static Item chromatic_core;
 
+	//Computing
+	public static HashMap<DyeColor, Item> computer_casing = new HashMap<>();
+	public static HashMap<DyeColor, Item> computer = new HashMap<>();
+	public static HashMap<DyeColor, Item> floppy_disk_drive = new HashMap<>();
+	public static HashMap<DyeColor, Item> compact_disc_drive = new HashMap<>();
+	public static HashMap<DyeColor, Item> usb_drive = new HashMap<>();
+
 	//Spreaders
 	public static Item spreader_essence;
 
@@ -107,6 +117,8 @@ public abstract class LCCItems {
 	public static Item temporary_heart;
 
 	public static void init(Register<Item> e) {
+		Item i;
+
 		//Test Items
 		all.add(test_item = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "test_item"));
 
@@ -176,6 +188,12 @@ public abstract class LCCItems {
 
 		//Spreaders
 		all.add(spreader_essence = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "spreader_essence"));
+
+		//Computing
+		for (DyeColor color : DyeColor.values()) {
+			all.add(i = new ComputingBlockItem(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
+			computer_casing.put(color, i);
+		}
 
 		//Power
 		//TODO: new recipe for gauntlet as 'elemental gems' will be added

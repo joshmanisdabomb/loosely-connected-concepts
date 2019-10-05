@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.*;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,12 +19,35 @@ public interface MultipartBlock {
 
     Collection<VoxelShape> getParts(BlockState state, IWorld world, BlockPos pos);
 
+    /**
+     * Override what happens when a specific part of the multipart block is broken by a player.
+     * Return false to default to vanilla breaking behaviour.
+     */
     default boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
         return false;
     }
 
-    default BlockState updateEmptyState(BlockState check) {
-        return check;
+    /**
+     * Simulates the effects of harvesting of a single part of the multipart block.
+     */
+    default void harvestPartEffects(BlockState singlePart, IWorld world, BlockPos pos) {
+        world.playEvent(2001, pos, Block.getStateId(singlePart));
+    }
+
+    /**
+     * Drops the single part of the multipart block.
+     */
+    default void spawnPartDrops(BlockState singlePart, World world, BlockPos pos) {
+        Block.spawnDrops(singlePart, world, pos, null);
+    }
+
+    /**
+     * Use this function to show destroy effects for the correct segment or to stop the break sound from playing more than once.
+     * @see CogBlock#onShapeHarvested(BlockState, IWorld, BlockPos, PlayerEntity, VoxelShape)
+     * @see CogBlock#getSoundType(BlockState)
+     */
+    default boolean onePart(BlockState state, IWorld world, BlockPos pos) {
+        return this.getParts(state, world, pos).size() == 1;
     }
 
     static BlockRayTraceResult rayTrace(PlayerEntity player, IWorld world) {

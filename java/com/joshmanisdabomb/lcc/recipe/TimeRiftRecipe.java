@@ -6,7 +6,6 @@ import com.joshmanisdabomb.lcc.registry.LCCRecipes;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.SingleItemRecipe;
 import net.minecraft.network.PacketBuffer;

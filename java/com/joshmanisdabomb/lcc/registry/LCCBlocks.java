@@ -57,6 +57,12 @@ public abstract class LCCBlocks {
 	public static Block spreader_interface;
     public static HashMap<DyeColor, Block> spreaders = new HashMap<>();
 
+    //Computing
+	public static Block computing;
+	public static Block printer2d;
+	public static Block printer3d;
+	public static Block remoteAccess;
+
 	//Nostalgia
 	public static Block time_rift;
 	public static Block classic_grass_block;
@@ -90,6 +96,8 @@ public abstract class LCCBlocks {
 	public static Block cog;
 
     public static void init(Register<Block> e) {
+		Block b;
+
 		//Test Blocks
 		all.add(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)).setRegistryName(LCC.MODID, "test_block"));
 		createDefaultBlockItem(test_block);
@@ -145,11 +153,13 @@ public abstract class LCCBlocks {
 		all.add(spreader_interface = new SpreaderInterfaceBlock(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(7.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "spreader_interface"));
 		createDefaultBlockItem(spreader_interface);
 		for (DyeColor color : DyeColor.values()) {
-			Block b;
 			all.add(b = new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)).setRegistryName(LCC.MODID, "spreader_" + color.getName()));
 			spreaders.put(color, b);
 			createDefaultBlockItem(b);
 		}
+
+		//Computing
+		all.add(computing = new ComputingBlock(Block.Properties.create(Material.EARTH, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_block"));
 
 		//Nostalgia
 		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));
@@ -177,7 +187,6 @@ public abstract class LCCBlocks {
 		all.add(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)).setRegistryName(LCC.MODID, "classic_glass"));
 		createDefaultBlockItem(classic_glass);
 		for (ClassicDyeColor color : ClassicDyeColor.values()) {
-			Block b;
 			all.add(b = new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH)).setRegistryName(LCC.MODID, "classic_cloth_" + color.getName()));
 			classic_cloth.put(color, b);
 			createDefaultBlockItem(b);

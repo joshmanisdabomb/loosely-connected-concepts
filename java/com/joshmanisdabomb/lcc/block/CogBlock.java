@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.block;
 import com.google.common.collect.Maps;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.model.CogModel;
-import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
 import com.joshmanisdabomb.lcc.block.network.CogNetwork;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
@@ -98,8 +97,9 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     protected BlockState destroyCog(Direction d, BlockState state, IWorld world, BlockPos pos, boolean effects, boolean drops) {
         if ((effects || drops) && this.hasCog(d, state)) {
-            if (effects) world.playEvent(2001, pos, Block.getStateId(this.getDefaultState().with(FACING_TO_PROPERTIES.get(d), CogState.INACTIVE)));
-            if (drops && world instanceof World) Block.spawnDrops(state, (World)world, pos, null);
+            BlockState singlePart = this.getDefaultState().with(FACING_TO_PROPERTIES.get(d), CogState.INACTIVE);
+            if (effects) this.harvestPartEffects(singlePart, world, pos);
+            if (drops && world instanceof World) this.spawnPartDrops(singlePart, (World)world, pos);
         }
         return this.removeCog(d, state);
     }
@@ -223,8 +223,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         return FACING_TO_SHAPES.entrySet().stream().filter(e -> state.get(FACING_TO_PROPERTIES.get(e.getKey())) != CogState.NONE).map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
-    @Override
-    public BlockState updateEmptyState(BlockState check) {
+    protected BlockState updateEmptyState(BlockState check) {
         return this.getCogs(check).size() == 0 ? Blocks.AIR.getDefaultState() : check;
     }
 
@@ -258,23 +257,18 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     @Override
     public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
-        world.setBlockState(pos, this.updateEmptyState(this.destroyCog(SHAPES_TO_FACING.get(shape), state, world, pos, !this.oneCog(state), true)), 3);
+        world.setBlockState(pos, this.updateEmptyState(this.destroyCog(SHAPES_TO_FACING.get(shape), state, world, pos, !this.oneCog(state), !player.isCreative())), 3);
         return true;
     }
 
     @Override
     public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
-        return !this.oneCog(state);
-    }
-
-    @Override
-    public SoundType getSoundType(BlockState state) {
-        return !this.oneCog(state) ? LCCSounds.cog_multiple : super.getSoundType(state);
+        return !this.onePart(state, world, pos);
     }
 
     @Override
     public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
-        return this.getSoundType(state);
+        return !this.onePart(state, (IWorld)world, pos) ? LCCSounds.cog_multiple : super.getSoundType(state, world, pos, entity);
     }
 
     @Override

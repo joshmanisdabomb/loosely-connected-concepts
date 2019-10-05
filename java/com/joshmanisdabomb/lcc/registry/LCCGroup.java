@@ -157,6 +157,11 @@ public class LCCGroup extends ItemGroup {
         //Nuclear TODO: lump in with explosives
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
+        //Computing
+        for (DyeColor color : DyeColor.values()) {
+            set(LCCItems.computer_casing.get(color), LCCGroupCategory.COMPUTING, color.getId());
+        }
+
         //Nostalgia
         set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);
         set(LCCBlocks.classic_grass_block, LCCGroupCategory.NOSTALGIA, 1000);
@@ -251,6 +256,7 @@ public class LCCGroup extends ItemGroup {
         RAINBOW,
         SPREADERS,
         NUCLEAR,
+        COMPUTING,
         NOSTALGIA,
         POWER,
         HEALTH,

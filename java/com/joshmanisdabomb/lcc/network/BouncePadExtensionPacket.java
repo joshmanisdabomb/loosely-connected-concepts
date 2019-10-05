@@ -10,10 +10,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.Random;
-import java.util.function.Supplier;
 
 public class BouncePadExtensionPacket implements LCCPacket {
 

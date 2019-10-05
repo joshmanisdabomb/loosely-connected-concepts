@@ -177,6 +177,23 @@
   "block.lcc.glowing_obsidian": "Glowing Obsidian",
   "block.lcc.cog": "Cog",
 
+  "item.lcc.computer_casing_white": "White Computer Casing",
+  "item.lcc.computer_casing_orange": "Orange Computer Casing",
+  "item.lcc.computer_casing_magenta": "Magenta Computer Casing",
+  "item.lcc.computer_casing_light_blue": "Light Blue Computer Casing",
+  "item.lcc.computer_casing_yellow": "Yellow Computer Casing",
+  "item.lcc.computer_casing_lime": "Lime Computer Casing",
+  "item.lcc.computer_casing_pink": "Pink Computer Casing",
+  "item.lcc.computer_casing_gray": "Gray Computer Casing",
+  "item.lcc.computer_casing_light_gray": "Light Gray Computer Casing",
+  "item.lcc.computer_casing_cyan": "Cyan Computer Casing",
+  "item.lcc.computer_casing_purple": "Purple Computer Casing",
+  "item.lcc.computer_casing_blue": "Blue Computer Casing",
+  "item.lcc.computer_casing_brown": "Brown Computer Casing",
+  "item.lcc.computer_casing_green": "Green Computer Casing",
+  "item.lcc.computer_casing_red": "Red Computer Casing",
+  "item.lcc.computer_casing_black": "Black Computer Casing",
+
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 
   "itemGroup.lcc": "Loosely Connected Concepts",

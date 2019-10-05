@@ -31,7 +31,7 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  
 ## Downloads ##
 ### Other Versions ###
- * [Alpha 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 04 October 2019
+ * [Alpha 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/cdbbe20844bd84589f1eea6ea54bed375599f6ed) for 1.14.4 on 04 October 2019
  * [Alpha 0.5](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a0.5.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 17 August 2019
  * [Alpha 0.4](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.3-a0.4.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/4e0d31d185f6fe2c89f51ffd8ec9683e27ed4e34) for 1.14.3 on 20 July 2019
  * [Alpha 0.3](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.13.2-a0.3.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/73ce6959c2fe6d0ea9c140444435bb1f934bd3e7) for 1.13.2 on 20 February 2019

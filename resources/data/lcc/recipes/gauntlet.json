@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "12S",
+    "453",
+    "SP6"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:gold_block"
+    },
+    "P": {
+      "item": "minecraft:nether_star"
+    },
+    "1": {
+      "item": "lcc:ruby"
+    },
+    "2": {
+      "item": "lcc:topaz"
+    },
+    "3": {
+      "item": "minecraft:emerald"
+    },
+    "4": {
+      "item": "minecraft:diamond"
+    },
+    "5": {
+      "item": "lcc:sapphire"
+    },
+    "6": {
+      "item": "lcc:amethyst"
+    }
+  },
+  "result": {
+    "item": "lcc:gauntlet"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:rose_bush"
+  },
+  "result": "lcc:classic_rose",
+  "count": 2
+}

@@ -58,6 +58,8 @@ public class ConnectedTextureBlockModel implements IBakedModel {
             final Direction[] perpendiculars = Util.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
+            if (!tileData.hasProperty(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.up()))) return quads;
+
             final boolean cUpDirect = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[0])));
             final boolean cUp = cUpDirect && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));
             final boolean cRight = tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.setPos(0,0,0).move(perpendiculars[1]))) && (!innerSeams || !tileData.getData(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.move(side))));

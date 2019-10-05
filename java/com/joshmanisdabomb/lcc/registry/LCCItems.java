@@ -178,6 +178,7 @@ public abstract class LCCItems {
 		all.add(spreader_essence = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "spreader_essence"));
 
 		//Power
+		//TODO: new recipe for gauntlet as 'elemental gems' will be added
 		all.add(gauntlet = new GauntletItem(new Item.Properties().group(LCC.itemGroup).setTEISR(() -> GauntletRenderer::new)).setRegistryName(LCC.MODID, "gauntlet"));
 
 		//Health

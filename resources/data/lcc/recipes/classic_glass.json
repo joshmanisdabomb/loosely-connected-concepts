@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "tag": "forge:glass"
+  },
+  "result": "lcc:classic_glass",
+  "count": 1
+}

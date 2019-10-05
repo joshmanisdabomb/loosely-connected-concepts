@@ -5,7 +5,9 @@
 		"0": "lcc:block/bounce_pad/base_h",
 		"1": "lcc:block/bounce_pad/inner",
 		"2": "lcc:block/bounce_pad/setting",
-		"3": "lcc:block/bounce_pad/base_v"
+		"3": "lcc:block/bounce_pad/base_v",
+		"4": "lcc:block/bounce_pad/pad",
+		"5": "lcc:block/bounce_pad/pad_side"
 	},
 	"elements": [
 		{
@@ -127,6 +129,18 @@
 				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
 				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
 				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "pad",
+			"from": [1, 7, 1],
+			"to": [15, 8, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 14, 1], "texture": "#5"},
+				"east": {"uv": [0, 0, 14, 1], "texture": "#5"},
+				"south": {"uv": [0, 0, 14, 1], "texture": "#5"},
+				"west": {"uv": [0, 0, 14, 1], "texture": "#5"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#4"}
 			}
 		}
 	]

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "121",
+    "343",
+    "555"
+  ],
+  "key": {
+    "1": {
+      "item": "minecraft:repeater"
+    },
+    "2": {
+      "item": "minecraft:light_weighted_pressure_plate"
+    },
+    "3": {
+      "item": "minecraft:iron_block"
+    },
+    "4": {
+      "item": "minecraft:piston"
+    },
+    "5": {
+      "item": "lcc:hydrated_soul_sand"
+    }
+  },
+  "result": {
+    "item": "lcc:bounce_pad",
+    "count": 6
+  }
+}

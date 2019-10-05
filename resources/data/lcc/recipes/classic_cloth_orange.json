@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:orange_wool"
+  },
+  "result": "lcc:classic_cloth_orange",
+  "count": 1
+}

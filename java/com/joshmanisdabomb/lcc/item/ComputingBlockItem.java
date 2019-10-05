@@ -2,18 +2,18 @@ package com.joshmanisdabomb.lcc.item;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
 
 import java.util.Map;
 
-public class ComputingBlockItem extends BlockItem {
+public class ComputingBlockItem extends BlockItem implements TintedItem {
 
-    public ComputingBlockItem(Properties properties) {
+    private final DyeColor color;
+
+    public ComputingBlockItem(DyeColor color, Properties properties) {
         super(LCCBlocks.computing, properties);
+        this.color = color;
     }
 
     @Override
@@ -36,6 +36,11 @@ public class ComputingBlockItem extends BlockItem {
     @Override
     public void removeFromBlockToItemMap(Map<Block, Item> map, Item i) {
 
+    }
+
+    @Override
+    public int getItemTintColor(ItemStack stack, int tintIndex) {
+        return color.getColorValue();
     }
 
 }

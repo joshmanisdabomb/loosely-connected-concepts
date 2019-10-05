@@ -191,7 +191,7 @@ public abstract class LCCItems {
 
 		//Computing
 		for (DyeColor color : DyeColor.values()) {
-			all.add(i = new ComputingBlockItem(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
+			all.add(i = new ComputingBlockItem(color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
 			computer_casing.put(color, i);
 		}
 

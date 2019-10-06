@@ -294,6 +294,14 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         public ITextComponent getName() {
             return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
         }
+
+        public boolean renderPowerLight() {
+            return this.type == ComputingModuleType.COMPUTER && this.powerState;
+        }
+
+        public boolean renderReadLight() {
+            return false;
+        }
     }
 
     private ComputingModule readModule(CompoundNBT tag) {

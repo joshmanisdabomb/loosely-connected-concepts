@@ -10,6 +10,11 @@ public class ComputingModel extends Model {
     private final RendererModel[] module_top = new RendererModel[4];
     private final RendererModel[] module_bottom = new RendererModel[4];
 
+    private final RendererModel[] power_light_top = new RendererModel[4];
+    private final RendererModel[] power_light_bottom = new RendererModel[4];
+    private final RendererModel[] read_light_top = new RendererModel[4];
+    private final RendererModel[] read_light_bottom = new RendererModel[4];
+
     public ComputingModel() {
         textureWidth = 64;
         textureHeight = 256;
@@ -28,11 +33,42 @@ public class ComputingModel extends Model {
             module_bottom[i].rotateAngleY = module_bottom[i].rotateAngleZ = 0.0F;
             module_bottom[i].setTextureOffset(0, 96 + (i * 24));
             module_bottom[i].addBox(-8.0F, 8.0F, -8.0F, 16, 8, 16);
+
+            power_light_top[i] = new RendererModel(this);
+            power_light_top[i].textureWidth = 128;
+            power_light_top[i].setRotationPoint(0.0F, 8.0F, 0.0F);
+            power_light_top[i].rotateAngleX = (float)Math.PI;
+            power_light_top[i].rotateAngleY = module_top[i].rotateAngleZ = 0.0F;
+            power_light_top[i].setTextureOffset(0, i * 24);
+            power_light_top[i].addBox(-8.0F, 0.0F, -8.0F, 16, 8, 16);
+
+            power_light_bottom[i] = new RendererModel(this);
+            power_light_bottom[i].textureWidth = 128;
+            power_light_bottom[i].setRotationPoint(0.0F, 8.0F, 0.0F);
+            power_light_bottom[i].rotateAngleX = (float)Math.PI;
+            power_light_bottom[i].rotateAngleY = module_bottom[i].rotateAngleZ = 0.0F;
+            power_light_bottom[i].setTextureOffset(0, 96 + (i * 24));
+            power_light_bottom[i].addBox(-8.0F, 8.0F, -8.0F, 16, 8, 16);
+
+            read_light_top[i] = new RendererModel(this);
+            read_light_top[i].textureWidth = 128;
+            read_light_top[i].setRotationPoint(0.0F, 8.0F, 0.0F);
+            read_light_top[i].rotateAngleX = (float)Math.PI;
+            read_light_top[i].rotateAngleY = module_top[i].rotateAngleZ = 0.0F;
+            read_light_top[i].setTextureOffset(64, i * 24);
+            read_light_top[i].addBox(-8.0F, 0.0F, -8.0F, 16, 8, 16);
+
+            read_light_bottom[i] = new RendererModel(this);
+            read_light_bottom[i].textureWidth = 128;
+            read_light_bottom[i].setRotationPoint(0.0F, 8.0F, 0.0F);
+            read_light_bottom[i].rotateAngleX = (float)Math.PI;
+            read_light_bottom[i].rotateAngleY = module_bottom[i].rotateAngleZ = 0.0F;
+            read_light_bottom[i].setTextureOffset(64, 96 + (i * 24));
+            read_light_bottom[i].addBox(-8.0F, 8.0F, -8.0F, 16, 8, 16);
         }
     }
 
-    public void renderModule(ComputingTileEntity te, float scale, SlabType module) {
-        RendererModel[] ms = module == SlabType.TOP ? module_top : module_bottom;
+    private void render(ComputingTileEntity te, float scale, SlabType module, RendererModel[] ms) {
         RendererModel m = ms[(te.isModuleConnectedAbove(module) ? 1 : 0) + (te.isModuleConnectedBelow(module) ? 2 : 0)];
 
         ComputingTileEntity.ComputingModule cm = te.getModule(module);
@@ -43,6 +79,14 @@ public class ComputingModel extends Model {
         m.rotateAngleY = (float)Math.PI * (index / 2F);
 
         m.render(scale);
+    }
+
+    public void renderModule(ComputingTileEntity te, float scale, SlabType module) {
+        this.render(te, scale, module, module == SlabType.TOP ? module_top : module_bottom);
+    }
+
+    public void renderPowerLight(ComputingTileEntity te, float scale, SlabType module, boolean read) {
+        this.render(te, scale, module, module == SlabType.TOP ? (read ? read_light_top : power_light_top) : (read ? read_light_bottom : power_light_bottom));
     }
 
 }

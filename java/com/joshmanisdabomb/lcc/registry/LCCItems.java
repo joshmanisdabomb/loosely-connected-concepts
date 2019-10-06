@@ -189,6 +189,8 @@ public abstract class LCCItems {
 		for (DyeColor color : DyeColor.values()) {
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
 			computer_casing.put(color, i);
+			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.COMPUTER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_" + color.getName()));
+			computer.put(color, i);
 		}
 
 		//Power

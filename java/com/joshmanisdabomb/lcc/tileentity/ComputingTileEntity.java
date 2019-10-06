@@ -166,7 +166,8 @@ public class ComputingTileEntity extends TileEntity implements IContainerProvide
     }
 
     public enum ComputingModuleType {
-        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png"));
+        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png")),
+        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"));
 
         private final ResourceLocation tileEntityTexture;
 

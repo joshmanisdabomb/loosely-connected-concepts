@@ -160,6 +160,7 @@ public class LCCGroup extends ItemGroup {
         //Computing
         for (DyeColor color : DyeColor.values()) {
             set(LCCItems.computer_casing.get(color), LCCGroupCategory.COMPUTING, color.getId());
+            set(LCCItems.computer.get(color), LCCGroupCategory.COMPUTING, color.getId()+16);
         }
 
         //Nostalgia

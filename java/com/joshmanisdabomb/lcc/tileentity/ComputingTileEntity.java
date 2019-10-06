@@ -199,33 +199,46 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     }
 
     public enum ComputingModuleType {
-        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png"), false, (cm, te) -> {}, null, 0, 0),
-        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"), true, (cm, te) -> cm.inventory = LazyOptional.of(() -> new ItemStackHandler(7) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                te.markDirty();
-            }
-        }), (sm, moduleInventory) -> {
+        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png"), false, (cm, te) -> {}, (cm, tag) -> {}, (cm, tag) -> {}, null, 0, 0),
+        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"), true, (cm, te) -> {
+            cm.inventory = LazyOptional.of(() -> new ItemStackHandler(7) {
+                @Override
+                protected void onContentsChanged(int slot) {
+                    te.markDirty();
+                }
+            });
+            cm.powerState = false;
+        }, (cm, tag) -> {
+            cm.powerState = tag.getBoolean("PowerState");
+        }, (cm, tag) -> {
+            tag.putBoolean("PowerState", cm.powerState);
+        }, (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 17, 27, 0);
             sm.addSlots(moduleInventory, 41, 27, 1, 4, 1);
             sm.addSlot(moduleInventory, 119, 27, 5);
             sm.addSlot(moduleInventory, 143, 27, 6);
-        }, 8, 68);
+        }, 8, 96);
 
         private final ResourceLocation tileEntityTexture;
         private final boolean gui;
         private final BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers;
-        private final BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator;
 
+        private final BiConsumer<ComputingModule, CompoundNBT> read;
+        private final BiConsumer<ComputingModule, CompoundNBT> write;
+
+        private final BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator;
         public final int playerInvX;
         public final int playerInvY;
 
-        ComputingModuleType(ResourceLocation tileEntityTexture, boolean gui, BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
+        ComputingModuleType(ResourceLocation tileEntityTexture, boolean gui, BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers, BiConsumer<ComputingModule, CompoundNBT> read, BiConsumer<ComputingModule, CompoundNBT> write, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
             this.tileEntityTexture = tileEntityTexture;
             this.gui = gui;
             this.moduleModifiers = moduleModifiers;
-            this.slotCreator = slotCreator;
 
+            this.read = read;
+            this.write = write;
+
+            this.slotCreator = slotCreator;
             this.playerInvX = playerInvX;
             this.playerInvY = playerInvY;
         }
@@ -247,6 +260,8 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
 
         public LazyOptional<IItemHandlerModifiable> inventory = LazyOptional.empty();
 
+        public boolean powerState;
+
         private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName) {
             this.type = type;
             this.color = color;
@@ -264,6 +279,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
                 CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
                 tag.put("inventory", compound);
             });
+            this.type.write.accept(this, tag);
             return tag;
         }
 
@@ -294,6 +310,8 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
 
         CompoundNBT invTag = tag.getCompound("inventory");
         m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
+
+        m.type.read.accept(m, tag);
 
         return m;
     }

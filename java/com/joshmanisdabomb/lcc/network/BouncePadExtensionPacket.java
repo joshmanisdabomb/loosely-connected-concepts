@@ -11,14 +11,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Random;
-
 public class BouncePadExtensionPacket implements LCCPacket {
 
     private final BlockPos pos;
     private final float extension;
-
-    private static final Random PARTICLE_RAND = new Random();
 
     public BouncePadExtensionPacket(BlockPos pos, float extension) {
         this.pos = pos;

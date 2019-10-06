@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class LCCPacketHandler {
 
-    public static final String PROTOCOL_VERSION = "3";
+    public static final String PROTOCOL_VERSION = "4";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(LCC.MODID, "main"),
         () -> PROTOCOL_VERSION,
@@ -28,6 +28,7 @@ public class LCCPacketHandler {
         INSTANCE.registerMessage(++id, BouncePadExtensionPacket.class, BouncePadExtensionPacket::encode, BouncePadExtensionPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, CryingObsidianUpdatePacket.class, CryingObsidianUpdatePacket::encode, CryingObsidianUpdatePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, CryingObsidianSpawnPacket.class, CryingObsidianSpawnPacket::encode, CryingObsidianSpawnPacket::decode, LCCPacketHandler::pass);
+        INSTANCE.registerMessage(++id, ComputerPowerPacket.class, ComputerPowerPacket::encode, ComputerPowerPacket::decode, LCCPacketHandler::pass);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
+import com.joshmanisdabomb.lcc.tileentity.ClassicChestTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;
@@ -9,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
@@ -52,9 +54,18 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     protected BlockState removeModule(BlockState state, IWorld world, BlockPos pos, SlabType module, boolean effects, boolean drops) {
         BlockState singlePart = this.getDefaultState().with(MODULE, module);
+        ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
+
         if (effects) this.harvestPartEffects(singlePart, world, pos);
         if (drops && world instanceof World) this.spawnPartDrops(singlePart, (World)world, pos);
-        ((ComputingTileEntity)world.getTileEntity(pos)).clearModule(module);
+
+        te.getModule(module).inventory.ifPresent(h -> {
+            for (int i = 0; i < h.getSlots(); i++) {
+                InventoryHelper.spawnItemStack((World)world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+            }
+        });
+        te.clearModule(module);
+
         return state.with(MODULE, flip(module));
     }
 
@@ -119,6 +130,21 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         if (te instanceof ComputingTileEntity) {
             ComputingBlockItem item = (ComputingBlockItem)stack.getItem();
             ((ComputingTileEntity)te).setModule(item.getModule(), item.getColor(), placer.getHorizontalFacing().getOpposite(), stack.hasDisplayName() ? stack.getDisplayName() : null, state.get(MODULE));
+        }
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof ComputingTileEntity) {
+                ((ComputingTileEntity)tileentity).getModule(state.get(MODULE)).inventory.ifPresent(h -> {
+                    for (int i = 0; i < h.getSlots(); i++) {
+                        InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+                    }
+                });
+            }
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 

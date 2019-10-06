@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
-import com.joshmanisdabomb.lcc.tileentity.ClassicChestTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;

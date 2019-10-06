@@ -19,6 +19,8 @@ import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
+import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
+
 public class ComputingTileEntity extends TileEntity implements IContainerProvider {
 
     protected ComputingModuleType topModule = null;
@@ -136,6 +138,30 @@ public class ComputingTileEntity extends TileEntity implements IContainerProvide
             case TOP: return this.topName;
             case BOTTOM: return this.bottomName;
             default: return null;
+        }
+    }
+
+    public boolean isModuleConnectedAbove(SlabType module) {
+        if (module == SlabType.BOTTOM) {
+            return this.getModuleColor(flip(module)) == this.getModuleColor(module);
+        } else {
+            TileEntity te = this.world.getTileEntity(pos.up());
+            if (te instanceof ComputingTileEntity) {
+                return ((ComputingTileEntity)te).getModuleColor(flip(module)) == this.getModuleColor(module);
+            }
+            return false;
+        }
+    }
+
+    public boolean isModuleConnectedBelow(SlabType module) {
+        if (module == SlabType.TOP) {
+            return this.getModuleColor(flip(module)) == this.getModuleColor(module);
+        } else {
+            TileEntity te = this.world.getTileEntity(pos.down());
+            if (te instanceof ComputingTileEntity) {
+                return ((ComputingTileEntity)te).getModuleColor(flip(module)) == this.getModuleColor(module);
+            }
+            return false;
         }
     }
 

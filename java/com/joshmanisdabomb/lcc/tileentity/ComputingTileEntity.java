@@ -1,11 +1,13 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.container.ComputingContainer;
+import com.joshmanisdabomb.lcc.container.LCCContainerHelper;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.IContainerProvider;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -15,28 +17,50 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.function.BiConsumer;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
-public class ComputingTileEntity extends TileEntity implements IContainerProvider {
+public class ComputingTileEntity extends TileEntity implements INamedContainerProvider {
 
-    protected ComputingModuleType topModule = null;
-    protected ComputingModuleType bottomModule = null;
+    protected ComputingModule top = null;
+    protected ComputingModule bottom = null;
 
-    protected DyeColor topColor = null;
-    protected DyeColor bottomColor = null;
+    private LazyOptional<CombinedInvWrapper> totalInventory = LazyOptional.empty();
 
-    protected Direction topDirection = null;
-    protected Direction bottomDirection = null;
-
-    protected ITextComponent topName = null;
-    protected ITextComponent bottomName = null;
+    public boolean _containerModuleIsTop;
 
     public ComputingTileEntity() {
         super(LCCTileEntities.computing);
+    }
+
+    public void read(CompoundNBT tag) {
+        if (tag.contains("TopModule", Constants.NBT.TAG_COMPOUND)) {
+            this.top = this.readModule(tag.getCompound("TopModule"));
+        }
+        if (tag.contains("BottomModule", Constants.NBT.TAG_COMPOUND)) {
+            this.bottom = this.readModule(tag.getCompound("BottomModule"));
+        }
+        super.read(tag);
+    }
+
+    public CompoundNBT write(CompoundNBT tag) {
+        if (this.top != null) tag.put("TopModule", this.top.write(new CompoundNBT()));
+        if (this.bottom != null) tag.put("BottomModule", this.bottom.write(new CompoundNBT()));
+        return super.write(tag);
     }
 
     @Override
@@ -56,98 +80,67 @@ public class ComputingTileEntity extends TileEntity implements IContainerProvide
         this.read(pkt.getNbtCompound());
     }
 
-    public void read(CompoundNBT tag) {
-        if (tag.contains("TopModule", Constants.NBT.TAG_ANY_NUMERIC)) this.topModule = ComputingModuleType.values()[tag.getByte("TopModule")];
-        if (tag.contains("BottomModule", Constants.NBT.TAG_ANY_NUMERIC)) this.bottomModule = ComputingModuleType.values()[tag.getByte("BottomModule")];
-        if (tag.contains("TopColor", Constants.NBT.TAG_ANY_NUMERIC)) this.topColor = DyeColor.values()[tag.getByte("TopColor")];
-        if (tag.contains("BottomColor", Constants.NBT.TAG_ANY_NUMERIC)) this.bottomColor = DyeColor.values()[tag.getByte("BottomColor")];
-        if (tag.contains("TopDirection", Constants.NBT.TAG_ANY_NUMERIC)) this.topDirection = Direction.values()[tag.getByte("TopDirection")];
-        if (tag.contains("BottomDirection", Constants.NBT.TAG_ANY_NUMERIC)) this.bottomDirection = Direction.values()[tag.getByte("BottomDirection")];
-        if (tag.contains("TopCustomName", Constants.NBT.TAG_STRING)) this.topName = ITextComponent.Serializer.fromJson(tag.getString("TopCustomName"));
-        if (tag.contains("BottomCustomName", Constants.NBT.TAG_STRING)) this.bottomName = ITextComponent.Serializer.fromJson(tag.getString("BottomCustomName"));
-        super.read(tag);
-    }
-
-    public CompoundNBT write(CompoundNBT tag) {
-        if (this.topModule != null) tag.putByte("TopModule", (byte)this.topModule.ordinal());
-        if (this.bottomModule != null) tag.putByte("BottomModule", (byte)this.bottomModule.ordinal());
-        if (this.topColor != null) tag.putByte("TopColor", (byte)this.topColor.ordinal());
-        if (this.bottomColor != null) tag.putByte("BottomColor", (byte)this.bottomColor.ordinal());
-        if (this.topDirection != null) tag.putByte("TopDirection", (byte)this.topDirection.ordinal());
-        if (this.bottomDirection != null) tag.putByte("BottomDirection", (byte)this.bottomDirection.ordinal());
-        if (this.topName != null) tag.putString("TopCustomName", ITextComponent.Serializer.toJson(this.topName));
-        if (this.bottomName != null) tag.putString("BottomCustomName", ITextComponent.Serializer.toJson(this.bottomName));
-        return super.write(tag);
-    }
-
     @Nullable
     @Override
     public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return null;//new ComputerCaseContainer(i, this, playerEntity, playerInventory);
+        return new ComputingContainer(i, this, _containerModuleIsTop ? SlabType.TOP : SlabType.BOTTOM, playerEntity, playerInventory);
     }
 
     public void setModule(ComputingModuleType type, DyeColor color, Direction facing, ITextComponent customName, SlabType module) {
+        ComputingModule m = new ComputingModule(type, color, facing, customName);
         switch (module) {
             case TOP:
-                this.topModule = type;
-                this.topColor = color;
-                this.topDirection = facing;
-                this.topName = customName;
+                this.top = m;
                 break;
             case BOTTOM:
-                this.bottomModule = type;
-                this.bottomColor = color;
-                this.bottomDirection = facing;
-                this.bottomName = customName;
+                this.bottom = m;
                 break;
             default:
                 break;
         }
+        this.calculateTotalInventory();
     }
 
     public void clearModule(SlabType module) {
-        this.setModule(null, null, null, null, module);
+        switch (module) {
+            case TOP:
+                this.top = null;
+                break;
+            case BOTTOM:
+                this.bottom = null;
+                break;
+            default:
+                break;
+        }
+        this.calculateTotalInventory();
     }
 
-    public ComputingModuleType getModuleType(SlabType module) {
+    public ComputingModule getModule(SlabType module) {
         switch (module) {
-            case TOP: return this.topModule;
-            case BOTTOM: return this.bottomModule;
+            case TOP: return this.top;
+            case BOTTOM: return this.bottom;
             default: return null;
         }
     }
 
-    public DyeColor getModuleColor(SlabType module) {
-        switch (module) {
-            case TOP: return this.topColor;
-            case BOTTOM: return this.bottomColor;
-            default: return null;
-        }
-    }
-
-    public Direction getModuleDirection(SlabType module) {
-        switch (module) {
-            case TOP: return this.topDirection;
-            case BOTTOM: return this.bottomDirection;
-            default: return null;
-        }
-    }
-
-    public ITextComponent getModuleCustomName(SlabType module) {
-        switch (module) {
-            case TOP: return this.topName;
-            case BOTTOM: return this.bottomName;
-            default: return null;
-        }
+    public ArrayList<ComputingModule> getInstalledModules() {
+        ArrayList<ComputingModule> modules = new ArrayList<>();
+        if (this.top != null) modules.add(this.top);
+        if (this.bottom != null) modules.add(this.bottom);
+        return modules;
     }
 
     public boolean isModuleConnectedAbove(SlabType module) {
         if (module == SlabType.BOTTOM) {
-            return this.getModuleColor(flip(module)) == this.getModuleColor(module);
+            ComputingModule cm = this.getModule(flip(module));
+            if (cm == null) return false;
+            return cm.color == this.getModule(module).color;
         } else {
             TileEntity te = this.world.getTileEntity(pos.up());
             if (te instanceof ComputingTileEntity) {
-                return ((ComputingTileEntity)te).getModuleColor(flip(module)) == this.getModuleColor(module);
+                ComputingModule cm = ((ComputingTileEntity)te).getModule(flip(module));
+                if (cm == null) return false;
+                return cm.color == this.getModule(module).color;
             }
             return false;
         }
@@ -155,29 +148,154 @@ public class ComputingTileEntity extends TileEntity implements IContainerProvide
 
     public boolean isModuleConnectedBelow(SlabType module) {
         if (module == SlabType.TOP) {
-            return this.getModuleColor(flip(module)) == this.getModuleColor(module);
+            ComputingModule cm = this.getModule(flip(module));
+            if (cm == null) return false;
+            return cm.color == this.getModule(module).color;
         } else {
             TileEntity te = this.world.getTileEntity(pos.down());
             if (te instanceof ComputingTileEntity) {
-                return ((ComputingTileEntity)te).getModuleColor(flip(module)) == this.getModuleColor(module);
+                ComputingModule cm = ((ComputingTileEntity)te).getModule(flip(module));
+                if (cm == null) return false;
+                return cm.color == this.getModule(module).color;
             }
             return false;
         }
     }
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            switch (side) {
+                case UP:
+                    if (this.top == null) return LazyOptional.empty();
+                    else return this.top.inventory.cast();
+                case DOWN:
+                    if (this.bottom == null) return LazyOptional.empty();
+                    else return this.bottom.inventory.cast();
+                default:
+                    return totalInventory.cast();
+            }
+        }
+        return super.getCapability(cap, side);
+    }
+
+    public void calculateTotalInventory() {
+        this.totalInventory = LazyOptional.empty();
+        if (this.top != null && this.top.inventory.isPresent() && this.bottom != null && this.bottom.inventory.isPresent()) {
+            this.top.inventory.ifPresent(h -> {
+                this.bottom.inventory.ifPresent(h2 -> {
+                    totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(h, h2));
+                });
+            });
+        }
+        else if (this.top != null && this.top.inventory.isPresent()) this.top.inventory.ifPresent(h -> totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(h)));
+        else if (this.bottom != null && this.bottom.inventory.isPresent()) this.bottom.inventory.ifPresent(h -> totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(h)));
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent("block.lcc.computing");
+    }
+
     public enum ComputingModuleType {
-        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png")),
-        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"));
+        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png"), false, (cm, te) -> {}, null, 0, 0),
+        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"), true, (cm, te) -> cm.inventory = LazyOptional.of(() -> new ItemStackHandler(7) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 17, 27, 0);
+            sm.addSlots(moduleInventory, 41, 27, 1, 4, 1);
+            sm.addSlot(moduleInventory, 119, 27, 5);
+            sm.addSlot(moduleInventory, 143, 27, 6);
+        }, 8, 68);
 
         private final ResourceLocation tileEntityTexture;
+        private final boolean gui;
+        private final BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers;
+        private final BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator;
 
-        ComputingModuleType(ResourceLocation tileEntityTexture) {
+        public final int playerInvX;
+        public final int playerInvY;
+
+        ComputingModuleType(ResourceLocation tileEntityTexture, boolean gui, BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
             this.tileEntityTexture = tileEntityTexture;
+            this.gui = gui;
+            this.moduleModifiers = moduleModifiers;
+            this.slotCreator = slotCreator;
+
+            this.playerInvX = playerInvX;
+            this.playerInvY = playerInvY;
         }
 
         public ResourceLocation getTexture() {
             return this.tileEntityTexture;
         }
+
+        public void modify(ComputingModule cm, ComputingTileEntity te) {
+            moduleModifiers.accept(cm, te);
+        }
+    }
+
+    public class ComputingModule {
+        public final ComputingModuleType type;
+        public final DyeColor color;
+        public final Direction direction;
+        public final ITextComponent customName;
+
+        public LazyOptional<IItemHandlerModifiable> inventory = LazyOptional.empty();
+
+        private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName) {
+            this.type = type;
+            this.color = color;
+            this.direction = direction;
+            this.customName = customName;
+            this.type.modify(this, ComputingTileEntity.this);
+        }
+
+        private CompoundNBT write(CompoundNBT tag) {
+            tag.putByte("module", (byte)this.type.ordinal());
+            tag.putByte("color", (byte)this.color.ordinal());
+            tag.putByte("direction", (byte)this.direction.ordinal());
+            tag.putString("customName", ITextComponent.Serializer.toJson(this.customName));
+            inventory.ifPresent(h -> {
+                CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
+                tag.put("inventory", compound);
+            });
+            return tag;
+        }
+
+        public void addSlots(LCCContainerHelper.SlotManager sm, IItemHandlerModifiable moduleInventory) {
+            this.type.slotCreator.accept(sm, moduleInventory);
+        }
+
+        public boolean hasGui() {
+            return this.type.gui;
+        }
+
+        public ITextComponent getName() {
+            return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
+        }
+    }
+
+    private ComputingModule readModule(CompoundNBT tag) {
+        if (!tag.contains("module", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        ComputingModuleType module = ComputingModuleType.values()[tag.getByte("module")];
+        if (!tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        DyeColor color = DyeColor.values()[tag.getByte("color")];
+        if (!tag.contains("direction", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        Direction direction = Direction.values()[tag.getByte("direction")];
+        if (!tag.contains("customName", Constants.NBT.TAG_STRING)) return null;
+        ITextComponent name = ITextComponent.Serializer.fromJson(tag.getString("customName"));
+
+        ComputingModule m = new ComputingModule(module, color, direction, name);
+
+        CompoundNBT invTag = tag.getCompound("inventory");
+        m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
+
+        return m;
     }
 
 }

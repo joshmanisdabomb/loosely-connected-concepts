@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.container.ClassicChestContainer;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -11,7 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ClassicChestScreen extends ContainerScreen<ClassicChestContainer> implements IHasContainer<ClassicChestContainer> {
+public class ClassicChestScreen extends ContainerScreen<ClassicChestContainer> {
 
     private static final ResourceLocation CHEST_GUI_TEXTURE = new ResourceLocation("textures/gui/container/generic_54.png");
 

@@ -28,10 +28,11 @@ public class ComputingRenderer extends TileEntityRenderer<ComputingTileEntity> {
         SlabType setup = computing_block.get(ComputingBlock.MODULE);
         for (SlabType module : MODULE_SLABS) {
             if (setup != flip(module)) {
-                if (te.getModuleType(module) != null) {
-                    float[] c = te.getModuleColor(module).getColorComponentValues();
+                ComputingTileEntity.ComputingModule m = te.getModule(module);
+                if (m != null) {
+                    float[] c = m.color.getColorComponentValues();
                     GlStateManager.color4f(c[0], c[1], c[2], 1.0F);
-                    this.bindTexture(te.getModuleType(module).getTexture());
+                    this.bindTexture(m.type.getTexture());
                     model.renderModule(te, 0.0625F, module);
                 }
             }

@@ -9,8 +9,12 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public interface LCCContainerHelper {
 
@@ -23,15 +27,24 @@ public interface LCCContainerHelper {
         private final Container container;
         private final Function<Slot, Slot> creator;
 
+        public final Map<String, ArrayList<Slot>> allSlots = new HashMap<>();
+        public String currentGroup = "default";
+
         private SlotManager(Container c, Function<Slot, Slot> creator) {
             this.container = c;
             this.creator = creator;
         }
 
+        public int addSlot(IItemHandler handler, int x, int y, int index) {
+            return this.addSlots(handler, x, y, index, 1, 1);
+        }
+
         public int addSlots(IItemHandler handler, int x, int y, int index, int columns, int rows) {
             for (int j = 0; j < rows; j++) {
                 for (int i = 0; i < columns; i++) {
-                    creator.apply(new SlotItemHandler(handler, index++, x + (18 * i), y + (18 * j)));
+                    Slot s = new SlotItemHandler(handler, index++, x + (18 * i), y + (18 * j));
+                    this.addToMap(currentGroup, s);
+                    creator.apply(s);
                 }
             }
             return index;
@@ -40,6 +53,19 @@ public interface LCCContainerHelper {
         public void addPlayerSlots(IItemHandler inventory, int x, int y) {
             this.addSlots(inventory, x, y, 9, 9, 3); //Main Inventory
             this.addSlots(inventory, x, y + 58, 0, 9, 1); //Hotbar
+        }
+
+        private void addToMap(String group, Slot s) {
+            allSlots.computeIfAbsent(group, k -> new ArrayList<>());
+            allSlots.get(group).add(s);
+        }
+
+        public List<Slot> getAllSlots() {
+            return allSlots.values().stream().flatMap(a -> a.stream()).collect(Collectors.toList());
+        }
+
+        public List<Slot> getSlotsInGroup(String group) {
+            return allSlots.get(group);
         }
 
         //thank you diesieben07

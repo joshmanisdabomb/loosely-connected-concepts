@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IWorldPosCallable;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class ClassicChestContainer extends Container implements LCCContainerHelper {
@@ -31,11 +30,11 @@ public class ClassicChestContainer extends Container implements LCCContainerHelp
         ClassicChestTileEntity te2 = te.getAttached();
         this.doubleChest = te2 != null;
 
-        (te.isPrimary() ? te : te2).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+        (te.isPrimary() ? te : te2).inventory.ifPresent(h -> {
             sm.addSlots(h, 8, 18, 0, 9, 3);
         });
         if (doubleChest) {
-            (te.isPrimary() ? te2 : te).getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+            (te.isPrimary() ? te2 : te).inventory.ifPresent(h -> {
                 sm.addSlots(h, 8, 72, 0, 9, 3);
             });
         }

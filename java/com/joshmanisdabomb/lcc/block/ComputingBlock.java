@@ -8,6 +8,8 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
@@ -15,7 +17,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -23,6 +27,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -51,6 +56,19 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         if (drops && world instanceof World) this.spawnPartDrops(singlePart, (World)world, pos);
         ((ComputingTileEntity)world.getTileEntity(pos)).clearModule(module);
         return state.with(MODULE, flip(module));
+    }
+
+    protected void activateModule(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean isTop) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof ComputingTileEntity) {
+            ((ComputingTileEntity) te)._containerModuleIsTop = isTop;
+            NetworkHooks.openGui((ServerPlayerEntity)player, (INamedContainerProvider)te, buf -> {
+                buf.writeBlockPos(te.getPos());
+                buf.writeBoolean(isTop);
+            });
+        } else {
+            throw new IllegalStateException("Named container provider missing.");
+        }
     }
 
     @Override
@@ -150,11 +168,26 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     public boolean onShapeHarvested(BlockState state, IWorld world, BlockPos pos, PlayerEntity player, VoxelShape shape) {
         SlabType s = state.get(MODULE);
         if (s == SlabType.DOUBLE) {
-            if (shape == TOP_SHAPE) {
-                world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.TOP, true, !player.isCreative()), 3);
-            } else {
-                world.setBlockState(pos, this.removeModule(state, world, pos, SlabType.BOTTOM, true, !player.isCreative()), 3);
+            world.setBlockState(pos, this.removeModule(state, world, pos, shape == TOP_SHAPE ? SlabType.TOP : SlabType.BOTTOM, true, !player.isCreative()), 3);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+        SlabType s = state.get(MODULE);
+        ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
+        if (s == SlabType.DOUBLE) {
+            VoxelShape shape = this.getPartFromTrace(result.getHitVec(), state, world, pos);
+            if (shape != null) {
+                if (!te.getModule(shape == TOP_SHAPE ? SlabType.TOP : SlabType.BOTTOM).hasGui()) return false;
+                if (!world.isRemote) this.activateModule(state, world, pos, player, shape == TOP_SHAPE);
+                return true;
             }
+        } else {
+            if (!te.getModule(s).hasGui()) return false;
+            if (!world.isRemote) this.activateModule(state, world, pos, player, s == SlabType.TOP);
             return true;
         }
         return false;

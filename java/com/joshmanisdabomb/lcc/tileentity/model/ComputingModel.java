@@ -32,13 +32,16 @@ public class ComputingModel extends Model {
     }
 
     public void renderModule(ComputingTileEntity te, float scale, SlabType module) {
-        boolean isTop = module == SlabType.TOP;
-        RendererModel[] ms = isTop ? module_top : module_bottom;
+        RendererModel[] ms = module == SlabType.TOP ? module_top : module_bottom;
         RendererModel m = ms[(te.isModuleConnectedAbove(module) ? 1 : 0) + (te.isModuleConnectedBelow(module) ? 2 : 0)];
-        int index = te.getModuleDirection(module).getHorizontalIndex();
+
+        ComputingTileEntity.ComputingModule cm = te.getModule(module);
+
+        int index = cm.direction.getHorizontalIndex();
         if (index == 3) index = 1;
         else if (index == 1) index = 3;
         m.rotateAngleY = (float)Math.PI * (index / 2F);
+
         m.render(scale);
     }
 

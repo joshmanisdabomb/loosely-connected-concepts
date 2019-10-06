@@ -177,6 +177,8 @@
   "block.lcc.glowing_obsidian": "Glowing Obsidian",
   "block.lcc.cog": "Cog",
 
+  "block.lcc.computing": "Computing Block",
+  "block.lcc.computing.casing": "Computer Casing",
   "item.lcc.computer_casing_white": "White Computer Casing",
   "item.lcc.computer_casing_orange": "Orange Computer Casing",
   "item.lcc.computer_casing_magenta": "Magenta Computer Casing",
@@ -193,6 +195,7 @@
   "item.lcc.computer_casing_green": "Green Computer Casing",
   "item.lcc.computer_casing_red": "Red Computer Casing",
   "item.lcc.computer_casing_black": "Black Computer Casing",
+  "block.lcc.computing.computer": "Computer",
   "item.lcc.computer_white": "White Computer",
   "item.lcc.computer_orange": "Orange Computer",
   "item.lcc.computer_magenta": "Magenta Computer",

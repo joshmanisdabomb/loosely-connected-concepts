@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
@@ -199,44 +200,73 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     }
 
     public enum ComputingModuleType {
-        CASING(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_casing.png"), false, (cm, te) -> {}, (cm, tag) -> {}, (cm, tag) -> {}, null, 0, 0),
-        COMPUTER(new ResourceLocation(LCC.MODID, "textures/entity/tile/computer.png"), true, (cm, te) -> {
-            cm.inventory = LazyOptional.of(() -> new ItemStackHandler(7) {
-                @Override
-                protected void onContentsChanged(int slot) {
-                    te.markDirty();
-                }
-            });
-            cm.powerState = false;
-        }, (cm, tag) -> {
-            cm.powerState = tag.getBoolean("PowerState");
-        }, (cm, tag) -> {
-            tag.putBoolean("PowerState", cm.powerState);
-        }, (sm, moduleInventory) -> {
+        CASING(false, te -> LazyOptional.empty(),  null, 0, 0),
+        COMPUTER( true, te -> LazyOptional.of(() -> new ItemStackHandler(7) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 17, 27, 0);
             sm.addSlots(moduleInventory, 41, 27, 1, 4, 1);
             sm.addSlot(moduleInventory, 119, 27, 5);
             sm.addSlot(moduleInventory, 143, 27, 6);
-        }, 8, 96);
+        }, 8, 96),
+        FLOPPY_DRIVE(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 80, 22, 0);
+        }, 8, 58),
+        CD_DRIVE(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 80, 20, 0);
+        }, 8, 58),
+        CARD_READER(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 80, 22, 0);
+        }, 8, 58),
+        STICK_READER(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 80, 22, 0);
+        }, 8, 58),
+        DRIVE_BAY(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                te.markDirty();
+            }
+        }), (sm, moduleInventory) -> {
+            sm.addSlot(moduleInventory, 80, 22, 0);
+        }, 8, 58);
 
         private final ResourceLocation tileEntityTexture;
         private final boolean gui;
-        private final BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers;
 
-        private final BiConsumer<ComputingModule, CompoundNBT> read;
-        private final BiConsumer<ComputingModule, CompoundNBT> write;
+        private final Function<ComputingTileEntity, LazyOptional<IItemHandlerModifiable>> inventory;
 
         private final BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator;
         public final int playerInvX;
         public final int playerInvY;
 
-        ComputingModuleType(ResourceLocation tileEntityTexture, boolean gui, BiConsumer<ComputingModule, ComputingTileEntity> moduleModifiers, BiConsumer<ComputingModule, CompoundNBT> read, BiConsumer<ComputingModule, CompoundNBT> write, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
-            this.tileEntityTexture = tileEntityTexture;
-            this.gui = gui;
-            this.moduleModifiers = moduleModifiers;
+        ComputingModuleType(boolean gui, Function<ComputingTileEntity, LazyOptional<IItemHandlerModifiable>> inventory, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
+            this.tileEntityTexture = new ResourceLocation(LCC.MODID, "textures/entity/tile/" + this.name().toLowerCase() + ".png");
+            this.inventory = inventory;
 
-            this.read = read;
-            this.write = write;
+            this.gui = gui;
 
             this.slotCreator = slotCreator;
             this.playerInvX = playerInvX;
@@ -246,10 +276,6 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         public ResourceLocation getTexture() {
             return this.tileEntityTexture;
         }
-
-        public void modify(ComputingModule cm, ComputingTileEntity te) {
-            moduleModifiers.accept(cm, te);
-        }
     }
 
     public class ComputingModule {
@@ -258,7 +284,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         public final Direction direction;
         public final ITextComponent customName;
 
-        public LazyOptional<IItemHandlerModifiable> inventory = LazyOptional.empty();
+        public final LazyOptional<IItemHandlerModifiable> inventory;
 
         public boolean powerState;
 
@@ -267,7 +293,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             this.color = color;
             this.direction = direction;
             this.customName = customName;
-            this.type.modify(this, ComputingTileEntity.this);
+            this.inventory = this.type.inventory.apply(ComputingTileEntity.this);
         }
 
         private CompoundNBT write(CompoundNBT tag) {
@@ -279,7 +305,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
                 CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
                 tag.put("inventory", compound);
             });
-            this.type.write.accept(this, tag);
+            if (this.type == ComputingModuleType.COMPUTER) tag.putBoolean("powerState", this.powerState);
             return tag;
         }
 
@@ -311,15 +337,15 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         DyeColor color = DyeColor.values()[tag.getByte("color")];
         if (!tag.contains("direction", Constants.NBT.TAG_ANY_NUMERIC)) return null;
         Direction direction = Direction.values()[tag.getByte("direction")];
-        if (!tag.contains("customName", Constants.NBT.TAG_STRING)) return null;
-        ITextComponent name = ITextComponent.Serializer.fromJson(tag.getString("customName"));
+
+        ITextComponent name = tag.contains("customName", Constants.NBT.TAG_STRING) ? ITextComponent.Serializer.fromJson(tag.getString("customName")) : null;
 
         ComputingModule m = new ComputingModule(module, color, direction, name);
 
         CompoundNBT invTag = tag.getCompound("inventory");
         m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
 
-        m.type.read.accept(m, tag);
+        if (m.type == ComputingModuleType.COMPUTER && tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
 
         return m;
     }

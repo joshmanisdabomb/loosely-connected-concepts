@@ -40,14 +40,14 @@ public class ComputingRenderer extends TileEntityRenderer<ComputingTileEntity> {
                     model.renderModule(te, 0.0625F, module);
 
                     //lights
-                    if (m.renderPowerLight()) {
+                    if (m.isPowered()) {
                         GlStateManager.color4f(1, 1, 1, 1);
                         GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
                         GlStateManager.depthMask(false);
                         this.setLightmapDisabled(true);
 
                         this.bindTexture(COMPUTER_LIGHTS);
-                        if (m.renderPowerLight()) model.renderPowerLight(te, 0.0625F, module, m.renderReadLight());
+                        if (m.isPowered()) model.renderPowerLight(te, 0.0625F, module, m.isReading());
 
                         this.setLightmapDisabled(false);
                         GlStateManager.depthMask(true);

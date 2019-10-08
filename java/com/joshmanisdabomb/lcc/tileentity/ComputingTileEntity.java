@@ -3,12 +3,15 @@ package com.joshmanisdabomb.lcc.tileentity;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.container.LCCContainerHelper;
+import com.joshmanisdabomb.lcc.misc.ComputerSession;
+import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -51,10 +54,10 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public void read(CompoundNBT tag) {
         if (tag.contains("TopModule", Constants.NBT.TAG_COMPOUND)) {
-            this.top = this.readModule(tag.getCompound("TopModule"));
+            this.top = this.readModule(tag.getCompound("TopModule"), SlabType.TOP);
         }
         if (tag.contains("BottomModule", Constants.NBT.TAG_COMPOUND)) {
-            this.bottom = this.readModule(tag.getCompound("BottomModule"));
+            this.bottom = this.readModule(tag.getCompound("BottomModule"), SlabType.BOTTOM);
         }
         super.read(tag);
     }
@@ -90,7 +93,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     }
 
     public void setModule(ComputingModuleType type, DyeColor color, Direction facing, ITextComponent customName, SlabType module) {
-        ComputingModule m = new ComputingModule(type, color, facing, customName);
+        ComputingModule m = new ComputingModule(type, color, facing, customName, module);
         switch (module) {
             case TOP:
                 this.top = m;
@@ -208,6 +211,21 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             protected void onContentsChanged(int slot) {
                 te.markDirty();
             }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                switch (slot) {
+                    case 0: return stack.getItem() == LCCItems.cpu;
+                    case 5: return stack.getItem() == LCCItems.gpu;
+                    case 6: return stack.getItem() == LCCItems.m2;
+                    default: return stack.getItem() == LCCItems.ram;
+                }
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 17, 27, 0);
             sm.addSlots(moduleInventory, 41, 27, 1, 4, 1);
@@ -219,6 +237,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             protected void onContentsChanged(int slot) {
                 te.markDirty();
             }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem() == LCCItems.floppy_disk;
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -226,6 +254,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             @Override
             protected void onContentsChanged(int slot) {
                 te.markDirty();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem() == LCCItems.compact_disc;
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
             }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 20, 0);
@@ -235,6 +273,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             protected void onContentsChanged(int slot) {
                 te.markDirty();
             }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem() == LCCItems.memory_card;
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -243,6 +291,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             protected void onContentsChanged(int slot) {
                 te.markDirty();
             }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem() == LCCItems.memory_stick;
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -250,6 +308,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             @Override
             protected void onContentsChanged(int slot) {
                 te.markDirty();
+            }
+
+            @Override
+            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+                return stack.getItem() == LCCItems.hard_disk_drive || stack.getItem() == LCCItems.solid_state_drive;
+            }
+
+            @Override
+            protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
             }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
@@ -287,14 +355,18 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         public final ITextComponent customName;
 
         public final LazyOptional<IItemHandlerModifiable> inventory;
+        public final SlabType location;
 
+        //Computer Module Only
         public boolean powerState;
+        private long readTime = -1;
 
-        private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName) {
+        private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName, SlabType location) {
             this.type = type;
             this.color = color;
             this.direction = direction;
             this.customName = customName;
+            this.location = location;
             this.inventory = this.type.inventory.apply(ComputingTileEntity.this);
         }
 
@@ -323,16 +395,16 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
         }
 
-        public boolean renderPowerLight() {
+        public boolean isPowered() {
             return this.type == ComputingModuleType.COMPUTER && this.powerState;
         }
 
-        public boolean renderReadLight() {
-            return false;
+        public boolean isReading() {
+            return this.readTime == ComputingTileEntity.this.getWorld().getGameTime();
         }
     }
 
-    private ComputingModule readModule(CompoundNBT tag) {
+    private ComputingModule readModule(CompoundNBT tag, SlabType location) {
         if (!tag.contains("module", Constants.NBT.TAG_ANY_NUMERIC)) return null;
         ComputingModuleType module = ComputingModuleType.values()[tag.getByte("module")];
         if (!tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC)) return null;
@@ -342,12 +414,14 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
 
         ITextComponent name = tag.contains("customName", Constants.NBT.TAG_STRING) ? ITextComponent.Serializer.fromJson(tag.getString("customName")) : null;
 
-        ComputingModule m = new ComputingModule(module, color, direction, name);
+        ComputingModule m = new ComputingModule(module, color, direction, name, location);
 
         CompoundNBT invTag = tag.getCompound("inventory");
         m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
 
-        if (m.type == ComputingModuleType.COMPUTER && tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
+        if (m.type == ComputingModuleType.COMPUTER) {
+            if (tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
+        }
 
         return m;
     }

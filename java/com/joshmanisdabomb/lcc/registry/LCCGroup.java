@@ -168,6 +168,16 @@ public class LCCGroup extends ItemGroup {
             set(LCCItems.stick_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+96);
             set(LCCItems.drive_bays.get(color), LCCGroupCategory.COMPUTING, color.getId()+112);
         }
+        set(LCCItems.cpu, LCCGroupCategory.COMPUTING, 128);
+        set(LCCItems.ram, LCCGroupCategory.COMPUTING, 129);
+        set(LCCItems.gpu, LCCGroupCategory.COMPUTING, 130);
+        set(LCCItems.floppy_disk, LCCGroupCategory.COMPUTING, 131);
+        set(LCCItems.compact_disc, LCCGroupCategory.COMPUTING, 132);
+        set(LCCItems.memory_card, LCCGroupCategory.COMPUTING, 133);
+        set(LCCItems.memory_stick, LCCGroupCategory.COMPUTING, 134);
+        set(LCCItems.hard_disk_drive, LCCGroupCategory.COMPUTING, 135);
+        set(LCCItems.solid_state_drive, LCCGroupCategory.COMPUTING, 136);
+        set(LCCItems.m2, LCCGroupCategory.COMPUTING, 137);
 
         //Nostalgia
         set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);

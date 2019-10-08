@@ -39,7 +39,7 @@ public class CryingObsidianModel implements IBakedModel {
     @Override
     public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
-        CryingObsidianCapability co = Minecraft.getInstance().player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).orElse(null);
+        CryingObsidianCapability co = Minecraft.getInstance().player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).orElseThrow(RuntimeException::new);
         tileData.setData(ACTIVE, co != null && !co.isEmpty() && Minecraft.getInstance().world.getDimension().getType() == co.dimension && pos.equals(co.pos));
         return tileData;
     }

@@ -38,7 +38,7 @@ public class CapabilityEvents {
     @SubscribeEvent
     public void attachCapabilityToWorld(AttachCapabilitiesEvent<World> event) {
         //global capabilities tied to just overworld
-        if (event.getObject().getDimension().getType() == DimensionType.OVERWORLD) {
+        if (event.getObject().getDimension().getType() == GlobalProvider.DIMENSION) {
             event.addCapability(SPREADER_CAPABILITY, new SpreaderCapability.Provider());
         }
     }

@@ -67,7 +67,7 @@ public class SpreaderInterfaceBlock extends ContainerBlock implements LCCBlockHe
     @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (!world.isRemote) {
-            SpreaderCapability.Provider.getGlobalCapability(world.getServer()).ifPresent(spreader -> {
+            SpreaderCapability.Provider.getGlobal(world.getServer()).ifPresent(spreader -> {
                 TileEntity tileEntity = world.getTileEntity(pos);
                 if (tileEntity instanceof INamedContainerProvider) {
                     NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, buf -> {

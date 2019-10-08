@@ -110,7 +110,7 @@ public class ClassicChestTileEntity extends TileEntity implements INamedContaine
         }
         if (other == null || other != te2) {
             other = te2;
-            return (totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(inventory.orElse(null), te2.inventory.orElse(null)))).cast();
+            return (totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(inventory.orElseThrow(RuntimeException::new), te2.inventory.orElseThrow(RuntimeException::new)))).cast();
         }
         return totalInventory.cast();
     }

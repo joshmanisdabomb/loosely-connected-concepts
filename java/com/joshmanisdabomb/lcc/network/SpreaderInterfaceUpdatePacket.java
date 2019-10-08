@@ -33,7 +33,7 @@ public class SpreaderInterfaceUpdatePacket implements LCCPacket {
     public void handleLogicalServer() {
         MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
 
-        SpreaderCapability oldSettings = SpreaderCapability.Provider.getGlobalCapability(s).orElse(new SpreaderCapability());
+        SpreaderCapability oldSettings = SpreaderCapability.Provider.getGlobal(s).orElse(new SpreaderCapability());
         HashMap<Object, Integer> costs = this.newSettings.calculateCosts(oldSettings, new HashMap<>());
 
         ServerPlayerEntity player = s.getPlayerList().getPlayerByUUID(this.player);

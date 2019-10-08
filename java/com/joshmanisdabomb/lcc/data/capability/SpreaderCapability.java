@@ -265,14 +265,16 @@ public class SpreaderCapability {
 
         private SpreaderCapability instance = DEFAULT_CAPABILITY.getDefaultInstance();
 
-        public static LazyOptional<SpreaderCapability> getGlobalCapability(MinecraftServer server) {
-            return DimensionManager.getWorld(server, DimensionType.OVERWORLD, false, false).getCapability(SpreaderCapability.Provider.DEFAULT_CAPABILITY);
-        }
+        private static final GlobalProvider<SpreaderCapability> global = new GlobalProvider<>(() -> DEFAULT_CAPABILITY);
 
         @Nonnull
         @Override
         public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
             return capability == DEFAULT_CAPABILITY ? LazyOptional.of(() -> (T) instance) : LazyOptional.empty();
+        }
+
+        public static LazyOptional<SpreaderCapability> getGlobal(MinecraftServer server) {
+            return global.get(server);
         }
 
         @Override

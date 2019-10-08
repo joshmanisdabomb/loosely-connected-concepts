@@ -39,7 +39,7 @@ public class CryingObsidianSpawnPacket implements LCCPacket {
     public void handleLogicalServer() {
         MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         ServerPlayerEntity playerOriginal = s.getPlayerList().getPlayerByUUID(this.player);
-        CryingObsidianCapability co = playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).orElse(null);
+        CryingObsidianCapability co = playerOriginal.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).orElseThrow(RuntimeException::new);
         BlockPos spawn = co.pos;
 
         if (playerOriginal.getHealth() > 0.0F) return;

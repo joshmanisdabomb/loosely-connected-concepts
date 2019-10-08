@@ -45,7 +45,7 @@ public class SpreaderInterfaceTileEntity extends TileEntity implements INamedCon
     @Nullable
     @Override
     public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        return new SpreaderInterfaceContainer(i, this, SpreaderCapability.Provider.getGlobalCapability(playerEntity.getServer()).orElse(null), playerEntity, playerInventory);
+        return new SpreaderInterfaceContainer(i, this, SpreaderCapability.Provider.getGlobal(playerEntity.getServer()).orElseThrow(RuntimeException::new), playerEntity, playerInventory);
     }
 
     public void setCustomName(ITextComponent displayName) {

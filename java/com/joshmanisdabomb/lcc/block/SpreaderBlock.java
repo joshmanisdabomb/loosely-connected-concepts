@@ -40,14 +40,14 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
 
     @Override
     public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        SpreaderCapability.Provider.getGlobalCapability(worldIn.getServer()).ifPresent(spreader -> {
+        SpreaderCapability.Provider.getGlobal(worldIn.getServer()).ifPresent(spreader -> {
             if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, worldIn.rand));
         });
     }
 
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        SpreaderCapability.Provider.getGlobalCapability(worldIn.getServer()).ifPresent(spreader -> {
+        SpreaderCapability.Provider.getGlobal(worldIn.getServer()).ifPresent(spreader -> {
             if (!worldIn.getPendingBlockTicks().isTickScheduled(pos, this)) worldIn.getPendingBlockTicks().scheduleTick(pos, this, spreader.getTickSpeed(color, worldIn.rand));
         });
     }
@@ -55,7 +55,7 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
     @Override
     public void tick(BlockState state, World world, BlockPos pos, Random random) {
         if (!world.isRemote) {
-            SpreaderCapability.Provider.getGlobalCapability(world.getServer()).ifPresent(spreader -> {
+            SpreaderCapability.Provider.getGlobal(world.getServer()).ifPresent(spreader -> {
                 if (spreader.isEnabled(color)) {
                     if (state.get(AGE) < 15) {
                         BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos(pos);

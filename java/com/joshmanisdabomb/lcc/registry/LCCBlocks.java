@@ -59,6 +59,7 @@ public abstract class LCCBlocks {
 
     //Computing
 	public static Block computing;
+	public static HashMap<DyeColor, Block> terminals = new HashMap<>();
 	public static Block printer2d;
 	public static Block printer3d;
 	public static Block remoteAccess;
@@ -160,6 +161,11 @@ public abstract class LCCBlocks {
 
 		//Computing
 		all.add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_block"));
+		for (DyeColor color : DyeColor.values()) {
+			all.add(b = new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "terminal_" + color.getName()));
+			terminals.put(color, b);
+			createDefaultBlockItem(b);
+		}
 
 		//Nostalgia
 		all.add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)).setRegistryName(LCC.MODID, "time_rift"));

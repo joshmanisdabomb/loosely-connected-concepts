@@ -3,8 +3,10 @@ package com.joshmanisdabomb.lcc.registry;
 import com.joshmanisdabomb.lcc.container.ClassicChestContainer;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
+import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.joshmanisdabomb.lcc.gui.ComputerScreen;
 import com.joshmanisdabomb.lcc.gui.DriveScreen;
+import com.joshmanisdabomb.lcc.gui.TerminalScreen;
 import com.joshmanisdabomb.lcc.gui.inventory.ClassicChestScreen;
 import com.joshmanisdabomb.lcc.gui.inventory.SpreaderInterfaceScreen;
 import net.minecraft.client.gui.ScreenManager;
@@ -38,6 +40,7 @@ public abstract class LCCScreens {
                     return null;
             }
         });
+        ScreenManager.registerFactory((ContainerType<TerminalContainer>)LCCContainers.terminal, TerminalScreen::new);
     }
 
 }

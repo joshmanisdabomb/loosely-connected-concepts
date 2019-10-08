@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "lcc:block/terminal" },
+        "facing=east": { "model": "lcc:block/terminal", "y": 90 },
+        "facing=south": { "model": "lcc:block/terminal", "y": 180 },
+        "facing=west": { "model": "lcc:block/terminal", "y": 270 }
+    }
+}

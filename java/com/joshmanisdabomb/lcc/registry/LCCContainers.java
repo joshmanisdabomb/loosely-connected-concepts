@@ -4,10 +4,12 @@ import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.ClassicChestContainer;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
+import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.tileentity.ClassicChestTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
+import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +25,7 @@ public abstract class LCCContainers {
     public static ContainerType<?> spreader_interface;
     public static ContainerType<?> classic_chest;
     public static ContainerType<?> computing;
+    public static ContainerType<?> terminal;
 
     public static void init(RegistryEvent.Register<ContainerType<?>> e) {
         all.add(spreader_interface = IForgeContainerType.create((windowId, inv, data) -> {
@@ -37,6 +40,10 @@ public abstract class LCCContainers {
             BlockPos pos = data.readBlockPos();
             return new ComputingContainer(windowId, ((ComputingTileEntity)LCC.proxy.getClientWorld().getTileEntity(pos)), data.readBoolean() ? SlabType.TOP : SlabType.BOTTOM, LCC.proxy.getClientPlayer(), inv);
         }).setRegistryName(LCC.MODID, "computing_container"));
+        all.add(terminal = IForgeContainerType.create((windowId, inv, data) -> {
+            BlockPos pos = data.readBlockPos();
+            return new TerminalContainer(windowId, ((TerminalTileEntity)LCC.proxy.getClientWorld().getTileEntity(pos)), LCC.proxy.getClientPlayer(), inv);
+        }).setRegistryName(LCC.MODID, "terminal"));
     }
 
 }

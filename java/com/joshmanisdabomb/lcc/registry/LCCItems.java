@@ -84,13 +84,13 @@ public abstract class LCCItems {
 	public static Item chromatic_core;
 
 	//Computing
-	public static HashMap<DyeColor, Item> computer_casing = new HashMap<>();
-	public static HashMap<DyeColor, Item> computer = new HashMap<>();
-	public static HashMap<DyeColor, Item> floppy_drive = new HashMap<>();
-	public static HashMap<DyeColor, Item> cd_drive = new HashMap<>();
-	public static HashMap<DyeColor, Item> card_reader = new HashMap<>();
-	public static HashMap<DyeColor, Item> stick_reader = new HashMap<>();
-	public static HashMap<DyeColor, Item> drive_bay = new HashMap<>();
+	public static HashMap<DyeColor, Item> computer_casings = new HashMap<>();
+	public static HashMap<DyeColor, Item> computers = new HashMap<>();
+	public static HashMap<DyeColor, Item> floppy_drives = new HashMap<>();
+	public static HashMap<DyeColor, Item> cd_drives = new HashMap<>();
+	public static HashMap<DyeColor, Item> card_readers = new HashMap<>();
+	public static HashMap<DyeColor, Item> stick_readers = new HashMap<>();
+	public static HashMap<DyeColor, Item> drive_bays = new HashMap<>();
 
 	//Spreaders
 	public static Item spreader_essence;
@@ -190,19 +190,19 @@ public abstract class LCCItems {
 		//Computing
 		for (DyeColor color : DyeColor.values()) {
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
-			computer_casing.put(color, i);
+			computer_casings.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.COMPUTER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_" + color.getName()));
-			computer.put(color, i);
+			computers.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.FLOPPY_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "floppy_drive_" + color.getName()));
-			floppy_drive.put(color, i);
+			floppy_drives.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CD_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "cd_drive_" + color.getName()));
-			cd_drive.put(color, i);
+			cd_drives.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CARD_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "card_reader_" + color.getName()));
-			card_reader.put(color, i);
+			card_readers.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.STICK_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "stick_reader_" + color.getName()));
-			stick_reader.put(color, i);
+			stick_readers.put(color, i);
 			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.DRIVE_BAY, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "drive_bay_" + color.getName()));
-			drive_bay.put(color, i);
+			drive_bays.put(color, i);
 		}
 
 		//Power

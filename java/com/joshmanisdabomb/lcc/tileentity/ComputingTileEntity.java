@@ -48,6 +48,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         super(LCCTileEntities.computing);
     }
 
+    @Override
     public void read(CompoundNBT tag) {
         if (tag.contains("TopModule", Constants.NBT.TAG_COMPOUND)) {
             this.top = this.readModule(tag.getCompound("TopModule"));
@@ -58,6 +59,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         super.read(tag);
     }
 
+    @Override
     public CompoundNBT write(CompoundNBT tag) {
         if (this.top != null) tag.put("TopModule", this.top.write(new CompoundNBT()));
         if (this.bottom != null) tag.put("BottomModule", this.bottom.write(new CompoundNBT()));

@@ -159,13 +159,14 @@ public class LCCGroup extends ItemGroup {
 
         //Computing
         for (DyeColor color : DyeColor.values()) {
-            set(LCCItems.computer_casing.get(color), LCCGroupCategory.COMPUTING, color.getId());
-            set(LCCItems.computer.get(color), LCCGroupCategory.COMPUTING, color.getId()+16);
-            set(LCCItems.floppy_drive.get(color), LCCGroupCategory.COMPUTING, color.getId()+32);
-            set(LCCItems.cd_drive.get(color), LCCGroupCategory.COMPUTING, color.getId()+48);
-            set(LCCItems.card_reader.get(color), LCCGroupCategory.COMPUTING, color.getId()+64);
-            set(LCCItems.stick_reader.get(color), LCCGroupCategory.COMPUTING, color.getId()+80);
-            set(LCCItems.drive_bay.get(color), LCCGroupCategory.COMPUTING, color.getId()+96);
+            set(LCCItems.computer_casings.get(color), LCCGroupCategory.COMPUTING, color.getId());
+            set(LCCItems.computers.get(color), LCCGroupCategory.COMPUTING, color.getId()+16);
+            set(LCCBlocks.terminals.get(color), LCCGroupCategory.COMPUTING, color.getId()+32);
+            set(LCCItems.floppy_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+48);
+            set(LCCItems.cd_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+64);
+            set(LCCItems.card_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+80);
+            set(LCCItems.stick_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+96);
+            set(LCCItems.drive_bays.get(color), LCCGroupCategory.COMPUTING, color.getId()+112);
         }
 
         //Nostalgia

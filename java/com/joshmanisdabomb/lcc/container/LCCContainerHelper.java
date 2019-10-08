@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.container;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -14,12 +16,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public interface LCCContainerHelper {
 
     default SlotManager createSlotManager(Function<Slot, Slot> creator) {
         return new SlotManager((Container) this, creator);
+    }
+
+    static boolean isWithinUsableDistancePredicated(IWorldPosCallable worldPos, PlayerEntity player, Predicate<BlockState> state) {
+        return worldPos.applyOrElse((world, pos) -> state.test(world.getBlockState(pos)) && player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D, true);
     }
 
     class SlotManager {

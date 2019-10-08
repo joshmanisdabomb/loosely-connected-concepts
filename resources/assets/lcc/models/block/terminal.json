@@ -1,0 +1,22 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "top": "lcc:block/computing/casing_top",
+    "front": "lcc:block/computing/terminal_front",
+    "side": "lcc:block/computing/casing_top"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "texture": "#top", "tintindex": 0, "cullface": "down" },
+        "up":    { "texture": "#top", "tintindex": 0, "cullface": "up" },
+        "north": { "texture": "#front", "tintindex": 0, "cullface": "north" },
+        "south": { "texture": "#side", "tintindex": 0, "cullface": "south" },
+        "west":  { "texture": "#side", "tintindex": 0, "cullface": "west" },
+        "east":  { "texture": "#side", "tintindex": 0, "cullface": "east" }
+      }
+    }
+  ]
+}

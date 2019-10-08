@@ -47,4 +47,5 @@ public class ComputingContainer extends Container implements LCCContainerHelper 
     public ItemStack transferStackInSlot(PlayerEntity player, int slotID) {
         return sm.transferStackInSlot(player, slotID);
     }
+
 }

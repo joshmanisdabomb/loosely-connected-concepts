@@ -1,0 +1,60 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "lcc:block/cable_center",
+        "textures": {
+          "particle": "lcc:block/computing/computing_cable",
+          "cable": "lcc:block/computing/computing_cable"
+        }
+    },
+    "variants": {
+		"north": {
+            "true": {
+				"submodel": {
+                    "north": { "model": "lcc:block/cable_north" }
+                }
+			},
+            "false": {}
+        },
+		"east": {
+            "true": {
+				"submodel": {
+                    "east": { "model": "lcc:block/cable_east" }
+                }
+			},
+            "false": {}
+        },
+		"south": {
+            "true": {
+				"submodel": {
+                    "south": { "model": "lcc:block/cable_south" }
+                }
+			},
+            "false": {}
+        },
+		"west": {
+            "true": {
+				"submodel": {
+                    "west": { "model": "lcc:block/cable_west" }
+                }
+			},
+            "false": {}
+        },
+		"up": {
+            "true": {
+				"submodel": {
+                    "up": { "model": "lcc:block/cable_up" }
+                }
+			},
+            "false": {}
+        },
+		"down": {
+            "true": {
+				"submodel": {
+                    "down": { "model": "lcc:block/cable_down" }
+                }
+			},
+            "false": {}
+        }
+    }
+}

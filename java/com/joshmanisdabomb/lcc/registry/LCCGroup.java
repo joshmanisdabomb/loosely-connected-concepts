@@ -158,26 +158,27 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
         //Computing
+        set(LCCBlocks.computing_cable, LCCGroupCategory.COMPUTING, -100);
         for (DyeColor color : DyeColor.values()) {
             set(LCCItems.computer_casings.get(color), LCCGroupCategory.COMPUTING, color.getId());
-            set(LCCItems.computers.get(color), LCCGroupCategory.COMPUTING, color.getId()+16);
-            set(LCCBlocks.terminals.get(color), LCCGroupCategory.COMPUTING, color.getId()+32);
-            set(LCCItems.floppy_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+48);
-            set(LCCItems.cd_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+64);
-            set(LCCItems.card_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+80);
-            set(LCCItems.stick_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+96);
-            set(LCCItems.drive_bays.get(color), LCCGroupCategory.COMPUTING, color.getId()+112);
+            set(LCCItems.computers.get(color), LCCGroupCategory.COMPUTING, color.getId()+100);
+            set(LCCBlocks.terminals.get(color), LCCGroupCategory.COMPUTING, color.getId()+200);
+            set(LCCItems.floppy_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+300);
+            set(LCCItems.cd_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+400);
+            set(LCCItems.card_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+500);
+            set(LCCItems.stick_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+600);
+            set(LCCItems.drive_bays.get(color), LCCGroupCategory.COMPUTING, color.getId()+700);
         }
-        set(LCCItems.cpu, LCCGroupCategory.COMPUTING, 128);
-        set(LCCItems.ram, LCCGroupCategory.COMPUTING, 129);
-        set(LCCItems.gpu, LCCGroupCategory.COMPUTING, 130);
-        set(LCCItems.floppy_disk, LCCGroupCategory.COMPUTING, 131);
-        set(LCCItems.compact_disc, LCCGroupCategory.COMPUTING, 132);
-        set(LCCItems.memory_card, LCCGroupCategory.COMPUTING, 133);
-        set(LCCItems.memory_stick, LCCGroupCategory.COMPUTING, 134);
-        set(LCCItems.hard_disk_drive, LCCGroupCategory.COMPUTING, 135);
-        set(LCCItems.solid_state_drive, LCCGroupCategory.COMPUTING, 136);
-        set(LCCItems.m2, LCCGroupCategory.COMPUTING, 137);
+        set(LCCItems.cpu, LCCGroupCategory.COMPUTING, 5000);
+        set(LCCItems.ram, LCCGroupCategory.COMPUTING, 5100);
+        set(LCCItems.gpu, LCCGroupCategory.COMPUTING, 5200);
+        set(LCCItems.floppy_disk, LCCGroupCategory.COMPUTING, 10000);
+        set(LCCItems.compact_disc, LCCGroupCategory.COMPUTING, 10100);
+        set(LCCItems.memory_card, LCCGroupCategory.COMPUTING, 10200);
+        set(LCCItems.memory_stick, LCCGroupCategory.COMPUTING, 10300);
+        set(LCCItems.hard_disk_drive, LCCGroupCategory.COMPUTING, 10400);
+        set(LCCItems.solid_state_drive, LCCGroupCategory.COMPUTING, 10500);
+        set(LCCItems.m2, LCCGroupCategory.COMPUTING, 10600);
 
         //Nostalgia
         set(LCCBlocks.time_rift, LCCGroupCategory.NOSTALGIA, 0);

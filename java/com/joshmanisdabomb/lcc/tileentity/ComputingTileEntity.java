@@ -360,6 +360,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         //Computer Module Only
         public boolean powerState;
         private long readTime = -1;
+        private ComputerSession session;
 
         private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName, SlabType location) {
             this.type = type;
@@ -395,6 +396,17 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
         }
 
+        //Computer Module Only
+        public void generateSession() {
+            if (this.type == ComputingModuleType.COMPUTER) {
+                if (this.powerState) {
+                    this.session = new ComputerSession(ComputingTileEntity.this, this);
+                } else {
+                    this.session = null;
+                }
+            }
+        }
+
         public boolean isPowered() {
             return this.type == ComputingModuleType.COMPUTER && this.powerState;
         }
@@ -421,6 +433,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
 
         if (m.type == ComputingModuleType.COMPUTER) {
             if (tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
+            m.generateSession();
         }
 
         return m;

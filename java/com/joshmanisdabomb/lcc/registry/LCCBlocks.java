@@ -59,6 +59,7 @@ public abstract class LCCBlocks {
 
     //Computing
 	public static Block computing;
+	public static Block computing_cable;
 	public static HashMap<DyeColor, Block> terminals = new HashMap<>();
 	public static Block printer2d;
 	public static Block printer3d;
@@ -161,6 +162,10 @@ public abstract class LCCBlocks {
 
 		//Computing
 		all.add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_block"));
+		all.add(computing_cable = new CableBlock((state, direction) -> {
+			return state.getBlock() instanceof ComputingBlock || state.getBlock() instanceof TerminalBlock;
+		}, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "computing_cable"));
+		createDefaultBlockItem(computing_cable);
 		for (DyeColor color : DyeColor.values()) {
 			all.add(b = new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "terminal_" + color.getName()));
 			terminals.put(color, b);

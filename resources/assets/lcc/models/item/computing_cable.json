@@ -1,0 +1,6 @@
+{
+    "parent": "lcc:item/cable_item",
+    "textures": {
+        "cable": "lcc:block/computing/computing_cable"
+    }
+}

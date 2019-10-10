@@ -1,7 +1,12 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_all",
+    "textures": {
+      "all": "lcc:block/resources/storage/topaz"
+    }
+  },
   "variants": {
-    "": [
-      { "model": "lcc:block/topaz_storage" }
-    ]
+    "": [{}]
   }
 }

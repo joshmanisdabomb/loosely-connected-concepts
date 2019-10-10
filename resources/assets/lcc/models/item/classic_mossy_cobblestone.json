@@ -1,3 +1,6 @@
 {
-    "parent": "lcc:block/classic_mossy_cobblestone"
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lcc:block/nostalgia/mossy_cobblestone"
+    }
 }

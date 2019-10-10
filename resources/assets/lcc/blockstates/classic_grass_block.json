@@ -1,6 +1,25 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_bottom_top",
+    "textures": {
+      "bottom": "block/dirt"
+    }
+  },
   "variants": {
-    "snowy=false": [{"model": "lcc:block/classic_grass_block"}],
-    "snowy=true": [{"model": "lcc:block/classic_grass_block_snow"}]
+    "snowy": {
+      "false": {
+        "textures": {
+          "top": "lcc:block/nostalgia/grass_block_top",
+          "side": "lcc:block/nostalgia/grass_block_side"
+        }
+      },
+      "true": {
+        "textures": {
+          "top": "block/snow",
+          "side": "lcc:block/nostalgia/grass_block_snowy"
+        }
+      }
+    }
   }
 }

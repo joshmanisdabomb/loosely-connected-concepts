@@ -1,3 +1,6 @@
 {
-    "parent": "lcc:block/classic_cloth_turquoise"
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lcc:block/nostalgia/cloth_turquoise"
+    }
 }

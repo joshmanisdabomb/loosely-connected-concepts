@@ -1,9 +1,7 @@
 {
   "parent": "block/block",
   "textures": {
-    "top": "lcc:block/computing/casing_top",
-    "front": "lcc:block/computing/terminal_front",
-    "side": "lcc:block/computing/casing_top"
+    "particle": "#front"
   },
   "elements": [
     {

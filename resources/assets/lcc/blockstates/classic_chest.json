@@ -1,16 +1,41 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube",
+    "textures": {
+      "east": "lcc:block/nostalgia/chest_side",
+      "west": "lcc:block/nostalgia/chest_side",
+      "up": "lcc:block/nostalgia/chest_top",
+      "down": "lcc:block/nostalgia/chest_top",
+      "particle": "lcc:block/nostalgia/chest_front"
+    }
+  },
   "variants": {
-    "type=single,facing=north": { "model": "lcc:block/classic_chest_single" },
-    "type=single,facing=south": { "model": "lcc:block/classic_chest_single", "y": 180 },
-    "type=single,facing=west":  { "model": "lcc:block/classic_chest_single", "y": 270 },
-    "type=single,facing=east":  { "model": "lcc:block/classic_chest_single", "y": 90 },
-    "type=left,facing=north": { "model": "lcc:block/classic_chest_left" },
-    "type=left,facing=south": { "model": "lcc:block/classic_chest_left", "y": 180 },
-    "type=left,facing=west":  { "model": "lcc:block/classic_chest_left", "y": 270 },
-    "type=left,facing=east":  { "model": "lcc:block/classic_chest_left", "y": 90 },
-    "type=right,facing=north": { "model": "lcc:block/classic_chest_right" },
-    "type=right,facing=south": { "model": "lcc:block/classic_chest_right", "y": 180 },
-    "type=right,facing=west":  { "model": "lcc:block/classic_chest_right", "y": 270 },
-    "type=right,facing=east":  { "model": "lcc:block/classic_chest_right", "y": 90 }
+    "type": {
+      "single": {
+        "textures": {
+          "north": "lcc:block/nostalgia/chest_front",
+          "south": "lcc:block/nostalgia/chest_side"
+        }
+      },
+      "left": {
+        "textures": {
+          "north": "lcc:block/nostalgia/chest_right_front",
+          "south": "lcc:block/nostalgia/chest_left_back"
+        }
+      },
+      "right": {
+        "textures": {
+          "north": "lcc:block/nostalgia/chest_left_front",
+          "south": "lcc:block/nostalgia/chest_right_back"
+        }
+      }
+    },
+    "facing": {
+      "north": {},
+      "east": { "y": 90 },
+      "south": { "y": 180 },
+      "west": { "y": 270 }
+    }
   }
 }

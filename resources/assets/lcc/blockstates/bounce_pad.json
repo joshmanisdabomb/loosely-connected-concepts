@@ -1,10 +1,42 @@
 {
-  "multipart": [
-    { "apply": { "model": "lcc:block/bounce_pad" } },
-    { "when": { "setting": "0" }, "apply": { "model": "lcc:block/bounce_pad_0" } },
-    { "when": { "setting": "1" }, "apply": { "model": "lcc:block/bounce_pad_1" } },
-    { "when": { "setting": "2" }, "apply": { "model": "lcc:block/bounce_pad_2" } },
-    { "when": { "setting": "3" }, "apply": { "model": "lcc:block/bounce_pad_3" } },
-    { "when": { "setting": "4" }, "apply": { "model": "lcc:block/bounce_pad_4" } }
-  ]
+  "forge_marker": 1,
+  "defaults": {
+    "model": "lcc:block/bounce_pad",
+    "textures": {
+      "0": "lcc:block/bounce_pad/base_h",
+      "1": "lcc:block/bounce_pad/inner",
+      "2": "lcc:block/bounce_pad/setting",
+      "3": "lcc:block/bounce_pad/base_v",
+      "particle": "lcc:block/bounce_pad/base_v"
+    }
+  },
+  "variants": {
+    "setting": {
+      "0": {
+        "submodel": {
+          "setting": { "model": "lcc:block/bounce_pad_0" }
+        }
+      },
+      "1": {
+        "submodel": {
+          "setting": { "model": "lcc:block/bounce_pad_1" }
+        }
+      },
+      "2": {
+        "submodel": {
+          "setting": { "model": "lcc:block/bounce_pad_2" }
+        }
+      },
+      "3": {
+        "submodel": {
+          "setting": { "model": "lcc:block/bounce_pad_3" }
+        }
+      },
+      "4": {
+        "submodel": {
+          "setting": { "model": "lcc:block/bounce_pad_4" }
+        }
+      }
+    }
+  }
 }

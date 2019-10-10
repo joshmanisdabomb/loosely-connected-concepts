@@ -1,11 +1,5 @@
 {
   "parent": "block/block",
-  "textures": {
-    "particle": "lcc:block/road/side_base",
-    "top": "lcc:block/road/top_default",
-    "side": "lcc:block/road/side_base",
-    "bottom": "lcc:block/road/bottom_base"
-  },
   "elements": [
     {
       "from": [ 0, 0, 0 ],

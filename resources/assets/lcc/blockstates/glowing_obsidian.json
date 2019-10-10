@@ -1,5 +1,12 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_all",
+    "textures": {
+      "all": "lcc:block/nostalgia/glowing_obsidian"
+    }
+  },
   "variants": {
-    "": [{ "model": "lcc:block/glowing_obsidian" }]
+    "": [{}]
   }
 }

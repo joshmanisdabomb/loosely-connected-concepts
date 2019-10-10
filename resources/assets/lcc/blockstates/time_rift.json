@@ -1,7 +1,12 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/block",
+    "textures": {
+      "particle": "lcc:block/time_rift"
+    }
+  },
   "variants": {
-    "": [
-      { "model": "lcc:block/time_rift" }
-    ]
+    "": [{}]
   }
 }

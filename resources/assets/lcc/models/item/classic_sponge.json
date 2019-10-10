@@ -1,3 +1,6 @@
 {
-    "parent": "lcc:block/classic_sponge"
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lcc:block/nostalgia/sponge"
+    }
 }

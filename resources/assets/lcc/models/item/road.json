@@ -1,3 +1,8 @@
 {
-  "parent": "lcc:block/road"
+  "parent": "lcc:block/road",
+  "textures": {
+    "top": "lcc:block/road/top_default",
+    "side": "lcc:block/road/side_base",
+    "bottom": "lcc:block/road/bottom_base"
+  }
 }

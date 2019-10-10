@@ -1,3 +1,8 @@
 {
-    "parent": "lcc:block/classic_tnt"
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "bottom": "lcc:block/nostalgia/tnt_bottom",
+        "top": "lcc:block/nostalgia/tnt_top",
+        "side": "lcc:block/nostalgia/tnt_side"
+    }
 }

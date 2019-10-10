@@ -1,3 +1,6 @@
 {
-    "parent": "lcc:block/enriched_uranium_storage"
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "lcc:block/resources/storage/uranium_enriched"
+    }
 }

@@ -1,5 +1,14 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_bottom_top",
+    "textures": {
+      "bottom": "lcc:block/nostalgia/iron_block_bottom",
+      "top": "lcc:block/nostalgia/iron_block_top",
+      "side": "lcc:block/nostalgia/iron_block_side"
+    }
+  },
   "variants": {
-    "": [{ "model": "lcc:block/classic_iron_block" }]
+    "": [{}]
   }
 }

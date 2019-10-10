@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "front": "lcc:block/nostalgia/chest_front",
-        "top": "lcc:block/nostalgia/chest_top",
-        "side": "lcc:block/nostalgia/chest_side"
-    }
-}

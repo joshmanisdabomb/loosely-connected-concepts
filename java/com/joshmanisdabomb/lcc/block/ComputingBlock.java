@@ -137,11 +137,22 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         if (state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof ComputingTileEntity) {
-                ((ComputingTileEntity)tileentity).getModule(state.get(MODULE)).inventory.ifPresent(h -> {
-                    for (int i = 0; i < h.getSlots(); i++) {
-                        InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+                SlabType setup = state.get(MODULE);
+                if (setup == SlabType.DOUBLE) {
+                    for (ComputingTileEntity.ComputingModule m : ((ComputingTileEntity)tileentity).getInstalledModules()) {
+                        m.inventory.ifPresent(h -> {
+                            for (int i = 0; i < h.getSlots(); i++) {
+                                InventoryHelper.spawnItemStack(world, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), h.extractItem(i, 64, false));
+                            }
+                        });
                     }
-                });
+                } else {
+                    ((ComputingTileEntity)tileentity).getModule(setup).inventory.ifPresent(h -> {
+                        for (int i = 0; i < h.getSlots(); i++) {
+                            InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+                        }
+                    });
+                }
             }
             super.onReplaced(state, world, pos, newState, isMoving);
         }

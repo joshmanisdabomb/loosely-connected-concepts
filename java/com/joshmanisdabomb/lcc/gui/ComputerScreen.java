@@ -38,7 +38,7 @@ public class ComputerScreen extends ComputingScreen {
             public void onPress() {
                 ComputerScreen.this.container.module.powerState = !ComputerScreen.this.container.module.powerState;
                 this.ix = ComputerScreen.this.container.module.powerState ? 110 : 88;
-                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(ComputerScreen.this.container.te.getWorld().getDimension().getType(), ComputerScreen.this.container.te.getPos(), ComputerScreen.this.playerInventory.player.getUniqueID(), ComputerScreen.this.container.moduleLocation, ComputerScreen.this.container.module.powerState));
+                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(ComputerScreen.this.container.te.getWorld().getDimension().getType(), ComputerScreen.this.container.te.getPos(), ComputerScreen.this.playerInventory.player.getUniqueID(), ComputerScreen.this.container.location, ComputerScreen.this.container.module.powerState));
             }
 
             @Override

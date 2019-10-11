@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
@@ -51,21 +52,21 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         this.setDefaultState(this.stateContainer.getBaseState().with(MODULE, SlabType.BOTTOM));
     }
 
-    protected BlockState removeModule(BlockState state, IWorld world, BlockPos pos, SlabType module, boolean effects, boolean drops) {
-        BlockState singlePart = this.getDefaultState().with(MODULE, module);
+    protected BlockState removeModule(BlockState state, IWorld world, BlockPos pos, SlabType location, boolean effects, boolean drops) {
+        BlockState singlePart = this.getDefaultState().with(MODULE, location);
         ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
 
         if (effects) this.harvestPartEffects(singlePart, world, pos);
         if (drops && world instanceof World) this.spawnPartDrops(singlePart, (World)world, pos);
 
-        te.getModule(module).inventory.ifPresent(h -> {
+        te.getModule(location).inventory.ifPresent(h -> {
             for (int i = 0; i < h.getSlots(); i++) {
                 InventoryHelper.spawnItemStack((World)world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
             }
         });
-        te.clearModule(module);
+        te.clearModule(location);
 
-        return state.with(MODULE, flip(module));
+        return state.with(MODULE, flip(location));
     }
 
     protected void activateModule(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean isTop) {
@@ -109,9 +110,9 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         ItemStack stack = context.getItem();
         ComputingBlockItem item = (ComputingBlockItem)stack.getItem();
         if (state.getBlock() == this) {
-            SlabType module = state.get(MODULE);
+            SlabType location = state.get(MODULE);
             ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
-            te.setModule(item.getModule(), item.getColor(), context.getPlacementHorizontalFacing().getOpposite(), stack.hasDisplayName() ? stack.getDisplayName() : null, flip(module));
+            te.setModule(item.getModule(), item.getColor(), context.getPlacementHorizontalFacing().getOpposite(), stack.hasDisplayName() ? stack.getDisplayName() : null, flip(location));
             return state.with(MODULE, SlabType.DOUBLE);
         } else {
             Direction direction = context.getFace();
@@ -139,7 +140,7 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
             if (tileentity instanceof ComputingTileEntity) {
                 SlabType setup = state.get(MODULE);
                 if (setup == SlabType.DOUBLE) {
-                    for (ComputingTileEntity.ComputingModule m : ((ComputingTileEntity)tileentity).getInstalledModules()) {
+                    for (ComputingModule m : ((ComputingTileEntity)tileentity).getInstalledModules()) {
                         m.inventory.ifPresent(h -> {
                             for (int i = 0; i < h.getSlots(); i++) {
                                 InventoryHelper.spawnItemStack(world, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), h.extractItem(i, 64, false));
@@ -161,12 +162,12 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     @Override
     public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
         ItemStack stack = useContext.getItem();
-        SlabType module = state.get(MODULE);
-        if (module != SlabType.DOUBLE && stack.getItem() instanceof ComputingBlockItem) {
+        SlabType location = state.get(MODULE);
+        if (location != SlabType.DOUBLE && stack.getItem() instanceof ComputingBlockItem) {
             if (useContext.replacingClickedOnBlock()) {
                 boolean flag = useContext.getHitVec().y - (double)useContext.getPos().getY() > 0.5D;
                 Direction direction = useContext.getFace();
-                if (module == SlabType.BOTTOM) {
+                if (location == SlabType.BOTTOM) {
                     return direction == Direction.UP || flag && direction.getAxis().isHorizontal();
                 } else {
                     return direction == Direction.DOWN || !flag && direction.getAxis().isHorizontal();
@@ -249,8 +250,8 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
         return BlockRenderType.INVISIBLE;
     }
 
-    public static SlabType flip(SlabType module) {
-        switch (module) {
+    public static SlabType flip(SlabType location) {
+        switch (location) {
             case TOP: return SlabType.BOTTOM;
             case BOTTOM: return SlabType.TOP;
             default: return SlabType.DOUBLE;

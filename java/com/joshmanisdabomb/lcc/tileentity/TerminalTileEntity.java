@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.joshmanisdabomb.lcc.misc.ComputerSession;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
@@ -16,6 +17,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -31,6 +34,8 @@ import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.WIRED_NETWO
 public class TerminalTileEntity extends TileEntity implements INamedContainerProvider {
 
     public ITextComponent customName;
+
+    private ComputerSession session;
 
     public TerminalTileEntity() {
         super(LCCTileEntities.terminal);
@@ -80,7 +85,7 @@ public class TerminalTileEntity extends TileEntity implements INamedContainerPro
         return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.terminal");
     }
 
-    public List<ComputingTileEntity.ComputingModule> getActiveComputers() {
+    public List<ComputingModule> getActiveComputers() {
         List<Pair<BlockPos, SlabType>> modules = WIRED_NETWORK.discover(this.getWorld(), new ImmutablePair<>(this.getPos(), null)).getTraversables();
         return modules.stream().map(m -> {
             TileEntity te = this.getWorld().getTileEntity(m.getLeft());
@@ -88,13 +93,17 @@ public class TerminalTileEntity extends TileEntity implements INamedContainerPro
                 return ((ComputingTileEntity)te).getModule(m.getRight());
             }
             return null;
-        }).filter(module -> module != null && module.type == ComputingTileEntity.ComputingModuleType.COMPUTER && module.powerState).collect(Collectors.toList());
+        }).filter(module -> module != null && module.type == ComputingModule.Type.COMPUTER && module.powerState).collect(Collectors.toList());
     }
 
-    public ComputerSession getCurrentSession() {
-        List<ComputingTileEntity.ComputingModule> computers = this.getActiveComputers();
-        if (computers.size() != 1) return null;
-        return computers.get(0).getSession();
+    public void updateSession() {
+        List<ComputingModule> computers = this.getActiveComputers();
+        this.session = computers.size() != 1 ? null : computers.get(0).getSession();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBackgroundColor() {
+        return this.session != null ? this.session.getBackgroundColor() : 0xFF222222;
     }
 
 }

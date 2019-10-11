@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.*;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
-import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -199,19 +199,19 @@ public abstract class LCCItems {
 
 		//Computing
 		for (DyeColor color : DyeColor.values()) {
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
 			computer_casings.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.COMPUTER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.COMPUTER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_" + color.getName()));
 			computers.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.FLOPPY_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "floppy_drive_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.FLOPPY_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "floppy_drive_" + color.getName()));
 			floppy_drives.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CD_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "cd_drive_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.CD_DRIVE, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "cd_drive_" + color.getName()));
 			cd_drives.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.CARD_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "card_reader_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.CARD_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "card_reader_" + color.getName()));
 			card_readers.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.STICK_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "stick_reader_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.STICK_READER, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "stick_reader_" + color.getName()));
 			stick_readers.put(color, i);
-			all.add(i = new ComputingBlockItem(ComputingTileEntity.ComputingModuleType.DRIVE_BAY, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "drive_bay_" + color.getName()));
+			all.add(i = new ComputingBlockItem(ComputingModule.Type.DRIVE_BAY, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "drive_bay_" + color.getName()));
 			drive_bays.put(color, i);
 		}
 		all.add(cpu = new Item(new Item.Properties().maxStackSize(1).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "cpu"));

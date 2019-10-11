@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.gui;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -22,10 +23,9 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         this.renderBackground();
+        container.te.updateSession();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
-
-        System.out.println(container.te.getCurrentSession());
     }
 
     @Override
@@ -36,9 +36,15 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+        AbstractGui.fill(this.guiLeft + 8, this.guiTop + 18, this.guiLeft + 248, this.guiTop + 134, container.te.getBackgroundColor());
+
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(GUI);
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+
+        GlStateManager.enableBlend();
+        this.blit(this.guiLeft + 8, this.guiTop + 18, 256, 0, 240, 116);
+        GlStateManager.disableBlend();
     }
 
     @Override

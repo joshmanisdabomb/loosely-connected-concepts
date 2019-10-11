@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.tileentity.model;
 
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.client.renderer.model.Model;
@@ -68,12 +69,12 @@ public class ComputingModel extends Model {
         }
     }
 
-    private void render(ComputingTileEntity te, float scale, SlabType module, RendererModel[] ms) {
-        RendererModel m = ms[(te.isModuleConnectedAbove(module) ? 1 : 0) + (te.isModuleConnectedBelow(module) ? 2 : 0)];
+    private void render(ComputingTileEntity te, float scale, SlabType location, RendererModel[] ms) {
+        RendererModel m = ms[(te.isModuleConnectedAbove(location) ? 1 : 0) + (te.isModuleConnectedBelow(location) ? 2 : 0)];
 
-        ComputingTileEntity.ComputingModule cm = te.getModule(module);
+        ComputingModule module = te.getModule(location);
 
-        int index = cm.direction.getHorizontalIndex();
+        int index = module.direction.getHorizontalIndex();
         if (index == 3) index = 1;
         else if (index == 1) index = 3;
         m.rotateAngleY = (float)Math.PI * (index / 2F);
@@ -81,12 +82,12 @@ public class ComputingModel extends Model {
         m.render(scale);
     }
 
-    public void renderModule(ComputingTileEntity te, float scale, SlabType module) {
-        this.render(te, scale, module, module == SlabType.TOP ? module_top : module_bottom);
+    public void renderModule(ComputingTileEntity te, float scale, SlabType location) {
+        this.render(te, scale, location, location == SlabType.TOP ? module_top : module_bottom);
     }
 
-    public void renderPowerLight(ComputingTileEntity te, float scale, SlabType module, boolean read) {
-        this.render(te, scale, module, module == SlabType.TOP ? (read ? read_light_top : power_light_top) : (read ? read_light_bottom : power_light_bottom));
+    public void renderPowerLight(ComputingTileEntity te, float scale, SlabType location, boolean read) {
+        this.render(te, scale, location, location == SlabType.TOP ? (read ? read_light_top : power_light_top) : (read ? read_light_bottom : power_light_bottom));
     }
 
 }

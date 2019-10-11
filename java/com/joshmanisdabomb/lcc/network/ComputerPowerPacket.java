@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.network;
 
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.BlockState;
@@ -24,14 +25,14 @@ public class ComputerPowerPacket implements LCCPacket {
     private final DimensionType dim;
     private final BlockPos pos;
     private final UUID player;
-    private final SlabType module;
+    private final SlabType location;
     private final boolean powerState;
 
-    public ComputerPowerPacket(DimensionType dim, BlockPos pos, UUID player, SlabType module, boolean powerState) {
+    public ComputerPowerPacket(DimensionType dim, BlockPos pos, UUID player, SlabType location, boolean powerState) {
         this.dim = dim;
         this.pos = pos;
         this.player = player;
-        this.module = module;
+        this.location = location;
         this.powerState = powerState;
     }
 
@@ -39,7 +40,7 @@ public class ComputerPowerPacket implements LCCPacket {
         buf.writeResourceLocation(msg.dim.getRegistryName());
         buf.writeBlockPos(msg.pos);
         buf.writeUniqueId(msg.player);
-        buf.writeBoolean(msg.module == SlabType.TOP);
+        buf.writeBoolean(msg.location == SlabType.TOP);
         buf.writeBoolean(msg.powerState);
     }
 
@@ -67,11 +68,11 @@ public class ComputerPowerPacket implements LCCPacket {
 
         BlockState state = world.getBlockState(this.pos);
         if (state.getBlock() != LCCBlocks.computing) return;
-        if (state.get(ComputingBlock.MODULE) == flip(this.module)) return;
+        if (state.get(ComputingBlock.MODULE) == flip(this.location)) return;
 
-        ComputingTileEntity.ComputingModule cm = ((ComputingTileEntity)te).getModule(this.module);
+        ComputingModule cm = ((ComputingTileEntity)te).getModule(this.location);
         if (cm == null) return;
-        if (cm.type != ComputingTileEntity.ComputingModuleType.COMPUTER) return;
+        if (cm.type != ComputingModule.Type.COMPUTER) return;
 
         cm.powerState = this.powerState;
     }

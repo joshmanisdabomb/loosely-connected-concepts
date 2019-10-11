@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block.network;
 import com.joshmanisdabomb.lcc.block.CableBlock;
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
 import com.joshmanisdabomb.lcc.block.TerminalBlock;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.BlockState;
@@ -44,15 +45,15 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
             BlockState state2 = world.getBlockState(pos2);
             TileEntity te2 = world.getTileEntity(pos2);
 
-            ComputingTileEntity.ComputingModule m = ((ComputingTileEntity)te).getModule(s);
+            ComputingModule m = ((ComputingTileEntity)te).getModule(s);
 
-            ComputingTileEntity.ComputingModule other1 = ((ComputingTileEntity)te).getModule(flip(s));
+            ComputingModule other1 = ((ComputingTileEntity)te).getModule(flip(s));
             if (other1 != null && m.color == other1.color) {
                 positions.add(new ImmutablePair<>(pos, flip(s)));
             }
 
             if (state2.getBlock() instanceof ComputingBlock && te2 instanceof ComputingTileEntity) {
-                ComputingTileEntity.ComputingModule other2 = ((ComputingTileEntity)te2).getModule(flip(s));
+                ComputingModule other2 = ((ComputingTileEntity)te2).getModule(flip(s));
                 if (other2 != null && m.color == other2.color) {
                     positions.add(new ImmutablePair<>(pos2, flip(s)));
                 }
@@ -80,9 +81,11 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
                 BlockState state2 = world.getBlockState(pos2);
                 TileEntity te2 = world.getTileEntity(pos2);
                 if (state2.getBlock() instanceof ComputingBlock && te2 instanceof ComputingTileEntity) {
-                    for (ComputingTileEntity.ComputingModule m : ((ComputingTileEntity)te2).getInstalledModules()) {
+                    for (ComputingModule m : ((ComputingTileEntity)te2).getInstalledModules()) {
                         positions.add(new ImmutablePair<>(pos2, m.location));
                     }
+                } else if (state.getBlock() instanceof TerminalBlock && state2.getBlock() instanceof TerminalBlock) {
+                    if (((TerminalBlock)state.getBlock()).color == ((TerminalBlock)state2.getBlock()).color) positions.add(new ImmutablePair<>(pos2, null));
                 } else if (COMPUTER_CABLE.test(state2)) {
                     positions.add(new ImmutablePair<>(pos2, null));
                 } else {

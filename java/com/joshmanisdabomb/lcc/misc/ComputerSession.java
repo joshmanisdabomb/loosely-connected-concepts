@@ -1,19 +1,18 @@
 package com.joshmanisdabomb.lcc.misc;
 
-import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ComputerSession {
 
-    public ComputerSession(ComputingTileEntity te, ComputingTileEntity.ComputingModule module) {
-        /*BlockNetwork<Pair<BlockPos, SlabType>>.NetworkResult res = new ComputingNetwork(64).discover(te.getWorld(), new ImmutablePair<>(te.getPos(), module.location));
-        System.out.println(res);
-        for (BlockPos pos : res.getTraversablePositions()) {
-            System.out.println(te.getWorld().getBlockState(pos));
-        }*/
+    public ComputerSession(ComputingModule module) {
+
     }
 
-    /*public BlockNetwork<Pair<BlockPos, SlabType>>.NetworkResult getLocalNetwork() {
-
-    }*/
+    @OnlyIn(Dist.CLIENT)
+    public int getBackgroundColor() {
+        return 0xFFFFFFFF;
+    }
 
 }

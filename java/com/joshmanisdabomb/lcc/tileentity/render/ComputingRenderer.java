@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.tileentity.render;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.model.ComputingModel;
@@ -30,14 +31,14 @@ public class ComputingRenderer extends TileEntityRenderer<ComputingTileEntity> {
         BlockState computing_block = te.getBlockState();
         if (computing_block.getBlock() != LCCBlocks.computing) return;
         SlabType setup = computing_block.get(ComputingBlock.MODULE);
-        for (SlabType module : MODULE_SLABS) {
-            if (setup != flip(module)) {
-                ComputingTileEntity.ComputingModule m = te.getModule(module);
+        for (SlabType location : MODULE_SLABS) {
+            if (setup != flip(location)) {
+                ComputingModule m = te.getModule(location);
                 if (m != null) {
                     float[] c = m.color.getColorComponentValues();
                     GlStateManager.color4f(c[0], c[1], c[2], 1.0F);
                     this.bindTexture(m.type.getTexture());
-                    model.renderModule(te, 0.0625F, module);
+                    model.renderModule(te, 0.0625F, location);
 
                     //lights
                     if (m.isPowered()) {
@@ -47,7 +48,7 @@ public class ComputingRenderer extends TileEntityRenderer<ComputingTileEntity> {
                         this.setLightmapDisabled(true);
 
                         this.bindTexture(COMPUTER_LIGHTS);
-                        if (m.isPowered()) model.renderPowerLight(te, 0.0625F, module, m.isReading());
+                        if (m.isPowered()) model.renderPowerLight(te, 0.0625F, location, m.isReading());
 
                         this.setLightmapDisabled(false);
                         GlStateManager.depthMask(true);

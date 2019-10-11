@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.item;
 
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
-import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.util.NonNullList;
@@ -11,9 +11,9 @@ import java.util.Map;
 public class ComputingBlockItem extends BlockItem implements TintedItem {
 
     private final DyeColor color;
-    private final ComputingTileEntity.ComputingModuleType module;
+    private final ComputingModule.Type module;
 
-    public ComputingBlockItem(ComputingTileEntity.ComputingModuleType module, DyeColor color, Properties properties) {
+    public ComputingBlockItem(ComputingModule.Type module, DyeColor color, Properties properties) {
         super(LCCBlocks.computing, properties);
         this.color = color;
         this.module = module;
@@ -50,7 +50,7 @@ public class ComputingBlockItem extends BlockItem implements TintedItem {
         return this.color;
     }
 
-    public ComputingTileEntity.ComputingModuleType getModule() {
+    public ComputingModule.Type getModule() {
         return this.module;
     }
 

@@ -24,6 +24,8 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
+
+        System.out.println(container.te.getCurrentSession());
     }
 
     @Override

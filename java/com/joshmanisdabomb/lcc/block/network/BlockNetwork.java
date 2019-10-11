@@ -29,19 +29,23 @@ public abstract class BlockNetwork<T> {
                 }
             }
         }
-        return new NetworkResult(traversables, nodes.stream().distinct().collect(Collectors.toList()));
+        return this.createNetwork(traversables, nodes.stream().distinct().collect(Collectors.toList()));
     }
 
     protected abstract List<T> traverse(World world, T current, List<BlockPos> nodes);
 
     protected abstract BlockPos toPosition(T traversable);
 
-    public final class NetworkResult {
+    protected NetworkResult createNetwork(List<T> traversables, List<BlockPos> nodes) {
+        return new NetworkResult(traversables, nodes);
+    }
+
+    public class NetworkResult {
 
         private final List<T> traversables;
         private final List<BlockPos> nodes;
 
-        public NetworkResult(List<T> traversables, List<BlockPos> nodes) {
+        private NetworkResult(List<T> traversables, List<BlockPos> nodes) {
             this.traversables = traversables;
             this.nodes = nodes;
         }

@@ -314,6 +314,8 @@
   "block.lcc.terminal_green": "Green Terminal",
   "block.lcc.terminal_red": "Red Terminal",
   "block.lcc.terminal_black": "Black Terminal",
+  "block.lcc.networking_cable": "Networking Cable",
+  "block.lcc.terminal_cable": "Terminal Cable",
 
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 

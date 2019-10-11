@@ -8,8 +8,6 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import java.util.Map;
-
 public abstract class ModelEvents {
 
     @SubscribeEvent

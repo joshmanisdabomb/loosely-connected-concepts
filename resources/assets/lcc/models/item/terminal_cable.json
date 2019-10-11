@@ -1,6 +1,6 @@
 {
     "parent": "lcc:item/cable",
     "textures": {
-        "cable": "lcc:block/computing/computing_cable"
+        "cable": "lcc:block/nostalgia/cloth_light_purple"
     }
 }

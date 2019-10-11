@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.container.LCCContainerHelper;
 import com.joshmanisdabomb.lcc.misc.ComputerSession;
@@ -19,6 +20,7 @@ import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,16 +31,23 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
 public class ComputingTileEntity extends TileEntity implements INamedContainerProvider {
+
+    public static final ComputingNetwork LOCAL_NETWORK = new ComputingNetwork(64, true);
+    public static final ComputingNetwork WIRED_NETWORK = new ComputingNetwork(64, false);
 
     protected ComputingModule top = null;
     protected ComputingModule bottom = null;
@@ -360,7 +369,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         //Computer Module Only
         public boolean powerState;
         private long readTime = -1;
-        private ComputerSession session;
+        private ComputerSession session = null;
 
         private ComputingModule(ComputingModuleType type, DyeColor color, Direction direction, ITextComponent customName, SlabType location) {
             this.type = type;
@@ -396,15 +405,18 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
         }
 
+        public List<ComputingModule> getLocalComputers() {
+            List<Pair<BlockPos, SlabType>> modules = LOCAL_NETWORK.discover(ComputingTileEntity.this.getWorld(), new ImmutablePair<>(ComputingTileEntity.this.getPos(), this.location)).getTraversables();
+            return modules.stream().map(m -> ((ComputingTileEntity)ComputingTileEntity.this.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type == ComputingModuleType.COMPUTER).collect(Collectors.toList());
+        }
+
         //Computer Module Only
-        public void generateSession() {
-            if (this.type == ComputingModuleType.COMPUTER) {
-                if (this.powerState) {
-                    this.session = new ComputerSession(ComputingTileEntity.this, this);
-                } else {
-                    this.session = null;
-                }
+        public ComputerSession getSession() {
+            if (this.session != null) return this.session;
+            if (this.type == ComputingModuleType.COMPUTER && this.powerState) {
+                return this.session = new ComputerSession(ComputingTileEntity.this, this);
             }
+            return null;
         }
 
         public boolean isPowered() {
@@ -433,7 +445,6 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
 
         if (m.type == ComputingModuleType.COMPUTER) {
             if (tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
-            m.generateSession();
         }
 
         return m;

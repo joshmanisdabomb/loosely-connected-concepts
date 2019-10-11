@@ -31,7 +31,7 @@ import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FAC
 
 public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, TintedBlock {
 
-    private final DyeColor color;
+    public final DyeColor color;
 
     public TerminalBlock(DyeColor color, Properties p) {
         super(p);

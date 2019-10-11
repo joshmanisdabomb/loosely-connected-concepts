@@ -158,7 +158,8 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
         //Computing
-        set(LCCBlocks.computing_cable, LCCGroupCategory.COMPUTING, -100);
+        set(LCCBlocks.networking_cable, LCCGroupCategory.COMPUTING, -100);
+        set(LCCBlocks.terminal_cable, LCCGroupCategory.COMPUTING, -90);
         for (DyeColor color : DyeColor.values()) {
             set(LCCItems.computer_casings.get(color), LCCGroupCategory.COMPUTING, color.getId());
             set(LCCItems.computers.get(color), LCCGroupCategory.COMPUTING, color.getId()+100);

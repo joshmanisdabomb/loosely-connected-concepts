@@ -12,8 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;

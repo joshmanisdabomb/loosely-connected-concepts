@@ -3,8 +3,8 @@
     "defaults": {
         "model": "lcc:block/cable_center",
         "textures": {
-          "particle": "lcc:block/computing/computing_cable",
-          "cable": "lcc:block/computing/computing_cable"
+          "particle": "lcc:block/nostalgia/cloth_green",
+          "cable": "lcc:block/nostalgia/cloth_green"
         }
     },
     "variants": {

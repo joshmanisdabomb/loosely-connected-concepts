@@ -1,12 +1,11 @@
 package com.joshmanisdabomb.lcc.block.network;
 
-import com.joshmanisdabomb.lcc.block.CogBlock;
+import com.joshmanisdabomb.lcc.block.CableBlock;
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
-import com.joshmanisdabomb.lcc.misc.Util;
+import com.joshmanisdabomb.lcc.block.TerminalBlock;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.RedstoneWireBlock;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -17,13 +16,19 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
 public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
 
-    public ComputingNetwork(int distance) {
+    private static final Predicate<BlockState> COMPUTER_CABLE = state -> state.getBlock() == LCCBlocks.networking_cable || state.getBlock() == LCCBlocks.terminal_cable;
+
+    private final boolean local;
+
+    public ComputingNetwork(int distance, boolean local) {
         super(distance);
+        this.local = local;
     }
 
     @Override
@@ -50,6 +55,38 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
                 ComputingTileEntity.ComputingModule other2 = ((ComputingTileEntity)te2).getModule(flip(s));
                 if (other2 != null && m.color == other2.color) {
                     positions.add(new ImmutablePair<>(pos2, flip(s)));
+                }
+            } else if (state2.getBlock() instanceof TerminalBlock) {
+                if (m.color == ((TerminalBlock)state2.getBlock()).color) {
+                    nodes.add(pos2);
+                }
+            }
+
+            //check for cabling
+            if (!this.local) {
+                for (Direction d : Direction.values()) {
+                    BlockPos pos3 = pos.offset(d);
+                    BlockState state3 = world.getBlockState(pos3);
+                    if (COMPUTER_CABLE.test(state3)) {
+                        positions.add(new ImmutablePair<>(pos3, null));
+                    }
+                }
+            }
+
+        } else if (current.getRight() == null) {
+            for (Direction d : Direction.values()) {
+                if (state.getBlock() instanceof CableBlock && !state.get(CableBlock.FACING_TO_PROPERTIES.get(d))) continue;
+                BlockPos pos2 = pos.offset(d);
+                BlockState state2 = world.getBlockState(pos2);
+                TileEntity te2 = world.getTileEntity(pos2);
+                if (state2.getBlock() instanceof ComputingBlock && te2 instanceof ComputingTileEntity) {
+                    for (ComputingTileEntity.ComputingModule m : ((ComputingTileEntity)te2).getInstalledModules()) {
+                        positions.add(new ImmutablePair<>(pos2, m.location));
+                    }
+                } else if (COMPUTER_CABLE.test(state2)) {
+                    positions.add(new ImmutablePair<>(pos2, null));
+                } else {
+                    nodes.add(pos2);
                 }
             }
         }

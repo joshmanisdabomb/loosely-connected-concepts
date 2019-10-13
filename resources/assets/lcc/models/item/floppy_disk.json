@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "lcc:item/computing/floppy_disk_base",
+        "layer1": "lcc:item/computing/floppy_disk_color"
+    }
+}

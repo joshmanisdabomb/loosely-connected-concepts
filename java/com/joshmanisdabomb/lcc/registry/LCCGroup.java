@@ -68,9 +68,10 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.test_item, LCCGroupCategory.TESTING, 50);
 
         //Gizmos
-        set(LCCBlocks.road, LCCGroupCategory.GIZMOS, 0);
-        set(LCCBlocks.hydrated_soul_sand, LCCGroupCategory.GIZMOS, 100);
-        set(LCCBlocks.bounce_pad, LCCGroupCategory.GIZMOS, 110);
+        set(LCCItems.plastic, LCCGroupCategory.GIZMOS, 0);
+        set(LCCBlocks.road, LCCGroupCategory.GIZMOS, 1000);
+        set(LCCBlocks.hydrated_soul_sand, LCCGroupCategory.GIZMOS, 2000);
+        set(LCCBlocks.bounce_pad, LCCGroupCategory.GIZMOS, 2010);
 
         //Resources
         set(LCCBlocks.ruby_ore, LCCGroupCategory.RESOURCES, 0);
@@ -158,6 +159,8 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
         //Computing
+        set(LCCItems.microchip, LCCGroupCategory.COMPUTING, -1000);
+        set(LCCItems.chipset, LCCGroupCategory.COMPUTING, -990);
         set(LCCBlocks.networking_cable, LCCGroupCategory.COMPUTING, -100);
         set(LCCBlocks.terminal_cable, LCCGroupCategory.COMPUTING, -90);
         for (DyeColor color : DyeColor.values()) {

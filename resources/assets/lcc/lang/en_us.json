@@ -177,6 +177,8 @@
   "block.lcc.glowing_obsidian": "Glowing Obsidian",
   "block.lcc.cog": "Cog",
 
+  "item.lcc.microchip": "Microchip",
+  "item.lcc.chipset": "Chipset",
   "block.lcc.computing": "Computing Block",
   "block.lcc.computing.casing": "Computer Casing",
   "item.lcc.computer_casing_white": "White Computer Casing",
@@ -316,6 +318,21 @@
   "block.lcc.terminal_black": "Black Terminal",
   "block.lcc.networking_cable": "Networking Cable",
   "block.lcc.terminal_cable": "Terminal Cable",
+  "item.lcc.cpu": "Central Processing Unit",
+  "item.lcc.ram": "Random Access Memory",
+  "item.lcc.gpu": "Graphics Processing Unit",
+  "item.lcc.floppy_disk": "Floppy Disk",
+  "item.lcc.compact_disc": "Compact Disc",
+  "item.lcc.memory_card": "Memory Card",
+  "item.lcc.memory_stick": "Memory Stick",
+  "item.lcc.hard_disk_drive": "Hard Disk Drive",
+  "item.lcc.solid_state_drive": "Solid State Drive",
+  "item.lcc.m2": "M.2 Solid State Drive",
+  "item.lcc.computing_storage.size": "Size:",
+  "item.lcc.computing_storage.size.value": "%s bytes",
+  "item.lcc.computing_storage.partitions": "Partitions:",
+
+  "item.lcc.plastic": "Plastic",
 
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 

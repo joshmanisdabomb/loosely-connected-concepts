@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "lcc:item/computing/hard_disk_drive_base_3",
+        "layer1": "lcc:item/computing/hard_disk_drive_color_3"
+    }
+}

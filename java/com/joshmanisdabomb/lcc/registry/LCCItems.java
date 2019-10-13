@@ -19,6 +19,9 @@ public abstract class LCCItems {
 	//Test Items
 	public static Item test_item;
 
+	//Gizmos
+	public static Item plastic;
+
 	//Resources
 	public static Item ruby;
 	public static Item topaz;
@@ -84,6 +87,8 @@ public abstract class LCCItems {
 	public static Item chromatic_core;
 
 	//Computing
+	public static Item microchip;
+	public static Item chipset;
 	public static HashMap<DyeColor, Item> computer_casings = new HashMap<>();
 	public static HashMap<DyeColor, Item> computers = new HashMap<>();
 	public static HashMap<DyeColor, Item> floppy_drives = new HashMap<>();
@@ -129,6 +134,15 @@ public abstract class LCCItems {
 
 		//Test Items
 		all.add(test_item = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "test_item"));
+
+		//Gizmos
+		 /*
+		 	TODO:
+			oil in universal refiner = rocket fuel
+			oil + slimeball in universal refiner = asphalt
+			oil + coal in universal refiner = plastic
+		 */
+		all.add(plastic = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "plastic"));
 
 		//Resources
 		all.add(ruby = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ruby"));
@@ -198,6 +212,8 @@ public abstract class LCCItems {
 		all.add(spreader_essence = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "spreader_essence"));
 
 		//Computing
+		all.add(microchip = new VisualStackItem(9, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "microchip"));
+		all.add(chipset = new Item(new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "chipset"));
 		for (DyeColor color : DyeColor.values()) {
 			all.add(i = new ComputingBlockItem(ComputingModule.Type.CASING, color, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "computer_casing_" + color.getName()));
 			computer_casings.put(color, i);
@@ -217,13 +233,13 @@ public abstract class LCCItems {
 		all.add(cpu = new Item(new Item.Properties().maxStackSize(1).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "cpu"));
 		all.add(ram = new Item(new Item.Properties().maxStackSize(1).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "ram"));
 		all.add(gpu = new Item(new Item.Properties().maxStackSize(1).group(LCC.itemGroup)).setRegistryName(LCC.MODID, "gpu"));
-		all.add(floppy_disk = new StorageItem(2, 2, 1, 0, 1, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "floppy_disk"));
-		all.add(compact_disc = new StorageItem(700, 700, 64, 0, 32, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "compact_disc"));
-		all.add(memory_card = new StorageItem(500, 4000,64, 0, 8, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "memory_card"));
-		all.add(memory_stick = new StorageItem(1000, 16000, 256, 64, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "memory_stick"));
-		all.add(hard_disk_drive = new StorageItem(1000, 16000000, 256, 1, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "hard_disk_drive"));
-		all.add(solid_state_drive = new StorageItem(32000, 1000000, 1, 1024, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "solid_state_drive"));
-		all.add(m2 = new StorageItem(32000, 500000, 1, 0, 64, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "m2"));
+		all.add(floppy_disk = new StorageItem(144, 144, 1, 0, 2, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "floppy_disk"));
+		all.add(compact_disc = new StorageItem(700, 700, 1, 32, 16, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "compact_disc"));
+		all.add(memory_card = new StorageItem(250, 4000,1, 0, 8, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "memory_card"));
+		all.add(memory_stick = new StorageItem(500, 8000, 1, 32, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "memory_stick"));
+		all.add(hard_disk_drive = new StorageItem(1000, 100000, 0, 250, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "hard_disk_drive"));
+		all.add(solid_state_drive = new StorageItem(8000, 100000, 8, 0, 0, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "solid_state_drive"));
+		all.add(m2 = new StorageItem(4000, 100000, 1, 0, 64, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "m2"));
 
 		//Power
 		//TODO: new recipe for gauntlet as 'elemental gems' will be added

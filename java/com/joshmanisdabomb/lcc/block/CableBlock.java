@@ -1,6 +1,9 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.google.common.collect.Maps;
+import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
+import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -17,10 +20,16 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.TriPredicate;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.LOCAL_NETWORK;
 import static net.minecraft.state.properties.BlockStateProperties.*;
 
 public class CableBlock extends Block {
@@ -40,7 +49,31 @@ public class CableBlock extends Block {
         }
         return false;
     };
-    public static final TriPredicate<IWorld, BlockPos, Direction> TERMINAL_CABLE = (world, pos, from) -> NETWORKING_CABLE.test(world, pos, from) || world.getBlockState(pos).getBlock() instanceof TerminalBlock;
+    public static final TriPredicate<IWorld, BlockPos, Direction> TERMINAL_CABLE = (world, pos, from) -> {
+        BlockState state = world.getBlockState(pos);
+        TileEntity te = world.getTileEntity(pos);
+        if (state.getBlock() instanceof ComputingBlock && te instanceof ComputingTileEntity) {
+            switch (from) {
+                case UP:
+                    if (((ComputingTileEntity) te).getModule(SlabType.TOP) == null) return false;
+                    break;
+                case DOWN:
+                    if (((ComputingTileEntity) te).getModule(SlabType.BOTTOM) == null) return false;
+                    break;
+                default:
+                    break;
+            }
+            List<Pair<BlockPos, SlabType>> modules = LOCAL_NETWORK.discover((World)world, new ImmutablePair<>(pos, ((ComputingTileEntity) te).getInstalledModules().get(0).location)).getTraversables();
+            return modules.stream().map(m -> {
+                TileEntity te2 = world.getTileEntity(m.getLeft());
+                if (te2 instanceof ComputingTileEntity) {
+                    return ((ComputingTileEntity)te2).getModule(m.getRight());
+                }
+                return null;
+            }).anyMatch(module -> module != null && module.type == ComputingModule.Type.COMPUTER);
+        }
+        return world.getBlockState(pos).getBlock() instanceof TerminalBlock;
+    };
 
     private final TriPredicate<IWorld, BlockPos, Direction> connector;
 
@@ -103,6 +136,15 @@ public class CableBlock extends Block {
             return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos).with(FACING_TO_PROPERTIES.get(facing), facingState.getBlock() == this || this.connector.test(world, facingPos, facing));
         }
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos from, boolean isMoving) {
+        if (block instanceof ComputingBlock) {
+            BlockPos subtract = from.subtract(pos);
+            Direction d = Direction.getFacingFromVector(subtract.getX(), subtract.getY(), subtract.getZ());
+            world.setBlockState(pos, this.updatePostPlacement(state, d, world.getBlockState(from), world, pos, from), 3);
+        }
     }
 
 }

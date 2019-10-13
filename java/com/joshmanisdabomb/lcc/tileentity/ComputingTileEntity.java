@@ -1,8 +1,11 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
+import com.joshmanisdabomb.lcc.block.ComputingBlock;
+import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
 import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,6 +18,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,10 +27,14 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
@@ -99,6 +107,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             default:
                 break;
         }
+        this.updateLocalStructure(location);
         this.calculateTotalInventory();
     }
 
@@ -113,6 +122,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
             default:
                 break;
         }
+        this.updateLocalStructure(null);
         this.calculateTotalInventory();
     }
 
@@ -192,6 +202,18 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
         }
         else if (this.top != null && this.top.inventory.isPresent()) this.top.inventory.ifPresent(h -> totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(h)));
         else if (this.bottom != null && this.bottom.inventory.isPresent()) this.bottom.inventory.ifPresent(h -> totalInventory = LazyOptional.of(() -> new CombinedInvWrapper(h)));
+    }
+
+    public void updateLocalStructure(SlabType at) {
+        List<BlockPos> modules = LOCAL_NETWORK.discover(this.getWorld(), new ImmutablePair<>(this.getPos(), at)).getTraversablePositions();
+        for (BlockPos module : modules) {
+            for (Direction d : Direction.values()) {
+                BlockPos pos2 = module.offset(d);
+                if (!(world.getBlockState(pos2).getBlock() instanceof ComputingBlock)) {
+                    world.neighborChanged(pos2, LCCBlocks.computing, module);
+                }
+            }
+        }
     }
 
     @Override

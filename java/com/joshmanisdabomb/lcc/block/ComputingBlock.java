@@ -141,18 +141,10 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
                 SlabType setup = state.get(MODULE);
                 if (setup == SlabType.DOUBLE) {
                     for (ComputingModule m : ((ComputingTileEntity)tileentity).getInstalledModules()) {
-                        m.inventory.ifPresent(h -> {
-                            for (int i = 0; i < h.getSlots(); i++) {
-                                InventoryHelper.spawnItemStack(world, (double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), h.extractItem(i, 64, false));
-                            }
-                        });
+                        this.removeModule(state, world, pos, m.location, false, true);
                     }
                 } else {
-                    ((ComputingTileEntity)tileentity).getModule(setup).inventory.ifPresent(h -> {
-                        for (int i = 0; i < h.getSlots(); i++) {
-                            InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
-                        }
-                    });
+                    this.removeModule(state, world, pos, setup, false, true);
                 }
             }
             super.onReplaced(state, world, pos, newState, isMoving);

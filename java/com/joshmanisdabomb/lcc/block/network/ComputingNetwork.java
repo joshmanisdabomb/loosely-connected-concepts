@@ -38,7 +38,7 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
         BlockPos pos = this.toPosition(current);
         BlockState state = world.getBlockState(pos);
         TileEntity te = world.getTileEntity(pos);
-        if (state.getBlock() instanceof ComputingBlock && te instanceof ComputingTileEntity) {
+        if (state.getBlock() instanceof ComputingBlock && te instanceof ComputingTileEntity && current.getRight() != null) {
             //traverse through cables, slabtypes will be null and will act like cubenetwork
             SlabType s = current.getRight();
             BlockPos pos2 = s == SlabType.TOP ? pos.up() : pos.down();
@@ -73,14 +73,23 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
                     }
                 }
             }
-
-        } else if (current.getRight() == null) {
+        } else {
             for (Direction d : Direction.values()) {
                 if (state.getBlock() instanceof CableBlock && !state.get(CableBlock.FACING_TO_PROPERTIES.get(d))) continue;
                 BlockPos pos2 = pos.offset(d);
                 BlockState state2 = world.getBlockState(pos2);
                 TileEntity te2 = world.getTileEntity(pos2);
                 if (state2.getBlock() instanceof ComputingBlock && te2 instanceof ComputingTileEntity) {
+                    switch (d) {
+                        case UP:
+                            if (((ComputingTileEntity)te2).getModule(SlabType.BOTTOM) == null) return positions;
+                            break;
+                        case DOWN:
+                            if (((ComputingTileEntity)te2).getModule(SlabType.TOP) == null) return positions;
+                            break;
+                        default:
+                            break;
+                    }
                     for (ComputingModule m : ((ComputingTileEntity)te2).getInstalledModules()) {
                         positions.add(new ImmutablePair<>(pos2, m.location));
                     }

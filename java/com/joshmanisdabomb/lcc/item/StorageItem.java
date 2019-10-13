@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.item;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -45,7 +46,7 @@ public class StorageItem extends Item implements TintedItem {
 
     @Override
     public boolean showDurabilityBar(ItemStack stack) {
-        return true;
+        return Screen.hasShiftDown();
     }
 
     @Override
@@ -90,11 +91,11 @@ public class StorageItem extends Item implements TintedItem {
         if (this.isInGroup(group)) {
             ItemStack stack = new ItemStack(this);
             CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
-            tag.putInt("color", 0xFF00FF);
+            tag.putInt("color", 0xCC44CC);
             tag.putInt("size", this.sizeMin);
             items.add(stack.copy());
             if (this.sizeMax != this.sizeMin) {
-                tag.putInt("color", 0xFFAAFF);
+                tag.putInt("color", 0xDDAADD);
                 tag.putInt("size", this.sizeMax);
                 items.add(stack.copy());
             }
@@ -104,7 +105,7 @@ public class StorageItem extends Item implements TintedItem {
                 CompoundNBT partition = new CompoundNBT();
                 partition.putString("name", "Console OS");
                 partition.putString("type", "os_console");
-                partition.putInt("size", 250);
+                partition.putInt("size", 400);
                 partition.putInt("start", 0);
                 partitions.add(partition);
                 tag.put("partitions", partitions);

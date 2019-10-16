@@ -1,8 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.google.common.collect.Maps;
-import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
-import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.Block;
@@ -27,7 +25,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.LOCAL_NETWORK;
 import static net.minecraft.state.properties.BlockStateProperties.*;

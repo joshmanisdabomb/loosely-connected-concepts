@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.computing;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.LCCContainerHelper;
-import com.joshmanisdabomb.lcc.misc.ComputerSession;
+import com.joshmanisdabomb.lcc.item.StorageItem;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.item.DyeColor;
@@ -22,6 +22,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -43,7 +44,7 @@ public class ComputingModule {
     //Computer Module Only
     public boolean powerState;
     private long readTime = -1;
-    private ComputerSession session = null;
+    public ComputingSession session = null;
 
     public ComputingModule(ComputingTileEntity te, SlabType location, Type type, DyeColor color, Direction direction, ITextComponent customName) {
         this.te = te;
@@ -80,16 +81,32 @@ public class ComputingModule {
         return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.computing." + this.type.name().toLowerCase());
     }
 
-    public List<ComputingModule> getLocalComputers() {
+    public List<ComputingModule> getLocalDrives() {
         List<Pair<BlockPos, SlabType>> modules = LOCAL_NETWORK.discover(te.getWorld(), new ImmutablePair<>(te.getPos(), this.location)).getTraversables();
-        return modules.stream().map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type == Type.COMPUTER).collect(Collectors.toList());
+        return modules.stream().map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type != Type.CASING).collect(Collectors.toList());
+    }
+
+    public List<ItemStack> getLocalDisks() {
+        List<ComputingModule> drives = this.getLocalDrives();
+        List<ItemStack> disks = new ArrayList<>();
+        for (ComputingModule m : drives) {
+            m.inventory.ifPresent(h -> {
+                for (int i = 0; i < h.getSlots(); i++) {
+                    ItemStack is = h.getStackInSlot(i);
+                    if (is.getItem() instanceof StorageItem) {
+                        disks.add(is);
+                    }
+                }
+            });
+        }
+        return disks;
     }
 
     //Computer Module Only
-    public ComputerSession getSession() {
+    public ComputingSession getSession() {
         if (this.session != null) return this.session;
         if (this.type == Type.COMPUTER && this.powerState) {
-            return this.session = new ComputerSession(this);
+            return this.session = new ComputingSession(this);
         }
         return null;
     }

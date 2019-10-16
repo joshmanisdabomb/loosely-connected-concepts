@@ -69,8 +69,8 @@ public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, Ti
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof SpreaderInterfaceTileEntity) {
-                ((SpreaderInterfaceTileEntity)tileentity).setCustomName(stack.getDisplayName());
+            if (tileentity instanceof TerminalTileEntity) {
+                ((TerminalTileEntity)tileentity).customName = stack.getDisplayName();
             }
         }
     }

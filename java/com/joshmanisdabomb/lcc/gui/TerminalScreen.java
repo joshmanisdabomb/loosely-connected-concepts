@@ -1,29 +1,43 @@
 package com.joshmanisdabomb.lcc.gui;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.computing.TerminalSession;
+import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
 import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     public static final ResourceLocation GUI = new ResourceLocation(LCC.MODID, "textures/gui/container/terminal.png");
 
+    private final TerminalSession session;
+
     public TerminalScreen(TerminalContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
+        (this.session = new TerminalSession(container.te)).update();
 
         this.xSize = 256;
         this.ySize = 231;
     }
 
     @Override
+    public void tick() {
+        this.session.update();
+    }
+
+    @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         this.renderBackground();
-        container.te.updateSession();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
@@ -36,15 +50,38 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        AbstractGui.fill(this.guiLeft + 8, this.guiTop + 18, this.guiLeft + 248, this.guiTop + 134, container.te.getBackgroundColor());
+        AbstractGui.fill(this.guiLeft + 8, this.guiTop + 18, this.guiLeft + 248, this.guiTop + 134, session.getBackgroundColor());
 
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(GUI);
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
+        session.render(partialTicks);
+
         GlStateManager.enableBlend();
         this.blit(this.guiLeft + 8, this.guiTop + 18, 256, 0, 240, 116);
         GlStateManager.disableBlend();
+    }
+
+    @Override
+    public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+        if (session.active()) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+
+        InputMappings.Input mouseKey = InputMappings.getInputByCode(p_keyPressed_1_, p_keyPressed_2_);
+        if (mouseKey.getType() == InputMappings.Type.MOUSE) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        if (p_keyPressed_1_ == 256) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        if (this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
+            if (this.minecraft.gameSettings.keyBindPickBlock.isActiveAndMatches(mouseKey)) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+            if (this.minecraft.gameSettings.keyBindDrop.isActiveAndMatches(mouseKey)) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+            if (this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null) {
+                for (int i = 0; i < 9; i++) {
+                    if (this.minecraft.gameSettings.keyBindsHotbar[i].isActiveAndMatches(mouseKey)) {
+                        return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+                    }
+                }
+            }
+        }
+        return session.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
     }
 
     @Override

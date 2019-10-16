@@ -75,6 +75,7 @@ public class ComputerPowerPacket implements LCCPacket {
         if (cm.type != ComputingModule.Type.COMPUTER) return;
 
         cm.powerState = this.powerState;
+        cm.session = null;
     }
 
 }

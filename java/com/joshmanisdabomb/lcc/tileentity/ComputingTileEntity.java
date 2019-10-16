@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
-import com.joshmanisdabomb.lcc.block.network.BlockNetwork;
 import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
@@ -28,13 +27,11 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 

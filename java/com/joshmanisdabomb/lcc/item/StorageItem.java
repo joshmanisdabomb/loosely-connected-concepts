@@ -13,7 +13,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -51,7 +50,14 @@ public class StorageItem extends Item implements TintedItem {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        return 0.5D;
+        CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
+        ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
+        int total = 0;
+        for (INBT t : partitions) {
+            CompoundNBT partition = (CompoundNBT) t;
+            total += partition.getInt("size");
+        }
+        return 1 - (total / (double)tag.getInt("size"));
     }
 
     @Override

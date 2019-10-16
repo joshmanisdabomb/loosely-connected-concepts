@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.computing;
 
+import com.joshmanisdabomb.lcc.computing.system.BIOSOperatingSystem;
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
@@ -8,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -42,11 +42,11 @@ public class TerminalSession {
     public void update() {
         List<ComputingModule> computers = this.getActiveComputers();
         this.session = computers.size() != 1 ? null : computers.get(0).getSession();
-        this.os = OperatingSystem.Type.BIOS.factory.apply(terminal, session);
+        if (this.active()) this.os = ((BIOSOperatingSystem)OperatingSystem.Type.BIOS.factory.apply(terminal, session)).load();
     }
 
     public boolean active() {
-        return os != null;
+        return session != null;
     }
 
     public int getBackgroundColor() {

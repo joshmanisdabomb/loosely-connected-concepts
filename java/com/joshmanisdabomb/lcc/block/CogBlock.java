@@ -148,12 +148,9 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         for (BlockPos bp : this.currentUpdateNetwork.getNodePositions()) {
             BlockState node = world.getBlockState(bp);
             if (node.getBlock() instanceof RedstoneWireBlock) {
-                System.out.println(node.get(BlockStateProperties.POWER_0_15));
-                System.out.println(bp);
                 for (Direction d : Direction.values()) {
                     BlockPos bp2 = bp.offset(d);
                     if (tr.contains(bp2)) {
-                        System.out.println(bp);
                         world.neighborChanged(bp, this, bp2);
                     }
                 }
@@ -162,8 +159,6 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         for (BlockPos bp : this.currentUpdateNetwork.getNodePositions()) {
             BlockState node = world.getBlockState(bp);
             if (node.getBlock() instanceof RedstoneWireBlock) {
-                System.out.println(node.get(BlockStateProperties.POWER_0_15));
-                System.out.println(bp);
                 for (Direction d : Direction.values()) {
                     BlockPos bp2 = bp.offset(d);
                     if (tr.contains(bp2)) {

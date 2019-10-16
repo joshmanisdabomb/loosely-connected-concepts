@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
-import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
 import net.minecraft.item.ItemStack;
@@ -13,7 +12,6 @@ import net.minecraftforge.common.util.Constants;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 @OnlyIn(Dist.CLIENT)

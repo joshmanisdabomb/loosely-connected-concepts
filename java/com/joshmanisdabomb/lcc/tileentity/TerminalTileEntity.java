@@ -1,8 +1,5 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
-import com.joshmanisdabomb.lcc.computing.ComputingModule;
-import com.joshmanisdabomb.lcc.computing.ComputingSession;
-import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,31 +9,21 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.WIRED_NETWORK;
 
 public class TerminalTileEntity extends TileEntity implements INamedContainerProvider {
 
     public ITextComponent customName;
 
-    public CompoundNBT state;
+    public CompoundNBT state = new CompoundNBT();
 
     public TerminalTileEntity() {
         super(LCCTileEntities.terminal);

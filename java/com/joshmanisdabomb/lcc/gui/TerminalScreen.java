@@ -2,14 +2,12 @@ package com.joshmanisdabomb.lcc.gui;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
-import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
 import com.joshmanisdabomb.lcc.container.TerminalContainer;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -65,7 +63,7 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     @Override
     public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-        if (session.active()) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        if (!session.active()) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
 
         InputMappings.Input mouseKey = InputMappings.getInputByCode(p_keyPressed_1_, p_keyPressed_2_);
         if (mouseKey.getType() == InputMappings.Type.MOUSE) return super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
@@ -81,7 +79,8 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
                 }
             }
         }
-        return session.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        if (!session.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_)) super.keyPressed(p_keyPressed_1_, p_keyPressed_2_, p_keyPressed_3_);
+        return true;
     }
 
     @Override

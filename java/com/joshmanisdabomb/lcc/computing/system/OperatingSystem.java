@@ -1,19 +1,12 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
-import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
-import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
-import it.unimi.dsi.fastutil.Hash;
-import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class OperatingSystem {

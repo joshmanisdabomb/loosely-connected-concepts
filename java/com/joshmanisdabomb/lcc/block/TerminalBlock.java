@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;

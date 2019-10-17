@@ -62,13 +62,13 @@ public class ComputingSession {
             }
             computer.state.put("partitions", partitions);
         }
-        System.out.println(computer.state);
+        this.os.boot();
     }
 
     public void wake() {
         String type = computer.state.getString("os_type");
         this.os = OperatingSystem.Type.from(type).factory.apply(this);
-        System.out.println(computer.state);
+        this.os.wake();
     }
 
     private void osProgress(OperatingSystem.Type os, int start, int size) {

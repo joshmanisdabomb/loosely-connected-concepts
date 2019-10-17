@@ -361,8 +361,12 @@
   "gui.lcc.computer.on": "Turn On",
   "gui.lcc.computer.off": "Turn Off",
 
+  "computing.lcc.os.bios": "BIOS",
+  "computing.lcc.os.console": "Console OS",
+  "computing.lcc.os.graphical": "Graphical OS",
   "computing.lcc.terminal.no_input": "No Input Detected",
-  "computing.lcc.terminal.conflict_input": "Conflicting Inputs Detected",
-  "computing.lcc.bios.no_os": "No operating system detected",
-  "computing.lcc.bios.prompt": "Press any key to retry..."
+  "computing.lcc.terminal.input_conflict": "Conflicting Inputs Detected",
+  "computing.lcc.bios.no_os": "No operating system detected!\nPress any key to retry...",
+  "computing.lcc.bios.partial_os": "Please insert the next disk of %s (seeking sector %s) and press any key...",
+  "computing.lcc.bios.partial_os_multiple": "Please insert the next disk of %s (seeking sector %s) and press any key..."
 }

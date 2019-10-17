@@ -22,7 +22,7 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     public TerminalScreen(TerminalContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
-        (this.session = new TerminalSession(container.te)).update();
+        (this.session = new TerminalSession(container.te)).updateActiveComputer();
 
         this.xSize = 256;
         this.ySize = 231;
@@ -30,7 +30,7 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     @Override
     public void tick() {
-        this.session.update();
+        this.session.updateActiveComputer();
     }
 
     @Override
@@ -54,7 +54,8 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
         this.minecraft.getTextureManager().bindTexture(GUI);
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-        session.render(partialTicks);
+        session.render(partialTicks, this.guiLeft + 8, this.guiTop + 18);
+        this.minecraft.getTextureManager().bindTexture(GUI);
 
         GlStateManager.enableBlend();
         this.blit(this.guiLeft + 8, this.guiTop + 18, 256, 0, 240, 116);

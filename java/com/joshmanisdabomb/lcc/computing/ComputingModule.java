@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -25,6 +26,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,7 +46,9 @@ public class ComputingModule {
     //Computer Module Only
     public boolean powerState;
     private long readTime = -1;
+
     public ComputingSession session = null;
+    public CompoundNBT state = new CompoundNBT();
 
     public ComputingModule(ComputingTileEntity te, SlabType location, Type type, DyeColor color, Direction direction, ITextComponent customName) {
         this.te = te;
@@ -56,6 +60,33 @@ public class ComputingModule {
         this.inventory = this.type.inventory.apply(te);
     }
 
+    public void load() {
+        this.session = this.getSession(ComputingSession::wake);
+    }
+
+    public static ComputingModule read(ComputingTileEntity te, SlabType location, CompoundNBT tag) {
+        if (!tag.contains("module", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        ComputingModule.Type module = ComputingModule.Type.values()[tag.getByte("module")];
+        if (!tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        DyeColor color = DyeColor.values()[tag.getByte("color")];
+        if (!tag.contains("direction", Constants.NBT.TAG_ANY_NUMERIC)) return null;
+        Direction direction = Direction.values()[tag.getByte("direction")];
+
+        ITextComponent name = tag.contains("customName", Constants.NBT.TAG_STRING) ? ITextComponent.Serializer.fromJson(tag.getString("customName")) : null;
+
+        ComputingModule m = new ComputingModule(te, location, module, color, direction, name);
+
+        CompoundNBT invTag = tag.getCompound("inventory");
+        m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
+
+        if (m.type == ComputingModule.Type.COMPUTER) {
+            if (tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
+            if (tag.contains("state", Constants.NBT.TAG_COMPOUND)) m.state = tag.getCompound("state");
+        }
+
+        return m;
+    }
+
     public CompoundNBT write(CompoundNBT tag) {
         tag.putByte("module", (byte)this.type.ordinal());
         tag.putByte("color", (byte)this.color.ordinal());
@@ -65,7 +96,10 @@ public class ComputingModule {
             CompoundNBT compound = ((INBTSerializable<CompoundNBT>) h).serializeNBT();
             tag.put("inventory", compound);
         });
-        if (this.type == Type.COMPUTER) tag.putBoolean("powerState", this.powerState);
+        if (this.type == Type.COMPUTER) {
+            tag.putBoolean("powerState", this.powerState);
+            tag.put("state", this.state);
+        }
         return tag;
     }
 
@@ -99,14 +133,17 @@ public class ComputingModule {
                 }
             });
         }
+        if (disks.size() > 0) this.readTime = te.getWorld().getGameTime();
         return disks;
     }
 
     //Computer Module Only
-    public ComputingSession getSession() {
-        if (this.session != null) return this.session;
+    public ComputingSession getSession(Consumer<ComputingSession> create) {
         if (this.type == Type.COMPUTER && this.powerState) {
-            return this.session = new ComputingSession(this);
+            if (this.session != null) return this.session;
+            this.session = new ComputingSession(this);
+            create.accept(this.session);
+            return this.session;
         }
         return null;
     }

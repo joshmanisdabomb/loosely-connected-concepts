@@ -23,9 +23,9 @@ import net.minecraftforge.common.util.Constants;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class StorageItem extends Item implements TintedItem {
+import static com.joshmanisdabomb.lcc.item.ComputingItem.LOG2;
 
-    private static final double LOG2 = Math.log(2);
+public class StorageItem extends Item implements TintedItem {
 
     private final int sizeMin;
     private final int sizeMax;

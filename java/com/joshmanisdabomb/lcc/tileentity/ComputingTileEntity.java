@@ -22,7 +22,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -52,12 +51,21 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     }
 
     @Override
+    public void onLoad() {
+        if (!this.world.isRemote) {
+            for (ComputingModule m : this.getInstalledModules()) {
+                m.load();
+            }
+        }
+    }
+
+    @Override
     public void read(CompoundNBT tag) {
         if (tag.contains("TopModule", Constants.NBT.TAG_COMPOUND)) {
-            this.top = this.readModule(tag.getCompound("TopModule"), SlabType.TOP);
+            this.top = ComputingModule.read(this, SlabType.TOP, tag.getCompound("TopModule"));
         }
         if (tag.contains("BottomModule", Constants.NBT.TAG_COMPOUND)) {
-            this.bottom = this.readModule(tag.getCompound("BottomModule"), SlabType.BOTTOM);
+            this.bottom = ComputingModule.read(this, SlabType.BOTTOM, tag.getCompound("BottomModule"));
         }
         super.read(tag);
     }
@@ -72,6 +80,14 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public CompoundNBT getUpdateTag() {
         return this.write(new CompoundNBT());
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundNBT tag) {
+        super.handleUpdateTag(tag);
+        for (ComputingModule m : this.getInstalledModules()) {
+            m.load();
+        }
     }
 
     @Nullable
@@ -216,28 +232,6 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent("block.lcc.computing");
-    }
-
-    private ComputingModule readModule(CompoundNBT tag, SlabType location) {
-        if (!tag.contains("module", Constants.NBT.TAG_ANY_NUMERIC)) return null;
-        ComputingModule.Type module = ComputingModule.Type.values()[tag.getByte("module")];
-        if (!tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC)) return null;
-        DyeColor color = DyeColor.values()[tag.getByte("color")];
-        if (!tag.contains("direction", Constants.NBT.TAG_ANY_NUMERIC)) return null;
-        Direction direction = Direction.values()[tag.getByte("direction")];
-
-        ITextComponent name = tag.contains("customName", Constants.NBT.TAG_STRING) ? ITextComponent.Serializer.fromJson(tag.getString("customName")) : null;
-
-        ComputingModule m = new ComputingModule(this, location, module, color, direction, name);
-
-        CompoundNBT invTag = tag.getCompound("inventory");
-        m.inventory.ifPresent(h -> ((INBTSerializable<CompoundNBT>) h).deserializeNBT(invTag));
-
-        if (m.type == ComputingModule.Type.COMPUTER) {
-            if (tag.contains("powerState", Constants.NBT.TAG_ANY_NUMERIC)) m.powerState = tag.getBoolean("powerState");
-        }
-
-        return m;
     }
 
 }

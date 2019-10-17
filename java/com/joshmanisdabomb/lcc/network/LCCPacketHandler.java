@@ -29,6 +29,8 @@ public class LCCPacketHandler {
         INSTANCE.registerMessage(++id, CryingObsidianUpdatePacket.class, CryingObsidianUpdatePacket::encode, CryingObsidianUpdatePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, CryingObsidianSpawnPacket.class, CryingObsidianSpawnPacket::encode, CryingObsidianSpawnPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ComputerPowerPacket.class, ComputerPowerPacket::encode, ComputerPowerPacket::decode, LCCPacketHandler::pass);
+        INSTANCE.registerMessage(++id, ComputerStateChangePacket.class, ComputerStateChangePacket::encode, ComputerStateChangePacket::decode, LCCPacketHandler::pass);
+        INSTANCE.registerMessage(++id, TerminalStateChangePacket.class, TerminalStateChangePacket::encode, TerminalStateChangePacket::decode, LCCPacketHandler::pass);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

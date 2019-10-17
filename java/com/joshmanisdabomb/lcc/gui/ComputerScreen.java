@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.gui;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
+import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
@@ -36,10 +38,11 @@ public class ComputerScreen extends ComputingScreen {
         this.buttonPower = this.addButton(new SpriteButton(this.guiLeft + 77, this.guiTop + 58, this.container.module.powerState ? 110 : 88) {
             @Override
             public void onPress() {
-                ComputerScreen.this.container.module.powerState = !ComputerScreen.this.container.module.powerState;
-                ComputerScreen.this.container.module.session = null;
-                this.ix = ComputerScreen.this.container.module.powerState ? 110 : 88;
-                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(ComputerScreen.this.container.te.getWorld().getDimension().getType(), ComputerScreen.this.container.te.getPos(), ComputerScreen.this.playerInventory.player.getUniqueID(), ComputerScreen.this.container.location, ComputerScreen.this.container.module.powerState));
+                ComputingModule m = ComputerScreen.this.container.module;
+                m.powerState = !m.powerState;
+                m.session = m.getSession(ComputingSession::boot);
+                this.ix = m.powerState ? 110 : 88;
+                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(ComputerScreen.this.container.te.getWorld().getDimension().getType(), ComputerScreen.this.container.te.getPos(), ComputerScreen.this.playerInventory.player.getUniqueID(), ComputerScreen.this.container.location, m.powerState));
             }
 
             @Override

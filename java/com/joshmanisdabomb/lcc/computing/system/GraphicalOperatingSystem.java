@@ -1,15 +1,15 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
-import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
+import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class GraphicalOperatingSystem extends OperatingSystem {
 
-    public GraphicalOperatingSystem(TerminalTileEntity t, ComputingSession s) {
-        super(t, s);
+    public GraphicalOperatingSystem(ComputingSession cs) {
+        super(cs);
     }
 
     @Override
@@ -18,12 +18,12 @@ public class GraphicalOperatingSystem extends OperatingSystem {
     }
 
     @Override
-    public void render(float partialTicks) {
+    public void render(TerminalSession ts, float partialTicks, int x, int y) {
 
     }
 
     @Override
-    public int getBackgroundColor() {
+    public int getBackgroundColor(TerminalSession ts) {
         return 0xFFFFFFFF;
     }
 

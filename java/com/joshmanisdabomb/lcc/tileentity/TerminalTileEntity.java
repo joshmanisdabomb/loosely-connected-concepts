@@ -75,4 +75,8 @@ public class TerminalTileEntity extends TileEntity implements INamedContainerPro
         return this.customName != null ? this.customName : new TranslationTextComponent("block.lcc.terminal");
     }
 
+    public void receiveState() {
+
+    }
+
 }

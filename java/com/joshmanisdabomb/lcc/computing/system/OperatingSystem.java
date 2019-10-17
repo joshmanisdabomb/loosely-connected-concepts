@@ -1,33 +1,42 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
-import com.joshmanisdabomb.lcc.tileentity.TerminalTileEntity;
+import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Arrays;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
-@OnlyIn(Dist.CLIENT)
 public abstract class OperatingSystem {
 
-    protected final TerminalTileEntity terminal;
-    protected final ComputingSession session;
+    protected final ComputingSession cs;
 
-    public OperatingSystem(TerminalTileEntity t, ComputingSession s) {
-        this.terminal = t;
-        this.session = s;
+    public OperatingSystem(ComputingSession cs) {
+        this.cs = cs;
     }
-
     public abstract Type getType();
 
-    public abstract void render(float partialTicks);
+    /** When the computer is first switched on via power button. **/
+    public void boot() {
 
-    public boolean keyPressed(int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+    }
+
+    /** When the computer is first loaded into memory. Other tile entities may not be loaded in yet. **/
+    public void wake() {
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public abstract void render(TerminalSession ts, float partialTicks, int x, int y);
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean keyPressed(TerminalSession ts, int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         return true;
     }
 
-    public int getBackgroundColor() {
+    @OnlyIn(Dist.CLIENT)
+    public int getBackgroundColor(TerminalSession ts) {
         return 0xFF222222;
     }
 
@@ -37,9 +46,9 @@ public abstract class OperatingSystem {
         GRAPHICAL(4000, GraphicalOperatingSystem::new);
 
         public final int size;
-        public final BiFunction<TerminalTileEntity, ComputingSession, OperatingSystem> factory;
+        public final Function<ComputingSession, OperatingSystem> factory;
 
-        Type(int size, BiFunction<TerminalTileEntity, ComputingSession, OperatingSystem> factory) {
+        Type(int size, Function<ComputingSession, OperatingSystem> factory) {
             this.size = size;
             this.factory = factory;
         }

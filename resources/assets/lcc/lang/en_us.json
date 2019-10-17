@@ -319,6 +319,12 @@
   "block.lcc.networking_cable": "Networking Cable",
   "block.lcc.terminal_cable": "Terminal Cable",
   "item.lcc.cpu": "Central Processing Unit",
+  "item.lcc.cpu.level": "Speed:",
+  "item.lcc.cpu.level.value": "%s",
+  "item.lcc.ram.level": "Size:",
+  "item.lcc.ram.level.value": "%s",
+  "item.lcc.gpu.level": "Performance:",
+  "item.lcc.gpu.level.value": "%s",
   "item.lcc.ram": "Random Access Memory",
   "item.lcc.gpu": "Graphics Processing Unit",
   "item.lcc.floppy_disk": "Floppy Disk",
@@ -329,7 +335,7 @@
   "item.lcc.solid_state_drive": "Solid State Drive",
   "item.lcc.m2": "M.2 Solid State Drive",
   "item.lcc.computing_storage.size": "Size:",
-  "item.lcc.computing_storage.size.value": "%s bytes",
+  "item.lcc.computing_storage.size.value": "%s",
   "item.lcc.computing_storage.partitions": "Partitions:",
 
   "item.lcc.plastic": "Plastic",
@@ -353,5 +359,10 @@
   "subtitle.lcc.block.bounce_pad.jump": "Bounce Pad protracts",
 
   "gui.lcc.computer.on": "Turn On",
-  "gui.lcc.computer.off": "Turn Off"
+  "gui.lcc.computer.off": "Turn Off",
+
+  "computing.lcc.terminal.no_input": "No Input Detected",
+  "computing.lcc.terminal.conflict_input": "Conflicting Inputs Detected",
+  "computing.lcc.bios.no_os": "No operating system detected",
+  "computing.lcc.bios.prompt": "Press any key to retry..."
 }

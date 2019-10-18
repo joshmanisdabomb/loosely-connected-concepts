@@ -2,19 +2,15 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.List;
-
-public class BIOSOperatingSystem extends OperatingSystem {
+public class BIOSOperatingSystem extends LinedOperatingSystem {
 
     public BIOSOperatingSystem(ComputingSession cs) {
         super(cs);
     }
-
-    private final String[] out = new String[10];
 
     @Override
     public Type getType() {
@@ -23,31 +19,36 @@ public class BIOSOperatingSystem extends OperatingSystem {
 
     @Override
     public void boot() {
-        CompoundNBT partitions = cs.computer.state.getCompound("partitions");
-        if (partitions.isEmpty()) {
+        super.boot();
+        this.printError();
+    }
+
+    private void printError() {
+        CompoundNBT seeks = cs.computer.state.getCompound("os_seeks");
+        if (seeks.isEmpty()) {
             this.print(new TranslationTextComponent("computing.lcc.bios.no_os").getFormattedText());
+        } else if (seeks.size() == 1) {
+            String os = seeks.keySet().stream().findFirst().orElseThrow(RuntimeException::new);
+            this.print(new TranslationTextComponent("computing.lcc.bios.partial_os", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os)).getFormattedText());
         } else {
-            this.print(new TranslationTextComponent("computing.lcc.bios.no_os").getFormattedText());
+            for (String os : seeks.keySet()) {
+                this.print(new TranslationTextComponent("computing.lcc.bios.partial_os.option", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os)).getFormattedText());
+            }
+            this.print(new TranslationTextComponent("computing.lcc.bios.partial_os.multiple").getFormattedText());
         }
+        this.writeOutput(cs.computer.state);
     }
 
     @Override
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
-        for (int i = 0; i < out.length; i++) {
-            Minecraft.getInstance().fontRenderer.drawString(out[i], x + 5, y + 4 + (i * 11), 0xD5D5D5);
-        }
+        super.render(ts, partialTicks, x, y);
     }
 
-    private void print(String s) {
-        List<String> lines = Minecraft.getInstance().fontRenderer.listFormattedStringToWidth(s, 230);
-        if (lines.size() < out.length) {
-            System.arraycopy(out, lines.size(), out, 0, out.length - lines.size());
-        }
-        for (int i = 0; i < out.length; i++) {
-            int key = lines.size() - (out.length - i);
-            if (key < 0) continue;
-            out[i] = lines.get(key);
-        }
+    @Override
+    public boolean keyPressed(TerminalSession ts, int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+        cs.osLoad();
+        this.printError();
+        cs.sendState();
+        return true;
     }
-
 }

@@ -15,6 +15,7 @@ public abstract class OperatingSystem {
     public OperatingSystem(ComputingSession cs) {
         this.cs = cs;
     }
+
     public abstract Type getType();
 
     /** When the computer is first switched on via power button. **/

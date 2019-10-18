@@ -26,7 +26,19 @@ public class ComputingSession {
     }
 
     public void boot() {
+        this.osLoad();
+        this.os.boot();
+    }
+
+    public void wake() {
+        String type = computer.state.getString("os_type");
+        this.os = OperatingSystem.Type.from(type).factory.apply(this);
+        this.os.wake();
+    }
+
+    public void osLoad() {
         List<ItemStack> disks = computer.getLocalDisks();
+        //Read all disks on local network.
         for (ItemStack disk : disks) {
             CompoundNBT tag = disk.getOrCreateChildTag("lcc:computing");
             ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
@@ -38,42 +50,33 @@ public class ComputingSession {
                 }
             }
         }
+        //Advance seek from read disk partitions and change the operating system if seek can move past the operating system size.
+        HashMap<OperatingSystem.Type, Integer> seek = new HashMap<>();
         for (Map.Entry<OperatingSystem.Type, ArrayList<Pair<Integer, Integer>>> e : osPartitions.entrySet()) {
             List<Pair<Integer, Integer>> progressList = e.getValue().stream().sorted(Comparator.comparingInt(Pair::getLeft)).collect(Collectors.toList());
-            int seek = 0;
+            int s = 0;
             for (Pair<Integer, Integer> progress : progressList) {
-                if (seek < progress.getLeft()) break;
-                seek = Math.max(seek, progress.getLeft() + progress.getRight());
-                if (seek >= e.getKey().size) this.changeOS(e.getKey().factory.apply(this));
+                if (s < progress.getLeft()) break;
+                s = Math.max(s, progress.getLeft() + progress.getRight());
+                if (s >= e.getKey().size) this.changeOS(e.getKey().factory.apply(this));
             }
+            seek.put(e.getKey(), s);
         }
-        if (this.os == null) {
-            this.changeOS(OperatingSystem.Type.BIOS.factory.apply(this));
-            CompoundNBT partitions = new CompoundNBT();
+        //Use the seeks added to the hash map to display an error on the BIOS.
+        if (this.os == null || this.os.getType() == OperatingSystem.Type.BIOS) {
+            if (this.os == null) this.changeOS(OperatingSystem.Type.BIOS.factory.apply(this));
+            CompoundNBT seeks = new CompoundNBT();
             for (Map.Entry<OperatingSystem.Type, ArrayList<Pair<Integer, Integer>>> e : osPartitions.entrySet()) {
-                ListNBT os = partitions.getList(e.getKey().name().toLowerCase(), Constants.NBT.TAG_COMPOUND);
-                for (Pair<Integer, Integer> values : e.getValue()) {
-                    CompoundNBT partition = new CompoundNBT();
-                    partition.putInt("start", values.getLeft());
-                    partition.putInt("size", values.getRight());
-                    os.add(partition);
-                }
-                partitions.put(e.getKey().name().toLowerCase(), os);
+                seeks.putInt(e.getKey().name().toLowerCase(), seek.get(e.getKey()));
             }
-            computer.state.put("partitions", partitions);
+            computer.state.put("os_seeks", seeks);
         }
-        this.os.boot();
-    }
-
-    public void wake() {
-        String type = computer.state.getString("os_type");
-        this.os = OperatingSystem.Type.from(type).factory.apply(this);
-        this.os.wake();
     }
 
     private void osProgress(OperatingSystem.Type os, int start, int size) {
         if (!osPartitions.containsKey(os)) osPartitions.put(os, new ArrayList<>());
-        osPartitions.get(os).add(Pair.of(start, size));
+        Pair<Integer, Integer> progress = Pair.of(start, size);
+        if (!osPartitions.get(os).contains(progress)) osPartitions.get(os).add(progress);
     }
 
     private void changeOS(OperatingSystem os) {

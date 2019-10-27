@@ -85,6 +85,18 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
     }
 
     @Override
+    public boolean keyReleased(int p_223281_1_, int p_223281_2_, int p_223281_3_) {
+        if (!session.active()) return super.keyReleased(p_223281_1_, p_223281_2_, p_223281_3_);
+        return session.keyReleased(p_223281_1_, p_223281_2_, p_223281_3_);
+    }
+
+    @Override
+    public boolean charTyped(char p_charTyped_1_, int p_charTyped_2_) {
+        if (!session.active()) return super.charTyped(p_charTyped_1_, p_charTyped_2_);
+        return session.charTyped(p_charTyped_1_, p_charTyped_2_);
+    }
+
+    @Override
     public void blit(int p_blit_1_, int p_blit_2_, int p_blit_3_, int p_blit_4_, int p_blit_5_, int p_blit_6_) {
         blit(p_blit_1_, p_blit_2_, this.blitOffset, (float)p_blit_3_, (float)p_blit_4_, p_blit_5_, p_blit_6_, 512, 512);
     }

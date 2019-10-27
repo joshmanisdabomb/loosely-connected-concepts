@@ -7,24 +7,24 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
 
 public abstract class LinedOperatingSystem extends OperatingSystem {
 
-    protected String[] out = new String[10];
+    protected String[] out;
 
-    public LinedOperatingSystem(ComputingSession cs) {
+    public LinedOperatingSystem(ComputingSession cs, int outputLength) {
         super(cs);
+        out = new String[outputLength];
     }
 
     @Override
-    public void wake() {
-        this.readOutput(cs.computer.state);
-    }
-
-    @Override
+    @OnlyIn(Dist.CLIENT)
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         for (int i = 0; i < out.length; i++) {
             Minecraft.getInstance().fontRenderer.drawString(out[i], x + 5, y + 4 + (i * 11), 0xD5D5D5);
@@ -32,7 +32,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     }
 
     protected void readOutput(CompoundNBT nbt) {
-        if (nbt.contains("output", Constants.NBT.TAG_LIST)) this.out = nbt.getList("output", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
+        if (nbt.contains(this.getType() + ".output", Constants.NBT.TAG_LIST)) this.out = nbt.getList(this.getType() + ".output", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
     }
 
     protected void writeOutput(CompoundNBT nbt) {
@@ -40,7 +40,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         for (int i = 0; i < out.length; i++) {
             a.add(new StringNBT(out[i] != null ? out[i] : ""));
         }
-        nbt.put("output", a);
+        nbt.put(this.getType() + ".output", a);
     }
 
     protected void print(String s) {
@@ -53,6 +53,10 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
             if (key < 0) continue;
             out[i] = lines.get(key);
         }
+    }
+
+    protected void printt(String key, Object... format) {
+        this.print(new TranslationTextComponent(key, format).getFormattedText());
     }
 
 }

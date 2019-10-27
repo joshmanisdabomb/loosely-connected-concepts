@@ -26,6 +26,8 @@ public class ComputingSession {
     }
 
     public void boot() {
+        computer.state = new CompoundNBT();
+        computer.state.putUniqueId("id", UUID.randomUUID());
         this.osLoad();
         this.os.boot();
     }
@@ -86,6 +88,10 @@ public class ComputingSession {
 
     OperatingSystem getOS() {
         return os;
+    }
+
+    public CompoundNBT getState() {
+        return computer.state;
     }
 
     public void receiveState() {

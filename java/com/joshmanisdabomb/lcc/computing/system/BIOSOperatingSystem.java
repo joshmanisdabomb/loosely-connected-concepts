@@ -2,14 +2,15 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BIOSOperatingSystem extends LinedOperatingSystem {
 
     public BIOSOperatingSystem(ComputingSession cs) {
-        super(cs);
+        super(cs, 10);
     }
 
     @Override
@@ -23,29 +24,37 @@ public class BIOSOperatingSystem extends LinedOperatingSystem {
         this.printError();
     }
 
+    @Override
+    public void wake() {
+        this.readOutput(cs.getState());
+    }
+
     private void printError() {
-        CompoundNBT seeks = cs.computer.state.getCompound("os_seeks");
+        CompoundNBT seeks = cs.getState().getCompound("os_seeks");
         if (seeks.isEmpty()) {
-            this.print(new TranslationTextComponent("computing.lcc.bios.no_os").getFormattedText());
+            this.printt("computing.lcc.bios.no_os");
         } else if (seeks.size() == 1) {
             String os = seeks.keySet().stream().findFirst().orElseThrow(RuntimeException::new);
-            this.print(new TranslationTextComponent("computing.lcc.bios.partial_os", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os)).getFormattedText());
+            this.printt("computing.lcc.bios.partial_os", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os));
         } else {
             for (String os : seeks.keySet()) {
-                this.print(new TranslationTextComponent("computing.lcc.bios.partial_os.option", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os)).getFormattedText());
+                this.printt("computing.lcc.bios.partial_os.option", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os));
             }
-            this.print(new TranslationTextComponent("computing.lcc.bios.partial_os.multiple").getFormattedText());
+            this.printt("computing.lcc.bios.partial_os.multiple");
         }
-        this.writeOutput(cs.computer.state);
+        this.writeOutput(cs.getState());
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         super.render(ts, partialTicks, x, y);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public boolean keyPressed(TerminalSession ts, int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
+        ts.blockInput = true;
         cs.osLoad();
         this.printError();
         cs.sendState();

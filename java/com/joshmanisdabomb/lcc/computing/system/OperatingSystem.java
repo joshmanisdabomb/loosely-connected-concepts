@@ -33,13 +33,24 @@ public abstract class OperatingSystem {
 
     @OnlyIn(Dist.CLIENT)
     public boolean keyPressed(TerminalSession ts, int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
-        return true;
+        return false;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean keyReleased(TerminalSession ts, int p_keyReleased_1_, int p_keyReleased_2_, int p_keyReleased_3_) {
+        return false;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean charTyped(TerminalSession ts, char p_charTyped_1_, int p_charTyped_2_) {
+        return false;
     }
 
     @OnlyIn(Dist.CLIENT)
     public int getBackgroundColor(TerminalSession ts) {
         return 0xFF222222;
     }
+
 
     public enum Type {
         BIOS(-1, BIOSOperatingSystem::new),

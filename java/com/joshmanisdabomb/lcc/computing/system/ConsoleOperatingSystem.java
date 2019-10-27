@@ -2,10 +2,15 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
+import com.joshmanisdabomb.lcc.gui.ComputerScreen;
+import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.Arrays;
@@ -105,11 +110,22 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 }
             }
         }),
+        DISKS((cos, ts, args) -> {
+            cos.cs.computer.getNetworkDisks().forEach(d -> cos.printt(d.toString()));
+        }),
         USE((cos, ts, args) -> {}),
         LS((cos, ts, args) -> {}),
         CD((cos, ts, args) -> {}),
         MKDIR((cos, ts, args) -> {}),
-        HOLD((cos, ts, args) -> {});
+        HOLD((cos, ts, args) -> {}),
+        REBOOT((cos, ts, args) -> {
+            cos.cs.boot();
+            cos.cs.sendState();
+        }),
+        SHUTDOWN((cos, ts, args) -> {
+            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(cos.cs.computer.te.getWorld().getDimension().getType(), cos.cs.computer.te.getPos(), Minecraft.getInstance().player.getUniqueID(), cos.cs.computer.location, cos.cs.computer.powerState = false));
+            cos.cs.computer.session = null;
+        });
 
         private final TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> handler;
         private final String[] aliases;

@@ -31,6 +31,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.LOCAL_NETWORK;
+import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.WIRED_NETWORK;
 
 public class ComputingModule {
 
@@ -120,8 +121,12 @@ public class ComputingModule {
         return modules.stream().map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type != Type.CASING).collect(Collectors.toList());
     }
 
-    public List<ItemStack> getLocalDisks() {
-        List<ComputingModule> drives = this.getLocalDrives();
+    public List<ComputingModule> getNetworkDrives() {
+        List<Pair<BlockPos, SlabType>> modules = WIRED_NETWORK.discover(te.getWorld(), new ImmutablePair<>(te.getPos(), this.location)).getTraversables();
+        return modules.stream().map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type != Type.CASING).collect(Collectors.toList());
+    }
+
+    public List<ItemStack> getDisks(List<ComputingModule> drives) {
         List<ItemStack> disks = new ArrayList<>();
         for (ComputingModule m : drives) {
             m.inventory.ifPresent(h -> {
@@ -135,6 +140,14 @@ public class ComputingModule {
         }
         if (disks.size() > 0) this.readTime = te.getWorld().getGameTime();
         return disks;
+    }
+
+    public List<ItemStack> getLocalDisks() {
+        return this.getDisks(this.getLocalDrives());
+    }
+
+    public List<ItemStack> getNetworkDisks() {
+        return this.getDisks(this.getNetworkDrives());
     }
 
     //Computer Module Only

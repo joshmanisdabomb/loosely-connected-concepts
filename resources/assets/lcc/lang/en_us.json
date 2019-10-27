@@ -376,9 +376,12 @@
   "computing.lcc.console.meta.help": "help,?,man,usage,describe",
   "computing.lcc.console.meta.help.usage": "help [command]",
   "computing.lcc.console.meta.help.description": "Gives a list of commands that can be used. Specify a command to get its usage and description.",
-  "computing.lcc.console.meta.use": "use,drive,disk,partition,part",
+  "computing.lcc.console.meta.disks": "disks,drives,partitions,parts",
+  "computing.lcc.console.meta.disks.usage": "disks [diskname]",
+  "computing.lcc.console.meta.disks.description": "View all the partitions available to the system. Optionally filter by physical disk name.",
+  "computing.lcc.console.meta.use": "use,disk,drive,partition,part",
   "computing.lcc.console.meta.use.usage": "use [diskname] [partitionname]",
-  "computing.lcc.console.meta.use.description": "Start working with the disk partition that has the given name on the given disk. Give no arguments to see the current partition in use.",
+  "computing.lcc.console.meta.use.description": "Start working with the disk partition that has the given name on the given physical disk. Give no arguments to see the current partition in use.",
   "computing.lcc.console.meta.ls": "ls,list,dir",
   "computing.lcc.console.meta.ls.usage": "ls",
   "computing.lcc.console.meta.ls.description": "Lists the items in the current directory.",
@@ -390,5 +393,11 @@
   "computing.lcc.console.meta.mkdir.description": "Create the given directory relative to the current directory.",
   "computing.lcc.console.meta.hold": "hold,take,retrieve",
   "computing.lcc.console.meta.hold.usage": "hold <item>",
-  "computing.lcc.console.meta.hold.description": "Grab the given item from the current directory."
+  "computing.lcc.console.meta.hold.description": "Grab the given item from the current directory.",
+  "computing.lcc.console.meta.reboot": "reboot,restart,exit,off",
+  "computing.lcc.console.meta.reboot.usage": "reboot",
+  "computing.lcc.console.meta.reboot.description": "Restarts the machine.",
+  "computing.lcc.console.meta.shutdown": "shutdown,end,exit,close,off",
+  "computing.lcc.console.meta.shutdown.usage": "shutdown",
+  "computing.lcc.console.meta.shutdown.description": "Shuts down the machine."
 }

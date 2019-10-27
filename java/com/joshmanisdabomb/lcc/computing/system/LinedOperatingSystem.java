@@ -59,4 +59,8 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         this.print(new TranslationTextComponent(key, format).getFormattedText());
     }
 
+    protected void clear() {
+        out = new String[out.length];
+    }
+
 }

@@ -110,6 +110,9 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 }
             }
         }),
+        CLEAR((cos, ts, args) -> {
+            cos.clear();
+        }),
         DISKS((cos, ts, args) -> {
             cos.cs.computer.getNetworkDisks().forEach(d -> cos.printt(d.toString()));
         }),
@@ -119,7 +122,8 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         MKDIR((cos, ts, args) -> {}),
         HOLD((cos, ts, args) -> {}),
         REBOOT((cos, ts, args) -> {
-            cos.cs.boot();
+            cos.cs.computer.session = null;
+            cos.cs.computer.session = cos.cs.computer.getSession(ComputingSession::boot);
             cos.cs.sendState();
         }),
         SHUTDOWN((cos, ts, args) -> {

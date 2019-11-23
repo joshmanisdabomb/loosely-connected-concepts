@@ -83,6 +83,8 @@
 
   "item.lcc.chromatic_core": "Chromatic Core",
 
+  "block.lcc.cracked_mud": "Cracked Mud",
+
   "item.lcc.spreader_essence": "Spreader Essence",
   "block.lcc.spreader_white": "White Spreader",
   "block.lcc.spreader_orange": "Orange Spreader",
@@ -343,6 +345,8 @@
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 
   "itemGroup.lcc": "Loosely Connected Concepts",
+
+  "biome.lcc.wasteland": "Wasteland",
 
   "death.attack.lcc.gauntlet_uppercut": "%1$s was struck by %2$s's uppercut",
   "death.attack.lcc.gauntlet_uppercut.item": "%1$s was struck by %2$s's uppercut using %3$s",

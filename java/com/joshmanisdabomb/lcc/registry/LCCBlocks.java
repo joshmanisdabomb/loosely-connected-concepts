@@ -49,6 +49,9 @@ public abstract class LCCBlocks {
 	public static Block uranium_storage;
 	public static Block enriched_uranium_storage;
 
+	//Wasteland
+	public static Block cracked_mud;
+
 	//Nuclear
 	public static Block nuclear_waste;
 	public static Block nuclear_fire;
@@ -146,6 +149,10 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(uranium_storage);
 		all.add(enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
 		createDefaultBlockItem(enriched_uranium_storage);
+
+		//Wasteland
+		all.add(cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE)).setRegistryName(LCC.MODID, "cracked_mud"));
+		createDefaultBlockItem(cracked_mud);
 
 		//Nuclear
 		all.add(nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL)).setRegistryName(LCC.MODID, "nuclear_waste"));

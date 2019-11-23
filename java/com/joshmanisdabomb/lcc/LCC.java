@@ -48,6 +48,7 @@ public class LCC
     private void setup(final FMLCommonSetupEvent e) {
         LCCGroup.initSorting();
 
+        LCCBiomes.initEntries();
         BiomeBasedGenerator.init();
 
         MinecraftForge.EVENT_BUS.register(new GeneralEvents());

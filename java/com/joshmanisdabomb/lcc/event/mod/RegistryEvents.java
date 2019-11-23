@@ -11,6 +11,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -33,6 +34,12 @@ public abstract class RegistryEvents {
     public static void onEntityRegistry(final RegistryEvent.Register<EntityType<?>> e) {
         LCCEntities.init(e);
         e.getRegistry().registerAll(LCCEntities.all.toArray(new EntityType<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onBiomeRegistry(final RegistryEvent.Register<Biome> e) {
+        LCCBiomes.init(e);
+        e.getRegistry().registerAll(LCCBiomes.all.toArray(new Biome[0]));
     }
 
     @SubscribeEvent

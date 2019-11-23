@@ -155,6 +155,9 @@ public class LCCGroup extends ItemGroup {
             set(LCCBlocks.spreaders.get(color), LCCGroupCategory.SPREADERS, color.getId()+2);
         }
 
+        //Wasteland
+        set(LCCBlocks.cracked_mud, LCCGroupCategory.WASTELAND, 0);
+
         //Nuclear TODO: lump in with explosives
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
 
@@ -277,6 +280,7 @@ public class LCCGroup extends ItemGroup {
         GIZMOS,
         RAINBOW,
         SPREADERS,
+        WASTELAND,
         NUCLEAR,
         COMPUTING,
         NOSTALGIA,

@@ -23,13 +23,15 @@ import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
 public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
 
-    private static final Predicate<BlockState> COMPUTER_CABLE = state -> state.getBlock() == LCCBlocks.networking_cable || state.getBlock() == LCCBlocks.terminal_cable;
+    private final Predicate<BlockState> cable;
 
-    private final boolean local;
+    private final boolean networking, terminal;
 
-    public ComputingNetwork(int distance, boolean local) {
+    public ComputingNetwork(int distance, boolean networking, boolean terminal) {
         super(distance);
-        this.local = local;
+        this.networking = networking;
+        this.terminal = terminal;
+        this.cable = state -> (this.networking && state.getBlock() == LCCBlocks.networking_cable) || (this.terminal && state.getBlock() == LCCBlocks.terminal_cable);
     }
 
     @Override
@@ -64,11 +66,11 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
             }
 
             //check for cabling
-            if (!this.local) {
+            if (this.networking || this.terminal) {
                 for (Direction d : Direction.values()) {
                     BlockPos pos3 = pos.offset(d);
                     BlockState state3 = world.getBlockState(pos3);
-                    if (COMPUTER_CABLE.test(state3)) {
+                    if (cable.test(state3)) {
                         positions.add(new ImmutablePair<>(pos3, null));
                     }
                 }
@@ -95,7 +97,7 @@ public class ComputingNetwork extends BlockNetwork<Pair<BlockPos, SlabType>> {
                     }
                 } else if (state.getBlock() instanceof TerminalBlock && state2.getBlock() instanceof TerminalBlock) {
                     if (((TerminalBlock)state.getBlock()).color == ((TerminalBlock)state2.getBlock()).color) positions.add(new ImmutablePair<>(pos2, null));
-                } else if (COMPUTER_CABLE.test(state2)) {
+                } else if (cable.test(state2)) {
                     positions.add(new ImmutablePair<>(pos2, null));
                 } else {
                     nodes.add(pos2);

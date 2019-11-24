@@ -43,13 +43,21 @@ public interface LCCContainerHelper {
         }
 
         public int addSlot(IItemHandler handler, int x, int y, int index) {
-            return this.addSlots(handler, x, y, index, 1, 1);
+            return this.addSlot(SlotItemHandler::new, handler, x, y, index);
+        }
+
+        public int addSlot(SlotItemHandlerFactory factory, IItemHandler handler, int x, int y, int index) {
+            return this.addSlots(factory, handler, x, y, index, 1, 1);
         }
 
         public int addSlots(IItemHandler handler, int x, int y, int index, int columns, int rows) {
+            return addSlots(SlotItemHandler::new, handler, x, y, index, columns, rows);
+        }
+
+        public int addSlots(SlotItemHandlerFactory factory, IItemHandler handler, int x, int y, int index, int columns, int rows) {
             for (int j = 0; j < rows; j++) {
                 for (int i = 0; i < columns; i++) {
-                    Slot s = new SlotItemHandler(handler, index++, x + (18 * i), y + (18 * j));
+                    Slot s = factory.create(handler, index++, x + (18 * i), y + (18 * j));
                     this.addToMap(currentGroup, s);
                     creator.apply(s);
                 }
@@ -162,6 +170,12 @@ public interface LCCContainerHelper {
                 return true;
             }
             return false;
+        }
+
+        public interface SlotItemHandlerFactory {
+
+            SlotItemHandler create(IItemHandler handler, int index, int x, int y);
+
         }
 
     }

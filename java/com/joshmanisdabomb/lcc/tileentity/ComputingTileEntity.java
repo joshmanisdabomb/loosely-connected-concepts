@@ -36,8 +36,9 @@ import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
 public class ComputingTileEntity extends TileEntity implements INamedContainerProvider {
 
-    public static final ComputingNetwork LOCAL_NETWORK = new ComputingNetwork(64, true);
-    public static final ComputingNetwork WIRED_NETWORK = new ComputingNetwork(64, false);
+    public static final ComputingNetwork LOCAL_NETWORK = new ComputingNetwork(64, false, false);
+    public static final ComputingNetwork DISK_NETWORK = new ComputingNetwork(64, true, false);
+    public static final ComputingNetwork TERM_NETWORK = new ComputingNetwork(64, false, true);
 
     protected ComputingModule top = null;
     protected ComputingModule bottom = null;

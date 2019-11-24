@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -51,6 +52,10 @@ public abstract class OperatingSystem {
         return 0xFF222222;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    protected void blit(int p_blit_1_, int p_blit_2_, int p_blit_3_, int p_blit_4_, int p_blit_5_, int p_blit_6_) {
+        AbstractGui.blit(p_blit_1_, p_blit_2_, 0, (float)p_blit_3_, (float)p_blit_4_, p_blit_5_, p_blit_6_, 512, 512);
+    }
 
     public enum Type {
         BIOS(-1, BIOSOperatingSystem::new),

@@ -78,7 +78,7 @@ public class FunctionalBubbleColumnBlock extends BubbleColumnBlock {
     public enum ColumnType {
         NONE,
         DOWNWARDS,
-        UPWARDS;
+        UPWARDS
     }
 
 }

@@ -3,18 +3,17 @@ package com.joshmanisdabomb.lcc.registry;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.LazyLoadBase;
 
 import java.util.function.Supplier;
 
 public enum LCCItemTier implements IItemTier {
 
-    RUBY(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(new IItemProvider[]{LCCItems.ruby}); }),
-    TOPAZ(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(new IItemProvider[]{LCCItems.topaz}); }),
-    EMERALD(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(new IItemProvider[]{Items.EMERALD}); }),
-    SAPPHIRE(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(new IItemProvider[]{LCCItems.sapphire}); }),
-    AMETHYST(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(new IItemProvider[]{LCCItems.amethyst}); });
+    RUBY(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.ruby); }),
+    TOPAZ(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.topaz); }),
+    EMERALD(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(Items.EMERALD); }),
+    SAPPHIRE(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.sapphire); }),
+    AMETHYST(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.amethyst); });
 
     private final int harvestLevel;
     private final int maxUses;
@@ -23,7 +22,7 @@ public enum LCCItemTier implements IItemTier {
     private final int enchantability;
     private final LazyLoadBase<Ingredient> repairMaterial;
 
-    private LCCItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial) {
+    LCCItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial) {
         this.harvestLevel = harvestLevel;
         this.maxUses = maxUses;
         this.efficiency = efficiency;
@@ -59,7 +58,7 @@ public enum LCCItemTier implements IItemTier {
 
     @Override
     public Ingredient getRepairMaterial() {
-        return (Ingredient)this.repairMaterial.getValue();
+        return this.repairMaterial.getValue();
     }
 
 }

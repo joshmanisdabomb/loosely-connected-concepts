@@ -21,7 +21,7 @@ public class HydratedSoulSandBlock extends SoulSandBlock {
 
     @Override
     public void tick(BlockState state, World world, BlockPos pos, Random rand) {
-        ((FunctionalBubbleColumnBlock)LCCBlocks.hydrated_soul_sand_bubble_column).place(world, pos.up(), false);
+        LCCBlocks.hydrated_soul_sand_bubble_column.place(world, pos.up(), false);
     }
 
     @Override

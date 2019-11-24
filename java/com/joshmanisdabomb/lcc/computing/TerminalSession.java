@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.WIRED_NETWORK;
+import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.TERM_NETWORK;
 
 @OnlyIn(Dist.CLIENT)
 public class TerminalSession {
@@ -32,7 +32,7 @@ public class TerminalSession {
     }
 
     protected List<ComputingModule> getActiveComputers() {
-        List<Pair<BlockPos, SlabType>> modules = WIRED_NETWORK.discover(terminal.getWorld(), Pair.of(terminal.getPos(), null)).getTraversables();
+        List<Pair<BlockPos, SlabType>> modules = TERM_NETWORK.discover(terminal.getWorld(), Pair.of(terminal.getPos(), null)).getTraversables();
         return modules.stream().map(m -> {
             TileEntity te = terminal.getWorld().getTileEntity(m.getLeft());
             if (te instanceof ComputingTileEntity) {

@@ -143,7 +143,7 @@ public class GeneralEvents {
         try (
             BlockPos.PooledMutableBlockPos bp = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
             BlockPos.PooledMutableBlockPos bp1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-            BlockPos.PooledMutableBlockPos bp2 = BlockPos.PooledMutableBlockPos.retain();
+            BlockPos.PooledMutableBlockPos bp2 = BlockPos.PooledMutableBlockPos.retain()
         ) {
             if (entity.world.isAreaLoaded(bp, bp1)) {
                 for(int i = bp.getX(); i <= bp1.getX(); ++i) {

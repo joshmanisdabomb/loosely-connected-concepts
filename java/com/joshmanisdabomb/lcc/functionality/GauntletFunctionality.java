@@ -104,7 +104,7 @@ public abstract class GauntletFunctionality {
             float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F)) * MathHelper.cos(f1 * ((float)Math.PI / 180F));
             float f4 = MathHelper.cos(f * ((float)Math.PI / 180F)) * MathHelper.cos(f1 * ((float)Math.PI / 180F));
             float f5 = MathHelper.sqrt(f2 * f2 + f4 * f4);
-            float f6 = 3.0F * ((1.0F + (((float)strength) * 5F)) / 4.0F);
+            float f6 = 3.0F * ((1.0F + (strength * 5F)) / 4.0F);
             if (f5 == 0) f5 = 1F;
             f2 = f2 * (f6 / f5);
             f4 = f4 * (f6 / f5);

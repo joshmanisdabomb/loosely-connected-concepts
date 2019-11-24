@@ -157,6 +157,7 @@ public class LCCGroup extends ItemGroup {
 
         //Wasteland
         set(LCCBlocks.cracked_mud, LCCGroupCategory.WASTELAND, 0);
+        set(LCCItems.oil_bucket, LCCGroupCategory.WASTELAND, 10);
 
         //Nuclear TODO: lump in with explosives
         set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
@@ -286,7 +287,7 @@ public class LCCGroup extends ItemGroup {
         NOSTALGIA,
         POWER,
         HEALTH,
-        TESTING;
+        TESTING
 
     }
 

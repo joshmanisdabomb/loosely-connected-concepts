@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.event.mod;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -28,6 +30,12 @@ public abstract class RegistryEvents {
         LCCItems.init(e);
         e.getRegistry().registerAll(LCCBlocks.allItem.toArray(new BlockItem[0]));
         e.getRegistry().registerAll(LCCItems.all.toArray(new Item[0]));
+    }
+
+    @SubscribeEvent
+    public static void onFluidRegistry(final RegistryEvent.Register<Fluid> e) {
+        LCCFluids.init(e);
+        e.getRegistry().registerAll(LCCFluids.all.toArray(new Fluid[0]));
     }
 
     @SubscribeEvent
@@ -58,6 +66,12 @@ public abstract class RegistryEvents {
     public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> e) {
         LCCContainers.init(e);
         e.getRegistry().registerAll(LCCContainers.all.toArray(new ContainerType<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onFeatureRegistry(final RegistryEvent.Register<Feature<?>> e) {
+        LCCFeatures.init(e);
+        e.getRegistry().registerAll(LCCFeatures.all.toArray(new Feature<?>[0]));
     }
 
     @SubscribeEvent

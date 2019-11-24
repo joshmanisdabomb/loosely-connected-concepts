@@ -1,19 +1,26 @@
 package com.joshmanisdabomb.lcc.gen.biome;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCFeatures;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftStructure;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
+import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-public class WastelandBiome extends Biome {
+public class WastelandBiome extends Biome implements LCCBiomeHelper {
 
     private static final BlockState CRACKED_MUD = LCCBlocks.cracked_mud.getDefaultState();
 
@@ -26,11 +33,17 @@ public class WastelandBiome extends Biome {
         DefaultBiomeFeatures.addMonsterRooms(this);
         DefaultBiomeFeatures.addStoneVariants(this);
         DefaultBiomeFeatures.addFossils(this);
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.COAL_ORE.getDefaultState(), 17), Placement.COUNT_RANGE, new CountRangeConfig(20, 0, 0, 128)));
+    }
+
+    @Override
+    public void lateGenerators() {
+        this.addFeature(GenerationStage.Decoration.RAW_GENERATION, Biome.createDecoratedFeature(LCCFeatures.oil_geyser, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     }
 
     @Override
     public int getSkyColorByTemp(float p_76731_1_) {
-        return super.getSkyColorByTemp(p_76731_1_);
+        return 0xccc8b4;
     }
 
     @Override
@@ -47,7 +60,5 @@ public class WastelandBiome extends Biome {
     public Biome getRiver() {
         return this;
     }
-
-
 
 }

@@ -1,12 +1,18 @@
-package com.joshmanisdabomb.lcc.gen;
+package com.joshmanisdabomb.lcc.gen.world;
 
+import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
+import com.joshmanisdabomb.lcc.gen.biome.LCCBiomeHelper;
+import com.joshmanisdabomb.lcc.registry.LCCBiomes;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCFeatures;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.ReplaceBlockConfig;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -56,8 +62,9 @@ public abstract class BiomeBasedGenerator {
         for (Biome b : Biome.BIOMES) {
             b.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.EMERALD_ORE, uranium_config, Placement.COUNT_RANGE, uranium_placement));
         }
+
+        //Late Generators
+        LCCBiomes.all.stream().filter(biome -> biome instanceof LCCBiomeHelper).forEach(biome -> ((LCCBiomeHelper)biome).lateGenerators());
     }
-
-
 
 }

@@ -2,11 +2,9 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
-import com.joshmanisdabomb.lcc.gui.ComputerScreen;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -113,7 +111,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         CLEAR((cos, ts, args) -> {
             cos.clear();
         }),
-        DISKS((cos, ts, args) -> {
+        MAP((cos, ts, args) -> {
             cos.cs.computer.getNetworkDisks().forEach(d -> cos.printt(d.toString()));
         }),
         USE((cos, ts, args) -> {}),
@@ -121,6 +119,11 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         CD((cos, ts, args) -> {}),
         MKDIR((cos, ts, args) -> {}),
         HOLD((cos, ts, args) -> {}),
+        MKPART((cos, ts, args) -> {}),
+        RMPART((cos, ts, args) -> {}),
+        LABEL((cos, ts, args) -> {}),
+        RESIZE((cos, ts, args) -> {}),
+        INSTALL((cos, ts, args) -> {}),
         REBOOT((cos, ts, args) -> {
             cos.cs.computer.session = null;
             cos.cs.computer.session = cos.cs.computer.getSession(ComputingSession::boot);

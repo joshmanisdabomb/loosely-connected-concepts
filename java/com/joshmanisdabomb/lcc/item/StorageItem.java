@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 import static com.joshmanisdabomb.lcc.item.ComputingItem.LOG2;
 
@@ -69,6 +70,10 @@ public class StorageItem extends Item implements TintedItem {
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         CompoundNBT tag = stack.getChildTag("lcc:computing");
         if (tag != null) {
+            if (Screen.hasShiftDown()) {
+                UUID id = tag.getUniqueId("id");
+                tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (id.getLeastSignificantBits() == 0 && id.getMostSignificantBits() == 0 ? "not yet set" : id)).applyTextStyle(TextFormatting.DARK_GRAY)));
+            }
             tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", tag.getInt("size")).applyTextStyle(TextFormatting.DARK_GRAY)));
             ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
             if (!partitions.isEmpty()) tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.partitions").applyTextStyle(TextFormatting.GRAY));
@@ -86,8 +91,8 @@ public class StorageItem extends Item implements TintedItem {
                         color = TextFormatting.RED;
                         break;
                 }
-                tooltip.add(new StringTextComponent("    " + partition.getString("name")).applyTextStyle(color));
-                tooltip.add(new StringTextComponent("        ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", partition.getInt("size")).applyTextStyle(TextFormatting.DARK_GRAY))));
+                tooltip.add(new StringTextComponent("  " + partition.getString("name")).applyTextStyle(color));
+                tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", partition.getInt("size")).applyTextStyle(TextFormatting.DARK_GRAY))));
             }
         }
     }
@@ -138,4 +143,5 @@ public class StorageItem extends Item implements TintedItem {
         CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
         return tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC) ? tag.getInt("color") : DyeColor.WHITE.getColorValue();
     }
+
 }

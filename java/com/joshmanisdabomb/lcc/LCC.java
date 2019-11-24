@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.event.bus.*;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
 import com.joshmanisdabomb.lcc.event.mod.ModelEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
-import com.joshmanisdabomb.lcc.gen.BiomeBasedGenerator;
+import com.joshmanisdabomb.lcc.gen.world.BiomeBasedGenerator;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
 import com.joshmanisdabomb.lcc.proxy.DedicatedServerProxy;

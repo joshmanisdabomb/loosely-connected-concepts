@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.AbstractTreeFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraftforge.common.IPlantable;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -28,7 +27,7 @@ public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock 
         @Nullable
         @Override
         protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(Random random) {
-            return new TreeFeature(NoFeatureConfig::deserialize, true, 4, Blocks.OAK_LOG.getDefaultState(), LCCBlocks.classic_leaves.getDefaultState(), false).setSapling((IPlantable)LCCBlocks.classic_sapling);
+            return new TreeFeature(NoFeatureConfig::deserialize, true, 4, Blocks.OAK_LOG.getDefaultState(), LCCBlocks.classic_leaves.getDefaultState(), false).setSapling(LCCBlocks.classic_sapling);
         }
     };
 

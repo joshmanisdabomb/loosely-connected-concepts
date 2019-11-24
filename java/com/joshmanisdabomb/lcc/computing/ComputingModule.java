@@ -30,8 +30,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.DISK_NETWORK;
 import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.LOCAL_NETWORK;
-import static com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity.WIRED_NETWORK;
 
 public class ComputingModule {
 
@@ -58,7 +58,7 @@ public class ComputingModule {
         this.color = color;
         this.direction = direction;
         this.customName = customName;
-        this.inventory = this.type.inventory.apply(te);
+        this.inventory = this.type.inventory.apply(this);
     }
 
     public void load() {
@@ -122,8 +122,8 @@ public class ComputingModule {
     }
 
     public List<ComputingModule> getNetworkDrives() {
-        List<Pair<BlockPos, SlabType>> modules = WIRED_NETWORK.discover(te.getWorld(), new ImmutablePair<>(te.getPos(), this.location)).getTraversables();
-        return modules.stream().map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type != Type.CASING).collect(Collectors.toList());
+        List<Pair<BlockPos, SlabType>> modules = DISK_NETWORK.discover(te.getWorld(), new ImmutablePair<>(te.getPos(), this.location)).getTraversables();
+        return modules.stream().filter(m -> m.getRight() != null).map(m -> ((ComputingTileEntity)te.getWorld().getTileEntity(m.getLeft())).getModule(m.getRight())).filter(module -> module.type != Type.CASING).collect(Collectors.toList());
     }
 
     public List<ItemStack> getDisks(List<ComputingModule> drives) {
@@ -170,11 +170,11 @@ public class ComputingModule {
     }
 
     public enum Type {
-        CASING(false, te -> LazyOptional.empty(),  null, 0, 0),
-        COMPUTER( true, te -> LazyOptional.of(() -> new ItemStackHandler(7) {
+        CASING(false, cm -> LazyOptional.empty(),  null, 0, 0),
+        COMPUTER( true, cm -> LazyOptional.of(() -> new ItemStackHandler(7) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -197,10 +197,10 @@ public class ComputingModule {
             sm.addSlot(moduleInventory, 119, 27, 5);
             sm.addSlot(moduleInventory, 143, 27, 6);
         }, 8, 96),
-        FLOPPY_DRIVE(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+        FLOPPY_DRIVE(true, cm -> LazyOptional.of(() -> new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -215,10 +215,10 @@ public class ComputingModule {
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
-        CD_DRIVE(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+        CD_DRIVE(true, cm -> LazyOptional.of(() -> new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -233,10 +233,10 @@ public class ComputingModule {
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 20, 0);
         }, 8, 58),
-        CARD_READER(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+        CARD_READER(true, cm -> LazyOptional.of(() -> new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -251,10 +251,10 @@ public class ComputingModule {
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
-        STICK_READER(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+        STICK_READER(true, cm -> LazyOptional.of(() -> new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -269,10 +269,10 @@ public class ComputingModule {
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
-        DRIVE_BAY(true, te -> LazyOptional.of(() -> new ItemStackHandler(1) {
+        DRIVE_BAY(true, cm -> LazyOptional.of(() -> new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                te.markDirty();
+                cm.te.markDirty();
             }
 
             @Override
@@ -291,13 +291,13 @@ public class ComputingModule {
         private final ResourceLocation tileEntityTexture;
         private final boolean gui;
 
-        private final Function<ComputingTileEntity, LazyOptional<IItemHandlerModifiable>> inventory;
+        private final Function<ComputingModule, LazyOptional<IItemHandlerModifiable>> inventory;
 
         private final BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator;
         public final int playerInvX;
         public final int playerInvY;
 
-        Type(boolean gui, Function<ComputingTileEntity, LazyOptional<IItemHandlerModifiable>> inventory, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
+        Type(boolean gui, Function<ComputingModule, LazyOptional<IItemHandlerModifiable>> inventory, BiConsumer<LCCContainerHelper.SlotManager, IItemHandlerModifiable> slotCreator, int playerInvX, int playerInvY) {
             this.tileEntityTexture = new ResourceLocation(LCC.MODID, "textures/entity/tile/" + this.name().toLowerCase() + ".png");
             this.inventory = inventory;
 

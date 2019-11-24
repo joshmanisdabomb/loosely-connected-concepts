@@ -29,7 +29,7 @@ public enum LCCArmorMaterial implements IArmorMaterial {
     private final float toughness;
     private final LazyLoadBase<Ingredient> repairMaterial;
 
-    private LCCArmorMaterial(String nameIn, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, Supplier<Ingredient> repairMaterial) {
+    LCCArmorMaterial(String nameIn, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, Supplier<Ingredient> repairMaterial) {
         this.name = nameIn;
         this.maxDamageFactor = maxDamageFactor;
         this.damageReductionAmountArray = damageReductionAmountArray;

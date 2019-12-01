@@ -51,7 +51,7 @@ public abstract class LCCBlocks {
 
 	//Wasteland
 	public static Block cracked_mud;
-	public static FlowingFluidBlock oil;
+	public static OilBlock oil;
 
 	//Nuclear
 	public static NuclearWasteBlock nuclear_waste;
@@ -152,7 +152,7 @@ public abstract class LCCBlocks {
 		//Wasteland
 		all.add((cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "cracked_mud"));
 		createDefaultBlockItem(cracked_mud);
-		all.add((oil = new FlowingFluidBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops())).setRegistryName(LCC.MODID, "oil"));
+		all.add((oil = new OilBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).hardnessAndResistance(100.0F).noDrops())).setRegistryName(LCC.MODID, "oil"));
 
 		//Nuclear
 		all.add((nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL))).setRegistryName(LCC.MODID, "nuclear_waste"));

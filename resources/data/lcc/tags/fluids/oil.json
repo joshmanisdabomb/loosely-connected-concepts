@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:oil",
+    "lcc:flowing_oil"
+  ]
+}

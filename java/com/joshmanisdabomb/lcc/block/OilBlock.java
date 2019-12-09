@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
@@ -13,6 +14,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
@@ -31,7 +33,12 @@ public class OilBlock extends FlowingFluidBlock {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        super.onEntityCollision(state, world, pos, entity);
+        entity.setMotionMultiplier(state, new Vec3d(0.38D, 0.38D, 0.38D));
+        if (entity.isAlive()) {
+            if (entity.areEyesInFluid(LCCFluids.OIL)) {
+                entity.setAir(Math.max(entity.getAir() - 5, 0));
+            }
+        }
     }
 
     @Override

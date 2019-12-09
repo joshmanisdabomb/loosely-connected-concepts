@@ -2,15 +2,20 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
+import com.joshmanisdabomb.lcc.registry.LCCEffects;
+import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +24,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -96,6 +102,26 @@ public class RenderEvents {
             GlStateManager.enableTexture();
             GlStateManager.disableBlend();
 
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent(receiveCanceled = true)
+    public void onFogColors(EntityViewRenderEvent.FogColors e) {
+        ActiveRenderInfo r = e.getRenderer().getActiveRenderInfo();
+        if (r.getFluidState().isTagged(LCCFluids.OIL)) {
+            e.setRed(0.02F);
+            e.setGreen(0.02F);
+            e.setBlue(0.02F);
+        }
+    }
+
+    @SubscribeEvent(receiveCanceled = true)
+    public void onFogDensity(EntityViewRenderEvent.FogDensity e) {
+        ActiveRenderInfo r = e.getRenderer().getActiveRenderInfo();
+        if (r.getFluidState().isTagged(LCCFluids.OIL)) {
+            GlStateManager.fogMode(GlStateManager.FogMode.EXP2);
+            e.setDensity(0.7F);
             e.setCanceled(true);
         }
     }

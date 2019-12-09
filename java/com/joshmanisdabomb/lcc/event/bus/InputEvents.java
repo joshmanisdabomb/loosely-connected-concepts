@@ -3,14 +3,19 @@ package com.joshmanisdabomb.lcc.event.bus;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHelper;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class InputEvents {
+
+    private boolean lastStun = false;
 
     @SubscribeEvent
     public void onPlayerInput(InputUpdateEvent e) {
@@ -28,16 +33,37 @@ public class InputEvents {
     }
 
     @SubscribeEvent
+    public void onMouseInput(InputEvent.RawMouseEvent e) {
+        ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (player != null && player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
+            e.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent e) {
         ClientPlayerEntity player = Minecraft.getInstance().player;
-        GameSettings settings = Minecraft.getInstance().gameSettings;
-        if (player != null && player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
-            KeyBinding.setKeyBindState(settings.keyBindAttack.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindUseItem.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindPickBlock.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindDrop.getKey(), false);
-            KeyBinding.setKeyBindState(settings.keyBindSwapHands.getKey(), false);
+        boolean stun = player != null && player.isPotionActive(LCCEffects.stun) && !player.isCreative();
+        if (stun != lastStun) {
+            MouseHelper mh = stun ? new StunMouseHelper(Minecraft.getInstance()) : new MouseHelper(Minecraft.getInstance());
+            mh.registerCallbacks(Minecraft.getInstance().mainWindow.getHandle());
+            if (Minecraft.getInstance().currentScreen == null) mh.grabMouse();
+            else mh.ungrabMouse();
+            Minecraft.getInstance().mouseHelper = mh;
         }
+        lastStun = stun;
+    }
+
+    private static class StunMouseHelper extends MouseHelper {
+
+        public StunMouseHelper(Minecraft p_i47672_1_) {
+            super(p_i47672_1_);
+        }
+
+        public void updatePlayerLook() {
+
+        }
+
     }
 
 }

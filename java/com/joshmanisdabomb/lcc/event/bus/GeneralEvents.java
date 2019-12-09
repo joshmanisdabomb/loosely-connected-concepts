@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.registry.LCCParticles;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -52,6 +53,8 @@ public class GeneralEvents {
         });
         if (entity.isPotionActive(LCCEffects.stun)) {
             entity.onGround = false;
+            entity.rotationPitch = entity.prevRotationPitch;
+            entity.rotationYaw = entity.prevRotationYaw;
             if (entity instanceof MobEntity) {
                 ((MobEntity)entity).goalSelector.getRunningGoals()
                     .filter(g -> g.getGoal() instanceof CreeperSwellGoal || g.getGoal() instanceof MeleeAttackGoal || g.getGoal() instanceof RangedAttackGoal || g.getGoal() instanceof RangedBowAttackGoal || g.getGoal() instanceof RangedCrossbowAttackGoal)

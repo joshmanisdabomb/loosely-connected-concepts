@@ -36,13 +36,7 @@ public class RoadBlock extends Block implements LCCBlockHelper, ConnectedTexture
     public static final BooleanProperty MARKED = BooleanProperty.create("marked");
 
     @OnlyIn(Dist.CLIENT)
-    public final ConnectedTextureMap connectedTextureMap = new ConnectedTextureMap().useWhen(state -> !state.get(MARKED), "road", true).useWhen(state -> state.get(MARKED), map -> {
-        map.put(ConnectedTextureType.TOP_BASE, new ResourceLocation(LCC.MODID, "block/road/marked_base"));
-        map.put(ConnectedTextureType.TOP_CORNERS_OUTER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_o"));
-        map.put(ConnectedTextureType.TOP_CORNERS_INNER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_i"));
-        map.put(ConnectedTextureType.TOP_LINES_H, new ResourceLocation(LCC.MODID, "block/road/marked_lines_h"));
-        map.put(ConnectedTextureType.TOP_LINES_V, new ResourceLocation(LCC.MODID, "block/road/marked_lines_v"));
-    });
+    private ConnectedTextureMap connectedTextureMap;
 
     public RoadBlock(Properties properties) {
         super(properties);
@@ -140,6 +134,13 @@ public class RoadBlock extends Block implements LCCBlockHelper, ConnectedTexture
     @Override
     @OnlyIn(Dist.CLIENT)
     public ConnectedTextureMap getConnectedTextureMap() {
+        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> !state.get(MARKED), "road", true).useWhen(state -> state.get(MARKED), map -> {
+            map.put(ConnectedTextureType.TOP_BASE, new ResourceLocation(LCC.MODID, "block/road/marked_base"));
+            map.put(ConnectedTextureType.TOP_CORNERS_OUTER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_o"));
+            map.put(ConnectedTextureType.TOP_CORNERS_INNER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_i"));
+            map.put(ConnectedTextureType.TOP_LINES_H, new ResourceLocation(LCC.MODID, "block/road/marked_lines_h"));
+            map.put(ConnectedTextureType.TOP_LINES_V, new ResourceLocation(LCC.MODID, "block/road/marked_lines_v"));
+        });
         return connectedTextureMap;
     }
 

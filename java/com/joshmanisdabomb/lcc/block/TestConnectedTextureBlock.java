@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class TestConnectedTextureBlock extends Block implements LCCBlockHelper, ConnectedTextureBlock {
 
     @OnlyIn(Dist.CLIENT)
-    public final ConnectedTextureMap connectedTextureMap = new ConnectedTextureMap().useWhen(state -> true, "test/5", false);
+    private ConnectedTextureMap connectedTextureMap;
 
     public TestConnectedTextureBlock(Properties properties) {
         super(properties);
@@ -24,6 +24,7 @@ public class TestConnectedTextureBlock extends Block implements LCCBlockHelper, 
     @Override
     @OnlyIn(Dist.CLIENT)
     public ConnectedTextureMap getConnectedTextureMap() {
+        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> true, "test/5", false);
         return connectedTextureMap;
     }
 

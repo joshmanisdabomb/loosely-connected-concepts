@@ -3,9 +3,8 @@ package com.joshmanisdabomb.lcc.event.bus;
 import com.joshmanisdabomb.lcc.block.IPottableBlock;
 import com.joshmanisdabomb.lcc.block.IShearableBlock;
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
-import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.potion.HurtResistanceEffect;
+import com.joshmanisdabomb.lcc.potion.LCCEffectHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
@@ -16,6 +15,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.PotionEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -66,6 +66,13 @@ public class InterfaceEvents {
             entity.hurtResistantTime = (int)Math.floor(entity.hurtResistantTime * mod);
             entity.hurtTime = (int)Math.floor(entity.hurtTime * mod);
         });
+    }
+
+    @SubscribeEvent
+    public void onPotionApplicable(PotionEvent.PotionApplicableEvent e) {
+        if (e.getPotionEffect().getPotion() instanceof LCCEffectHelper) {
+            e.setResult(((LCCEffectHelper)e.getPotionEffect().getPotion()).isPotionApplicable(e.getEntityLiving(), e.getPotionEffect()) ? Event.Result.ALLOW : Event.Result.DENY);
+        }
     }
 
 }

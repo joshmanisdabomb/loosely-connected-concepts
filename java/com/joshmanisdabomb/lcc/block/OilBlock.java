@@ -1,16 +1,17 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.pathfinding.PathType;
-import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +36,7 @@ public class OilBlock extends FlowingFluidBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         entity.setMotionMultiplier(state, new Vec3d(0.38D, 0.38D, 0.38D));
         if (entity.isAlive()) {
+            if (entity instanceof LivingEntity) ((LivingEntity)entity).addPotionEffect(new EffectInstance(LCCEffects.flammable, 400, 0));
             if (entity.areEyesInFluid(LCCFluids.OIL)) {
                 entity.setAir(Math.max(entity.getAir() - 5, 0));
             }

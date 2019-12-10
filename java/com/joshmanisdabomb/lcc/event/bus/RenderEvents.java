@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
-import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -14,8 +13,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.BlockPos;

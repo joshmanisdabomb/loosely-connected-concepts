@@ -345,6 +345,10 @@
 
   "item.lcc.plastic": "Plastic",
 
+  "effect.lcc.stun": "Stun",
+  "effect.lcc.vulnerable": "Vulnerable",
+  "effect.lcc.flammable": "Flammable",
+
   "deathScreen.lcc.respawn_crying_obsidian": "Respawn at Crying Obsidian",
 
   "itemGroup.lcc": "Loosely Connected Concepts",

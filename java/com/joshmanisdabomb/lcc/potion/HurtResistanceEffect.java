@@ -1,11 +1,9 @@
 package com.joshmanisdabomb.lcc.potion;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.util.DamageSource;
-import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.function.ToDoubleBiFunction;
 

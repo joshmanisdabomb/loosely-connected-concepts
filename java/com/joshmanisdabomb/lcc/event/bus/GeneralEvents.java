@@ -13,7 +13,6 @@ import com.joshmanisdabomb.lcc.registry.LCCParticles;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;

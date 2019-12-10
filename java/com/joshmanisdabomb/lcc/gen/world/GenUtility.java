@@ -1,12 +1,7 @@
 package com.joshmanisdabomb.lcc.gen.world;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LilyPadBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 
 import java.util.function.BiPredicate;
 

@@ -32,16 +32,4 @@ public class StunEffect extends Effect {
         return modifier.getAmount();
     }
 
-    @Override
-    public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
-        Minecraft.getInstance().getTextureManager().bindTexture(LCCEffects.POTION_TEXTURE);
-        GuiUtils.drawTexturedModalRect(x + 6, y + 7, 0, 0, 18, 18, 1000F);
-    }
-
-    @Override
-    public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
-        Minecraft.getInstance().getTextureManager().bindTexture(LCCEffects.POTION_TEXTURE);
-        GuiUtils.drawTexturedModalRect(x + 3, y + 3, 0, 0, 18, 18, 1000F);
-    }
-
 }

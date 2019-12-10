@@ -3,14 +3,19 @@ package com.joshmanisdabomb.lcc.event.bus;
 import com.joshmanisdabomb.lcc.block.IPottableBlock;
 import com.joshmanisdabomb.lcc.block.IShearableBlock;
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
+import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
+import com.joshmanisdabomb.lcc.potion.HurtResistanceEffect;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -51,6 +56,16 @@ public class InterfaceEvents {
                 e.setCanceled(cancel);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onEntityHurt(LivingHurtEvent e) {
+        LivingEntity entity = e.getEntityLiving();
+        if (entity != null) entity.getActivePotionEffects().stream().filter(ei -> ei.getPotion() instanceof HurtResistanceEffect).forEach(ei -> {
+            double mod = ((HurtResistanceEffect)ei.getPotion()).getResistanceMultiplier(e.getSource(), ei.getAmplifier());
+            entity.hurtResistantTime = (int)Math.floor(entity.hurtResistantTime * mod);
+            entity.hurtTime = (int)Math.floor(entity.hurtTime * mod);
+        });
     }
 
 }

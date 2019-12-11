@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.bus.*;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
-import com.joshmanisdabomb.lcc.event.mod.ModelEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
+import com.joshmanisdabomb.lcc.event.mod.ResourceEvents;
 import com.joshmanisdabomb.lcc.gen.world.BiomeBasedGenerator;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;
@@ -84,7 +84,7 @@ public class LCC
     public static class Registry extends RegistryEvents {}
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class Model extends ModelEvents {}
+    public static class Resource extends ResourceEvents {}
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class Color extends ColorEvents {}

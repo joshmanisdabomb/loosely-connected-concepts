@@ -56,7 +56,7 @@ public class OilFluid extends ForgeFlowingFluid {
     }
 
     @Override
-    protected boolean func_215665_a(IFluidState state, IBlockReader world, BlockPos pos, Fluid fluidIn, Direction direction) {
+    protected boolean canDisplace(IFluidState state, IBlockReader world, BlockPos pos, Fluid fluid, Direction direction) {
         return false;
     }
 

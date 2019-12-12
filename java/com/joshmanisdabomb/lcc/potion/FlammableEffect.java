@@ -18,10 +18,10 @@ public class FlammableEffect extends HurtResistanceEffect implements LCCEffectHe
 
     @Override
     public void performEffect(LivingEntity entity, int amplifier) {
-        int fireTicks = entity.func_223314_ad();
+        int fireTicks = entity.getFireTimer();
         int fireLength = (amplifier + 5) * 40;
         if (fireTicks < (fireLength - 10) && entity.world.isFlammableWithin(entity.getBoundingBox().shrink(0.001D))) {
-            entity.func_223308_g(fireLength);
+            entity.setFireTimer(fireLength);
         }
         if (fireTicks % 20 != 0 && fireTicks % Math.max(20 / (amplifier+2), 1) == 0) {
             entity.attackEntityFrom(DamageSource.ON_FIRE, 1.0F);

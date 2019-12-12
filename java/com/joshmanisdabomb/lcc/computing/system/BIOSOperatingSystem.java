@@ -31,16 +31,17 @@ public class BIOSOperatingSystem extends LinedOperatingSystem {
 
     private void printError() {
         CompoundNBT seeks = cs.getState().getCompound("os_seeks");
+        this.scroll();
         if (seeks.isEmpty()) {
-            this.printt("computing.lcc.bios.no_os");
+            this.writet("computing.lcc.bios.no_os");
         } else if (seeks.size() == 1) {
             String os = seeks.keySet().stream().findFirst().orElseThrow(RuntimeException::new);
-            this.printt("computing.lcc.bios.partial_os", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os));
+            this.writet("computing.lcc.bios.partial_os", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os));
         } else {
             for (String os : seeks.keySet()) {
                 this.printt("computing.lcc.bios.partial_os.option", new TranslationTextComponent("computing.lcc." + os).getFormattedText(), seeks.getInt(os));
             }
-            this.printt("computing.lcc.bios.partial_os.multiple");
+            this.writet("computing.lcc.bios.partial_os.multiple");
         }
         this.writeOutput(cs.getState());
     }

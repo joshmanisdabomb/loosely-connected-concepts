@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
-import net.minecraft.client.Minecraft;
+import com.joshmanisdabomb.lcc.registry.LCCFonts;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -27,7 +27,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     @OnlyIn(Dist.CLIENT)
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         for (int i = 0; i < out.length; i++) {
-            Minecraft.getInstance().fontRenderer.drawString(out[i], x + 5, y + 4 + (i * 11), 0xD5D5D5);
+            LCCFonts.FIXED_WIDTH.get().drawString(out[i], x + 5, y + 4 + (i * 11), 0xD5D5D5);
         }
     }
 
@@ -43,23 +43,52 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         nbt.put(this.getType() + ".output", a);
     }
 
-    protected void print(String s) {
-        List<String> lines = Minecraft.getInstance().fontRenderer.listFormattedStringToWidth(s, 230);
-        if (lines.size() < out.length) {
-            System.arraycopy(out, lines.size(), out, 0, out.length - lines.size());
-        }
-        for (int i = 0; i < out.length; i++) {
-            int key = lines.size() - (out.length - i);
-            if (key < 0) continue;
-            out[i] = lines.get(key);
+    @OnlyIn(Dist.CLIENT)
+    public void write(String s) {
+        List<String> lines = LCCFonts.FIXED_WIDTH.get().listFormattedStringToWidth(s, 230);
+        int k = out.length - 1;
+        for (int i = 0; i < lines.size(); i++) {
+            if (out[k] == null) out[k] = "";
+            out[k] += lines.get(i);
+            if (i < lines.size() - 1) scroll();
         }
     }
 
-    protected void printt(String key, Object... format) {
-        this.print(new TranslationTextComponent(key, format).getFormattedText());
+    @OnlyIn(Dist.CLIENT)
+    public void writet(String key, Object... format) {
+        write(new TranslationTextComponent(key, format).getFormattedText());
     }
 
-    protected void clear() {
+    @OnlyIn(Dist.CLIENT)
+    public void scroll(int lines) {
+        if (lines < out.length) {
+            System.arraycopy(out, lines, out, 0, out.length - lines);
+            for (int i = 0; i < lines; i++) {
+                out[out.length - i - 1] = null;
+            }
+        } else {
+            clear();
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void scroll() {
+        this.scroll(1);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void print(String s) {
+        write(s);
+        scroll();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void printt(String key, Object... format) {
+        print(new TranslationTextComponent(key, format).getFormattedText());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void clear() {
         out = new String[out.length];
     }
 

@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
+import com.joshmanisdabomb.lcc.registry.LCCFonts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -51,7 +52,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         String[] args = commandAndArgs.length == 2 ? commandAndArgs[1].split(" ") : new String[0];
         Command c = Command.getFromAlias(commandAndArgs[0]);
         if (c == null) {
-            this.printt("computing.lcc.console.unknown");
+            this.writet("computing.lcc.console.unknown");
         } else {
             c.handler.accept(this, ts, args);
         }
@@ -62,7 +63,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         super.render(ts, partialTicks, x, y);
         String interpreter = this.getInterpreter(ts);
-        Minecraft.getInstance().fontRenderer.drawString("> " + interpreter + ((System.currentTimeMillis() - lastTypeTime) % 1000 <= 500 ? "_" : " "), x + 5, y + 103, 0xD5D5D5);
+        LCCFonts.FIXED_WIDTH.get().drawString("> " + interpreter + ((System.currentTimeMillis() - lastTypeTime) % 1000 <= 500 ? "_" : " "), x + 5, y + 103, 0xD5D5D5);
     }
 
     @Override
@@ -77,6 +78,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             case 257: //enter
                 this.setInterpreter(ts, "");
                 ts.sendState();
+                this.scroll();
                 this.print("> " + interpreter);
                 this.handleCommand(interpreter, ts);
                 this.writeOutput(cs.getState());
@@ -98,13 +100,13 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     public enum Command {
         HELP((cos, ts, args) -> {
             if (args.length == 0) {
-                cos.printt("computing.lcc.console.help.available", Arrays.stream(Command.values()).map(Command::getPrimaryAlias).collect(Collectors.joining(", ")));
+                cos.writet("computing.lcc.console.help.available", Arrays.stream(Command.values()).map(Command::getPrimaryAlias).collect(Collectors.joining(", ")));
             } else {
                 Command c = Command.getFromAlias(args[0]);
                 if (c == null) {
-                    cos.printt("computing.lcc.console.unknown");
+                    cos.writet("computing.lcc.console.unknown");
                 } else {
-                    c.print(cos);
+                    c.write(cos);
                 }
             }
         }),
@@ -150,10 +152,10 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             return aliases;
         }
 
-        private void print(ConsoleOperatingSystem cos) {
+        private void write(ConsoleOperatingSystem cos) {
             cos.printt("computing.lcc.console.meta." + this.name().toLowerCase() + ".usage");
             cos.printt("computing.lcc.console.help.aliases", String.join(", ", this.getAliases()));
-            cos.printt("computing.lcc.console.meta." + this.name().toLowerCase() + ".description");
+            cos.writet("computing.lcc.console.meta." + this.name().toLowerCase() + ".description");
         }
 
         public static Command getFromAlias(String alias) {

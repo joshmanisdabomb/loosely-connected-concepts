@@ -63,6 +63,9 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         super.render(ts, partialTicks, x, y);
         String interpreter = this.getInterpreter(ts);
+        while (LCCFonts.FIXED_WIDTH.get().getStringWidth("> " + interpreter + "_") > CONSOLE_WIDTH) {
+            interpreter = interpreter.substring(1);
+        }
         LCCFonts.FIXED_WIDTH.get().drawString("> " + interpreter + ((System.currentTimeMillis() - lastTypeTime) % 1000 <= 500 ? "_" : " "), x + 5, y + 103, 0xD5D5D5);
     }
 

@@ -16,6 +16,8 @@ import java.util.List;
 
 public abstract class LinedOperatingSystem extends OperatingSystem {
 
+    public static final int CONSOLE_WIDTH = 230;
+
     protected String[] out;
 
     public LinedOperatingSystem(ComputingSession cs, int outputLength) {
@@ -45,7 +47,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
 
     @OnlyIn(Dist.CLIENT)
     public void write(String s) {
-        List<String> lines = LCCFonts.FIXED_WIDTH.get().listFormattedStringToWidth(s, 230);
+        List<String> lines = LCCFonts.FIXED_WIDTH.get().listFormattedStringToWidth(s, CONSOLE_WIDTH);
         int k = out.length - 1;
         for (int i = 0; i < lines.size(); i++) {
             if (out[k] == null) out[k] = "";

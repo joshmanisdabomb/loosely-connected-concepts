@@ -382,6 +382,7 @@
   "computing.lcc.bios.partial_os.option": "%s - seeking sector %s",
   "computing.lcc.bios.partial_os.multiple": "Please insert the next disk for an operating system and press any key...",
   "computing.lcc.console.unknown": "Unknown command! Type 'help' for a list of commands.",
+  "computing.lcc.console.buffer": "Use arrow keys to scroll, Enter to return. (%s/%s)",
   "computing.lcc.console.help.available": "Available commands:\n%s",
   "computing.lcc.console.help.aliases": "Aliases: %s",
   "computing.lcc.console.meta.help": "help,?,man,usage,describe",

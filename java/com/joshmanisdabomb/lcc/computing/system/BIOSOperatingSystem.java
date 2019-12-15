@@ -26,7 +26,7 @@ public class BIOSOperatingSystem extends LinedOperatingSystem {
 
     @Override
     public void wake() {
-        this.readOutput(cs.getState());
+        super.wake();
     }
 
     private void printError() {

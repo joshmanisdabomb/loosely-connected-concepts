@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.item;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.computing.StorageInfo;
+import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
@@ -21,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,14 +54,8 @@ public class StorageItem extends Item implements TintedItem {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
-        ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
-        int total = 0;
-        for (INBT t : partitions) {
-            CompoundNBT partition = (CompoundNBT) t;
-            total += partition.getInt("size");
-        }
-        return 1 - (total / (double)tag.getInt("size"));
+        StorageInfo i = new StorageInfo(stack);
+        return 1 - (i.getPartitionedSpace() / i.getSize());
     }
 
     @Override
@@ -68,31 +65,17 @@ public class StorageItem extends Item implements TintedItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
-        CompoundNBT tag = stack.getChildTag("lcc:computing");
-        if (tag != null) {
+        if (stack.getChildTag(StorageInfo.TAG) != null) {
+            StorageInfo i = new StorageInfo(stack);
             if (Screen.hasShiftDown()) {
-                UUID id = tag.getUniqueId("id");
-                tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (id.getLeastSignificantBits() == 0 && id.getMostSignificantBits() == 0 ? "not yet set" : id)).applyTextStyle(TextFormatting.DARK_GRAY)));
+                tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (i.hasUniqueId() ? "not yet set" : i.getUniqueId())).applyTextStyle(TextFormatting.DARK_GRAY)));
             }
-            tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", tag.getInt("size")).applyTextStyle(TextFormatting.DARK_GRAY)));
-            ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
+            tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", i.getSize()).applyTextStyle(TextFormatting.DARK_GRAY)));
+            ArrayList<StorageInfo.Partition> partitions = i.getPartitions();
             if (!partitions.isEmpty()) tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.partitions").applyTextStyle(TextFormatting.GRAY));
-            for (INBT t : partitions) {
-                CompoundNBT partition = (CompoundNBT)t;
-                TextFormatting color;
-                switch (partition.getString("type")) {
-                    case "os_console":
-                        color = TextFormatting.GOLD;
-                        break;
-                    case "os_graphical":
-                        color = TextFormatting.AQUA;
-                        break;
-                    default:
-                        color = TextFormatting.RED;
-                        break;
-                }
-                tooltip.add(new StringTextComponent("  " + partition.getString("name")).applyTextStyle(color));
-                tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", partition.getInt("size")).applyTextStyle(TextFormatting.DARK_GRAY))));
+            for (StorageInfo.Partition p : partitions) {
+                tooltip.add(new StringTextComponent("  " + p.name).applyTextStyle(p.type.color));
+                tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", i.getSize()).applyTextStyle(TextFormatting.DARK_GRAY))));
             }
         }
     }
@@ -101,37 +84,22 @@ public class StorageItem extends Item implements TintedItem {
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
             ItemStack stack = new ItemStack(this);
-            CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
-            tag.putInt("color", 0xCC44CC);
-            tag.putInt("size", this.sizeMin);
+            StorageInfo i = new StorageInfo(stack);
+            i.setColor(0xCC44CC).setSize(this.sizeMin);
             items.add(stack.copy());
             if (this.sizeMax != this.sizeMin) {
-                tag.putInt("color", 0xDDAADD);
-                tag.putInt("size", this.sizeMax);
+                i.setColor(0xDDAADD).setSize(this.sizeMax);
                 items.add(stack.copy());
             }
             if (this == LCCItems.compact_disc) {
-                tag.putInt("color", 0xB83D14);
-                ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
-                CompoundNBT partition = new CompoundNBT();
-                partition.putString("name", "Console OS");
-                partition.putString("type", "os_console");
-                partition.putInt("size", 400);
-                partition.putInt("start", 0);
-                partitions.add(partition);
-                tag.put("partitions", partitions);
+                i.setColor(0xB83D14);
+                StorageInfo.Partition p = new StorageInfo.Partition(UUID.fromString("bf8ee866-a75b-48fd-a734-130174388df6"), "Console OS", StorageInfo.Partition.PartitionType.OS_CONSOLE, OperatingSystem.Type.CONSOLE.size);
+                i.addPartition(p);
                 items.add(stack.copy());
             } else if (this == LCCItems.memory_card) {
-                tag.putInt("color", 0x4BBDF2);
-                tag.putInt("size", this.sizeMax);
-                ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
-                CompoundNBT partition = new CompoundNBT();
-                partition.putString("name", "Graphical OS");
-                partition.putString("type", "os_graphical");
-                partition.putInt("size", 4000);
-                partition.putInt("start", 0);
-                partitions.add(partition);
-                tag.put("partitions", partitions);
+                i.setColor(0x4BBDF2).setSize(this.sizeMax);
+                StorageInfo.Partition p = new StorageInfo.Partition(UUID.fromString("46523f3f-5e11-42a0-aa22-1893375f2334"), "Graphical OS", StorageInfo.Partition.PartitionType.OS_GRAPHICAL, OperatingSystem.Type.GRAPHICAL.size);
+                i.addPartition(p);
                 items.add(stack.copy());
             }
         }
@@ -140,8 +108,14 @@ public class StorageItem extends Item implements TintedItem {
     @Override
     public int getItemTintColor(ItemStack stack, int tintIndex) {
         if (tintIndex != 1) return 0xFFFFFF;
-        CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
-        return tag.contains("color", Constants.NBT.TAG_ANY_NUMERIC) ? tag.getInt("color") : DyeColor.WHITE.getColorValue();
+        StorageInfo i = new StorageInfo(stack);
+        return i.hasColor() ? i.getColor() : DyeColor.WHITE.getColorValue();
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        StorageInfo i = new StorageInfo(stack);
+        return i.hasName() ? new StringTextComponent(i.getName()) : super.getDisplayName(stack);
     }
 
 }

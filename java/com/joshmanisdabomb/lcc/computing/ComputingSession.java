@@ -42,14 +42,9 @@ public class ComputingSession {
         List<ItemStack> disks = computer.getLocalDisks();
         //Read all disks on local network.
         for (ItemStack disk : disks) {
-            CompoundNBT tag = disk.getOrCreateChildTag("lcc:computing");
-            ListNBT partitions = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
-            for (INBT t : partitions) {
-                CompoundNBT partition = (CompoundNBT)t;
-                String type = partition.getString("type");
-                if (type.startsWith("os_")) {
-                    this.osProgress(OperatingSystem.Type.from(type.substring(3)), partition.getInt("start"), partition.getInt("size"));
-                }
+            StorageInfo i = new StorageInfo(disk);
+            for (StorageInfo.Partition p : i.getPartitions()) {
+                if (p.type.isOS()) this.osProgress(p.type.os, p.start, p.size);
             }
         }
         //Advance seek from read disk partitions and change the operating system if seek can move past the operating system size.

@@ -18,18 +18,13 @@ import net.minecraftforge.fml.network.PacketDistributor;
 
 public class CapabilityEvents {
 
-    public static final ResourceLocation GAUNTLET_CAPABILITY = new ResourceLocation(LCC.MODID, "gauntlet");
-    public static final ResourceLocation HEARTS_CAPABILITY = new ResourceLocation(LCC.MODID, "hearts");
-    public static final ResourceLocation SPREADER_CAPABILITY = new ResourceLocation(LCC.MODID, "spreader");
-    public static final ResourceLocation CRYING_OBSIDIAN_CAPABILITY = new ResourceLocation(LCC.MODID, "crying_obsidian");
-
     @SubscribeEvent
     public void attachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof LivingEntity) {
-            event.addCapability(GAUNTLET_CAPABILITY, new GauntletCapability.Provider());
-            event.addCapability(HEARTS_CAPABILITY, new HeartsCapability.Provider());
+            event.addCapability(GauntletCapability.LOCATION, new GauntletCapability.Provider());
+            event.addCapability(HeartsCapability.LOCATION, new HeartsCapability.Provider());
             if (event.getObject() instanceof PlayerEntity) {
-                event.addCapability(CRYING_OBSIDIAN_CAPABILITY, new CryingObsidianCapability.Provider());
+                event.addCapability(CryingObsidianCapability.LOCATION, new CryingObsidianCapability.Provider());
             }
         }
     }
@@ -38,7 +33,8 @@ public class CapabilityEvents {
     public void attachCapabilityToWorld(AttachCapabilitiesEvent<World> event) {
         //global capabilities tied to just overworld
         if (event.getObject().getDimension().getType() == GlobalProvider.DIMENSION) {
-            event.addCapability(SPREADER_CAPABILITY, new SpreaderCapability.Provider());
+            event.addCapability(SpreaderCapability.LOCATION, new SpreaderCapability.Provider());
+            event.addCapability(ItemStorageCapability.LOCATION, new ItemStorageCapability.Provider());
         }
     }
 

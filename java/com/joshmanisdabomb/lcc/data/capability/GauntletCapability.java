@@ -1,8 +1,10 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -11,6 +13,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 
 public class GauntletCapability {
+
+    public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "gauntlet");
 
     private int uppercutCooldown = -4;
     private int punchCooldown = -4;

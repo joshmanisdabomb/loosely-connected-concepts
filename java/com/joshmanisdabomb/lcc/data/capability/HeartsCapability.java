@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -12,6 +14,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 
 public class HeartsCapability {
+
+    public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "hearts");
 
     private float redMax = 0.0F;
     private float ironMax = 0.0F;

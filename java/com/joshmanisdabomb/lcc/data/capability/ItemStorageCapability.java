@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.LCC;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -13,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class ItemStorageCapability {
 
-
+    public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "item_storage");
 
     public static class Storage implements Capability.IStorage<ItemStorageCapability> {
 

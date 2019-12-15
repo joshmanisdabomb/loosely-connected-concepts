@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.LCC;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
@@ -15,6 +16,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 
 public class CryingObsidianCapability {
+
+    public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "crying_obsidian");
 
     public DimensionType dimension = null;
     public BlockPos pos = null;

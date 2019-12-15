@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeColor;
@@ -12,6 +13,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -22,6 +24,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class SpreaderCapability {
+
+    public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "spreader");
 
     public static final int[] DECAY_PERCENTAGE = new int[]{250, 225, 200, 180, 160, 140, 120, 100, 90, 80, 75, 70, 65, 60, 55, 50};
 

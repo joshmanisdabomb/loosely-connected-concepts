@@ -70,7 +70,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 if (j >= buffer.size()) break;
                 LCCFonts.FIXED_WIDTH.get().drawString(buffer.get(j), x + 5, y + 4 + (i * 11), 0xD5D5D5);
             }
-            LCCFonts.FIXED_WIDTH.get().drawString("- " + new TranslationTextComponent("computing.lcc.console.buffer", this.getBufferPosition() + 1, Math.max(this.buffer.size() - out.length, 0) + 1).getFormattedText(), x + 5, y + 103, 0xD5D5D5);
+            LCCFonts.FIXED_WIDTH.get().drawString(new TranslationTextComponent("computing.lcc.console.buffer", this.getBufferPosition() + 1, Math.max(this.buffer.size() - out.length, 0) + 1).getFormattedText(), x + 5, y + 103, 0xD5D5D5);
         } else {
             super.render(ts, partialTicks, x, y);
             String interpreter = this.getInterpreter(ts);

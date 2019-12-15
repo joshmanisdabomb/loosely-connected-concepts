@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class FixedWidthFontWrapper extends FontWrapper {
 
-    public static final IGlyph SPACE = () -> 6.0F;
+    public static final IGlyph WIDTH = () -> 6.0F;
 
     public FixedWidthFontWrapper(ResourceLocation locator, TextureManager tm) {
         super(locator, tm);
@@ -15,6 +15,6 @@ public class FixedWidthFontWrapper extends FontWrapper {
 
     @Override
     public IGlyph findGlyph(char c, WrappedFont font, Font base) {
-        return c == 32 ? SPACE : super.findGlyph(c, font, base);
+        return c == 32 ? WIDTH : super.findGlyph(c, font, base);
     }
 }

@@ -81,9 +81,9 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
                 if (i < lines.size() - 1) scroll();
             }
         } else {
-            if (buffer.isEmpty()) buffer.add("");
-            int k = buffer.size() - 1;
+            if (buffer.isEmpty()) scroll();
             for (int i = 0; i < lines.size(); i++) {
+                int k = buffer.size() - 1;
                 String b = buffer.get(k);
                 buffer.set(k, b + lines.get(i));
                 if (i < lines.size() - 1) scroll();

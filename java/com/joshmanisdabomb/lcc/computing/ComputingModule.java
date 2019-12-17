@@ -138,7 +138,7 @@ public class ComputingModule {
                 }
             });
         }
-        if (disks.size() > 0) this.readTime = te.getWorld().getGameTime();
+        if (disks.size() > 0) this.readTime = te.getWorld().getGameTime() + 1;
         return disks;
     }
 
@@ -166,7 +166,7 @@ public class ComputingModule {
     }
 
     public boolean isReading() {
-        return this.readTime == te.getWorld().getGameTime();
+        return this.readTime >= te.getWorld().getGameTime();
     }
 
     public enum Type {

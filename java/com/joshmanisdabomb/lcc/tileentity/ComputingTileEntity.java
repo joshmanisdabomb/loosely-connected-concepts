@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.tileentity;
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
 import com.joshmanisdabomb.lcc.block.network.ComputingNetwork;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
+import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
+import com.joshmanisdabomb.lcc.item.StorageItem;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,10 +13,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.SlabType;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -31,10 +35,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.joshmanisdabomb.lcc.block.ComputingBlock.flip;
 
-public class ComputingTileEntity extends TileEntity implements INamedContainerProvider {
+public class ComputingTileEntity extends TileEntity implements INamedContainerProvider, ITickableTileEntity {
 
     public static final ComputingNetwork LOCAL_NETWORK = new ComputingNetwork(64, false, false);
     public static final ComputingNetwork DISK_NETWORK = new ComputingNetwork(64, true, false);
@@ -101,6 +106,24 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         this.read(pkt.getNbtCompound());
+    }
+
+    @Override
+    public void tick() {
+        for (ComputingModule cm : this.getInstalledModules()) {
+            cm.inventory.ifPresent(h -> {
+                for (int i = 0; i < h.getSlots(); i++) {
+                    ItemStack is = h.getStackInSlot(i);
+                    if (is.getItem() instanceof StorageItem) {
+                        StorageInfo inf = new StorageInfo(is);
+                        if (!inf.hasUniqueId()) {
+                            inf.setUniqueId(UUID.randomUUID());
+                        }
+                        break;
+                    }
+                }
+            });
+        }
     }
 
     @Nullable

@@ -9,9 +9,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StorageInfo {
 
@@ -28,7 +27,7 @@ public class StorageInfo {
     public boolean hasUniqueId() {
         if (!tag.hasUniqueId("id")) return false;
         UUID id = this.getUniqueId();
-        return id.getLeastSignificantBits() > 0 && id.getMostSignificantBits() > 0;
+        return id.getLeastSignificantBits() != 0 && id.getMostSignificantBits() != 0;
     }
 
     public UUID getUniqueId() {
@@ -138,6 +137,25 @@ public class StorageInfo {
         tag.put("partitions", parts);
 
         return this;
+    }
+
+    public static HashMap<ItemStack, String> getShortIds(List<ItemStack> items) {
+        return StorageInfo.getShortIds(items.stream().collect(Collectors.toMap(i -> i, i -> new StorageInfo(i).getUniqueId())));
+    }
+
+    public static <T> HashMap<T, String> getShortIds(Map<T, UUID> map) {
+        Map<T, String> stringMap = map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
+        HashMap<T, String> ret = new HashMap<>();
+        for (Map.Entry<T, String> e : stringMap.entrySet()) {
+            for (int i = 1; i <= 32; i++) {
+                String search = e.getValue().replace("-", "").substring(0, i);
+                if (stringMap.values().stream().filter(id -> id.replace("-", "").startsWith(search)).count() == 1) {
+                    ret.put(e.getKey(), search);
+                    break;
+                }
+            }
+        }
+        return ret;
     }
 
     public static class Partition {

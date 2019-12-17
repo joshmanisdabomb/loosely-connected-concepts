@@ -55,7 +55,7 @@ public class StorageItem extends Item implements TintedItem {
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
         StorageInfo i = new StorageInfo(stack);
-        return 1 - (i.getPartitionedSpace() / i.getSize());
+        return 1 - (i.getPartitionedSpace() / (double)i.getSize());
     }
 
     @Override
@@ -68,14 +68,14 @@ public class StorageItem extends Item implements TintedItem {
         if (stack.getChildTag(StorageInfo.TAG) != null) {
             StorageInfo i = new StorageInfo(stack);
             if (Screen.hasShiftDown()) {
-                tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (i.hasUniqueId() ? "not yet set" : i.getUniqueId())).applyTextStyle(TextFormatting.DARK_GRAY)));
+                tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (i.hasUniqueId() ? i.getUniqueId() : "not yet set")).applyTextStyle(TextFormatting.DARK_GRAY)));
             }
             tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", i.getSize()).applyTextStyle(TextFormatting.DARK_GRAY)));
             ArrayList<StorageInfo.Partition> partitions = i.getPartitions();
             if (!partitions.isEmpty()) tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.partitions").applyTextStyle(TextFormatting.GRAY));
             for (StorageInfo.Partition p : partitions) {
                 tooltip.add(new StringTextComponent("  " + p.name).applyTextStyle(p.type.color));
-                tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", i.getSize()).applyTextStyle(TextFormatting.DARK_GRAY))));
+                tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", p.size).applyTextStyle(TextFormatting.DARK_GRAY))));
             }
         }
     }

@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
@@ -42,5 +43,7 @@ public abstract class Proxy {
     public PlayerEntity getClientPlayer() {
         throw new IllegalStateException("Running on server. Bad.");
     }
+
+    public Container getClientOpenContainer() { throw new IllegalStateException("Running on server. Bad."); }
 
 }

@@ -1,12 +1,13 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
+import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCFonts;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -16,6 +17,8 @@ import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConsoleOperatingSystem extends LinedOperatingSystem {
@@ -182,8 +185,11 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         }),
         MAP((cos, ts, args) -> {
             cos.startBuffer();
-            cos.cs.computer.getNetworkDisks().forEach(d -> {
-                cos.print(d.toString());
+            List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            HashMap<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
+            disks.forEach(d -> {
+                cos.write(d.getDisplayName().getFormattedText() + " #" + shortIds.get(d));
+                cos.scroll();
             });
             cos.displayLargeBuffer();
         }),

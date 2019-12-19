@@ -4,6 +4,8 @@ import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,6 +32,11 @@ public class GraphicalOperatingSystem extends OperatingSystem {
         GlStateManager.color4f(1, 1, 1, 1);
 
         Minecraft.getInstance().fontRenderer.drawString(new TranslationTextComponent("computing.lcc.graphical.time", Minecraft.getInstance().world.getDayTime() / 24000L, this.formatTime(Minecraft.getInstance().world.getDayTime())).getFormattedText(), x + 4, y + 105, 0x0);
+    }
+
+    @Override
+    public void processWork(ListNBT workQueue) {
+
     }
 
     @Override

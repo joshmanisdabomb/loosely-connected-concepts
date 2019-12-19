@@ -5,9 +5,6 @@ import com.joshmanisdabomb.lcc.network.ComputerStateChangePacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -81,7 +78,7 @@ public class ComputingSession {
         computer.state.putString("os_type", this.os.getType().name().toLowerCase());
     }
 
-    OperatingSystem getOS() {
+    public OperatingSystem getOS() {
         return os;
     }
 
@@ -90,10 +87,11 @@ public class ComputingSession {
     }
 
     public void receiveState() {
-
+        this.os.onReceiveState();
     }
 
     public void sendState() {
+        this.os.onSendState();
         if (computer.te.getWorld().isRemote) {
             LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerStateChangePacket(computer.te.getWorld().getDimension().getType(), computer.te.getPos(), computer.location, computer.state));
         }

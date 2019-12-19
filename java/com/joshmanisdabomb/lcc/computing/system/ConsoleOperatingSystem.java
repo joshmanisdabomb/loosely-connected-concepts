@@ -8,17 +8,24 @@ import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCFonts;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.apache.logging.log4j.util.TriConsumer;
+import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 public class ConsoleOperatingSystem extends LinedOperatingSystem {
@@ -60,8 +67,43 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         if (c == null) {
             this.writet("computing.lcc.console.unknown");
         } else {
-            c.handler.accept(this, ts, args);
+            if (c.isServerSide()) this.passCommand(c, args);
+            else c.clientHandler.accept(this, ts, args);
         }
+    }
+
+    private void passCommand(Command command, String[] args) {
+        ListNBT workQueue = cs.getState().getList("work_queue", Constants.NBT.TAG_COMPOUND);
+        CompoundNBT work = new CompoundNBT();
+        work.putString("command", command.getName());
+
+        ListNBT arguments = new ListNBT();
+        for (String arg : args) {
+            arguments.add(new StringNBT(arg));
+        }
+        work.put("args", arguments);
+
+        workQueue.add(work);
+        cs.getState().put("work_queue", workQueue);
+    }
+
+    @Override
+    public void processWork(ListNBT workQueue) {
+        for (INBT t : workQueue) {
+            CompoundNBT work = (CompoundNBT)t;
+            Command c = Command.byName(work.getString("command"));
+            String[] args = work.getList("args", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
+            if (c == null || !c.isServerSide()) continue;
+            c.serverHandler.accept(this, args);
+        }
+        this.writeOutput(cs.getState());
+        this.writeBuffer(cs.getState());
+    }
+
+    @Override
+    public void onReceiveState() {
+        this.readOutput(cs.getState());
+        this.readBuffer(cs.getState());
     }
 
     @Override
@@ -92,16 +134,23 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             case 265: //up
             case 266: //page up
             case 87:  //w
-                if (this.getBufferPosition() > 0) this.changeBufferPosition(-1);
+                if (this.getBufferPosition() > 0) {
+                    this.changeBufferPosition(-1);
+                    cs.sendState();
+                }
                 break;
             case 264: //down
             case 267: //page down
             case 83:  //s
-                if (this.hasBufferPosition() && this.getBufferPosition() < buffer.size() - out.length) this.changeBufferPosition(1);
+                if (this.hasBufferPosition() && this.getBufferPosition() < buffer.size() - out.length) {
+                    this.changeBufferPosition(1);
+                    cs.sendState();
+                }
                 break;
             case 259: //backspace
                 if (this.hasBufferPosition()) {
                     this.endBuffer(true);
+                    cs.sendState();
                     break;
                 }
                 this.setInterpreter(ts, interpreter.substring(0, Math.max(interpreter.length() - 1, 0)));
@@ -110,6 +159,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             case 257: //enter
                 if (this.hasBufferPosition()) {
                     this.endBuffer(true);
+                    cs.sendState();
                     break;
                 }
                 this.setInterpreter(ts, "");
@@ -119,6 +169,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 this.handleCommand(interpreter, ts);
                 this.writeOutput(cs.getState());
                 this.writeBuffer(cs.getState());
+                cs.sendState();
                 break;
         }
         return true;
@@ -165,7 +216,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         return super.endBuffer(output);
     }
 
-    public enum Command {
+    public enum Command implements IStringSerializable {
         HELP((cos, ts, args) -> {
             cos.startBuffer();
             if (args.length == 0) {
@@ -183,7 +234,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         CLEAR((cos, ts, args) -> {
             cos.clear();
         }),
-        MAP((cos, ts, args) -> {
+        MAP((cos, args) -> {
             cos.startBuffer();
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
             HashMap<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
@@ -206,18 +257,25 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         REBOOT((cos, ts, args) -> {
             cos.cs.computer.session = null;
             cos.cs.computer.session = cos.cs.computer.getSession(ComputingSession::boot);
-            cos.cs.sendState();
         }),
         SHUTDOWN((cos, ts, args) -> {
             LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(cos.cs.computer.te.getWorld().getDimension().getType(), cos.cs.computer.te.getPos(), Minecraft.getInstance().player.getUniqueID(), cos.cs.computer.location, cos.cs.computer.powerState = false));
             cos.cs.computer.session = null;
         });
 
-        private final TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> handler;
+        private final TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> clientHandler;
+        private final BiConsumer<ConsoleOperatingSystem, String[]> serverHandler;
         private final String[] aliases;
 
-        Command(TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> handler) {
-            this.handler = handler;
+        Command(TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> clientHandler) {
+            this.clientHandler = clientHandler;
+            this.serverHandler = null;
+            this.aliases = new TranslationTextComponent("computing.lcc.console.meta." + this.name().toLowerCase()).getString().split(",");
+        }
+
+        Command(BiConsumer<ConsoleOperatingSystem, String[]> serverHandler) {
+            this.clientHandler = null;
+            this.serverHandler = serverHandler;
             this.aliases = new TranslationTextComponent("computing.lcc.console.meta." + this.name().toLowerCase()).getString().split(",");
         }
 
@@ -235,8 +293,21 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             cos.writet("computing.lcc.console.meta." + this.name().toLowerCase() + ".description");
         }
 
+        public boolean isServerSide() {
+            return this.clientHandler == null && this.serverHandler != null;
+        }
+
         public static Command getFromAlias(String alias) {
             return Arrays.stream(Command.values()).filter(c -> Arrays.stream(c.getAliases()).anyMatch(s -> s.equalsIgnoreCase(alias))).findFirst().orElse(null);
+        }
+
+        @Override
+        public String getName() {
+            return this.name().toLowerCase();
+        }
+
+        public static Command byName(String name) {
+            return Arrays.stream(Command.values()).filter(p -> p.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
         }
     }
 

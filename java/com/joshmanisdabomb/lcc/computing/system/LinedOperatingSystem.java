@@ -70,7 +70,6 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void write(String s) {
         List<String> lines = LCCFonts.FIXED_WIDTH.get().listFormattedStringToWidth(s, CONSOLE_WIDTH);
         if (buffer == null) {
@@ -96,7 +95,6 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         write(new TranslationTextComponent(key, format).getFormattedText());
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void scroll(int lines) {
         if (buffer == null) {
             if (lines < out.length) {
@@ -114,12 +112,10 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void scroll() {
         this.scroll(1);
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void print(String s) {
         write(s);
         scroll();
@@ -130,12 +126,10 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         print(new TranslationTextComponent(key, format).getFormattedText());
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void clear() {
         out = new String[out.length];
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void startBuffer() {
         buffer = new ArrayList<>();
     }

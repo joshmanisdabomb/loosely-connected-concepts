@@ -6,6 +6,9 @@ import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.item.StorageItem;
+import com.joshmanisdabomb.lcc.network.BouncePadExtensionPacket;
+import com.joshmanisdabomb.lcc.network.ComputerStateChangePacket;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +18,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.SlabType;
@@ -27,6 +31,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -111,6 +116,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public void tick() {
         for (ComputingModule cm : this.getInstalledModules()) {
+            //Initialise disks.
             cm.inventory.ifPresent(h -> {
                 for (int i = 0; i < h.getSlots(); i++) {
                     ItemStack is = h.getStackInSlot(i);
@@ -123,6 +129,17 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
                     }
                 }
             });
+            //Send pending work to the operating system.
+            if (!world.isRemote && cm.type == ComputingModule.Type.COMPUTER) {
+                if (cm.powerState && cm.session != null) {
+                    ListNBT workQueue = cm.state.getList("work_queue", Constants.NBT.TAG_COMPOUND);
+                    if (workQueue.size() > 0) {
+                        cm.session.getOS().processWork(workQueue);
+                        cm.state.remove("work_queue");
+                        LCCPacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(pos)), new ComputerStateChangePacket(world.getDimension().getType(), pos, cm.location, cm.state));
+                    }
+                }
+            }
         }
     }
 

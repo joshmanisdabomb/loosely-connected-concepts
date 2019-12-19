@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.computing.system;
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -61,4 +62,10 @@ public class BIOSOperatingSystem extends LinedOperatingSystem {
         cs.sendState();
         return true;
     }
+
+    @Override
+    public void processWork(ListNBT workQueue) {
+
+    }
+
 }

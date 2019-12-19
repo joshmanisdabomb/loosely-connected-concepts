@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.network;
 
+import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.ComputingBlock;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
@@ -43,15 +44,10 @@ public class ComputerStateChangePacket implements LCCPacket {
         return new ComputerStateChangePacket(DimensionType.byName(buf.readResourceLocation()), buf.readBlockPos(), buf.readBoolean() ? SlabType.TOP : SlabType.BOTTOM, buf.readCompoundTag());
     }
 
-    @Override
-    public void handleLogicalServer() {
-        MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
-
-        if (this.dim == null) return;
+    private void handle(World world) {
         if (this.pos == null) return;
         if (this.newState == null) return;
 
-        World world = s.getWorld(this.dim);
         if (!world.isBlockLoaded(this.pos)) return;
 
         TileEntity te = world.getTileEntity(this.pos);
@@ -67,6 +63,22 @@ public class ComputerStateChangePacket implements LCCPacket {
 
         cm.state = this.newState;
         if (cm.session != null) cm.session.receiveState();
+    }
+
+    @Override
+    public void handleClient() {
+        this.handle(LCC.proxy.getClientWorld());
+    }
+
+    @Override
+    public void handleLogicalServer() {
+        MinecraftServer s = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
+
+        if (this.dim == null) return;
+
+        World world = s.getWorld(this.dim);
+
+        this.handle(world);
     }
 
 }

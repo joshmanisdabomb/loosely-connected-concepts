@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.Constants;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class StorageInfo {
+public class StorageInfo implements ShortenableUniqueIdentifier {
 
     public static final String TAG = "lcc:computing";
 
@@ -114,8 +114,9 @@ public class StorageInfo {
         return list;
     }
 
-    public StorageInfo setPartitions(ArrayList<Partition> partitions) {
+    public StorageInfo setPartitions(List<Partition> partitions) {
         ListNBT parts = tag.getList("partitions", Constants.NBT.TAG_COMPOUND);
+        parts.clear();
         for (Partition part : partitions) {
             CompoundNBT partition = new CompoundNBT();
             partition.putUniqueId("id", part.id);
@@ -151,26 +152,19 @@ public class StorageInfo {
         return this;
     }
 
-    public static HashMap<ItemStack, String> getShortIds(List<ItemStack> items) {
-        return StorageInfo.getShortIds(items.stream().collect(Collectors.toMap(i -> i, i -> new StorageInfo(i).getUniqueId())));
+    public static Map<ItemStack, String> getShortIds(List<ItemStack> items) {
+        List<StorageInfo> si = items.stream().map(StorageInfo::new).collect(Collectors.toList());
+        List<Partition> partitions = si.stream().flatMap(i -> i.getPartitions().stream()).collect(Collectors.toList());
+        return ShortenableUniqueIdentifier.getShortIds(si, partitions).entrySet().stream().collect(Collectors.toMap(s -> s.getKey().stack, Map.Entry::getValue));
     }
 
-    public static <T> HashMap<T, String> getShortIds(Map<T, UUID> map) {
-        Map<T, String> stringMap = map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().toString()));
-        HashMap<T, String> ret = new HashMap<>();
-        for (Map.Entry<T, String> e : stringMap.entrySet()) {
-            for (int i = 1; i <= 32; i++) {
-                String search = e.getValue().replace("-", "").substring(0, i);
-                if (stringMap.values().stream().filter(id -> id.replace("-", "").startsWith(search)).count() == 1) {
-                    ret.put(e.getKey(), search);
-                    break;
-                }
-            }
-        }
-        return ret;
+    public static Map<Partition, String> getShortPartitionIds(List<ItemStack> items) {
+        List<StorageInfo> si = items.stream().map(StorageInfo::new).collect(Collectors.toList());
+        List<Partition> partitions = si.stream().flatMap(i -> i.getPartitions().stream()).collect(Collectors.toList());
+        return ShortenableUniqueIdentifier.getShortIds(partitions, si);
     }
 
-    public static class Partition {
+    public static class Partition implements ShortenableUniqueIdentifier {
         public UUID id;
         public String name;
         public PartitionType type;
@@ -190,6 +184,26 @@ public class StorageInfo {
 
         public int getFreeSpace() {
             return this.size - this.getUsedSpace();
+        }
+
+        public boolean hasUniqueId() {
+            if (id == null) return false;
+            return id.getLeastSignificantBits() != 0 && id.getMostSignificantBits() != 0;
+        }
+
+        @Override
+        public UUID getUniqueId() {
+            return this.id;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Partition && this.hasUniqueId() && ((Partition)obj).hasUniqueId() && this.id.equals(((Partition)obj).id);
+        }
+
+        @Override
+        public int hashCode() {
+            return this.hasUniqueId() ? Objects.hash(this.id.toString()) : super.hashCode();
         }
 
         public enum PartitionType implements IStringSerializable {

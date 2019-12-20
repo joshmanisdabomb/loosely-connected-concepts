@@ -71,6 +71,9 @@ public class StorageItem extends Item implements TintedItem {
             if (!partitions.isEmpty()) tooltip.add(new TranslationTextComponent("item.lcc.computing_storage.partitions").applyTextStyle(TextFormatting.GRAY));
             for (StorageInfo.Partition p : partitions) {
                 tooltip.add(new StringTextComponent("  " + p.name).applyTextStyle(p.type.color));
+                if (Screen.hasShiftDown()) {
+                    tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.id.value", (p.hasUniqueId() ? p.getUniqueId() : "not yet set")).applyTextStyle(TextFormatting.DARK_GRAY))));
+                }
                 tooltip.add(new StringTextComponent("    ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size").applyTextStyle(TextFormatting.GRAY).appendText(" ").appendSibling(new TranslationTextComponent("item.lcc.computing_storage.size.value", p.size).applyTextStyle(TextFormatting.DARK_GRAY))));
             }
         }

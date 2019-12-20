@@ -115,14 +115,20 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
     @Override
     public void tick() {
         for (ComputingModule cm : this.getInstalledModules()) {
-            //Initialise disks.
+            //Initialise disks and partitions.
             cm.inventory.ifPresent(h -> {
                 for (int i = 0; i < h.getSlots(); i++) {
                     ItemStack is = h.getStackInSlot(i);
                     if (is.getItem() instanceof StorageItem) {
                         StorageInfo inf = new StorageInfo(is);
-                        if (!inf.hasUniqueId()) {
-                            inf.setUniqueId(UUID.randomUUID());
+                        if (!inf.hasUniqueId()) inf.setUniqueId(UUID.randomUUID());
+
+                        ArrayList<StorageInfo.Partition> partitions = inf.getPartitions();
+                        if (partitions.stream().anyMatch(partition -> !partition.hasUniqueId())) {
+                            for (StorageInfo.Partition p : partitions) {
+                                if (!p.hasUniqueId()) p.id = UUID.randomUUID();
+                            }
+                            inf.setPartitions(partitions);
                         }
                         break;
                     }

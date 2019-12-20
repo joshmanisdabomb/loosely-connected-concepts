@@ -86,8 +86,6 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         workQueue.add(work);
 
         cs.getState().put("work_queue", workQueue);
-
-        System.out.println(cs.getState());
     }
 
     @Override
@@ -239,24 +237,47 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             cos.clear();
         }),
         MAP((cos, args, pretranslations) -> {
-            cos.startBuffer();
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+
+            Map<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
+            Map<StorageInfo.Partition, String> shortPartitionIds = StorageInfo.getShortPartitionIds(disks);
+
+            boolean filterID = false;
+            String filter = null;
+
+            if (args.length > 0) {
+                if (args[0].startsWith("#")) {
+                    filterID = true;
+                    String f = filter = String.join("", args).toLowerCase().replaceAll("[^0-9a-f]", "");
+                    disks = disks.stream().filter(i -> {
+                        StorageInfo inf = new StorageInfo(i);
+                        return (inf.hasUniqueId() && inf.getUniqueId().toString().toLowerCase().replace("-", "").startsWith(f)) || inf.getPartitions().stream().anyMatch(p -> p.id.toString().toLowerCase().replace("-", "").startsWith(f));
+                    }).collect(Collectors.toList());
+                } else {
+                    String f = filter = String.join(" ", args).toLowerCase();
+                    disks = disks.stream().filter(i -> i.getDisplayName().getFormattedText().toLowerCase().contains(f) || new StorageInfo(i).getPartitions().stream().anyMatch(p -> p.name.toLowerCase().contains(f))).collect(Collectors.toList());
+                }
+            }
             disks.sort(Comparator.comparing(i -> i.getDisplayName().getFormattedText()));
-            HashMap<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
-            disks.forEach(d -> {
+
+            cos.startBuffer();
+            for (ItemStack d : disks) {
                 StorageInfo i = new StorageInfo(d);
                 ArrayList<StorageInfo.Partition> partitions = i.getPartitions();
                 cos.alignOrPrint(d.getDisplayName().getFormattedText() + " #" + shortIds.get(d), i.getUsedSpace() + "/" + i.getSize());
                 if (partitions.size() < 1) {
-                    cos.write(" \u2514 ");
-                    cos.print(pretranslations[0]);
+                    cos.print(" - " + pretranslations[0]);
                 } else {
                     for (int j = 0; j < partitions.size(); j++) {
                         StorageInfo.Partition p = partitions.get(j);
-                        cos.alignOrPrint(" " + (j == partitions.size() - 1 ? '\u2514' : '\u251C') + " " + p.name, p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
+                        if (args.length == 0 || (filterID ? p.id.toString().toLowerCase().replace("-", "").startsWith(filter) : p.name.toLowerCase().contains(filter))) {
+                            System.out.println(shortPartitionIds);
+                            System.out.println(p);
+                            cos.alignOrPrint(" " + (j == partitions.size() - 1 ? '\u2514' : '\u251C') + " " + p.name + " #" + shortPartitionIds.get(p), p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
+                        }
                     }
                 }
-            });
+            }
             cos.displayLargeBuffer();
         }, "computing.lcc.console.map.no_partitions"),
         USE((cos, ts, args) -> {}),

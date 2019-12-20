@@ -73,12 +73,24 @@ public class StorageInfo {
         return tag.getInt("size");
     }
 
+    public int getUsedSpace() {
+        int total = 0;
+        for (Partition p : this.getPartitions()) total += p.getUsedSpace();
+        return total;
+    }
+
+    public int getFreeSpace() {
+        return this.getSize() - this.getUsedSpace();
+    }
+
     public int getPartitionedSpace() {
         int total = 0;
-        for (Partition p : this.getPartitions()) {
-            total += p.size;
-        }
+        for (Partition p : this.getPartitions()) total += p.size;
         return total;
+    }
+
+    public int getPartitionableSpace() {
+        return this.getSize() - this.getPartitionedSpace();
     }
 
     public StorageInfo setSize(int size) {
@@ -170,6 +182,14 @@ public class StorageInfo {
             this.name = name;
             this.type = type;
             this.size = size;
+        }
+
+        public int getUsedSpace() {
+            return this.type.isOS() ? this.size : 0;
+        }
+
+        public int getFreeSpace() {
+            return this.size - this.getUsedSpace();
         }
 
         public enum PartitionType implements IStringSerializable {

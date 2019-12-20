@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;

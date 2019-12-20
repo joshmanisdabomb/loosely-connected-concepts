@@ -18,14 +18,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
-import org.apache.logging.log4j.util.TriConsumer;
-import org.lwjgl.system.CallbackI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ConsoleOperatingSystem extends LinedOperatingSystem {
@@ -68,7 +62,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             this.writet("computing.lcc.console.unknown");
         } else {
             if (c.isServerSide()) this.passCommand(c, args);
-            else c.clientHandler.accept(this, ts, args);
+            else c.c.handle(this, args, ts);
         }
     }
 
@@ -83,8 +77,17 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         }
         work.put("args", arguments);
 
+        ListNBT pretranslations = new ListNBT();
+        for (String pretranslation : command.pretranslations) {
+            pretranslations.add(new StringNBT(pretranslation));
+        }
+        work.put("pret", pretranslations);
+
         workQueue.add(work);
+
         cs.getState().put("work_queue", workQueue);
+
+        System.out.println(cs.getState());
     }
 
     @Override
@@ -93,8 +96,9 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             CompoundNBT work = (CompoundNBT)t;
             Command c = Command.byName(work.getString("command"));
             String[] args = work.getList("args", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
+            String[] pretranslations = work.getList("pret", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
             if (c == null || !c.isServerSide()) continue;
-            c.serverHandler.accept(this, args);
+            c.s.handle(this, args, pretranslations);
         }
         this.writeOutput(cs.getState());
         this.writeBuffer(cs.getState());
@@ -113,16 +117,16 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             for (int i = 0; i < out.length; i++) {
                 int j = i + this.getBufferPosition();
                 if (j >= buffer.size()) break;
-                LCCFonts.FIXED_WIDTH.get().drawString(buffer.get(j), x + 5, y + 4 + (i * 11), 0xD5D5D5);
+                LCCFonts.FIXED_WIDTH.get().drawString(buffer.get(j), x + CONSOLE_OFFSET, y + 4 + (i * 11), 0xD5D5D5);
             }
-            LCCFonts.FIXED_WIDTH.get().drawString(new TranslationTextComponent("computing.lcc.console.buffer", this.getBufferPosition() + 1, Math.max(this.buffer.size() - out.length, 0) + 1).getFormattedText(), x + 5, y + 103, 0xD5D5D5);
+            LCCFonts.FIXED_WIDTH.get().drawString(new TranslationTextComponent("computing.lcc.console.buffer", this.getBufferPosition() + 1, Math.max(this.buffer.size() - out.length, 0) + 1).getFormattedText(), x + CONSOLE_OFFSET, y + 103, 0xD5D5D5);
         } else {
             super.render(ts, partialTicks, x, y);
             String interpreter = this.getInterpreter(ts);
             while (LCCFonts.FIXED_WIDTH.get().getStringWidth("> " + interpreter + "_") > CONSOLE_WIDTH) {
                 interpreter = interpreter.substring(1);
             }
-            LCCFonts.FIXED_WIDTH.get().drawString("> " + interpreter + ((System.currentTimeMillis() - lastTypeTime) % 1000 <= 500 ? "_" : " "), x + 5, y + 103, 0xD5D5D5);
+            LCCFonts.FIXED_WIDTH.get().drawString("> " + interpreter + ((System.currentTimeMillis() - lastTypeTime) % 1000 <= 500 ? "_" : " "), x + CONSOLE_OFFSET, y + 103, 0xD5D5D5);
         }
     }
 
@@ -217,7 +221,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     }
 
     public enum Command implements IStringSerializable {
-        HELP((cos, ts, args) -> {
+        HELP((cos, args, ts) -> {
             cos.startBuffer();
             if (args.length == 0) {
                 cos.writet("computing.lcc.console.help.available", Arrays.stream(Command.values()).map(Command::getPrimaryAlias).collect(Collectors.joining(", ")));
@@ -231,19 +235,30 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             }
             cos.displayLargeBuffer();
         }),
-        CLEAR((cos, ts, args) -> {
+        CLEAR((cos, args, pretranslations) -> {
             cos.clear();
         }),
-        MAP((cos, args) -> {
+        MAP((cos, args, pretranslations) -> {
             cos.startBuffer();
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            disks.sort(Comparator.comparing(i -> i.getDisplayName().getFormattedText()));
             HashMap<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
             disks.forEach(d -> {
-                cos.write(d.getDisplayName().getFormattedText() + " #" + shortIds.get(d));
-                cos.scroll();
+                StorageInfo i = new StorageInfo(d);
+                ArrayList<StorageInfo.Partition> partitions = i.getPartitions();
+                cos.alignOrPrint(d.getDisplayName().getFormattedText() + " #" + shortIds.get(d), i.getUsedSpace() + "/" + i.getSize());
+                if (partitions.size() < 1) {
+                    cos.write(" \u2514 ");
+                    cos.print(pretranslations[0]);
+                } else {
+                    for (int j = 0; j < partitions.size(); j++) {
+                        StorageInfo.Partition p = partitions.get(j);
+                        cos.alignOrPrint(" " + (j == partitions.size() - 1 ? '\u2514' : '\u251C') + " " + p.name, p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
+                    }
+                }
             });
             cos.displayLargeBuffer();
-        }),
+        }, "computing.lcc.console.map.no_partitions"),
         USE((cos, ts, args) -> {}),
         LS((cos, ts, args) -> {}),
         CD((cos, ts, args) -> {}),
@@ -263,20 +278,23 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             cos.cs.computer.session = null;
         });
 
-        private final TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> clientHandler;
-        private final BiConsumer<ConsoleOperatingSystem, String[]> serverHandler;
+        private final ClientHandler c;
+        private final ServerHandler s;
+        private final String[] pretranslations;
         private final String[] aliases;
 
-        Command(TriConsumer<ConsoleOperatingSystem, TerminalSession, String[]> clientHandler) {
-            this.clientHandler = clientHandler;
-            this.serverHandler = null;
+        Command(ClientHandler c) {
+            this.c = c;
+            this.s = null;
             this.aliases = new TranslationTextComponent("computing.lcc.console.meta." + this.name().toLowerCase()).getString().split(",");
+            this.pretranslations = null;
         }
 
-        Command(BiConsumer<ConsoleOperatingSystem, String[]> serverHandler) {
-            this.clientHandler = null;
-            this.serverHandler = serverHandler;
+        Command(ServerHandler s, String... pretranslations) {
+            this.c = null;
+            this.s = s;
             this.aliases = new TranslationTextComponent("computing.lcc.console.meta." + this.name().toLowerCase()).getString().split(",");
+            this.pretranslations = Arrays.stream(pretranslations).map(k -> new TranslationTextComponent(k).getFormattedText()).toArray(String[]::new);
         }
 
         public String getPrimaryAlias() {
@@ -294,7 +312,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         }
 
         public boolean isServerSide() {
-            return this.clientHandler == null && this.serverHandler != null;
+            return this.c == null && this.s != null;
         }
 
         public static Command getFromAlias(String alias) {
@@ -309,6 +327,17 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         public static Command byName(String name) {
             return Arrays.stream(Command.values()).filter(p -> p.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
         }
+
+        @FunctionalInterface
+        public interface ClientHandler {
+            void handle(ConsoleOperatingSystem cos, String[] args, TerminalSession ts);
+        }
+
+        @FunctionalInterface
+        public interface ServerHandler {
+            void handle(ConsoleOperatingSystem cos, String[] args, String[] pretranslations);
+        }
+
     }
 
 }

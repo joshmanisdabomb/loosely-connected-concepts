@@ -6,7 +6,6 @@ import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.item.StorageItem;
-import com.joshmanisdabomb.lcc.network.BouncePadExtensionPacket;
 import com.joshmanisdabomb.lcc.network.ComputerStateChangePacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;

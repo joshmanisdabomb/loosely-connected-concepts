@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
-import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.network.CryingObsidianUpdatePacket;
 import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
@@ -9,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;

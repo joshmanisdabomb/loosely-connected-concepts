@@ -11,6 +11,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+import org.apache.logging.log4j.util.BiConsumer;
+import org.apache.logging.log4j.util.TriConsumer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,10 @@ import java.util.stream.Collectors;
 
 public abstract class LinedOperatingSystem extends OperatingSystem {
 
-    public static final int CONSOLE_WIDTH = 230;
+    public static final int CONSOLE_WIDTH = 228;
+    public static final int CONSOLE_OFFSET = 6;
+    public static final int CHAR_WIDTH = 6;
+    public static final int ROW_CHARS = (int)Math.floor(CONSOLE_WIDTH / (float)CHAR_WIDTH);
 
     protected String[] out;
 
@@ -39,7 +44,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     @OnlyIn(Dist.CLIENT)
     public void render(TerminalSession ts, float partialTicks, int x, int y) {
         for (int i = 0; i < out.length; i++) {
-            LCCFonts.FIXED_WIDTH.get().drawString(out[i], x + 5, y + 4 + (i * 11), 0xD5D5D5);
+            LCCFonts.FIXED_WIDTH.get().drawString(out[i], x + CONSOLE_OFFSET, y + 4 + (i * 11), 0xD5D5D5);
         }
     }
 
@@ -124,6 +129,71 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     @OnlyIn(Dist.CLIENT)
     protected void printt(String key, Object... format) {
         print(new TranslationTextComponent(key, format).getFormattedText());
+    }
+
+    protected void line(String seq) {
+        print(new String(new char[ROW_CHARS]).replace("\0", seq).substring(0, ROW_CHARS));
+    }
+
+    protected void alignMiddle(String s) {
+        align("", s, "");
+    }
+
+    protected void alignRight(String s) {
+        align("", "", s);
+    }
+
+    protected boolean align(String left, String right) {
+        return align(left, "", right);
+    }
+
+    protected boolean align(String left, String middle, String right) {
+        int rightPos = ROW_CHARS - right.length();
+        int middlePos = (int)Math.floor((ROW_CHARS / 2F) - (middle.length() / 2F));
+        char[] row = new char[ROW_CHARS];
+        for (int i = 0; i < left.length(); i++) {
+            if (i >= row.length || row[i] != '\0') return false;
+            row[i] = left.charAt(i);
+        }
+        for (int i = 0; i < middle.length(); i++) {
+            int k = i + middlePos;
+            if (k < 0 || k >= row.length || row[k] != '\0') return false;
+            row[k] = middle.charAt(i);
+        }
+        for (int i = 0; i < right.length(); i++) {
+            int k = i + rightPos;
+            if (k < 0 || k >= row.length || row[k] != '\0') return false;
+            row[k] = right.charAt(i);
+        }
+        print(new String(row).replace('\0', ' '));
+        return true;
+    }
+
+    protected void alignFallback(String left, String right, BiConsumer<String, String> fallback) {
+        if (!align(left, right)) {
+            fallback.accept(left, right);
+        }
+    }
+
+    protected void alignFallback(String left, String middle, String right, TriConsumer<String, String, String> fallback) {
+        if (!align(left, middle, right)) {
+            fallback.accept(left, middle, right);
+        }
+    }
+
+    protected void alignOrPrint(String left, String right) {
+        this.alignFallback(left, right, (l, r) -> {
+            print(l);
+            print(r);
+        });
+    }
+
+    protected void alignOrPrint(String left, String middle, String right) {
+        this.alignFallback(left, middle, right, (l, m, r) -> {
+            print(l);
+            print(m);
+            print(r);
+        });
     }
 
     protected void clear() {

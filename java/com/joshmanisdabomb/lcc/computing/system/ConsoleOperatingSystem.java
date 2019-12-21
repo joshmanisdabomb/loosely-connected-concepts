@@ -20,12 +20,18 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ConsoleOperatingSystem extends LinedOperatingSystem {
 
     @OnlyIn(Dist.CLIENT)
     private long lastTypeTime = 0;
+
+    private static final Object[] PRETRANSLATION_PARAMS = IntStream.range(1,10).mapToObj(i -> "%" + i + "$s").toArray(String[]::new);
+    private static final Pattern ARGUMENT_MATCHER = Pattern.compile("\"[^\"]*\"|[^ ]+");
 
     public ConsoleOperatingSystem(ComputingSession cs) {
         super(cs, 9);
@@ -54,22 +60,50 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         ts.getState(cs).putString("interpreter", text);
     }
 
+    protected StorageInfo.Partition using(List<ItemStack> disks) {
+        if (!cs.getState().hasUniqueId("using")) return null;
+        StorageInfo.Partition using = this.getPartition(disks, cs.getState().getUniqueId("using"));
+        if (using == null) this.use(null);
+        return using;
+    }
+
+    protected void use(StorageInfo.Partition partition) {
+        if (partition == null) cs.getState().remove("using");
+        else cs.getState().putUniqueId("using", partition.id);
+    }
+
     protected void handleCommand(String interpreter, TerminalSession ts) {
         String[] commandAndArgs = interpreter.split(" ", 2);
-        String[] args = commandAndArgs.length == 2 ? commandAndArgs[1].split(" ") : new String[0];
+        String[] args = new String[0];
+        if (commandAndArgs.length == 2) {
+            Matcher m = ARGUMENT_MATCHER.matcher(commandAndArgs[1]);
+            ArrayList<String> a = new ArrayList<>();
+            while (m.find()) {
+                String arg = m.group();
+                if (arg.startsWith("\"") && arg.endsWith("\"")) arg = arg.substring(1, arg.length() - 1);
+                a.add(arg);
+            }
+            args = a.toArray(args);
+        }
         Command c = Command.getFromAlias(commandAndArgs[0]);
         if (c == null) {
+            this.print("> " + interpreter);
             this.writet("computing.lcc.console.unknown");
         } else {
-            if (c.isServerSide()) this.passCommand(c, args);
-            else c.c.handle(this, args, ts);
+            if (c.isServerSide()) {
+                this.passCommand(c, args, interpreter);
+            } else {
+                this.print("> " + interpreter);
+                c.c.handle(this, args, ts);
+            }
         }
     }
 
-    private void passCommand(Command command, String[] args) {
+    private void passCommand(Command command, String[] args, String interpreter) {
         ListNBT workQueue = cs.getState().getList("work_queue", Constants.NBT.TAG_COMPOUND);
         CompoundNBT work = new CompoundNBT();
         work.putString("command", command.getName());
+        work.putString("interpreter", interpreter);
 
         ListNBT arguments = new ListNBT();
         for (String arg : args) {
@@ -96,6 +130,8 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             String[] args = work.getList("args", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
             String[] pretranslations = work.getList("pret", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
             if (c == null || !c.isServerSide()) continue;
+            this.endBuffer(false);
+            this.print("> " + work.getString("interpreter"));
             c.s.handle(this, args, pretranslations);
         }
         this.writeOutput(cs.getState());
@@ -167,7 +203,6 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 this.setInterpreter(ts, "");
                 ts.sendState();
                 this.scroll();
-                this.print("> " + interpreter);
                 this.handleCommand(interpreter, ts);
                 this.writeOutput(cs.getState());
                 this.writeBuffer(cs.getState());
@@ -239,48 +274,67 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         MAP((cos, args, pretranslations) -> {
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
 
-            Map<ItemStack, String> shortIds = StorageInfo.getShortIds(disks);
-            Map<StorageInfo.Partition, String> shortPartitionIds = StorageInfo.getShortPartitionIds(disks);
-
-            boolean filterID = false;
-            String filter = null;
-
-            if (args.length > 0) {
-                if (args[0].startsWith("#")) {
-                    filterID = true;
-                    String f = filter = String.join("", args).toLowerCase().replaceAll("[^0-9a-f]", "");
-                    disks = disks.stream().filter(i -> {
-                        StorageInfo inf = new StorageInfo(i);
-                        return (inf.hasUniqueId() && inf.getUniqueId().toString().toLowerCase().replace("-", "").startsWith(f)) || inf.getPartitions().stream().anyMatch(p -> p.id.toString().toLowerCase().replace("-", "").startsWith(f));
-                    }).collect(Collectors.toList());
-                } else {
-                    String f = filter = String.join(" ", args).toLowerCase();
-                    disks = disks.stream().filter(i -> i.getDisplayName().getFormattedText().toLowerCase().contains(f) || new StorageInfo(i).getPartitions().stream().anyMatch(p -> p.name.toLowerCase().contains(f))).collect(Collectors.toList());
-                }
-            }
-            disks.sort(Comparator.comparing(i -> i.getDisplayName().getFormattedText()));
+            Map<ItemStack, String> shortIds = new HashMap<>();
+            Map<StorageInfo.Partition, String> shortPartitionIds = new HashMap<>();
+            LinkedHashMap<ItemStack, List<StorageInfo.Partition>> map = cos.getDiskMap(disks, String.join(" ", args), shortIds, shortPartitionIds, true);
 
             cos.startBuffer();
-            for (ItemStack d : disks) {
-                StorageInfo i = new StorageInfo(d);
-                ArrayList<StorageInfo.Partition> partitions = i.getPartitions();
-                cos.alignOrPrint(d.getDisplayName().getFormattedText() + " #" + shortIds.get(d), i.getUsedSpace() + "/" + i.getSize());
-                if (partitions.size() < 1) {
+            for (Map.Entry<ItemStack, List<StorageInfo.Partition>> e : map.entrySet()) {
+                StorageInfo i = new StorageInfo(e.getKey());
+                cos.alignOrPrint(e.getKey().getDisplayName().getFormattedText() + " #" + shortIds.get(e.getKey()), i.getUsedSpace() + "/" + i.getSize());
+                if (e.getValue().size() < 1) {
                     cos.print(" - " + pretranslations[0]);
                 } else {
-                    for (int j = 0; j < partitions.size(); j++) {
-                        StorageInfo.Partition p = partitions.get(j);
-                        if (args.length == 0 || (filterID ? p.id.toString().toLowerCase().replace("-", "").startsWith(filter) : p.name.toLowerCase().contains(filter))) {
-                            System.out.println(shortPartitionIds);
-                            System.out.println(p);
-                            cos.alignOrPrint(" " + (j == partitions.size() - 1 ? '\u2514' : '\u251C') + " " + p.name + " #" + shortPartitionIds.get(p), p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
-                        }
+                    for (int j = 0; j < e.getValue().size(); j++) {
+                        StorageInfo.Partition p = e.getValue().get(j);
+                        cos.alignOrPrint(" " + (j == e.getValue().size() - 1 ? '\u2514' : '\u251C') + " " + p.name + " #" + shortPartitionIds.get(p), p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
                     }
                 }
             }
             cos.displayLargeBuffer();
         }, "computing.lcc.console.map.no_partitions"),
-        USE((cos, ts, args) -> {}),
+        USE((cos, args, pretranslations) -> {
+            String disk = null, partition = null;
+            FolderPath path = null;
+            if (args.length > 2) {
+                partition = String.join(" ", args);
+            } else if (args.length <= 0) {
+                List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+                StorageInfo.Partition using = cos.using(disks);
+                if (using != null) {
+                    ItemStack d = cos.getPartitionDisk(disks, using);
+                    cos.write(String.format(pretranslations[0], using.name, StorageInfo.getShortPartitionId(disks, using, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+                } else {
+                    cos.write(pretranslations[6]);
+                }
+                return;
+            } else if (args.length == 2) {
+                partition = args[0];
+                disk = args[1];
+            } else {
+                SystemPath sp = new SystemPath(args[0]);
+                if (sp.valid && sp.disk != null && sp.partition != null) {
+                    disk = sp.disk;
+                    partition = sp.partition;
+                    path = sp.folders;
+                } else {
+                    partition = args[0];
+                }
+            }
+
+            List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            List<StorageInfo.Partition> partitions = cos.searchPartitions(disks, partition, disk, false);
+            if (partitions.size() <= 0) {
+                cos.write(String.format(pretranslations[disk != null && !disk.isEmpty() ? 3 : 2], partition, disk));
+            } else if (partitions.size() > 1) {
+                cos.write(String.format(pretranslations[disk != null && !disk.isEmpty() ? 5 : 4], partition, disk));
+            } else {
+                StorageInfo.Partition using = partitions.get(0);
+                ItemStack d = cos.getPartitionDisk(disks, using);
+                cos.use(using);
+                cos.write(String.format(pretranslations[0], using.name, StorageInfo.getShortPartitionId(disks, using, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+            }
+        }, "computing.lcc.console.use.success", "computing.lcc.console.cd.success", "computing.lcc.console.use.no_results", "computing.lcc.console.use.no_results.disk", "computing.lcc.console.use.many_results", "computing.lcc.console.use.many_results.disk", "computing.lcc.console.use.none"),
         LS((cos, ts, args) -> {}),
         CD((cos, ts, args) -> {}),
         MKDIR((cos, ts, args) -> {}),
@@ -315,7 +369,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             this.c = null;
             this.s = s;
             this.aliases = new TranslationTextComponent("computing.lcc.console.meta." + this.name().toLowerCase()).getString().split(",");
-            this.pretranslations = Arrays.stream(pretranslations).map(k -> new TranslationTextComponent(k).getFormattedText()).toArray(String[]::new);
+            this.pretranslations = Arrays.stream(pretranslations).map(k -> new TranslationTextComponent(k, PRETRANSLATION_PARAMS).getFormattedText()).toArray(String[]::new);
         }
 
         public String getPrimaryAlias() {

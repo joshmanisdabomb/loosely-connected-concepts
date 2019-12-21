@@ -92,12 +92,12 @@ public class StorageItem extends Item implements TintedItem {
             }
             if (this == LCCItems.compact_disc) {
                 i.setColor(0xB83D14);
-                StorageInfo.Partition p = new StorageInfo.Partition(UUID.fromString("bf8ee866-a75b-48fd-a734-130174388df6"), "Console OS", StorageInfo.Partition.PartitionType.OS_CONSOLE, OperatingSystem.Type.CONSOLE.size);
+                StorageInfo.Partition p = new StorageInfo.Partition(null, "Console OS", StorageInfo.Partition.PartitionType.OS_CONSOLE, OperatingSystem.Type.CONSOLE.size);
                 i.addPartition(p);
                 items.add(stack.copy());
             } else if (this == LCCItems.memory_card) {
                 i.setColor(0x4BBDF2).setSize(this.sizeMax);
-                StorageInfo.Partition p = new StorageInfo.Partition(UUID.fromString("46523f3f-5e11-42a0-aa22-1893375f2334"), "Graphical OS", StorageInfo.Partition.PartitionType.OS_GRAPHICAL, OperatingSystem.Type.GRAPHICAL.size);
+                StorageInfo.Partition p = new StorageInfo.Partition(null, "Graphical OS", StorageInfo.Partition.PartitionType.OS_GRAPHICAL, OperatingSystem.Type.GRAPHICAL.size);
                 i.addPartition(p);
                 items.add(stack.copy());
             }

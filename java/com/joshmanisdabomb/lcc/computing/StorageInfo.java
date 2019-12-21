@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.computing;
 
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
+import com.joshmanisdabomb.lcc.item.StorageItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -152,16 +153,24 @@ public class StorageInfo implements ShortenableUniqueIdentifier {
         return this;
     }
 
-    public static Map<ItemStack, String> getShortIds(List<ItemStack> items) {
+    public static Map<ItemStack, String> getShortIds(List<ItemStack> items, boolean includePartitions) {
         List<StorageInfo> si = items.stream().map(StorageInfo::new).collect(Collectors.toList());
         List<Partition> partitions = si.stream().flatMap(i -> i.getPartitions().stream()).collect(Collectors.toList());
-        return ShortenableUniqueIdentifier.getShortIds(si, partitions).entrySet().stream().collect(Collectors.toMap(s -> s.getKey().stack, Map.Entry::getValue));
+        return ShortenableUniqueIdentifier.getShortIds(si, includePartitions ? partitions : null).entrySet().stream().collect(Collectors.toMap(s -> s.getKey().stack, Map.Entry::getValue));
     }
 
-    public static Map<Partition, String> getShortPartitionIds(List<ItemStack> items) {
+    public static Map<Partition, String> getShortPartitionIds(List<ItemStack> items, boolean includeDisks) {
         List<StorageInfo> si = items.stream().map(StorageInfo::new).collect(Collectors.toList());
         List<Partition> partitions = si.stream().flatMap(i -> i.getPartitions().stream()).collect(Collectors.toList());
-        return ShortenableUniqueIdentifier.getShortIds(partitions, si);
+        return ShortenableUniqueIdentifier.getShortIds(partitions, includeDisks ? si : null);
+    }
+
+    public static String getShortId(List<ItemStack> items, ItemStack item, boolean includePartitions) {
+        return StorageInfo.getShortIds(items, includePartitions).get(item);
+    }
+
+    public static String getShortPartitionId(List<ItemStack> items, Partition part, boolean includeDisks) {
+        return StorageInfo.getShortPartitionIds(items, includeDisks).get(part);
     }
 
     public static class Partition implements ShortenableUniqueIdentifier {
@@ -172,7 +181,7 @@ public class StorageInfo implements ShortenableUniqueIdentifier {
         public int start;
 
         public Partition(UUID id, String name, PartitionType type, int size) {
-            this.id = id;
+            this.id = id != null ? id : new UUID(0, 0);
             this.name = name;
             this.type = type;
             this.size = size;

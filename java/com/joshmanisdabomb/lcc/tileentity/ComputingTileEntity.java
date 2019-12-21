@@ -141,7 +141,7 @@ public class ComputingTileEntity extends TileEntity implements INamedContainerPr
                     if (workQueue.size() > 0) {
                         cm.session.getOS().processWork(workQueue);
                         cm.state.remove("work_queue");
-                        LCCPacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(pos)), new ComputerStateChangePacket(world.getDimension().getType(), pos, cm.location, cm.state));
+                        LCCPacketHandler.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(pos)), new ComputerStateChangePacket(world.getDimension().getType(), pos, cm.location, cm.state, cm.isReading()));
                     }
                 }
             }

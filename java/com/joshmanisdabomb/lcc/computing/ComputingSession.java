@@ -93,7 +93,7 @@ public class ComputingSession {
     public void sendState() {
         this.os.onSendState();
         if (computer.te.getWorld().isRemote) {
-            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerStateChangePacket(computer.te.getWorld().getDimension().getType(), computer.te.getPos(), computer.location, computer.state));
+            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerStateChangePacket(computer.te.getWorld().getDimension().getType(), computer.te.getPos(), computer.location, computer.state, computer.isReading()));
         }
     }
 

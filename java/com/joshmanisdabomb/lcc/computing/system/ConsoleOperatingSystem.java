@@ -68,7 +68,10 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     }
 
     protected void use(StorageInfo.Partition partition) {
-        if (partition == null) cs.getState().remove("using");
+        if (partition == null) {
+            cs.getState().remove("usingMost");
+            cs.getState().remove("usingLeast");
+        }
         else cs.getState().putUniqueId("using", partition.id);
     }
 

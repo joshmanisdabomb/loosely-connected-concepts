@@ -25,12 +25,14 @@ public class ComputerStateChangePacket implements LCCPacket {
     private final BlockPos pos;
     private final SlabType location;
     private final CompoundNBT newState;
+    private final boolean readLight;
 
-    public ComputerStateChangePacket(DimensionType dim, BlockPos pos, SlabType location, CompoundNBT newState) {
+    public ComputerStateChangePacket(DimensionType dim, BlockPos pos, SlabType location, CompoundNBT newState, boolean readLight) {
         this.dim = dim;
         this.pos = pos;
         this.location = location;
         this.newState = newState;
+        this.readLight = readLight;
     }
 
     public static void encode(ComputerStateChangePacket msg, PacketBuffer buf) {
@@ -38,10 +40,11 @@ public class ComputerStateChangePacket implements LCCPacket {
         buf.writeBlockPos(msg.pos);
         buf.writeBoolean(msg.location == SlabType.TOP);
         buf.writeCompoundTag(msg.newState);
+        buf.writeBoolean(msg.readLight);
     }
 
     public static ComputerStateChangePacket decode(PacketBuffer buf) {
-        return new ComputerStateChangePacket(DimensionType.byName(buf.readResourceLocation()), buf.readBlockPos(), buf.readBoolean() ? SlabType.TOP : SlabType.BOTTOM, buf.readCompoundTag());
+        return new ComputerStateChangePacket(DimensionType.byName(buf.readResourceLocation()), buf.readBlockPos(), buf.readBoolean() ? SlabType.TOP : SlabType.BOTTOM, buf.readCompoundTag(), buf.readBoolean());
     }
 
     private void handle(World world) {
@@ -63,6 +66,7 @@ public class ComputerStateChangePacket implements LCCPacket {
 
         cm.state = this.newState;
         if (cm.session != null) cm.session.receiveState();
+        if (this.readLight) cm.read();
     }
 
     @Override

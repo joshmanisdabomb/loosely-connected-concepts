@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class LCCPacketHandler {
 
-    public static final String PROTOCOL_VERSION = "4";
+    public static final String PROTOCOL_VERSION = "5";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(LCC.MODID, "main"),
         () -> PROTOCOL_VERSION,

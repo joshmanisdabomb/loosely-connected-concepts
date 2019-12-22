@@ -18,6 +18,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -75,6 +76,30 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         else cs.getState().putUniqueId("using", partition.id);
     }
 
+    protected void prompt(CompoundNBT confirmWork) {
+        cs.getState().put("prompt", confirmWork);
+    }
+
+    protected boolean hasPrompt() {
+        return !cs.getState().getCompound("prompt").isEmpty();
+    }
+
+    protected void answer(boolean confirm) {
+        this.scroll();
+        if (confirm) {
+            CompoundNBT work = cs.getState().getCompound("prompt");
+
+            ListNBT workQueue = cs.getState().getList("work_queue", Constants.NBT.TAG_COMPOUND);
+            work.putString("type", "prompt");
+            workQueue.add(work);
+
+            cs.getState().put("work_queue", workQueue);
+        } else {
+            this.writet("computing.lcc.console.cancel");
+        }
+        cs.getState().remove("prompt");
+    }
+
     protected void handleCommand(String interpreter, TerminalSession ts) {
         String[] commandAndArgs = interpreter.split(" ", 2);
         String[] args = new String[0];
@@ -105,6 +130,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     private void passCommand(Command command, String[] args, String interpreter) {
         ListNBT workQueue = cs.getState().getList("work_queue", Constants.NBT.TAG_COMPOUND);
         CompoundNBT work = new CompoundNBT();
+        work.putString("type", "command");
         work.putString("command", command.getName());
         work.putString("interpreter", interpreter);
 
@@ -127,16 +153,41 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
 
     @Override
     public void processWork(ListNBT workQueue) {
-        for (INBT t : workQueue) {
-            CompoundNBT work = (CompoundNBT)t;
+        workQueue.stream().filter(n -> n instanceof CompoundNBT && ((CompoundNBT)n).getString("type").equals("command")).forEach(n -> {
+            CompoundNBT work = (CompoundNBT)n;
             Command c = Command.byName(work.getString("command"));
             String[] args = work.getList("args", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
             String[] pretranslations = work.getList("pret", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
-            if (c == null || !c.isServerSide()) continue;
+            if (c == null || !c.isServerSide()) return;
             this.endBuffer(false);
             this.print("> " + work.getString("interpreter"));
             c.s.handle(this, args, pretranslations, work);
-        }
+        });
+        workQueue.stream().filter(n -> n instanceof CompoundNBT && ((CompoundNBT)n).getString("type").equals("prompt")).forEach(n -> {
+            CompoundNBT work = (CompoundNBT)n;
+            switch (work.getString("action")) {
+                case "rmpart":
+                    List<ItemStack> disks = this.cs.computer.getNetworkDisks();
+                    UUID id = work.getUniqueId("part");
+                    StorageInfo.Partition part = this.getPartition(disks, id);
+                    if (part != null) {
+                        ItemStack disk = this.getPartitionDisk(disks, part);
+                        if (disk != null) {
+                            StorageInfo inf = new StorageInfo(disk);
+                            ArrayList<StorageInfo.Partition> partitions = inf.getPartitions();
+                            if (partitions.removeIf(p -> p.id.equals(id))) {
+                                inf.setPartitions(partitions);
+                                this.write(work.getString("success"));
+                                break;
+                            }
+                        }
+                    }
+                    this.write(work.getString("missing"));
+                    break;
+                default:
+                    break;
+            }
+        });
         this.writeOutput(cs.getState());
         this.writeBuffer(cs.getState());
     }
@@ -157,6 +208,9 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 LCCFonts.FIXED_WIDTH.get().drawString(buffer.get(j), x + CONSOLE_OFFSET, y + 4 + (i * 11), 0xD5D5D5);
             }
             LCCFonts.FIXED_WIDTH.get().drawString(new TranslationTextComponent("computing.lcc.console.buffer", this.getBufferPosition() + 1, Math.max(this.buffer.size() - out.length, 0) + 1).getFormattedText(), x + CONSOLE_OFFSET, y + 103, 0xD5D5D5);
+        } else if (this.hasPrompt()) {
+            super.render(ts, partialTicks, x, y);
+            LCCFonts.FIXED_WIDTH.get().drawString("\u2588 " + new TranslationTextComponent("computing.lcc.console.prompt").getFormattedText(), x + CONSOLE_OFFSET, y + 103, 0xD5D5D5);
         } else {
             super.render(ts, partialTicks, x, y);
             String interpreter = this.getInterpreter(ts);
@@ -172,23 +226,26 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     public boolean keyPressed(TerminalSession ts, int p_keyPressed_1_, int p_keyPressed_2_, int p_keyPressed_3_) {
         String interpreter = this.getInterpreter(ts);
         switch (p_keyPressed_1_) {
-            case 265: //up
-            case 266: //page up
-            case 87:  //w
+            case GLFW.GLFW_KEY_UP:
+            case GLFW.GLFW_KEY_PAGE_UP:
+            case GLFW.GLFW_KEY_W:
+                if (this.hasPrompt()) break;
                 if (this.getBufferPosition() > 0) {
                     this.changeBufferPosition(-1);
                     cs.sendState();
                 }
                 break;
-            case 264: //down
-            case 267: //page down
-            case 83:  //s
+            case GLFW.GLFW_KEY_DOWN:
+            case GLFW.GLFW_KEY_PAGE_DOWN:
+            case GLFW.GLFW_KEY_S:
+                if (this.hasPrompt()) break;
                 if (this.hasBufferPosition() && this.getBufferPosition() < buffer.size() - out.length) {
                     this.changeBufferPosition(1);
                     cs.sendState();
                 }
                 break;
-            case 259: //backspace
+            case GLFW.GLFW_KEY_BACKSPACE:
+                if (this.hasPrompt()) break;
                 if (this.hasBufferPosition()) {
                     this.endBuffer(true);
                     cs.sendState();
@@ -197,7 +254,8 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 this.setInterpreter(ts, interpreter.substring(0, Math.max(interpreter.length() - 1, 0)));
                 ts.sendState();
                 break;
-            case 257: //enter
+            case GLFW.GLFW_KEY_ENTER:
+                if (this.hasPrompt()) break;
                 if (this.hasBufferPosition()) {
                     this.endBuffer(true);
                     cs.sendState();
@@ -211,6 +269,24 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 this.writeBuffer(cs.getState());
                 cs.sendState();
                 break;
+            case GLFW.GLFW_KEY_Y:
+                if (this.hasPrompt()) {
+                    this.answer(true);
+                    ts.blockInput = true;
+                }
+                this.writeOutput(cs.getState());
+                this.writeBuffer(cs.getState());
+                cs.sendState();
+                break;
+            case GLFW.GLFW_KEY_N:
+                if (this.hasPrompt()) {
+                    this.answer(false);
+                    ts.blockInput = true;
+                }
+                this.writeOutput(cs.getState());
+                this.writeBuffer(cs.getState());
+                cs.sendState();
+                break;
         }
         return true;
     }
@@ -218,7 +294,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean charTyped(TerminalSession ts, char p_charTyped_1_, int p_charTyped_2_) {
-        if (!this.hasBufferPosition()) {
+        if (!this.hasBufferPosition() && !this.hasPrompt()) {
             String interpreter = this.getInterpreter(ts);
             this.setInterpreter(ts, interpreter + p_charTyped_1_);
             ts.sendState();
@@ -300,7 +376,8 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             String disk = null, partition = null;
             FolderPath path = null;
             if (args.length > 2) {
-                partition = String.join(" ", args);
+                partition = String.join(" ", Arrays.copyOfRange(args, 0, args.length - 1));
+                disk = args[args.length - 1];
             } else if (args.length <= 0) {
                 List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
                 StorageInfo.Partition using = cos.using(disks);
@@ -408,8 +485,55 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             cos.write(String.format(pretranslations[0], newPart.type.getName(), newPart.name, StorageInfo.getShortPartitionId(disks, newPart, true), newPart.size, d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
         }, "computing.lcc.console.mkpart.success", "computing.lcc.console.mkpart.invalid_type", "computing.lcc.console.mkpart.invalid_size", "computing.lcc.console.mkpart.low_space", "computing.lcc.console.mkpart.no_space", "computing.lcc.console.few_args", "computing.lcc.console.mkpart.no_disk", "computing.lcc.console.mkpart.invalid_disk", "computing.lcc.console.mkpart.many_disk"),
         RMPART((cos, args, pretranslations, work) -> {
-
-        }),
+            String disk = null, partition = null;
+            if (args.length > 2) {
+                partition = String.join(" ", Arrays.copyOfRange(args, 0, args.length - 1));
+                disk = args[args.length - 1];
+            } else if (args.length == 2) {
+                partition = args[0];
+                disk = args[1];
+            } else if (args.length == 1) {
+                SystemPath sp = new SystemPath(args[0]);
+                if (sp.valid && sp.disk != null && sp.partition != null) {
+                    disk = sp.disk;
+                    partition = sp.partition;
+                } else {
+                    partition = args[0];
+                }
+            }
+            
+            List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            StorageInfo.Partition p;
+            if (partition == null) {
+                p = cos.using(disks);
+                if (p == null) {
+                    cos.write(pretranslations[6]);
+                    return;
+                }
+            } else {
+                List<StorageInfo.Partition> results = cos.searchPartitions(disks, partition, disk, false);
+                if (results.size() <= 0) {
+                    cos.write(String.format(pretranslations[disk != null && !disk.isEmpty() ? 3 : 2], partition, disk));
+                    return;
+                } else if (results.size() > 1) {
+                    cos.write(String.format(pretranslations[disk != null && !disk.isEmpty() ? 5 : 4], partition, disk));
+                    return;
+                }
+                p = results.get(0);
+            }
+            
+            ItemStack d = cos.getPartitionDisk(disks, p);
+            cos.line("-");
+            cos.scroll();
+            cos.print(String.format(pretranslations[0], p.name, StorageInfo.getShortPartitionId(disks, p, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+            cos.line("-");
+            CompoundNBT w = new CompoundNBT();
+            w.putString("action", "rmpart");
+            w.putUniqueId("part", p.id);
+            w.putString("success", String.format(pretranslations[1], p.name));
+            w.putString("missing", pretranslations[7]);
+            cos.prompt(w);
+        }, "computing.lcc.console.rmpart.prompt", "computing.lcc.console.rmpart.success", "computing.lcc.console.rmpart.no_results", "computing.lcc.console.rmpart.no_results.disk", "computing.lcc.console.rmpart.many_results", "computing.lcc.console.rmpart.many_results.disk", "computing.lcc.console.rmpart.invalid_use", "computing.lcc.console.rmpart.missing"),
         LABEL((cos, args, ts) -> {}),
         RESIZE((cos, args, ts) -> {}),
         INSTALL((cos, args, ts) -> {}),

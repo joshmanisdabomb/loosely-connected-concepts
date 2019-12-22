@@ -132,7 +132,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     }
 
     protected void line(String seq) {
-        print(new String(new char[ROW_CHARS]).replace("\0", seq).substring(0, ROW_CHARS));
+        write(new String(new char[ROW_CHARS]).replace("\0", seq).substring(0, ROW_CHARS));
     }
 
     protected void alignMiddle(String s) {

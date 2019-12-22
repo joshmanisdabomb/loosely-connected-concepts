@@ -130,6 +130,30 @@ public abstract class OperatingSystem {
         return ret;
     }
 
+    protected LinkedHashMap<ItemStack, List<StorageInfo.Partition>> getDiskMap(List<ItemStack> disks, List<StorageInfo.Partition> partitions, Map<ItemStack, String> shortIdsOut, Map<StorageInfo.Partition, String> shortPartitionIdsOut) {
+        Map<ItemStack, String> shortIds = StorageInfo.getShortIds(disks, true);
+        Map<StorageInfo.Partition, String> shortPartitionIds = StorageInfo.getShortPartitionIds(disks, true);
+        if (shortIdsOut != null) {
+            shortIdsOut.clear();
+            shortIdsOut.putAll(shortIds);
+        }
+        if (shortPartitionIdsOut != null) {
+            shortPartitionIdsOut.clear();
+            shortPartitionIdsOut.putAll(shortPartitionIds);
+        }
+
+        return partitions.stream().sorted(SORT_PARTITIONS)
+            .collect(Collectors.toMap(p -> this.getPartitionDisk(disks, p), p -> new ArrayList<>(Collections.singleton(p)), (v1, v2) -> {
+                v1.addAll(v2);
+                return v1;
+            })).entrySet().stream().sorted((o1, o2) -> SORT_DISKS.compare(o1.getKey(), o2.getKey())).collect(Collectors.toMap(
+            Map.Entry::getKey,
+            Map.Entry::getValue,
+            (x,y) -> {throw new AssertionError();},
+            LinkedHashMap::new
+        ));
+    }
+
     protected List<ItemStack> searchDisks(List<ItemStack> disks, String filter, boolean contains) {
         Stream<ItemStack> stream = disks.stream();
 

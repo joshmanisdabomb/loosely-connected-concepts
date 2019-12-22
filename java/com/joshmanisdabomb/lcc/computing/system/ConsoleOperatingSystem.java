@@ -352,10 +352,19 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         }),
         MAP((cos, args, pretranslations, work) -> {
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            String search = String.join(" ", args);
 
             Map<ItemStack, String> shortIds = new HashMap<>();
             Map<StorageInfo.Partition, String> shortPartitionIds = new HashMap<>();
-            LinkedHashMap<ItemStack, List<StorageInfo.Partition>> map = cos.getDiskMap(disks, String.join(" ", args), shortIds, shortPartitionIds, true);
+
+            LinkedHashMap<ItemStack, List<StorageInfo.Partition>> map;
+            SystemPath sp = new SystemPath(search);
+            if (sp.valid && sp.disk != null && sp.partition != null) {
+                List<StorageInfo.Partition> partitions = cos.searchPartitions(disks, sp.partition, sp.disk, false);
+                map = cos.getDiskMap(disks, partitions, shortIds, shortPartitionIds);
+            } else {
+                map = cos.getDiskMap(disks, search, shortIds, shortPartitionIds, true);
+            }
 
             cos.startBuffer();
             for (Map.Entry<ItemStack, List<StorageInfo.Partition>> e : map.entrySet()) {
@@ -366,12 +375,14 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 } else {
                     for (int j = 0; j < e.getValue().size(); j++) {
                         StorageInfo.Partition p = e.getValue().get(j);
-                        cos.alignOrPrint(" " + (j == e.getValue().size() - 1 ? '\u2514' : '\u251C') + " " + p.name + " #" + shortPartitionIds.get(p), p.type.isOS() ? Integer.toString(p.size) : (p.getUsedSpace() + "/" + p.size));
+                        cos.alignOrPrint(" " + (j == e.getValue().size() - 1 ? '\u2514' : '\u251C') + " " + p.name + " #" + shortPartitionIds.get(p), p.type.isOS() ? p.start + ":" + p.size : (p.getUsedSpace() + "/" + p.size));
                     }
                 }
             }
             cos.displayLargeBuffer();
-        }, "computing.lcc.console.map.no_partitions"),
+        },
+            "computing.lcc.console.map.no_partitions"
+        ),
         USE((cos, args, pretranslations, work) -> {
             String disk = null, partition = null;
             FolderPath path = null;
@@ -414,7 +425,15 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 cos.use(using);
                 cos.write(String.format(pretranslations[0], using.name, StorageInfo.getShortPartitionId(disks, using, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
             }
-        }, "computing.lcc.console.use.success", "computing.lcc.console.cd.success", "computing.lcc.console.use.no_results", "computing.lcc.console.use.no_results.disk", "computing.lcc.console.use.many_results", "computing.lcc.console.use.many_results.disk", "computing.lcc.console.use.none"),
+        },
+            "computing.lcc.console.use.success",
+            "computing.lcc.console.cd.success",
+            "computing.lcc.console.use.no_results",
+            "computing.lcc.console.use.no_results.disk",
+            "computing.lcc.console.use.many_results",
+            "computing.lcc.console.use.many_results.disk",
+            "computing.lcc.console.use.none"
+        ),
         LS((cos, args, ts) -> {}),
         CD((cos, args, ts) -> {}),
         MKDIR((cos, args, ts) -> {}),
@@ -447,7 +466,14 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 }
             } catch (NumberFormatException ignored) {}
             String partition = String.join(" ", Arrays.copyOfRange(args, 0, partitionTypeOffset));
-            String disk = args.length <= 2 ? null : String.join(" ", Arrays.copyOfRange(args, partitionTypeOffset + 1, args.length - (size > 0 ? 1 : 0)));
+            String disk = args.length <= (size < 0 ? 2 : 3) ? null : String.join(" ", Arrays.copyOfRange(args, partitionTypeOffset + 1, args.length - (size > 0 ? 1 : 0)));
+            if (disk == null) {
+                SystemPath sp = new SystemPath(partition);
+                if (sp.valid && sp.disk != null && sp.partition != null) {
+                    disk = sp.disk;
+                    partition = sp.partition;
+                }
+            }
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
             ItemStack d;
             if (disk == null) {
@@ -469,6 +495,11 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 d = results.get(0);
             }
             StorageInfo inf = new StorageInfo(d);
+            String finalPartition = partition;
+            if (inf.getPartitions().stream().anyMatch(p -> p.name.equalsIgnoreCase(finalPartition))) {
+                cos.write(String.format(pretranslations[9], partition, d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+                return;
+            }
             int space = inf.getPartitionableSpace();
             if (space <= 0) {
                 cos.write(pretranslations[4]);
@@ -483,15 +514,23 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             inf.addPartition(newPart);
             cos.use(newPart);
             cos.write(String.format(pretranslations[0], newPart.type.getName(), newPart.name, StorageInfo.getShortPartitionId(disks, newPart, true), newPart.size, d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
-        }, "computing.lcc.console.mkpart.success", "computing.lcc.console.mkpart.invalid_type", "computing.lcc.console.mkpart.invalid_size", "computing.lcc.console.mkpart.low_space", "computing.lcc.console.mkpart.no_space", "computing.lcc.console.few_args", "computing.lcc.console.mkpart.no_disk", "computing.lcc.console.mkpart.invalid_disk", "computing.lcc.console.mkpart.many_disk"),
+        },
+            "computing.lcc.console.mkpart.success",
+            "computing.lcc.console.mkpart.invalid_type",
+            "computing.lcc.console.mkpart.invalid_size",
+            "computing.lcc.console.mkpart.low_space",
+            "computing.lcc.console.mkpart.no_space",
+            "computing.lcc.console.few_args",
+            "computing.lcc.console.mkpart.no_disk",
+            "computing.lcc.console.mkpart.invalid_disk",
+            "computing.lcc.console.mkpart.many_disk",
+            "computing.lcc.console.mkpart.existing"
+        ),
         RMPART((cos, args, pretranslations, work) -> {
             String disk = null, partition = null;
-            if (args.length > 2) {
+            if (args.length > 1) {
                 partition = String.join(" ", Arrays.copyOfRange(args, 0, args.length - 1));
                 disk = args[args.length - 1];
-            } else if (args.length == 2) {
-                partition = args[0];
-                disk = args[1];
             } else if (args.length == 1) {
                 SystemPath sp = new SystemPath(args[0]);
                 if (sp.valid && sp.disk != null && sp.partition != null) {
@@ -501,7 +540,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                     partition = args[0];
                 }
             }
-            
+
             List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
             StorageInfo.Partition p;
             if (partition == null) {
@@ -521,7 +560,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 }
                 p = results.get(0);
             }
-            
+
             ItemStack d = cos.getPartitionDisk(disks, p);
             cos.line("-");
             cos.scroll();
@@ -533,10 +572,139 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             w.putString("success", String.format(pretranslations[1], p.name));
             w.putString("missing", pretranslations[7]);
             cos.prompt(w);
-        }, "computing.lcc.console.rmpart.prompt", "computing.lcc.console.rmpart.success", "computing.lcc.console.rmpart.no_results", "computing.lcc.console.rmpart.no_results.disk", "computing.lcc.console.rmpart.many_results", "computing.lcc.console.rmpart.many_results.disk", "computing.lcc.console.rmpart.invalid_use", "computing.lcc.console.rmpart.missing"),
+        },
+            "computing.lcc.console.rmpart.prompt",
+            "computing.lcc.console.rmpart.success",
+            "computing.lcc.console.rmpart.no_results",
+            "computing.lcc.console.rmpart.no_results.disk",
+            "computing.lcc.console.rmpart.many_results",
+            "computing.lcc.console.rmpart.many_results.disk",
+            "computing.lcc.console.rmpart.invalid_use",
+            "computing.lcc.console.rmpart.missing"
+        ),
         LABEL((cos, args, ts) -> {}),
         RESIZE((cos, args, ts) -> {}),
-        INSTALL((cos, args, ts) -> {}),
+        INSTALL((cos, args, pretranslations, work) -> {
+            int sector = -1;
+            int size = -1;
+            if (args.length > 0) {
+                String[] properties = args[0].split(":", 2);
+                try {
+                    sector = Integer.valueOf(properties[0]);
+                    if (sector < 0) {
+                        cos.write(pretranslations[3]);
+                        return;
+                    }
+                    if (sector > cos.getType().size) {
+                        cos.write(String.format(pretranslations[11], cos.getType().size));
+                        return;
+                    }
+                } catch (NumberFormatException ignored) {}
+                if (sector >= 0 && properties.length > 1) {
+                    try {
+                        size = Integer.valueOf(properties[1]);
+                        if (size <= 0) {
+                            cos.write(pretranslations[4]);
+                            return;
+                        }
+                        if (sector + size > cos.getType().size) {
+                            cos.write(String.format(pretranslations[12], cos.getType().size - sector));
+                            return;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+            String partition = null, disk = null;
+            int noSector = sector == -1 ? -1 : 0;
+            if (args.length > 1 + noSector) {
+                SystemPath sp = new SystemPath(String.join(" ", Arrays.copyOfRange(args, 1 + noSector, args.length)));
+                if (sp.valid && sp.disk != null && sp.partition != null) {
+                    disk = sp.disk;
+                    partition = sp.partition;
+                } else {
+                    if (args.length > 2 + noSector) {
+                        disk = String.join(" ", Arrays.copyOfRange(args, 1 + noSector, args.length - 1));
+                        partition = args[args.length - 1];
+                    } else {
+                        disk = args[1 + noSector];
+                    }
+                }
+            }
+            List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            ItemStack d;
+            if (disk == null) {
+                StorageInfo.Partition p = cos.using(disks);
+                if (p == null) {
+                    cos.write(pretranslations[7]);
+                    return;
+                }
+                d = cos.getPartitionDisk(disks, p);
+            } else {
+                List<ItemStack> results = cos.searchDisks(disks, disk, false);
+                if (results.size() <= 0) {
+                    cos.write(String.format(pretranslations[8], disk));
+                    return;
+                } else if (results.size() > 1) {
+                    cos.write(String.format(pretranslations[9], disk));
+                    return;
+                }
+                d = results.get(0);
+            }
+            if (sector < 0) sector = 0;
+            StorageInfo inf = new StorageInfo(d);
+            if (partition == null) {
+                partition = "Console OS";
+                int i = 1;
+                while (true) {
+                    String finalPartition = partition;
+                    if (!inf.getPartitions().stream().anyMatch(p -> p.name.equalsIgnoreCase(finalPartition))) break;
+                    partition = "Console OS " + ++i;
+                }
+            } else {
+                String finalPartition = partition;
+                if (inf.getPartitions().stream().anyMatch(p -> p.name.equalsIgnoreCase(finalPartition))) {
+                    cos.write(String.format(pretranslations[13], partition, d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+                    return;
+                }
+            }
+            if (inf.getPartitions().stream().anyMatch(p -> p.type.isOS() && p.start <= 0 && p.size >= p.type.os.size)) {
+                cos.write(pretranslations[10]);
+                return;
+            }
+            int space = inf.getPartitionableSpace();
+            if (space <= 0) {
+                cos.write(pretranslations[6]);
+                return;
+            }
+            if (size <= 0) size = cos.getType().size - sector;
+            if (size > space) {
+                cos.write(String.format(pretranslations[5], space));
+                return;
+            }
+            StorageInfo.Partition newPart = new StorageInfo.Partition(UUID.randomUUID(), partition, StorageInfo.Partition.PartitionType.OS_CONSOLE, size);
+            newPart.start = sector;
+            inf.addPartition(newPart);
+            cos.write(String.format(pretranslations[sector == 0 && size == cos.getType().size ? 0 : 1], newPart.name, StorageInfo.getShortPartitionId(disks, newPart, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
+            if (sector + size < cos.getType().size) {
+                cos.scroll();
+                cos.write(String.format(pretranslations[2], sector + size, cos.getType().size - (sector + size)));
+            }
+        },
+            "computing.lcc.console.install.success",
+            "computing.lcc.console.install.success.partial",
+            "computing.lcc.console.install.success.partial.continue",
+            "computing.lcc.console.install.invalid_sector",
+            "computing.lcc.console.install.invalid_size",
+            "computing.lcc.console.install.low_space",
+            "computing.lcc.console.install.no_space",
+            "computing.lcc.console.install.no_disk",
+            "computing.lcc.console.install.invalid_disk",
+            "computing.lcc.console.install.many_disk",
+            "computing.lcc.console.install.os_installed",
+            "computing.lcc.console.install.max_sector",
+            "computing.lcc.console.install.max_size",
+            "computing.lcc.console.install.existing"
+        ),
         REBOOT((cos, args, ts) -> {
             cos.cs.computer.session = null;
             cos.cs.computer.session = cos.cs.computer.getSession(ComputingSession::boot);

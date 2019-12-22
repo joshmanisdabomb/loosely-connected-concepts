@@ -271,7 +271,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             }
             cos.displayLargeBuffer();
         }),
-        CLEAR((cos, args, pretranslations) -> {
+        CLEAR((cos, args, ts) -> {
             cos.clear();
         }),
         MAP((cos, args, pretranslations, work) -> {
@@ -338,20 +338,24 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
                 cos.write(String.format(pretranslations[0], using.name, StorageInfo.getShortPartitionId(disks, using, true), d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
             }
         }, "computing.lcc.console.use.success", "computing.lcc.console.cd.success", "computing.lcc.console.use.no_results", "computing.lcc.console.use.no_results.disk", "computing.lcc.console.use.many_results", "computing.lcc.console.use.many_results.disk", "computing.lcc.console.use.none"),
-        LS((cos, ts, args) -> {}),
-        CD((cos, ts, args) -> {}),
-        MKDIR((cos, ts, args) -> {}),
-        HOLD((cos, ts, args) -> {}),
+        LS((cos, args, ts) -> {}),
+        CD((cos, args, ts) -> {}),
+        MKDIR((cos, args, ts) -> {}),
+        HOLD((cos, args, ts) -> {}),
         MKPART((cos, args, pretranslations, work) -> {
             if (args.length < 2) {
                 cos.write(String.format(pretranslations[5], work.getString("interpreter").split(" ", 2)[0]));
                 return;
             }
             StorageInfo.Partition.PartitionType type = null;
-            int partitionTypeOffset;
-            for (partitionTypeOffset = args.length - 2; partitionTypeOffset > 0; partitionTypeOffset--) {
+            int partitionTypeOffset = 1;
+            if (args.length > 2) {
+                for (partitionTypeOffset = args.length - 2; partitionTypeOffset > 0; partitionTypeOffset--) {
+                    type = StorageInfo.Partition.PartitionType.byName(args[partitionTypeOffset]);
+                    if (type != null && !type.isOS()) break;
+                }
+            } else {
                 type = StorageInfo.Partition.PartitionType.byName(args[partitionTypeOffset]);
-                if (type != null && !type.isOS()) break;
             }
             if (type == null || type.isOS()) {
                 cos.write(String.format(pretranslations[1], Arrays.stream(StorageInfo.Partition.PartitionType.values()).filter(p -> !p.isOS()).map(StorageInfo.Partition.PartitionType::getName).collect(Collectors.joining(", "))));
@@ -403,17 +407,17 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
             cos.use(newPart);
             cos.write(String.format(pretranslations[0], newPart.type.getName(), newPart.name, StorageInfo.getShortPartitionId(disks, newPart, true), newPart.size, d.getDisplayName().getFormattedText(), StorageInfo.getShortId(disks, d, true)));
         }, "computing.lcc.console.mkpart.success", "computing.lcc.console.mkpart.invalid_type", "computing.lcc.console.mkpart.invalid_size", "computing.lcc.console.mkpart.low_space", "computing.lcc.console.mkpart.no_space", "computing.lcc.console.few_args", "computing.lcc.console.mkpart.no_disk", "computing.lcc.console.mkpart.invalid_disk", "computing.lcc.console.mkpart.many_disk"),
-        RMPART((cos, args, pretranslations) -> {
+        RMPART((cos, args, pretranslations, work) -> {
 
         }),
-        LABEL((cos, ts, args) -> {}),
-        RESIZE((cos, ts, args) -> {}),
-        INSTALL((cos, ts, args) -> {}),
-        REBOOT((cos, ts, args) -> {
+        LABEL((cos, args, ts) -> {}),
+        RESIZE((cos, args, ts) -> {}),
+        INSTALL((cos, args, ts) -> {}),
+        REBOOT((cos, args, ts) -> {
             cos.cs.computer.session = null;
             cos.cs.computer.session = cos.cs.computer.getSession(ComputingSession::boot);
         }),
-        SHUTDOWN((cos, ts, args) -> {
+        SHUTDOWN((cos, args, ts) -> {
             LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(cos.cs.computer.te.getWorld().getDimension().getType(), cos.cs.computer.te.getPos(), Minecraft.getInstance().player.getUniqueID(), cos.cs.computer.location, cos.cs.computer.powerState = false));
             cos.cs.computer.session = null;
         });

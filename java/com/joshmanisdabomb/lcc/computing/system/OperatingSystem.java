@@ -8,26 +8,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.TriPredicate;
 
 import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class OperatingSystem {
 
-    protected final ComputingSession cs;
+    public final ComputingSession cs;
 
-    private static final TriPredicate<StorageInfo, String, Boolean> FILTER_DISK_BY_ID = (inf, filter, includePartitions) -> (inf.hasUniqueId() && inf.getUniqueId().toString().toLowerCase().replace("-", "").startsWith(filter)) || (includePartitions && inf.getPartitions().stream().anyMatch(p -> p.id.toString().toLowerCase().replace("-", "").startsWith(filter)));
-    private static final TriPredicate<StorageInfo, String, Boolean> FILTER_DISK_BY_NAME_CONTAINS = (inf, filter, includePartitions) -> inf.stack.getDisplayName().getFormattedText().toLowerCase().contains(filter) || (includePartitions && inf.getPartitions().stream().anyMatch(p -> p.name.toLowerCase().contains(filter)));
-    private static final TriPredicate<StorageInfo, String, Boolean> FILTER_DISK_BY_NAME_STARTS = (inf, filter, includePartitions) -> inf.stack.getDisplayName().getFormattedText().toLowerCase().startsWith(filter) || (includePartitions && inf.getPartitions().stream().anyMatch(p -> p.name.toLowerCase().startsWith(filter)));
-    private static final BiPredicate<StorageInfo.Partition, String> FILTER_PARTITION_BY_ID = (part, filter) -> part.hasUniqueId() && part.id.toString().toLowerCase().replace("-", "").startsWith(filter);
-    private static final BiPredicate<StorageInfo.Partition, String> FILTER_PARTITION_BY_NAME_CONTAINS = (part, filter) -> part.name.toLowerCase().contains(filter);
-    private static final BiPredicate<StorageInfo.Partition, String> FILTER_PARTITION_BY_NAME_STARTS = (part, filter) -> part.name.toLowerCase().startsWith(filter);
-
-    private static final Comparator<ItemStack> SORT_DISKS = Comparator.comparing((ItemStack i) -> i.getDisplayName().getFormattedText()).thenComparing(i -> new StorageInfo(i).getUniqueId().toString());
     private static final Comparator<StorageInfo.Partition> SORT_PARTITIONS = Comparator.comparing((StorageInfo.Partition p) -> p.name).thenComparing(p -> p.id.toString());
 
     public OperatingSystem(ComputingSession cs) {
@@ -84,17 +76,38 @@ public abstract class OperatingSystem {
 
     }
 
-    protected ItemStack getDisk(List<ItemStack> disks, UUID id) {
+    public ItemStack getDisk(List<ItemStack> disks, UUID id) {
         return disks.stream().filter(i -> new StorageInfo(i).getUniqueId().equals(id)).findFirst().orElse(null);
     }
 
-    protected StorageInfo.Partition getPartition(List<ItemStack> disks, UUID id) {
+    public StorageInfo.Partition getPartition(List<ItemStack> disks, UUID id) {
         return disks.stream().flatMap(i -> new StorageInfo(i).getPartitions().stream()).filter(p -> p.id.equals(id)).findFirst().orElse(null);
     }
 
-    protected LinkedHashMap<ItemStack, List<StorageInfo.Partition>> getDiskMap(List<ItemStack> disks, String filter, Map<ItemStack, String> shortIdsOut, Map<StorageInfo.Partition, String> shortPartitionIdsOut, boolean contains) {
+    private boolean filterDiskId(StorageInfo inf, String filter, boolean includePartitions) {
+        return (inf.hasUniqueId() && inf.getUniqueId().toString().toLowerCase().replace("-", "").startsWith(filter)) || (includePartitions && inf.getPartitions().stream().anyMatch(p -> p.id.toString().toLowerCase().replace("-", "").startsWith(filter)));
+    }
+
+    private boolean filterDiskName(StorageInfo inf, String filter, BiPredicate<String, String> tester, boolean includePartitions, UnaryOperator<String> translator) {
+        return tester.test(inf.getDisplayName(translator).toLowerCase(), filter) || (includePartitions && inf.getPartitions().stream().anyMatch(p -> filterPartitionName(p, filter, tester)));
+    }
+
+    private boolean filterPartitionId(StorageInfo.Partition part, String filter) {
+        return part.hasUniqueId() && part.id.toString().toLowerCase().replace("-", "").startsWith(filter);
+    }
+
+    private boolean filterPartitionName(StorageInfo.Partition part, String filter, BiPredicate<String, String> tester) {
+        return tester.test(part.name.toLowerCase(), filter);
+    }
+
+    private Comparator<ItemStack> getDiskSorter(UnaryOperator<String> translator) {
+        return Comparator.comparing((ItemStack i) -> new StorageInfo(i).getDisplayName(translator)).thenComparing(i -> new StorageInfo(i).getUniqueId().toString());
+    }
+
+    public LinkedHashMap<ItemStack, List<StorageInfo.Partition>> getDiskMap(List<ItemStack> disks, String filter, Map<ItemStack, String> shortIdsOut, Map<StorageInfo.Partition, String> shortPartitionIdsOut, boolean contains, UnaryOperator<String> translator) {
         Stream<ItemStack> stream = disks.stream();
         boolean filterID = false;
+        BiPredicate<String, String> tester = contains ? String::contains : String::startsWith;
 
         Map<ItemStack, String> shortIds = StorageInfo.getShortIds(disks, true);
         Map<StorageInfo.Partition, String> shortPartitionIds = StorageInfo.getShortPartitionIds(disks, true);
@@ -111,26 +124,26 @@ public abstract class OperatingSystem {
             if (filter.startsWith("#")) {
                 filterID = true;
                 String f = filter = filter.toLowerCase().replaceAll("[^0-9a-f]", "");
-                stream = stream.filter(i -> FILTER_DISK_BY_ID.test(new StorageInfo(i), f, true));
+                stream = stream.filter(i -> filterDiskId(new StorageInfo(i), f, true));
             } else {
                 String f = filter = filter.toLowerCase();
-                stream = stream.filter(i -> (contains ? FILTER_DISK_BY_NAME_CONTAINS : FILTER_DISK_BY_NAME_STARTS).test(new StorageInfo(i), f, true));
+                stream = stream.filter(i -> filterDiskName(new StorageInfo(i), f, tester,true, translator));
             }
         }
         LinkedHashMap<ItemStack, List<StorageInfo.Partition>> ret = new LinkedHashMap<>();
 
         boolean finalFilterID = filterID;
         String f = filter;
-        stream.sorted(SORT_DISKS).forEachOrdered(i -> {
+        stream.sorted(this.getDiskSorter(translator)).forEachOrdered(i -> {
             StorageInfo inf = new StorageInfo(i);
-            List<StorageInfo.Partition> parts = inf.getPartitions().stream().filter(p -> (f == null || f.isEmpty()) || (finalFilterID ? FILTER_DISK_BY_ID.test(inf, f, false) : FILTER_DISK_BY_NAME_CONTAINS.test(inf, f, false)) || (finalFilterID ? FILTER_PARTITION_BY_ID.test(p, f) : FILTER_PARTITION_BY_NAME_CONTAINS.test(p, f))).sorted(SORT_PARTITIONS).collect(Collectors.toList());
+            List<StorageInfo.Partition> parts = inf.getPartitions().stream().filter(p -> (f == null || f.isEmpty()) || (finalFilterID ? filterDiskId(inf, f, false) : filterDiskName(inf, f, tester, false, translator)) || (finalFilterID ? filterPartitionId(p, f) : filterPartitionName(p, f, tester))).sorted(SORT_PARTITIONS).collect(Collectors.toList());
             ret.put(i, parts);
         });
 
         return ret;
     }
 
-    protected LinkedHashMap<ItemStack, List<StorageInfo.Partition>> getDiskMap(List<ItemStack> disks, List<StorageInfo.Partition> partitions, Map<ItemStack, String> shortIdsOut, Map<StorageInfo.Partition, String> shortPartitionIdsOut) {
+    public LinkedHashMap<ItemStack, List<StorageInfo.Partition>> getDiskMap(List<ItemStack> disks, List<StorageInfo.Partition> partitions, Map<ItemStack, String> shortIdsOut, Map<StorageInfo.Partition, String> shortPartitionIdsOut, UnaryOperator<String> translator) {
         Map<ItemStack, String> shortIds = StorageInfo.getShortIds(disks, true);
         Map<StorageInfo.Partition, String> shortPartitionIds = StorageInfo.getShortPartitionIds(disks, true);
         if (shortIdsOut != null) {
@@ -146,7 +159,7 @@ public abstract class OperatingSystem {
             .collect(Collectors.toMap(p -> this.getPartitionDisk(disks, p), p -> new ArrayList<>(Collections.singleton(p)), (v1, v2) -> {
                 v1.addAll(v2);
                 return v1;
-            })).entrySet().stream().sorted((o1, o2) -> SORT_DISKS.compare(o1.getKey(), o2.getKey())).collect(Collectors.toMap(
+            })).entrySet().stream().sorted((o1, o2) -> this.getDiskSorter(translator).compare(o1.getKey(), o2.getKey())).collect(Collectors.toMap(
             Map.Entry::getKey,
             Map.Entry::getValue,
             (x,y) -> {throw new AssertionError();},
@@ -154,38 +167,40 @@ public abstract class OperatingSystem {
         ));
     }
 
-    protected List<ItemStack> searchDisks(List<ItemStack> disks, String filter, boolean contains) {
+    public List<ItemStack> searchDisks(List<ItemStack> disks, String filter, boolean contains, UnaryOperator<String> translator) {
+        BiPredicate<String, String> tester = contains ? String::contains : String::startsWith;
         Stream<ItemStack> stream = disks.stream();
 
         if (filter != null && !filter.isEmpty()) {
             if (filter.startsWith("#")) {
                 String f = filter.toLowerCase().replaceAll("[^0-9a-f]", "");
-                stream = stream.filter(i -> FILTER_DISK_BY_ID.test(new StorageInfo(i), f, false));
+                stream = stream.filter(i -> filterDiskId(new StorageInfo(i), f, false));
             } else {
                 String f = filter.toLowerCase();
-                stream = stream.filter(i -> (contains ? FILTER_DISK_BY_NAME_CONTAINS : FILTER_DISK_BY_NAME_STARTS).test(new StorageInfo(i), f, false));
+                stream = stream.filter(i -> filterDiskName(new StorageInfo(i), f, tester, false, translator));
             }
         }
-        return stream.sorted(SORT_DISKS).collect(Collectors.toList());
+        return stream.sorted(this.getDiskSorter(translator)).collect(Collectors.toList());
     }
 
-    protected List<StorageInfo.Partition> searchPartitions(List<ItemStack> disks, String filter, String diskFilter, boolean contains) {
-        disks = this.searchDisks(disks, diskFilter, contains);
+    public List<StorageInfo.Partition> searchPartitions(List<ItemStack> disks, String filter, String diskFilter, boolean contains, UnaryOperator<String> translator) {
+        BiPredicate<String, String> tester = contains ? String::contains : String::startsWith;
+        disks = this.searchDisks(disks, diskFilter, contains, translator);
 
         Stream<StorageInfo.Partition> stream = disks.stream().flatMap(d -> new StorageInfo(d).getPartitions().stream());
         if (filter != null && !filter.isEmpty()) {
             if (filter.startsWith("#")) {
                 String f = filter.toLowerCase().replaceAll("[^0-9a-f]", "");
-                stream = stream.filter(p -> FILTER_PARTITION_BY_ID.test(p, f));
+                stream = stream.filter(p -> filterPartitionId(p, f));
             } else {
                 String f = filter.toLowerCase();
-                stream = stream.filter(p -> (contains ? FILTER_PARTITION_BY_NAME_CONTAINS : FILTER_PARTITION_BY_NAME_STARTS).test(p, f));
+                stream = stream.filter(p -> filterPartitionName(p, f, tester));
             }
         }
         return stream.sorted(SORT_PARTITIONS).collect(Collectors.toList());
     }
 
-    protected ItemStack getPartitionDisk(List<ItemStack> disks, StorageInfo.Partition p) {
+    public ItemStack getPartitionDisk(List<ItemStack> disks, StorageInfo.Partition p) {
         return disks.stream().filter(i -> new StorageInfo(i).getPartitions().contains(p)).findFirst().orElse(null);
     }
 

@@ -7,10 +7,13 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class StorageInfo implements ShortenableUniqueIdentifier {
@@ -51,6 +54,18 @@ public class StorageInfo implements ShortenableUniqueIdentifier {
     public StorageInfo setName(String name) {
         tag.putString("name", name);
         return this;
+    }
+
+    public String getDisplayName(UnaryOperator<String> translator) {
+        if (this.hasName()) return this.getName();
+        CompoundNBT display = stack.getChildTag("display");
+        if (display != null) {
+            ITextComponent anvilName = ITextComponent.Serializer.fromJson(display.getString("Name"));
+            if (anvilName != null) {
+                return anvilName.getFormattedText();
+            }
+        }
+        return translator == null ? stack.getDisplayName().getFormattedText() : translator.apply(stack.getTranslationKey());
     }
 
     public boolean hasColor() {
@@ -150,6 +165,20 @@ public class StorageInfo implements ShortenableUniqueIdentifier {
         parts.add(partition);
         tag.put("partitions", parts);
 
+        return this;
+    }
+
+    public StorageInfo changePartition(Partition part) {
+        ArrayList<Partition> partitions = this.getPartitions();
+        if (partitions.remove(part)) partitions.add(part);
+        this.setPartitions(partitions);
+        return this;
+    }
+
+    public StorageInfo removePartition(Partition part) {
+        ArrayList<Partition> partitions = this.getPartitions();
+        partitions.remove(part);
+        this.setPartitions(partitions);
         return this;
     }
 

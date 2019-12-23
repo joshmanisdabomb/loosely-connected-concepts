@@ -48,11 +48,11 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         }
     }
 
-    protected void readOutput(CompoundNBT nbt) {
+    public void readOutput(CompoundNBT nbt) {
         if (nbt.contains(this.getType() + ".output", Constants.NBT.TAG_LIST)) this.out = nbt.getList(this.getType() + ".output", Constants.NBT.TAG_STRING).stream().map(INBT::getString).toArray(String[]::new);
     }
 
-    protected void writeOutput(CompoundNBT nbt) {
+    public void writeOutput(CompoundNBT nbt) {
         ListNBT a = new ListNBT();
         for (int i = 0; i < out.length; i++) {
             a.add(new StringNBT(out[i] != null ? out[i] : ""));
@@ -60,11 +60,11 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         nbt.put(this.getType() + ".output", a);
     }
 
-    protected void readBuffer(CompoundNBT nbt) {
+    public void readBuffer(CompoundNBT nbt) {
         if (nbt.contains(this.getType() + ".buffer", Constants.NBT.TAG_LIST)) this.buffer = nbt.getList(this.getType() + ".buffer", Constants.NBT.TAG_STRING).stream().map(INBT::getString).collect(Collectors.toCollection(ArrayList::new));
     }
 
-    protected void writeBuffer(CompoundNBT nbt) {
+    public void writeBuffer(CompoundNBT nbt) {
         ListNBT a = new ListNBT();
         nbt.remove(this.getType() + ".buffer");
         if (buffer != null) {
@@ -75,7 +75,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         }
     }
 
-    protected void write(String s) {
+    public void write(String s) {
         List<String> lines = LCCFonts.FIXED_WIDTH.get().listFormattedStringToWidth(s, CONSOLE_WIDTH);
         if (buffer == null) {
             int k = out.length - 1;
@@ -96,11 +96,11 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void writet(String key, Object... format) {
+    public void writet(String key, Object... format) {
         write(new TranslationTextComponent(key, format).getFormattedText());
     }
 
-    protected void scroll(int lines) {
+    public void scroll(int lines) {
         if (buffer == null) {
             if (lines < out.length) {
                 System.arraycopy(out, lines, out, 0, out.length - lines);
@@ -117,37 +117,37 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         }
     }
 
-    protected void scroll() {
+    public void scroll() {
         this.scroll(1);
     }
 
-    protected void print(String s) {
+    public void print(String s) {
         write(s);
         scroll();
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void printt(String key, Object... format) {
+    public void printt(String key, Object... format) {
         print(new TranslationTextComponent(key, format).getFormattedText());
     }
 
-    protected void line(String seq) {
+    public void line(String seq) {
         write(new String(new char[ROW_CHARS]).replace("\0", seq).substring(0, ROW_CHARS));
     }
 
-    protected void alignMiddle(String s) {
+    public void alignMiddle(String s) {
         align("", s, "");
     }
 
-    protected void alignRight(String s) {
+    public void alignRight(String s) {
         align("", "", s);
     }
 
-    protected boolean align(String left, String right) {
+    public boolean align(String left, String right) {
         return align(left, "", right);
     }
 
-    protected boolean align(String left, String middle, String right) {
+    public boolean align(String left, String middle, String right) {
         int rightPos = ROW_CHARS - right.length();
         int middlePos = (int)Math.floor((ROW_CHARS / 2F) - (middle.length() / 2F));
         char[] row = new char[ROW_CHARS];
@@ -169,26 +169,26 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         return true;
     }
 
-    protected void alignFallback(String left, String right, BiConsumer<String, String> fallback) {
+    public void alignFallback(String left, String right, BiConsumer<String, String> fallback) {
         if (!align(left, right)) {
             fallback.accept(left, right);
         }
     }
 
-    protected void alignFallback(String left, String middle, String right, TriConsumer<String, String, String> fallback) {
+    public void alignFallback(String left, String middle, String right, TriConsumer<String, String, String> fallback) {
         if (!align(left, middle, right)) {
             fallback.accept(left, middle, right);
         }
     }
 
-    protected void alignOrPrint(String left, String right) {
+    public void alignOrPrint(String left, String right) {
         this.alignFallback(left, right, (l, r) -> {
             print(l);
             print(r);
         });
     }
 
-    protected void alignOrPrint(String left, String middle, String right) {
+    public void alignOrPrint(String left, String middle, String right) {
         this.alignFallback(left, middle, right, (l, m, r) -> {
             print(l);
             print(m);
@@ -196,16 +196,16 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         });
     }
 
-    protected void clear() {
+    public void clear() {
         out = new String[out.length];
     }
 
-    protected void startBuffer() {
+    public void startBuffer() {
         buffer = new ArrayList<>();
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected ArrayList<String> endBuffer(boolean output) {
+    public ArrayList<String> endBuffer(boolean output) {
         ArrayList<String> b = buffer;
         buffer = null;
         if (output) {

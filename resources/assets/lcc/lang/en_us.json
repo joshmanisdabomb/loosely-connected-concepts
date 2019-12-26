@@ -118,6 +118,7 @@
   "block.lcc.spreader_interface.throughLiquid": "Liquid",
   "block.lcc.spreader_interface.throughAir": "Air",
 
+  "block.lcc.atomic_bomb": "Atomic Bomb",
   "block.lcc.nuclear_waste": "Nuclear Debris",
 
   "item.lcc.gauntlet": "Doom Gauntlet",

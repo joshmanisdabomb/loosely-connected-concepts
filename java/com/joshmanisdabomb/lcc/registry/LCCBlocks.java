@@ -54,6 +54,7 @@ public abstract class LCCBlocks {
 	public static OilBlock oil;
 
 	//Nuclear
+	public static AtomicBombBlock atomic_bomb;
 	public static NuclearWasteBlock nuclear_waste;
 	public static NuclearFireBlock nuclear_fire;
 
@@ -155,6 +156,8 @@ public abstract class LCCBlocks {
 		all.add((oil = new OilBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).hardnessAndResistance(100.0F).noDrops())).setRegistryName(LCC.MODID, "oil"));
 
 		//Nuclear
+		all.add((atomic_bomb = new AtomicBombBlock(Block.Properties.create(Material.ANVIL, MaterialColor.IRON).hardnessAndResistance(9.0F, 1200.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2).sound(SoundType.ANVIL))).setRegistryName(LCC.MODID, "atomic_bomb"));
+		createDefaultBlockItem(atomic_bomb);
 		all.add((nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL))).setRegistryName(LCC.MODID, "nuclear_waste"));
 		createDefaultBlockItem(nuclear_waste);
 		all.add((nuclear_fire = new NuclearFireBlock(Block.Properties.create(Material.FIRE, DyeColor.LIME).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).lightValue(15).sound(SoundType.CLOTH).noDrops())).setRegistryName(LCC.MODID, "nuclear_fire"));

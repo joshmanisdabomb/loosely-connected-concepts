@@ -160,7 +160,8 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.oil_bucket, LCCGroupCategory.WASTELAND, 10);
 
         //Nuclear TODO: lump in with explosives
-        set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 0);
+        set(LCCBlocks.atomic_bomb, LCCGroupCategory.NUCLEAR, 0);
+        set(LCCBlocks.nuclear_waste, LCCGroupCategory.NUCLEAR, 100);
 
         //Computing
         set(LCCItems.microchip, LCCGroupCategory.COMPUTING, -1000);

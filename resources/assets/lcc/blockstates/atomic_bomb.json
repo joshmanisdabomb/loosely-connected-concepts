@@ -1,0 +1,32 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "1": "lcc:block/atomic_bomb/tail_side",
+            "2": "lcc:block/atomic_bomb/tail",
+            "3": "lcc:block/atomic_bomb/fin",
+            "4": "lcc:block/atomic_bomb/core",
+            "5": "lcc:block/atomic_bomb/head",
+            "particle": "lcc:block/atomic_bomb/tail"
+        }
+    },
+    "variants": {
+        "facing": {
+            "north": {},
+            "east": { "y": 90 },
+            "south": { "y": 180 },
+            "west": { "y": 270 }
+        },
+        "segment": {
+            "front": {
+                "model": "lcc:block/atomic_bomb_2"
+            },
+            "middle": {
+                "model": "lcc:block/atomic_bomb_1"
+            },
+            "back": {
+                "model": "lcc:block/atomic_bomb_0"
+            }
+        }
+    }
+}

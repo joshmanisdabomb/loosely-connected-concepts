@@ -10,7 +10,6 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
@@ -27,7 +26,7 @@ public class AtomicBombScreen extends ContainerScreen<AtomicBombContainer> {
     public AtomicBombScreen(AtomicBombContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
         this.xSize = 176;
-        this.ySize = 173;
+        this.ySize = 171;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class AtomicBombScreen extends ContainerScreen<AtomicBombContainer> {
             LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new AtomicBombDetonateEvent(container.te.getWorld().getDimension().getType(), container.te.getPos(), playerInventory.player.getUniqueID()));
             minecraft.player.closeScreen();
             return -1;
-        }, (x, y) -> this.renderTooltip(I18n.format("gui.lcc.atomic_bomb.detonate"), x, y), GUI, this.guiLeft + 77, this.guiTop + 53, 88, 0, 173));
+        }, (x, y) -> this.renderTooltip(I18n.format("gui.lcc.atomic_bomb.detonate"), x, y), GUI, this.guiLeft + 77, this.guiTop + 47, 88, 0, 171));
         this.buttonDetonate.active = container.te.canDetonate();
     }
 
@@ -82,7 +81,7 @@ public class AtomicBombScreen extends ContainerScreen<AtomicBombContainer> {
         @Override
         protected void onRenderButton() {
             if (this.active && this.isHovered()) {
-                Color c = new Color(Color.HSBtoRGB((float)((Math.cos(((System.currentTimeMillis() % 2000) / 2000F) * Math.PI * 2) * 0.04F) + 0.11F), 0.8F, 1.0F));
+                Color c = new Color(Color.HSBtoRGB((float)((Math.cos(((System.currentTimeMillis() % 2000) / 2000F) * Math.PI * 2) * 0.03F) + 0.11F), 0.8F, 1.0F));
                 GlStateManager.color4f(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F, 1.0F);
             } else {
                 super.onRenderButton();

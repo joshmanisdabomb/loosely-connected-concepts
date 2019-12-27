@@ -100,7 +100,7 @@ public interface LCCContainerHelper {
                     }
                 } else {
                     boolean machineOutput = !slot.isItemValid(stack);
-                    if (!this.mergeStack(player.inventory, true, slot, container.inventorySlots, !machineOutput)) {
+                    if (!this.mergeStack(player.inventory, true, slot, container.inventorySlots, machineOutput)) {
                         return ItemStack.EMPTY;
                     } else {
                         return copy;
@@ -151,10 +151,18 @@ public interface LCCContainerHelper {
             idx = reverse ? len - 1 : 0;
             while (reverse ? idx >= 0 : idx < len) {
                 SlotItemHandler targetSlot = (SlotItemHandler)slots.get(idx);
-                if ((targetSlot.getItemHandler() instanceof InvWrapper && ((InvWrapper)targetSlot.getItemHandler()).getInv() == playerInv) == mergeIntoPlayer
-                    && !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
-                    targetSlot.putStack(sourceStack);
-                    sourceSlot.putStack(ItemStack.EMPTY);
+                if ((targetSlot.getItemHandler() instanceof InvWrapper && ((InvWrapper)targetSlot.getItemHandler()).getInv() == playerInv) == mergeIntoPlayer && !targetSlot.getHasStack() && targetSlot.isItemValid(sourceStack)) {
+                    int toTransfer = Math.min(targetSlot.getSlotStackLimit(), sourceStack.getCount());
+                    if (toTransfer > 0) {
+                        ItemStack target = sourceStack.copy();
+                        target.setCount(toTransfer);
+                        targetSlot.putStack(target);
+                        sourceStack.shrink(toTransfer);
+                        targetSlot.onSlotChanged();
+                    }
+                    if (sourceStack.isEmpty()) {
+                        sourceSlot.putStack(ItemStack.EMPTY);
+                    }
                     return true;
                 }
 

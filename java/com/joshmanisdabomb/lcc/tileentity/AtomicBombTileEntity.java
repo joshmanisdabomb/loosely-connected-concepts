@@ -47,6 +47,11 @@ public class AtomicBombTileEntity extends TileEntity implements INamedContainerP
         protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
             return 1;
         }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
     });
 
     public AtomicBombTileEntity() {

@@ -31,7 +31,7 @@ public class AtomicBombContainer extends Container implements LCCContainerHelper
             sm.addSlots(h, 72, 22, 2, 5, 1);
         });
 
-        sm.addPlayerSlots(new InvWrapper(inv), 8, 91);
+        sm.addPlayerSlots(new InvWrapper(inv), 8, 89);
     }
 
     @Override
@@ -41,7 +41,6 @@ public class AtomicBombContainer extends Container implements LCCContainerHelper
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity player, int slotID) {
-        System.out.println("hello");
         return sm.transferStackInSlot(player, slotID);
     }
 

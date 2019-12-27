@@ -195,6 +195,11 @@ public class ComputingModule {
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
                 return 1;
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 17, 27, 0);
             sm.addSlots(moduleInventory, 41, 27, 1, 4, 1);
@@ -216,6 +221,11 @@ public class ComputingModule {
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
                 return 1;
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -232,6 +242,11 @@ public class ComputingModule {
 
             @Override
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
                 return 1;
             }
         }), (sm, moduleInventory) -> {
@@ -252,6 +267,11 @@ public class ComputingModule {
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
                 return 1;
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -270,6 +290,11 @@ public class ComputingModule {
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
                 return 1;
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return 1;
+            }
         }), (sm, moduleInventory) -> {
             sm.addSlot(moduleInventory, 80, 22, 0);
         }, 8, 58),
@@ -286,6 +311,11 @@ public class ComputingModule {
 
             @Override
             protected int getStackLimit(int slot, @Nonnull ItemStack stack) {
+                return 1;
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
                 return 1;
             }
         }), (sm, moduleInventory) -> {

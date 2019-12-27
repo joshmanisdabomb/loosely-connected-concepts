@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.gui;
+package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;

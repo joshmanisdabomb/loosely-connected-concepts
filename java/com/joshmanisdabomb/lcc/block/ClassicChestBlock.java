@@ -172,7 +172,7 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
     }
 
     public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
-        return 0;//Container.calcRedstoneFromInventory(this.get(blockState, worldIn, pos, false, INVENTORY));
+        return 0;// TODO Container.calcRedstoneFromInventory(this.get(blockState, worldIn, pos, false, INVENTORY));
     }
 
     public BlockState rotate(BlockState state, Rotation rot) {

@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.AbstractSlider;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -48,8 +47,8 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
 
     private HashMap<DyeColor, Widget[]> tabWidgets = new HashMap<>();
 
-    private SpriteButton buttonConfirm;
-    private SpriteButton buttonCancel;
+    private FunctionalSpriteButton buttonConfirm;
+    private FunctionalSpriteButton buttonCancel;
 
     private final HashMap<Object, Integer> costs = new HashMap<>();
 
@@ -70,33 +69,19 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
     @Override
     protected void init() {
         super.init();
-        this.buttonConfirm = this.addButton(new SpriteButton(this.guiLeft + 171, this.guiTop + 111, 88) {
-            @Override
-            public void onPress() {
-                if (!SpreaderInterfaceScreen.this.playerInventory.player.isCreative()) {
-                    SpreaderCapability.subtractCosts(SpreaderInterfaceScreen.this.playerInventory, SpreaderInterfaceScreen.this.costs);
-                }
-                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new SpreaderInterfaceUpdatePacket(SpreaderInterfaceScreen.this.playerInventory.player.getUniqueID(), SpreaderInterfaceScreen.this.newSettings));
-                SpreaderInterfaceScreen.this.minecraft.player.closeScreen();
+        this.buttonConfirm = this.addButton(new FunctionalSpriteButton(() -> {
+            if (playerInventory.player.isCreative()) {
+                SpreaderCapability.subtractCosts(playerInventory, costs);
             }
-
-            @Override
-            public void renderToolTip(int x, int y) {
-                SpreaderInterfaceScreen.this.renderTooltip(I18n.format("gui.done"), x, y);
-            }
-        });
+            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new SpreaderInterfaceUpdatePacket(playerInventory.player.getUniqueID(), newSettings));
+            minecraft.player.closeScreen();
+            return -1;
+        }, (x,y) -> this.renderTooltip(I18n.format("gui.done"), x, y), GUI, this.guiLeft + 171, this.guiTop + 111, 88, 0, 231));
         this.buttonConfirm.active = playerInventory.player.isCreative();
-        this.buttonCancel = this.addButton(new SpriteButton(this.guiLeft + 196, this.guiTop + 111, 110) {
-            @Override
-            public void onPress() {
-                SpreaderInterfaceScreen.this.minecraft.player.closeScreen();
-            }
-
-            @Override
-            public void renderToolTip(int x, int y) {
-                SpreaderInterfaceScreen.this.renderTooltip(I18n.format("gui.cancel"), x, y);
-            }
-        });
+        this.buttonCancel = this.addButton(new FunctionalSpriteButton(() -> {
+            minecraft.player.closeScreen();
+            return -1;
+        }, (x,y) -> this.renderTooltip(I18n.format("gui.cancel"), x, y), GUI, this.guiLeft + 196, this.guiTop + 111, 110, 0, 231));
         this.buttonCancel.active = true;
         for (DyeColor color : DyeColor.values()) {
             Widget[] widgets = new Widget[8];
@@ -359,32 +344,6 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         } else {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
-    }
-
-    private abstract class SpriteButton extends AbstractButton {
-
-        private final int ix;
-
-        public SpriteButton(int x, int y, int ix) {
-            super(x, y, 22, 22, "");
-            this.ix = ix;
-        }
-
-        @Override
-        public void renderButton(int mouseX, int mouseY, float partialTicks) {
-            Minecraft.getInstance().getTextureManager().bindTexture(GUI);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int blit = 0;
-            if (!this.active) {
-                blit += this.width * 2;
-            } else if (this.isHovered()) {
-                blit += this.width * 3;
-            }
-
-            this.blit(this.x, this.y, blit, 231, this.width, this.height);
-            this.blit(this.x, this.y, this.ix, 231, 22, 22);
-        }
-
     }
 
     private abstract class IntSlider extends AbstractSlider {

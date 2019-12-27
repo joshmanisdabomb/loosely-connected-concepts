@@ -20,6 +20,8 @@ public abstract class LCCTileEntities {
 
     public static TileEntityType<?> spreader_interface;
 
+    public static TileEntityType<?> atomic_bomb;
+
     public static TileEntityType<?> bounce_pad;
 
     public static TileEntityType<?> computing;
@@ -37,6 +39,7 @@ public abstract class LCCTileEntities {
         all.add(time_rift = TileEntityType.Builder.create(TimeRiftTileEntity::new, LCCBlocks.time_rift).build(null).setRegistryName(LCC.MODID, "time_rift"));
         all.add(classic_chest = TileEntityType.Builder.create(ClassicChestTileEntity::new, LCCBlocks.classic_chest).build(null).setRegistryName(LCC.MODID, "classic_chest"));
         all.add(nether_reactor = TileEntityType.Builder.create(NetherReactorTileEntity::new, LCCBlocks.nether_reactor).build(null).setRegistryName(LCC.MODID, "nether_reactor"));
+        all.add(atomic_bomb = TileEntityType.Builder.create(AtomicBombTileEntity::new, LCCBlocks.atomic_bomb).build(null).setRegistryName(LCC.MODID, "atomic_bomb"));
     }
 
     @OnlyIn(Dist.CLIENT)

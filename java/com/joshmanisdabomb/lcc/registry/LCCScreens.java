@@ -1,14 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
-import com.joshmanisdabomb.lcc.container.ClassicChestContainer;
-import com.joshmanisdabomb.lcc.container.ComputingContainer;
-import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
-import com.joshmanisdabomb.lcc.container.TerminalContainer;
-import com.joshmanisdabomb.lcc.gui.ComputerScreen;
-import com.joshmanisdabomb.lcc.gui.DriveScreen;
-import com.joshmanisdabomb.lcc.gui.TerminalScreen;
-import com.joshmanisdabomb.lcc.gui.inventory.ClassicChestScreen;
-import com.joshmanisdabomb.lcc.gui.inventory.SpreaderInterfaceScreen;
+import com.joshmanisdabomb.lcc.container.*;
+import com.joshmanisdabomb.lcc.gui.inventory.*;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -41,6 +34,7 @@ public abstract class LCCScreens {
             }
         });
         ScreenManager.registerFactory((ContainerType<TerminalContainer>)LCCContainers.terminal, TerminalScreen::new);
+        ScreenManager.registerFactory((ContainerType<AtomicBombContainer>)LCCContainers.atomic_bomb, AtomicBombScreen::new);
     }
 
 }

@@ -372,6 +372,7 @@
 
   "gui.lcc.computer.on": "Turn On",
   "gui.lcc.computer.off": "Turn Off",
+  "gui.lcc.atomic_bomb.detonate": "Detonate",
 
   "computing.lcc.bios": "BIOS",
   "computing.lcc.console": "Console OS",

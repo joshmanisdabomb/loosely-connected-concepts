@@ -1,29 +1,35 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.block.shapes.RotatableShape;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.HorizontalBlock;
+import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;
+import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class AtomicBombBlock extends Block {
+public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
 
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final EnumProperty<Segment> SEGMENT = EnumProperty.create("segment", Segment.class);
@@ -61,6 +67,44 @@ public class AtomicBombBlock extends Block {
         builder.add(FACING, SEGMENT);
     }
 
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+        return new AtomicBombTileEntity();
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return state.get(SEGMENT) == Segment.MIDDLE;
+    }
+
+    @Override
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(this.middle(state.get(SEGMENT), state.get(FACING), pos));
+            if (tileEntity instanceof INamedContainerProvider) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, buf -> {
+                    buf.writeBlockPos(tileEntity.getPos());
+                });
+            } else {
+                throw new IllegalStateException("Named container provider missing.");
+            }
+            return true;
+        }
+        return true;
+    }
+
+    private BlockPos middle(Segment s, Direction facing, BlockPos pos) {
+        switch (s) {
+            case FRONT:
+                return pos.offset(facing.getOpposite());
+            case BACK:
+                return pos.offset(facing);
+            default:
+                return pos;
+        }
+    }
+
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch (state.get(SEGMENT)) {
@@ -82,6 +126,32 @@ public class AtomicBombBlock extends Block {
             world.notifyNeighbors(pos, Blocks.AIR);
             state.updateNeighbors(world, pos, 3);
         }
+        if (stack.hasDisplayName()) {
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof AtomicBombTileEntity) {
+                ((AtomicBombTileEntity)tileentity).customName = stack.getDisplayName();
+            }
+        }
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            TileEntity te = world.getTileEntity(pos);
+            if (te instanceof AtomicBombTileEntity) {
+                ((AtomicBombTileEntity)te).inventory.ifPresent(h -> {
+                    for (int i = 0; i < h.getSlots(); i++) {
+                        InventoryHelper.spawnItemStack(world, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), h.extractItem(i, 64, false));
+                    }
+                });
+                world.updateComparatorOutputLevel(pos, this);
+            }
+            super.onReplaced(state, world, pos, newState, isMoving);
+        }
+    }
+
+    public BlockRenderType getRenderType(BlockState p_149645_1_) {
+        return BlockRenderType.MODEL;
     }
 
     @Override

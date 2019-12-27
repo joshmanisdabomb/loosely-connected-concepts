@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.gui;
+package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
@@ -7,9 +7,8 @@ import com.joshmanisdabomb.lcc.container.ComputingContainer;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.AbstractButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -19,11 +18,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 @OnlyIn(Dist.CLIENT)
-public class ComputerScreen extends ComputingScreen {
+public class ComputerScreen extends ContainerScreen<ComputingContainer> {
 
     public static final ResourceLocation GUI = new ResourceLocation(LCC.MODID, "textures/gui/container/computer.png");
 
-    private SpriteButton buttonPower;
+    private FunctionalSpriteButton buttonPower;
 
     public ComputerScreen(ComputingContainer container, PlayerInventory playerInv, ITextComponent textComponent) {
         super(container, playerInv, textComponent);
@@ -35,21 +34,13 @@ public class ComputerScreen extends ComputingScreen {
     protected void init() {
         super.init();
 
-        this.buttonPower = this.addButton(new SpriteButton(this.guiLeft + 77, this.guiTop + 58, this.container.module.powerState ? 110 : 88) {
-            @Override
-            public void onPress() {
-                ComputingModule m = ComputerScreen.this.container.module;
-                m.powerState = !m.powerState;
-                m.session = m.getSession(ComputingSession::boot);
-                this.ix = m.powerState ? 110 : 88;
-                LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(ComputerScreen.this.container.te.getWorld().getDimension().getType(), ComputerScreen.this.container.te.getPos(), ComputerScreen.this.playerInventory.player.getUniqueID(), ComputerScreen.this.container.location, m.powerState));
-            }
-
-            @Override
-            public void renderToolTip(int x, int y) {
-                ComputerScreen.this.renderTooltip(I18n.format("gui.lcc.computer." + (!ComputerScreen.this.container.module.powerState ? "on" : "off")), x, y);
-            }
-        });
+        this.buttonPower = this.addButton(new FunctionalSpriteButton(() -> {
+            ComputingModule m = ComputerScreen.this.container.module;
+            m.powerState = !m.powerState;
+            m.session = m.getSession(ComputingSession::boot);
+            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new ComputerPowerPacket(container.te.getWorld().getDimension().getType(), container.te.getPos(), playerInventory.player.getUniqueID(), container.location, m.powerState));
+            return m.powerState ? 110 : 88;
+        }, (x,y) -> this.renderTooltip(I18n.format("gui.lcc.computer." + (!container.module.powerState ? "on" : "off")), x, y), GUI,this.guiLeft + 77, this.guiTop + 58, this.container.module.powerState ? 110 : 88, 0, 178));
         this.buttonPower.active = true;
     }
 
@@ -77,34 +68,6 @@ public class ComputerScreen extends ComputingScreen {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(GUI);
         this.blit(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
-    }
-
-    private abstract class SpriteButton extends AbstractButton {
-
-        public int ix;
-
-        public SpriteButton(int x, int y, int ix) {
-            super(x, y, 22, 22, "");
-            this.ix = ix;
-        }
-
-        @Override
-        public void renderButton(int mouseX, int mouseY, float partialTicks) {
-            Minecraft.getInstance().getTextureManager().bindTexture(GUI);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            int blit = 0;
-            if (!this.active) {
-                blit += this.width * 2;
-            } else if (this.isHovered()) {
-                blit += this.width * 3;
-            }
-
-            this.blit(this.x, this.y, blit, 178, this.width, this.height);
-            GlStateManager.enableBlend();
-            this.blit(this.x, this.y, this.ix, 178, 22, 22);
-            GlStateManager.disableBlend();
-        }
-
     }
 
 }

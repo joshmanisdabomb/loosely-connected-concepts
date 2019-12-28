@@ -366,6 +366,8 @@
   "entity.lcc.nuclear_explosion": "Nuclear Explosion",
   "entity.lcc.classic_tnt": "Classic TNT",
   "entity.lcc.classic_zombie_pigman": "Classic Zombie Pigman",
+  "entity.lcc.atomic_bomb": "Atomic Bomb",
+  "entity.lcc.hitbox": "Internal Hitbox",
   
   "subtitle.lcc.block.hydrated_soul_sand.jump": "Hydrated Soul Sand squelches",
   "subtitle.lcc.block.bounce_pad.jump": "Bounce Pad protracts",

@@ -79,6 +79,13 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
     }
 
     @Override
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+        if (worldIn.isBlockPowered(pos)) {
+            this.detonate(state, worldIn, pos, null);
+        }
+    }
+
+    @Override
     public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(this.middle(state.get(SEGMENT), state.get(FACING), pos));
@@ -92,6 +99,15 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
             return true;
         }
         return true;
+    }
+
+    protected void detonate(BlockState state, World world, BlockPos pos, PlayerEntity entity) {
+        if (!world.isRemote) {
+            TileEntity te = world.getTileEntity(this.middle(state.get(SEGMENT), state.get(FACING), pos));
+            if (te instanceof AtomicBombTileEntity) {
+                ((AtomicBombTileEntity)te).detonate(entity);
+            }
+        }
     }
 
     private BlockPos middle(Segment s, Direction facing, BlockPos pos) {

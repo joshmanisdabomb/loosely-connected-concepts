@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.container.AtomicBombContainer;
-import com.joshmanisdabomb.lcc.network.AtomicBombDetonateEvent;
+import com.joshmanisdabomb.lcc.network.AtomicBombDetonatePacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -34,7 +34,7 @@ public class AtomicBombScreen extends ContainerScreen<AtomicBombContainer> {
         super.init();
 
         this.buttonDetonate = this.addButton(new DetonateButton(() -> {
-            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new AtomicBombDetonateEvent(container.te.getWorld().getDimension().getType(), container.te.getPos(), playerInventory.player.getUniqueID()));
+            LCCPacketHandler.send(PacketDistributor.SERVER.noArg(), new AtomicBombDetonatePacket(container.te.getWorld().getDimension().getType(), container.te.getPos(), playerInventory.player.getUniqueID()));
             minecraft.player.closeScreen();
             return -1;
         }, (x, y) -> this.renderTooltip(I18n.format("gui.lcc.atomic_bomb.detonate"), x, y), GUI, this.guiLeft + 77, this.guiTop + 47, 88, 0, 171));

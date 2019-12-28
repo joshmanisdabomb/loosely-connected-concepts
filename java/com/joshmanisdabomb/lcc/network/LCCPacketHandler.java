@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class LCCPacketHandler {
 
-    public static final String PROTOCOL_VERSION = "5";
+    public static final String PROTOCOL_VERSION = "6";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(LCC.MODID, "main"),
         () -> PROTOCOL_VERSION,
@@ -22,7 +22,6 @@ public class LCCPacketHandler {
     public static void init() {
         int id = -1;
         INSTANCE.registerMessage(++id, HeartsUpdatePacket.class, HeartsUpdatePacket::encode, HeartsUpdatePacket::decode, LCCPacketHandler::pass);
-        INSTANCE.registerMessage(++id, LCCEntitySpawnPacket.class, LCCEntitySpawnPacket::encode, LCCEntitySpawnPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ParticleSpawnPacket.class, ParticleSpawnPacket::encode, ParticleSpawnPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, SpreaderInterfaceUpdatePacket.class, SpreaderInterfaceUpdatePacket::encode, SpreaderInterfaceUpdatePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, BouncePadExtensionPacket.class, BouncePadExtensionPacket::encode, BouncePadExtensionPacket::decode, LCCPacketHandler::pass);
@@ -31,6 +30,7 @@ public class LCCPacketHandler {
         INSTANCE.registerMessage(++id, ComputerPowerPacket.class, ComputerPowerPacket::encode, ComputerPowerPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ComputerStateChangePacket.class, ComputerStateChangePacket::encode, ComputerStateChangePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, TerminalStateChangePacket.class, TerminalStateChangePacket::encode, TerminalStateChangePacket::decode, LCCPacketHandler::pass);
+        INSTANCE.registerMessage(++id, AtomicBombDetonatePacket.class, AtomicBombDetonatePacket::encode, AtomicBombDetonatePacket::decode, LCCPacketHandler::pass);
     }
 
     public static void send(PacketDistributor.PacketTarget target, LCCPacket packet) {

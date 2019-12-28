@@ -1,9 +1,12 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
+import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
 import com.joshmanisdabomb.lcc.container.AtomicBombContainer;
+import com.joshmanisdabomb.lcc.entity.AtomicBombEntity;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -107,6 +110,17 @@ public class AtomicBombTileEntity extends TileEntity implements INamedContainerP
             if (!handler.getStackInSlot(i).isEmpty()) return true;
         }
         return false;
+    }
+
+    public void detonate(PlayerEntity player) {
+        if (this.canDetonate() && !this.getWorld().isRemote) {
+            Direction facing = this.getBlockState().get(AtomicBombBlock.FACING);
+            AtomicBombEntity e = new AtomicBombEntity(this.getWorld(), (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), facing, this, player);
+            this.getWorld().addEntity(e);
+            this.getWorld().setBlockState(this.getPos().offset(facing), Blocks.AIR.getDefaultState(), 18);
+            this.getWorld().setBlockState(this.getPos().offset(facing.getOpposite()), Blocks.AIR.getDefaultState(), 18);
+            this.getWorld().setBlockState(this.getPos(), Blocks.AIR.getDefaultState(), 18);
+        }
     }
 
 }

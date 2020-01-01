@@ -1,34 +1,52 @@
 package com.joshmanisdabomb.lcc.entity;
 
+import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.item.DirectionalPlaceContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 
-public class AtomicBombEntity extends Entity implements LCCEntityHelper {
+public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntityAdditionalSpawnData {
 
+    private static final DataParameter<Boolean> ACTIVE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Direction> FACING = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.DIRECTION);
     public CompoundNBT tileEntityData;
 
     protected LivingEntity tntPlacedBy;
-    private int fuse = -1;
+
+    private boolean active = false;
+    private int fuse = 1200;
     public Direction facing = Direction.NORTH;
+
     private AxisAlignedBB bb = super.getBoundingBox();
+    private int fallTime = 0;
 
     public AtomicBombEntity(EntityType<AtomicBombEntity> type, World world) {
         super(type, world);
@@ -37,6 +55,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     public AtomicBombEntity(World world, double x, double y, double z, Direction facing, AtomicBombTileEntity te) {
         this(LCCEntities.atomic_bomb, world);
         this.setDirection(facing);
+        this.bb = super.getBoundingBox().offset(x, y, z);
         this.setPosition(x, y, z);
         this.setMotion(Vec3d.ZERO);
         this.tileEntityData = te.write(new CompoundNBT());
@@ -49,6 +68,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
         this(world, x, y, z, facing, te);
         double lvt_9_1_ = world.rand.nextDouble() * 6.2831854820251465D;
         this.setMotion(-Math.sin(lvt_9_1_) * 0.02D, 0.20000000298023224D, -Math.cos(lvt_9_1_) * 0.02D);
+        this.setActive(true);
         this.setFuse(1200);
         this.tntPlacedBy = entity;
     }
@@ -59,8 +79,9 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     }
 
     protected void registerData() {
-        this.dataManager.register(FUSE, -1);
+        this.dataManager.register(FUSE, 1200);
         this.dataManager.register(FACING, Direction.NORTH);
+        this.dataManager.register(ACTIVE, false);
     }
 
     protected boolean canTriggerWalking() {
@@ -77,24 +98,87 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
         this.prevPosZ = this.posZ;
 
         if (!this.hasNoGravity()) {
-            this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
+            this.setMotion(this.getMotion().add(0.0D, -0.08D, 0.0D));
         }
 
         this.move(MoverType.SELF, this.getMotion());
         this.setMotion(this.getMotion().scale(0.98D));
         if (this.onGround) {
-            this.setMotion(this.getMotion().mul(0.7D, -0.5D, 0.7D));
+            this.setMotion(this.getMotion().mul(0.12D, -0.5D, 0.12D));
         }
 
-        if (this.fuse > 0) {
+        if (this.active) {
             --this.fuse;
-            if (this.fuse == 0) {
+            if (this.fuse <= 0) {
                 this.remove();
                 if (!this.world.isRemote) {
                     this.explode();
                 }
             } else {
                 this.handleWaterMovement();
+            }
+        } else {
+            if (!this.world.isRemote) {
+                BlockPos bp = new BlockPos(this);
+                if (this.onGround) {
+                    boolean movingPiston = false;
+                    boolean replaceable = true;
+                    boolean setBlockState;
+                    for (int i = -1; i <= 1; i++) {
+                        BlockPos bp2 = bp.offset(this.facing, i);
+                        BlockState state = this.world.getBlockState(bp);
+                        movingPiston = movingPiston || state.getBlock() == Blocks.MOVING_PISTON;
+                        replaceable = replaceable && state.isReplaceable(new DirectionalPlaceContext(this.world, bp, Direction.DOWN, ItemStack.EMPTY, Direction.UP));
+                    }
+                    if (!movingPiston) {
+                        if (replaceable) {
+                            BlockState newState = LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.FACING, this.facing).with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.MIDDLE);
+                            setBlockState = this.world.setBlockState(bp, newState, 3);
+                            setBlockState = setBlockState && this.world.setBlockState(bp.offset(this.facing), newState.with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.FRONT), 3);
+                            setBlockState = setBlockState && this.world.setBlockState(bp.offset(this.facing.getOpposite()), newState.with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.BACK), 3);
+                            if (setBlockState) {
+                                if (this.tileEntityData != null) {
+                                    TileEntity te = this.world.getTileEntity(bp);
+                                    if (te != null) {
+                                        CompoundNBT data = te.write(new CompoundNBT()).merge(this.tileEntityData);
+                                        data.putInt("x", bp.getX());
+                                        data.putInt("y", bp.getY());
+                                        data.putInt("z", bp.getZ());
+                                        te.read(data);
+                                        te.markDirty();
+                                    }
+                                }
+                                this.remove();
+                            } else {
+                                this.drops();
+                                this.remove();
+                            }
+                        } else {
+                            this.drops();
+                            this.remove();
+                        }
+                    }
+                } else {
+                    if ((this.fallTime > 100 && (bp.getY() < 1 || bp.getY() > 256)) || this.fallTime > 600) {
+                        System.out.println("hello4");
+                        this.drops();
+                        this.remove();
+                    }
+                }
+                this.fallTime++;
+            }
+        }
+    }
+
+    private void drops() {
+        if (this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+            this.entityDropItem(LCCBlocks.atomic_bomb);
+            if (this.tileEntityData != null && this.tileEntityData.contains("inventory", Constants.NBT.TAG_COMPOUND)) {
+                ItemStackHandler h = new ItemStackHandler();
+                h.deserializeNBT(this.tileEntityData.getCompound("inventory"));
+                for (int i = 0; i < h.getSlots(); i++) {
+                    this.entityDropItem(h.extractItem(i, 64, false));
+                }
             }
         }
     }
@@ -108,6 +192,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     protected void readAdditional(CompoundNBT compound) {
         this.setFuse(compound.getShort("Fuse"));
         this.setDirection(Direction.byHorizontalIndex(compound.getByte("Facing")));
+        this.fallTime = compound.getInt("Fall");
         if (compound.contains("TileEntityData", 10)) {
             this.tileEntityData = compound.getCompound("TileEntityData");
         }
@@ -117,6 +202,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     protected void writeAdditional(CompoundNBT compound) {
         compound.putShort("Fuse", (short)this.getFuse());
         compound.putByte("Facing", (byte)this.facing.getHorizontalIndex());
+        compound.putInt("Fall", this.fallTime);
         if (this.tileEntityData != null) {
             compound.put("TileEntityData", this.tileEntityData);
         }
@@ -125,6 +211,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     @Override
     public void notifyDataManagerChange(DataParameter<?> key) {
         if (FUSE.equals(key)) this.fuse = this.dataManager.get(FUSE);
+        if (ACTIVE.equals(key)) this.active = this.dataManager.get(ACTIVE);
         if (FACING.equals(key)) {
             this.facing = this.dataManager.get(FACING);
             this.recalculateSize();
@@ -135,14 +222,20 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
         return this.fuse;
     }
 
+    public boolean isActive() {
+        return this.active;
+    }
+
     public void setFuse(int fuseIn) {
-        this.dataManager.set(FUSE, fuseIn);
-        this.fuse = fuseIn;
+        this.dataManager.set(FUSE, this.fuse = fuseIn);
+    }
+
+    public void setActive(boolean active) {
+        this.dataManager.set(ACTIVE, this.active = active);
     }
 
     public void setDirection(Direction facing) {
-        this.dataManager.set(FACING, facing);
-        this.facing = facing;
+        this.dataManager.set(FACING, this.facing = facing);
     }
 
     @Override
@@ -159,18 +252,30 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper {
     @Override
     public void recalculateSize() {
         super.recalculateSize();
-        this.setBoundingBox(expandBoundingBox(this.getBoundingBox()));
+        this.setBoundingBox(this.expandBoundingBox(this.getBoundingBox()));
     }
 
     @Override
     public void setPosition(double x, double y, double z) {
         super.setPosition(x, y, z);
-        this.setBoundingBox(expandBoundingBox(this.getBoundingBox()));
+        this.setBoundingBox(this.expandBoundingBox(this.getBoundingBox()));
     }
 
     private AxisAlignedBB expandBoundingBox(AxisAlignedBB b) {
         if (facing != null) return b.grow(Math.abs(facing.getXOffset()), 0, Math.abs(facing.getZOffset()));
-        else return b;
+        return b;
+    }
+
+    @Override
+    public void writeSpawnData(PacketBuffer buffer) {
+        buffer.writeEnumValue(this.facing);
+    }
+
+    @Override
+    public void readSpawnData(PacketBuffer buffer) {
+        this.bb = super.getBoundingBox().offset(this.posX, this.posY, this.posZ);
+        this.setDirection(buffer.readEnumValue(Direction.class));
+        this.recalculateSize();
     }
 
 }

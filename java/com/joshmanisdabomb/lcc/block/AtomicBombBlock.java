@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.block.shapes.RotatableShape;
+import com.joshmanisdabomb.lcc.entity.AtomicBombEntity;
 import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
@@ -24,10 +25,12 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
 
@@ -171,6 +174,11 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
     }
 
     @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        world.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(world));
+    }
+
+    @Override
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
         if (state.get(SEGMENT) == Segment.MIDDLE) {
             if (state.get(FACING) == facing && !isSegment(facingState, facing, Segment.FRONT)) return Blocks.AIR.getDefaultState();
@@ -180,7 +188,41 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
         } else if (state.get(SEGMENT) == Segment.FRONT) {
             if (state.get(FACING) == facing.getOpposite() && !isSegment(facingState, facing.getOpposite(), Segment.MIDDLE)) return Blocks.AIR.getDefaultState();
         }
+        world.getPendingBlockTicks().scheduleTick(currentPos, this, this.tickRate(world));
         return state;
+    }
+
+    @Override
+    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+        if (!world.isRemote) {
+            this.fall(state, world, this.middle(state.get(SEGMENT), state.get(FACING), pos));
+        }
+    }
+
+    private void fall(BlockState state, World world, BlockPos pos) {
+        Direction facing = state.get(FACING);
+        if (this.canFall(world, pos) && this.canFall(world, pos.offset(facing)) && this.canFall(world, pos.offset(facing.getOpposite())) && pos.getY() >= 0) {
+            if (!world.isRemote) {
+                TileEntity te = world.getTileEntity(pos);
+                if (te instanceof AtomicBombTileEntity) {
+                    AtomicBombEntity e = new AtomicBombEntity(world, (double) ((float) pos.getX() + 0.5F), (double) pos.getY(), (double) ((float) pos.getZ() + 0.5F), facing, (AtomicBombTileEntity)te);
+                    world.addEntity(e);
+                    world.removeTileEntity(pos);
+                    world.setBlockState(pos.offset(facing), Blocks.AIR.getDefaultState(), 18);
+                    world.setBlockState(pos.offset(facing.getOpposite()), Blocks.AIR.getDefaultState(), 18);
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 18);
+                }
+            }
+        }
+    }
+
+    @Override
+    public int tickRate(IWorldReader worldIn) {
+        return 2;
+    }
+
+    private boolean canFall(World world, BlockPos pos) {
+        return world.isAirBlock(pos.down()) || FallingBlock.canFallThrough(world.getBlockState(pos.down()));
     }
 
     private boolean isSegment(BlockState state, Direction d, Segment s) {

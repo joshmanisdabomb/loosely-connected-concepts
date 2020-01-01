@@ -14,6 +14,8 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
@@ -83,6 +85,28 @@ public class AtomicBombTileEntity extends TileEntity implements INamedContainerP
         return super.write(tag);
     }
 
+    @Override
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundNBT tag) {
+        super.handleUpdateTag(tag);
+    }
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = this.write(new CompoundNBT());
+        return new SUpdateTileEntityPacket(getPos(), 1, tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        this.read(pkt.getNbtCompound());
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
@@ -117,6 +141,7 @@ public class AtomicBombTileEntity extends TileEntity implements INamedContainerP
             Direction facing = this.getBlockState().get(AtomicBombBlock.FACING);
             AtomicBombEntity e = new AtomicBombEntity(this.getWorld(), (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), facing, this, player);
             this.getWorld().addEntity(e);
+            this.getWorld().removeTileEntity(this.getPos());
             this.getWorld().setBlockState(this.getPos().offset(facing), Blocks.AIR.getDefaultState(), 18);
             this.getWorld().setBlockState(this.getPos().offset(facing.getOpposite()), Blocks.AIR.getDefaultState(), 18);
             this.getWorld().setBlockState(this.getPos(), Blocks.AIR.getDefaultState(), 18);

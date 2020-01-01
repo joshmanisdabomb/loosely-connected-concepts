@@ -18,7 +18,7 @@ public class AtomicBombRenderer extends EntityRenderer<AtomicBombEntity> {
 
     public AtomicBombRenderer(EntityRendererManager manager) {
         super(manager);
-        this.shadowSize = 0.9F;
+        this.shadowSize = 1.3F;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class AtomicBombRenderer extends EntityRenderer<AtomicBombEntity> {
             this.renderBlock(entity, blockrendererdispatcher, entity.facing);
             GlStateManager.tearDownSolidRenderingTextureCombine();
             GlStateManager.disableColorMaterial();
-        } else if (entity.getFuse() / 5 % 2 == 0) {
+        } else if (entity.isActive() && entity.getFuse() / 5 % 2 == 0) {
             GlStateManager.disableTexture();
             GlStateManager.disableLighting();
             GlStateManager.enableBlend();

@@ -1,5 +1,8 @@
 package com.joshmanisdabomb.lcc.entity;
 
+import com.joshmanisdabomb.lcc.data.capability.NuclearCapability;
+import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
+import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import net.minecraft.block.Blocks;
@@ -7,6 +10,7 @@ import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -16,6 +20,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,6 +78,12 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         BlockPos.MutableBlockPos mbu = new BlockPos.MutableBlockPos();
         ArrayList<BlockPos> nuclearWaste = new ArrayList<>();
         if (!this.world.isRemote) {
+            if (this.tick == 1) {
+                this.world.getCapability(NuclearCapability.Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
+                    n.nuke(this.world, center, this.lifetime);
+                    LCCPacketHandler.send(PacketDistributor.DIMENSION.with(() -> this.world.dimension.getType()), new CapabilitySyncPacket(n));
+                });
+            }
             for (int i = 0; i <= c; i++) {
                 for (int k = 0; k <= c; k++) {
                     nuclearWaste.clear();

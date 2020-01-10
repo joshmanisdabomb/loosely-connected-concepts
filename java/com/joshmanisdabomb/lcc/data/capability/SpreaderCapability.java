@@ -23,11 +23,16 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Random;
 
-public class SpreaderCapability {
+public class SpreaderCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "spreader");
 
     public static final int[] DECAY_PERCENTAGE = new int[]{250, 225, 200, 180, 160, 140, 120, 100, 90, 80, 75, 70, 65, 60, 55, 50};
+
+    @Override
+    public ResourceLocation getLocation() {
+        return LOCATION;
+    }
 
     public final HashMap<DyeColor, Boolean> enabled = new HashMap<>();
 

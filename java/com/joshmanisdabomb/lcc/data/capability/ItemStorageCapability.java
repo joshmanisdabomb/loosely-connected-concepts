@@ -13,9 +13,14 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class ItemStorageCapability {
+public class ItemStorageCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "item_storage");
+
+    @Override
+    public ResourceLocation getLocation() {
+        return LOCATION;
+    }
 
     public static class Storage implements Capability.IStorage<ItemStorageCapability> {
 

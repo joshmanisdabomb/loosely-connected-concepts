@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class GauntletCapability {
+public class GauntletCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "gauntlet");
 
@@ -26,6 +26,11 @@ public class GauntletCapability {
     private int punchGemID = 0;
     private int stompCooldown = -4;
     private int stompDuration = 0;
+
+    @Override
+    public ResourceLocation getLocation() {
+        return LOCATION;
+    }
 
     public boolean canUppercut() {
         return uppercutCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;

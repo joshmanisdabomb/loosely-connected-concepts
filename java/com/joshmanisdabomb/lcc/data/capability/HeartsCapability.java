@@ -2,10 +2,14 @@ package com.joshmanisdabomb.lcc.data.capability;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -13,7 +17,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class HeartsCapability {
+public class HeartsCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "hearts");
 
@@ -23,6 +27,11 @@ public class HeartsCapability {
     private float crystalMax = 0.0F;
     private float crystal = 0.0F;
     private float temporary = 0.0F;
+
+    @Override
+    public ResourceLocation getLocation() {
+        return LOCATION;
+    }
 
     public float getRedMaxHealth() {
         return ironMax;
@@ -94,6 +103,41 @@ public class HeartsCapability {
 
     public void addTemporaryHealth(float value, float limit) {
         temporary = Math.min(Math.max(temporary + value, 0), limit);
+    }
+
+    @Override
+    public void packetWrite(PacketBuffer buf) {
+        buf.writeFloat(this.redMax);
+        buf.writeFloat(this.ironMax);
+        buf.writeFloat(this.iron);
+        buf.writeFloat(this.crystalMax);
+        buf.writeFloat(this.crystal);
+        buf.writeFloat(this.temporary);
+    }
+
+    @Override
+    public void packetRead(PacketBuffer buf) {
+        this.redMax = buf.readFloat();
+        this.ironMax = buf.readFloat();
+        this.iron = buf.readFloat();
+        this.crystalMax = buf.readFloat();
+        this.crystal = buf.readFloat();
+        this.temporary = buf.readFloat();
+    }
+
+    @Override
+    public void packetHandle() {
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.getCapability(Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
+                hearts.setRedMaxHealth(this.redMax);
+                hearts.setIronMaxHealth(this.ironMax);
+                hearts.setIronHealth(this.iron);
+                hearts.setCrystalMaxHealth(this.crystalMax);
+                hearts.setCrystalHealth(this.crystal);
+                hearts.setTemporaryHealth(this.temporary, Float.MAX_VALUE);
+            });
+        }
     }
 
     public static class Storage implements Capability.IStorage<HeartsCapability> {

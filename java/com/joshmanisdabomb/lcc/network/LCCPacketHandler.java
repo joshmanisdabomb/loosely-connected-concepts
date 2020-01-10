@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class LCCPacketHandler {
 
-    public static final String PROTOCOL_VERSION = "6";
+    public static final String PROTOCOL_VERSION = "7";
     private static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(LCC.MODID, "main"),
         () -> PROTOCOL_VERSION,
@@ -21,11 +21,10 @@ public class LCCPacketHandler {
 
     public static void init() {
         int id = -1;
-        INSTANCE.registerMessage(++id, HeartsUpdatePacket.class, HeartsUpdatePacket::encode, HeartsUpdatePacket::decode, LCCPacketHandler::pass);
+        INSTANCE.registerMessage(++id, CapabilitySyncPacket.class, CapabilitySyncPacket::encode, CapabilitySyncPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ParticleSpawnPacket.class, ParticleSpawnPacket::encode, ParticleSpawnPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, SpreaderInterfaceUpdatePacket.class, SpreaderInterfaceUpdatePacket::encode, SpreaderInterfaceUpdatePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, BouncePadExtensionPacket.class, BouncePadExtensionPacket::encode, BouncePadExtensionPacket::decode, LCCPacketHandler::pass);
-        INSTANCE.registerMessage(++id, CryingObsidianUpdatePacket.class, CryingObsidianUpdatePacket::encode, CryingObsidianUpdatePacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, CryingObsidianSpawnPacket.class, CryingObsidianSpawnPacket::encode, CryingObsidianSpawnPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ComputerPowerPacket.class, ComputerPowerPacket::encode, ComputerPowerPacket::decode, LCCPacketHandler::pass);
         INSTANCE.registerMessage(++id, ComputerStateChangePacket.class, ComputerStateChangePacket::encode, ComputerStateChangePacket::decode, LCCPacketHandler::pass);

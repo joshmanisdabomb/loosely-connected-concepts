@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.functionality;
 
 import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
-import com.joshmanisdabomb.lcc.network.HeartsUpdatePacket;
+import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,7 +46,7 @@ public abstract class HeartsFunctionality {
             }
         }
         if (entity instanceof ServerPlayerEntity) {
-            LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)entity), new HeartsUpdatePacket(hearts));
+            LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity)entity), new CapabilitySyncPacket(hearts));
         }
         e.setAmount(Math.max(damage, 0.0F));
     }

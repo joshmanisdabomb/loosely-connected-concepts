@@ -1,9 +1,12 @@
 package com.joshmanisdabomb.lcc.data.capability;
 
 import com.joshmanisdabomb.lcc.LCC;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -15,12 +18,17 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 
-public class CryingObsidianCapability {
+public class CryingObsidianCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "crying_obsidian");
 
     public DimensionType dimension = null;
     public BlockPos pos = null;
+
+    @Override
+    public ResourceLocation getLocation() {
+        return LOCATION;
+    }
 
     public boolean isEmpty() {
         return pos == null || dimension == null;
@@ -29,6 +37,36 @@ public class CryingObsidianCapability {
     public void setEmpty() {
         this.pos = null;
         this.dimension = null;
+    }
+
+    @Override
+    public void packetWrite(PacketBuffer buf) {
+        if (this.pos != null && this.dimension != null) {
+            buf.writeBlockPos(this.pos);
+            buf.writeResourceLocation(this.dimension.getRegistryName());
+        }
+    }
+
+    @Override
+    public void packetRead(PacketBuffer buf) {
+        if (buf.readableBytes() >= 8) {
+            this.pos = buf.readBlockPos();
+            this.dimension = DimensionType.byName(buf.readResourceLocation());
+        } else {
+            this.pos = null;
+            this.dimension = null;
+        }
+    }
+
+    @Override
+    public void packetHandle() {
+        PlayerEntity player = Minecraft.getInstance().player;
+        if (player != null) {
+            player.getCapability(Provider.DEFAULT_CAPABILITY).ifPresent(co -> {
+                co.pos = this.pos;
+                co.dimension = this.dimension;
+            });
+        }
     }
 
     public static class Storage implements Capability.IStorage<CryingObsidianCapability> {

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity;
 
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
+import com.joshmanisdabomb.lcc.data.capability.NuclearCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;
@@ -37,8 +38,6 @@ import javax.annotation.Nullable;
 
 public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntityAdditionalSpawnData {
 
-    public static final int MAX_FUSE = 100;
-
     private static final DataParameter<Boolean> ACTIVE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Direction> FACING = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.DIRECTION);
@@ -47,7 +46,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     protected LivingEntity tntPlacedBy;
 
     private boolean active = false;
-    private int fuse = MAX_FUSE;
+    private int fuse = 1200;
     public Direction facing = Direction.NORTH;
 
     private AxisAlignedBB bb = super.getBoundingBox();
@@ -74,7 +73,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
         double lvt_9_1_ = world.rand.nextDouble() * 6.2831854820251465D;
         this.setMotion(-Math.sin(lvt_9_1_) * 0.02D, 0.20000000298023224D, -Math.cos(lvt_9_1_) * 0.02D);
         this.setActive(true);
-        this.setFuse(MAX_FUSE);
+        this.setFuse(NuclearCapability.getFuse(this.getUranium()));
         this.tntPlacedBy = entity;
     }
 
@@ -84,7 +83,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void registerData() {
-        this.dataManager.register(FUSE, MAX_FUSE);
+        this.dataManager.register(FUSE, 1200);
         this.dataManager.register(FACING, Direction.NORTH);
         this.dataManager.register(ACTIVE, false);
     }
@@ -188,7 +187,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void explode() {
-        world.addEntity(new NuclearExplosionEntity(this.world, this.posX, this.posY, this.posZ, (short)(10 + (this.getUranium() * 15))));
+        world.addEntity(new NuclearExplosionEntity(this.world, this.posX, this.posY, this.posZ, (short)(NuclearCapability.getExplosionLifetime(this.getUranium(), false))));
     }
 
     private int getUranium() {
@@ -198,7 +197,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
             h.deserializeNBT(this.tileEntityData.getCompound("inventory"));
             for (int i = 0; i < h.getSlots(); i++) {
                 ItemStack stack = h.getStackInSlot(i);
-                if (stack.getItem() == LCCBlocks.enriched_uranium_storage.asItem()) u += stack.getCount();
+                if (stack.getItem() == LCCBlocks.enriched_uranium_storage.asItem()) u += (stack.getCount() * 9);
             }
         }
         return u;

@@ -10,8 +10,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DirectionalPlaceContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
@@ -20,10 +22,11 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -34,6 +37,8 @@ import javax.annotation.Nullable;
 
 public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntityAdditionalSpawnData {
 
+    public static final int MAX_FUSE = 100;
+
     private static final DataParameter<Boolean> ACTIVE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> FUSE = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Direction> FACING = EntityDataManager.createKey(AtomicBombEntity.class, DataSerializers.DIRECTION);
@@ -42,7 +47,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     protected LivingEntity tntPlacedBy;
 
     private boolean active = false;
-    private int fuse = 1200;
+    private int fuse = MAX_FUSE;
     public Direction facing = Direction.NORTH;
 
     private AxisAlignedBB bb = super.getBoundingBox();
@@ -69,7 +74,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
         double lvt_9_1_ = world.rand.nextDouble() * 6.2831854820251465D;
         this.setMotion(-Math.sin(lvt_9_1_) * 0.02D, 0.20000000298023224D, -Math.cos(lvt_9_1_) * 0.02D);
         this.setActive(true);
-        this.setFuse(1200);
+        this.setFuse(MAX_FUSE);
         this.tntPlacedBy = entity;
     }
 
@@ -79,7 +84,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void registerData() {
-        this.dataManager.register(FUSE, 1200);
+        this.dataManager.register(FUSE, MAX_FUSE);
         this.dataManager.register(FACING, Direction.NORTH);
         this.dataManager.register(ACTIVE, false);
     }
@@ -160,7 +165,6 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
                     }
                 } else {
                     if ((this.fallTime > 100 && (bp.getY() < 1 || bp.getY() > 256)) || this.fallTime > 600) {
-                        System.out.println("hello4");
                         this.drops();
                         this.remove();
                     }
@@ -184,13 +188,44 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void explode() {
-        float f = 4.0F;
-        this.world.createExplosion(this, this.posX, this.posY + (double)(this.getHeight() / 16.0F), this.posZ, 4.0F, Explosion.Mode.BREAK);
+        world.addEntity(new NuclearExplosionEntity(this.world, this.posX, this.posY, this.posZ, (short)(10 + (this.getUranium() * 15))));
+    }
+
+    private int getUranium() {
+        int u = 0;
+        if (this.tileEntityData != null && this.tileEntityData.contains("inventory", Constants.NBT.TAG_COMPOUND)) {
+            ItemStackHandler h = new ItemStackHandler();
+            h.deserializeNBT(this.tileEntityData.getCompound("inventory"));
+            for (int i = 0; i < h.getSlots(); i++) {
+                ItemStack stack = h.getStackInSlot(i);
+                if (stack.getItem() == LCCBlocks.enriched_uranium_storage.asItem()) u += stack.getCount();
+            }
+        }
+        return u;
+    }
+
+    @Override
+    public boolean processInitialInteract(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getHeldItem(hand);
+        if (itemstack.getItem() instanceof ShearsItem) {
+            this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_SHEEP_SHEAR, this.getSoundCategory(), 1.0F, 1.0F);
+            player.swingArm(hand);
+            if (!this.world.isRemote) {
+                this.drops();
+                this.remove();
+                itemstack.damageItem(1, player, (p_213625_1_) -> {
+                    p_213625_1_.sendBreakAnimation(hand);
+                });
+                return true;
+            }
+        }
+        return super.processInitialInteract(player, hand);
     }
 
     @Override
     protected void readAdditional(CompoundNBT compound) {
         this.setFuse(compound.getShort("Fuse"));
+        this.setActive(compound.getBoolean("Active"));
         this.setDirection(Direction.byHorizontalIndex(compound.getByte("Facing")));
         this.fallTime = compound.getInt("Fall");
         if (compound.contains("TileEntityData", 10)) {
@@ -201,6 +236,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     @Override
     protected void writeAdditional(CompoundNBT compound) {
         compound.putShort("Fuse", (short)this.getFuse());
+        compound.putBoolean("Active", this.isActive());
         compound.putByte("Facing", (byte)this.facing.getHorizontalIndex());
         compound.putInt("Fall", this.fallTime);
         if (this.tileEntityData != null) {

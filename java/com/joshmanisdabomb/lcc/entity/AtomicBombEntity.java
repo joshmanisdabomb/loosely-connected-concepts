@@ -206,17 +206,19 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
 
     @Override
     public boolean processInitialInteract(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-        if (itemstack.getItem() instanceof ShearsItem) {
-            this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_SHEEP_SHEAR, this.getSoundCategory(), 1.0F, 1.0F);
-            player.swingArm(hand);
-            if (!this.world.isRemote) {
-                this.drops();
-                this.remove();
-                itemstack.damageItem(1, player, (p_213625_1_) -> {
-                    p_213625_1_.sendBreakAnimation(hand);
-                });
-                return true;
+        if (this.active) {
+            ItemStack itemstack = player.getHeldItem(hand);
+            if (itemstack.getItem() instanceof ShearsItem) {
+                this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_SHEEP_SHEAR, this.getSoundCategory(), 1.0F, 1.0F);
+                player.swingArm(hand);
+                if (!this.world.isRemote) {
+                    this.drops();
+                    this.remove();
+                    itemstack.damageItem(1, player, (p_213625_1_) -> {
+                        p_213625_1_.sendBreakAnimation(hand);
+                    });
+                    return true;
+                }
             }
         }
         return super.processInitialInteract(player, hand);

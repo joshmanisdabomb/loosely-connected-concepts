@@ -2,14 +2,9 @@ package com.joshmanisdabomb.lcc.network;
 
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.data.capability.LCCCapabilityHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class CapabilitySyncPacket implements LCCPacket {
 

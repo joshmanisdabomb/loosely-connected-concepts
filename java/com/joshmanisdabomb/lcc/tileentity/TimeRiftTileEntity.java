@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.util.LazyOptional;
 
 import java.util.List;
 
@@ -35,12 +37,17 @@ public class TimeRiftTileEntity extends TileEntity implements ITickableTileEntit
         for (ItemEntity e : entities) {
             TimeRiftRecipe recipe = this.getRecipe(e.getItem());
             if (recipe == null) continue;
+            TimeRiftRecipe recipe2 = this.getRecipe(recipe.getRecipeOutput().copy());
+
             double distsq = Math.sqrt(e.getPositionVec().squareDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
-            double speed = (25-distsq) * 0.005F;
-            if (distsq < 0.9) {
+            double s = ((RADIUS*RADIUS)-distsq) * 0.012F;
+            double speed = s * s * (recipe2 == null ? 1 : MathHelper.clamp((e.ticksExisted - 50) * 0.09, 0, 1));
+
+            if ((recipe2 == null || e.ticksExisted > 70) && distsq < 0.9) {
                 this.receiveItem(e, recipe);
-                this.size = 2F;
+                this.size = 3F;
             } else if (distsq <= RADIUS * RADIUS) {
+                this.size = (float)Math.max(1 + (speed * 4F), this.size);
                 e.setMotion(e.getMotion().add(e.getPositionVec().subtract(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).normalize().mul(-speed, -speed, -speed)));
             }
         }
@@ -51,9 +58,9 @@ public class TimeRiftTileEntity extends TileEntity implements ITickableTileEntit
         if (e.getItem().isEmpty()) e.remove();
 
         ItemEntity result = new ItemEntity(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, recipe.getRecipeOutput().copy());
-        world.addEntity(result);
-        result.setMotion(result.getMotion().mul(2, 2, 2));
+        result.setMotion(result.getMotion().mul(2.2F, 2.2F, 2.2F));
         result.setDefaultPickupDelay();
+        world.addEntity(result);
     }
 
     private TimeRiftRecipe getRecipe(ItemStack is) {

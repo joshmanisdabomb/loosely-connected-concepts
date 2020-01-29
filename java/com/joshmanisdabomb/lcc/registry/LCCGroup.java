@@ -147,6 +147,7 @@ public class LCCGroup extends ItemGroup {
 
         //Rainbow
         set(LCCItems.chromatic_core, LCCGroupCategory.RAINBOW, 0);
+        set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 1000);
 
         //Spreaders
         set(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);

@@ -103,6 +103,9 @@ public abstract class LCCBlocks {
 	public static Block classic_stonecutter;
 	public static CogBlock cog;
 
+	//Rainbow
+	public static RainbowGateBlock rainbow_gate;
+
     public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add((test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block"));
@@ -251,6 +254,9 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(glowing_obsidian);
 		all.add((cog = new CogBlock(Block.Properties.create(Material.MISCELLANEOUS, MaterialColor.IRON).hardnessAndResistance(0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "cog"));
 		createDefaultBlockItem(cog);
+
+		all.add((rainbow_gate = new RainbowGateBlock(Block.Properties.create(Material.ROCK, MaterialColor.DIAMOND).hardnessAndResistance(1.5F, 6.0F))).setRegistryName(LCC.MODID, "rainbow_gate"));
+		createDefaultBlockItem(rainbow_gate);
     }
 
 	private static void createDefaultBlockItem(Block b) {

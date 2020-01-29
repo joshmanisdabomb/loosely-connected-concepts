@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "123",
+    "4 4",
+    "567"
+  ],
+  "key": {
+    "1": {
+      "item": "minecraft:coal_block"
+    },
+    "2": {
+      "item": "minecraft:redstone_block"
+    },
+    "3": {
+      "item": "minecraft:gold_block"
+    },
+    "4": {
+      "item": "minecraft:dark_prismarine"
+    },
+    "5": {
+      "item": "lcc:uranium_storage"
+    },
+    "6": {
+      "item": "minecraft:lapis_block"
+    },
+    "7": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "lcc:rainbow_gate",
+    "count": 8
+  }
+}

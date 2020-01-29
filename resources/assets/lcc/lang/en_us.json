@@ -322,6 +322,7 @@
   "block.lcc.terminal_black": "Black Terminal",
   "block.lcc.networking_cable": "Networking Cable",
   "block.lcc.terminal_cable": "Terminal Cable",
+  "block.lcc.rainbow_gate": "Rainbow Gate",
   "item.lcc.cpu": "Central Processing Unit",
   "item.lcc.cpu.level": "Speed:",
   "item.lcc.cpu.level.value": "%s",

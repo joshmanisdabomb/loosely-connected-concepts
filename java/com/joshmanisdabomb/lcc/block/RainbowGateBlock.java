@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -92,6 +93,32 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
                             if (world.getBlockState(bp.setPos(other2).move(Direction.UP, j+1)) != LCCBlocks.rainbow_gate.getDefaultState().with(Y, j)) continue gaterotation;
                         }
 
+                        //Check pillar and gem storage structure.
+                        if (world.getBlockState(bp.setPos(pos2).move(d, -2).move(Direction.UP, 1)).getBlock() != Blocks.QUARTZ_PILLAR) continue;
+                        if (world.getBlockState(bp.setPos(other2).move(d, 2).move(Direction.UP, 1)).getBlock() != Blocks.QUARTZ_PILLAR) continue;
+                        if (world.getBlockState(bp.setPos(pos2).move(d, -2).move(Direction.UP, 2)).getBlock() != LCCBlocks.ruby_storage) continue;
+                        if (world.getBlockState(bp.setPos(other2).move(d, 2).move(Direction.UP, 2)).getBlock() != LCCBlocks.amethyst_storage) continue;
+                        Direction pillars = null;
+                        pillarcheck:
+                        for (Direction.AxisDirection ad : Direction.AxisDirection.values()) {
+                            Direction p = Direction.getFacingFromAxisDirection(d.rotateY().getAxis(), ad);
+                            for (int j = 0; j < 2; j++) {
+                                if (world.getBlockState(bp.setPos(pos2).move(d, -1).move(Direction.UP, j+1).move(p, 2)).getBlock() != Blocks.QUARTZ_PILLAR) continue pillarcheck;
+                                if (world.getBlockState(bp.setPos(other2).move(d, 1).move(Direction.UP, j+1).move(p, 2)).getBlock() != Blocks.QUARTZ_PILLAR) continue pillarcheck;
+                            }
+                            if (world.getBlockState(bp.setPos(pos2).move(d, -1).move(Direction.UP, 3).move(p, 2)).getBlock() != LCCBlocks.topaz_storage) continue;
+                            if (world.getBlockState(bp.setPos(other2).move(d, 1).move(Direction.UP, 3).move(p, 2)).getBlock() != LCCBlocks.sapphire_storage) continue;
+                            for (int j = 0; j < 3; j++) {
+                                if (world.getBlockState(bp.setPos(pos2).move(d, 1).move(Direction.UP, j+1).move(p, 3)).getBlock() != Blocks.QUARTZ_PILLAR) continue pillarcheck;
+                                if (world.getBlockState(bp.setPos(other2).move(d, -1).move(Direction.UP, j+1).move(p, 3)).getBlock() != Blocks.QUARTZ_PILLAR) continue pillarcheck;
+                            }
+                            if (world.getBlockState(bp.setPos(pos2).move(d, 1).move(Direction.UP, 4).move(p, 3)).getBlock() != Blocks.EMERALD_BLOCK) continue;
+                            if (world.getBlockState(bp.setPos(other2).move(d, -1).move(Direction.UP, 4).move(p, 3)).getBlock() != Blocks.DIAMOND_BLOCK) continue;
+                            pillars = p;
+                            break;
+                        }
+                        if (pillars == null) continue;
+
                         //Create portal.
                         cores.get(0).getItem().shrink(1);
                         for (int j = 0; j < 4; j++) {
@@ -99,6 +126,14 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
                                 world.setBlockState(bp.setPos(pos2).move(Direction.UP, j+1).move(d, k+1), LCCBlocks.rainbow_portal.getDefaultState().with(AXIS, d.getAxis()).with(Y, j).with(MIDDLE, k == 1), 18);
                             }
                         }
+
+                        //Remove gem blocks.
+                        world.setBlockState(bp.setPos(pos2).move(d, -2).move(Direction.UP, 2), Blocks.AIR.getDefaultState());
+                        world.setBlockState(bp.setPos(other2).move(d, 2).move(Direction.UP, 2), Blocks.AIR.getDefaultState());
+                        world.setBlockState(bp.setPos(pos2).move(d, -1).move(Direction.UP, 3).move(pillars, 2), Blocks.AIR.getDefaultState());
+                        world.setBlockState(bp.setPos(other2).move(d, 1).move(Direction.UP, 3).move(pillars, 2), Blocks.AIR.getDefaultState());
+                        world.setBlockState(bp.setPos(pos2).move(d, 1).move(Direction.UP, 4).move(pillars, 3), Blocks.AIR.getDefaultState());
+                        world.setBlockState(bp.setPos(other2).move(d, -1).move(Direction.UP, 4).move(pillars, 3), Blocks.AIR.getDefaultState());
                     }
                 }
             }

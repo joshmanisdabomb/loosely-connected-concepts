@@ -65,6 +65,7 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
         if (!state.isValidPosition(world, pos)) {
             world.destroyBlock(pos, true);
         } else {
+            gaterotation:
             for (int i = 0; i < 4; i++) {
                 Direction d = Direction.byHorizontalIndex(i);
                 if (world.getBlockState(pos.offset(d)).getBlock() == LCCBlocks.rainbow_portal) continue;
@@ -74,20 +75,28 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
                     int y = state.get(Y);
                     BlockPos pos2 = pos.down(y+1);
 
-                    boolean ground = true;
-                    BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
-                    for (int j = 0; j < 5; j++) {
-                        ground = ground && this.ground(world, bp.setPos(pos2).move(d, j));
-                    }
-
-                    if (!ground) continue;
                     List<ItemEntity> cores = world.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.getX() + 0.5, pos.getY() - y, pos.getZ() + 0.5, other.getX() + 0.5, other.getY() + (4 - y), other.getZ() + 0.5), e -> e.getItem().getItem() == LCCItems.chromatic_core);
                     if (cores.size() > 0) {
-                        cores.get(0).getItem().shrink(1);
+                        //Check ground for full blocks.
+                        boolean ground = true;
+                        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+                        for (int j = 0; j < 5; j++) {
+                            ground = ground && RainbowPortalBlock.validGround(world, bp.setPos(pos2).move(d, j));
+                        }
+                        if (!ground) continue;
 
+                        //Check completion of rainbow gates.
+                        BlockPos other2 = other.down(y+1);
+                        for (int j = 0; j < 4; j++) {
+                            if (world.getBlockState(bp.setPos(pos2).move(Direction.UP, j+1)) != LCCBlocks.rainbow_gate.getDefaultState().with(Y, j)) continue gaterotation;
+                            if (world.getBlockState(bp.setPos(other2).move(Direction.UP, j+1)) != LCCBlocks.rainbow_gate.getDefaultState().with(Y, j)) continue gaterotation;
+                        }
+
+                        //Create portal.
+                        cores.get(0).getItem().shrink(1);
                         for (int j = 0; j < 4; j++) {
                             for (int k = 0; k < 3; k++) {
-                                world.setBlockState(bp.setPos(pos2).move(Direction.UP, j+1).move(d, k+1), LCCBlocks.rainbow_portal.getDefaultState().with(AXIS, d.getAxis()).with(Y, j).with(MIDDLE, k == 1));
+                                world.setBlockState(bp.setPos(pos2).move(Direction.UP, j+1).move(d, k+1), LCCBlocks.rainbow_portal.getDefaultState().with(AXIS, d.getAxis()).with(Y, j).with(MIDDLE, k == 1), 18);
                             }
                         }
                     }
@@ -120,13 +129,9 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
     @Override
     public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
         int y = state.get(Y);
-        if (y == 0) return this.ground(world, pos.down());
+        if (y == 0) return RainbowPortalBlock.validGround(world, pos.down());
         BlockState below = world.getBlockState(pos.down());
         return below.getBlock() == LCCBlocks.rainbow_gate && below.get(Y) == y-1;
-    }
-
-    private boolean ground(IWorldReader world, BlockPos pos) {
-        return func_220064_c(world, pos);
     }
 
     public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {

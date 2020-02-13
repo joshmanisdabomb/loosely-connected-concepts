@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
@@ -13,6 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 
 public class RainbowPortalBlock extends Block {
 
@@ -41,4 +45,20 @@ public class RainbowPortalBlock extends Block {
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
+
+    @Override
+    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
+        int y = state.get(Y);
+        if (facing == Direction.UP && y != 3 && facingState != state.with(Y, y+1)) return Blocks.AIR.getDefaultState();
+        if (facing == Direction.DOWN && y != 0 && facingState != state.with(Y, y-1)) return Blocks.AIR.getDefaultState();
+        if (facing == Direction.DOWN && y == 0 && !RainbowPortalBlock.validGround(world, facingPos)) return Blocks.AIR.getDefaultState();
+        Direction.Axis axis = state.get(AXIS);
+        if (facing.getAxis() == axis && facingState != state && facingState != LCCBlocks.rainbow_gate.getDefaultState().with(Y, y)) return Blocks.AIR.getDefaultState();
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    public static boolean validGround(IWorldReader world, BlockPos pos) {
+        return func_220064_c(world, pos);
+    }
+
 }

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.joshmanisdabomb.lcc.block.RainbowGateBlock.Y;
+
 public class RainbowGateModel implements IBakedModel {
 
     ModelProperty<Long> RAND = new ModelProperty<>();
@@ -38,7 +40,7 @@ public class RainbowGateModel implements IBakedModel {
     @Override
     public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
-        tileData.setData(RAND, MathHelper.getPositionRandom(pos));
+        tileData.setData(RAND, MathHelper.getPositionRandom(new BlockPos(pos.getX(), state.get(Y), pos.getZ())));
         return tileData;
     }
 
@@ -46,19 +48,20 @@ public class RainbowGateModel implements IBakedModel {
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData data) {
         final List<BakedQuad> quads = new ArrayList<>();
 
+        long r = data != EmptyModelData.INSTANCE ? data.getData(RAND) : 0L;
         if (side != null) {
-            long r = data != EmptyModelData.INSTANCE ? data.getData(RAND) : 0L;
             switch (side) {
                 case DOWN:
                 case UP:
                     quads.add(VertexUtility.create2DFace(side, 5/16D, 5/16D, 11/16D, 11/16D, 1, textures[0], 5, 5, 11, 11));
                     break;
-                case NORTH:
-                case SOUTH:
-                case EAST:
-                case WEST:
-                    quads.add(VertexUtility.create2DFace(side, 5/16D, 0, 11/16D, 1, 0.375, textures[(int)(Math.abs(r / 179) % 6) + 1], 5, 0, 11, 16));
+                default:
                     break;
+            }
+        } else {
+            for (int i = 0; i < 4; i++) {
+                Direction d = Direction.byHorizontalIndex(i);
+                quads.add(VertexUtility.create2DFace(d, 5/16D, 0, 11/16D, 1, 0.375, textures[(int)(Math.abs(r / 179) % 6) + 1], 5, 0, 11, 16));
             }
         }
 

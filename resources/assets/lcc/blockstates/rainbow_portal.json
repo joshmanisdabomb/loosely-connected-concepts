@@ -1,0 +1,41 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "middle": {
+      "false": {"model": "lcc:block/rainbow_portal"},
+      "true": {"model": "block/block"}
+    },
+    "axis": {
+      "x": {},
+      "z": {
+        "y": 90
+      }
+    },
+    "y": {
+      "0": {
+        "textures": {
+          "0": "lcc:block/rainbow/gate/portal_0",
+          "particle": "lcc:block/rainbow/gate/portal_0"
+        }
+      },
+      "1": {
+        "textures": {
+          "0": "lcc:block/rainbow/gate/portal_1",
+          "particle": "lcc:block/rainbow/gate/portal_1"
+        }
+      },
+      "2": {
+        "textures": {
+          "0": "lcc:block/rainbow/gate/portal_2",
+          "particle": "lcc:block/rainbow/gate/portal_2"
+        }
+      },
+      "3": {
+        "textures": {
+          "0": "lcc:block/rainbow/gate/portal_3",
+          "particle": "lcc:block/rainbow/gate/portal_3"
+        }
+      }
+    }
+  }
+}

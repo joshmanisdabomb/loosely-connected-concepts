@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;

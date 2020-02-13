@@ -105,6 +105,7 @@ public abstract class LCCBlocks {
 
 	//Rainbow
 	public static RainbowGateBlock rainbow_gate;
+    public static RainbowPortalBlock rainbow_portal;
 
     public static void init(Register<Block> e) {
 		//Test Blocks
@@ -257,7 +258,8 @@ public abstract class LCCBlocks {
 
 		all.add((rainbow_gate = new RainbowGateBlock(Block.Properties.create(Material.ROCK, MaterialColor.DIAMOND).hardnessAndResistance(1.5F, 6.0F))).setRegistryName(LCC.MODID, "rainbow_gate"));
 		createDefaultBlockItem(rainbow_gate);
-    }
+		all.add((rainbow_portal = new RainbowPortalBlock(Block.Properties.create(Material.PORTAL, MaterialColor.TNT).doesNotBlockMovement().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).lightValue(15).noDrops())).setRegistryName(LCC.MODID, "rainbow_portal"));
+	}
 
 	private static void createDefaultBlockItem(Block b) {
 		allItem.add((BlockItem)new BlockItem(b, new Item.Properties().group(LCC.itemGroup)).setRegistryName(b.getRegistryName()));

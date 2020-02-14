@@ -13,7 +13,9 @@ import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -48,6 +50,18 @@ public abstract class RegistryEvents {
     public static void onBiomeRegistry(final RegistryEvent.Register<Biome> e) {
         LCCBiomes.init(e);
         e.getRegistry().registerAll(LCCBiomes.all.toArray(new Biome[0]));
+    }
+
+    @SubscribeEvent
+    public static void onDimensionRegistry(final RegistryEvent.Register<ModDimension> e) {
+        LCCDimensions.init(e);
+        e.getRegistry().registerAll(LCCDimensions.all.toArray(new ModDimension[0]));
+    }
+
+    @SubscribeEvent
+    public static void onBiomeProviderRegistry(final RegistryEvent.Register<BiomeProviderType<?, ?>> e) {
+        LCCDimensions.initBiomeProviders(e);
+        e.getRegistry().registerAll(LCCDimensions.allBiomeProviders.toArray(new BiomeProviderType[0]));
     }
 
     @SubscribeEvent

@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.IntegerProperty;
@@ -17,6 +19,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 
 public class RainbowPortalBlock extends Block {
 
@@ -59,6 +62,13 @@ public class RainbowPortalBlock extends Block {
 
     public static boolean validGround(IWorldReader world, BlockPos pos) {
         return func_220064_c(world, pos);
+    }
+
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!world.isRemote) {
+            entity.changeDimension(LCCDimensions.rainbow.getType());
+        }
     }
 
 }

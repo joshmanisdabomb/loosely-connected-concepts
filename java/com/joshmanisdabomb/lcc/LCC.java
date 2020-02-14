@@ -51,6 +51,8 @@ public class LCC
         LCCBiomes.initEntries();
         BiomeBasedGenerator.init();
 
+        LCCDimensions.initManagerRegistry();
+
         MinecraftForge.EVENT_BUS.register(new GeneralEvents());
         MinecraftForge.EVENT_BUS.register(new InterfaceEvents());
 

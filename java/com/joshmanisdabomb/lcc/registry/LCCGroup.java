@@ -147,7 +147,33 @@ public class LCCGroup extends ItemGroup {
 
         //Rainbow
         set(LCCItems.chromatic_core, LCCGroupCategory.RAINBOW, 0);
-        set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 1000);
+        set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 10);
+        set(LCCBlocks.rainbow_grass_block, LCCGroupCategory.RAINBOW, 1000);
+        set(LCCBlocks.sugar_grass_block, LCCGroupCategory.RAINBOW, 1001);
+        set(LCCBlocks.star_grass_block, LCCGroupCategory.RAINBOW, 1002);
+        for (DyeColor color : DyeColor.values()) {
+            set(LCCBlocks.sparkling_grass_block.get(color), LCCGroupCategory.RAINBOW, color.getId()+1003);
+        }
+        set(LCCBlocks.sparkling_dirt, LCCGroupCategory.RAINBOW, 1020);
+        set(LCCBlocks.twilight_stone, LCCGroupCategory.RAINBOW, 1021);
+        set(LCCBlocks.twilight_cobblestone, LCCGroupCategory.RAINBOW, 1022);
+        set(LCCBlocks.candy_cane_red, LCCGroupCategory.RAINBOW, 1100);
+        set(LCCBlocks.candy_cane_green, LCCGroupCategory.RAINBOW, 1101);
+        set(LCCBlocks.candy_cane_blue, LCCGroupCategory.RAINBOW, 1102);
+        set(LCCBlocks.stripped_candy_cane, LCCGroupCategory.RAINBOW, 1103);
+        set(LCCBlocks.candy_cane_coating_red, LCCGroupCategory.RAINBOW, 1104);
+        set(LCCBlocks.candy_cane_coating_green, LCCGroupCategory.RAINBOW, 1105);
+        set(LCCBlocks.candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 1106);
+        set(LCCBlocks.stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 1107);
+        set(LCCBlocks.refined_candy_cane_red, LCCGroupCategory.RAINBOW, 1108);
+        set(LCCBlocks.refined_candy_cane_green, LCCGroupCategory.RAINBOW, 1109);
+        set(LCCBlocks.refined_candy_cane_blue, LCCGroupCategory.RAINBOW, 1110);
+        set(LCCBlocks.refined_stripped_candy_cane, LCCGroupCategory.RAINBOW, 1111);
+        set(LCCBlocks.refined_candy_cane_coating_red, LCCGroupCategory.RAINBOW, 1112);
+        set(LCCBlocks.refined_candy_cane_coating_green, LCCGroupCategory.RAINBOW, 1113);
+        set(LCCBlocks.refined_candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 1114);
+        set(LCCBlocks.refined_stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 1115);
+        set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 1116);
 
         //Spreaders
         set(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);

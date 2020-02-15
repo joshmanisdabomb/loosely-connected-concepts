@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.gen.dimension;
 
-import com.joshmanisdabomb.lcc.registry.LCCDimensions;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.dimension.DimensionType;

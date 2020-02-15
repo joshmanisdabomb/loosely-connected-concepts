@@ -15,6 +15,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -53,6 +54,12 @@ public abstract class RegistryEvents {
     }
 
     @SubscribeEvent
+    public static void onSurfaceBuilderRegistry(final RegistryEvent.Register<SurfaceBuilder<?>> e) {
+        LCCBiomes.initSurfaceBuilders(e);
+        e.getRegistry().registerAll(LCCBiomes.allSurfaceBuilders.toArray(new SurfaceBuilder<?>[0]));
+    }
+
+    @SubscribeEvent
     public static void onDimensionRegistry(final RegistryEvent.Register<ModDimension> e) {
         LCCDimensions.init(e);
         e.getRegistry().registerAll(LCCDimensions.all.toArray(new ModDimension[0]));
@@ -61,7 +68,7 @@ public abstract class RegistryEvents {
     @SubscribeEvent
     public static void onBiomeProviderRegistry(final RegistryEvent.Register<BiomeProviderType<?, ?>> e) {
         LCCDimensions.initBiomeProviders(e);
-        e.getRegistry().registerAll(LCCDimensions.allBiomeProviders.toArray(new BiomeProviderType[0]));
+        e.getRegistry().registerAll(LCCDimensions.allBiomeProviders.toArray(new BiomeProviderType<?, ?>[0]));
     }
 
     @SubscribeEvent

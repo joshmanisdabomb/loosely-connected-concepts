@@ -1,0 +1,40 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube",
+    "textures": {
+      "up": "lcc:block/rainbow/candy_cane/end",
+      "down": "lcc:block/rainbow/candy_cane/end",
+      "particle": "lcc:block/rainbow/candy_cane/green_0"
+    }
+  },
+  "variants": {
+    "axis": {
+      "y": {},
+      "z": { "x": 90 },
+      "x": { "x": 90, "y": 90 }
+    },
+    "side_alternate": {
+      "false": {
+        "textures": {
+          "north": "lcc:block/rainbow/candy_cane/green_0",
+          "west": "lcc:block/rainbow/candy_cane/green_1",
+          "south": "lcc:block/rainbow/candy_cane/green_0",
+          "east": "lcc:block/rainbow/candy_cane/green_1"
+        }
+      },
+      "true": {
+        "textures": {
+          "north": "lcc:block/rainbow/candy_cane/green_1",
+          "west": "lcc:block/rainbow/candy_cane/green_0",
+          "south": "lcc:block/rainbow/candy_cane/green_1",
+          "east": "lcc:block/rainbow/candy_cane/green_0"
+        }
+      }
+    },
+    "end_alternate": {
+      "false": {},
+      "true": {}
+    }
+  }
+}

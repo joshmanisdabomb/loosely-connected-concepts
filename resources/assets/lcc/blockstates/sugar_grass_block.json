@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_bottom_top",
+    "textures": {
+      "top": "lcc:block/rainbow/sugar_grass_top",
+      "side": "lcc:block/rainbow/sugar_grass_side",
+      "bottom": "lcc:block/rainbow/dirt"
+    }
+  },
+  "variants": {
+    "": [{}, {"y": 90}, {"y": 180}, {"y": 270}]
+  }
+}

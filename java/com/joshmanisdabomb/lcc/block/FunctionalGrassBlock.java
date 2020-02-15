@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -24,7 +23,7 @@ public class FunctionalGrassBlock extends GrassBlock {
     public FunctionalGrassBlock(BiFunction<BlockState, Boolean, BlockState> change, Properties properties) {
         super(properties);
         this.change = change;
-}
+    }
 
     public boolean survives(BlockState state, IWorldReader world, BlockPos pos, boolean water) {
         BlockPos pos2 = pos.up();
@@ -63,12 +62,6 @@ public class FunctionalGrassBlock extends GrassBlock {
                 }
             }
         }
-    }
-
-    @Override
-    @AdaptedFromSource
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.SOLID;
     }
 
     @Override

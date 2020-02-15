@@ -27,7 +27,7 @@ public abstract class LCCBlocks {
 	public static Block test_block;
 	public static TestHorizontalBlock test_block_2;
 	public static TestDirectionalBlock test_block_3;
-	public static TestPillarBlock test_block_4;
+	public static PillarBlock test_block_4;
 	public static TestConnectedTextureBlock test_block_5;
 
 	//Gizmos
@@ -107,6 +107,31 @@ public abstract class LCCBlocks {
 	public static RainbowGateBlock rainbow_gate;
     public static RainbowPortalBlock rainbow_portal;
 
+	public static FunctionalSnowlessGrassBlock rainbow_grass_block;
+	public static FunctionalSnowlessGrassBlock sugar_grass_block;
+	public static FunctionalSnowlessGrassBlock star_grass_block;
+	public static HashMap<DyeColor, SparklingGrassBlock> sparkling_grass_block = new HashMap<>();
+	public static Block sparkling_dirt;
+	public static Block twilight_stone;
+	public static Block twilight_cobblestone;
+	public static CandyCaneBlock candy_cane_red;
+	public static CandyCaneBlock candy_cane_green;
+	public static CandyCaneBlock candy_cane_blue;
+	public static PillarBlock stripped_candy_cane;
+	public static CandyCaneBlock candy_cane_coating_red;
+	public static CandyCaneBlock candy_cane_coating_green;
+	public static CandyCaneBlock candy_cane_coating_blue;
+	public static PillarBlock stripped_candy_cane_coating;
+	public static PillarBlock refined_candy_cane_red;
+	public static PillarBlock refined_candy_cane_blue;
+	public static PillarBlock refined_candy_cane_green;
+	public static PillarBlock refined_stripped_candy_cane;
+	public static PillarBlock refined_candy_cane_coating_red;
+	public static PillarBlock refined_candy_cane_coating_blue;
+	public static PillarBlock refined_candy_cane_coating_green;
+	public static PillarBlock refined_stripped_candy_cane_coating;
+	public static Block candy_cane_block;
+
     public static void init(Register<Block> e) {
 		//Test Blocks
 		all.add((test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block"));
@@ -115,7 +140,7 @@ public abstract class LCCBlocks {
 		createDefaultBlockItem(test_block_2);
 		all.add((test_block_3 = new TestDirectionalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_3"));
 		createDefaultBlockItem(test_block_3);
-		all.add((test_block_4 = new TestPillarBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_4"));
+		all.add((test_block_4 = new PillarBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_4"));
 		createDefaultBlockItem(test_block_4);
 		all.add((test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_5"));
 		createDefaultBlockItem(test_block_5);
@@ -256,9 +281,74 @@ public abstract class LCCBlocks {
 		all.add((cog = new CogBlock(Block.Properties.create(Material.MISCELLANEOUS, MaterialColor.IRON).hardnessAndResistance(0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "cog"));
 		createDefaultBlockItem(cog);
 
+		//Rainbow
 		all.add((rainbow_gate = new RainbowGateBlock(Block.Properties.create(Material.ROCK, MaterialColor.DIAMOND).hardnessAndResistance(1.5F, 6.0F))).setRegistryName(LCC.MODID, "rainbow_gate"));
 		createDefaultBlockItem(rainbow_gate);
 		all.add((rainbow_portal = new RainbowPortalBlock(Block.Properties.create(Material.PORTAL, MaterialColor.TNT).doesNotBlockMovement().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).lightValue(15).noDrops())).setRegistryName(LCC.MODID, "rainbow_portal"));
+		all.add((rainbow_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
+			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.rainbow_grass_block.getDefaultState();
+			else return null;
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.TNT).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "rainbow_grass_block"));
+		createDefaultBlockItem(rainbow_grass_block);
+		all.add((sugar_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
+			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
+			else return null;
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "sugar_grass_block"));
+		createDefaultBlockItem(sugar_grass_block);
+		all.add((star_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
+			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.star_grass_block.getDefaultState();
+			else return null;
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "star_grass_block"));
+		createDefaultBlockItem(star_grass_block);
+		for (DyeColor color : DyeColor.values()) {
+			SparklingGrassBlock b;
+			all.add((b = new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "sparkling_grass_block_" + color.getName()));
+			sparkling_grass_block.put(color, b);
+			createDefaultBlockItem(b);
+		}
+		all.add((sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND))).setRegistryName(LCC.MODID, "sparkling_dirt"));
+		createDefaultBlockItem(sparkling_dirt);
+		all.add((twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "twilight_stone"));
+		createDefaultBlockItem(twilight_stone);
+		all.add((twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 6.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "twilight_cobblestone"));
+		createDefaultBlockItem(twilight_cobblestone);
+		all.add((candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_red"));
+		createDefaultBlockItem(candy_cane_red);
+		all.add((candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_green"));
+		createDefaultBlockItem(candy_cane_green);
+		all.add((candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_blue"));
+		createDefaultBlockItem(candy_cane_blue);
+		all.add((stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "stripped_candy_cane"));
+		createDefaultBlockItem(stripped_candy_cane);
+		all.add((candy_cane_coating_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_red"));
+		createDefaultBlockItem(candy_cane_coating_red);
+		all.add((candy_cane_coating_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_green"));
+		createDefaultBlockItem(candy_cane_coating_green);
+		all.add((candy_cane_coating_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_blue"));
+		createDefaultBlockItem(candy_cane_coating_blue);
+		all.add((stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "stripped_candy_cane_coating"));
+		createDefaultBlockItem(stripped_candy_cane_coating);
+		all.add((refined_candy_cane_red = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_red"));
+		createDefaultBlockItem(refined_candy_cane_red);
+		all.add((refined_candy_cane_green = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_green"));
+		createDefaultBlockItem(refined_candy_cane_green);
+		all.add((refined_candy_cane_blue = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_blue"));
+		createDefaultBlockItem(refined_candy_cane_blue);
+		all.add((refined_stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_stripped_candy_cane"));
+		createDefaultBlockItem(refined_stripped_candy_cane);
+		all.add((refined_candy_cane_coating_red = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_red"));
+		createDefaultBlockItem(refined_candy_cane_coating_red);
+		all.add((refined_candy_cane_coating_green = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_green"));
+		createDefaultBlockItem(refined_candy_cane_coating_green);
+		all.add((refined_candy_cane_coating_blue = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_blue"));
+		createDefaultBlockItem(refined_candy_cane_coating_blue);
+		all.add((refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_stripped_candy_cane_coating"));
+		createDefaultBlockItem(refined_stripped_candy_cane_coating);
+		all.add((candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_block"));
+		createDefaultBlockItem(candy_cane_block);
 	}
 
 	private static void createDefaultBlockItem(Block b) {

@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "lcc:block/rainbow/stone"
+    }
+  },
+  "variants": {
+    "": [
+      {"model": "block/cube_all"},
+      {"model": "block/cube_mirrored_all"},
+      {"model": "block/cube_all", "y": 180},
+      {"model": "block/cube_mirrored_all", "y": 180}]
+  }
+}

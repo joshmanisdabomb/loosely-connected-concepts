@@ -4,16 +4,11 @@ import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.gen.dimension.LCCDimensionHelper;
 import com.joshmanisdabomb.lcc.gen.dimension.MultiBiomeProvider;
 import com.joshmanisdabomb.lcc.gen.dimension.RainbowDimensionRegistry;
-import io.netty.buffer.Unpooled;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.biome.provider.BiomeProviderType;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public abstract class LCCDimensions {
 

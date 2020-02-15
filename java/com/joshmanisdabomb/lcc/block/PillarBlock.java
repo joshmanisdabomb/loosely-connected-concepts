@@ -8,9 +8,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 
-public class TestPillarBlock extends RotatedPillarBlock implements LCCBlockHelper {
+public class PillarBlock extends RotatedPillarBlock implements LCCBlockHelper {
 
-    public TestPillarBlock(Block.Properties p) {
+    public PillarBlock(Block.Properties p) {
         super(p);
         this.setDefaultState(this.stateContainer.getBaseState().with(BlockStateProperties.AXIS, Direction.Axis.Y));
     }

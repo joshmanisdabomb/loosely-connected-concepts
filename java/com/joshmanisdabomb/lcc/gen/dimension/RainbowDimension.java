@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.gen.dimension;
 
+import com.joshmanisdabomb.lcc.gen.dimension.provider.MultiBiomeProvider;
 import com.joshmanisdabomb.lcc.registry.LCCBiomes;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCDimensions;
@@ -45,7 +46,7 @@ public class RainbowDimension extends Dimension {
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_starlight, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_terrene, 20));
 
-        return ChunkGeneratorType.FLOATING_ISLANDS.create(this.world, LCCDimensions.multiple_biomes.create(bpSettings), genSettings);
+        return LCCDimensions.floating_islands_amplified.create(this.world, LCCDimensions.multiple_biomes.create(bpSettings), genSettings);
     }
 
     protected void generateLightBrightnessTable() {

@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.gen.dimension;
+package com.joshmanisdabomb.lcc.gen.dimension.provider;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;

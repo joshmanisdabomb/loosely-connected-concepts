@@ -45,7 +45,7 @@ public class ColorfulSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
     }
 
     protected void buildSurface(Random random, IChunk chunkIn, Biome biomeIn, int x, int z, int startHeight, double noise, BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState middle, BlockState bottom, int sealevel) {
-        DyeColor color = this.getColor(x, startHeight, z);
+        DyeColor color = this.getColor(x, 0, z);
         top = LCCBlocks.sparkling_grass_block.get(color).getDefaultState();
 
         BlockState blockstate = top;

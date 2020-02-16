@@ -60,7 +60,9 @@ public class BigCandyCaneFeature extends Feature<NoFeatureConfig> {
             if (pos.getY() + height + size.getY() >= world.getMaxHeight()) return false;
             if (!GenUtility.allInAreaMatches(world, pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 4, pos.getY() - 1, pos.getZ() + 4, 0, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.sugar_grass_block)) return false;
             if (!GenUtility.allInAreaClear(world, pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 3, pos.getY() + height, pos.getZ() + 3, 1)) return false;
-            if (!GenUtility.allInAreaClear(world, pos.getX(), pos.getY() + 1 + height, pos.getZ(), pos.getX() + 3, pos.getY() + height, pos.getZ() + 3, 1)) return false;
+
+            //lazy check for all directions
+            if (!GenUtility.allInAreaClear(world, pos.getX() - 7, pos.getY() + 1 + height, pos.getZ() - 7, pos.getX() + 10, pos.getY() + height, pos.getZ() + 10, 1)) return false;
 
             for (int i = 0; i < height; i++) {
                 for (int x = 0; x < 4; x++) {

@@ -19,7 +19,7 @@ public class ColorfulSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
     public static final OctavesNoiseGenerator[] COLORS = new OctavesNoiseGenerator[16];
     static {
         for (int i = 0; i < COLORS.length; i++) {
-            COLORS[i] = new OctavesNoiseGenerator(new Random(3452108 + i), 2);
+            COLORS[i] = new OctavesNoiseGenerator(new Random(3452108 + i), 1);
         }
     }
 

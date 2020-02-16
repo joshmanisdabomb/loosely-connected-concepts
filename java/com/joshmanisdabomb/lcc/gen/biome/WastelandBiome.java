@@ -38,7 +38,7 @@ public class WastelandBiome extends Biome implements LCCBiomeHelper {
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.RAW_GENERATION, Biome.createDecoratedFeature(LCCFeatures.oil_geyser, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
+        this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(LCCFeatures.oil_geyser, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
     }
 
     @Override

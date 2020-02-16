@@ -31,8 +31,8 @@ public class OilGeyserFeature extends Feature<NoFeatureConfig> {
         int height = minHeight + rand.nextInt(variation + 1);
         BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos(pos).move(0, height, 0);
         if (bp.getY() >= world.getMaxHeight()) return false;
-        if (!GenUtility.allInAreaClear(world, pos.getX() - 2, pos.getY(), pos.getZ() - 2, pos.getX() + 2, bp.getY(), pos.getZ() + 2)) return false;
-        if (!GenUtility.allInAreaMatches(world, pos.getX() - 2, pos.getY() - 1, pos.getZ() - 2, pos.getX() + 2, pos.getY() - 1, pos.getZ() + 2, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.cracked_mud)) return false;
+        if (!GenUtility.allInAreaMatches(world, pos.getX() - 2, pos.getY() - 1, pos.getZ() - 2, pos.getX() + 2, pos.getY() - 1, pos.getZ() + 2, 0, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.cracked_mud)) return false;
+        if (!GenUtility.allInAreaClear(world, pos.getX() - 2, pos.getY() + 1, pos.getZ() - 2, pos.getX() + 2, bp.getY(), pos.getZ() + 2, 1)) return false;
         for (int i = 0; i <= height; i++) {
             world.setBlockState(bp, LCCBlocks.oil.getDefaultState().with(BlockStateProperties.LEVEL_0_15, i > 0 ? 8 : 0), 18);
             for (int j = 0; j < 4; j++) {

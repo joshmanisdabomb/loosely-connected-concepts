@@ -26,10 +26,10 @@ public class CandyCaneBlock extends PillarBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getCaneState(traitPillarPlacement(context), context.getPos());
+        return getCaneState(traitPillarPlacement(context), context.getPos());
     }
 
-    public BlockState getCaneState(BlockState state, BlockPos pos) {
+    public static BlockState getCaneState(BlockState state, BlockPos pos) {
         Direction.Axis axis = state.get(AXIS);
 
         int a = axis == Direction.Axis.X ? pos.getZ() : pos.getX();

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "lcc:candy_cane_coating",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "lcc:stripped_candy_cane"
+    }
+  },
+  "result": {
+    "item": "lcc:stripped_candy_cane_coating",
+    "count": 3
+  }
+}

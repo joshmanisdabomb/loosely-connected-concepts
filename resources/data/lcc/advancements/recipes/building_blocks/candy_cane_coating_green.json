@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:candy_cane_coating_green"
+    ]
+  },
+  "criteria": {
+    "has_candy_cane": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:candy_cane_green"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:candy_cane_coating_green"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_candy_cane",
+      "has_the_recipe"
+    ]
+  ]
+}

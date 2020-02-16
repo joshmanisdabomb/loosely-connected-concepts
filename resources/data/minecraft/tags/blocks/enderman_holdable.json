@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:cracked_mud",
+    "lcc:rainbow_grass_block",
+    "lcc:sugar_grass_block",
+    "lcc:star_grass_block",
+    "lcc:sparkling_dirt"
+  ]
+}

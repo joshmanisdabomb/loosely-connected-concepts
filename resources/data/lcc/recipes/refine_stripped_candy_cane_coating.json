@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "lcc:refine_candy_cane_coating",
+  "ingredients": [
+    {
+      "item": "lcc:stripped_candy_cane_coating"
+    }
+  ],
+  "result": {
+    "item": "lcc:refined_stripped_candy_cane_coating",
+    "count": 2
+  }
+}

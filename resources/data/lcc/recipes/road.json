@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "lcc:road",
   "ingredients": [
     {
       "item": "minecraft:slime_ball"

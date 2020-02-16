@@ -9,7 +9,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-public class CandyCaneBlock extends PillarBlock {
+public class CandyCaneBlock extends RefinedCandyCaneBlock {
 
     public static final BooleanProperty SIDE_ALTERNATE = BooleanProperty.create("side_alternate");
     public static final BooleanProperty END_ALTERNATE = BooleanProperty.create("end_alternate");

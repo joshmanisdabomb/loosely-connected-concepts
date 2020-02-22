@@ -19,6 +19,7 @@ import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public abstract class LCCBlocks {
 	
@@ -133,6 +134,7 @@ public abstract class LCCBlocks {
 	public static RefinedCandyCaneBlock refined_candy_cane_coating_green;
 	public static PillarBlock refined_stripped_candy_cane_coating;
 	public static Block candy_cane_block;
+	public static ChanneliteBlock channelite;
 
 	public static final BlockTags.Wrapper CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
 	public static final BlockTags.Wrapper CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));
@@ -141,225 +143,154 @@ public abstract class LCCBlocks {
 
 	public static void init(Register<Block> e) {
 		//Test Blocks
-		all.add((test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block"));
-		createDefaultBlockItem(test_block);
-		all.add((test_block_2 = new TestHorizontalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_2"));
-		createDefaultBlockItem(test_block_2);
-		all.add((test_block_3 = new TestDirectionalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_3"));
-		createDefaultBlockItem(test_block_3);
-		all.add((test_block_4 = new PillarBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_4"));
-		createDefaultBlockItem(test_block_4);
-		all.add((test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING))).setRegistryName(LCC.MODID, "test_block_5"));
-		createDefaultBlockItem(test_block_5);
-
+		addWithDefaultItem(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block"));
+		addWithDefaultItem(test_block_2 = new TestHorizontalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_2"));
+		addWithDefaultItem(test_block_3 = new TestDirectionalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_3"));
+		addWithDefaultItem(test_block_4 = new PillarBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_4"));
+		addWithDefaultItem(test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_5"));
+		
 		//Gizmos
 		//TODO: new recipe for road from oil > petroleum > road
-		all.add((road = new RoadBlock(Block.Properties.create(Material.ROCK, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).doesNotBlockMovement().sound(SoundType.STONE))).setRegistryName(LCC.MODID, "road"));
-		createDefaultBlockItem(road);
-		all.add((hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand))).setRegistryName(LCC.MODID, "hydrated_soul_sand"));
-		createDefaultBlockItem(hydrated_soul_sand);
-		all.add((hydrated_soul_sand_bubble_column = new FunctionalBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? FunctionalBubbleColumnBlock.ColumnType.UPWARDS : FunctionalBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops())).setRegistryName(LCC.MODID, "hydrated_soul_sand_bubble_column"));
-		all.add((bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "bounce_pad"));
-		createDefaultBlockItem(bounce_pad);
-
+		addWithDefaultItem(road = new RoadBlock(Block.Properties.create(Material.ROCK, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).doesNotBlockMovement().sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "road"));
+		addWithDefaultItem(hydrated_soul_sand = new HydratedSoulSandBlock(Block.Properties.create(Material.SAND, MaterialColor.BROWN_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.75F, 2.5F).sound(LCCSounds.hydrated_soul_sand)), new ResourceLocation(LCC.MODID, "hydrated_soul_sand"));
+		add(hydrated_soul_sand_bubble_column = new FunctionalBubbleColumnBlock(state -> state.getBlock() == LCCBlocks.hydrated_soul_sand ? FunctionalBubbleColumnBlock.ColumnType.UPWARDS : FunctionalBubbleColumnBlock.ColumnType.NONE, Block.Properties.create(Material.BUBBLE_COLUMN).doesNotBlockMovement().noDrops()), new ResourceLocation(LCC.MODID, "hydrated_soul_sand_bubble_column"));
+		addWithDefaultItem(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "bounce_pad"));
+		
 		//Resources
-		all.add((ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F))).setRegistryName(LCC.MODID, "ruby_ore"));
-		createDefaultBlockItem(ruby_ore);
-		all.add((ruby_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.TNT).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "ruby_storage"));
-		createDefaultBlockItem(ruby_storage);
-		all.add((topaz_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F))).setRegistryName(LCC.MODID, "topaz_ore"));
-		createDefaultBlockItem(topaz_ore);
-		all.add((topaz_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "topaz_storage"));
-		createDefaultBlockItem(topaz_storage);
-		all.add((sapphire_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F))).setRegistryName(LCC.MODID, "sapphire_ore"));
-		createDefaultBlockItem(sapphire_ore);
-		all.add((sapphire_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "sapphire_storage"));
-		createDefaultBlockItem(sapphire_storage);
-		all.add((amethyst_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F))).setRegistryName(LCC.MODID, "amethyst_ore"));
-		createDefaultBlockItem(amethyst_ore);
-		all.add((amethyst_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.PURPLE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "amethyst_storage"));
-		createDefaultBlockItem(amethyst_storage);
-		all.add((uranium_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(3.0F))).setRegistryName(LCC.MODID, "uranium_ore"));
-		createDefaultBlockItem(uranium_ore);
-		all.add((uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "uranium_storage"));
-		createDefaultBlockItem(uranium_storage);
-		all.add((enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "enriched_uranium_storage"));
-		createDefaultBlockItem(enriched_uranium_storage);
-
+		addWithDefaultItem(ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "ruby_ore"));
+		addWithDefaultItem(ruby_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.TNT).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "ruby_storage"));
+		addWithDefaultItem(topaz_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "topaz_ore"));
+		addWithDefaultItem(topaz_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "topaz_storage"));
+		addWithDefaultItem(sapphire_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "sapphire_ore"));
+		addWithDefaultItem(sapphire_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "sapphire_storage"));
+		addWithDefaultItem(amethyst_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "amethyst_ore"));
+		addWithDefaultItem(amethyst_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.PURPLE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "amethyst_storage"));
+		addWithDefaultItem(uranium_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "uranium_ore"));
+		addWithDefaultItem(uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "uranium_storage"));
+		addWithDefaultItem(enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "enriched_uranium_storage"));
+		
 		//Wasteland
-		all.add((cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "cracked_mud"));
-		createDefaultBlockItem(cracked_mud);
-		all.add((oil = new OilBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).hardnessAndResistance(100.0F).noDrops())).setRegistryName(LCC.MODID, "oil"));
+		addWithDefaultItem(cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "cracked_mud"));
+		add(oil = new OilBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).hardnessAndResistance(100.0F).noDrops()), new ResourceLocation(LCC.MODID, "oil"));
 
 		//Nuclear
-		all.add((atomic_bomb = new AtomicBombBlock(Block.Properties.create(Material.ANVIL, MaterialColor.IRON).hardnessAndResistance(9.0F, 1200.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2).sound(SoundType.ANVIL))).setRegistryName(LCC.MODID, "atomic_bomb"));
-		createDefaultBlockItem(atomic_bomb);
-		all.add((nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL))).setRegistryName(LCC.MODID, "nuclear_waste"));
-		createDefaultBlockItem(nuclear_waste);
-		all.add((nuclear_fire = new NuclearFireBlock(Block.Properties.create(Material.FIRE, DyeColor.LIME).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).lightValue(15).sound(SoundType.CLOTH).noDrops())).setRegistryName(LCC.MODID, "nuclear_fire"));
+		addWithDefaultItem(atomic_bomb = new AtomicBombBlock(Block.Properties.create(Material.ANVIL, MaterialColor.IRON).hardnessAndResistance(9.0F, 1200.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2).sound(SoundType.ANVIL)), new ResourceLocation(LCC.MODID, "atomic_bomb"));
+		addWithDefaultItem(nuclear_waste = new NuclearWasteBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN_TERRACOTTA).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CORAL)), new ResourceLocation(LCC.MODID, "nuclear_waste"));
+		add(nuclear_fire = new NuclearFireBlock(Block.Properties.create(Material.FIRE, DyeColor.LIME).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).lightValue(15).sound(SoundType.CLOTH).noDrops()), new ResourceLocation(LCC.MODID, "nuclear_fire"));
 
     	//Spreaders
-		all.add((spreader_interface = new SpreaderInterfaceBlock(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(7.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "spreader_interface"));
-		createDefaultBlockItem(spreader_interface);
-		for (DyeColor color : DyeColor.values()) {
-			SpreaderBlock b;
-			all.add((b = new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART))).setRegistryName(LCC.MODID, "spreader_" + color.getName()));
-			spreaders.put(color, b);
-			createDefaultBlockItem(b);
-		}
+		addWithDefaultItem(spreader_interface = new SpreaderInterfaceBlock(Block.Properties.create(Material.IRON, MaterialColor.IRON).hardnessAndResistance(7.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "spreader_interface"));
+		factory(spreaders, color -> addWithDefaultItem(new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)), new ResourceLocation(LCC.MODID, "spreader_" + color.getName())), DyeColor.values());
 
 		//Computing
-		all.add((computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL))).setRegistryName(LCC.MODID, "computing_block"));
-		all.add((networking_cable = new CableBlock(CableBlock.NETWORKING_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "networking_cable"));
-		createDefaultBlockItem(networking_cable);
-		all.add((terminal_cable = new CableBlock(CableBlock.TERMINAL_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "terminal_cable"));
-		createDefaultBlockItem(terminal_cable);
-		for (DyeColor color : DyeColor.values()) {
-			TerminalBlock b;
-			all.add((b = new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "terminal_" + color.getName()));
-			terminals.put(color, b);
-			createDefaultBlockItem(b);
-		}
+		add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "computing_block"));
+		addWithDefaultItem(networking_cable = new CableBlock(CableBlock.NETWORKING_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "networking_cable"));
+		addWithDefaultItem(terminal_cable = new CableBlock(CableBlock.TERMINAL_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "terminal_cable"));
+		factory(terminals, color -> addWithDefaultItem(new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "terminal_" + color.getName())), DyeColor.values());
 
 		//Nostalgia
-		all.add((time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH))).setRegistryName(LCC.MODID, "time_rift"));
+		addWithDefaultItem(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)), new ResourceLocation(LCC.MODID, "time_rift"));
 		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
-		all.add((classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_grass_block"));
-		createDefaultBlockItem(classic_grass_block);
-		all.add((classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "classic_cobblestone"));
-		createDefaultBlockItem(classic_cobblestone);
-		all.add((classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD))).setRegistryName(LCC.MODID, "classic_planks"));
-		createDefaultBlockItem(classic_planks);
-		all.add((classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_leaves"));
-		createDefaultBlockItem(classic_leaves);
-		all.add((classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_sapling"));
-		createDefaultBlockItem(classic_sapling);
+		addWithDefaultItem(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_grass_block"));
+		addWithDefaultItem(classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_cobblestone"));
+		addWithDefaultItem(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "classic_planks"));
+		addWithDefaultItem(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_leaves"));
+		addWithDefaultItem(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_sapling"));
 		//TODO: Upgrade flower pots to Forge version
-		all.add((potted_classic_sapling = new FlowerPotBlock(LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F))).setRegistryName(LCC.MODID, "potted_classic_sapling"));
-		all.add((classic_gravel = new FallingBlock(Block.Properties.create(Material.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).sound(SoundType.GROUND)) {
+		add(potted_classic_sapling = new FlowerPotBlock(LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_sapling"));
+		addWithDefaultItem(classic_gravel = new FallingBlock(Block.Properties.create(Material.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).sound(SoundType.GROUND)) {
 			@Override
 			public int getDustColor(BlockState p_189876_1_) {
 				return 0x9C9193;
 			}
-		}).setRegistryName(LCC.MODID, "classic_gravel"));
-		createDefaultBlockItem(classic_gravel);
-		all.add((classic_sponge = new ClassicSpongeBlock(Block.Properties.create(Material.SPONGE).hardnessAndResistance(0.6F).sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_sponge"));
-		createDefaultBlockItem(classic_sponge);
-		all.add((classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS))).setRegistryName(LCC.MODID, "classic_glass"));
-		createDefaultBlockItem(classic_glass);
-		for (ClassicDyeColor color : ClassicDyeColor.values()) {
-			ShearableBlock b;
-			all.add((b = new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH))).setRegistryName(LCC.MODID, "classic_cloth_" + color.getName()));
-			classic_cloth.put(color, b);
-			createDefaultBlockItem(b);
-		}
-		all.add((classic_rose = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_rose.getDefaultState(), Effects.ABSORPTION, 4, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_rose"));
-		createDefaultBlockItem(classic_rose);
-		all.add((potted_classic_rose = new FlowerPotBlock(LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F))).setRegistryName(LCC.MODID, "potted_classic_rose"));
-		all.add((classic_cyan_flower = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_cyan_flower.getDefaultState(), Effects.LEVITATION, 5, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_cyan_flower"));
-		createDefaultBlockItem(classic_cyan_flower);
-		all.add((potted_classic_cyan_flower = new FlowerPotBlock(LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F))).setRegistryName(LCC.MODID, "potted_classic_cyan_flower"));
-		all.add((classic_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_iron_block"));
-		createDefaultBlockItem(classic_iron_block);
-		all.add((classic_smooth_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_smooth_iron_block"));
-		createDefaultBlockItem(classic_smooth_iron_block);
-		all.add((classic_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_gold_block"));
-		createDefaultBlockItem(classic_gold_block);
-		all.add((classic_smooth_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_smooth_gold_block"));
-		createDefaultBlockItem(classic_smooth_gold_block);
-		all.add((classic_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_diamond_block"));
-		createDefaultBlockItem(classic_diamond_block);
-		all.add((classic_smooth_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "classic_smooth_diamond_block"));
-		createDefaultBlockItem(classic_smooth_diamond_block);
-		all.add((classic_bricks = new Block(Block.Properties.create(Material.ROCK, MaterialColor.RED).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "classic_bricks"));
-		createDefaultBlockItem(classic_bricks);
-		all.add((classic_tnt = new FunctionalTNTBlock(ClassicTNTEntity::new, true, Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "classic_tnt"));
-		createDefaultBlockItem(classic_tnt);
-		all.add((classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "classic_mossy_cobblestone"));
-		createDefaultBlockItem(classic_mossy_cobblestone);
-		all.add((classic_chest = new ClassicChestBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD))).setRegistryName(LCC.MODID, "classic_chest"));
-		createDefaultBlockItem(classic_chest);
-		all.add((nether_reactor = new NetherReactorBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(4.0F, 5.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "nether_reactor"));
-		createDefaultBlockItem(nether_reactor);
-		all.add((crying_obsidian = new CryingObsidianBlock(Block.Properties.create(Material.ROCK, MaterialColor.BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "crying_obsidian"));
-		createDefaultBlockItem(crying_obsidian);
-		all.add((glowing_obsidian = new Block(Block.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).lightValue(12).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "glowing_obsidian"));
-		createDefaultBlockItem(glowing_obsidian);
-		all.add((cog = new CogBlock(Block.Properties.create(Material.MISCELLANEOUS, MaterialColor.IRON).hardnessAndResistance(0.0F).sound(SoundType.METAL))).setRegistryName(LCC.MODID, "cog"));
-		createDefaultBlockItem(cog);
-
+		}, new ResourceLocation(LCC.MODID, "classic_gravel"));
+		addWithDefaultItem(classic_sponge = new ClassicSpongeBlock(Block.Properties.create(Material.SPONGE).hardnessAndResistance(0.6F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_sponge"));
+		addWithDefaultItem(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "classic_glass"));
+		factory(classic_cloth, color -> addWithDefaultItem(new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH)), new ResourceLocation(LCC.MODID, "classic_cloth_" + color.getName())), ClassicDyeColor.values());
+		addWithDefaultItem(classic_rose = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_rose.getDefaultState(), Effects.ABSORPTION, 4, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_rose"));
+		add(potted_classic_rose = new FlowerPotBlock(LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_rose"));
+		addWithDefaultItem(classic_cyan_flower = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_cyan_flower.getDefaultState(), Effects.LEVITATION, 5, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_cyan_flower"));
+		add(potted_classic_cyan_flower = new FlowerPotBlock(LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_cyan_flower"));
+		addWithDefaultItem(classic_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_iron_block"));
+		addWithDefaultItem(classic_smooth_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_smooth_iron_block"));
+		addWithDefaultItem(classic_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_gold_block"));
+		addWithDefaultItem(classic_smooth_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_smooth_gold_block"));
+		addWithDefaultItem(classic_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_diamond_block"));
+		addWithDefaultItem(classic_smooth_diamond_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.DIAMOND).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_smooth_diamond_block"));
+		addWithDefaultItem(classic_bricks = new Block(Block.Properties.create(Material.ROCK, MaterialColor.RED).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_bricks"));
+		addWithDefaultItem(classic_tnt = new FunctionalTNTBlock(ClassicTNTEntity::new, true, Block.Properties.create(Material.TNT).hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_tnt"));
+		addWithDefaultItem(classic_mossy_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_mossy_cobblestone"));
+		addWithDefaultItem(classic_chest = new ClassicChestBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.5F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "classic_chest"));
+		addWithDefaultItem(nether_reactor = new NetherReactorBlock(Block.Properties.create(Material.ROCK, MaterialColor.CYAN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(4.0F, 5.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "nether_reactor"));
+		addWithDefaultItem(crying_obsidian = new CryingObsidianBlock(Block.Properties.create(Material.ROCK, MaterialColor.BLACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "crying_obsidian"));
+		addWithDefaultItem(glowing_obsidian = new Block(Block.Properties.create(Material.ROCK, MaterialColor.NETHERRACK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(50.0F, 1200.0F).lightValue(12).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "glowing_obsidian"));
+		addWithDefaultItem(cog = new CogBlock(Block.Properties.create(Material.MISCELLANEOUS, MaterialColor.IRON).hardnessAndResistance(0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "cog"));
+		
 		//Rainbow
-		all.add((rainbow_gate = new RainbowGateBlock(Block.Properties.create(Material.ROCK, MaterialColor.DIAMOND).hardnessAndResistance(1.5F, 6.0F))).setRegistryName(LCC.MODID, "rainbow_gate"));
-		createDefaultBlockItem(rainbow_gate);
-		all.add((rainbow_portal = new RainbowPortalBlock(Block.Properties.create(Material.PORTAL, MaterialColor.TNT).doesNotBlockMovement().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).lightValue(15).noDrops())).setRegistryName(LCC.MODID, "rainbow_portal"));
-		all.add((rainbow_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+		addWithDefaultItem(rainbow_gate = new RainbowGateBlock(Block.Properties.create(Material.ROCK, MaterialColor.DIAMOND).hardnessAndResistance(1.5F, 6.0F)), new ResourceLocation(LCC.MODID, "rainbow_gate"));
+		add(rainbow_portal = new RainbowPortalBlock(Block.Properties.create(Material.PORTAL, MaterialColor.TNT).doesNotBlockMovement().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).lightValue(15).noDrops()), new ResourceLocation(LCC.MODID, "rainbow_portal"));
+		addWithDefaultItem(rainbow_grass_block = new FunctionalSnowlessGrassBlock(state -> {
 			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.rainbow_grass_block.getDefaultState();
 			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.TNT).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "rainbow_grass_block"));
-		createDefaultBlockItem(rainbow_grass_block);
-		all.add((sugar_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.TNT).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "rainbow_grass_block"));
+		addWithDefaultItem(sugar_grass_block = new FunctionalSnowlessGrassBlock(state -> {
 			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
 			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "sugar_grass_block"));
-		createDefaultBlockItem(sugar_grass_block);
-		all.add((star_grass_block = new FunctionalSnowlessGrassBlock(state -> {
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
+		addWithDefaultItem(star_grass_block = new FunctionalSnowlessGrassBlock(state -> {
 			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.star_grass_block.getDefaultState();
 			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "star_grass_block"));
-		createDefaultBlockItem(star_grass_block);
-		for (DyeColor color : DyeColor.values()) {
-			SparklingGrassBlock b;
-			all.add((b = new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT))).setRegistryName(LCC.MODID, "sparkling_grass_block_" + color.getName()));
-			sparkling_grass_block.put(color, b);
-			createDefaultBlockItem(b);
-		}
-		all.add((sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND))).setRegistryName(LCC.MODID, "sparkling_dirt"));
-		createDefaultBlockItem(sparkling_dirt);
-		all.add((twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "twilight_stone"));
-		createDefaultBlockItem(twilight_stone);
-		all.add((twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 6.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "twilight_cobblestone"));
-		createDefaultBlockItem(twilight_cobblestone);
-		all.add((candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_red"));
-		createDefaultBlockItem(candy_cane_red);
-		all.add((candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_green"));
-		createDefaultBlockItem(candy_cane_green);
-		all.add((candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_blue"));
-		createDefaultBlockItem(candy_cane_blue);
-		all.add((stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "stripped_candy_cane"));
-		createDefaultBlockItem(stripped_candy_cane);
-		all.add((candy_cane_coating_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_red"));
-		createDefaultBlockItem(candy_cane_coating_red);
-		all.add((candy_cane_coating_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_green"));
-		createDefaultBlockItem(candy_cane_coating_green);
-		all.add((candy_cane_coating_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_coating_blue"));
-		createDefaultBlockItem(candy_cane_coating_blue);
-		all.add((stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "stripped_candy_cane_coating"));
-		createDefaultBlockItem(stripped_candy_cane_coating);
-		all.add((refined_candy_cane_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_red"));
-		createDefaultBlockItem(refined_candy_cane_red);
-		all.add((refined_candy_cane_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_green"));
-		createDefaultBlockItem(refined_candy_cane_green);
-		all.add((refined_candy_cane_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_blue"));
-		createDefaultBlockItem(refined_candy_cane_blue);
-		all.add((refined_stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_stripped_candy_cane"));
-		createDefaultBlockItem(refined_stripped_candy_cane);
-		all.add((refined_candy_cane_coating_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_red"));
-		createDefaultBlockItem(refined_candy_cane_coating_red);
-		all.add((refined_candy_cane_coating_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_green"));
-		createDefaultBlockItem(refined_candy_cane_coating_green);
-		all.add((refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_candy_cane_coating_blue"));
-		createDefaultBlockItem(refined_candy_cane_coating_blue);
-		all.add((refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "refined_stripped_candy_cane_coating"));
-		createDefaultBlockItem(refined_stripped_candy_cane_coating);
-		all.add((candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE))).setRegistryName(LCC.MODID, "candy_cane_block"));
-		createDefaultBlockItem(candy_cane_block);
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "star_grass_block"));
+		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
+		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
+		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
+		addWithDefaultItem(twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_cobblestone"));
+		addWithDefaultItem(candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_red"));
+		addWithDefaultItem(candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_green"));
+		addWithDefaultItem(candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_blue"));
+		addWithDefaultItem(stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane"));
+		addWithDefaultItem(candy_cane_coating_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_red"));
+		addWithDefaultItem(candy_cane_coating_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_green"));
+		addWithDefaultItem(candy_cane_coating_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_blue"));
+		addWithDefaultItem(stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane_coating"));
+		addWithDefaultItem(refined_candy_cane_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_red"));
+		addWithDefaultItem(refined_candy_cane_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_green"));
+		addWithDefaultItem(refined_candy_cane_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_blue"));
+		addWithDefaultItem(refined_stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane"));
+		addWithDefaultItem(refined_candy_cane_coating_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_red"));
+		addWithDefaultItem(refined_candy_cane_coating_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_green"));
+		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
+		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
+		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
+		addWithDefaultItem(channelite = new ChanneliteBlock(Block.Properties.create(Material.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite"));
 	}
 
-	private static void createDefaultBlockItem(Block b) {
-		allItem.add((BlockItem)new BlockItem(b, new Item.Properties().group(LCC.itemGroup)).setRegistryName(b.getRegistryName()));
+	private static <B extends Block> B add(B b, ResourceLocation registry) {
+		b.setRegistryName(registry);
+		all.add(b);
+		return b;
+	}
+
+	private static <B extends Block> B addWithDefaultItem(B b, ResourceLocation registry) {
+		add(b, registry);
+		createDefaultItem(b);
+		return b;
+	}
+
+	private static BlockItem createDefaultItem(Block b) {
+		BlockItem bi = (BlockItem)new BlockItem(b, new Item.Properties().group(LCC.itemGroup)).setRegistryName(b.getRegistryName());
+		allItem.add(bi);
+		return bi;
+	}
+
+	private static <T, B extends Block> void factory(HashMap<T, B> map, Function<T, B> creator, T... values) {
+		for (T value : values) {
+			B b = creator.apply(value);
+			map.put(value, b);
+		}
 	}
 	
 }

@@ -189,7 +189,7 @@ public abstract class LCCBlocks {
 		factory(terminals, color -> addWithDefaultItem(new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "terminal_" + color.getName())), DyeColor.values());
 
 		//Nostalgia
-		addWithDefaultItem(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)), new ResourceLocation(LCC.MODID, "time_rift"));
+		add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)), new ResourceLocation(LCC.MODID, "time_rift"));
 		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
 		addWithDefaultItem(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_grass_block"));
 		addWithDefaultItem(classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_cobblestone"));

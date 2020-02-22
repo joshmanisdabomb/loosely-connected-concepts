@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.gen.dimension.generator.AmplifiedEndChunkGenerator;
 import com.joshmanisdabomb.lcc.gen.dimension.LCCDimensionHelper;
-import com.joshmanisdabomb.lcc.gen.dimension.provider.MultiBiomeProvider;
 import com.joshmanisdabomb.lcc.gen.dimension.RainbowDimensionRegistry;
+import com.joshmanisdabomb.lcc.gen.dimension.generator.AmplifiedEndChunkGenerator;
+import com.joshmanisdabomb.lcc.gen.dimension.provider.MultiBiomeProvider;
 import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.EndGenerationSettings;

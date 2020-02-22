@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProviderType;
+import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.ModDimension;
@@ -69,6 +70,12 @@ public abstract class RegistryEvents {
     public static void onBiomeProviderRegistry(final RegistryEvent.Register<BiomeProviderType<?, ?>> e) {
         LCCDimensions.initBiomeProviders(e);
         e.getRegistry().registerAll(LCCDimensions.allBiomeProviders.toArray(new BiomeProviderType<?, ?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onChunkGeneratorRegistry(final RegistryEvent.Register<ChunkGeneratorType<?, ?>> e) {
+        LCCDimensions.initChunkGenerators(e);
+        e.getRegistry().registerAll(LCCDimensions.allChunkGenerators.toArray(new ChunkGeneratorType<?, ?>[0]));
     }
 
     @SubscribeEvent

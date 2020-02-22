@@ -29,9 +29,9 @@ public class ColorfulSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig>
 
     private DyeColor getColor(int x, int y, int z) {
         int color = 0;
-        double maxNoise = Math.abs(COLORS[0].getValue((double)x * 0.025D, y * 0.025D, (double)z * 0.025D, 1.0D, 0.0D, false));
+        double maxNoise = Math.abs(COLORS[0].getValue((double)x * 0.018D, y * 0.018D, (double)z * 0.018D, 1.0D, 0.0D, false));
         for (int i = 1; i < COLORS.length; i++) {
-            double n = Math.abs(COLORS[i].getValue((double)x * 0.025D, y * 0.025D, (double)z * 0.025D, 1.0D, 0.0D, false));
+            double n = Math.abs(COLORS[i].getValue((double)x * 0.018D, y * 0.018D, (double)z * 0.018D, 1.0D, 0.0D, false));
             if (n > maxNoise) {
                 color = i;
                 maxNoise = n;

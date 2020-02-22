@@ -17,7 +17,7 @@ public abstract class LCCCapabilities {
         register(HeartsCapability.class, new HeartsCapability.Storage(), HeartsCapability::new);
         register(SpreaderCapability.class, new SpreaderCapability.Storage(), SpreaderCapability::new);
         register(CryingObsidianCapability.class, new CryingObsidianCapability.Storage(), CryingObsidianCapability::new);
-        register(ItemStorageCapability.class, new ItemStorageCapability.Storage(), ItemStorageCapability::new);
+        register(PartitionCapability.class, new PartitionCapability.Storage(), PartitionCapability::new);
         register(NuclearCapability.class, new NuclearCapability.Storage(), NuclearCapability::new);
     }
 

@@ -33,7 +33,7 @@ public class CapabilityEvents {
         //global capabilities tied to just overworld
         if (event.getObject().getDimension().getType() == GlobalProvider.DIMENSION) {
             event.addCapability(SpreaderCapability.LOCATION, new SpreaderCapability.Provider());
-            event.addCapability(ItemStorageCapability.LOCATION, new ItemStorageCapability.Provider());
+            event.addCapability(PartitionCapability.LOCATION, new PartitionCapability.Provider());
         }
     }
 

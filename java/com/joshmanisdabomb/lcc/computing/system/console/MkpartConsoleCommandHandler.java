@@ -1,9 +1,14 @@
 package com.joshmanisdabomb.lcc.computing.system.console;
 
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
+import com.joshmanisdabomb.lcc.computing.storage.PartitionFolder;
 import com.joshmanisdabomb.lcc.computing.system.ConsoleOperatingSystem;
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
+import com.joshmanisdabomb.lcc.data.capability.PartitionCapability;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Arrays;
@@ -88,6 +93,25 @@ public class MkpartConsoleCommandHandler implements ConsoleCommandHandler.Server
         }
         StorageInfo.Partition newPart = new StorageInfo.Partition(UUID.randomUUID(), partition, type, size);
         inf.addPartition(newPart);
+        //TODO temporary test
+        PartitionCapability.Provider.getGlobal(cos.cs.computer.te.getWorld().getServer()).ifPresent(pc -> {
+            pc.get(newPart).addItem(new ItemStack(Blocks.GRASS_BLOCK, 2));
+            pc.get(newPart).addItem(new ItemStack(Blocks.GRASS_BLOCK, 3));
+            pc.get(newPart).addItem(new ItemStack(Blocks.GRASS_BLOCK, 4));
+
+            ItemStack s;
+            (s = new ItemStack(Items.DIAMOND_SWORD, 3)).getOrCreateTag().putInt("Damage", 900);
+            pc.get(newPart).addItem(s, 3);
+
+            CompoundNBT n = new CompoundNBT();
+            n.put("tag", new CompoundNBT());
+            n.getCompound("tag").putInt("Damage", 900);
+            pc.get(newPart).addItem(Items.IRON_SWORD, 7, n);
+
+            pc.get(newPart).addItem(LCCBlocks.atomic_bomb, 7000000000000L, new CompoundNBT());
+
+            pc.get(newPart).addFolder("bigking", new PartitionFolder()).addItem(LCCBlocks.refined_stripped_candy_cane_coating, 69, new CompoundNBT());
+        });
         cos.use(newPart);
         cos.write(this.format(pretranslations, "computing.lcc.console.mkpart.success", newPart.type.getName(), newPart.name, StorageInfo.getShortPartitionId(disks, newPart, true), newPart.size, this.getDiskName(pretranslations, d), StorageInfo.getShortId(disks, d, true)));
     }

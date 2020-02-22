@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.joshmanisdabomb.lcc.computing.system.console.*;
+import com.joshmanisdabomb.lcc.data.capability.PartitionCapability;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCFonts;
@@ -354,7 +355,16 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         }),
         MAP(new MapConsoleCommandHandler()),
         USE(new UseConsoleCommandHandler()),
-        LS((cos, args, ts) -> {}),
+        LS((cos, args, pretranslations, work) -> {
+            List<ItemStack> disks = cos.cs.computer.getNetworkDisks();
+            StorageInfo.Partition p = cos.using(disks);
+            if (p != null) {
+                PartitionCapability.Provider.getGlobal(cos.cs.computer.te.getWorld().getServer()).ifPresent(pc -> {
+                    System.out.println(pc.get(p).write(new CompoundNBT()));
+                    cos.write("hello");
+                });
+            }
+        }),
         CD((cos, args, ts) -> {}),
         MKDIR((cos, args, ts) -> {}),
         HOLD((cos, args, ts) -> {}),

@@ -9,8 +9,6 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 public class InstallConsoleCommandHandler implements ConsoleCommandHandler.Server {
 

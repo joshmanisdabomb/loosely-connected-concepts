@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.computing;
 
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
-import com.joshmanisdabomb.lcc.item.StorageItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -12,7 +11,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 

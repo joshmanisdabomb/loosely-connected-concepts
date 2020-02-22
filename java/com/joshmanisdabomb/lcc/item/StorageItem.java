@@ -21,7 +21,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.joshmanisdabomb.lcc.item.ComputingItem.LOG2;
 

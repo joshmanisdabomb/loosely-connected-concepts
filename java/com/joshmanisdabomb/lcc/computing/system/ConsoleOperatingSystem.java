@@ -21,7 +21,10 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -357,7 +360,7 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
         HOLD((cos, args, ts) -> {}),
         MKPART(new MkpartConsoleCommandHandler()),
         RMPART(new RmpartConsoleCommandHandler()),
-        RESIZE((cos, args, ts) -> {}),
+        RESIZE(new ResizeConsoleCommandHandler()),
         LABEL(new LabelConsoleCommandHandler()),
         INSTALL(new InstallConsoleCommandHandler()),
         REBOOT((cos, args, ts) -> {

@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import static com.joshmanisdabomb.lcc.gui.TerminalScreen.GUI;
+import static com.joshmanisdabomb.lcc.gui.inventory.TerminalScreen.GUI;
 
 @OnlyIn(Dist.CLIENT)
 public class GraphicalOperatingSystem extends OperatingSystem {

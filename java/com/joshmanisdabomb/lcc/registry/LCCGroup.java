@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.misc.ClassicDyeColor;
+import com.joshmanisdabomb.lcc.misc.Colors.ClassicDyeColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

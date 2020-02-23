@@ -134,7 +134,7 @@ public class RoadBlock extends Block implements LCCBlockHelper, ConnectedTexture
     @Override
     @OnlyIn(Dist.CLIENT)
     public ConnectedTextureMap getConnectedTextureMap() {
-        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> !state.get(MARKED), "road", true).useWhen(state -> state.get(MARKED), map -> {
+        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> !state.get(MARKED), "road/", true).useWhen(state -> state.get(MARKED), map -> {
             map.put(ConnectedTextureType.TOP_BASE, new ResourceLocation(LCC.MODID, "block/road/marked_base"));
             map.put(ConnectedTextureType.TOP_CORNERS_OUTER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_o"));
             map.put(ConnectedTextureType.TOP_CORNERS_INNER, new ResourceLocation(LCC.MODID, "block/road/marked_corners_i"));

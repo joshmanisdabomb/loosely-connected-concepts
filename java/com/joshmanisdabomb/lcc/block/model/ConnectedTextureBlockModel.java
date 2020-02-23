@@ -28,11 +28,10 @@ public class ConnectedTextureBlockModel implements IBakedModel {
 
     private final Block block;
 
-    private final ConnectedTextureBlock.ConnectedTextureMap.BakedConnectedTextureMap bakedTextures;
+    protected final ConnectedTextureBlock.ConnectedTextureMap.BakedConnectedTextureMap bakedTextures;
 
     public ConnectedTextureBlockModel(Block b) {
         this.block = b;
-
         this.bakedTextures = ((ConnectedTextureBlock)b).getConnectedTextureMap().bake(ModelLoader.defaultTextureGetter());
     }
 
@@ -74,34 +73,39 @@ public class ConnectedTextureBlockModel implements IBakedModel {
             final double vertexOffset = uvOffset / 16D;
 
             final int blockHeight = ((ConnectedTextureBlock)this.block).blockHeight(state);
+            final double blockGrowth = ((ConnectedTextureBlock)this.block).blockGrowth(state);
 
             final int yUVDiff = perpendiculars[0] == Direction.UP ? 16 - blockHeight : 0;
             final double yVertexDiff = yUVDiff / 16D;
-            final double z = side == Direction.UP ? ((blockHeight - 8) / 8D) : 1;
+            final double z = (side == Direction.UP ? ((blockHeight - 8) / 8D) : 1) * (((blockGrowth - 1) * 2) + 1);
 
             //middle
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, vertexOffset + yVertexDiff, 1-vertexOffset, 1-vertexOffset, z, bakedTextures.base(state, side), uvOffset, uvOffset + yUVDiff, 16-uvOffset, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(vertexOffset, blockGrowth), xyGrowth(vertexOffset + yVertexDiff, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), z, bakedTextures.base(state, side), uvOffset, uvOffset + yUVDiff, 16-uvOffset, 16-uvOffset));
 
             //top
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, yVertexDiff, 1-vertexOffset, vertexOffset + yVertexDiff, z, bakedTextures.side(state, cUp, false, side), uvOffset, cUp ? yUVDiff : 0, 16-uvOffset, uvOffset + (cUp ? yUVDiff : 0)));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(vertexOffset, blockGrowth), xyGrowth(yVertexDiff, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(vertexOffset + yVertexDiff, blockGrowth), z, bakedTextures.side(state, cUp, false, side), uvOffset, cUp ? yUVDiff : 0, 16-uvOffset, uvOffset + (cUp ? yUVDiff : 0)));
             //right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, vertexOffset, 1, 1-vertexOffset, z, bakedTextures.side(state, cRight, true, side), 16-uvOffset, uvOffset, 16, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(vertexOffset, blockGrowth), xyGrowth(1, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), z, bakedTextures.side(state, cRight, true, side), 16-uvOffset, uvOffset, 16, 16-uvOffset));
             //bottom
-            quads.add(VertexUtility.create2DFace(side, vertexOffset, 1-vertexOffset, 1-vertexOffset, 1, z, bakedTextures.side(state, cDown, false, side), uvOffset, 16-uvOffset, 16-uvOffset, 16));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(vertexOffset, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(1, blockGrowth), z, bakedTextures.side(state, cDown, false, side), uvOffset, 16-uvOffset, 16-uvOffset, 16));
             //left
-            quads.add(VertexUtility.create2DFace(side, 0, vertexOffset, vertexOffset, 1-vertexOffset, z, bakedTextures.side(state, cLeft, true, side), 0, uvOffset, uvOffset, 16-uvOffset));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(0, blockGrowth), xyGrowth(vertexOffset, blockGrowth), xyGrowth(vertexOffset, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), z, bakedTextures.side(state, cLeft, true, side), 0, uvOffset, uvOffset, 16-uvOffset));
 
             //top left
-            quads.add(VertexUtility.create2DFace(side, 0, yVertexDiff, vertexOffset, vertexOffset + yVertexDiff, z, bakedTextures.corner(state, cUp, cLeft, cUpLeft, side), 0, cUp && cLeft && cUpLeft ? yUVDiff : 0, uvOffset, uvOffset + (cUp && cLeft && cUpLeft ? yUVDiff : 0)));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(0, blockGrowth), xyGrowth(yVertexDiff, blockGrowth), xyGrowth(vertexOffset, blockGrowth), xyGrowth(vertexOffset + yVertexDiff, blockGrowth), z, bakedTextures.corner(state, cUp, cLeft, cUpLeft, side), 0, cUp && cLeft && cUpLeft ? yUVDiff : 0, uvOffset, uvOffset + (cUp && cLeft && cUpLeft ? yUVDiff : 0)));
             //top right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, yVertexDiff, 1, vertexOffset + yVertexDiff, z, bakedTextures.corner(state, cUp, cRight, cUpRight, side), 16-uvOffset, cUp && cRight && cUpRight ? yUVDiff : 0, 16, uvOffset + (cUp && cRight && cUpRight ? yUVDiff : 0)));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(yVertexDiff, blockGrowth), xyGrowth(1, blockGrowth), xyGrowth(vertexOffset + yVertexDiff, blockGrowth), z, bakedTextures.corner(state, cUp, cRight, cUpRight, side), 16-uvOffset, cUp && cRight && cUpRight ? yUVDiff : 0, 16, uvOffset + (cUp && cRight && cUpRight ? yUVDiff : 0)));
             //bottom right
-            quads.add(VertexUtility.create2DFace(side, 1-vertexOffset, 1-vertexOffset, 1, 1, z, bakedTextures.corner(state, cDown, cRight, cDownRight, side), 16-uvOffset, 16-uvOffset, 16, 16));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(1, blockGrowth), xyGrowth(1, blockGrowth), z, bakedTextures.corner(state, cDown, cRight, cDownRight, side), 16-uvOffset, 16-uvOffset, 16, 16));
             //bottom left
-            quads.add(VertexUtility.create2DFace(side, 0, 1-vertexOffset, vertexOffset, 1, z, bakedTextures.corner(state, cDown, cLeft, cDownLeft, side), 0, 16-uvOffset, uvOffset, 16));
+            quads.add(VertexUtility.create2DFace(side, xyGrowth(0, blockGrowth), xyGrowth(1-vertexOffset, blockGrowth), xyGrowth(vertexOffset, blockGrowth), xyGrowth(1, blockGrowth), z, bakedTextures.corner(state, cDown, cLeft, cDownLeft, side), 0, 16-uvOffset, uvOffset, 16));
         }
 
         return quads;
+    }
+
+    private double xyGrowth(double value, double growth) {
+        return ((value - 0.5) * (((growth - 1) * 2) + 1)) + 0.5;
     }
 
     @Override

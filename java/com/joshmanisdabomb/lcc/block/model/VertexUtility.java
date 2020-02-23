@@ -52,7 +52,7 @@ public abstract class VertexUtility {
     }
 
     public static BakedQuad createQuad(double[] vertices, TextureAtlasSprite sprite, int uvX1, int uvY1, int uvX2, int uvY2) {
-        Vec3d normal = Vec3d.ZERO;//vertices[2].subtract(vertices[1]).crossProduct(vertices[0].subtract(vertices[1])).normalize();
+        Vec3d normal = Vec3d.ZERO;
 
         UnpackedBakedQuad.Builder builder = new UnpackedBakedQuad.Builder(DefaultVertexFormats.BLOCK);
         builder.setTexture(sprite);

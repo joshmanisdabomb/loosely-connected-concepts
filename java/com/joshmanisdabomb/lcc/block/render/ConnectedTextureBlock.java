@@ -68,6 +68,9 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
     default int blockHeight(BlockState state) { return 16; }
 
     @OnlyIn(Dist.CLIENT)
+    default double blockGrowth(BlockState state) { return 1; }
+
+    @OnlyIn(Dist.CLIENT)
     enum ConnectedTextureType {
         PARTICLE,
         TOP_BASE,
@@ -133,24 +136,24 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
         private HashMap<ConnectedTextureType, ResourceLocation> last;
         private final HashMap<Predicate<BlockState>, HashMap<ConnectedTextureType, ResourceLocation>> map = new HashMap<>();
 
-        public ConnectedTextureMap useWhen(Predicate<BlockState> state, String folder, boolean threeSided) {
+        public ConnectedTextureMap useWhen(Predicate<BlockState> state, String prefix, boolean threeSided) {
             return this.useWhen(state,
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "base"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "top_" : "") + "base"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "top_" : "") + "corners_o"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "top_" : "") + "corners_i"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "top_" : "") + "lines_h"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "top_" : "") + "lines_v"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "base"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "corners_o"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "corners_i"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "lines_h"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "side_" : "") + "lines_v"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "bottom_" : "") + "base"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "bottom_" : "") + "corners_o"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "bottom_" : "") + "corners_i"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "bottom_" : "") + "lines_h"),
-                new ResourceLocation(LCC.MODID, "block/" + folder + "/" + (threeSided ? "bottom_" : "") + "lines_v")
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "base"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "top_" : "") + "base"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "top_" : "") + "corners_o"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "top_" : "") + "corners_i"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "top_" : "") + "lines_h"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "top_" : "") + "lines_v"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "base"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "corners_o"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "corners_i"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "lines_h"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "side_" : "") + "lines_v"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "bottom_" : "") + "base"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "bottom_" : "") + "corners_o"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "bottom_" : "") + "corners_i"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "bottom_" : "") + "lines_h"),
+                new ResourceLocation(LCC.MODID, "block/" + prefix + (threeSided ? "bottom_" : "") + "lines_v")
             );
         }
 

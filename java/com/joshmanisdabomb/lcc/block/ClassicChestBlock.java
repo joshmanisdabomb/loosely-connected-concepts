@@ -2,7 +2,10 @@ package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import com.joshmanisdabomb.lcc.tileentity.ClassicChestTileEntity;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;

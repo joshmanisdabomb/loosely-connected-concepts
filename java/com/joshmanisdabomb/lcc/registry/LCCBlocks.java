@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.DirectionalBlock;
+import com.joshmanisdabomb.lcc.block.HorizontalBlock;
 import com.joshmanisdabomb.lcc.block.*;
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity;
-import com.joshmanisdabomb.lcc.misc.ClassicDyeColor;
+import com.joshmanisdabomb.lcc.misc.Colors.ClassicDyeColor;
 import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -28,8 +30,8 @@ public abstract class LCCBlocks {
 
 	//Test Blocks
 	public static Block test_block;
-	public static TestHorizontalBlock test_block_2;
-	public static TestDirectionalBlock test_block_3;
+	public static HorizontalBlock test_block_2;
+	public static DirectionalBlock test_block_3;
 	public static PillarBlock test_block_4;
 	public static TestConnectedTextureBlock test_block_5;
 
@@ -144,8 +146,8 @@ public abstract class LCCBlocks {
 	public static void init(Register<Block> e) {
 		//Test Blocks
 		addWithDefaultItem(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block"));
-		addWithDefaultItem(test_block_2 = new TestHorizontalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_2"));
-		addWithDefaultItem(test_block_3 = new TestDirectionalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_3"));
+		addWithDefaultItem(test_block_2 = new HorizontalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_2"));
+		addWithDefaultItem(test_block_3 = new DirectionalBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_3"));
 		addWithDefaultItem(test_block_4 = new PillarBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_4"));
 		addWithDefaultItem(test_block_5 = new TestConnectedTextureBlock(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block_5"));
 		

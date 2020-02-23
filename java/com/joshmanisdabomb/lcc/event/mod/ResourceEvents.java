@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.event.mod;
 
+import com.joshmanisdabomb.lcc.block.model.DefaultModelAcceptor;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCModels;
@@ -19,7 +20,11 @@ public abstract class ResourceEvents {
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             IBakedModel model = ((AdvancedBlockRender)block).newModel(block);
             for (ModelResourceLocation mrl : ((AdvancedBlockRender)block).getModelLocations()) {
-                if (e.getModelRegistry().get(mrl) != null) {
+                IBakedModel old = e.getModelRegistry().get(mrl);
+                if (old != null) {
+                    if (model instanceof DefaultModelAcceptor) {
+                        ((DefaultModelAcceptor)model).acceptModel(mrl, old);
+                    }
                     e.getModelRegistry().put(mrl, model);
                 }
             }

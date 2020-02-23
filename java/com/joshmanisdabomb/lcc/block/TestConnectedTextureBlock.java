@@ -24,7 +24,7 @@ public class TestConnectedTextureBlock extends Block implements LCCBlockHelper, 
     @Override
     @OnlyIn(Dist.CLIENT)
     public ConnectedTextureMap getConnectedTextureMap() {
-        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> true, "test/5", false);
+        if (connectedTextureMap == null) connectedTextureMap = new ConnectedTextureMap().useWhen(state -> true, "test/5/", false);
         return connectedTextureMap;
     }
 

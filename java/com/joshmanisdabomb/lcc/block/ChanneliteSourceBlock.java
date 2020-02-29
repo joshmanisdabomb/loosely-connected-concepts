@@ -18,4 +18,8 @@ public class ChanneliteSourceBlock extends Block {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
+    public DyeColor getColor() {
+        return color;
+    }
+
 }

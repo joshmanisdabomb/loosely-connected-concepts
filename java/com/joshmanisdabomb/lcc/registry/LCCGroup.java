@@ -174,7 +174,10 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.refined_candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 1114);
         set(LCCBlocks.refined_stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 1115);
         set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 1116);
-        set(LCCBlocks.channelite, LCCGroupCategory.RAINBOW, 1120);
+        set(LCCBlocks.channelite.get(null), LCCGroupCategory.RAINBOW, 1120);
+        for (DyeColor color : DyeColor.values()) {
+            set(LCCBlocks.channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1121);
+        }
 
         //Spreaders
         set(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);

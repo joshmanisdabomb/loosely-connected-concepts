@@ -68,9 +68,6 @@ public interface ConnectedTextureBlock extends AdvancedBlockRender {
     default int blockHeight(BlockState state) { return 16; }
 
     @OnlyIn(Dist.CLIENT)
-    default double blockGrowth(BlockState state) { return 1; }
-
-    @OnlyIn(Dist.CLIENT)
     enum ConnectedTextureType {
         PARTICLE,
         TOP_BASE,

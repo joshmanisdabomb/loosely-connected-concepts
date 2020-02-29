@@ -1,0 +1,48 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "block/cube_column"
+  },
+  "variants": {
+    "facing": {
+      "north": { "x": 90 },
+      "east": { "x": 90, "y": 90 },
+      "south": { "x": 90, "y": 180 },
+      "west": { "x": 90, "y": 270 },
+      "up": { },
+      "down": { "x": 180 }
+    },
+    "connection": {
+      "none": {
+        "textures": {
+          "end": "lcc:block/rainbow/channelite/red_none",
+          "side": "lcc:block/rainbow/channelite/red_none"
+        }
+      },
+      "top": {
+        "textures": {
+          "end": "lcc:block/rainbow/channelite/red_none",
+          "side": "lcc:block/rainbow/channelite/red_top"
+        }
+      },
+      "bottom": {
+        "textures": {
+          "end": "lcc:block/rainbow/channelite/red_none",
+          "side": "lcc:block/rainbow/channelite/red_bottom"
+        }
+      },
+      "both": {
+        "textures": {
+          "end": "lcc:block/rainbow/channelite/red_none",
+          "side": "lcc:block/rainbow/channelite/red_both"
+        }
+      },
+      "invisible": {
+        "textures": {
+          "end": "lcc:block/rainbow/channelite/red_invisible",
+          "side": "lcc:block/rainbow/channelite/red_invisible"
+        }
+      }
+    }
+  }
+}

@@ -176,7 +176,8 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 1116);
         set(LCCBlocks.channelite.get(null), LCCGroupCategory.RAINBOW, 1120);
         for (DyeColor color : DyeColor.values()) {
-            set(LCCBlocks.channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1121);
+            set(LCCBlocks.sparkling_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1121);
+            set(LCCBlocks.twilight_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1141);
         }
 
         //Spreaders

@@ -15,7 +15,7 @@ public class ChanneliteSourceBlock extends Block {
 
     @Override
     public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
+        return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
     public DyeColor getColor() {

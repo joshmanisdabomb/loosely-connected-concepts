@@ -138,7 +138,8 @@ public abstract class LCCBlocks {
 	public static PillarBlock refined_stripped_candy_cane_coating;
 	public static Block candy_cane_block;
 	public static HashMap<DyeColor, ChanneliteBlock> channelite = new HashMap<>();
-	public static HashMap<DyeColor, ChanneliteSourceBlock> channelite_source = new HashMap<>();
+	public static HashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new HashMap<>();
+	public static HashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new HashMap<>();
 
 	public static final BlockTags.Wrapper CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
 	public static final BlockTags.Wrapper CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));
@@ -269,9 +270,10 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
 		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
 		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
-		factory(channelite, color -> add(new ChanneliteBlock(color, Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).variableOpacity().harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName()))), ArrayUtils.add(DyeColor.values(), null));
+		factory(channelite, color -> add(new ChanneliteBlock(color, Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName()))), ArrayUtils.add(DyeColor.values(), null));
 		createDefaultItem(channelite.get(null), new ResourceLocation(LCC.MODID, "channelite"));
-		factory(channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.GLASS).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite_source_" + color.getName())), DyeColor.values());
+		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.GLASS).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
+		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.GLASS).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
 	}
 
 	private static <B extends Block> B add(B b, ResourceLocation registry) {

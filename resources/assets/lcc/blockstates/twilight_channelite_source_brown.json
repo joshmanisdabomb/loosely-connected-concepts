@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "lcc:block/overlay",
+    "textures": {
+      "particle": "lcc:block/rainbow/channelite/twilight",
+      "base": "lcc:block/rainbow/channelite/twilight",
+      "overlay": "lcc:block/rainbow/channelite/brown_source"
+    }
+  },
+  "variants": {
+    "": [{}]
+  }
+}

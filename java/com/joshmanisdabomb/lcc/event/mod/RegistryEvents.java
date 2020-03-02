@@ -16,6 +16,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
@@ -100,6 +101,12 @@ public abstract class RegistryEvents {
     public static void onFeatureRegistry(final RegistryEvent.Register<Feature<?>> e) {
         LCCFeatures.init(e);
         e.getRegistry().registerAll(LCCFeatures.all.toArray(new Feature<?>[0]));
+    }
+
+    @SubscribeEvent
+    public static void onPlacementRegistry(final RegistryEvent.Register<Placement<?>> e) {
+        LCCFeatures.initPlacements(e);
+        e.getRegistry().registerAll(LCCFeatures.allPlacements.toArray(new Placement<?>[0]));
     }
 
     @SubscribeEvent

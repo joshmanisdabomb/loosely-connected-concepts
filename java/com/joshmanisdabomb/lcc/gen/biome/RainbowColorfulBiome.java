@@ -48,7 +48,7 @@ public class RainbowColorfulBiome extends Biome implements LCCBiomeHelper {
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(LCCFeatures.channelite, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_CHANCE_HEIGHTMAP, new HeightWithChanceConfig(1, 0.05F)));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(LCCFeatures.channelite, IFeatureConfig.NO_FEATURE_CONFIG, LCCFeatures.COUNT_CHANCE_TOPS, new HeightWithChanceConfig(3, 0.1F)));
     }
 
     @Override

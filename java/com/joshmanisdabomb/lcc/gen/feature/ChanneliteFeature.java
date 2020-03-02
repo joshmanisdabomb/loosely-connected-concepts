@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.DyeColor;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -42,12 +43,13 @@ public class ChanneliteFeature extends Feature<NoFeatureConfig> {
 
             BlockState ore; double chance;
             for (int i = -4; i <= 4; i++) {
-                for (int j = -6; j <= 2; j++) {
+                for (int j = -4; j <= 4; j++) {
                     nextBlock:
                     for (int k = -4; k <= 4; k++) {
+                        if (i >= -1 && i <= 1 && k >= -1 && k <= 1 && !(i == 0 && k == 0)) continue;
                         Block base = world.getBlockState(bp.setPos(pos2).move(i, j, k)).getBlock();
 
-                        double distance = Math.sqrt(bp.distanceSq(pos2));
+                        double distance = Math.sqrt(bp.distanceSq(pos));
                         if (base == LCCBlocks.sparkling_dirt || LCCBlocks.sparkling_grass_block.containsValue(base)) {
                             ore = LCCBlocks.sparkling_channelite_source.get(color).getDefaultState();
                             chance = 0.4 / Math.max(distance * 1.9, 1);
@@ -60,18 +62,26 @@ public class ChanneliteFeature extends Feature<NoFeatureConfig> {
 
                         for (int l = 0; l < 4; l++) {
                             Direction d = Direction.byHorizontalIndex(l);
-                            if (world.getBlockState(bp.move(d)).isAir(world, bp)) continue nextBlock;
+                            if (world.isAirBlock(bp.move(d))) continue nextBlock;
                             bp.move(d.getOpposite());
                         }
 
-                        if (rand.nextDouble() <= chance) {
-                            if (world.getBlockState(bp.move(0, 1, 0)).isAir(world, bp)) {
-                                if (rand.nextInt(3) == 0) {
+                        if (rand.nextDouble() <= chance || (i == 0 && k == 0)) {
+                            if (world.isAirBlock(bp.move(0, 1, 0))) {
+                                if (rand.nextInt(2) == 0) {
                                     world.setBlockState(bp.move(0, -1, 0), ore, 18);
-                                    int height = minHeight + rand.nextInt(variation + 1);
+                                    int height = (i == 0 && k == 0) ? (minHeight + variation) : (minHeight + rand.nextInt(variation + 1));
 
                                     for (int l = 0; l <= height; l++) {
                                         bp.move(0, 1, 0);
+
+                                        for (int m = 0; m < 4; m++) {
+                                            Direction d = Direction.byHorizontalIndex(m);
+                                            if (world.getBlockState(bp.move(d)).getBlock() instanceof ChanneliteBlock) continue nextBlock;
+                                            bp.move(d.getOpposite());
+                                        }
+
+                                        if (l > 0 && !world.isAirBlock(bp)) break;
 
                                         ChanneliteBlock.ChanneliteConnection c = ChanneliteBlock.ChanneliteConnection.BOTH;
                                         if (l == 0) c = ChanneliteBlock.ChanneliteConnection.TOP;

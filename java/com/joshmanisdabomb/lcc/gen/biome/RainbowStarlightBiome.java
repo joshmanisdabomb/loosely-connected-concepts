@@ -10,7 +10,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 public class RainbowStarlightBiome extends Biome implements LCCBiomeHelper {
 
-    private static final BlockState GRASS = LCCBlocks.star_grass_block.getDefaultState();
+    private static final BlockState GRASS = LCCBlocks.star_plating.getDefaultState();
     private static final BlockState DIRT = LCCBlocks.sparkling_dirt.getDefaultState();
 
     public RainbowStarlightBiome() {

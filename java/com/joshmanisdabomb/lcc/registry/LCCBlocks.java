@@ -15,6 +15,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -115,7 +116,7 @@ public abstract class LCCBlocks {
 
 	public static FunctionalSnowlessGrassBlock rainbow_grass_block;
 	public static FunctionalSnowlessGrassBlock sugar_grass_block;
-	public static FunctionalSnowlessGrassBlock star_grass_block;
+	public static Block star_plating;
 	public static HashMap<DyeColor, SparklingGrassBlock> sparkling_grass_block = new HashMap<>();
 	public static Block sparkling_dirt;
 	public static Block twilight_stone;
@@ -244,12 +245,13 @@ public abstract class LCCBlocks {
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
 			else return null;
 		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
-		addWithDefaultItem(star_grass_block = new FunctionalSnowlessGrassBlock(state -> {
-			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
-			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.star_grass_block.getDefaultState();
-			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "star_grass_block"));
-		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
+		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)) {
+			@Override
+			public BlockRenderLayer getRenderLayer() {
+				return BlockRenderLayer.CUTOUT_MIPPED;
+			}
+		}, new ResourceLocation(LCC.MODID, "star_plating"));
+		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
 		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
 		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
 		addWithDefaultItem(twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_cobblestone"));
@@ -272,8 +274,9 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
 		factory(channelite, color -> add(new ChanneliteBlock(color, Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName()))), ArrayUtils.add(DyeColor.values(), null));
 		createDefaultItem(channelite.get(null), new ResourceLocation(LCC.MODID, "channelite"));
-		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.GLASS).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
-		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.GLASS).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
+		//TODO sources drop channelite crystals? less chance from dirt, better chance with stone
+		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
+		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
 	}
 
 	private static <B extends Block> B add(B b, ResourceLocation registry) {

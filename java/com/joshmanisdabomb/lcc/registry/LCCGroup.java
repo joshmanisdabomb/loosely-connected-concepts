@@ -150,7 +150,7 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 10);
         set(LCCBlocks.rainbow_grass_block, LCCGroupCategory.RAINBOW, 1000);
         set(LCCBlocks.sugar_grass_block, LCCGroupCategory.RAINBOW, 1001);
-        set(LCCBlocks.star_grass_block, LCCGroupCategory.RAINBOW, 1002);
+        set(LCCBlocks.star_plating, LCCGroupCategory.RAINBOW, 1002);
         for (DyeColor color : DyeColor.values()) {
             set(LCCBlocks.sparkling_grass_block.get(color), LCCGroupCategory.RAINBOW, color.getId()+1003);
         }

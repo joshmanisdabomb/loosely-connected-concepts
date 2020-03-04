@@ -245,7 +245,7 @@ public abstract class LCCBlocks {
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
 			else return null;
 		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
-		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)) {
+		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)) {
 			@Override
 			public BlockRenderLayer getRenderLayer() {
 				return BlockRenderLayer.CUTOUT_MIPPED;

@@ -1,11 +1,8 @@
 package com.joshmanisdabomb.lcc.gen.dimension.provider;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
 import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
@@ -23,8 +20,9 @@ import net.minecraft.world.gen.layer.traits.IC0Transformer;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.BiomeManager;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.function.LongFunction;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;

@@ -1,8 +1,11 @@
 {
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "lcc:classic_iron_block"
-  },
-  "result": "lcc:classic_smooth_iron_block",
-  "count": 1
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:classic_iron_block"
+    }
+  ],
+  "result": {
+    "item": "lcc:classic_smooth_iron_block"
+  }
 }

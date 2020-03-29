@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.functionality;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.registry.LCCDamage;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCItems;

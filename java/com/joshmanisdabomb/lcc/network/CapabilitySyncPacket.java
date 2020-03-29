@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
-import com.joshmanisdabomb.lcc.data.capability.LCCCapabilityHelper;
+import com.joshmanisdabomb.lcc.capability.LCCCapabilities;
+import com.joshmanisdabomb.lcc.capability.LCCCapabilityHelper;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

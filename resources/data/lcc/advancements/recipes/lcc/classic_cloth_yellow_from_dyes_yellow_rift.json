@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_cloth_yellow_from_dyes_yellow_rift"
+    ]
+  },
+  "criteria": {
+    "has_dyes_yellow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dyes/yellow"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_cloth_yellow_from_dyes_yellow_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dyes_yellow",
+      "has_the_recipe"
+    ]
+  ]
+}

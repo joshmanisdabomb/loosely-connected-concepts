@@ -7,8 +7,6 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
-
 public class EmptyRenderer extends EntityRenderer {
 
     public EmptyRenderer(EntityRendererManager manager) {

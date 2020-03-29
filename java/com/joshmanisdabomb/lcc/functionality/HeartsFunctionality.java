@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.functionality;
 
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import net.minecraft.entity.LivingEntity;

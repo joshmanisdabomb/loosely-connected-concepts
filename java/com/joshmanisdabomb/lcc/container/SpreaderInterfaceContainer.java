@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.container;
 
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCContainers;
 import com.joshmanisdabomb.lcc.tileentity.SpreaderInterfaceTileEntity;

@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X X",
-    "X X"
+    "i i",
+    "i i"
   ],
   "key": {
-    "X": {
+    "i": {
       "item": "lcc:ruby"
     }
   },

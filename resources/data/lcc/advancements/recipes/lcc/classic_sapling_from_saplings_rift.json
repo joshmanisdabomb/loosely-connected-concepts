@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_sapling_from_saplings_rift"
+    ]
+  },
+  "criteria": {
+    "has_saplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:saplings"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_sapling_from_saplings_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_saplings",
+      "has_the_recipe"
+    ]
+  ]
+}

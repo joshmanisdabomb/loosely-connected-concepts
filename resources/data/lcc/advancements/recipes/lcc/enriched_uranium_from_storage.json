@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enriched_uranium_from_storage"
+    ]
+  },
+  "criteria": {
+    "has_enriched_uranium_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:enriched_uranium_storage"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enriched_uranium_from_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enriched_uranium_storage",
+      "has_the_recipe"
+    ]
+  ]
+}

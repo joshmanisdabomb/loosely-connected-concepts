@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:uranium"
+    }
+  },
+  "result": {
+    "item": "lcc:uranium_storage"
+  }
+}

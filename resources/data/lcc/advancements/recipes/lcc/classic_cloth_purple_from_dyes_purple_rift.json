@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_cloth_purple_from_dyes_purple_rift"
+    ]
+  },
+  "criteria": {
+    "has_dyes_purple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dyes/purple"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_cloth_purple_from_dyes_purple_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dyes_purple",
+      "has_the_recipe"
+    ]
+  ]
+}

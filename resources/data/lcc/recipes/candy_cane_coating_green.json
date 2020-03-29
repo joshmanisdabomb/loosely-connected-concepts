@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "group": "lcc:candy_cane_coating",
   "pattern": [
-    "##",
-    "##"
+    "cc",
+    "cc"
   ],
   "key": {
-    "#": {
+    "c": {
       "item": "lcc:candy_cane_green"
     }
   },

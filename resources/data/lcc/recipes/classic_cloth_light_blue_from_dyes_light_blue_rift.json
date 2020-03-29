@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "tag": "forge:dyes/light_blue"
+  },
+  "result": "lcc:classic_cloth_light_blue",
+  "count": 1
+}

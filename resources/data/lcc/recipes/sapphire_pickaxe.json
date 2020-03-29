@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XXX",
-    " # ",
-    " # "
+    "iii",
+    " s ",
+    " s "
   ],
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "X": {
+    "i": {
       "item": "lcc:sapphire"
+    },
+    "s": {
+      "item": "minecraft:stick"
     }
   },
   "result": {

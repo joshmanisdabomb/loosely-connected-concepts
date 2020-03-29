@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XXX",
-    "X X"
+    "iii",
+    "i i"
   ],
   "key": {
-    "X": {
+    "i": {
       "item": "minecraft:emerald"
     }
   },

@@ -4,18 +4,13 @@ import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.tileentity.TimeRiftTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.model.TimeRiftModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 
 public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
 

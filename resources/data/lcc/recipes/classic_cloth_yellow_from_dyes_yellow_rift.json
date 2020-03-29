@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "tag": "forge:dyes/yellow"
+  },
+  "result": "lcc:classic_cloth_yellow",
+  "count": 1
+}

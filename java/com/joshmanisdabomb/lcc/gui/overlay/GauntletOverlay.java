@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.gui.overlay;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
 import net.minecraft.client.Minecraft;

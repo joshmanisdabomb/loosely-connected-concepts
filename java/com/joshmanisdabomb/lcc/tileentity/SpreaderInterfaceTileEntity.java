@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.tileentity;
 
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

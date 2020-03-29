@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.gui.overlay;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.HeartsCapability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.entity.SharedMonsterAttributes;

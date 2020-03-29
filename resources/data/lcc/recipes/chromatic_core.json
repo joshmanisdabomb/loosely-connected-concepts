@@ -6,32 +6,32 @@
     "678"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:glass"
-    },
     "1": {
-      "item": "minecraft:red_dye"
+      "tag": "forge:dyes/red"
     },
     "2": {
-      "item": "minecraft:orange_dye"
+      "tag": "forge:dyes/orange"
     },
     "3": {
-      "item": "minecraft:yellow_dye"
+      "tag": "forge:dyes/yellow"
     },
     "4": {
-      "item": "minecraft:lime_dye"
+      "tag": "forge:dyes/lime"
     },
     "5": {
-      "item": "minecraft:cyan_dye"
+      "tag": "forge:dyes/cyan"
     },
     "6": {
-      "item": "minecraft:blue_dye"
+      "tag": "forge:dyes/blue"
     },
     "7": {
-      "item": "minecraft:purple_dye"
+      "tag": "forge:dyes/purple"
     },
     "8": {
-      "item": "minecraft:pink_dye"
+      "tag": "forge:dyes/pink"
+    },
+    "X": {
+      "item": "minecraft:glass"
     }
   },
   "result": {

@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XX",
-    "X#",
-    " #"
+    "ii",
+    "is",
+    " s"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "X": {
+    "i": {
       "item": "lcc:topaz"
+    },
+    "s": {
+      "item": "minecraft:stick"
     }
   },
   "result": {

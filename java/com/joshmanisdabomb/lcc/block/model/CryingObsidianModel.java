@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block.model;
 
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
-import com.joshmanisdabomb.lcc.data.capability.CryingObsidianCapability;
+import com.joshmanisdabomb.lcc.capability.CryingObsidianCapability;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ILightReader;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelProperty;

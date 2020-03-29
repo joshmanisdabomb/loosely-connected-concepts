@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:topaz_from_storage"
+    ]
+  },
+  "criteria": {
+    "has_topaz_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:topaz_storage"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:topaz_from_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_topaz_storage",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "lcc:refine_candy_cane_coating",
+  "group": "lcc:candy_cane_coating_refine",
   "ingredients": [
     {
       "item": "lcc:candy_cane_coating_blue"

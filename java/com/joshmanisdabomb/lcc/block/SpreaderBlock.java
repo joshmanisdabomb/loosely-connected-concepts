@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.DyeColor;

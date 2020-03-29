@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:spreader_interface"
+    ]
+  },
+  "criteria": {
+    "has_chromatic_core": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:chromatic_core"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:spreader_interface"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_chromatic_core",
+      "has_the_recipe"
+    ]
+  ]
+}

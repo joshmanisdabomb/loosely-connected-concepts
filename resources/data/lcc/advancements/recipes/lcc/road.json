@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:road"
+    ]
+  },
+  "criteria": {
+    "has_slimeballs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:slimeballs"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:road"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_slimeballs",
+      "has_the_recipe"
+    ]
+  ]
+}

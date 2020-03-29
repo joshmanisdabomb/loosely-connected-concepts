@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "lcc:refine_candy_cane",
+  "group": "lcc:candy_cane_refine",
   "ingredients": [
     {
       "item": "lcc:stripped_candy_cane"

@@ -2,30 +2,30 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "123",
-    "4 4",
-    "567"
+    "B B",
+    "456"
   ],
   "key": {
     "1": {
-      "item": "minecraft:coal_block"
+      "tag": "forge:storage_blocks/coal"
     },
     "2": {
-      "item": "minecraft:redstone_block"
+      "tag": "forge:storage_blocks/redstone"
     },
     "3": {
-      "item": "minecraft:gold_block"
+      "tag": "forge:storage_blocks/gold"
     },
     "4": {
-      "item": "minecraft:dark_prismarine"
-    },
-    "5": {
       "item": "lcc:uranium_storage"
     },
-    "6": {
-      "item": "minecraft:lapis_block"
+    "5": {
+      "tag": "forge:storage_blocks/lapis"
     },
-    "7": {
-      "item": "minecraft:iron_block"
+    "6": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "B": {
+      "item": "minecraft:dark_prismarine"
     }
   },
   "result": {

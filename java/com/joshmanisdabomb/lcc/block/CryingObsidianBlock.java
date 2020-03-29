@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.block;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.model.CryingObsidianModel;
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
-import com.joshmanisdabomb.lcc.data.capability.CryingObsidianCapability;
+import com.joshmanisdabomb.lcc.capability.CryingObsidianCapability;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;

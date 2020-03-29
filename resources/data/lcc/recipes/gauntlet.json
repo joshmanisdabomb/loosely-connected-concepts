@@ -1,17 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "12S",
+    "12 ",
     "453",
-    "SP6"
+    "GP6"
   ],
   "key": {
-    "S": {
-      "item": "minecraft:gold_block"
-    },
-    "P": {
-      "item": "minecraft:nether_star"
-    },
     "1": {
       "item": "lcc:ruby"
     },
@@ -29,6 +23,12 @@
     },
     "6": {
       "item": "lcc:amethyst"
+    },
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "P": {
+      "tag": "forge:nether_stars"
     }
   },
   "result": {

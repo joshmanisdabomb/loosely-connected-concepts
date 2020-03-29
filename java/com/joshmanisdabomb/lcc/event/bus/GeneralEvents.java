@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.ClassicSpongeBlock;
-import com.joshmanisdabomb.lcc.data.capability.GauntletCapability;
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;

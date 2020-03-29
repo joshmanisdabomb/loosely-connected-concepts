@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "tag": "forge:storage_blocks/diamond"
+  },
+  "result": "lcc:classic_diamond_block",
+  "count": 1
+}

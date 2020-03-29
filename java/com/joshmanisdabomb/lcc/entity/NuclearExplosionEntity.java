@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.entity;
 
-import com.joshmanisdabomb.lcc.data.capability.NuclearCapability;
+import com.joshmanisdabomb.lcc.capability.NuclearCapability;
 import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;

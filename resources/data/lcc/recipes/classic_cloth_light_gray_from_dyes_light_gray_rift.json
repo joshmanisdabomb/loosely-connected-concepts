@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "tag": "forge:dyes/light_gray"
+  },
+  "result": "lcc:classic_cloth_light_gray",
+  "count": 1
+}

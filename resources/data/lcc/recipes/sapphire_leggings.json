@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "XXX",
-    "X X",
-    "X X"
+    "iii",
+    "i i",
+    "i i"
   ],
   "key": {
-    "X": {
+    "i": {
       "item": "lcc:sapphire"
     }
   },

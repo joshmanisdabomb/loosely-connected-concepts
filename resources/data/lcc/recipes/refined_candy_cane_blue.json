@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "group": "lcc:refined_candy_cane_uncoating",
   "pattern": [
-    "##",
-    "##"
+    "rr",
+    "rr"
   ],
   "key": {
-    "#": {
+    "r": {
       "item": "lcc:refined_candy_cane_coating_blue"
     }
   },

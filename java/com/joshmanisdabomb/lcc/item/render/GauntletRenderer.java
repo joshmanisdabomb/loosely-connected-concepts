@@ -3,8 +3,6 @@ package com.joshmanisdabomb.lcc.item.render;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.item.model.GauntletModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.ItemStack;

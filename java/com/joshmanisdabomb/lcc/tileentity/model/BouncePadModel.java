@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.tileentity.model;
 
-import com.joshmanisdabomb.lcc.tileentity.BouncePadTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.RenderType;

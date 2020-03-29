@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
-import com.joshmanisdabomb.lcc.data.capability.CryingObsidianCapability;
+import com.joshmanisdabomb.lcc.capability.CryingObsidianCapability;
 import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay;
 import com.joshmanisdabomb.lcc.gui.overlay.HeartsOverlay;
 import com.joshmanisdabomb.lcc.gui.overlay.LCCOverlay;

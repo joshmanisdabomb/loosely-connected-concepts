@@ -1,9 +1,10 @@
 package com.joshmanisdabomb.lcc;
 
-import com.joshmanisdabomb.lcc.data.capability.CapabilityEvents;
-import com.joshmanisdabomb.lcc.data.capability.LCCCapabilities;
+import com.joshmanisdabomb.lcc.capability.CapabilityEvents;
+import com.joshmanisdabomb.lcc.capability.LCCCapabilities;
 import com.joshmanisdabomb.lcc.event.bus.*;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
+import com.joshmanisdabomb.lcc.event.mod.DataEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
 import com.joshmanisdabomb.lcc.event.mod.ResourceEvents;
 import com.joshmanisdabomb.lcc.gen.world.BiomeBasedGenerator;
@@ -13,7 +14,6 @@ import com.joshmanisdabomb.lcc.proxy.DedicatedServerProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -92,5 +92,8 @@ public class LCC
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class Color extends ColorEvents {}
+
+    @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
+    public static class Data extends DataEvents {}
 
 }

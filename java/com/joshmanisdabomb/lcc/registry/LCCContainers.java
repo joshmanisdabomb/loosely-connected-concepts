@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.container.*;
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.tileentity.*;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.state.properties.SlabType;

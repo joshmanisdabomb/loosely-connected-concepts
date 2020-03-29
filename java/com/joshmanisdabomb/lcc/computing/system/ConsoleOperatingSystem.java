@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.computing.system;
 
+import com.joshmanisdabomb.lcc.capability.PartitionCapability;
 import com.joshmanisdabomb.lcc.computing.ComputingSession;
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.computing.TerminalSession;
 import com.joshmanisdabomb.lcc.computing.system.console.*;
-import com.joshmanisdabomb.lcc.data.capability.PartitionCapability;
 import com.joshmanisdabomb.lcc.network.ComputerPowerPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCFonts;

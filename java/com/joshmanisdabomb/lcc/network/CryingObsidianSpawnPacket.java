@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.network;
 
-import com.joshmanisdabomb.lcc.data.capability.CryingObsidianCapability;
+import com.joshmanisdabomb.lcc.capability.CryingObsidianCapability;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SRespawnPacket;

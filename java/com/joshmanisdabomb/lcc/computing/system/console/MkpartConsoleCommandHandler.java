@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.computing.system.console;
 
+import com.joshmanisdabomb.lcc.capability.PartitionCapability;
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.computing.storage.PartitionFolder;
 import com.joshmanisdabomb.lcc.computing.system.ConsoleOperatingSystem;
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
-import com.joshmanisdabomb.lcc.data.capability.PartitionCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;

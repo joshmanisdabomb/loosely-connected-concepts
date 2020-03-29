@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_cloth_white_from_dyes_white_rift"
+    ]
+  },
+  "criteria": {
+    "has_dyes_white": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dyes/white"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_cloth_white_from_dyes_white_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dyes_white",
+      "has_the_recipe"
+    ]
+  ]
+}

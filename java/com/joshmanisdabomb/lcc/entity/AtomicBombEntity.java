@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity;
 
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
-import com.joshmanisdabomb.lcc.data.capability.NuclearCapability;
+import com.joshmanisdabomb.lcc.capability.NuclearCapability;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;

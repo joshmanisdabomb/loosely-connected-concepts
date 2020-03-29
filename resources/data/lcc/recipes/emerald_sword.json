@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "X",
-    "#"
+    "i",
+    "i",
+    "s"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:stick"
-    },
-    "X": {
+    "i": {
       "item": "minecraft:emerald"
+    },
+    "s": {
+      "item": "minecraft:stick"
     }
   },
   "result": {

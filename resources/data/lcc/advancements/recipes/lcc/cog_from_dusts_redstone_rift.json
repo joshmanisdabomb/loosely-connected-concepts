@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:cog_from_dusts_redstone_rift"
+    ]
+  },
+  "criteria": {
+    "has_dusts_redstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:dusts/redstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:cog_from_dusts_redstone_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dusts_redstone",
+      "has_the_recipe"
+    ]
+  ]
+}

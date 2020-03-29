@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.gui.inventory;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.container.SpreaderInterfaceContainer;
-import com.joshmanisdabomb.lcc.data.capability.SpreaderCapability;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.network.SpreaderInterfaceUpdatePacket;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item;
 
-import com.joshmanisdabomb.lcc.data.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.HeartsCapability;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import net.minecraft.entity.LivingEntity;
 

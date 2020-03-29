@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "minecraft:pink_wool"
-  },
-  "result": "lcc:classic_cloth_hot_pink",
-  "count": 1
-}

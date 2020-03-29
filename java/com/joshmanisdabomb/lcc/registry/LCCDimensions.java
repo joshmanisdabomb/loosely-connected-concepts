@@ -8,16 +8,33 @@ import com.joshmanisdabomb.lcc.gen.dimension.provider.MultiBiomeProvider;
 import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.gen.ChunkGeneratorType;
 import net.minecraft.world.gen.EndGenerationSettings;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.event.RegistryEvent;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 public abstract class LCCDimensions {
 
     public static final ArrayList<ModDimension> all = new ArrayList<>();
     public static final ArrayList<BiomeProviderType<?, ?>> allBiomeProviders = new ArrayList<>();
     public static final ArrayList<ChunkGeneratorType<?, ?>> allChunkGenerators = new ArrayList<>();
+
+    public static final Constructor<BiomeProviderType> BIOMEPROVIDER_CONSTRUCTOR;
+
+    static {
+        Constructor<BiomeProviderType> c;
+        try {
+            c = BiomeProviderType.class.getDeclaredConstructor(Function.class, Function.class);
+        } catch (NoSuchMethodException e) {
+            c = null;
+        }
+        BIOMEPROVIDER_CONSTRUCTOR = c;
+        BIOMEPROVIDER_CONSTRUCTOR.setAccessible(true);
+    }
 
     public static RainbowDimensionRegistry rainbow;
 
@@ -30,7 +47,11 @@ public abstract class LCCDimensions {
     }
 
     public static void initBiomeProviders(RegistryEvent.Register<BiomeProviderType<?, ?>> e) {
-        allBiomeProviders.add((multiple_biomes = new BiomeProviderType<>(MultiBiomeProvider::new, MultiBiomeProvider.MultiBiomeProviderSettings::new)).setRegistryName(LCC.MODID, "multiple_biomes"));
+        try {
+            allBiomeProviders.add((multiple_biomes = BIOMEPROVIDER_CONSTRUCTOR.newInstance((Function<MultiBiomeProvider.MultiBiomeProviderSettings, MultiBiomeProvider>)MultiBiomeProvider::new, (Function<WorldInfo, MultiBiomeProvider.MultiBiomeProviderSettings>)MultiBiomeProvider.MultiBiomeProviderSettings::new)).setRegistryName(LCC.MODID, "multiple_biomes"));
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void initChunkGenerators(RegistryEvent.Register<ChunkGeneratorType<?, ?>> e) {

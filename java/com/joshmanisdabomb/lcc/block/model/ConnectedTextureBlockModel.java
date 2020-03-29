@@ -8,10 +8,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -32,12 +34,12 @@ public class ConnectedTextureBlockModel implements IBakedModel {
 
     public ConnectedTextureBlockModel(Block b) {
         this.block = b;
-        this.bakedTextures = ((ConnectedTextureBlock)b).getConnectedTextureMap().bake(ModelLoader.defaultTextureGetter());
+        this.bakedTextures = ((ConnectedTextureBlock)b).getConnectedTextureMap().bake(AdvancedBlockRender.blockTextureGetter);
     }
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
         tileData.setData(AdvancedBlockRender.POS, pos);
         tileData.setData(AdvancedBlockRender.STATE, world.getBlockState(pos));
@@ -57,7 +59,7 @@ public class ConnectedTextureBlockModel implements IBakedModel {
 
             final Direction[] perpendiculars = Util.PERPENDICULARS.get(side); //up, right, down, left on 2d plane
             final BlockPos p = tileData.getData(AdvancedBlockRender.POS);
-            final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            final BlockPos.Mutable pos = new BlockPos.Mutable();
 
             if (!tileData.hasProperty(ConnectedTextureBlock.OFFSET_TO_PROPERTY_MAP.get(pos.up()))) return quads;
 
@@ -117,6 +119,11 @@ public class ConnectedTextureBlockModel implements IBakedModel {
     @Override
     public boolean isGui3d() {
         return true;
+    }
+
+    @Override
+    public boolean func_230044_c_() {
+        return false;
     }
 
     @Override

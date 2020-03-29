@@ -26,22 +26,19 @@ import net.minecraftforge.common.BiomeManager;
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.LongFunction;
+import java.util.stream.Collectors;
 
 public class MultiBiomeProvider extends BiomeProvider {
 
-    private final Biome[] biomes;
     private final Layer genBiomes;
-    private final Layer biomeFactoryLayer;
 
     public MultiBiomeProvider(MultiBiomeProviderSettings settings) {
-        this.biomes = settings.entries.entrySet().stream().flatMap(e -> e.getValue().stream()).map(be -> be.biome).toArray(Biome[]::new);
-        Layer[] alayer = buildProcedure(settings.wi.getSeed(), settings.wi.getGenerator(), settings);
-        this.genBiomes = alayer[0];
-        this.biomeFactoryLayer = alayer[1];
+        super(settings.entries.entrySet().stream().flatMap(e -> e.getValue().stream()).map(be -> be.biome).collect(Collectors.toSet()));
+        this.genBiomes = buildProcedure(settings.wi.getSeed(), settings.wi.getGenerator(), settings);
     }
 
     @AdaptedFromSource
-    protected static <T extends IArea, C extends IExtendedNoiseRandom<T>> ImmutableList<IAreaFactory<T>> buildProcedure(WorldType worldTypeIn, MultiBiomeProviderSettings settings, LongFunction<C> contextFactory) {
+    protected static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> buildProcedure(WorldType worldTypeIn, MultiBiomeProviderSettings settings, LongFunction<C> contextFactory) {
         IAreaFactory<T> iareafactory = IslandLayer.INSTANCE.apply(contextFactory.apply(1L));
         iareafactory = ZoomLayer.FUZZY.apply(contextFactory.apply(2000L), iareafactory);
         iareafactory = AddIslandLayer.INSTANCE.apply(contextFactory.apply(1L), iareafactory);
@@ -69,75 +66,18 @@ public class MultiBiomeProvider extends BiomeProvider {
         }
 
         lvt_8_1_ = SmoothLayer.INSTANCE.apply(contextFactory.apply(1000L), lvt_8_1_);
-        IAreaFactory<T> iareafactory5 = VoroniZoomLayer.INSTANCE.apply(contextFactory.apply(10L), lvt_8_1_);
-        return ImmutableList.of(lvt_8_1_, iareafactory5, lvt_8_1_);
+        return lvt_8_1_;
     }
 
-    protected static Layer[] buildProcedure(long seed, WorldType typeIn, MultiBiomeProviderSettings settings) {
+    protected static Layer buildProcedure(long seed, WorldType typeIn, MultiBiomeProviderSettings settings) {
         int i = 25;
-        ImmutableList<IAreaFactory<LazyArea>> immutablelist = buildProcedure(typeIn, settings, (p_215737_2_) -> new LazyAreaLayerContext(25, seed, p_215737_2_));
-        Layer layer = new Layer(immutablelist.get(0));
-        Layer layer1 = new Layer(immutablelist.get(1));
-        Layer layer2 = new Layer(immutablelist.get(2));
-        return new Layer[]{layer, layer1, layer2};
-    }
-
-    @Override
-    public Biome getBiome(int x, int y) {
-        return this.biomeFactoryLayer.func_215738_a(x, y);
-    }
-
-    @Override
-    public Biome getBiomeAtFactorFour(int factorFourX, int factorFourZ) {
-        return this.genBiomes.func_215738_a(factorFourX, factorFourZ);
-    }
-
-    public Biome[] getBiomes(int x, int z, int width, int length, boolean cacheFlag) {
-        return this.biomeFactoryLayer.generateBiomes(x, z, width, length);
-    }
-
-    public Set<Biome> getBiomesInSquare(int centerX, int centerZ, int sideLength) {
-        int i = centerX - sideLength >> 2;
-        int j = centerZ - sideLength >> 2;
-        int k = centerX + sideLength >> 2;
-        int l = centerZ + sideLength >> 2;
-        int i1 = k - i + 1;
-        int j1 = l - j + 1;
-        Set<Biome> set = Sets.newHashSet();
-        Collections.addAll(set, this.genBiomes.generateBiomes(i, j, i1, j1));
-        return set;
-    }
-
-    @Nullable
-    public BlockPos findBiomePosition(int x, int z, int range, List<Biome> biomes, Random random) {
-        int i = x - range >> 2;
-        int j = z - range >> 2;
-        int k = x + range >> 2;
-        int l = z + range >> 2;
-        int i1 = k - i + 1;
-        int j1 = l - j + 1;
-        Biome[] abiome = this.genBiomes.generateBiomes(i, j, i1, j1);
-        BlockPos blockpos = null;
-        int k1 = 0;
-
-        for(int l1 = 0; l1 < i1 * j1; ++l1) {
-            int i2 = i + l1 % i1 << 2;
-            int j2 = j + l1 / i1 << 2;
-            if (biomes.contains(abiome[l1])) {
-                if (blockpos == null || random.nextInt(k1 + 1) == 0) {
-                    blockpos = new BlockPos(i2, 0, j2);
-                }
-
-                ++k1;
-            }
-        }
-
-        return blockpos;
+        IAreaFactory<LazyArea> area = buildProcedure(typeIn, settings, (p_215737_2_) -> new LazyAreaLayerContext(25, seed, p_215737_2_));
+        return new Layer(area);
     }
 
     public boolean hasStructure(Structure<?> structureIn) {
         return this.hasStructureCache.computeIfAbsent(structureIn, (p_205006_1_) -> {
-            for (Biome biome : this.biomes) {
+            for (Biome biome : this.field_226837_c_) {
                 if (biome.hasStructure(p_205006_1_)) {
                     return true;
                 }
@@ -149,12 +89,16 @@ public class MultiBiomeProvider extends BiomeProvider {
 
     public Set<BlockState> getSurfaceBlocks() {
         if (this.topBlocksCache.isEmpty()) {
-            for (Biome biome : this.biomes) {
+            for (Biome biome : this.field_226837_c_) {
                 this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
             }
         }
 
         return this.topBlocksCache;
+    }
+
+    public Biome getNoiseBiome(int x, int y, int z) {
+        return this.genBiomes.func_215738_a(x, z);
     }
 
     public static class MultiBiomeProviderSettings implements IBiomeProviderSettings {
@@ -163,9 +107,8 @@ public class MultiBiomeProvider extends BiomeProvider {
 
         private WorldInfo wi;
 
-        public MultiBiomeProviderSettings setWorldInfo(WorldInfo info) {
-            this.wi = info;
-            return this;
+        public MultiBiomeProviderSettings(WorldInfo wi) {
+            this.wi = wi;
         }
 
         public MultiBiomeProviderSettings addBiome(BiomeManager.BiomeEntry entry) {

@@ -16,14 +16,14 @@ public class InputEvents {
 
     @SubscribeEvent
     public void onPlayerInput(InputUpdateEvent e) {
-        PlayerEntity player = e.getEntityPlayer();
+        PlayerEntity player = e.getPlayer();
         if (player.isPotionActive(LCCEffects.stun) && !player.isCreative()) {
             e.getMovementInput().forwardKeyDown = false;
             e.getMovementInput().backKeyDown = false;
             e.getMovementInput().leftKeyDown = false;
             e.getMovementInput().rightKeyDown = false;
             e.getMovementInput().jump = false;
-            e.getMovementInput().sneak = false;
+            e.getMovementInput().field_228350_h_ = false;
             e.getMovementInput().moveForward = 0.0F;
             e.getMovementInput().moveStrafe = 0.0F;
         }
@@ -43,10 +43,10 @@ public class InputEvents {
         boolean stun = player != null && player.isPotionActive(LCCEffects.stun) && !player.isCreative();
         if (stun != lastStun) {
             MouseHelper mh = stun ? new StunMouseHelper(Minecraft.getInstance()) : new MouseHelper(Minecraft.getInstance());
-            mh.registerCallbacks(Minecraft.getInstance().mainWindow.getHandle());
+            mh.registerCallbacks(Minecraft.getInstance().getMainWindow().getHandle());
             if (Minecraft.getInstance().currentScreen == null) mh.grabMouse();
             else mh.ungrabMouse();
-            Minecraft.getInstance().mouseHelper = mh;
+            //Minecraft.getInstance().mouseHelper = mh;
         }
         lastStun = stun;
     }

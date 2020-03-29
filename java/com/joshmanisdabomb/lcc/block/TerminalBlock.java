@@ -15,12 +15,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
@@ -28,7 +29,7 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
-public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, TintedBlock {
+public class TerminalBlock extends ContainerBlock implements LCCBlockHelper, TintedBlock {
 
     public final DyeColor color;
 
@@ -49,7 +50,7 @@ public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, Ti
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (!world.isRemote) {
             TileEntity te = world.getTileEntity(pos);
             if (te instanceof INamedContainerProvider) {
@@ -59,9 +60,9 @@ public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, Ti
             } else {
                 throw new IllegalStateException("Named container provider missing.");
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -91,7 +92,7 @@ public class TerminalBlock  extends ContainerBlock implements LCCBlockHelper, Ti
     }
 
     @Override
-    public int getBlockTintColor(BlockState state, IEnviromentBlockReader world, BlockPos pos, int tintIndex) {
+    public int getBlockTintColor(BlockState state, ILightReader world, BlockPos pos, int tintIndex) {
         return this.getItemTintColor(null, tintIndex);
     }
 

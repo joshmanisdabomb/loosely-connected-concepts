@@ -98,7 +98,7 @@ public class TerminalScreen extends ContainerScreen<TerminalContainer> {
 
     @Override
     public void blit(int p_blit_1_, int p_blit_2_, int p_blit_3_, int p_blit_4_, int p_blit_5_, int p_blit_6_) {
-        blit(p_blit_1_, p_blit_2_, this.blitOffset, (float)p_blit_3_, (float)p_blit_4_, p_blit_5_, p_blit_6_, 512, 512);
+        blit(p_blit_1_, p_blit_2_, this.getBlitOffset(), (float)p_blit_3_, (float)p_blit_4_, p_blit_5_, p_blit_6_, 512, 512);
     }
 
 }

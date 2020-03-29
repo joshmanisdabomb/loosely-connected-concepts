@@ -142,13 +142,13 @@ public class ConsoleOperatingSystem extends LinedOperatingSystem {
 
         ListNBT arguments = new ListNBT();
         for (String arg : args) {
-            arguments.add(new StringNBT(arg));
+            arguments.add(StringNBT.valueOf(arg));
         }
         work.put("args", arguments);
 
         ListNBT pretranslations = new ListNBT();
         for (String pretranslation : command.pretranslations) {
-            pretranslations.add(new StringNBT(pretranslation));
+            pretranslations.add(StringNBT.valueOf(pretranslation));
         }
         work.put("pret", pretranslations);
 

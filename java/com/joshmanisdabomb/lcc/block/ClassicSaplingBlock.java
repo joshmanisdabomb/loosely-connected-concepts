@@ -12,9 +12,11 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.AbstractTreeFeature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -23,11 +25,13 @@ public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock 
 
     public static final IntegerProperty STAGE = BlockStateProperties.STAGE_0_1;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_0_7;
+
+    public static final TreeFeatureConfig CLASSIC_TREE_CONFIG = (new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.classic_leaves.getDefaultState()), new BlobFoliagePlacer(2, 0))).baseHeight(4).heightRandA(2).foliageHeight(3).ignoreVines().setSapling(LCCBlocks.classic_sapling).build();
     public static final Tree CLASSIC_TREE = new Tree() {
         @Nullable
         @Override
-        protected AbstractTreeFeature<NoFeatureConfig> getTreeFeature(Random random) {
-            return new TreeFeature(NoFeatureConfig::deserialize, true, 4, Blocks.OAK_LOG.getDefaultState(), LCCBlocks.classic_leaves.getDefaultState(), false).setSapling(LCCBlocks.classic_sapling);
+        protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random random, boolean b) {
+            return Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.ACACIA_TREE_CONFIG);
         }
     };
 
@@ -40,7 +44,7 @@ public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) { builder.add(STAGE, AGE); }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isAreaLoaded(pos, 1)) return;
         if (world.getLight(pos.up()) >= 9 && random.nextInt(5) == 0) {
             if (state.get(AGE) < 7) {
@@ -48,21 +52,16 @@ public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock 
             } else if (state.get(STAGE) < 1) {
                 world.setBlockState(pos, state.with(AGE, 0).cycle(STAGE), 3);
             } else {
-                this.grow(world, pos, state, random);
+                this.grow(world, random, pos, state);
             }
         }
 
     }
 
     @Override
-    public void grow(IWorld world, BlockPos pos, BlockState state, Random rand) {
+    public void grow(ServerWorld world, Random rand, BlockPos pos, BlockState state) {
         if (!net.minecraftforge.event.ForgeEventFactory.saplingGrowTree(world, rand, pos)) return;
-        CLASSIC_TREE.spawn(world, pos, state, rand);
-    }
-
-    @Override
-    public void grow(World world, Random rand, BlockPos pos, BlockState state) {
-        this.grow(world, pos, state, rand);
+        CLASSIC_TREE.func_225545_a_(world, world.getChunkProvider().getChunkGenerator(), pos, state, rand);
     }
 
     @Override

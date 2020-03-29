@@ -6,7 +6,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 
 public class SparklingGrassBlock extends FunctionalSnowlessGrassBlock implements TintedBlock {
 
@@ -29,7 +29,7 @@ public class SparklingGrassBlock extends FunctionalSnowlessGrassBlock implements
     }
 
     @Override
-    public int getBlockTintColor(BlockState state, IEnviromentBlockReader world, BlockPos pos, int tintIndex) {
+    public int getBlockTintColor(BlockState state, ILightReader world, BlockPos pos, int tintIndex) {
         if (tintIndex != 1) return 0xFFFFFF;
         int color = this.getColor();
         int r = (color & 0xFF0000) >> 16;

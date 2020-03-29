@@ -20,8 +20,8 @@ public class OilGeyserFeature extends Feature<NoFeatureConfig> {
     private final int minHeight;
     private final int variation;
 
-    public OilGeyserFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean notify, int minHeight, int variation) {
-        super(config, notify);
+    public OilGeyserFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, int minHeight, int variation) {
+        super(config);
         this.minHeight = minHeight;
         this.variation = variation;
     }
@@ -29,7 +29,7 @@ public class OilGeyserFeature extends Feature<NoFeatureConfig> {
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
         int height = minHeight + rand.nextInt(variation + 1);
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos(pos).move(0, height, 0);
+        BlockPos.Mutable bp = new BlockPos.Mutable(pos).move(0, height, 0);
         if (bp.getY() >= world.getMaxHeight()) return false;
         if (!GenUtility.allInAreaMatches(world, pos.getX() - 2, pos.getY() - 1, pos.getZ() - 2, pos.getX() + 2, pos.getY() - 1, pos.getZ() + 2, 0, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.cracked_mud)) return false;
         if (!GenUtility.allInAreaClear(world, pos.getX() - 2, pos.getY() + 1, pos.getZ() - 2, pos.getX() + 2, bp.getY(), pos.getZ() + 2, 1)) return false;

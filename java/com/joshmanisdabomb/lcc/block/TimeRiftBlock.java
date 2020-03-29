@@ -37,11 +37,6 @@ public class TimeRiftBlock extends Block {
     }
 
     @Override
-    public boolean isSolid(BlockState state) {
-        return false;
-    }
-
-    @Override
     public boolean canEntitySpawn(BlockState state, IBlockReader worldIn, BlockPos pos, EntityType<?> type) {
         return false;
     }

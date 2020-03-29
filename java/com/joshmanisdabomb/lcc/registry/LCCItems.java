@@ -248,7 +248,7 @@ public abstract class LCCItems {
 
 		//Power
 		//TODO: new recipe for gauntlet as 'elemental gems' will be added
-		all.add((gauntlet = new GauntletItem(new Item.Properties().maxStackSize(1).group(LCC.itemGroup).setTEISR(() -> GauntletRenderer::new))).setRegistryName(LCC.MODID, "gauntlet"));
+		all.add((gauntlet = new GauntletItem(new Item.Properties().maxStackSize(1).group(LCC.itemGroup).setISTER(() -> GauntletRenderer::new))).setRegistryName(LCC.MODID, "gauntlet"));
 
 		//Health
 		all.add((red_heart_half = new HeartItem(HeartsFunctionality.HeartType.RED, 1.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_heart_half"));

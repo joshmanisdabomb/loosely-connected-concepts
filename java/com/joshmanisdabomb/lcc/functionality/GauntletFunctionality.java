@@ -75,7 +75,7 @@ public abstract class GauntletFunctionality {
             actor.setMotion((double)f2, UPPERCUT_SPEED_VERTICAL*gm.speed, (double)f4);
             actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION*gm.speed, actor.fallDistance);
             actor.isAirBorne = true;
-            LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+            LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
             GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_ENDER_DRAGON_SHOOT, 1.0F, 1.5F);
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(UPPERCUT_BB.x, UPPERCUT_BB.y, UPPERCUT_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
@@ -113,7 +113,7 @@ public abstract class GauntletFunctionality {
             actor.isAirBorne = true;
             actor.fallDistance = Math.min(FALL_PUNCH_COMPENSATION, actor.fallDistance);
             gauntlet.punch(PUNCH_COOLDOWN*gm.cooldown, strength, f2, f4, gm.ordinal());
-            LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+            LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
             GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_SHOOT, 1.0F, 1.0F);
         }
     }
@@ -125,7 +125,7 @@ public abstract class GauntletFunctionality {
                 gauntlet.stopPunched();
                 actor.isAirBorne = true;
             } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
-                LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+                LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
                 gauntlet.stopPunched();
                 actor.hurtResistantTime = 0;
@@ -140,7 +140,7 @@ public abstract class GauntletFunctionality {
             GemModifier gm = GemModifier.values()[0];
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(PUNCH_BB.x, PUNCH_BB.y, PUNCH_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
-                LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.posX, actor.posY, actor.posZ, 1.0D, 0.0D, 0.0D);
+                LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
                 GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_WITHER_BREAK_BLOCK, 1.0F, 1.25F);
                 GauntletFunctionality.playHitSound(actor);
@@ -175,11 +175,11 @@ public abstract class GauntletFunctionality {
     }
 
     private static void playSound(LivingEntity actor, SoundEvent event, float volume, float pitch) {
-        actor.world.playSound(actor instanceof PlayerEntity ? (PlayerEntity)actor : null, actor.posX, actor.posY, actor.posZ, event, actor instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE, volume, pitch);
+        actor.world.playSound(actor instanceof PlayerEntity ? (PlayerEntity)actor : null, actor.getPosX(), actor.getPosY(), actor.getPosZ(), event, actor instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE, volume, pitch);
     }
 
     private static void playHitSound(LivingEntity actor) {
-        actor.world.playSound(actor.posX, actor.posY + actor.getEyeHeight(), actor.posZ, SoundEvents.ENTITY_ARROW_HIT_PLAYER, SoundCategory.PLAYERS, 0.18F, 0.45F, false);
+        actor.world.playSound(actor.getPosX(), actor.getPosY() + actor.getEyeHeight(), actor.getPosZ(), SoundEvents.ENTITY_ARROW_HIT_PLAYER, SoundCategory.PLAYERS, 0.18F, 0.45F, false);
     }
 
     public enum GemModifier {

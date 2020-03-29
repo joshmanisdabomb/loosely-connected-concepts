@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.proxy.DedicatedServerProxy;
 import com.joshmanisdabomb.lcc.proxy.Proxy;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -67,6 +68,7 @@ public class LCC
         MinecraftForge.EVENT_BUS.register(new UIEvents());
         MinecraftForge.EVENT_BUS.register(new InputEvents());
 
+        LCCBlocks.initRenderLayers();
         LCCEntities.initRenderers();
         LCCTileEntities.initRenderers();
         LCCParticles.initFactories();

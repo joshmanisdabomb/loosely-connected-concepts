@@ -28,7 +28,7 @@ public class NuclearWasteBlock extends FallingBlock {
                 worldIn.removeBlock(pos, false);
             }
 
-            BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos(pos);
+            BlockPos.Mutable mb = new BlockPos.Mutable(pos);
             for (; canFallThrough(worldIn.getBlockState(mb)) && mb.getY() > 0; mb.move(0, -1, 0)) {
                 ;
             }

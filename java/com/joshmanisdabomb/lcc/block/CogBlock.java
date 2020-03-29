@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.*;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -30,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlock {
+public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlock, LCCBlockHelper {
 
     public static final EnumProperty<CogState> NORTH = EnumProperty.create("north", CogState.class);
     public static final EnumProperty<CogState> EAST = EnumProperty.create("east", CogState.class);
@@ -106,7 +108,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
 
     protected boolean validCogPosition(Direction d, BlockState state, IWorld world, BlockPos pos) {
         BlockPos from = pos.offset(d);
-        return world.getBlockState(from).func_224755_d(world, from, d);
+        return world.getBlockState(from).isSolidSide(world, from, d);
     }
 
     protected boolean oneCog(BlockState state) {
@@ -136,7 +138,7 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random ramd) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random ramd) {
         this.updateRedstone(state, world, pos);
     }
 
@@ -310,8 +312,8 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
     }
 
     @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
+    public RenderType getRenderLayer() {
+        return RenderType.getCutoutMipped();
     }
 
     public enum CogState implements IStringSerializable {

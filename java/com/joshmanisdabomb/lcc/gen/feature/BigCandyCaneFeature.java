@@ -34,15 +34,15 @@ public class BigCandyCaneFeature extends Feature<NoFeatureConfig> {
     private final int minHeight;
     private final int variation;
 
-    public BigCandyCaneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean notify, int minHeight, int variation) {
-        super(config, notify);
+    public BigCandyCaneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, int minHeight, int variation) {
+        super(config);
         this.minHeight = minHeight;
         this.variation = variation;
     }
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos(pos);
+        BlockPos.Mutable bp = new BlockPos.Mutable(pos);
 
         if (!world.isRemote()) {
             Template candyCaneTop = ((ServerWorld)world.getWorld()).getStructureTemplateManager().getTemplate(CANDY_CANE_TOP);
@@ -72,7 +72,7 @@ public class BigCandyCaneFeature extends Feature<NoFeatureConfig> {
                 }
             }
 
-            BlockPos.MutableBlockPos origin = bp.setPos(pos).move(Direction.UP, height);
+            BlockPos.Mutable origin = bp.setPos(pos).move(Direction.UP, height);
 
             PlacementSettings p = new PlacementSettings().setRandom(rand).setRotation(r).addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
             switch (r) {

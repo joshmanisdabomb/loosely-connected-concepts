@@ -42,11 +42,11 @@ public abstract class LCCEntities {
 
     @OnlyIn(Dist.CLIENT)
     public static void initRenderers() {
-        RenderingRegistry.registerEntityRenderingHandler(ClassicTNTEntity.class, manager -> new StateBasedTNTRenderer(LCCBlocks.classic_tnt.getDefaultState(), manager));
-        RenderingRegistry.registerEntityRenderingHandler(NuclearExplosionEntity.class, NuclearExplosionRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ClassicZombiePigmanEntity.class, ClassicZombiePigmanRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(MultipartHitbox.class, EmptyRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(AtomicBombEntity.class, AtomicBombRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(classic_tnt, manager -> new StateBasedTNTRenderer(LCCBlocks.classic_tnt.getDefaultState(), manager));
+        RenderingRegistry.registerEntityRenderingHandler(nuclear_explosion, NuclearExplosionRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(classic_zombie_pigman, ClassicZombiePigmanRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(hitbox, EmptyRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(atomic_bomb, AtomicBombRenderer::new);
     }
 
 }

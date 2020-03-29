@@ -10,12 +10,13 @@ import com.joshmanisdabomb.lcc.tileentity.render.TimeRiftRenderer;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -141,6 +142,7 @@ public abstract class LCCBlocks {
 	public static HashMap<DyeColor, ChanneliteBlock> channelite = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new HashMap<>();
+	public static Block floodlight;
 
 	public static final BlockTags.Wrapper CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
 	public static final BlockTags.Wrapper CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));
@@ -189,14 +191,14 @@ public abstract class LCCBlocks {
 		factory(spreaders, color -> addWithDefaultItem(new SpreaderBlock(color, Block.Properties.create(Material.EARTH, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.15F, 0.0F).sound(SoundType.NETHER_WART)), new ResourceLocation(LCC.MODID, "spreader_" + color.getName())), DyeColor.values());
 
 		//Computing
-		add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "computing_block"));
+		add(computing = new ComputingBlock(Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).variableOpacity().sound(SoundType.METAL).notSolid()), new ResourceLocation(LCC.MODID, "computing_block"));
 		addWithDefaultItem(networking_cable = new CableBlock(CableBlock.NETWORKING_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "networking_cable"));
 		addWithDefaultItem(terminal_cable = new CableBlock(CableBlock.TERMINAL_CABLE, Block.Properties.create(Material.IRON, DyeColor.GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(2.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "terminal_cable"));
 		factory(terminals, color -> addWithDefaultItem(new TerminalBlock(color, Block.Properties.create(Material.IRON, color).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "terminal_" + color.getName())), DyeColor.values());
 
 		//Nostalgia
-		add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH)), new ResourceLocation(LCC.MODID, "time_rift"));
-		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setTEISR(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
+		add(time_rift = new TimeRiftBlock(Block.Properties.create(Material.EARTH, DyeColor.BLACK).hardnessAndResistance(5.0F, 0.0F).sound(SoundType.SWEET_BERRY_BUSH).notSolid()), new ResourceLocation(LCC.MODID, "time_rift"));
+		allItem.add((BlockItem)new BlockItem(time_rift, new Item.Properties().group(LCC.itemGroup).setISTER(() -> TimeRiftRenderer.Item::new)).setRegistryName(LCC.MODID, "time_rift"));
 		addWithDefaultItem(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_grass_block"));
 		addWithDefaultItem(classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_cobblestone"));
 		addWithDefaultItem(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "classic_planks"));
@@ -245,12 +247,7 @@ public abstract class LCCBlocks {
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
 			else return null;
 		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
-		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)) {
-			@Override
-			public BlockRenderLayer getRenderLayer() {
-				return BlockRenderLayer.CUTOUT_MIPPED;
-			}
-		}, new ResourceLocation(LCC.MODID, "star_plating"));
+		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "star_plating"));
 		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
 		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
 		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
@@ -277,6 +274,13 @@ public abstract class LCCBlocks {
 		//TODO sources drop channelite crystals? less chance from dirt, better chance with stone
 		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
 		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
+	}
+
+	public static void initRenderLayers() {
+		LCCBlocks.all.stream().filter(block -> block instanceof LCCBlockHelper).forEach(block -> {
+			RenderTypeLookup.setRenderLayer(block, ((LCCBlockHelper)block).getRenderLayer());
+		});
+		RenderTypeLookup.setRenderLayer(star_plating, RenderType.getCutoutMipped());
 	}
 
 	private static <B extends Block> B add(B b, ResourceLocation registry) {
@@ -307,5 +311,5 @@ public abstract class LCCBlocks {
 			map.put(value, b);
 		}
 	}
-	
+
 }

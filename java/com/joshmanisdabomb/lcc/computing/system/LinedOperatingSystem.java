@@ -55,7 +55,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
     public void writeOutput(CompoundNBT nbt) {
         ListNBT a = new ListNBT();
         for (int i = 0; i < out.length; i++) {
-            a.add(new StringNBT(out[i] != null ? out[i] : ""));
+            a.add(StringNBT.valueOf(out[i] != null ? out[i] : ""));
         }
         nbt.put(this.getType() + ".output", a);
     }
@@ -69,7 +69,7 @@ public abstract class LinedOperatingSystem extends OperatingSystem {
         nbt.remove(this.getType() + ".buffer");
         if (buffer != null) {
             for (int i = 0; i < buffer.size(); i++) {
-                a.add(new StringNBT(buffer.get(i) != null ? buffer.get(i) : ""));
+                a.add(StringNBT.valueOf(buffer.get(i) != null ? buffer.get(i) : ""));
             }
             nbt.put(this.getType() + ".buffer", a);
         }

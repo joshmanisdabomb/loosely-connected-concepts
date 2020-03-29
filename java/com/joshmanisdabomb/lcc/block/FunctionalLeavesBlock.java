@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 import java.util.function.Predicate;
@@ -26,7 +27,7 @@ public class FunctionalLeavesBlock extends LeavesBlock implements IShearableBloc
 
     @Override
     @AdaptedFromSource
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         world.setBlockState(pos, this.updateDistance(state, world, pos), 3);
     }
 
@@ -49,7 +50,7 @@ public class FunctionalLeavesBlock extends LeavesBlock implements IShearableBloc
     public BlockState updateDistance(BlockState state, IWorld world, BlockPos pos) {
         int i = 7;
 
-        try (BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain()) {
+        try (BlockPos.PooledMutable blockpos$pooledmutableblockpos = BlockPos.PooledMutable.retain()) {
             for(Direction direction : Direction.values()) {
                 blockpos$pooledmutableblockpos.setPos(pos).move(direction);
                 i = Math.min(i, this.getDistance(world.getBlockState(blockpos$pooledmutableblockpos)) + 1);

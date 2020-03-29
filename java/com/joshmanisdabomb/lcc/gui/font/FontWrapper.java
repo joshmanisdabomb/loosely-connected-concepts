@@ -98,8 +98,8 @@ public class FontWrapper extends FontRenderer {
     }
 
     @Override
-    public int func_216863_a(String p_216863_1_, int p_216863_2_, int p_216863_3_, boolean p_216863_4_) {
-        return this.getBaseRenderer().func_216863_a(p_216863_1_, p_216863_2_, p_216863_3_, p_216863_4_);
+    public int getWordPosition(String p_216863_1_, int p_216863_2_, int p_216863_3_, boolean p_216863_4_) {
+        return this.getBaseRenderer().getWordPosition(p_216863_1_, p_216863_2_, p_216863_3_, p_216863_4_);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class FontWrapper extends FontRenderer {
     private FontRenderer getBaseRenderer() {
         if (this.base == null) {
             this.base = Minecraft.getInstance().getFontResourceManager().getFontRenderer(this.locator);
-            this.base.font = new WrappedFont(this.tm, this.locator, this.base.font);
+            //this.base.font = new WrappedFont(this.tm, this.locator, this.base.font);
         }
         return this.base;
     }

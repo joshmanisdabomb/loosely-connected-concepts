@@ -30,7 +30,7 @@ public class MultipartHitbox<P extends Entity & MultipartEntity> extends Entity 
         this.setParent(parent);
         this.setSize(width, height);
         this.setIndex(index);
-        this.setPosition(parent.posX, parent.posY, parent.posZ);
+        this.setPosition(parent.getPosX(), parent.getPosY(), parent.getPosZ());
         this.setMotion(parent.getMotion());
     }
 

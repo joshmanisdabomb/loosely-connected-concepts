@@ -97,9 +97,9 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     public void tick() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        this.prevPosX = this.getPosX();
+        this.prevPosY = this.getPosY();
+        this.prevPosZ = this.getPosZ();
 
         if (!this.hasNoGravity()) {
             this.setMotion(this.getMotion().add(0.0D, -0.08D, 0.0D));
@@ -187,7 +187,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void explode() {
-        world.addEntity(new NuclearExplosionEntity(this.world, this.posX, this.posY, this.posZ, (short)(NuclearCapability.getExplosionLifetime(this.getUranium(), false))));
+        world.addEntity(new NuclearExplosionEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), (short)(NuclearCapability.getExplosionLifetime(this.getUranium(), false))));
     }
 
     private int getUranium() {
@@ -208,7 +208,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
         if (this.active) {
             ItemStack itemstack = player.getHeldItem(hand);
             if (itemstack.getItem() instanceof ShearsItem) {
-                this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_SHEEP_SHEAR, this.getSoundCategory(), 1.0F, 1.0F);
+                this.world.playSound(player, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_SHEEP_SHEAR, this.getSoundCategory(), 1.0F, 1.0F);
                 player.swingArm(hand);
                 if (!this.world.isRemote) {
                     this.drops();
@@ -310,7 +310,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
 
     @Override
     public void readSpawnData(PacketBuffer buffer) {
-        this.bb = super.getBoundingBox().offset(this.posX, this.posY, this.posZ);
+        this.bb = super.getBoundingBox().offset(this.getPosX(), this.getPosY(), this.getPosZ());
         this.setDirection(buffer.readEnumValue(Direction.class));
         this.recalculateSize();
     }

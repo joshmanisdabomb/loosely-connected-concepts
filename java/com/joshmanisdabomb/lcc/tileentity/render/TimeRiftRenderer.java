@@ -3,12 +3,15 @@ package com.joshmanisdabomb.lcc.tileentity.render;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.tileentity.TimeRiftTileEntity;
 import com.joshmanisdabomb.lcc.tileentity.model.TimeRiftModel;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -19,13 +22,17 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
     protected final TimeRiftModel model = new TimeRiftModel();
     public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/tile/time_rift.png");
 
+    public TimeRiftRenderer(TileEntityRendererDispatcher terd) {
+        super(terd);
+    }
+
     @Override
-    public void render(TimeRiftTileEntity te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TimeRiftTileEntity te, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
         GlStateManager.pushMatrix();
-        GlStateManager.translated(x+0.5, y+0.5, z+0.5);
+        //GlStateManager.translated(x+0.5, y+0.5, z+0.5);
         GlStateManager.enableBlend();
 
-        this.bindTexture(TEXTURE);
+        /*this.bindTexture(TEXTURE);
         GlStateManager.activeTexture(GLX.GL_TEXTURE1);
         float size = MathHelper.lerp(partialTicks, te.lastSize, te.size);
         GlStateManager.scalef(size,size,size);
@@ -34,7 +41,7 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
 
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
-        this.setLightmapDisabled(false);
+        this.setLightmapDisabled(false);*/
     }
 
     public static class Item extends ItemStackTileEntityRenderer {
@@ -43,6 +50,11 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
         public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/tile/time_rift.png");
 
         @Override
+        public void render(ItemStack itemStackIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+
+        }
+
+        /*@Override
         public void renderByItem(ItemStack is) {
             Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
 
@@ -65,7 +77,7 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
             GlStateManager.popMatrix();
 
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        }
+        }*/
 
     }
 

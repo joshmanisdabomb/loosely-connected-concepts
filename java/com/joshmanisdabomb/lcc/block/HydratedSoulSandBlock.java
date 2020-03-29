@@ -8,6 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -20,7 +21,7 @@ public class HydratedSoulSandBlock extends SoulSandBlock {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         LCCBlocks.hydrated_soul_sand_bubble_column.place(world, pos.up(), false);
     }
 
@@ -32,9 +33,9 @@ public class HydratedSoulSandBlock extends SoulSandBlock {
             (double)pos.getX() + (side.getXOffset() != 0 ? (MathHelper.clamp(side.getXOffset(), -0.1D, 1D) + (rand.nextDouble() * 0.1D)) : rand.nextDouble()),
             (double)pos.getY() + (side.getYOffset() != 0 ? (MathHelper.clamp(side.getYOffset(), -0.1D, 1D) + (rand.nextDouble() * 0.1D)) : rand.nextDouble()),
             (double)pos.getZ() + (side.getZOffset() != 0 ? (MathHelper.clamp(side.getZOffset(), -0.1D, 1D) + (rand.nextDouble() * 0.1D)) : rand.nextDouble()),
-                side.getXOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0,
-                side.getYOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0,
-                side.getZOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0);
+            side.getXOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0,
+            side.getYOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0,
+            side.getZOffset() == 0 ? ((rand.nextDouble() - 0.5) * 0.1) : 0);
     }
 
 }

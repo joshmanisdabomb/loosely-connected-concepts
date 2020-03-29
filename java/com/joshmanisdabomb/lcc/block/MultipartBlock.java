@@ -53,7 +53,7 @@ public interface MultipartBlock {
 
     static BlockRayTraceResult rayTrace(PlayerEntity player, IWorld world) {
         double reach = player.getAttribute(PlayerEntity.REACH_DISTANCE).getValue() - (player.isCreative() ? 0 : 0.5F);
-        Vec3d start = new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
+        Vec3d start = new Vec3d(player.getPosX(), player.getPosY() + player.getEyeHeight(), player.getPosZ());
         Vec3d look = player.getLookVec();
         Vec3d end = start.add(look.x * reach, look.y * reach, look.z * reach);
         return world.rayTraceBlocks(new RayTraceContext(start, end, RayTraceContext.BlockMode.OUTLINE, RayTraceContext.FluidMode.NONE, player));

@@ -1,11 +1,13 @@
 package com.joshmanisdabomb.lcc.gen.biome;
 
+import com.google.common.collect.ImmutableList;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCFeatures;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.ConfiguredRandomFeatureList;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
@@ -27,21 +29,23 @@ public class RainbowCandylandBiome extends Biome implements LCCBiomeHelper {
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(Feature.RANDOM_SELECTOR, new MultipleRandomFeatureConfig(new Feature[]{LCCFeatures.big_candy_cane}, new IFeatureConfig[]{IFeatureConfig.NO_FEATURE_CONFIG}, new float[]{0.1F}, LCCFeatures.candy_cane, IFeatureConfig.NO_FEATURE_CONFIG), LCCFeatures.COUNT_CHANCE_TOPS, new HeightWithChanceConfig(2, 0.5F)));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
+            LCCFeatures.big_candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).func_227227_a_(0.1F)
+        ), LCCFeatures.candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG))).withPlacement(LCCFeatures.COUNT_CHANCE_TOPS.configure(new HeightWithChanceConfig(2, 0.5F))));
     }
 
     @Override
-    public int getSkyColorByTemp(float p_76731_1_) {
+    public int getSkyColor() {
         return 0xE6C7EB;
     }
 
     @Override
-    public int getGrassColor(BlockPos p_180627_1_) {
+    public int getGrassColor(double x, double z) {
         return 0xE6C7EB;
     }
 
     @Override
-    public int getFoliageColor(BlockPos p_180625_1_) {
+    public int getFoliageColor() {
         return 0xE6C7EB;
     }
 

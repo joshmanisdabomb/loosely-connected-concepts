@@ -15,6 +15,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -27,6 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -89,7 +91,7 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(this.middle(state.get(SEGMENT), state.get(FACING), pos));
             if (tileEntity instanceof INamedContainerProvider) {
@@ -99,9 +101,9 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
             } else {
                 throw new IllegalStateException("Named container provider missing.");
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     protected void detonate(BlockState state, World world, BlockPos pos, PlayerEntity entity) {
@@ -193,7 +195,7 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             this.fall(state, world, this.middle(state.get(SEGMENT), state.get(FACING), pos));
         }
@@ -235,8 +237,8 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
         BlockState state = this.getDefaultState().with(FACING, direction);
         BlockPos p1 = context.getPos().offset(direction);
         BlockPos p2 = context.getPos().offset(direction.getOpposite());
-        if (!context.getWorld().getBlockState(p1).isReplaceable(context) || !context.getWorld().func_217350_a(state, p1, ISelectionContext.dummy())) return null;
-        if (!context.getWorld().getBlockState(p2).isReplaceable(context) || !context.getWorld().func_217350_a(state, p2, ISelectionContext.dummy())) return null;
+        if (!context.getWorld().getBlockState(p1).isReplaceable(context) || !context.getWorld().func_226663_a_(state, p1, ISelectionContext.dummy())) return null;
+        if (!context.getWorld().getBlockState(p2).isReplaceable(context) || !context.getWorld().func_226663_a_(state, p2, ISelectionContext.dummy())) return null;
         return state;
     }
 

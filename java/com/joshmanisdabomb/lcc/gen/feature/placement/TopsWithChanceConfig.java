@@ -33,7 +33,7 @@ public class TopsWithChanceConfig extends Placement<HeightWithChanceConfig> {
             int j = random.nextInt(16);
 
             BlockPos p = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(i, 0, j));
-            BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable bp = new BlockPos.Mutable();
 
             for (int k = 0; k <= p.getY(); k++) {
                 bp.setPos(p).setY(0);

@@ -3,13 +3,14 @@ package com.joshmanisdabomb.lcc.block;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -42,16 +43,16 @@ public class ChanneliteBlock extends DirectionalBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (player.getHeldItem(hand).isEmpty()) {
             if (state.get(CONNECTION) == ChanneliteConnection.INVISIBLE) {
                 world.setBlockState(pos, state.with(CONNECTION, this.getConnection(state.get(FACING), world, pos)));
             } else {
                 world.setBlockState(pos, state.with(CONNECTION, ChanneliteConnection.INVISIBLE));
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -96,14 +97,8 @@ public class ChanneliteBlock extends DirectionalBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean canRenderInLayer(BlockState state, BlockRenderLayer layer) {
-        return this.color == null ? layer == BlockRenderLayer.TRANSLUCENT : layer == BlockRenderLayer.SOLID;
+    public RenderType getRenderLayer() {
+        return RenderType.getTranslucent();
     }
 
     @Override

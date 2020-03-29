@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -33,12 +33,12 @@ public class RainbowGateModel implements IBakedModel {
 
     public RainbowGateModel(Block block) {
         this.block = block;
-        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(ModelLoader.defaultTextureGetter()).toArray(TextureAtlasSprite[]::new);
+        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(AdvancedBlockRender.blockTextureGetter).toArray(TextureAtlasSprite[]::new);
     }
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
         tileData.setData(RAND, MathHelper.getPositionRandom(new BlockPos(pos.getX(), state.get(Y), pos.getZ())));
         return tileData;
@@ -81,6 +81,11 @@ public class RainbowGateModel implements IBakedModel {
     @Override
     public boolean isGui3d() {
         return true;
+    }
+
+    @Override
+    public boolean func_230044_c_() {
+        return false;
     }
 
     @Override

@@ -14,7 +14,7 @@ public abstract class GenUtility {
         int yMax = Math.max(y1, y2) + expand;
         int zMin = Math.min(z1, z2) - expand;
         int zMax = Math.max(z1, z2) + expand;
-        try (BlockPos.PooledMutableBlockPos pos = BlockPos.PooledMutableBlockPos.retain()) {
+        try (BlockPos.PooledMutable pos = BlockPos.PooledMutable.retain()) {
             for (int x = xMin; x <= xMax; x++) {
                 for (int y = yMin; y <= yMax; y++) {
                     for (int z = zMin; z <= zMax; z++) {

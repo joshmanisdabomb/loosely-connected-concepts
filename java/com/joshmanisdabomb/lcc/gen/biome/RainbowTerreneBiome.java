@@ -18,17 +18,17 @@ public class RainbowTerreneBiome extends Biome implements LCCBiomeHelper {
     }
 
     @Override
-    public int getSkyColorByTemp(float p_76731_1_) {
+    public int getSkyColor() {
         return 0xB1A8E3;
     }
 
     @Override
-    public int getGrassColor(BlockPos p_180627_1_) {
+    public int getGrassColor(double x, double z) {
         return 0x432DBD;
     }
 
     @Override
-    public int getFoliageColor(BlockPos p_180625_1_) {
+    public int getFoliageColor() {
         return 0x432DBD;
     }
 

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
@@ -64,7 +65,7 @@ public class NetherReactorBlock extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (state.get(STATE) == ReactorState.READY) {
             if (!world.isRemote) {
                 if (pos.getY() < 4 || pos.getY() > 221) {
@@ -79,13 +80,13 @@ public class NetherReactorBlock extends Block {
                     player.sendMessage(new TranslationTextComponent("block.lcc.nether_reactor.active"));
                 }
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     protected boolean checkStructure(World world, BlockPos pos) {
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable bp = new BlockPos.Mutable();
         for (int i = -1; i <= 1; i++) {
             for (int k = -1; k <= 1; k++) {
                 BlockState bottom = world.getBlockState(bp.setPos(pos).move(i, -1, k));

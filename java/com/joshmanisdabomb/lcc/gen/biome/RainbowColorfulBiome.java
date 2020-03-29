@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCFeatures;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.DyeColor;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
@@ -22,7 +23,7 @@ public class RainbowColorfulBiome extends Biome implements LCCBiomeHelper {
     public static final OctavesNoiseGenerator[] COLORS = new OctavesNoiseGenerator[16];
     static {
         for (int i = 0; i < COLORS.length; i++) {
-            COLORS[i] = new OctavesNoiseGenerator(new Random(3452108 + i), 4);
+            COLORS[i] = new OctavesNoiseGenerator(new SharedSeedRandom(3452108 + i), 4, 0);
         }
     }
 
@@ -48,21 +49,21 @@ public class RainbowColorfulBiome extends Biome implements LCCBiomeHelper {
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createDecoratedFeature(LCCFeatures.channelite, IFeatureConfig.NO_FEATURE_CONFIG, LCCFeatures.COUNT_CHANCE_TOPS, new HeightWithChanceConfig(3, 0.1F)));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, LCCFeatures.channelite.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(LCCFeatures.COUNT_CHANCE_TOPS.configure(new HeightWithChanceConfig(3, 0.1F))));
     }
 
     @Override
-    public int getSkyColorByTemp(float p_76731_1_) {
+    public int getSkyColor() {
         return 0xFFFFFF;
     }
 
     @Override
-    public int getGrassColor(BlockPos p_180627_1_) {
+    public int getGrassColor(double x, double z) {
         return 0x00FF11;
     }
 
     @Override
-    public int getFoliageColor(BlockPos p_180625_1_) {
+    public int getFoliageColor() {
         return 0x00FF11;
     }
 

@@ -63,18 +63,18 @@ public class CryingObsidianSpawnPacket implements LCCPacket {
         interactions.initializeGameType(world.getWorldInfo().getGameType());
         playerNew.setLocationAndAngles(spawn.getX() + 0.5, spawn.getY() + 1, spawn.getZ() + 0.5, 0.0F, 0.0F);
 
-        while(!world.areCollisionShapesEmpty(playerNew) && playerNew.posY < 256.0D) playerNew.setPosition(playerNew.posX, playerNew.posY + 1.0D, playerNew.posZ);
+        while(!world.func_226669_j_(playerNew) && playerNew.getPosY() < 256.0D) playerNew.setPosition(playerNew.getPosX(), playerNew.getPosY() + 1.0D, playerNew.getPosZ());
 
         WorldInfo info = playerNew.world.getWorldInfo();
-        playerNew.connection.sendPacket(new SRespawnPacket(playerNew.dimension, info.getGenerator(), playerNew.interactionManager.getGameType()));
-        playerNew.connection.setPlayerLocation(playerNew.posX, playerNew.posY, playerNew.posZ, playerNew.rotationYaw, playerNew.rotationPitch);
+        playerNew.connection.sendPacket(new SRespawnPacket(playerNew.dimension, WorldInfo.byHashing(info.getSeed()), info.getGenerator(), playerNew.interactionManager.getGameType()));
+        playerNew.connection.setPlayerLocation(playerNew.getPosX(), playerNew.getPosY(), playerNew.getPosZ(), playerNew.rotationYaw, playerNew.rotationPitch);
         playerNew.connection.sendPacket(new SServerDifficultyPacket(info.getDifficulty(), info.isDifficultyLocked()));
         playerNew.connection.sendPacket(new SSetExperiencePacket(playerNew.experience, playerNew.experienceTotal, playerNew.experienceLevel));
         s.getPlayerList().sendWorldInfo(playerNew, world);
         s.getPlayerList().updatePermissionLevel(playerNew);
         world.addRespawnedPlayer(playerNew);
         s.getPlayerList().addPlayer(playerNew);
-        s.getPlayerList().uuidToPlayerMap.put(playerNew.getUniqueID(), playerNew);
+        //TODO access transformer s.getPlayerList().uuidToPlayerMap.put(playerNew.getUniqueID(), playerNew);
         playerNew.addSelfToInternalCraftingInventory();
         playerNew.setHealth(playerNew.getHealth());
         net.minecraftforge.fml.hooks.BasicEventHooks.firePlayerRespawnEvent(playerNew, false);

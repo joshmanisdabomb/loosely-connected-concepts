@@ -9,9 +9,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.client.ForgeIngameGui;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 public class HeartsOverlay extends AbstractGui implements LCCOverlay {
 
@@ -42,7 +42,7 @@ public class HeartsOverlay extends AbstractGui implements LCCOverlay {
     public void draw(PlayerEntity player, Minecraft minecraft, RenderGameOverlayEvent.Post event) {
         minecraft.getTextureManager().bindTexture(HEART_ICONS);
 
-        originalHeartX = (Minecraft.getInstance().mainWindow.getScaledWidth() / 2) - 91;
+        originalHeartX = (Minecraft.getInstance().getMainWindow().getScaledWidth() / 2) - 91;
         originalHeartRows = MathHelper.ceil((player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue() + player.getAbsorptionAmount()) / 20.0F);
         originalHeartSeparation = Math.min(Math.max(10 - (originalHeartRows - 2), 3), 10);
         heartColour = player.isPotionActive(Effects.POISON) ? HEART_POISON_Ud : player.isPotionActive(Effects.WITHER) ? HEART_WITHER_Ud : 0;
@@ -59,7 +59,7 @@ public class HeartsOverlay extends AbstractGui implements LCCOverlay {
 
     //TODO: support for temporary health above 20.0F
     private void drawHealthType(int typeV, float health, float healthMax) {
-        int heartY = Minecraft.getInstance().mainWindow.getScaledHeight() - ForgeIngameGui.left_height;
+        int heartY = Minecraft.getInstance().getMainWindow().getScaledHeight() - ForgeIngameGui.left_height;
         for (float i = (int)Math.ceil(healthMax); i > 0; i -= (i % 2 == 1) ? 1 : 2) {
             if (i % 2 == 1) {
                 GuiUtils.drawTexturedModalRect(originalHeartX + (MathHelper.floor(MathHelper.ceil(i / 2) - 1) * 8), heartY, HEART_CONTAINER_HALF_Ud, typeV, HEART_WIDTH, HEART_HEIGHT, 0F);

@@ -7,11 +7,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -32,12 +34,12 @@ public class CogModel implements IBakedModel {
 
     public CogModel(Block block) {
         this.block = block;
-        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(ModelLoader.defaultTextureGetter()).toArray(TextureAtlasSprite[]::new);
+        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(AdvancedBlockRender.blockTextureGetter).toArray(TextureAtlasSprite[]::new);
     }
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
         tileData.setData(AdvancedBlockRender.POS, pos);
         return tileData;
@@ -72,6 +74,9 @@ public class CogModel implements IBakedModel {
     public boolean isGui3d() {
         return true;
     }
+
+    @Override
+    public boolean func_230044_c_() { return false; }
 
     @Override
     public boolean isBuiltInRenderer() {

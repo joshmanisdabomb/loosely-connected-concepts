@@ -18,6 +18,7 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -83,7 +84,7 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     }
 
     @Override
-    public boolean func_220074_n(BlockState state) {
+    public boolean isTransparent(BlockState state) {
         return state.get(MODULE) != SlabType.DOUBLE;
     }
 
@@ -204,22 +205,22 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         SlabType s = state.get(MODULE);
         ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
         if (s == SlabType.DOUBLE) {
             VoxelShape shape = this.getPartFromTrace(result.getHitVec(), state, world, pos);
             if (shape != null) {
-                if (!te.getModule(shape == TOP_SHAPE ? SlabType.TOP : SlabType.BOTTOM).hasGui()) return false;
+                if (!te.getModule(shape == TOP_SHAPE ? SlabType.TOP : SlabType.BOTTOM).hasGui()) return ActionResultType.PASS;
                 if (!world.isRemote) this.activateModule(state, world, pos, player, shape == TOP_SHAPE);
-                return true;
+                return ActionResultType.SUCCESS;
             }
         } else {
-            if (!te.getModule(s).hasGui()) return false;
+            if (!te.getModule(s).hasGui()) return ActionResultType.PASS;
             if (!world.isRemote) this.activateModule(state, world, pos, player, s == SlabType.TOP);
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -230,11 +231,6 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     @Override
     public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
         return !this.onePart(state, (IWorld)world, pos) ? LCCSounds.cog_multiple : super.getSoundType(state, world, pos, entity);
-    }
-
-    @Override
-    public boolean isSolid(BlockState state) {
-        return false;
     }
 
     @Override

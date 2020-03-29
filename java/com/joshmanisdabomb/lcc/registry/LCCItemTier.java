@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.registry;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyLoadBase;
+import net.minecraftforge.common.util.Lazy;
 
 import java.util.function.Supplier;
 
@@ -20,7 +20,7 @@ public enum LCCItemTier implements IItemTier {
     private final float efficiency;
     private final float attackDamage;
     private final int enchantability;
-    private final LazyLoadBase<Ingredient> repairMaterial;
+    private final Lazy<Ingredient> repairMaterial;
 
     LCCItemTier(int harvestLevel, int maxUses, float efficiency, float attackDamage, int enchantability, Supplier<Ingredient> repairMaterial) {
         this.harvestLevel = harvestLevel;
@@ -28,7 +28,7 @@ public enum LCCItemTier implements IItemTier {
         this.efficiency = efficiency;
         this.attackDamage = attackDamage;
         this.enchantability = enchantability;
-        this.repairMaterial = new LazyLoadBase<>(repairMaterial);
+        this.repairMaterial = Lazy.of(repairMaterial);
     }
 
     @Override
@@ -58,7 +58,7 @@ public enum LCCItemTier implements IItemTier {
 
     @Override
     public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+        return this.repairMaterial.get();
     }
 
 }

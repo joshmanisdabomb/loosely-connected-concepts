@@ -12,6 +12,7 @@ import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -50,22 +51,22 @@ public class RoadBlock extends Block implements LCCBlockHelper, ConnectedTexture
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return super.getStateForPlacement(context).with(BlockStateProperties.UP, context.getWorld().getBlockState(context.getPos().up()).func_224755_d(context.getWorld(), context.getPos().up(), Direction.DOWN));
+        return super.getStateForPlacement(context).with(BlockStateProperties.UP, context.getWorld().getBlockState(context.getPos().up()).isSolidSide(context.getWorld(), context.getPos().up(), Direction.DOWN));
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         if (player.getHeldItem(hand).isEmpty()) {
             world.setBlockState(pos, state.with(MARKED, !state.get(MARKED)));
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (facing == Direction.UP) {
-            return stateIn.with(BlockStateProperties.UP, worldIn.getBlockState(facingPos).func_224755_d(worldIn, facingPos, Direction.DOWN));
+            return stateIn.with(BlockStateProperties.UP, worldIn.getBlockState(facingPos).isSolidSide(worldIn, facingPos, Direction.DOWN));
         }
         return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
@@ -106,7 +107,7 @@ public class RoadBlock extends Block implements LCCBlockHelper, ConnectedTexture
     }
 
     @Override
-    public boolean func_220074_n(BlockState state) {
+    public boolean isTransparent(BlockState state) {
         return true;
     }
 

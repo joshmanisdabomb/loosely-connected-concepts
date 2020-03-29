@@ -116,7 +116,7 @@ public class GeneralEvents {
     public void onNeighborNotify(BlockEvent.NeighborNotifyEvent e) {
         if (e.getWorld().getFluidState(e.getPos()).isTagged(FluidTags.WATER)) {
             //Cancel when sponge is nearby.
-            BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable bp = new BlockPos.Mutable();
             for (int i = -2; i <= 2; i++) {
                 for (int j = -2; j <= 2; j++) {
                     for (int k = -2; k <= 2; k++) {
@@ -143,9 +143,9 @@ public class GeneralEvents {
         AxisAlignedBB axisalignedbb = entity.getBoundingBox();
 
         try (
-            BlockPos.PooledMutableBlockPos bp = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
-            BlockPos.PooledMutableBlockPos bp1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-            BlockPos.PooledMutableBlockPos bp2 = BlockPos.PooledMutableBlockPos.retain()
+            BlockPos.PooledMutable bp = BlockPos.PooledMutable.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
+            BlockPos.PooledMutable bp1 = BlockPos.PooledMutable.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
+            BlockPos.PooledMutable bp2 = BlockPos.PooledMutable.retain()
         ) {
             if (entity.world.isAreaLoaded(bp, bp1)) {
                 for(int i = bp.getX(); i <= bp1.getX(); ++i) {

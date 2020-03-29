@@ -21,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.*;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!state.isValidPosition(world, pos)) {
             world.destroyBlock(pos, true);
         } else {
@@ -80,7 +81,7 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
                     if (cores.size() > 0) {
                         //Check ground for full blocks.
                         boolean ground = true;
-                        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+                        BlockPos.Mutable bp = new BlockPos.Mutable();
                         for (int j = 0; j < 5; j++) {
                             ground = ground && RainbowPortalBlock.validGround(world, bp.setPos(pos2).move(d, j));
                         }
@@ -174,11 +175,6 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
             world.destroyBlock(currentPos, true);
         }
         return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
-    }
-
-    @Override
-    public boolean doesSideBlockRendering(BlockState state, IEnviromentBlockReader world, BlockPos pos, Direction face) {
-        return true;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class ClassicSpongeBlock extends Block {
 
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable bp = new BlockPos.Mutable();
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 for (int k = -2; k <= 2; k++) {

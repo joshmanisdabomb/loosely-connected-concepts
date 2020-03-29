@@ -5,12 +5,12 @@ import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -20,6 +20,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 import java.util.ArrayList;
@@ -56,6 +58,10 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         return this.tick;
     }
 
+    public boolean canBeAttackedWithItem() {
+        return false;
+    }
+
     @Override
     public void tick() {
         if (!this.world.isRemote() && this.tick > this.lifetime) {
@@ -74,8 +80,8 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         float fire = (p1 * 0.1F) - 0.05F;
         float damage = (((p2 * 0.5F) + (p1 * 0.5F)) * 1.1F) - 0.1F;
         BlockPos center = this.getPosition();
-        BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos();
-        BlockPos.MutableBlockPos mbu = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable mb = new BlockPos.Mutable();
+        BlockPos.Mutable mbu = new BlockPos.Mutable();
         ArrayList<BlockPos> nuclearWaste = new ArrayList<>();
         if (!this.world.isRemote) {
             if (this.tick == 1) {
@@ -98,12 +104,14 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
                                         mb.setPos(center.getX() + (i * i2), center.getY() + (j * j2), center.getZ() + (k * k2));
                                         mbu.setPos(mb).move(0, 1, 0);
                                         if (mb.getY() < 0 || mb.getY() >= this.world.getHeight()) continue;
-                                        if (!this.world.isAirBlock(mb) && this.world.getBlockState(mb).getBlockHardness(this.world, mb) != -1.0f && this.world.getBlockState(mbu) != LCCBlocks.nuclear_waste.getDefaultState()) {
+                                        BlockState state = this.world.getBlockState(mb);
+                                        BlockState ustate = this.world.getBlockState(mbu);
+                                        if (!state.isAir(this.world, mb) && (state.getBlockHardness(this.world, mb) != -1.0f || state == LCCBlocks.nuclear_waste.getDefaultState()) && ustate != LCCBlocks.nuclear_waste.getDefaultState()) {
                                             double r = FAST_RAND.nextDouble();
                                             if (this.world.getFluidState(mb) != Fluids.EMPTY.getDefaultState()) {
                                                 world.setBlockState(mb, Blocks.AIR.getDefaultState(), 3);
                                             } else if (r < fire) {
-                                                if (world.isAirBlock(mbu)) {
+                                                if (ustate.isAir(this.world, mbu)) {
                                                     world.setBlockState(mbu, LCCBlocks.nuclear_fire.getDefaultState().with(FireBlock.AGE, FAST_RAND.nextInt(5)), 3);
                                                 }
                                             } else if (r < damage) {
@@ -136,6 +144,12 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
     }
 
     @Override
+    public void notifyDataManagerChange(DataParameter<?> key) {
+        if (TICK.equals(key)) this.tick = this.dataManager.get(TICK).shortValue();
+        if (LIFETIME.equals(key)) this.lifetime = this.dataManager.get(LIFETIME).shortValue();
+    }
+
+    @Override
     protected void readAdditional(CompoundNBT compound) {
         this.dataManager.set(TICK, (int)(this.tick = compound.getShort("Age")));
         this.dataManager.set(LIFETIME, (int)(this.lifetime = compound.getShort("Lifetime")));
@@ -150,6 +164,11 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
     @Override
     public IPacket<?> createSpawnPacket() {
         return this.traitCreateSpawnPacket();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBrightnessForRender() {
+        return 15728880;
     }
 
 }

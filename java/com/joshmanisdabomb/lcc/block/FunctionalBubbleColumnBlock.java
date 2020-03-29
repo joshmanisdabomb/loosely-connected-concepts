@@ -11,6 +11,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -32,7 +33,7 @@ public class FunctionalBubbleColumnBlock extends BubbleColumnBlock {
 
     @Override
     @AdaptedFromSource
-    public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
         this.place(worldIn, pos.up(), this.getDrag(worldIn, pos));
     }
 

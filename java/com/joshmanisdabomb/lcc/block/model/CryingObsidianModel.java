@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -32,12 +32,12 @@ public class CryingObsidianModel implements IBakedModel {
 
     public CryingObsidianModel(Block block) {
         this.block = block;
-        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(ModelLoader.defaultTextureGetter()).toArray(TextureAtlasSprite[]::new);
+        this.textures = ((AdvancedBlockRender)block).getTextures().stream().map(AdvancedBlockRender.blockTextureGetter).toArray(TextureAtlasSprite[]::new);
     }
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
         CryingObsidianCapability co = Minecraft.getInstance().player.getCapability(CryingObsidianCapability.Provider.DEFAULT_CAPABILITY).orElseThrow(RuntimeException::new);
         tileData.setData(ACTIVE, co != null && !co.isEmpty() && Minecraft.getInstance().world.getDimension().getType() == co.dimension && pos.equals(co.pos));
@@ -66,6 +66,11 @@ public class CryingObsidianModel implements IBakedModel {
     @Override
     public boolean isGui3d() {
         return true;
+    }
+
+    @Override
+    public boolean func_230044_c_() {
+        return false;
     }
 
     @Override

@@ -25,12 +25,12 @@ public class AmplifiedEndChunkGenerator extends NoiseChunkGenerator<EndGeneratio
 
     public AmplifiedEndChunkGenerator(IWorld worldIn, BiomeProvider biomeProviderIn, EndGenerationSettings settingsIn) {
         super(worldIn, biomeProviderIn, 8, 8, 256, settingsIn, true);
-        this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 16);
+        this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 16, 0);
     }
 
     @Override
     protected void fillNoiseColumn(double[] noiseColumn, int noiseX, int noiseZ) {
-        this.func_222546_a(noiseColumn, noiseX, noiseZ, 513.309, 513.309, 9.555149841308594D, 5.277574920654297D, 96, -4000);
+        this.calcNoiseColumn(noiseColumn, noiseX, noiseZ, 513.309, 513.309, 9.555149841308594D, 5.277574920654297D, 96, -4000);
     }
 
     @Override
@@ -40,11 +40,12 @@ public class AmplifiedEndChunkGenerator extends NoiseChunkGenerator<EndGeneratio
         float f1 = 0.0F;
         float f2 = 0.0F;
         int i = 2;
-        float f3 = this.biomeProvider.getBiomeAtFactorFour(noiseX, noiseZ).getDepth();
+        int y = this.getSeaLevel();
+        float f3 = this.biomeProvider.getNoiseBiome(noiseX, y, noiseZ).getDepth();
 
         for(int j = -2; j <= 2; ++j) {
             for(int k = -2; k <= 2; ++k) {
-                Biome biome = this.biomeProvider.getBiomeAtFactorFour(noiseX + j, noiseZ + k);
+                Biome biome = this.biomeProvider.getNoiseBiome(noiseX + j, y, noiseZ + k);
                 float f4 = biome.getDepth();
                 float f5 = biome.getScale();
 

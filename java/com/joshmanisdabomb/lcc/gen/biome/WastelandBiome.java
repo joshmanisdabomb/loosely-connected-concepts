@@ -26,33 +26,34 @@ public class WastelandBiome extends Biome implements LCCBiomeHelper {
 
     public WastelandBiome() {
         super(new Biome.Builder().surfaceBuilder(new ConfiguredSurfaceBuilder<>(SurfaceBuilder.DEFAULT, new SurfaceBuilderConfig(CRACKED_MUD, CRACKED_MUD, CRACKED_MUD))).precipitation(RainType.NONE).category(Category.DESERT).downfall(0.0F).depth(0.1F).scale(-0.1F).temperature(1.23F).waterColor(0x3f535c).waterFogColor(0x172226).parent(null));
-        this.addStructure(Feature.MINESHAFT, new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL));
-        this.addStructure(Feature.STRONGHOLD, IFeatureConfig.NO_FEATURE_CONFIG);
+        this.addStructure(Feature.MINESHAFT.withConfiguration(new MineshaftConfig(0.004D, MineshaftStructure.Type.NORMAL)));
+        this.addStructure(Feature.STRONGHOLD.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         DefaultBiomeFeatures.addCarvers(this);
         DefaultBiomeFeatures.addStructures(this);
         DefaultBiomeFeatures.addMonsterRooms(this);
         DefaultBiomeFeatures.addStoneVariants(this);
         DefaultBiomeFeatures.addFossils(this);
-        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(Feature.ORE, new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.COAL_ORE.getDefaultState(), 17), Placement.COUNT_RANGE, new CountRangeConfig(20, 0, 0, 128)));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.COAL_ORE.getDefaultState(), 17)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(25, 0, 0, 128))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.IRON_ORE.getDefaultState(), 17)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(20, 0, 0, 128))));
     }
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(LCCFeatures.oil_geyser, IFeatureConfig.NO_FEATURE_CONFIG, Placement.COUNT_EXTRA_HEIGHTMAP, new AtSurfaceWithExtraConfig(0, 0.01F, 1)));
+        this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, LCCFeatures.oil_geyser.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.01F, 1))));
     }
 
     @Override
-    public int getSkyColorByTemp(float p_76731_1_) {
+    public int getSkyColor() {
         return 0xccc8b4;
     }
 
     @Override
-    public int getGrassColor(BlockPos p_180627_1_) {
+    public int getGrassColor(double x, double z) {
         return 0x8f8865;
     }
 
     @Override
-    public int getFoliageColor(BlockPos p_180625_1_) {
+    public int getFoliageColor() {
         return 0x8f8865;
     }
 

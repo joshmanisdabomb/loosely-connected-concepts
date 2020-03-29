@@ -26,15 +26,15 @@ public class CandyCaneFeature extends Feature<NoFeatureConfig> {
     private final int minHeight;
     private final int variation;
 
-    public CandyCaneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean notify, int minHeight, int variation) {
-        super(config, notify);
+    public CandyCaneFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, int minHeight, int variation) {
+        super(config);
         this.minHeight = minHeight;
         this.variation = variation;
     }
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos(pos);
+        BlockPos.Mutable bp = new BlockPos.Mutable(pos);
 
         int height = minHeight + rand.nextInt(variation + 1);
         Direction d = Direction.byHorizontalIndex(rand.nextInt(4));

@@ -63,15 +63,15 @@ public class ClassicMeleeAttackGoal extends MeleeAttackGoal {
         LivingEntity livingentity = this.attacker.getAttackTarget();
         this.attacker.getLookController().setLookPositionWithEntity(livingentity, 30.0F, 30.0F);
 
-        this.targetX = livingentity.posX;
+        this.targetX = livingentity.getPosX();
         this.targetY = livingentity.getBoundingBox().minY;
-        this.targetZ = livingentity.posZ;
+        this.targetZ = livingentity.getPosZ();
         this.attacker.getMoveHelper().setMoveTo(this.targetX, this.targetY, this.targetZ, this.speed);
         if (this.attacker.collidedHorizontally) this.attacker.getJumpController().setJumping();
 
         this.attackTick = Math.max(this.attackTick - 1, 0);
 
-        double d0 = this.attacker.getDistanceSq(livingentity.posX, livingentity.getBoundingBox().minY, livingentity.posZ);
+        double d0 = this.attacker.getDistanceSq(livingentity.getPosX(), livingentity.getBoundingBox().minY, livingentity.getPosZ());
         this.checkAndPerformAttack(livingentity, d0);
     }
 

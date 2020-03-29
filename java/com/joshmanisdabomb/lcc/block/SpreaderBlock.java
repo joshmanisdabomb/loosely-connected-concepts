@@ -10,9 +10,10 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 
@@ -53,12 +54,12 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             SpreaderCapability.Provider.getGlobal(world.getServer()).ifPresent(spreader -> {
                 if (spreader.isEnabled(color)) {
                     if (state.get(AGE) < 15) {
-                        BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos(pos);
+                        BlockPos.Mutable mpos = new BlockPos.Mutable(pos);
                         for (int i = -1; i <= 1; i++) {
                             for (int j = -1; j <= 1; j++) {
                                 for (int k = -1; k <= 1; k++) {
@@ -92,7 +93,7 @@ public class SpreaderBlock extends Block implements LCCBlockHelper, TintedBlock 
     }
 
     @Override
-    public int getBlockTintColor(BlockState state, IEnviromentBlockReader world, BlockPos pos, int tintIndex) {
+    public int getBlockTintColor(BlockState state, ILightReader world, BlockPos pos, int tintIndex) {
         return this.getItemTintColor(null, tintIndex);
     }
 

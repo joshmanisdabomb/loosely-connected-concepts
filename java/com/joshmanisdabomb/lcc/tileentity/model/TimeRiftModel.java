@@ -1,9 +1,13 @@
 package com.joshmanisdabomb.lcc.tileentity.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.model.Model;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
@@ -19,19 +23,21 @@ public class TimeRiftModel extends Model {
 
     public int frameLastChanged = 0;
 
-    private final RendererModel[] parts = new RendererModel[TIME_RIFT_PARTS];
+    private final ModelRenderer[] parts = new ModelRenderer[TIME_RIFT_PARTS];
     private final Vec3d[] motions = new Vec3d[TIME_RIFT_PARTS];
     private final Vec3d[] colors = new Vec3d[TIME_RIFT_PARTS];
 
     private final Random rand = new Random();
 
     public TimeRiftModel() {
+        super(RenderType::getEntitySolid);
+
         textureWidth = 64;
         textureHeight = 32;
 
         for (int i = 0; i < parts.length; i++) {
             int size = (i % (MAX_SIZE - 1)) + 1;
-            parts[i] = new RendererModel(this);
+            parts[i] = new ModelRenderer(this);
             parts[i].setRotationPoint(-size/2F, -size/2F, -size/2F);
             parts[i].addBox(0.0F, 0.0F, 0.0F, size, size, size);
             motions[i] = this.moveAmount();
@@ -39,7 +45,7 @@ public class TimeRiftModel extends Model {
         }
     }
 
-    public void render(float scale, float partialTicks) {
+    /*public void render(float scale, float partialTicks) {
         if (frameLastChanged != Minecraft.getInstance().getFrameTimer().getIndex()) {
             frameLastChanged = Minecraft.getInstance().getFrameTimer().getIndex();
 
@@ -78,10 +84,16 @@ public class TimeRiftModel extends Model {
         }
     }
 
+    */
     private Vec3d moveAmount() {
         List<Double> d = Arrays.asList(((rand.nextDouble() * 0.02) + 0.02) * (rand.nextBoolean() ? 1 : -1), ((rand.nextDouble() * 0.04) - 0.02), ((rand.nextDouble() * 0.04) - 0.02));
         Collections.shuffle(d);
         return new Vec3d(d.get(0), d.get(1), d.get(2));
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+
     }
 
 }

@@ -22,8 +22,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.ServerBossInfo;
 import net.minecraft.world.gen.feature.template.*;
+import net.minecraft.world.server.ServerBossInfo;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootParameterSets;
@@ -56,7 +56,7 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
         boolean active = (this.activeTicks >= 0 && this.activeTicks <= 860 && this.getBlockState().get(NetherReactorBlock.STATE) == NetherReactorBlock.ReactorState.ACTIVE) || (this.activeTicks > 860 && this.activeTicks <= 900 && this.getBlockState().get(NetherReactorBlock.STATE) == NetherReactorBlock.ReactorState.USED);
         this.bossInfo.setVisible(active);
         if (active) {
-            BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable bp = new BlockPos.Mutable();
             if (this.activeTicks > 900) {
                 this.activeTicks = -1;
                 return;
@@ -204,7 +204,7 @@ public class NetherReactorTileEntity extends TileEntity implements ITickableTile
             Template netherSpire = ((ServerWorld) world).getStructureTemplateManager().getTemplate(NETHER_SPIRE);
             BlockPos size = netherSpire.getSize();
             netherSpire.addBlocksToWorld(world, pos.add(-size.getX() / 2, -1, -size.getZ() / 2), new PlacementSettings().setRandom(world.rand).addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK).addProcessor(NETHER_SPIRE_AIR).addProcessor(NETHER_SPIRE_ALWAYS_NETHERRACK), 3);
-            BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos();
+            BlockPos.Mutable bp = new BlockPos.Mutable();
             for (int i = -8; i <= 8; i++) {
                 for (int k = -8; k <= 8; k++) {
                     world.setBlockState(bp.setPos(pos).move(i, -2, k), Blocks.NETHERRACK.getDefaultState());

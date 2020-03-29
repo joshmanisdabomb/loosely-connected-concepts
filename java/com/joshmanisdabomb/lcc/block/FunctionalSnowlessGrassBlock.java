@@ -3,21 +3,22 @@ package com.joshmanisdabomb.lcc.block;
 import com.joshmanisdabomb.lcc.misc.AdaptedFromSource;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.lighting.LightEngine;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
 import java.util.Random;
 import java.util.function.Function;
 
-public class FunctionalSnowlessGrassBlock extends Block {
+public class FunctionalSnowlessGrassBlock extends Block implements LCCBlockHelper {
 
     private final Function<BlockState, BlockState> change;
 
@@ -41,7 +42,7 @@ public class FunctionalSnowlessGrassBlock extends Block {
 
     @Override
     @AdaptedFromSource
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
             if (!survives(state, world, pos, false)) {
@@ -75,12 +76,7 @@ public class FunctionalSnowlessGrassBlock extends Block {
     }
 
     @Override
-    public boolean isSolid(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
+    public RenderType getRenderLayer() {
+        return RenderType.getCutoutMipped();
     }
 }

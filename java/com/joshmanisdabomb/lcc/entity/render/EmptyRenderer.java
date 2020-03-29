@@ -1,5 +1,7 @@
 package com.joshmanisdabomb.lcc.entity.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
@@ -14,13 +16,12 @@ public class EmptyRenderer extends EntityRenderer {
     }
 
     @Override
-    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+    public void render(Entity p_225623_1_, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
 
     }
 
-    @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    public ResourceLocation getEntityTexture(Entity entity) {
         return null;
     }
 

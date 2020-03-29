@@ -91,7 +91,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 public void onPress() {
                     super.onPress();
-                    SpreaderInterfaceScreen.this.newSettings.enabled.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.newSettings.enabled.put(color, this.isChecked());
                     SpreaderInterfaceScreen.this.updateCosts();
                 }
 
@@ -102,7 +102,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 public void onPress() {
                     super.onPress();
-                    SpreaderInterfaceScreen.this.newSettings.eating.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.newSettings.eating.put(color, this.isChecked());
                     SpreaderInterfaceScreen.this.updateCosts();
                 }
 
@@ -113,7 +113,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 public void onPress() {
                     super.onPress();
-                    SpreaderInterfaceScreen.this.newSettings.throughGround.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.newSettings.throughGround.put(color, this.isChecked());
                     SpreaderInterfaceScreen.this.updateCosts();
                 }
 
@@ -124,7 +124,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 public void onPress() {
                     super.onPress();
-                    SpreaderInterfaceScreen.this.newSettings.throughLiquid.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.newSettings.throughLiquid.put(color, this.isChecked());
                     SpreaderInterfaceScreen.this.updateCosts();
                 }
 
@@ -135,7 +135,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
                 @Override
                 public void onPress() {
                     super.onPress();
-                    SpreaderInterfaceScreen.this.newSettings.throughAir.put(color, this.func_212942_a());
+                    SpreaderInterfaceScreen.this.newSettings.throughAir.put(color, this.isChecked());
                     SpreaderInterfaceScreen.this.updateCosts();
                 }
 
@@ -283,7 +283,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
 
         //render items
         this.itemRenderer.zLevel = 200.0F;
-        RenderHelper.enableGUIStandardItemLighting();
+        //RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.translatef(0.5F, 0.5F, 32.0F);
 
         this.itemRenderer.renderItemIntoGUI(new ItemStack(LCCBlocks.spreaders.get(tab)), this.guiLeft + 202, this.guiTop + 10);
@@ -362,8 +362,8 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
         public void renderButton(int mouseX, int mouseY, float partialTicks) {
             Minecraft.getInstance().getTextureManager().bindTexture(GUI);
             GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ONE.param, GlStateManager.DestFactor.ZERO.param);
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.blit(this.x, this.y, 132, 231, this.width, this.height);
             this.blit(this.x + (int)(this.value * (double)(this.width - 8)), this.y, this.isHovered() ? 140 : 132, 243, 8, 12);
@@ -395,7 +395,7 @@ public class SpreaderInterfaceScreen extends ContainerScreen<SpreaderInterfaceCo
             Minecraft.getInstance().getTextureManager().bindTexture(GUI);
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.blit(this.x, this.y, 148, 243, this.width, this.height);
-            if (this.func_212942_a()) this.blit(this.x, this.y, 160, 243, this.width, this.height);
+            if (this.isChecked()) this.blit(this.x, this.y, 160, 243, this.width, this.height);
         }
     }
 

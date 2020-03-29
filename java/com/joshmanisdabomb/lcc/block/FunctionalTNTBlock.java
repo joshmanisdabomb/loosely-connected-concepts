@@ -13,6 +13,7 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -88,14 +89,14 @@ public class FunctionalTNTBlock extends TNTBlock {
         if (!world.isRemote) {
             TNTEntity tntentity = factory.create(world, (double)((float)pos.getX() + 0.5F), (double)pos.getY(), (double)((float)pos.getZ() + 0.5F), entity);
             world.addEntity(tntentity);
-            world.playSound(null, tntentity.posX, tntentity.posY, tntentity.posZ, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, tntentity.getPosX(), tntentity.getPosY(), tntentity.getPosZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
         }
     }
 
     @Override
     @AdaptedFromSource
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         ItemStack itemstack = player.getHeldItem(handIn);
         Item item = itemstack.getItem();
         if (item != Items.FLINT_AND_STEEL && item != Items.FIRE_CHARGE) {
@@ -111,7 +112,7 @@ public class FunctionalTNTBlock extends TNTBlock {
                 itemstack.shrink(1);
             }
 
-            return true;
+            return ActionResultType.SUCCESS;
         }
     }
 

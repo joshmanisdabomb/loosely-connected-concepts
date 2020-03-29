@@ -33,7 +33,7 @@ public interface MultipartEntity {
         Entity e = (Entity)this;
         hitbox.setMotion(e.getMotion());
         hitbox.move(MoverType.SELF, hitbox.getMotion());
-        hitbox.setPosition(e.posX, e.posY, e.posZ);
+        hitbox.setPosition(e.getPosX(), e.getPosY(), e.getPosZ());
         hitbox.recalculateSize();
     }
 

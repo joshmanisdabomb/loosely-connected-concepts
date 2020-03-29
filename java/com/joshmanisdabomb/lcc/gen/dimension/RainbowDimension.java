@@ -29,7 +29,10 @@ public class RainbowDimension extends Dimension {
     private static float rainbowClientTicks;
 
     public RainbowDimension(World world, DimensionType type) {
-        super(world, type);
+        super(world, type, 0.0F);
+        for(int i = 0; i <= 15; ++i) {
+            this.lightBrightnessTable[i] = i < 1 ? 1.0F : (this.lightBrightnessTable[i - 1] * 0.97F);
+        }
     }
 
     @Override
@@ -39,21 +42,13 @@ public class RainbowDimension extends Dimension {
         genSettings.setDefaultFluid(Blocks.AIR.getDefaultState());
         genSettings.setSpawnPos(new BlockPos(0, 100, 0));
 
-        MultiBiomeProvider.MultiBiomeProviderSettings bpSettings = LCCDimensions.multiple_biomes.createSettings()
-            .setWorldInfo(this.world.getWorldInfo())
+        MultiBiomeProvider.MultiBiomeProviderSettings bpSettings = LCCDimensions.multiple_biomes.func_226840_a_(this.world.getWorldInfo())
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_candyland, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_colorful, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_starlight, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_terrene, 20));
 
         return LCCDimensions.floating_islands_amplified.create(this.world, LCCDimensions.multiple_biomes.create(bpSettings), genSettings);
-    }
-
-    protected void generateLightBrightnessTable() {
-        super.generateLightBrightnessTable();
-        for(int i = 0; i <= 15; ++i) {
-            this.lightBrightnessTable[i] = (this.lightBrightnessTable[i] * 0.9F);
-        }
     }
 
     @Nullable
@@ -88,13 +83,13 @@ public class RainbowDimension extends Dimension {
         return new Vec3d((c.getRed() / 255F) * 0.1F + (f * 0.9F), (c.getGreen() / 255F) * 0.1F + (f * 0.9F), (c.getBlue() / 255F) * 0.1F + (f * 0.9F));
     }
 
-    @Override
+    /*@Override
     @OnlyIn(Dist.CLIENT)
     public Vec3d getSkyColor(BlockPos cameraPos, float partialTicks) {
         rainbowClientTicks += partialTicks;
         Color c = this.getRainbowColor();
         return new Vec3d(c.getRed() / 255F, c.getGreen() / 255F, c.getBlue() / 255F);
-    }
+    }*/
 
     @OnlyIn(Dist.CLIENT)
     public Color getRainbowColor() {

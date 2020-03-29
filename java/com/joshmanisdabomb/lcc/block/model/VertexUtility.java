@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.model.pipeline.UnpackedBakedQuad;
+import net.minecraftforge.client.model.pipeline.BakedQuadBuilder;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -28,9 +28,9 @@ public abstract class VertexUtility {
         map.put(Direction.WEST, WEST);
     });
 
-    private static void putVertex(UnpackedBakedQuad.Builder builder, Vec3d normal, double x, double y, double z, float u, float v, TextureAtlasSprite sprite) {
-        for (int e = 0; e < DefaultVertexFormats.ITEM.getElementCount(); e++) {
-            switch (DefaultVertexFormats.ITEM.getElement(e).getUsage()) {
+    private static void putVertex(BakedQuadBuilder builder, Vec3d normal, double x, double y, double z, float u, float v, TextureAtlasSprite sprite) {
+        for (int e = 0; e < DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.getSize(); e++) {
+            switch (DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.getElements().get(e).getUsage()) {
                 case POSITION:
                     builder.put(e, (float)x, (float)y, (float)z);
                     break;
@@ -54,7 +54,7 @@ public abstract class VertexUtility {
     public static BakedQuad createQuad(double[] vertices, TextureAtlasSprite sprite, int uvX1, int uvY1, int uvX2, int uvY2) {
         Vec3d normal = Vec3d.ZERO;
 
-        UnpackedBakedQuad.Builder builder = new UnpackedBakedQuad.Builder(DefaultVertexFormats.BLOCK);
+        BakedQuadBuilder builder = new BakedQuadBuilder();
         builder.setTexture(sprite);
         putVertex(builder, normal, vertices[0], vertices[1], vertices[2], uvX1, uvY1, sprite);
         putVertex(builder, normal, vertices[3], vertices[4], vertices[5], uvX1, uvY2, sprite);

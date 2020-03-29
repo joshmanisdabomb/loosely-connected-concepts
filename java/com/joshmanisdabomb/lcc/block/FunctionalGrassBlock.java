@@ -10,6 +10,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.lighting.LightEngine;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
@@ -40,7 +41,7 @@ public class FunctionalGrassBlock extends GrassBlock {
 
     @Override
     @AdaptedFromSource
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
             if (!survives(state, world, pos, false)) {

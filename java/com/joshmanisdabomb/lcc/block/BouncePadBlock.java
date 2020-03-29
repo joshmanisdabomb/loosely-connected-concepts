@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -54,16 +55,16 @@ public class BouncePadBlock extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult result) {
         int newSetting = (state.get(SETTING)+1) % 5;
         world.setBlockState(pos, state.with(SETTING, newSetting));
         world.playSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.BLOCK_DISPENSER_DISPENSE, SoundCategory.BLOCKS, 0.4F, 0.8F + (newSetting * 0.1F), false);
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
     public void onFallenUpon(World world, BlockPos pos, Entity entity, float fallDistance) {
-        entity.fall(fallDistance, 0.0F);
+        entity.onLivingFall(fallDistance, 0.0F);
     }
 
     @Override

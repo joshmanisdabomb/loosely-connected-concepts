@@ -40,7 +40,7 @@ public class CapabilityEvents {
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
         PlayerEntity playerOriginal = event.getOriginal();
-        PlayerEntity playerNew = event.getEntityPlayer();
+        PlayerEntity playerNew = event.getPlayer();
         playerOriginal.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(heartsOriginal -> {
             playerNew.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(heartsNew -> {
                 HeartsFunctionality.capabilityClone(heartsOriginal, heartsNew, playerOriginal, playerNew, event);

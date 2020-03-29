@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 
 public class GauntletOverlay extends AbstractGui implements LCCOverlay {
 
@@ -37,9 +37,9 @@ public class GauntletOverlay extends AbstractGui implements LCCOverlay {
             minecraft.getTextureManager().bindTexture(GAUNTLET_ICONS);
 
             player.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
-                int abilityY = Minecraft.getInstance().mainWindow.getScaledHeight()/2 + 10;
+                int abilityY = Minecraft.getInstance().getMainWindow().getScaledHeight()/2 + 10;
 
-                int punchX = Minecraft.getInstance().mainWindow.getScaledWidth()/2 - ABILITY_WIDTH/2;
+                int punchX = Minecraft.getInstance().getMainWindow().getScaledWidth()/2 - ABILITY_WIDTH/2;
                 int uppercutX = punchX - 20;
                 int stompX = punchX + 20;
 

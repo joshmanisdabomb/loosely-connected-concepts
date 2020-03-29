@@ -11,6 +11,7 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,7 +33,7 @@ public class NuclearFireBlock extends FireBlock {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (world.getGameRules().getBoolean(GameRules.DO_FIRE_TICK)) {
             if (!world.isAreaLoaded(pos, 2)) return; // Forge: prevent loading unloaded chunks when spreading fire
             if (!state.isValidPosition(world, pos)) {
@@ -48,7 +49,7 @@ public class NuclearFireBlock extends FireBlock {
                     world.setBlockState(mbDown, LCCBlocks.nuclear_waste.getDefaultState(), 3);
                 }
                 if (random.nextInt(2) == 0) {
-                    BlockPos.MutableBlockPos mb = new BlockPos.MutableBlockPos(pos);
+                    BlockPos.Mutable mb = new BlockPos.Mutable(pos);
                     for (int x = -2; x <= 2; x++) {
                         for (int y = -2; y <= 2; y++) {
                             for (int z = -2; z <= 2; z++) {

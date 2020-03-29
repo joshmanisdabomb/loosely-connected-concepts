@@ -4,11 +4,11 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.LazyLoadBase;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.Lazy;
 
 import java.util.function.Supplier;
 
@@ -27,7 +27,7 @@ public enum LCCArmorMaterial implements IArmorMaterial {
     private final int enchantability;
     private final SoundEvent soundEvent;
     private final float toughness;
-    private final LazyLoadBase<Ingredient> repairMaterial;
+    private final Lazy<Ingredient> repairMaterial;
 
     LCCArmorMaterial(String nameIn, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, Supplier<Ingredient> repairMaterial) {
         this.name = nameIn;
@@ -36,7 +36,7 @@ public enum LCCArmorMaterial implements IArmorMaterial {
         this.enchantability = enchantability;
         this.soundEvent = soundEvent;
         this.toughness = toughness;
-        this.repairMaterial = new LazyLoadBase<>(repairMaterial);
+        this.repairMaterial = Lazy.of(repairMaterial);
     }
 
     @Override
@@ -61,7 +61,7 @@ public enum LCCArmorMaterial implements IArmorMaterial {
 
     @Override
     public Ingredient getRepairMaterial() {
-        return this.repairMaterial.getValue();
+        return this.repairMaterial.get();
     }
 
     @Override

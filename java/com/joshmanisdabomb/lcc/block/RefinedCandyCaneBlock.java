@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -23,7 +24,7 @@ public class RefinedCandyCaneBlock extends PillarBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         ItemStack stack = player.getHeldItem(hand);
         Block b = state.getBlock();
         if (stack.getItem() instanceof PickaxeItem) {
@@ -40,9 +41,9 @@ public class RefinedCandyCaneBlock extends PillarBlock {
                 }
                 stack.damageItem(1, player, (p_220040_1_) -> p_220040_1_.sendBreakAnimation(hand));
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
 }

@@ -33,7 +33,7 @@ public abstract class ResourceEvents {
 
     @SubscribeEvent
     public static void onTextureStitch(final TextureStitchEvent.Pre e) {
-        if (!e.getMap().getBasePath().equals("textures")) return;
+        //if (!e.getMap().getBasePath().equals("textures")) return;
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             ((AdvancedBlockRender) block).getTextures().forEach(e::addSprite);
         });

@@ -25,15 +25,15 @@ public class ChanneliteFeature extends Feature<NoFeatureConfig> {
     private final int minHeight;
     private final int variation;
 
-    public ChanneliteFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, boolean notify, int minHeight, int variation) {
-        super(config, notify);
+    public ChanneliteFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config, int minHeight, int variation) {
+        super(config);
         this.minHeight = minHeight;
         this.variation = variation;
     }
 
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, NoFeatureConfig config) {
-        BlockPos.MutableBlockPos bp = new BlockPos.MutableBlockPos(pos);
+        BlockPos.Mutable bp = new BlockPos.Mutable(pos);
         BlockPos pos2 = pos.down(2);
 
         if (world.getBlockState(pos2).getBlock() != LCCBlocks.sparkling_dirt) return false;

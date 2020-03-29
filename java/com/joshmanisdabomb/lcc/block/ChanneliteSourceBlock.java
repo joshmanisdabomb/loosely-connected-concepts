@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.item.DyeColor;
-import net.minecraft.util.BlockRenderLayer;
 
-public class ChanneliteSourceBlock extends Block {
+public class ChanneliteSourceBlock extends Block implements LCCBlockHelper {
 
     private final DyeColor color;
 
@@ -14,8 +14,8 @@ public class ChanneliteSourceBlock extends Block {
     }
 
     @Override
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
+    public RenderType getRenderLayer() {
+        return RenderType.getCutoutMipped();
     }
 
     public DyeColor getColor() {

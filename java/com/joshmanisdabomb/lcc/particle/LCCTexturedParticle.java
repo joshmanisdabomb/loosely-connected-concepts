@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.particle;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.TexturedParticle;
@@ -29,11 +30,14 @@ public abstract class LCCTexturedParticle extends TexturedParticle implements IP
     public abstract ResourceLocation getTexture();
 
     @Override
-    public void renderParticle(BufferBuilder builder, ActiveRenderInfo info, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(IVertexBuilder builder, ActiveRenderInfo info, float partialTicks) {
         TextureManager textureManager = Minecraft.getInstance().textureManager;
-        this.beginRender(builder, textureManager);
-        super.renderParticle(builder, info, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
-        this.finishRender(Tessellator.getInstance());
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bb = tessellator.getBuffer();
+
+        this.beginRender(bb, textureManager);
+        super.renderParticle(builder, info, partialTicks);
+        this.finishRender(tessellator);
     }
 
     @Override

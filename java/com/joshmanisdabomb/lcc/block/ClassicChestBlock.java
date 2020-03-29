@@ -20,10 +20,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -62,10 +59,10 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!world.isRemote) {
-            if (this.isBlocked(world, pos)) return false;
-            if (state.get(TYPE) != ChestType.SINGLE && this.isBlocked(world, pos.offset(this.getDirectionToAttached(state)))) return false;
+            if (this.isBlocked(world, pos)) return ActionResultType.PASS;
+            if (state.get(TYPE) != ChestType.SINGLE && this.isBlocked(world, pos.offset(this.getDirectionToAttached(state)))) return ActionResultType.PASS;
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof INamedContainerProvider) {
                 NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity, buf -> {
@@ -74,9 +71,9 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
             } else {
                 throw new IllegalStateException("Named container provider missing.");
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -99,7 +96,7 @@ public class ClassicChestBlock extends ContainerBlock implements LCCBlockHelper 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         ChestType chesttype = ChestType.SINGLE;
         Direction direction = context.getPlacementHorizontalFacing().getOpposite();
-        boolean flag = context.isPlacerSneaking();
+        boolean flag = context.func_225518_g_();
         Direction direction1 = context.getFace();
         if (direction1.getAxis().isHorizontal() && flag) {
             Direction direction2 = this.getDirectionToAttach(context, direction1.getOpposite());

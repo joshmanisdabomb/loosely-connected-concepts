@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.event.mod;
 
+import com.joshmanisdabomb.lcc.data.LangData;
 import com.joshmanisdabomb.lcc.data.RecipeData;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -10,7 +11,15 @@ public abstract class DataEvents {
     @SubscribeEvent
     public static void onDataGather(GatherDataEvent e) {
         DataGenerator dg = e.getGenerator();
-        dg.addProvider(new RecipeData(dg));
+        if (e.includeClient()) {
+            dg.addProvider(new LangData(dg));
+            //dg.addProvider(new ItemAssetData(dg));
+            //dg.addProvider(new BlockAssetData(dg));
+        }
+        if (e.includeServer()) {
+            dg.addProvider(new RecipeData(dg));
+            //dg.addProvider(new LootTableData(dg));
+        }
     }
 
 }

@@ -1,10 +1,11 @@
 package com.joshmanisdabomb.lcc.misc;
 
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.util.IStringSerializable;
 
 public abstract class Colors {
 
-    public enum ClassicDyeColor {
+    public enum ClassicDyeColor implements IStringSerializable {
 
         RED(MaterialColor.TNT),
         ORANGE(MaterialColor.ADOBE),
@@ -29,13 +30,14 @@ public abstract class Colors {
             this.mapColor = mapColor;
         }
 
+        @Override
         public String getName() {
             return this.name().toLowerCase();
         }
 
     }
 
-    public enum AlternateDyeColor {
+    public enum AlternateDyeColor implements IStringSerializable {
 
         CINNABAR(MaterialColor.ORANGE_TERRACOTTA),
         MAROON(MaterialColor.NETHERRACK),
@@ -60,6 +62,7 @@ public abstract class Colors {
             this.mapColor = mapColor;
         }
 
+        @Override
         public String getName() {
             return this.name().toLowerCase();
         }

@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:channelite"
+          "name": "lcc:sparkling_channelite_source_blue"
         }
       ],
       "conditions": [

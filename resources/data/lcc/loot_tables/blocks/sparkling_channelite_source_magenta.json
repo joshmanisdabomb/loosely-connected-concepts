@@ -6,22 +6,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:spreader_blue"
+          "name": "lcc:sparkling_channelite_source_magenta"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:survives_explosion"
-        },
-        {
-          "condition": "minecraft:table_bonus",
-          "enchantment": "minecraft:fortune",
-          "chances": [
-            0.1,
-            0.2,
-            0.35,
-            0.6
-          ]
         }
       ]
     }

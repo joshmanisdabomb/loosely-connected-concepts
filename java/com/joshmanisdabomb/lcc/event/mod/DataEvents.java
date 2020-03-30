@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.event.mod;
 
 import com.joshmanisdabomb.lcc.data.LangData;
+import com.joshmanisdabomb.lcc.data.LootTableData;
 import com.joshmanisdabomb.lcc.data.RecipeData;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,7 +19,7 @@ public abstract class DataEvents {
         }
         if (e.includeServer()) {
             dg.addProvider(new RecipeData(dg));
-            //dg.addProvider(new LootTableData(dg));
+            dg.addProvider(new LootTableData(dg));
         }
     }
 

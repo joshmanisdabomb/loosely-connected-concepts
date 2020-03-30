@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:flower_pot"
+          "name": "lcc:classic_cyan_flower"
         }
       ],
       "conditions": [
@@ -20,7 +20,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:classic_cyan_flower"
+          "name": "minecraft:flower_pot"
         }
       ],
       "conditions": [

@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_all",
-    "textures": {
-      "all": "lcc:block/resources/ore/amethyst"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/amethyst_ore"
+    }
   }
 }

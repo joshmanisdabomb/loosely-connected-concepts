@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/block",
-    "textures": {
-      "particle": "lcc:block/nostalgia/crying_obsidian_static"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/crying_obsidian"
+    }
   }
 }

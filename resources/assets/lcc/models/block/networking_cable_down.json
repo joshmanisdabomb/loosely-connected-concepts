@@ -1,0 +1,67 @@
+{
+  "textures": {
+    "cable": "block/lime_wool"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        6,
+        10
+      ],
+      "faces": {
+        "down": {
+          "texture": "#cable",
+          "uv": [
+            6.0,
+            6.0,
+            10.0,
+            6.0
+          ],
+          "cullface": "down"
+        },
+        "north": {
+          "texture": "#cable",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            0.0
+          ]
+        },
+        "south": {
+          "texture": "#cable",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            0.0
+          ]
+        },
+        "west": {
+          "texture": "#cable",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            0.0
+          ]
+        },
+        "east": {
+          "texture": "#cable",
+          "uv": [
+            6.0,
+            10.0,
+            10.0,
+            0.0
+          ]
+        }
+      }
+    }
+  ]
+}

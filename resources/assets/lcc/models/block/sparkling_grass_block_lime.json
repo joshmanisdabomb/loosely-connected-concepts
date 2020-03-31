@@ -1,0 +1,10 @@
+{
+  "parent": "lcc:block/grass_block_index_1",
+  "textures": {
+    "particle": "lcc:block/rainbow/dirt",
+    "bottom": "lcc:block/rainbow/dirt",
+    "side": "lcc:block/rainbow/grass_side",
+    "top": "lcc:block/rainbow/colored_grass_top",
+    "overlay": "lcc:block/rainbow/colored_grass_overlay"
+  }
+}

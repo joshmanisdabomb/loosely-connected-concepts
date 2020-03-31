@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_all",
-    "textures": {
-      "all": "lcc:block/nostalgia/cloth_light_gray"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/classic_cloth_light_gray"
+    }
   }
 }

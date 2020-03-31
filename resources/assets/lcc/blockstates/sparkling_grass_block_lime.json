@@ -1,16 +1,21 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "lcc:block/colorable_grass",
-    "textures": {
-      "particle": "lcc:block/rainbow/dirt",
-      "bottom": "lcc:block/rainbow/dirt",
-      "side": "lcc:block/rainbow/grass_side",
-      "top": "lcc:block/rainbow/colored_grass_top",
-      "overlay": "lcc:block/rainbow/colored_grass_overlay"
-    }
-  },
   "variants": {
-    "": [{}, {"y": 90}, {"y": 180}, {"y": 270}]
+    "": [
+      {
+        "model": "lcc:block/sparkling_grass_block_lime"
+      },
+      {
+        "model": "lcc:block/sparkling_grass_block_lime",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/sparkling_grass_block_lime",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/sparkling_grass_block_lime",
+        "y": 270
+      }
+    ]
   }
 }

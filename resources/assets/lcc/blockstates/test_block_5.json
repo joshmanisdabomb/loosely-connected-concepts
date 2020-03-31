@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/block",
-    "textures": {
-      "particle": "lcc:block/test/5/default"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/test_block_5"
+    }
   }
 }

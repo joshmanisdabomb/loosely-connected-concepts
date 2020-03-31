@@ -1,42 +1,19 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "lcc:block/bounce_pad",
-    "textures": {
-      "0": "lcc:block/bounce_pad/base_h",
-      "1": "lcc:block/bounce_pad/inner",
-      "2": "lcc:block/bounce_pad/setting",
-      "3": "lcc:block/bounce_pad/base_v",
-      "particle": "lcc:block/bounce_pad/base_v"
-    }
-  },
   "variants": {
-    "setting": {
-      "0": {
-        "submodel": {
-          "setting": { "model": "lcc:block/bounce_pad_0" }
-        }
-      },
-      "1": {
-        "submodel": {
-          "setting": { "model": "lcc:block/bounce_pad_1" }
-        }
-      },
-      "2": {
-        "submodel": {
-          "setting": { "model": "lcc:block/bounce_pad_2" }
-        }
-      },
-      "3": {
-        "submodel": {
-          "setting": { "model": "lcc:block/bounce_pad_3" }
-        }
-      },
-      "4": {
-        "submodel": {
-          "setting": { "model": "lcc:block/bounce_pad_4" }
-        }
-      }
+    "setting=0": {
+      "model": "lcc:block/bounce_pad_0"
+    },
+    "setting=1": {
+      "model": "lcc:block/bounce_pad_1"
+    },
+    "setting=2": {
+      "model": "lcc:block/bounce_pad_2"
+    },
+    "setting=3": {
+      "model": "lcc:block/bounce_pad_3"
+    },
+    "setting=4": {
+      "model": "lcc:block/bounce_pad_4"
     }
   }
 }

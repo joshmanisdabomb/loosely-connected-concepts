@@ -1,32 +1,49 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "1": "lcc:block/atomic_bomb/tail_side",
-            "2": "lcc:block/atomic_bomb/tail",
-            "3": "lcc:block/atomic_bomb/fin",
-            "4": "lcc:block/atomic_bomb/core",
-            "5": "lcc:block/atomic_bomb/head",
-            "particle": "lcc:block/atomic_bomb/tail"
-        }
+  "variants": {
+    "facing=north,segment=front": {
+      "model": "lcc:block/atomic_bomb_0"
     },
-    "variants": {
-        "facing": {
-            "north": {},
-            "east": { "y": 90 },
-            "south": { "y": 180 },
-            "west": { "y": 270 }
-        },
-        "segment": {
-            "front": {
-                "model": "lcc:block/atomic_bomb_2"
-            },
-            "middle": {
-                "model": "lcc:block/atomic_bomb_1"
-            },
-            "back": {
-                "model": "lcc:block/atomic_bomb_0"
-            }
-        }
+    "facing=south,segment=front": {
+      "model": "lcc:block/atomic_bomb_0",
+      "y": 180
+    },
+    "facing=west,segment=front": {
+      "model": "lcc:block/atomic_bomb_0",
+      "y": 270
+    },
+    "facing=east,segment=front": {
+      "model": "lcc:block/atomic_bomb_0",
+      "y": 90
+    },
+    "facing=north,segment=middle": {
+      "model": "lcc:block/atomic_bomb_1"
+    },
+    "facing=south,segment=middle": {
+      "model": "lcc:block/atomic_bomb_1",
+      "y": 180
+    },
+    "facing=west,segment=middle": {
+      "model": "lcc:block/atomic_bomb_1",
+      "y": 270
+    },
+    "facing=east,segment=middle": {
+      "model": "lcc:block/atomic_bomb_1",
+      "y": 90
+    },
+    "facing=north,segment=back": {
+      "model": "lcc:block/atomic_bomb_2"
+    },
+    "facing=south,segment=back": {
+      "model": "lcc:block/atomic_bomb_2",
+      "y": 180
+    },
+    "facing=west,segment=back": {
+      "model": "lcc:block/atomic_bomb_2",
+      "y": 270
+    },
+    "facing=east,segment=back": {
+      "model": "lcc:block/atomic_bomb_2",
+      "y": 90
     }
+  }
 }

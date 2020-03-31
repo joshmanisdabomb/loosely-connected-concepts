@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.event.mod;
 
+import com.joshmanisdabomb.lcc.data.BlockAssetData;
 import com.joshmanisdabomb.lcc.data.LangData;
 import com.joshmanisdabomb.lcc.data.LootTableData;
 import com.joshmanisdabomb.lcc.data.RecipeData;
@@ -14,8 +15,8 @@ public abstract class DataEvents {
         DataGenerator dg = e.getGenerator();
         if (e.includeClient()) {
             dg.addProvider(new LangData(dg));
+            dg.addProvider(new BlockAssetData(dg, e.getExistingFileHelper()));
             //dg.addProvider(new ItemAssetData(dg));
-            //dg.addProvider(new BlockAssetData(dg));
         }
         if (e.includeServer()) {
             dg.addProvider(new RecipeData(dg));

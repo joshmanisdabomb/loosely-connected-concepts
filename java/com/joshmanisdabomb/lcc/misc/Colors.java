@@ -35,6 +35,11 @@ public abstract class Colors {
             return this.name().toLowerCase();
         }
 
+        @Override
+        public String toString() {
+            return this.getName();
+        }
+
     }
 
     public enum AlternateDyeColor implements IStringSerializable {
@@ -65,6 +70,11 @@ public abstract class Colors {
         @Override
         public String getName() {
             return this.name().toLowerCase();
+        }
+
+        @Override
+        public String toString() {
+            return this.getName();
         }
 
     }

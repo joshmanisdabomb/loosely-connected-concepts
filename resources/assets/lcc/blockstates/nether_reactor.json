@@ -1,25 +1,13 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_all"
-  },
   "variants": {
-    "state": {
-      "ready": {
-        "textures": {
-          "all": "lcc:block/nostalgia/nether_reactor_ready"
-        }
-      },
-      "active": {
-        "textures": {
-          "all": "lcc:block/nostalgia/nether_reactor_active"
-        }
-      },
-      "used": {
-        "textures": {
-          "all": "lcc:block/nostalgia/nether_reactor_used"
-        }
-      }
+    "state=ready": {
+      "model": "lcc:block/nether_reactor_ready"
+    },
+    "state=active": {
+      "model": "lcc:block/nether_reactor_active"
+    },
+    "state=used": {
+      "model": "lcc:block/nether_reactor_used"
     }
   }
 }

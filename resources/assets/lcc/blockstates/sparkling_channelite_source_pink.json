@@ -1,14 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "lcc:block/overlay",
-    "textures": {
-      "particle": "lcc:block/rainbow/channelite/sparkling",
-      "base": "lcc:block/rainbow/channelite/sparkling",
-      "overlay": "lcc:block/rainbow/channelite/pink_source"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/sparkling_channelite_source_pink"
+    }
   }
 }

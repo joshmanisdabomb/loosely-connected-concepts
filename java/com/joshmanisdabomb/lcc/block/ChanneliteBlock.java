@@ -145,6 +145,12 @@ public class ChanneliteBlock extends DirectionalBlock {
         public String getName() {
             return this.name().toLowerCase();
         }
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
+
     }
 
 }

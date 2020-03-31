@@ -1,0 +1,6 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "lcc:block/rainbow/gate/portal_2"
+  }
+}

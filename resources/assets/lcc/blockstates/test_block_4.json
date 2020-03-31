@@ -1,17 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_column",
-    "textures": {
-      "end": "lcc:block/test/4_end",
-      "side": "lcc:block/test/4_side"
-    }
-  },
   "variants": {
-    "axis": {
-      "y": {},
-      "z": { "x": 90 },
-      "x": { "x": 90, "y": 90 }
+    "axis=x": {
+      "model": "lcc:block/test_block_4",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lcc:block/test_block_4"
+    },
+    "axis=z": {
+      "model": "lcc:block/test_block_4",
+      "x": 90
     }
   }
 }

@@ -328,6 +328,11 @@ public class CogBlock extends Block implements AdvancedBlockRender, MultipartBlo
         public String getName() {
             return this.name().toLowerCase();
         }
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
     }
 
 }

@@ -1,15 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "lcc:block/road",
-    "textures": {
-      "particle": "lcc:block/road/side_base",
-      "top": "lcc:block/road/top_default",
-      "side": "lcc:block/road/side_base",
-      "bottom": "lcc:block/road/bottom_base"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/road"
+    }
   }
 }

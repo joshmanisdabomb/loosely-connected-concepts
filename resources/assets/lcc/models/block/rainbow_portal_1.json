@@ -1,0 +1,72 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "portal": "lcc:block/rainbow/gate/portal_1"
+  },
+  "elements": [
+    {
+      "from": [
+        -8,
+        0,
+        7
+      ],
+      "to": [
+        24,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#portal",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        },
+        "south": {
+          "texture": "#portal",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        -8,
+        0,
+        7
+      ],
+      "to": [
+        24,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#portal",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        },
+        "south": {
+          "texture": "#portal",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    }
+  ]
+}

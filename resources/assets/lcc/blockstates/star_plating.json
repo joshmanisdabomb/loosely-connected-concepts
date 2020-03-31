@@ -1,16 +1,21 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/grass_block",
-    "textures": {
-      "particle": "lcc:block/rainbow/dirt",
-      "bottom": "lcc:block/rainbow/dirt",
-      "side": "lcc:block/rainbow/grass_side",
-      "top": "lcc:block/rainbow/star_plating_top",
-      "overlay": "lcc:block/rainbow/star_plating_overlay"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": [
+      {
+        "model": "lcc:block/star_plating"
+      },
+      {
+        "model": "lcc:block/star_plating",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/star_plating",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/star_plating",
+        "y": 270
+      }
+    ]
   }
 }

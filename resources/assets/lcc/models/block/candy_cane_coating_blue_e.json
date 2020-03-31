@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "lcc:block/rainbow/candy_cane/blue_1",
+    "up": "lcc:block/rainbow/candy_cane/blue_1",
+    "north": "lcc:block/rainbow/candy_cane/blue_1",
+    "south": "lcc:block/rainbow/candy_cane/blue_1",
+    "east": "lcc:block/rainbow/candy_cane/blue_0",
+    "west": "lcc:block/rainbow/candy_cane/blue_0"
+  }
+}

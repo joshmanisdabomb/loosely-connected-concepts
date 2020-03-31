@@ -1,12 +1,21 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_all",
-    "textures": {
-      "all": "lcc:block/wasteland/cracked_mud"
-    }
-  },
   "variants": {
-    "": [{}, {"y": 90}, {"y": 180}, {"y": 270}]
+    "": [
+      {
+        "model": "lcc:block/cracked_mud"
+      },
+      {
+        "model": "lcc:block/cracked_mud",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/cracked_mud",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/cracked_mud",
+        "y": 270
+      }
+    ]
   }
 }

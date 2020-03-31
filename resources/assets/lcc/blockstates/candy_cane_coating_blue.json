@@ -1,48 +1,52 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube",
-    "textures": {
-      "particle": "lcc:block/rainbow/candy_cane/blue_0"
-    }
-  },
   "variants": {
-    "axis": {
-      "y": {},
-      "z": { "x": 90 },
-      "x": { "x": 90, "y": 90 }
+    "axis=x,end_alternate=false,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue",
+      "x": 90,
+      "y": 90
     },
-    "side_alternate": {
-      "false": {
-        "textures": {
-          "north": "lcc:block/rainbow/candy_cane/blue_0",
-          "west": "lcc:block/rainbow/candy_cane/blue_1",
-          "south": "lcc:block/rainbow/candy_cane/blue_0",
-          "east": "lcc:block/rainbow/candy_cane/blue_1"
-        }
-      },
-      "true": {
-        "textures": {
-          "north": "lcc:block/rainbow/candy_cane/blue_1",
-          "west": "lcc:block/rainbow/candy_cane/blue_0",
-          "south": "lcc:block/rainbow/candy_cane/blue_1",
-          "east": "lcc:block/rainbow/candy_cane/blue_0"
-        }
-      }
+    "axis=y,end_alternate=false,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue"
     },
-    "end_alternate": {
-      "false": {
-        "textures": {
-          "up": "lcc:block/rainbow/candy_cane/blue_0",
-          "down": "lcc:block/rainbow/candy_cane/blue_0"
-        }
-      },
-      "true": {
-        "textures": {
-          "up": "lcc:block/rainbow/candy_cane/blue_1",
-          "down": "lcc:block/rainbow/candy_cane/blue_1"
-        }
-      }
+    "axis=z,end_alternate=false,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue",
+      "x": 90
+    },
+    "axis=x,end_alternate=true,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue_e",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,end_alternate=true,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue_e"
+    },
+    "axis=z,end_alternate=true,side_alternate=false": {
+      "model": "lcc:block/candy_cane_coating_blue_e",
+      "x": 90
+    },
+    "axis=x,end_alternate=false,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_s",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,end_alternate=false,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_s"
+    },
+    "axis=z,end_alternate=false,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_s",
+      "x": 90
+    },
+    "axis=x,end_alternate=true,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_se",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,end_alternate=true,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_se"
+    },
+    "axis=z,end_alternate=true,side_alternate=true": {
+      "model": "lcc:block/candy_cane_coating_blue_se",
+      "x": 90
     }
   }
 }

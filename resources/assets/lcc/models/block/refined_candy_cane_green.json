@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "lcc:block/rainbow/candy_cane/refined_green",
+    "end": "lcc:block/rainbow/candy_cane/end"
+  }
+}

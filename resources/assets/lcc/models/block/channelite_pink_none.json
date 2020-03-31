@@ -1,0 +1,7 @@
+{
+  "parent": "lcc:block/noshade_cube_column",
+  "textures": {
+    "end": "lcc:block/rainbow/channelite/pink_none",
+    "side": "lcc:block/rainbow/channelite/pink_none"
+  }
+}

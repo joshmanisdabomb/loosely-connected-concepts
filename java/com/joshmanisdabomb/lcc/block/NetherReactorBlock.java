@@ -126,5 +126,10 @@ public class NetherReactorBlock extends Block {
         public String getName() {
             return this.name().toLowerCase();
         }
+
+        @Override
+        public String toString() {
+            return this.getName();
+        }
     }
 }

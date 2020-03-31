@@ -1,21 +1,30 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "lcc:block/orientable",
-    "textures": {
-      "top": "lcc:block/test/2_side",
-      "front": "lcc:block/test/2_front",
-      "side": "lcc:block/test/2_side"
-    }
-  },
   "variants": {
-    "facing": {
-      "north": {},
-      "east": { "y": 90 },
-      "south": { "y": 180 },
-      "west": { "y": 270 },
-      "up": { "x": 270 },
-      "down": { "x": 90 }
+    "facing=down": {
+      "model": "lcc:block/test_block_3",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "lcc:block/test_block_3"
+    },
+    "facing=north": {
+      "model": "lcc:block/test_block_3",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "lcc:block/test_block_3",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "lcc:block/test_block_3",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "lcc:block/test_block_3",
+      "x": 90,
+      "y": 90
     }
   }
 }

@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cross",
-    "textures": {
-      "cross": "lcc:block/nostalgia/sapling"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/classic_sapling"
+    }
   }
 }

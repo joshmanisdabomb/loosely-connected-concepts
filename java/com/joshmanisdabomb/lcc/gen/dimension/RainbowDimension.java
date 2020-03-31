@@ -29,10 +29,7 @@ public class RainbowDimension extends Dimension {
     private static float rainbowClientTicks;
 
     public RainbowDimension(World world, DimensionType type) {
-        super(world, type, 0.0F);
-        for(int i = 0; i <= 15; ++i) {
-            this.lightBrightnessTable[i] = i < 1 ? 1.0F : (this.lightBrightnessTable[i - 1] * 0.97F);
-        }
+        super(world, type, 0.06F);
     }
 
     @Override

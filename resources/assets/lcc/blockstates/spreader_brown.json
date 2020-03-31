@@ -1,408 +1,1188 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "lcc:block/colorable"
-    },
-    "variants": {
-        "age=0": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_0"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_0"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_0"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_0"
-                },
-                "y": 270
-            }
-        ],
-        "age=1": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_1"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_1"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_1"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_1"
-                },
-                "y": 270
-            }
-        ],
-        "age=2": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_2"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_2"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_2"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_2"
-                },
-                "y": 270
-            }
-        ],
-        "age=3": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_3"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_3"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_3"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_3"
-                },
-                "y": 270
-            }
-        ],
-        "age=4": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_4"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_4"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_4"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_4"
-                },
-                "y": 270
-            }
-        ],
-        "age=5": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_5"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_5"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_5"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_5"
-                },
-                "y": 270
-            }
-        ],
-        "age=6": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_6"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_6"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_6"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_6"
-                },
-                "y": 270
-            }
-        ],
-        "age=7": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_7"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_7"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_7"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_7"
-                },
-                "y": 270
-            }
-        ],
-        "age=8": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_8"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_8"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_8"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_8"
-                },
-                "y": 270
-            }
-        ],
-        "age=9": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_9"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_9"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_9"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_9"
-                },
-                "y": 270
-            }
-        ],
-        "age=10": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_10"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_10"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_10"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_10"
-                },
-                "y": 270
-            }
-        ],
-        "age=11": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_11"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_11"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_11"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_11"
-                },
-                "y": 270
-            }
-        ],
-        "age=12": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_12"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_12"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_12"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_12"
-                },
-                "y": 270
-            }
-        ],
-        "age=13": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_13"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_13"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_13"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_13"
-                },
-                "y": 270
-            }
-        ],
-        "age=14": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_14"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_14"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_14"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_14"
-                },
-                "y": 270
-            }
-        ],
-        "age=15": [
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_15"
-                }
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_15"
-                },
-                "y": 90
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_15"
-                },
-                "y": 180
-            },
-            {
-                "textures": {
-                    "all": "lcc:block/spreader/age_15"
-                },
-                "y": 270
-            }
-        ]
-    }
+  "variants": {
+    "age=0": [
+      {
+        "model": "lcc:block/spreader_brown_0"
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_0",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=1": [
+      {
+        "model": "lcc:block/spreader_brown_1"
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_1",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=2": [
+      {
+        "model": "lcc:block/spreader_brown_2"
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_2",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=3": [
+      {
+        "model": "lcc:block/spreader_brown_3"
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_3",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=4": [
+      {
+        "model": "lcc:block/spreader_brown_4"
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_4",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=5": [
+      {
+        "model": "lcc:block/spreader_brown_5"
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_5",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=6": [
+      {
+        "model": "lcc:block/spreader_brown_6"
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_6",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=7": [
+      {
+        "model": "lcc:block/spreader_brown_7"
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_7",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=8": [
+      {
+        "model": "lcc:block/spreader_brown_8"
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_8",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=9": [
+      {
+        "model": "lcc:block/spreader_brown_9"
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_9",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=10": [
+      {
+        "model": "lcc:block/spreader_brown_10"
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_10",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=11": [
+      {
+        "model": "lcc:block/spreader_brown_11"
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_11",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=12": [
+      {
+        "model": "lcc:block/spreader_brown_12"
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_12",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=13": [
+      {
+        "model": "lcc:block/spreader_brown_13"
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_13",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=14": [
+      {
+        "model": "lcc:block/spreader_brown_14"
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_14",
+        "x": 270,
+        "y": 270
+      }
+    ],
+    "age=15": [
+      {
+        "model": "lcc:block/spreader_brown_15"
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 90,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 90,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 90,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 180,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 180,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 180,
+        "y": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 270
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 270,
+        "y": 90
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 270,
+        "y": 180
+      },
+      {
+        "model": "lcc:block/spreader_brown_15",
+        "x": 270,
+        "y": 270
+      }
+    ]
+  }
 }

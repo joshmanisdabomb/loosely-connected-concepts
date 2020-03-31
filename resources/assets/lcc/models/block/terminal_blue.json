@@ -1,0 +1,9 @@
+{
+  "parent": "lcc:block/colorable_orientable",
+  "textures": {
+    "top": "lcc:block/computing/casing_top",
+    "front": "lcc:block/computing/terminal_front",
+    "side": "lcc:block/computing/casing_top",
+    "particle": "lcc:block/computing/casing_top"
+  }
+}

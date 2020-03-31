@@ -253,6 +253,11 @@ public class AtomicBombBlock extends ContainerBlock implements LCCBlockHelper {
             return this.name().toLowerCase();
         }
 
+        @Override
+        public String toString() {
+            return this.getName();
+        }
+
     }
 
 }

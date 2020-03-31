@@ -1,19 +1,19 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "lcc:block/colorable_orientable",
-        "textures": {
-            "top": "lcc:block/computing/casing_top",
-            "front": "lcc:block/computing/terminal_front",
-            "side": "lcc:block/computing/casing_top"
-        }
+  "variants": {
+    "facing=north": {
+      "model": "lcc:block/terminal_lime"
     },
-    "variants": {
-        "facing": {
-            "north": {},
-            "east": { "y": 90 },
-            "south": { "y": 180 },
-            "west": { "y": 270 }
-        }
+    "facing=south": {
+      "model": "lcc:block/terminal_lime",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "lcc:block/terminal_lime",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "lcc:block/terminal_lime",
+      "y": 90
     }
+  }
 }

@@ -1,12 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/flower_pot_cross",
-    "textures": {
-      "plant": "lcc:block/nostalgia/sapling"
-    }
-  },
   "variants": {
-    "": [{}]
+    "": {
+      "model": "lcc:block/potted_classic_sapling"
+    }
   }
 }

@@ -239,7 +239,7 @@ public class BlockAssetData extends BlockStateProvider {
                         texture("nostalgia/chest_" + (type != ChestType.SINGLE ? (type.getName() + "_back") : "side")),
                         texture("nostalgia/chest_side"),
                         texture("nostalgia/chest_side")
-                    ))
+                    ).texture("particle", texture("nostalgia/chest_front")))
                     .rotationY((int)state.get(ClassicChestBlock.FACING).getOpposite().getHorizontalAngle())
                     .build();
             });
@@ -260,16 +260,19 @@ public class BlockAssetData extends BlockStateProvider {
 
         this.getVariantBuilder(LCCBlocks.atomic_bomb)
             .forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(models().getExistingFile(new ResourceLocation(LCC.MODID, "atomic_bomb_" + state.get(AtomicBombBlock.SEGMENT).ordinal())))
+                .modelFile(models().withExistingParent(name(LCCBlocks.atomic_bomb) + "_" + state.get(AtomicBombBlock.SEGMENT).getName(), new ResourceLocation(LCC.MODID, "template_atomic_bomb_" + state.get(AtomicBombBlock.SEGMENT).getName()))
+                    .texture("1", texture("atomic_bomb/tail_side"))
+                    .texture("2", texture("atomic_bomb/tail"))
+                    .texture("3", texture("atomic_bomb/fin"))
+                    .texture("4", texture("atomic_bomb/core"))
+                    .texture("5", texture("atomic_bomb/head"))
+                    .texture("particle", texture("atomic_bomb/tail"))
+                )
                 .rotationY((int)state.get(AtomicBombBlock.FACING).getOpposite().getHorizontalAngle())
                 .build()
             );
 
-        this.getVariantBuilder(LCCBlocks.bounce_pad)
-            .forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(models().getExistingFile(new ResourceLocation(LCC.MODID, "bounce_pad_" + state.get(BouncePadBlock.SETTING))))
-                .build()
-            );
+        this.bouncePad(LCCBlocks.bounce_pad, texture("bounce_pad/base_h"), texture("bounce_pad/base_v"), texture("bounce_pad/inner"), texture("bounce_pad/setting"));
 
         this.simpleBlock(LCCBlocks.computing, models().withExistingParent(name(LCCBlocks.computing), "block"));
         this.addAll(block -> this.cable(block, block == LCCBlocks.networking_cable ? mcLoc(ModelProvider.BLOCK_FOLDER + "/lime_wool") : mcLoc(ModelProvider.BLOCK_FOLDER + "/purple_wool"), 4), LCCBlocks.networking_cable, LCCBlocks.terminal_cable);
@@ -280,7 +283,16 @@ public class BlockAssetData extends BlockStateProvider {
             .texture("particle", texture("computing/casing_top"))
         ), LCCBlocks.terminals.values().toArray(new TerminalBlock[0]));
 
-        this.simpleBlock(LCCBlocks.spreader_interface, models().getExistingFile(new ResourceLocation(LCC.MODID, "spreader_interface")));
+        this.simpleBlock(LCCBlocks.spreader_interface, models().withExistingParent(name(LCCBlocks.spreader_interface), new ResourceLocation(LCC.MODID, "template_spreader_interface"))
+            .texture("0", texture("spreader/interface/lid_top"))
+            .texture("1", texture("spreader/interface/lid_side"))
+            .texture("2", texture("spreader/interface/base_side"))
+            .texture("3", texture("spreader/interface/base_top"))
+            .texture("4", texture("spreader/interface/core_side"))
+            .texture("5", texture("spreader/interface/legs"))
+            .texture("6", texture("spreader/interface/port"))
+            .texture("particle", texture("spreader/interface/particle"))
+        );
         this.addAll(block -> this.getVariantBuilder(block).forAllStates(state -> {
             int age = state.get(SpreaderBlock.AGE);
             return ConfiguredModel.allRotations(models().withExistingParent(name(block) + "_" + age, this.colorable.getLocation()).texture("all", texture("spreader/age_" + age)), false);
@@ -304,6 +316,21 @@ public class BlockAssetData extends BlockStateProvider {
         return new ResourceLocation(LCC.MODID, ModelProvider.BLOCK_FOLDER + "/" + path);
     }
 
+    private void bouncePad(BouncePadBlock block, ResourceLocation base_h, ResourceLocation base_v, ResourceLocation inner, ResourceLocation setting) {
+        MultiPartBlockStateBuilder builder = this.getMultipartBuilder(LCCBlocks.bounce_pad)
+            .part().modelFile(
+                models().withExistingParent(name(block), new ResourceLocation(LCC.MODID, "template_bounce_pad"))
+                    .texture("0", base_h)
+                    .texture("1", inner)
+                    .texture("2", setting)
+                    .texture("3", base_v)
+                    .texture("particle", base_v)
+            ).addModel().end();
+        for (int i : BouncePadBlock.SETTING.getAllowedValues()) {
+            builder.part().modelFile(models().withExistingParent(name(block) + "_" + i, new ResourceLocation(LCC.MODID, "template_bounce_pad_" + i)).texture("2", setting)).addModel().condition(BouncePadBlock.SETTING, i).end();
+        }
+    }
+
     private void candyCane(CandyCaneBlock block, ResourceLocation end, ResourceLocation side1, ResourceLocation side2) {
         this.getVariantBuilder(block)
             .forAllStates(state -> {
@@ -311,7 +338,7 @@ public class BlockAssetData extends BlockStateProvider {
                 ResourceLocation a = sAlt ? side1 : side2;
                 ResourceLocation b = sAlt ? side2 : side1;
                 return ConfiguredModel.builder()
-                    .modelFile(models().cube(name(block) + (sAlt ? "_s" : ""), end, end, a, a, b, b))
+                    .modelFile(models().cube(name(block) + (sAlt ? "_s" : ""), end, end, a, a, b, b).texture("particle", "#north"))
                     .rotationX(state.get(CandyCaneBlock.AXIS) == Direction.Axis.Y ? 0 : 90)
                     .rotationY(state.get(CandyCaneBlock.AXIS) == Direction.Axis.X ? 90 : 0)
                     .build();
@@ -326,7 +353,7 @@ public class BlockAssetData extends BlockStateProvider {
                 ResourceLocation b = sAlt ? side2 : side1;
                 boolean eAlt = state.get(CandyCaneBlock.END_ALTERNATE);
                 return ConfiguredModel.builder()
-                    .modelFile(models().cube(name(block) + (sAlt || eAlt ? "_" : "") + (sAlt ? "s" : "") + (eAlt ? "e" : ""), eAlt ? side2 : side1, eAlt ? side2 : side1, a, a, b, b))
+                    .modelFile(models().cube(name(block) + (sAlt || eAlt ? "_" : "") + (sAlt ? "s" : "") + (eAlt ? "e" : ""), eAlt ? side2 : side1, eAlt ? side2 : side1, a, a, b, b).texture("particle", "#north"))
                     .rotationX(state.get(CandyCaneBlock.AXIS) == Direction.Axis.Y ? 0 : 90)
                     .rotationY(state.get(CandyCaneBlock.AXIS) == Direction.Axis.X ? 90 : 0)
                     .build();
@@ -344,7 +371,7 @@ public class BlockAssetData extends BlockStateProvider {
                         .texture("side", new ResourceLocation(baseName.getNamespace(), baseName.getPath() + "_" + (c == ChanneliteBlock.ChanneliteConnection.INVISIBLE ? invisibleSuffix : c.getName())))
                     )
                     .rotationX(dir == Direction.DOWN ? 180 : (dir.getAxis().isHorizontal() ? 90 : 0))
-                    .rotationY(dir.getAxis().isVertical() ? 0 : (((int)dir.getHorizontalAngle()) + 90) % 360)
+                    .rotationY(dir.getAxis().isVertical() ? 0 : (((int)dir.getHorizontalAngle()) + 180) % 360)
                     .build();
             });
     }
@@ -361,7 +388,7 @@ public class BlockAssetData extends BlockStateProvider {
         for (Direction f : Direction.values()) {
             if (f != d.getOpposite()) {
                 Direction[] p = Util.PERPENDICULARS.get(f);
-                element.face(f).uvs(cableCoords(d, p[3], w, false), cableCoords(d, p[0], w, false), cableCoords(d, p[1], w, true), cableCoords(d, p[2], w, false)).cullface(f == d ? d : null).end();
+                element.face(f).uvs(cableCoords(d, p[3], w, false), cableCoords(d, p[0], w, false), cableCoords(d, p[1], w, true), cableCoords(d, p[2], w, true)).cullface(f == d ? d : null).end();
             }
         }
         return element.texture("#cable").end();

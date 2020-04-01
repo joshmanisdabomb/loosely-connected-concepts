@@ -1,19 +1,49 @@
 {
-  "variants": {
-    "setting=0": {
-      "model": "lcc:block/bounce_pad_0"
+  "multipart": [
+    {
+      "apply": {
+        "model": "lcc:block/bounce_pad"
+      }
     },
-    "setting=1": {
-      "model": "lcc:block/bounce_pad_1"
+    {
+      "when": {
+        "setting": "0"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0"
+      }
     },
-    "setting=2": {
-      "model": "lcc:block/bounce_pad_2"
+    {
+      "when": {
+        "setting": "1"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1"
+      }
     },
-    "setting=3": {
-      "model": "lcc:block/bounce_pad_3"
+    {
+      "when": {
+        "setting": "2"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2"
+      }
     },
-    "setting=4": {
-      "model": "lcc:block/bounce_pad_4"
+    {
+      "when": {
+        "setting": "3"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3"
+      }
+    },
+    {
+      "when": {
+        "setting": "4"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4"
+      }
     }
-  }
+  ]
 }

@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "lcc:block/bomb/tail",
-		"5": "lcc:block/bomb/head",
-		"particle": "lcc:block/bomb/tail"
+		"2": "lcc:block/atomic_bomb/tail",
+		"5": "lcc:block/atomic_bomb/head",
+		"particle": "lcc:block/atomic_bomb/tail"
 	},
 	"elements": [
 		{

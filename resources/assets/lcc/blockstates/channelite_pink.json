@@ -37,98 +37,98 @@
     },
     "connection=none,facing=north": {
       "model": "lcc:block/channelite_pink_none",
-      "x": 90,
-      "y": 270
+      "x": 90
     },
     "connection=top,facing=north": {
       "model": "lcc:block/channelite_pink_top",
-      "x": 90,
-      "y": 270
+      "x": 90
     },
     "connection=bottom,facing=north": {
       "model": "lcc:block/channelite_pink_bottom",
-      "x": 90,
-      "y": 270
+      "x": 90
     },
     "connection=both,facing=north": {
       "model": "lcc:block/channelite_pink_both",
-      "x": 90,
-      "y": 270
+      "x": 90
     },
     "connection=invisible,facing=north": {
       "model": "lcc:block/channelite_pink_invisible",
-      "x": 90,
-      "y": 270
+      "x": 90
     },
     "connection=none,facing=south": {
       "model": "lcc:block/channelite_pink_none",
       "x": 90,
-      "y": 90
+      "y": 180
     },
     "connection=top,facing=south": {
       "model": "lcc:block/channelite_pink_top",
       "x": 90,
-      "y": 90
+      "y": 180
     },
     "connection=bottom,facing=south": {
       "model": "lcc:block/channelite_pink_bottom",
       "x": 90,
-      "y": 90
+      "y": 180
     },
     "connection=both,facing=south": {
       "model": "lcc:block/channelite_pink_both",
       "x": 90,
-      "y": 90
+      "y": 180
     },
     "connection=invisible,facing=south": {
       "model": "lcc:block/channelite_pink_invisible",
       "x": 90,
-      "y": 90
+      "y": 180
     },
     "connection=none,facing=west": {
       "model": "lcc:block/channelite_pink_none",
       "x": 90,
-      "y": 180
+      "y": 270
     },
     "connection=top,facing=west": {
       "model": "lcc:block/channelite_pink_top",
       "x": 90,
-      "y": 180
+      "y": 270
     },
     "connection=bottom,facing=west": {
       "model": "lcc:block/channelite_pink_bottom",
       "x": 90,
-      "y": 180
+      "y": 270
     },
     "connection=both,facing=west": {
       "model": "lcc:block/channelite_pink_both",
       "x": 90,
-      "y": 180
+      "y": 270
     },
     "connection=invisible,facing=west": {
       "model": "lcc:block/channelite_pink_invisible",
       "x": 90,
-      "y": 180
+      "y": 270
     },
     "connection=none,facing=east": {
       "model": "lcc:block/channelite_pink_none",
-      "x": 90
+      "x": 90,
+      "y": 90
     },
     "connection=top,facing=east": {
       "model": "lcc:block/channelite_pink_top",
-      "x": 90
+      "x": 90,
+      "y": 90
     },
     "connection=bottom,facing=east": {
       "model": "lcc:block/channelite_pink_bottom",
-      "x": 90
+      "x": 90,
+      "y": 90
     },
     "connection=both,facing=east": {
       "model": "lcc:block/channelite_pink_both",
-      "x": 90
+      "x": 90,
+      "y": 90
     },
     "connection=invisible,facing=east": {
       "model": "lcc:block/channelite_pink_invisible",
-      "x": 90
+      "x": 90,
+      "y": 90
     }
   }
 }

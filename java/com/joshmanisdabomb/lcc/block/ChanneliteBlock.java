@@ -98,7 +98,7 @@ public class ChanneliteBlock extends DirectionalBlock {
     @Override
     @OnlyIn(Dist.CLIENT)
     public RenderType getRenderLayer() {
-        return RenderType.getTranslucent();
+        return this.getColor() == null ? RenderType.getTranslucent() : RenderType.getSolid();
     }
 
     @Override

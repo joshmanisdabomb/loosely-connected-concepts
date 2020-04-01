@@ -6,6 +6,7 @@
     "north": "lcc:block/nostalgia/chest_front",
     "south": "lcc:block/nostalgia/chest_side",
     "east": "lcc:block/nostalgia/chest_side",
-    "west": "lcc:block/nostalgia/chest_side"
+    "west": "lcc:block/nostalgia/chest_side",
+    "particle": "lcc:block/nostalgia/chest_front"
   }
 }

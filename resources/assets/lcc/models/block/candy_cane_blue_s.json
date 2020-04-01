@@ -6,6 +6,7 @@
     "north": "lcc:block/rainbow/candy_cane/blue_0",
     "south": "lcc:block/rainbow/candy_cane/blue_0",
     "east": "lcc:block/rainbow/candy_cane/blue_1",
-    "west": "lcc:block/rainbow/candy_cane/blue_1"
+    "west": "lcc:block/rainbow/candy_cane/blue_1",
+    "particle": "#north"
   }
 }

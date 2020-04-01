@@ -25,6 +25,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public abstract class LCCBlocks {
 	
@@ -202,7 +203,7 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(classic_grass_block = new ClassicGrassBlock(Block.Properties.create(Material.ORGANIC, DyeColor.LIME).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_grass_block"));
 		addWithDefaultItem(classic_cobblestone = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "classic_cobblestone"));
 		addWithDefaultItem(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "classic_planks"));
-		addWithDefaultItem(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_leaves"));
+		addWithDefaultItem(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()), new ResourceLocation(LCC.MODID, "classic_leaves"));
 		addWithDefaultItem(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_sapling"));
 		//TODO: Upgrade flower pots to Forge version
 		add(potted_classic_sapling = new FlowerPotBlock(LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_sapling"));
@@ -213,7 +214,7 @@ public abstract class LCCBlocks {
 			}
 		}, new ResourceLocation(LCC.MODID, "classic_gravel"));
 		addWithDefaultItem(classic_sponge = new ClassicSpongeBlock(Block.Properties.create(Material.SPONGE).hardnessAndResistance(0.6F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_sponge"));
-		addWithDefaultItem(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "classic_glass"));
+		addWithDefaultItem(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()), new ResourceLocation(LCC.MODID, "classic_glass"));
 		factory(classic_cloth, color -> addWithDefaultItem(new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH)), new ResourceLocation(LCC.MODID, "classic_cloth_" + color.getName())), ClassicDyeColor.values());
 		addWithDefaultItem(classic_rose = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_rose.getDefaultState(), Effects.ABSORPTION, 4, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_rose"));
 		add(potted_classic_rose = new FlowerPotBlock(LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_rose"));
@@ -269,7 +270,11 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
 		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
 		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
-		factory(channelite, color -> add(new ChanneliteBlock(color, Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName()))), ArrayUtils.add(DyeColor.values(), null));
+		factory(channelite, color -> {
+			Block.Properties p = Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS);
+			if (color == null) p.notSolid();
+			return add(new ChanneliteBlock(color, p), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName())));
+		}, ArrayUtils.add(DyeColor.values(), null));
 		createDefaultItem(channelite.get(null), new ResourceLocation(LCC.MODID, "channelite"));
 		//TODO sources drop channelite crystals? less chance from dirt, better chance with stone
 		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
@@ -277,10 +282,17 @@ public abstract class LCCBlocks {
 	}
 
 	public static void initRenderLayers() {
-		LCCBlocks.all.stream().filter(block -> block instanceof LCCBlockHelper).forEach(block -> {
-			RenderTypeLookup.setRenderLayer(block, ((LCCBlockHelper)block).getRenderLayer());
+		LCCBlocks.all.stream().forEach(block -> {
+			//Helper function in LCCBlockHelper
+			if (block instanceof LCCBlockHelper) RenderTypeLookup.setRenderLayer(block, ((LCCBlockHelper)block).getRenderLayer());
+			else if (block instanceof GlassBlock) RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+			else if (block instanceof FlowerPotBlock) RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+			else if (block instanceof FlowerBlock) RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+			else if (block instanceof SaplingBlock) RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
 		});
-		RenderTypeLookup.setRenderLayer(star_plating, RenderType.getCutoutMipped());
+		//Manual
+		LCCBlocks.setRenderLayer(RenderType.getCutoutMipped(), star_plating);
+
 	}
 
 	private static <B extends Block> B add(B b, ResourceLocation registry) {
@@ -309,6 +321,12 @@ public abstract class LCCBlocks {
 		for (T value : values) {
 			B b = creator.apply(value);
 			map.put(value, b);
+		}
+	}
+
+	private static void setRenderLayer(RenderType type, Block... blocks) {
+		for (Block b : blocks) {
+			RenderTypeLookup.setRenderLayer(b, type);
 		}
 	}
 

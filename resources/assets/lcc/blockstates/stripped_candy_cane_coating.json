@@ -1,17 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/cube_column",
-    "textures": {
-      "end": "lcc:block/rainbow/candy_cane/stripped",
-      "side": "lcc:block/rainbow/candy_cane/stripped"
-    }
-  },
   "variants": {
-    "axis": {
-      "y": {},
-      "z": { "x": 90 },
-      "x": { "x": 90, "y": 90 }
+    "axis=x": {
+      "model": "lcc:block/stripped_candy_cane_coating",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lcc:block/stripped_candy_cane_coating"
+    },
+    "axis=z": {
+      "model": "lcc:block/stripped_candy_cane_coating",
+      "x": 90
     }
   }
 }

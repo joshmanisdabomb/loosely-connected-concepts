@@ -7,16 +7,23 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DirectoryCache;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.ToDoubleBiFunction;
 
 public class BlockAssetData extends BlockStateProvider {
+
+    private final DataGenerator dg;
 
     private ModelFile noshadeCube;
     private ModelFile noshadeCubeColumn;
@@ -27,6 +34,15 @@ public class BlockAssetData extends BlockStateProvider {
 
     public BlockAssetData(DataGenerator dg, ExistingFileHelper fileHelper) {
         super(dg, LCC.MODID, fileHelper);
+        this.dg = dg;
+    }
+
+    @Override
+    public void act(DirectoryCache cache) throws IOException {
+        super.act(cache);
+
+        //Fix blockstate files to be lowercase.
+        this.forceBlockstateLowercase(LCCBlocks.classic_chest);
     }
 
     private void genericModels() {
@@ -75,7 +91,7 @@ public class BlockAssetData extends BlockStateProvider {
         //Blockstates
         this.simpleBlock(LCCBlocks.test_block, texture("test/1"));
         this.horizontalBlock(LCCBlocks.test_block_2, texture("test/2_side"), texture("test/2_front"), texture("test/2_top"));
-        this.directionalBlock(LCCBlocks.test_block_3, models().orientable(name(LCCBlocks.test_block_3), texture("test/2_side"), texture("test/2_front"), texture("test/2_side")), 90);
+        this.directionalBlock(LCCBlocks.test_block_3, models().orientableVertical(name(LCCBlocks.test_block_3), texture("test/2_side"), texture("test/2_front")));
         this.axisBlock(LCCBlocks.test_block_4, texture("test/4"));
         this.simpleBlock(LCCBlocks.test_block_5, models().withExistingParent(name(LCCBlocks.test_block_5), "block").texture("particle", texture("test/5/default")));
 
@@ -86,8 +102,8 @@ public class BlockAssetData extends BlockStateProvider {
             models().withExistingParent(name(LCCBlocks.road), "block").element().from(0,0,0).to(16,15,16).allFaces((dir, face) -> face.uvs(0, dir.getAxis().isHorizontal() ? 1 : 0, 16, 16).cullface(dir == Direction.UP ? null : dir).texture(dir == Direction.UP ? "#top" : (dir == Direction.DOWN ? "#bottom" : "#side"))).end()
                 .texture("particle", texture("road/side_base"))
                 .texture("top", texture("road/top_default"))
-                .texture("top", texture("road/side_base"))
-                .texture("top", texture("road/bottom_base"))
+                .texture("side", texture("road/side_base"))
+                .texture("bottom", texture("road/bottom_base"))
         );
 
         this.addAll(block -> this.simpleBlock(block, texture(block, path -> "resources/ore/" + path.replace("_ore", ""))), LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore);
@@ -123,7 +139,9 @@ public class BlockAssetData extends BlockStateProvider {
             this.simpleBlock(block, ConfiguredModel.builder().modelFile(normal).nextModel().modelFile(normal).rotationY(180).nextModel().modelFile(mirrored).rotationY(0).nextModel().modelFile(mirrored).rotationY(180).build());
         }, LCCBlocks.twilight_stone);
         this.addAll(block -> this.simpleBlock(block, texture(block, path -> path.replace("twilight_", "rainbow/"))), LCCBlocks.twilight_cobblestone);
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> path.replace("sparkling_", "rainbow/"))), LCCBlocks.sparkling_dirt);
+        this.addAll(block -> this.simpleBlock(block, ConfiguredModel.allYRotations(
+            models().cubeAll(name(block), texture(block, path -> path.replace("sparkling_", "rainbow/")))
+        , 0, false)), LCCBlocks.sparkling_dirt);
         this.simpleBlock(LCCBlocks.rainbow_grass_block, ConfiguredModel.allYRotations(models().withExistingParent(name(LCCBlocks.rainbow_grass_block), "grass_block")
             .texture("particle", texture("rainbow/dirt"))
             .texture("bottom", texture("rainbow/dirt"))
@@ -167,6 +185,14 @@ public class BlockAssetData extends BlockStateProvider {
             texture(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_")),
             texture(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_"))
         ), LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue);
+        this.addAll(block -> this.axisBlock(block,
+            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
+            texture("rainbow/candy_cane/end")
+        ), LCCBlocks.stripped_candy_cane, LCCBlocks.refined_stripped_candy_cane);
+        this.addAll(block -> this.axisBlock(block,
+            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
+            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0])
+        ), LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_stripped_candy_cane_coating);
         this.simpleBlock(LCCBlocks.candy_cane_block, texture("rainbow/candy_cane/end"));
         this.addAll(block -> this.channelite(block, texture(block, path -> path.replace("channelite_", "rainbow/channelite/")), block.getColor() == null ? "none" : "invisible"), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
         this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), this.overlay.getLocation())
@@ -360,6 +386,22 @@ public class BlockAssetData extends BlockStateProvider {
     private <T extends Block> void addAll(Consumer<T> adder, T... values) {
         for (T value : values) {
             adder.accept(value);
+        }
+    }
+
+    private void forceBlockstateLowercase(Block block) {
+        ResourceLocation name = block.getRegistryName();
+        Path p = dg.getOutputFolder().resolve("assets/" + name.getNamespace() + "/blockstates/" + name.getPath() + ".json");
+        try {
+            List<String> contents = Files.readAllLines(p);
+            BufferedWriter writer = Files.newBufferedWriter(p);
+            for (String line : contents) {
+                writer.write(line.toLowerCase());
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

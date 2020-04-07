@@ -23,7 +23,7 @@ public class GauntletModel extends Model {
     private final ModelRenderer subGem5;
 
     public GauntletModel() {
-        super(RenderType::getEntitySolid);
+        super(RenderType::getEntityCutoutNoCull);
 
         textureWidth = 32;
         textureHeight = 64;
@@ -56,20 +56,20 @@ public class GauntletModel extends Model {
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        baseBack.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        baseFront.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        support1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        support2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        fistBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        fistFingers.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    public void render(MatrixStack stack, IVertexBuilder buffer, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        baseBack.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        baseFront.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        support1.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        support2.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        fistBase.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        fistFingers.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
 
-        mainGem.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        subGem1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        subGem2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        subGem3.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        subGem4.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        subGem5.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        mainGem.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        subGem1.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        subGem2.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        subGem3.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        subGem4.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        subGem5.render(stack, buffer, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
 }

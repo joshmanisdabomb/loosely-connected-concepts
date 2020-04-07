@@ -9,10 +9,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -37,37 +34,43 @@ public class RenderEvents {
         Minecraft mc = Minecraft.getInstance();
 
         if (e.getHand() == Hand.MAIN_HAND && e.getItemStack().getItem() == LCCItems.gauntlet) {
-            GlStateManager.pushMatrix();
+            e.getMatrixStack().push();
+
             boolean flag = mc.player.getPrimaryHand() != HandSide.LEFT;
+
             float f = flag ? 1.0F : -1.0F;
             float f1 = MathHelper.sqrt(e.getSwingProgress());
             float f2 = -0.3F * MathHelper.sin(f1 * (float)Math.PI);
             float f3 = 0.4F * MathHelper.sin(f1 * ((float)Math.PI * 2F));
             float f4 = -0.4F * MathHelper.sin(e.getSwingProgress() * (float)Math.PI);
-            GlStateManager.translatef(f * (f2 + 0.64000005F), f3 + -0.6F + e.getEquipProgress() * -0.6F, f4 + -0.71999997F);
-            GlStateManager.rotatef(f * 45.0F, 0.0F, 1.0F, 0.0F);
+            e.getMatrixStack().translate((double)(f * (f2 + 0.64000005F)), (double)(f3 + -0.6F + e.getEquipProgress() * -0.6F), (double)(f4 + -0.71999997F));
+            e.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(f * 45.0F));
             float f5 = MathHelper.sin(e.getSwingProgress() * e.getSwingProgress() * (float)Math.PI);
             float f6 = MathHelper.sin(f1 * (float)Math.PI);
-            GlStateManager.rotatef(f * f6 * 70.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
-            AbstractClientPlayerEntity abstractclientplayerentity = mc.player;
-            mc.getTextureManager().bindTexture(abstractclientplayerentity.getLocationSkin());
-            GlStateManager.translatef(f * -1.0F, 3.6F, 3.5F);
-            GlStateManager.rotatef(f * 120.0F, 0.0F, 0.0F, 1.0F);
-            GlStateManager.rotatef(200.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotatef(f * -135.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.translatef(f * 5.6F, 0.0F, 0.0F);
+            e.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(f * f6 * 70.0F));
+            e.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(f * f5 * -20.0F));
+            mc.getTextureManager().bindTexture(mc.player.getLocationSkin());
+            e.getMatrixStack().translate((double)(f * -1.0F), (double)3.6F, 3.5D);
+            e.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(f * 120.0F));
+            e.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(200.0F));
+            e.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(f * -135.0F));
+            e.getMatrixStack().translate((double)(f * 5.6F), 0.0D, 0.0D);
 
             PlayerRenderer pr = (PlayerRenderer)mc.getRenderManager().<AbstractClientPlayerEntity>getRenderer(mc.player);
             if (flag) pr.renderRightArm(e.getMatrixStack(), e.getBuffers(), e.getLight(), mc.player);
             else pr.renderLeftArm(e.getMatrixStack(), e.getBuffers(), e.getLight(), mc.player);
 
-            GlStateManager.scalef(1.0F, -1.0F, -1.0F);
-            GlStateManager.translatef(f * -0.425f, -1, 0);
-            GAUNTLET.render(e.getItemStack(), e.getMatrixStack(), e.getBuffers(), e.getLight(), OverlayTexture.NO_OVERLAY);
+            e.getMatrixStack().scale(1.0F, -1.0F, -1.0F);
+            e.getMatrixStack().translate(f * -0.45f, -0.98f, -0.01f);
+            e.getMatrixStack().rotate(Vector3f.XP.rotationDegrees(180.0F));
+            e.getMatrixStack().rotate(Vector3f.ZP.rotationDegrees(f * 5.0F));
+            e.getMatrixStack().rotate(Vector3f.YP.rotationDegrees(270.0F));
+
+            GAUNTLET.renderHand(e.getItemStack(), e.getMatrixStack(), e.getBuffers(), e.getLight(), OverlayTexture.NO_OVERLAY);
+
+            e.getMatrixStack().pop();
 
             e.setCanceled(true);
-            GlStateManager.popMatrix();
         }
     }
 

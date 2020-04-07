@@ -13,13 +13,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.ToDoubleBiFunction;
 
 public class BlockAssetData extends BlockStateProvider {
 
@@ -127,7 +127,7 @@ public class BlockAssetData extends BlockStateProvider {
                             .element().from(-8, 0, 7).to(24, 16, 9)
                             .face(Direction.NORTH).uvs(0, 0, 16, 16).end()
                             .face(Direction.SOUTH).uvs(0, 0, 16, 16).end()
-                            .texture("#portal").end().texture("portal", texture)
+                            .texture("#portal").end().texture("portal", texture).texture("particle", texture)
                         )
                         .rotationY(a == Direction.Axis.Z ? 90 : 0)
                         .build();
@@ -399,7 +399,7 @@ public class BlockAssetData extends BlockStateProvider {
 
         MultiPartBlockStateBuilder builder = this.getMultipartBuilder(block)
             .part().modelFile(
-                models().getBuilder(name(block) + "_center").element().from(8-w, 8-w, 8-w).to(8+w, 8+w, 8+w).allFaces((dir, face) -> face.uvs(8-w, 8-w, 8+w, 8+w).texture("#cable")).end().texture("cable", all)
+                models().getBuilder(name(block) + "_center").element().from(8-w, 8-w, 8-w).to(8+w, 8+w, 8+w).allFaces((dir, face) -> face.uvs(8-w, 8-w, 8+w, 8+w).texture("#cable")).end().texture("cable", all).texture("particle", all)
             ).addModel().end();
         for (Direction d : Direction.values()) {
             builder.part().modelFile(cableModel(d, name(block), w).texture("cable", all)).addModel().condition(SixWayBlock.FACING_TO_PROPERTY_MAP.get(d), true).end();

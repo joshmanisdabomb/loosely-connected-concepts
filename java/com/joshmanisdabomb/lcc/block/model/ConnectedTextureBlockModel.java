@@ -125,7 +125,7 @@ public class ConnectedTextureBlockModel implements IBakedModel {
 
     @Override
     public boolean isBuiltInRenderer() {
-        return true;
+        return false;
     }
 
     @Override

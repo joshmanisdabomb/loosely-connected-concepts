@@ -25,7 +25,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public abstract class LCCBlocks {
 	
@@ -282,7 +281,7 @@ public abstract class LCCBlocks {
 	}
 
 	public static void initRenderLayers() {
-		LCCBlocks.all.stream().forEach(block -> {
+		LCCBlocks.all.forEach(block -> {
 			//Helper function in LCCBlockHelper
 			if (block instanceof LCCBlockHelper) RenderTypeLookup.setRenderLayer(block, ((LCCBlockHelper)block).getRenderLayer());
 			else if (block instanceof GlassBlock) RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());

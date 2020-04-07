@@ -46,11 +46,13 @@ public class CogModel implements IBakedModel {
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData data) {
         final List<BakedQuad> quads = new ArrayList<>();
 
-        for (Map.Entry<Direction, EnumProperty<CogBlock.CogState>> e : FACING_TO_PROPERTIES.entrySet()) {
-            CogBlock.CogState cogState = state.get(e.getValue());
-            if (cogState != CogBlock.CogState.NONE) {
-                quads.add(VertexUtility.create2DFace(e.getKey(), -0.0625, -0.0625, 1.0625, 1.0625, 30.9/32, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
-                quads.add(VertexUtility.create2DFace(e.getKey().getOpposite(), -0.0625, -0.0625, 1.0625, 1.0625, -30.9/32, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
+        if (side == null) {
+            for (Map.Entry<Direction, EnumProperty<CogBlock.CogState>> e : FACING_TO_PROPERTIES.entrySet()) {
+                CogBlock.CogState cogState = state.get(e.getValue());
+                if (cogState != CogBlock.CogState.NONE) {
+                    quads.add(VertexUtility.create2DFace(e.getKey(), -0.0625, -0.0625, 1.0625, 1.0625, 30.9 / 32, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
+                    quads.add(VertexUtility.create2DFace(e.getKey().getOpposite(), -0.0625, -0.0625, 1.0625, 1.0625, -30.9 / 32, textures[cogState == CogBlock.CogState.INACTIVE ? 0 : 1], 0, 0, 16, 16));
+                }
             }
         }
 

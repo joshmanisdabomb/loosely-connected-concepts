@@ -1,7 +1,8 @@
 {
   "parent": "block/block",
   "textures": {
-    "portal": "lcc:block/rainbow/gate/portal_1"
+    "portal": "lcc:block/rainbow/gate/portal_1",
+    "particle": "lcc:block/rainbow/gate/portal_1"
   },
   "elements": [
     {

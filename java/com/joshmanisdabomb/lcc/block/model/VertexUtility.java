@@ -29,38 +29,48 @@ public abstract class VertexUtility {
     });
 
     private static void putVertex(BakedQuadBuilder builder, Vec3d normal, double x, double y, double z, float u, float v, TextureAtlasSprite sprite) {
-        for (int e = 0; e < DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.getSize(); e++) {
-            switch (DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.getElements().get(e).getUsage()) {
+        for (int e = 0; e < DefaultVertexFormats.BLOCK.getElements().size(); e++) {
+            switch (DefaultVertexFormats.BLOCK.getElements().get(e).getUsage()) {
                 case POSITION:
-                    builder.put(e, (float)x, (float)y, (float)z);
+                    builder.put(e, (float)x, (float)y, (float)z, 1f);
                     break;
                 case COLOR:
                     builder.put(e, 1.0f, 1.0f, 1.0f, 1.0f);
+                    break;
+                case NORMAL:
+                    builder.put(e, (float)normal.x, (float)normal.y, (float)normal.z, 1f);
                     break;
                 case UV:
                     u = sprite.getInterpolatedU(u);
                     v = sprite.getInterpolatedV(v);
                     builder.put(e, u, v);
                     break;
-                case NORMAL:
-                    builder.put(e, (float)normal.x, (float)normal.y, (float)normal.z);
-                    break;
                 default:
+                    builder.put(e);
                     break;
             }
         }
     }
 
-    public static BakedQuad createQuad(double[] vertices, TextureAtlasSprite sprite, int uvX1, int uvY1, int uvX2, int uvY2) {
-        Vec3d normal = Vec3d.ZERO;
+    public static BakedQuad createQuad(double[] vertices, TextureAtlasSprite sprite, Direction side, int uvX1, int uvY1, int uvX2, int uvY2) {
+        Vec3d normal = new Vec3d(vertices[6], vertices[7], vertices[8]).subtract(new Vec3d(vertices[3], vertices[4], vertices[5])).crossProduct(new Vec3d(vertices[0], vertices[1], vertices[2]).subtract(new Vec3d(vertices[3], vertices[4], vertices[5]))).normalize();
 
         BakedQuadBuilder builder = new BakedQuadBuilder();
-        builder.setTexture(sprite);
         putVertex(builder, normal, vertices[0], vertices[1], vertices[2], uvX1, uvY1, sprite);
         putVertex(builder, normal, vertices[3], vertices[4], vertices[5], uvX1, uvY2, sprite);
         putVertex(builder, normal, vertices[6], vertices[7], vertices[8], uvX2, uvY2, sprite);
         putVertex(builder, normal, vertices[9], vertices[10], vertices[11], uvX2, uvY1, sprite);
-        return builder.build();
+        builder.setTexture(sprite);
+        builder.setQuadOrientation(side);
+        builder.setApplyDiffuseLighting(true);
+        BakedQuad quad = builder.build();
+
+        //Workaround for lighting because I just don't know I hate it. :)
+        for (int i = 6; i < 32; i += 8) {
+            quad.getVertexData()[i] = 0;
+        }
+
+        return quad;
     }
 
     public static BakedQuad create2DFace(@Nonnull Direction side, double x1, double y1, double x2, double y2, double z, TextureAtlasSprite sprite, int uvX1, int uvY1, int uvX2, int uvY2) {
@@ -116,7 +126,7 @@ public abstract class VertexUtility {
                 break;
         }
 
-        return createQuad(vertices, sprite, uvX1, uvY1, uvX2, uvY2);
+        return createQuad(vertices, sprite, side, uvX1, uvY1, uvX2, uvY2);
     }
 
 }

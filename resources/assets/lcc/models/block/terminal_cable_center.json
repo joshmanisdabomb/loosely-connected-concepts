@@ -1,6 +1,7 @@
 {
   "textures": {
-    "cable": "block/purple_wool"
+    "cable": "block/purple_wool",
+    "particle": "block/purple_wool"
   },
   "elements": [
     {

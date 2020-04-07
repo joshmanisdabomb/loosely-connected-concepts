@@ -5,10 +5,12 @@ import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
@@ -79,26 +81,17 @@ public class RenderEvents {
         BlockState state = world.getBlockState(pos);
 
         if (state.getBlock() instanceof MultipartBlock && world.getWorldBorder().contains(pos)) {
-            GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA.param, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.param, GlStateManager.SourceFactor.ONE.param, GlStateManager.DestFactor.ZERO.param);
-            GlStateManager.lineWidth(Math.max(2.5F, (float)Minecraft.getInstance().getMainWindow().getFramebufferWidth() / 1920.0F * 2.5F));
-            GlStateManager.disableTexture();
-            GlStateManager.depthMask(false);
-            GlStateManager.matrixMode(5889);
-            GlStateManager.pushMatrix();
-            GlStateManager.scalef(1.0F, 1.0F, 0.999F);
-            double offsetX = e.getInfo().getProjectedView().x;
-            double offsetY = e.getInfo().getProjectedView().y;
-            double offsetZ = e.getInfo().getProjectedView().z;
+            double x = pos.getX() - e.getInfo().getProjectedView().x;
+            double y = pos.getY() - e.getInfo().getProjectedView().y;
+            double z = pos.getZ() - e.getInfo().getProjectedView().z;
             for (VoxelShape s : ((MultipartBlock)state.getBlock()).getPartsFromTrace(e.getTarget().getHitVec(), state, world, pos)) {
-                WorldRenderer.drawVoxelShapeParts(e.getMatrix(), e.getBuffers().getBuffer(RenderType.LINES), s, pos.getX() - offsetX, pos.getY() - offsetY, pos.getZ() - offsetZ, 0, 0, 0, 0.4F);
+                Matrix4f matrix4f = e.getMatrix().getLast().getMatrix();
+                IVertexBuilder buffer = e.getBuffers().getBuffer(RenderType.LINES);
+                s.forEachEdge((x1, y1, z1, x2, y2, z2) -> {
+                    buffer.pos(matrix4f, (float)(x1 + x), (float)(y1 + y), (float)(z1 + z)).color(0, 0, 0, 0.4F).endVertex();
+                    buffer.pos(matrix4f, (float)(x2 + x), (float)(y2 + y), (float)(z2 + z)).color(0, 0, 0, 0.4F).endVertex();
+                });
             }
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
-            GlStateManager.depthMask(true);
-            GlStateManager.enableTexture();
-            GlStateManager.disableBlend();
-
             e.setCanceled(true);
         }
     }

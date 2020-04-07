@@ -45,31 +45,6 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
             matrix.pop();
         }
 
-        /*@Override
-        public void renderByItem(ItemStack is) {
-            Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
-
-            GlStateManager.pushMatrix();
-            GlStateManager.translated(0.5, 0.5, 0.5);
-
-            GlStateManager.scalef(1.0F, 1.0F, 1.0F);
-            int i = 15728880;
-            int j = i % 65536;
-            int k = i / 65536;
-            GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
-            model.render(0.0625F, Minecraft.getInstance().getRenderPartialTicks());
-
-            AbstractClientPlayerEntity player = Minecraft.getInstance().player;
-            int a = Minecraft.getInstance().world.getCombinedLight(new BlockPos(player.posX, player.posY + (double)player.getEyeHeight(), player.posZ), 0);
-            float f = (float)(a & '\uffff');
-            float f1 = (float)(a >> 16);
-            GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, f, f1);
-
-            GlStateManager.popMatrix();
-
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        }*/
-
     }
 
 }

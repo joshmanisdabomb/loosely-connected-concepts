@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class BouncePadTileEntity extends TileEntity implements ITickableTileEntity {
 
     public float extension = 0.0F;
+    public float prevExtension = extension;
 
     public BouncePadTileEntity() {
         super(LCCTileEntities.bounce_pad);
@@ -17,20 +18,10 @@ public class BouncePadTileEntity extends TileEntity implements ITickableTileEnti
 
     @Override
     public void tick() {
-        //TODO: Save previous extension and interpolate for smoother bounce pad movement.
         if (world.isRemote) {
+            this.prevExtension = this.extension;
             this.extension = Math.max(this.extension - Math.max(this.extension * 0.07F, 0.07F), 0);
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public int getExtensionModel() {
-        return MathHelper.clamp(9-(int)Math.ceil(extension), 0, 8);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getExtensionOffset() {
-        return (extension % 1F) * 0.0625F;
     }
 
 }

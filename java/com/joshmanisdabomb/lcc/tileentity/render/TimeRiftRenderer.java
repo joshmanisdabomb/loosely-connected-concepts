@@ -6,11 +6,13 @@ import com.joshmanisdabomb.lcc.tileentity.model.TimeRiftModel;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 
 public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
 
@@ -22,31 +24,25 @@ public class TimeRiftRenderer extends TileEntityRenderer<TimeRiftTileEntity> {
     }
 
     @Override
-    public void render(TimeRiftTileEntity te, float v, MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, int i1) {
-        GlStateManager.pushMatrix();
-        //GlStateManager.translated(x+0.5, y+0.5, z+0.5);
-        GlStateManager.enableBlend();
-
-        /*this.bindTexture(TEXTURE);
-        GlStateManager.activeTexture(GLX.GL_TEXTURE1);
+    public void render(TimeRiftTileEntity te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay) {
         float size = MathHelper.lerp(partialTicks, te.lastSize, te.size);
-        GlStateManager.scalef(size,size,size);
-        model.render(0.0625F, partialTicks);
-        GlStateManager.activeTexture(GLX.GL_TEXTURE0);
-
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        this.setLightmapDisabled(false);*/
+        matrix.push();
+        matrix.translate(0.5, 0.5, 0.5);
+        matrix.scale(size, size, size);
+        model.render(matrix, buffer.getBuffer(model.getRenderType(TEXTURE)), light, overlay, 1, 1, 1, 1);
+        matrix.pop();
     }
 
     public static class Item extends ItemStackTileEntityRenderer {
 
         protected final TimeRiftModel model = new TimeRiftModel();
-        public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/tile/time_rift.png");
 
         @Override
-        public void render(ItemStack itemStackIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-
+        public void render(ItemStack stack, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay) {
+            matrix.push();
+            matrix.translate(0.5, 0.5, 0.5);
+            model.render(matrix, buffer.getBuffer(model.getRenderType(TEXTURE)), light, overlay, 1, 1, 1, 1);
+            matrix.pop();
         }
 
         /*@Override

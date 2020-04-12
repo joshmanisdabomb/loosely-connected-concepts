@@ -34,7 +34,7 @@ public class AtomicBombRenderer extends EntityRenderer<AtomicBombEntity> {
             f = f * f;
             f = f * f;
             float f1 = 1.0F + f * 0.3F;
-            GlStateManager.scalef(f1, f1, f1);
+            matrixStackIn.scale(f1, f1, f1);
         }
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStackIn.translate(-0.5D, -0.5D, 0.5D);
@@ -50,13 +50,13 @@ public class AtomicBombRenderer extends EntityRenderer<AtomicBombEntity> {
     }
 
     private void renderBlock(AtomicBombEntity entity, BlockRendererDispatcher blockrendererdispatcher, Direction facing, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.MIDDLE).with(AtomicBombBlock.FACING, entity.getHorizontalFacing()), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 0);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
-        matrixStackIn.translate(-facing.getZOffset(), 0.0F, facing.getXOffset());
-        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.BACK).with(AtomicBombBlock.FACING, entity.getHorizontalFacing()), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 0);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
-        matrixStackIn.translate(2.0F * facing.getZOffset(), 0.0F, -2.0F * facing.getXOffset());
-        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.FRONT).with(AtomicBombBlock.FACING, entity.getHorizontalFacing()), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 0);
+        matrixStackIn.push();
+        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.MIDDLE).with(AtomicBombBlock.FACING, facing), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 1);
+        matrixStackIn.translate(-facing.getXOffset(), 0.0F, -facing.getZOffset());
+        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.BACK).with(AtomicBombBlock.FACING, facing), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 1);
+        matrixStackIn.translate(facing.getXOffset() * 2, 0.0F, facing.getZOffset() * 2);
+        TNTMinecartRenderer.renderTntFlash(LCCBlocks.atomic_bomb.getDefaultState().with(AtomicBombBlock.SEGMENT, AtomicBombBlock.Segment.FRONT).with(AtomicBombBlock.FACING, facing), matrixStackIn, bufferIn, packedLightIn, entity.getFuse() / 5 % 2 == 1);
+        matrixStackIn.pop();
     }
 
 }

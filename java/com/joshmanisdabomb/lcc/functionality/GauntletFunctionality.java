@@ -34,28 +34,29 @@ public abstract class GauntletFunctionality {
     public static final int PUNCH_COOLDOWN = 78;
     public static final int STOMP_COOLDOWN = 200;
 
+    public static final int UPPERCUT_MAX_DURATION = 18;
+    public static final int UPPERCUT_EFFECT_MAX_DURATION = 13;
     public static final int PUNCH_MAX_DURATION = 9;
     public static final int PUNCH_EFFECT_MAX_DURATION = 13;
-    public static final int STOMP_MAX_DURATION = 600;
     public static final int STUN_MAX_DURATION = 13;
 
     public static final float UPPERCUT_DAMAGE = 6.0F;
     public static final float PUNCH_DAMAGE = 11.0F;
     public static final float PUNCH_WALL_DAMAGE = 14.0F;
 
-    public static final float UPPERCUT_SPEED_VERTICAL = 1.66F;
-    public static final float UPPERCUT_SPEED_HORIZONTAL = 1/2F;
+    public static final float UPPERCUT_SPEED_VERTICAL = 1.4F;
+    public static final float UPPERCUT_SPEED_HORIZONTAL = 0.5F;
 
     public static final float FALL_UPPERCUT_COMPENSATION = -16.0F;
-    public static final float FALL_UPPERCUTEE_COMPENSATION = -5.0F;
-    public static final float FALL_PUNCH_COMPENSATION = -8.0F;
-    public static final float FALL_PUNCHED_COMPENSATION = 0.0F;
+    public static final float FALL_UPPERCUTTEE_COMPENSATION = -6.0F;
+    public static final float FALL_PUNCH_COMPENSATION = -9.0F;
+    public static final float FALL_PUNCHED_COMPENSATION = -3.0F;
 
-    public static final float TEMPHEALTH_UPPERCUT = 1.0F;
-    public static final float TEMPHEALTH_PUNCH = 2.0F;
+    public static final float TEMPHEALTH_UPPERCUT = 1.5F;
+    public static final float TEMPHEALTH_PUNCH = 3.5F;
 
     public static final Vec3d UPPERCUT_BB = new Vec3d(2.0D, 2.0D, 2.0D);
-    public static final Vec3d PUNCH_BB = new Vec3d(1.35D, 1.15D, 1.35D);
+    public static final Vec3d PUNCH_BB = new Vec3d(1.5D, 1.2D, 1.5D);
 
     public static float getStrength(ItemStack stack, int timeLeft) {
         return Math.min(Math.max(stack.getItem().getUseDuration(stack) - timeLeft, 4), 20) / 20F;
@@ -73,7 +74,7 @@ public abstract class GauntletFunctionality {
             f2 = f2 * (UPPERCUT_SPEED_HORIZONTAL / f5);
             f4 = f4 * (UPPERCUT_SPEED_HORIZONTAL / f5);
             actor.setMotion((double)f2, UPPERCUT_SPEED_VERTICAL*gm.speed, (double)f4);
-            actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION*gm.speed, actor.fallDistance);
+            actor.fallDistance = Math.min(FALL_UPPERCUT_COMPENSATION, actor.fallDistance);
             actor.isAirBorne = true;
             LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
             GauntletFunctionality.playSound(actor, SoundEvents.ENTITY_ENDER_DRAGON_SHOOT, 1.0F, 1.5F);
@@ -84,14 +85,17 @@ public abstract class GauntletFunctionality {
                 actor.getCapability(HeartsCapability.Provider.DEFAULT_CAPABILITY).ifPresent(hearts -> {
                     hearts.addTemporaryHealth(TEMPHEALTH_UPPERCUT*gm.health, HeartsFunctionality.TEMPORARY_USUAL_LIMIT);
                 });
+                actor.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(other -> {
+                    other.uppercutted(gm.ordinal());
+                });
                 for (Entity other : entities) {
-                    other.fallDistance = FALL_UPPERCUTEE_COMPENSATION;
+                    other.fallDistance = FALL_UPPERCUTTEE_COMPENSATION;
                     other.hurtResistantTime = 0;
                     if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletUppercutDamage(actor), UPPERCUT_DAMAGE*gm.damage);
-                    other.setMotion((double)f2*1.9F*gm.knockback, (UPPERCUT_SPEED_VERTICAL*gm.speed)-0.03F, (double)f4*1.9F*gm.knockback);
+                    other.setMotion((double)f2*2.15F*gm.knockback, UPPERCUT_SPEED_VERTICAL*gm.speed*0.85, (double)f4*1.9F*gm.knockback);
                 }
             }
-            gauntlet.uppercut(UPPERCUT_COOLDOWN*gm.cooldown);
+            gauntlet.uppercut(UPPERCUT_COOLDOWN*gm.cooldown, gm.ordinal());
         }
     }
 
@@ -137,7 +141,7 @@ public abstract class GauntletFunctionality {
                 actor.isAirBorne = true;
             }
         } else if (gauntlet.isPunching()) {
-            GemModifier gm = GemModifier.values()[0];
+            GemModifier gm = GemModifier.values()[gauntlet.punchGem];
             List<Entity> entities = actor.world.getEntitiesInAABBexcluding(actor, actor.getBoundingBox().grow(PUNCH_BB.x, PUNCH_BB.y, PUNCH_BB.z), PUNCHABLES);
             if (entities.size() > 0) {
                 LCC.proxy.addParticle(actor.world, actor, ParticleTypes.EXPLOSION_EMITTER, false, actor.getPosX(), actor.getPosY(), actor.getPosZ(), 1.0D, 0.0D, 0.0D);
@@ -150,18 +154,18 @@ public abstract class GauntletFunctionality {
                 for (Entity other : entities) {
                     other.getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet2 -> {
                         if (other instanceof LivingEntity) {
-                            ((LivingEntity)other).addPotionEffect(new EffectInstance(LCCEffects.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.getPunchStrength() * gm.stun), 0, true, false, true));
+                            ((LivingEntity)other).addPotionEffect(new EffectInstance(LCCEffects.stun, (int)Math.ceil(STUN_MAX_DURATION * gauntlet.punchStrength * gm.stun), 0, true, false, true));
                         }
                         other.fallDistance = FALL_PUNCHED_COMPENSATION;
                         other.isAirBorne = true;
-                        gauntlet2.punched(gauntlet.getPunchStrength());
-                        if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletPunchDamage(actor), PUNCH_DAMAGE * gauntlet.getPunchStrength() * gm.damage);
-                        other.addVelocity(gauntlet.getPunchVelocityX() * gm.knockback, 0.08F, gauntlet.getPunchVelocityZ() * gm.knockback);
+                        gauntlet2.punched(gauntlet.punchStrength, gauntlet.punchGem);
+                        if (actor.isServerWorld()) other.attackEntityFrom(LCCDamage.causeGauntletPunchDamage(actor), PUNCH_DAMAGE * gauntlet.punchStrength * gm.damage);
+                        other.addVelocity(gauntlet.punchVelocityX * gm.knockback, 0.08F, gauntlet.punchVelocityZ * gm.knockback);
                         other.hurtResistantTime = 15;
                     });
                 }
                 gauntlet.stopPunch();
-                actor.setMotion((-gauntlet.getPunchVelocityX() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())), 0.08F, (-gauntlet.getPunchVelocityZ() * gm.speed) / Math.max(Math.abs(gauntlet.getPunchVelocityX()), Math.abs(gauntlet.getPunchVelocityZ())));
+                actor.setMotion((-gauntlet.punchVelocityX * gm.speed) / Math.max(Math.abs(gauntlet.punchVelocityX), Math.abs(gauntlet.punchVelocityZ)), 0.08F, (-gauntlet.punchVelocityZ * gm.speed) / Math.max(Math.abs(gauntlet.punchVelocityX), Math.abs(gauntlet.punchVelocityZ)));
                 actor.fallDistance = Math.min(actor.fallDistance, 0.0F);
                 actor.isAirBorne = true;
             } else if (actor.collidedHorizontally || Math.max(Math.abs(actor.getMotion().x), Math.abs(actor.getMotion().z)) < 0.8D) {
@@ -171,6 +175,16 @@ public abstract class GauntletFunctionality {
                 actor.setMotion(actor.getMotion().x, 0F, actor.getMotion().z);
                 actor.isAirBorne = true;
             }
+        } else if (gauntlet.isUppercut()) {
+            GemModifier gm = GemModifier.values()[gauntlet.uppercutGem];
+            float thrust = (float)Math.pow((gauntlet.uppercutDuration - 1f) / UPPERCUT_MAX_DURATION, 1.8);
+            actor.setMotion(actor.getMotion().x, UPPERCUT_SPEED_VERTICAL * gm.speed * thrust, actor.getMotion().z);
+            actor.fallDistance = FALL_UPPERCUT_COMPENSATION;
+        } else if (gauntlet.isUppercutted()) {
+            GemModifier gm = GemModifier.values()[gauntlet.uppercutEffectGem];
+            float thrust = (float)Math.pow((gauntlet.uppercutEffectDuration - 1f) / UPPERCUT_EFFECT_MAX_DURATION, 1.8);
+            actor.setMotion(actor.getMotion().x, UPPERCUT_SPEED_VERTICAL * gm.speed * thrust * 0.85, actor.getMotion().z);
+            actor.fallDistance = FALL_UPPERCUTTEE_COMPENSATION;
         }
     }
 

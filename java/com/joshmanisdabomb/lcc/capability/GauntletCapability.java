@@ -16,16 +16,28 @@ public class GauntletCapability implements LCCCapabilityHelper {
 
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "gauntlet");
 
-    private int uppercutCooldown = -4;
-    private int punchCooldown = -4;
-    private float punchStrength = 0.0F;
-    private int punchDuration = 0;
-    private int punchEffectDuration = 0;
-    private double punchVelocityX = 0.0D;
-    private double punchVelocityZ = 0.0D;
-    private int punchGemID = 0;
-    private int stompCooldown = -4;
-    private int stompDuration = 0;
+    public int uppercutCooldown = -4;
+    public int uppercutDuration = 0;
+    public int uppercutGem = 0;
+    public int uppercutEffectDuration = 0;
+    public int uppercutEffectGem = 0;
+
+    public int punchCooldown = -4;
+    public float punchStrength = 0.0F;
+    public int punchDuration = 0;
+    public int punchGem = 0;
+    public int punchStepAssist = 0;
+    public int punchEffectDuration = 0;
+    public int punchEffectGem = 0;
+    public int punchEffectStepAssist = 0;
+    public double punchVelocityX = 0.0D;
+    public double punchVelocityZ = 0.0D;
+
+    public int stompCooldown = -4;
+    public boolean stompActive = false;
+    public int stompGem = 0;
+    public int stompEffectDuration = 0;
+    public int stompEffectGem = 0;
 
     @Override
     public ResourceLocation getLocation() {
@@ -33,15 +45,25 @@ public class GauntletCapability implements LCCCapabilityHelper {
     }
 
     public boolean canUppercut() {
-        return uppercutCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
+        return uppercutCooldown <= 0 && punchDuration <= 0 && !stompActive;
     }
 
-    public void uppercut(float cooldown) {
+    public void uppercut(float cooldown, int gemID) {
         uppercutCooldown = (int)Math.ceil(cooldown);
+        uppercutGem = gemID;
+        uppercutDuration = GauntletFunctionality.UPPERCUT_MAX_DURATION;
+        uppercutEffectDuration = 0;
     }
 
     public boolean canPunch() {
-        return punchCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
+        return punchCooldown <= 0 && punchDuration <= 0 && !stompActive;
+    }
+
+    public void uppercutted(int gemID) {
+        uppercutEffectGem = gemID;
+        uppercutEffectDuration = GauntletFunctionality.UPPERCUT_EFFECT_MAX_DURATION;
+        uppercutDuration = 0;
+        punchDuration = punchEffectDuration = 0;
     }
 
     public void punch(float cooldown, float strength, double velocityX, double velocityZ, int gemID) {
@@ -50,7 +72,9 @@ public class GauntletCapability implements LCCCapabilityHelper {
         punchDuration = (int)Math.ceil(GauntletFunctionality.PUNCH_MAX_DURATION * strength);
         punchVelocityX = velocityX;
         punchVelocityZ = velocityZ;
-        punchGemID = gemID;
+        punchGem = gemID;
+        punchStepAssist = 0;
+        uppercutDuration = uppercutEffectDuration = 0;
     }
 
     public boolean isPunching() {
@@ -61,23 +85,12 @@ public class GauntletCapability implements LCCCapabilityHelper {
         punchDuration = 0;
     }
 
-    public void punched(float strength) {
+    public void punched(float strength, int gemID) {
         punchEffectDuration = (int)Math.ceil(GauntletFunctionality.PUNCH_EFFECT_MAX_DURATION * strength);
+        punchEffectGem = gemID;
+        punchEffectStepAssist = 0;
+        uppercutDuration = uppercutEffectDuration = 0;
     }
-
-    public float getPunchStrength() {
-        return punchStrength;
-    }
-
-    public double getPunchVelocityX() {
-        return punchVelocityX;
-    }
-
-    public double getPunchVelocityZ() {
-        return punchVelocityZ;
-    }
-
-    public int getPunchGemID() { return punchGemID; }
 
     public boolean isPunched() {
         return punchEffectDuration > 0;
@@ -88,51 +101,35 @@ public class GauntletCapability implements LCCCapabilityHelper {
     }
 
     public boolean canStomp() {
-        return stompCooldown <= 0 && punchDuration <= 0 && stompDuration <= 0;
+        return stompCooldown <= 0 && punchDuration <= 0 && !stompActive;
     }
 
     public void stomp() {
         stompCooldown = GauntletFunctionality.STOMP_COOLDOWN;
-        stompDuration = GauntletFunctionality.STOMP_MAX_DURATION;
+        stompActive = true;
+        punchDuration = 0;
+        uppercutDuration = uppercutEffectDuration = 0;
     }
 
-    public boolean isStomping() {
-        return stompDuration > 0;
+    public boolean isUppercut() {
+        return uppercutDuration > 0;
     }
 
-    public void stopStomp() {
-        stompDuration = 0;
+    public boolean isUppercutted() {
+        return uppercutEffectDuration > 0;
     }
 
     public void tick() {
         if (uppercutCooldown > -4) uppercutCooldown--;
+        if (uppercutDuration > 0) uppercutDuration--;
+        if (uppercutEffectDuration > 0) uppercutEffectDuration--;
         if (punchCooldown > -4) punchCooldown--;
         if (punchDuration > 0) punchDuration--;
         if (punchEffectDuration > 0) punchEffectDuration--;
         if (stompCooldown > -4) stompCooldown--;
-        if (stompDuration > 0) stompDuration--;
+        if (stompEffectDuration > -4) stompEffectDuration--;
     }
 
-    public int getUppercutCooldownRaw() {
-        return uppercutCooldown;
-    }
-
-    public int getPunchCooldownRaw() {
-        return punchCooldown;
-    }
-
-    public int getPunchDurationRaw() {
-        return punchDuration;
-    }
-
-    public int getStompCooldownRaw() {
-        return stompCooldown;
-    }
-
-    public int getStompDurationRaw() {
-        return stompDuration;
-    }
-    
     public static class Storage implements Capability.IStorage<GauntletCapability> {
 
         @Override
@@ -142,6 +139,7 @@ public class GauntletCapability implements LCCCapabilityHelper {
 
         @Override
         public void readNBT(Capability<GauntletCapability> capability, GauntletCapability instance, Direction side, INBT nbt) {
+
         }
 
     }

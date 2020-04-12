@@ -39,7 +39,7 @@ public class GauntletItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 72000;
+        return 30;
     }
 
     @Override
@@ -63,7 +63,12 @@ public class GauntletItem extends Item {
                 player.setActiveHand(hand);
             }
         });
-        return new ActionResult<>(ActionResultType.SUCCESS, player.getHeldItem(hand));
+        return new ActionResult<>(ActionResultType.CONSUME, player.getHeldItem(hand));
     }
 
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World world, LivingEntity entity) {
+        this.onPlayerStoppedUsing(stack, world, entity, 0);
+        return stack;
+    }
 }

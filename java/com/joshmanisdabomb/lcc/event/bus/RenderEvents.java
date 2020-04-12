@@ -1,15 +1,21 @@
 package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
+import com.joshmanisdabomb.lcc.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.entity.render.GauntletPlayerRenderer;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.world.ClientWorld;
@@ -23,11 +29,34 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraftforge.client.event.DrawHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class RenderEvents {
 
     public static final GauntletRenderer GAUNTLET = new GauntletRenderer();
+    public static final Lazy<GauntletPlayerRenderer> GAUNTLET_PLAYER = Lazy.of(() -> new GauntletPlayerRenderer(Minecraft.getInstance().getRenderManager(), false));
+    public static final Lazy<GauntletPlayerRenderer> GAUNTLET_PLAYER_SLIM = Lazy.of(() -> new GauntletPlayerRenderer(Minecraft.getInstance().getRenderManager(), true));
+
+    @SubscribeEvent
+    public void onPlayerRender(RenderPlayerEvent.Pre e) {
+        if (!(e.getRenderer() instanceof GauntletPlayerRenderer)) {
+            e.getPlayer().getCapability(GauntletCapability.Provider.DEFAULT_CAPABILITY).ifPresent(gauntlet -> {
+                if (gauntlet.uppercutDuration > 0) {
+                    (((AbstractClientPlayerEntity) e.getPlayer()).getSkinType().equals("slim") ? GAUNTLET_PLAYER_SLIM : GAUNTLET_PLAYER).get().render(
+                        (AbstractClientPlayerEntity) e.getPlayer(),
+                        e.getPlayer().rotationYaw,
+                        e.getPartialRenderTick(),
+                        e.getMatrixStack(),
+                        e.getBuffers(),
+                        e.getLight()
+                    );
+                    e.setCanceled(true);
+                }
+            });
+        }
+    }
 
     @SubscribeEvent
     public void onHandEvent(RenderHandEvent e) {
@@ -113,7 +142,7 @@ public class RenderEvents {
     public void onFogDensity(EntityViewRenderEvent.FogDensity e) {
         ActiveRenderInfo r = e.getRenderer().getActiveRenderInfo();
         if (r.getFluidState().isTagged(LCCFluids.OIL)) {
-            GlStateManager.fogMode(GlStateManager.FogMode.EXP2.param);
+            RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
             e.setDensity(0.7F);
             e.setCanceled(true);
         }

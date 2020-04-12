@@ -3,9 +3,6 @@ package com.joshmanisdabomb.lcc.tileentity;
 import com.joshmanisdabomb.lcc.registry.LCCTileEntities;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BouncePadTileEntity extends TileEntity implements ITickableTileEntity {
 

@@ -43,15 +43,15 @@ public class GauntletOverlay extends AbstractGui implements LCCOverlay {
                 int uppercutX = punchX - 20;
                 int stompX = punchX + 20;
 
-                boolean useFlag = gauntlet.getPunchDurationRaw() > 0 || gauntlet.getStompDurationRaw() > 0;
+                boolean useFlag = gauntlet.punchDuration > 0 || gauntlet.stompActive;
 
-                int uppercutU = (gauntlet.getUppercutCooldownRaw() <= 0 ? ABILITY_TICK_Ud * gauntlet.getUppercutCooldownRaw() : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
-                int punchU = (gauntlet.getPunchCooldownRaw() <= 0 ? ABILITY_TICK_Ud * gauntlet.getPunchCooldownRaw() : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
-                int stompU = (gauntlet.getStompCooldownRaw() <= 0 ? ABILITY_TICK_Ud * gauntlet.getStompCooldownRaw() : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
+                int uppercutU = (gauntlet.uppercutCooldown <= 0 ? ABILITY_TICK_Ud * gauntlet.uppercutCooldown : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
+                int punchU = (gauntlet.punchCooldown <= 0 ? ABILITY_TICK_Ud * gauntlet.punchCooldown : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
+                int stompU = (gauntlet.stompCooldown <= 0 ? ABILITY_TICK_Ud * gauntlet.stompCooldown : ABILITY_COOLDOWN_Ud) + (useFlag ? ABILITY_DISABLED_Ud : 0);
 
                 GuiUtils.drawTexturedModalRect(uppercutX, abilityY, uppercutU, ABILITY_UPPERCUT_V, ABILITY_WIDTH, ABILITY_HEIGHT, 0F);
-                GuiUtils.drawTexturedModalRect(punchX, abilityY, gauntlet.getPunchDurationRaw() > 0 ? ABILITY_USE_U : punchU, ABILITY_PUNCH_V, ABILITY_WIDTH, ABILITY_HEIGHT, 0F);
-                GuiUtils.drawTexturedModalRect(stompX, abilityY, gauntlet.getStompDurationRaw() > 0 ? ABILITY_USE_U : stompU, ABILITY_STOMP_V, ABILITY_WIDTH, ABILITY_HEIGHT, 0F);
+                GuiUtils.drawTexturedModalRect(punchX, abilityY, gauntlet.punchDuration > 0 ? ABILITY_USE_U : punchU, ABILITY_PUNCH_V, ABILITY_WIDTH, ABILITY_HEIGHT, 0F);
+                GuiUtils.drawTexturedModalRect(stompX, abilityY, gauntlet.stompActive ? ABILITY_USE_U : stompU, ABILITY_STOMP_V, ABILITY_WIDTH, ABILITY_HEIGHT, 0F);
 
                 if (player.isHandActive() && player.getActiveHand() == Hand.MAIN_HAND && player.getItemInUseCount() > 0) {
                     float strength = GauntletFunctionality.getStrength(stack, player.getItemInUseCount());

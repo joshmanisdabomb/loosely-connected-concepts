@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
@@ -17,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-public class NuclearFireBlock extends FireBlock {
+public class NuclearFireBlock extends FireBlock implements LCCBlockHelper {
 
     public NuclearFireBlock(Block.Properties p) {
         super(p);
@@ -98,4 +99,10 @@ public class NuclearFireBlock extends FireBlock {
     public boolean isBurning(BlockState state, IBlockReader world, BlockPos pos) {
         return false;
     }
+
+    @Override
+    public RenderType getRenderLayer() {
+        return RenderType.getCutoutMipped();
+    }
+
 }

@@ -110,7 +110,7 @@ public class FontWrapper extends FontRenderer {
     private FontRenderer getBaseRenderer() {
         if (this.base == null) {
             this.base = Minecraft.getInstance().getFontResourceManager().getFontRenderer(this.locator);
-            //this.base.font = new WrappedFont(this.tm, this.locator, this.base.font);
+            this.base.font = new WrappedFont(this.tm, this.locator, this.base.font);
         }
         return this.base;
     }

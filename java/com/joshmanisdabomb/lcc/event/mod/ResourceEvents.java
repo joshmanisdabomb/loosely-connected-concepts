@@ -8,14 +8,23 @@ import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public abstract class ResourceEvents {
 
     @SubscribeEvent
+    public static void onModelRegisterEvent(final ModelRegistryEvent e) {
+        LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
+            ((AdvancedBlockRender) block).getSpecialModels().forEach(ModelLoader::addSpecialModel);
+        });
+    }
+
+    @SubscribeEvent
     public static void onModelBakeEvent(final ModelBakeEvent e) {
-        LCCModels.init(e);
+        LCCModels.bake(e);
 
         //Advanced block models.
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {

@@ -1,0 +1,10 @@
+{
+  "parent": "lcc:block/computing_top",
+  "textures": {
+    "top": "lcc:block/computing/casing_top",
+    "side": "lcc:block/computing/casing_side_d",
+    "front": "lcc:block/computing/stick_reader_front",
+    "frontwhite": "lcc:block/computing/casing_frontwhite",
+    "particle": "#top"
+  }
+}

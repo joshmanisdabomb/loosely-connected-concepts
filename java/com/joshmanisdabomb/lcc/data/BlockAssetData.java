@@ -2,13 +2,16 @@ package com.joshmanisdabomb.lcc.data;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.*;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.misc.Util;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
+import net.minecraft.item.DyeColor;
 import net.minecraft.state.properties.ChestType;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
@@ -17,6 +20,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -31,6 +35,10 @@ public class BlockAssetData extends BlockStateProvider {
     private ModelFile grassBlockIndex1;
     private ModelFile colorable;
     private ModelFile colorableOrientable;
+    private ModelFile computing;
+    private ModelFile computing_top;
+
+    private HashMap<ComputingModule.Type, ModelFile[]> computingMap = new HashMap<>();
 
     public BlockAssetData(DataGenerator dg, ExistingFileHelper fileHelper) {
         super(dg, LCC.MODID, fileHelper);
@@ -82,6 +90,29 @@ public class BlockAssetData extends BlockStateProvider {
             .texture("top", "#all")
             .texture("front", "#all")
             .texture("side", "#all");
+
+        this.computing = models().withExistingParent("lcc:computing", "block")
+            .element().from(0,0,0).to(16,8,16).allFaces((dir, face) -> face.uvs(0, 0, 16, dir.getAxis().isVertical() ? 16 : 8).cullface(dir == Direction.UP ? null : dir).texture(dir.getAxis().isVertical() ? "#top" : "#side").tintindex(1)).end()
+            .element().from(0,0,0).to(16,8,16).face(Direction.NORTH).uvs(0, 8, 16, 16).cullface(Direction.NORTH).texture("#front").tintindex(1).end().end()
+            .element().from(0,0,0).to(16,8,16).face(Direction.NORTH).uvs(0, 8, 16, 16).cullface(Direction.NORTH).texture("#frontwhite").end().end();
+        this.computing_top = models().withExistingParent("lcc:computing_top", "block")
+            .element().from(0,8,0).to(16,16,16).allFaces((dir, face) -> face.uvs(0, dir.getAxis().isVertical() ? 0 : 8, 16, 16).cullface(dir == Direction.DOWN ? null : dir).texture(dir.getAxis().isVertical() ? "#top" : "#side").tintindex(2)).end()
+            .element().from(0,8,0).to(16,16,16).face(Direction.NORTH).uvs(0, 0, 16, 8).cullface(Direction.NORTH).texture("#front").tintindex(2).end().end()
+            .element().from(0,8,0).to(16,16,16).face(Direction.NORTH).uvs(0, 0, 16, 8).cullface(Direction.NORTH).texture("#frontwhite").end().end();
+        for (ComputingModule.Type mod : ComputingModule.Type.values()) {
+            ModelFile[] models = new ModelFile[8];
+            for (int i = 0; i < 8; i++) {
+                String module = mod.name().toLowerCase();
+                String suffix = (i % 4 == 0 ? "" : ("_" + (i % 4 >= 2 ? "u" : "") + (i % 2 == 1 ? "d" : "")));
+                models[i] = models().withExistingParent("lcc:" + module + (i >= 4 ? "_top" : "") + suffix, (i >= 4 ? this.computing_top : this.computing).getLocation())
+                    .texture("top", texture("computing/casing_top"))
+                    .texture("side", texture("computing/casing_side" + suffix))
+                    .texture("front", texture("computing/" + module + "_front"))
+                    .texture("frontwhite", texture("computing/" + (mod == ComputingModule.Type.COMPUTER ? module : "casing") + "_frontwhite"))
+                    .texture("particle", "#top");
+            }
+            computingMap.put(mod, models);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ import net.minecraftforge.client.model.data.ModelProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,11 @@ public interface AdvancedBlockRender {
 
     @OnlyIn(Dist.CLIENT)
     Collection<ResourceLocation> getTextures();
+
+    @OnlyIn(Dist.CLIENT)
+    default Collection<ResourceLocation> getSpecialModels() {
+        return Collections.emptyList();
+    }
 
     StateContainer<Block, BlockState> getStateContainer();
 

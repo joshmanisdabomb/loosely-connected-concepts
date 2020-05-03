@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 
 import java.util.HashMap;
 
@@ -18,7 +20,7 @@ public abstract class LCCModels {
 
     public static final HashMap<ModelResourceLocation, IBakedModel> bakedModels = new HashMap<>();
 
-    public static void init(final ModelBakeEvent e) {
+    public static void bake(final ModelBakeEvent e) {
         registerObj(e, SPHERE, new ResourceLocation(LCC.MODID, "entity/sphere.obj"));
     }
 

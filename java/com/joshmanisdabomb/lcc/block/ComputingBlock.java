@@ -1,11 +1,17 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.model.ComputingModel;
+import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,23 +27,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, MultipartBlock {
+public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, MultipartBlock, AdvancedBlockRender, TintedBlock {
 
     public static final EnumProperty<SlabType> MODULE = EnumProperty.create("module", SlabType.class);
 
@@ -235,7 +242,12 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.INVISIBLE;
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public RenderType getRenderLayer() {
+        return RenderType.getCutoutMipped();
     }
 
     public static SlabType flip(SlabType location) {
@@ -244,6 +256,61 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
             case BOTTOM: return SlabType.TOP;
             default: return SlabType.DOUBLE;
         }
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public IBakedModel newModel(Block block) {
+        return new ComputingModel(block);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public Collection<ResourceLocation> getTextures() {
+        return Collections.singletonList(new ResourceLocation(LCC.MODID, "block/computing/casing_top"));
+    }
+
+    @Override
+    public Collection<ResourceLocation> getSpecialModels() {
+        Collection<ResourceLocation> models = new ArrayList<>();
+        for (ComputingModule.Type type : ComputingModule.Type.values()) {
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase()));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_u"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_d"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_ud"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_top"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_top_u"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_top_d"));
+            models.add(new ResourceLocation(LCC.MODID, "block/" + type.name().toLowerCase() + "_top_ud"));
+        }
+        return models;
+    }
+
+    @Override
+    public int getBlockTintColor(BlockState state, ILightReader world, BlockPos pos, int tintIndex) {
+        ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
+        if (te == null) return this.getItemTintColor(null, tintIndex);
+        SlabType location = state.get(MODULE);
+        switch (tintIndex) {
+            case 2:
+                return te.getModule(SlabType.TOP).color.getColorValue();
+            case 1:
+                return te.getModule(SlabType.BOTTOM).color.getColorValue();
+            default:
+                System.out.println(location);
+                System.out.println(te.getModule(location));
+                System.out.println(te.getModule(location).color);
+                if (location == SlabType.DOUBLE) {
+                    return te.getModule(SlabType.TOP).color.getColorValue();
+                } else {
+                    return te.getModule(location).color.getColorValue();
+                }
+        }
+    }
+
+    @Override
+    public int getItemTintColor(ItemStack stack, int tintIndex) {
+        return 0xFFFFFF;
     }
 
 }

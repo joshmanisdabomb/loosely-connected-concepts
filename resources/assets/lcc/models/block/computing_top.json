@@ -4,98 +4,98 @@
     {
       "from": [
         0,
-        0,
+        8,
         0
       ],
       "to": [
         16,
-        8,
+        16,
         16
       ],
       "faces": {
         "down": {
           "texture": "#top",
-          "cullface": "down",
-          "tintindex": 1
+          "tintindex": 2
         },
         "up": {
           "texture": "#top",
-          "tintindex": 1
+          "cullface": "up",
+          "tintindex": 2
         },
         "north": {
           "texture": "#side",
           "uv": [
             0.0,
-            0.0,
+            8.0,
             16.0,
-            8.0
+            16.0
           ],
           "cullface": "north",
-          "tintindex": 1
+          "tintindex": 2
         },
         "south": {
           "texture": "#side",
           "uv": [
             0.0,
-            0.0,
+            8.0,
             16.0,
-            8.0
+            16.0
           ],
           "cullface": "south",
-          "tintindex": 1
+          "tintindex": 2
         },
         "west": {
           "texture": "#side",
           "uv": [
             0.0,
-            0.0,
+            8.0,
             16.0,
-            8.0
+            16.0
           ],
           "cullface": "west",
-          "tintindex": 1
+          "tintindex": 2
         },
         "east": {
           "texture": "#side",
           "uv": [
             0.0,
-            0.0,
+            8.0,
             16.0,
-            8.0
+            16.0
           ],
           "cullface": "east",
-          "tintindex": 1
+          "tintindex": 2
         }
       }
     },
     {
       "from": [
         0,
-        0,
+        8,
         0
       ],
       "to": [
         16,
-        8,
+        16,
         16
       ],
       "faces": {
         "north": {
           "texture": "#front",
           "cullface": "north",
-          "tintindex": 1
+          "tintindex": 2
         }
       }
     },
     {
       "from": [
         0,
-        0,
+        8,
         0
       ],
       "to": [
         16,
-        8,
+        16,
         16
       ],
       "faces": {

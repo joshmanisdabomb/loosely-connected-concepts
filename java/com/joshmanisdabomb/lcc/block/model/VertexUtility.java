@@ -1,15 +1,21 @@
 package com.joshmanisdabomb.lcc.block.model;
 
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.Rotations;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.model.pipeline.BakedQuadBuilder;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class VertexUtility {
 
@@ -127,6 +133,39 @@ public abstract class VertexUtility {
         }
 
         return createQuad(vertices, sprite, side, uvX1, uvY1, uvX2, uvY2);
+    }
+
+    public static List<BakedQuad> rotateQuads(List<BakedQuad> quads, Rotation x, Rotation y, Rotation z) {
+        ArrayList<BakedQuad> newQuads = new ArrayList<>();
+        for (BakedQuad q : quads) {
+            int[] data = Arrays.copyOf(q.getVertexData(), q.getVertexData().length);
+
+            Direction face = q.getFace();
+            Vector3f v = new Vector3f(face.getDirectionVec().getX(), face.getDirectionVec().getY(), face.getDirectionVec().getZ());
+            v.transform(Vector3f.XN.rotationDegrees(x.ordinal() * 90));
+            v.transform(Vector3f.YN.rotationDegrees(y.ordinal() * 90));
+            v.transform(Vector3f.ZN.rotationDegrees(z.ordinal() * 90));
+            v.normalize();
+            face = Direction.getFacingFromVector(v.getX(), v.getY(), v.getZ());
+
+            for (int i = 0; i < data.length; i += 8) {
+                Vector3f v2 = new Vector3f(Float.intBitsToFloat(data[i]), Float.intBitsToFloat(data[i + 1]), Float.intBitsToFloat(data[i + 2]));
+                v2.add(-0.5F, -0.5F, -0.5F);
+                v2.transform(Vector3f.XN.rotationDegrees(x.ordinal() * 90));
+                v2.transform(Vector3f.YN.rotationDegrees(y.ordinal() * 90));
+                v2.transform(Vector3f.ZN.rotationDegrees(z.ordinal() * 90));
+                v2.add(0.5F, 0.5F, 0.5F);
+                data[i] = Float.floatToIntBits(v2.getX());
+                data[i+1] = Float.floatToIntBits(v2.getY());
+                data[i+2] = Float.floatToIntBits(v2.getZ());
+            }
+            newQuads.add(new BakedQuad(data, q.getTintIndex(), face, q.func_187508_a(), q.shouldApplyDiffuseLighting()));
+        }
+        return newQuads;
+    }
+
+    public static List<BakedQuad> rotateQuads(List<BakedQuad> quads, Direction facing) {
+        return VertexUtility.rotateQuads(quads, Rotation.NONE, Rotation.values()[(facing.getHorizontalIndex() + 2) % 4], Rotation.NONE);
     }
 
 }

@@ -1,62 +1,49 @@
 package com.joshmanisdabomb.lcc.tileentity.render;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.ResourceLocation;
 
 public class ComputingRenderer extends TileEntityRenderer<ComputingTileEntity> {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_light.png");
+    private final ModelRenderer power;
+    private final ModelRenderer read;
 
-    //protected final ComputingModel model = new ComputingModel();
+    public static final ResourceLocation TEXTURE = new ResourceLocation(LCC.MODID, "textures/entity/tile/computer_lighting.png");
 
     public ComputingRenderer(TileEntityRendererDispatcher terd) {
         super(terd);
+
+        power = new ModelRenderer(8, 8, 0, 0);
+        power.addBox(2.0F, 2.0F, -1.0F, 2, 3, 1);
+        read = new ModelRenderer(8, 8, 0, 4);
+        read.addBox(2.0F, 2.0F, -1.0F, 2, 3, 1);
     }
 
     @Override
     public void render(ComputingTileEntity te, float partialTicks, MatrixStack matrix, IRenderTypeBuffer buffer, int light, int overlay) {
-        /*GlStateManager.pushMatrix();
-        GlStateManager.disableCull();
-        GlStateManager.translated(0.5, 0.5, 0.5);
-        GlStateManager.enableRescaleNormal();
-
-        BlockState computing_block = te.getBlockState();
-        if (computing_block.getBlock() != LCCBlocks.computing) return;
-        SlabType setup = computing_block.get(ComputingBlock.MODULE);
-        for (SlabType location : MODULE_SLABS) {
-            if (setup != flip(location)) {
-                ComputingModule m = te.getModule(location);
-                if (m != null) {
-                    float[] c = m.color.getColorComponentValues();
-                    GlStateManager.color4f(c[0], c[1], c[2], 1.0F);
-                    //this.bindTexture(m.type.getTexture());
-                    model.renderModule(te, 0.0625F, location);
-
-                    //lights
-                    if (m.isPowered()) {
-                        GlStateManager.color4f(1, 1, 1, 1);
-                        //GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-                        GlStateManager.depthMask(false);
-                        //this.setLightmapDisabled(true);
-
-                        //this.bindTexture(COMPUTER_LIGHTS);
-                        if (m.isPowered()) model.renderPowerLight(te, 0.0625F, location, m.isReading());
-
-                        //this.setLightmapDisabled(false);
-                        GlStateManager.depthMask(true);
-                        GlStateManager.disableBlend();
-                    }
-                }
+        matrix.push();
+        for (ComputingModule m : te.getInstalledModules()) {
+            matrix.push();
+            if (m.location == SlabType.TOP) matrix.translate(0, 9/16F, 0);
+            if (m.isPowered()) {
+                matrix.translate(0.5, 0.5, 0.5);
+                matrix.rotate(Vector3f.YN.rotationDegrees(((m.direction.getHorizontalIndex() + 2) % 4) * 90));
+                matrix.translate(-0.5, -0.5, -0.5005);
+                (m.isReading() ? read : power).render(matrix, buffer.getBuffer(RenderType.getEntityAlpha(TEXTURE, 0.01F)), light, overlay, 1, 1, 1, 1);
             }
+            matrix.pop();
         }
-
-        GlStateManager.color4f(1, 1, 1, 1);
-        GlStateManager.popMatrix();*/
+        matrix.pop();
     }
 
 }

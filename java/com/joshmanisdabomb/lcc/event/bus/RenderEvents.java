@@ -6,8 +6,8 @@ import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity;
 import com.joshmanisdabomb.lcc.entity.render.GauntletPlayerRenderer;
 import com.joshmanisdabomb.lcc.functionality.NuclearFunctionality;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
-import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
+import com.joshmanisdabomb.lcc.registry.LCCTags;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -134,7 +134,7 @@ public class RenderEvents {
     @SubscribeEvent(receiveCanceled = true)
     public void onFogColors(EntityViewRenderEvent.FogColors e) {
         ActiveRenderInfo r = e.getRenderer().getActiveRenderInfo();
-        if (r.getFluidState().isTagged(LCCFluids.OIL)) {
+        if (r.getFluidState().isTagged(LCCTags.OIL)) {
             e.setRed(0.02F);
             e.setGreen(0.02F);
             e.setBlue(0.02F);
@@ -169,7 +169,7 @@ public class RenderEvents {
     @SubscribeEvent(receiveCanceled = true)
     public void onFogDensity(EntityViewRenderEvent.FogDensity e) {
         ActiveRenderInfo r = e.getRenderer().getActiveRenderInfo();
-        if (r.getFluidState().isTagged(LCCFluids.OIL)) {
+        if (r.getFluidState().isTagged(LCCTags.OIL)) {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
             e.setDensity(0.7F);
             e.setCanceled(true);

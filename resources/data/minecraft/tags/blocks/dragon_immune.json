@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "lcc:nuclear_waste"
+    "lcc:nuclear_waste",
+    "lcc:crying_obsidian",
+    "lcc:glowing_obsidian"
   ]
 }

@@ -19,6 +19,10 @@ public abstract class DataEvents {
         if (e.includeServer()) {
             dg.addProvider(new RecipeData(dg));
             dg.addProvider(new LootTableData(dg));
+
+            dg.addProvider(new BlockTagData(dg));
+            dg.addProvider(new ItemTagData(dg));
+            dg.addProvider(new FluidTagData(dg));
         }
     }
 

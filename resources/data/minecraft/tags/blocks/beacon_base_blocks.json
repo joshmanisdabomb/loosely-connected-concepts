@@ -4,6 +4,7 @@
     "lcc:ruby_storage",
     "lcc:topaz_storage",
     "lcc:sapphire_storage",
-    "lcc:amethyst_storage"
+    "lcc:amethyst_storage",
+    "lcc:neon_storage"
   ]
 }

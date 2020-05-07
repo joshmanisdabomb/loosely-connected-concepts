@@ -154,11 +154,6 @@ public abstract class LCCBlocks {
 	public static Block floodlight;
 	public static Block spotlight;
 
-	public static final BlockTags.Wrapper CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
-	public static final BlockTags.Wrapper CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));
-	public static final BlockTags.Wrapper REFINED_CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "refined_colored_candy_cane"));
-	public static final BlockTags.Wrapper REFINED_CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "refined_colored_candy_cane_coating"));
-
 	public static void init(Register<Block> e) {
 		//Test Blocks
 		addWithDefaultItem(test_block = new Block(Block.Properties.create(Material.EARTH, DyeColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.SCAFFOLDING)), new ResourceLocation(LCC.MODID, "test_block"));

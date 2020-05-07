@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCTags;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
-import static com.joshmanisdabomb.lcc.registry.LCCBlocks.*;
-
 public class RefinedCandyCaneBlock extends PillarBlock {
 
     public RefinedCandyCaneBlock(Properties p) {
@@ -30,11 +29,11 @@ public class RefinedCandyCaneBlock extends PillarBlock {
         if (stack.getItem() instanceof PickaxeItem) {
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
             if (!world.isRemote) {
-                if (CANDY_CANES_COATING.contains(b)) {
+                if (LCCTags.COLORED_CANDY_CANE_COATING.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.stripped_candy_cane_coating.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
-                } else if (REFINED_CANDY_CANES.contains(b)) {
+                } else if (LCCTags.REFINED_COLORED_CANDY_CANE.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.refined_stripped_candy_cane.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
-                } else if (REFINED_CANDY_CANES_COATING.contains(b)) {
+                } else if (LCCTags.REFINED_COLORED_CANDY_CANE_COATING.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.refined_stripped_candy_cane_coating.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
                 } else {
                     world.setBlockState(pos, LCCBlocks.stripped_candy_cane.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);

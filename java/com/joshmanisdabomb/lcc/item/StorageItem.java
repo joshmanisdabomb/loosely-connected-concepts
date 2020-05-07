@@ -34,7 +34,7 @@ public class StorageItem extends Item implements TintedItem {
 
     public StorageItem(int sizeMin, int sizeMax, int amountCost, int typeCost, int typeLimit, Properties p) {
         super(p.maxStackSize(1));
-        this.addPropertyOverride(new ResourceLocation(LCC.MODID, "computing_level"), (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("size") / (double)sizeMin) / LOG2));
+        this.addPropertyOverride(ComputingItem.PREDICATE, (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("size") / (double)sizeMin) / LOG2));
         this.sizeMin = sizeMin;
         this.sizeMax = sizeMax;
         this.amountCost = amountCost;

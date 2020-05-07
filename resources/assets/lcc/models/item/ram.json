@@ -1,13 +1,38 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/computing/ram_1"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/computing/ram_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lcc:computing_level": 0.0
+      },
+      "model": "lcc:item/ram"
     },
-    "overrides": [
-        { "predicate": { "lcc:computing_level": 0 }, "model": "lcc:item/ram" },
-        { "predicate": { "lcc:computing_level": 1 }, "model": "lcc:item/ram_2" },
-        { "predicate": { "lcc:computing_level": 2 }, "model": "lcc:item/ram_3" },
-        { "predicate": { "lcc:computing_level": 3 }, "model": "lcc:item/ram_4" },
-        { "predicate": { "lcc:computing_level": 4 }, "model": "lcc:item/ram_5" }
-    ]
+    {
+      "predicate": {
+        "lcc:computing_level": 1.0
+      },
+      "model": "lcc:item/ram_2"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 2.0
+      },
+      "model": "lcc:item/ram_3"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 3.0
+      },
+      "model": "lcc:item/ram_4"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 4.0
+      },
+      "model": "lcc:item/ram_5"
+    }
+  ]
 }

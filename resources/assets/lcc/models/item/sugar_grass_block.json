@@ -1,8 +1,3 @@
 {
-    "parent": "block/cube_bottom_top",
-    "textures": {
-        "top": "lcc:block/rainbow/sugar_grass_top",
-        "side": "lcc:block/rainbow/sugar_grass_side",
-        "bottom": "lcc:block/rainbow/dirt"
-    }
+  "parent": "lcc:block/sugar_grass_block"
 }

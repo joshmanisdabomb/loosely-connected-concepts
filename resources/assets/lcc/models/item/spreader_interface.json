@@ -1,12 +1,3 @@
 {
-    "parent": "lcc:block/spreader_interface",
-    "textures": {
-        "0": "lcc:block/spreader/interface/lid_top",
-        "1": "lcc:block/spreader/interface/lid_side",
-        "2": "lcc:block/spreader/interface/base_side",
-        "3": "lcc:block/spreader/interface/base_top",
-        "4": "lcc:block/spreader/interface/core_side",
-        "5": "lcc:block/spreader/interface/legs",
-        "6": "lcc:block/spreader/interface/port"
-    }
+  "parent": "lcc:block/spreader_interface"
 }

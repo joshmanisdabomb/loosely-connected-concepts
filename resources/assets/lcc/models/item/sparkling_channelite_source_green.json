@@ -1,7 +1,3 @@
 {
-    "parent": "lcc:block/overlay",
-    "textures": {
-        "base": "lcc:block/rainbow/channelite/sparkling",
-        "overlay": "lcc:block/rainbow/channelite/green_source"
-    }
+  "parent": "lcc:block/sparkling_channelite_source_green"
 }

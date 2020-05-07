@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ComputingItem extends Item {
 
+    public static final ResourceLocation PREDICATE = new ResourceLocation(LCC.MODID, "computing_level");
     public static final double LOG2 = Math.log(2);
 
     private final int levelMin;
@@ -25,7 +26,7 @@ public class ComputingItem extends Item {
 
     public ComputingItem(int levelMin, int levelMax, Properties p) {
         super(p.maxStackSize(1));
-        this.addPropertyOverride(new ResourceLocation(LCC.MODID, "computing_level"), (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("level") / (double)levelMin) / LOG2));
+        this.addPropertyOverride(PREDICATE, (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("level") / (double)levelMin) / LOG2));
         this.levelMin = levelMin;
         this.levelMax = levelMax;
     }

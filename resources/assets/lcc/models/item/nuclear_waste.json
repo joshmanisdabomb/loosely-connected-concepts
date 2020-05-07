@@ -1,6 +1,3 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "lcc:block/nuclear_waste"
-  }
+  "parent": "lcc:block/nuclear_waste"
 }

@@ -1,6 +1,6 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/resources/nugget/uranium_enriched"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/resources/nugget/uranium_enriched"
+  }
 }

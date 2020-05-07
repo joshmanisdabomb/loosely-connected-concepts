@@ -64,6 +64,7 @@ public class LCC
     }
 
     private void onClientSetup(final FMLClientSetupEvent e) {
+        MinecraftForge.EVENT_BUS.register(new ClientEvents());
     	MinecraftForge.EVENT_BUS.register(new RenderEvents());
         MinecraftForge.EVENT_BUS.register(new UIEvents());
         MinecraftForge.EVENT_BUS.register(new InputEvents());

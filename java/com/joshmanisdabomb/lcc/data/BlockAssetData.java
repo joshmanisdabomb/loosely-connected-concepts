@@ -9,9 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
-import net.minecraft.item.DyeColor;
 import net.minecraft.state.properties.ChestType;
-import net.minecraft.state.properties.SlabType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.*;
@@ -22,27 +20,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
-public class BlockAssetData extends BlockStateProvider {
+public class BlockAssetData extends BlockStateProvider implements LCCAssetGenerator<Block> {
 
     private final DataGenerator dg;
 
-    private ModelFile noshadeCube;
-    private ModelFile noshadeCubeColumn;
-    private ModelFile overlay;
-    private ModelFile grassBlockIndex1;
-    private ModelFile colorable;
-    private ModelFile colorableOrientable;
-    private ModelFile computing;
-    private ModelFile computing_top;
+    ModelFile noshadeCube;
+    ModelFile noshadeCubeColumn;
+    ModelFile overlay;
+    ModelFile grassBlockIndex1;
+    ModelFile colorable;
+    ModelFile colorableOrientable;
+    ModelFile computing;
+    ModelFile computing_top;
 
     private HashMap<ComputingModule.Type, ModelFile[]> computingMap = new HashMap<>();
 
     public BlockAssetData(DataGenerator dg, ExistingFileHelper fileHelper) {
         super(dg, LCC.MODID, fileHelper);
         this.dg = dg;
+    }
+
+    @Override
+    public String getDefaultFolder() {
+        return ModelProvider.BLOCK_FOLDER;
     }
 
     @Override
@@ -105,10 +106,10 @@ public class BlockAssetData extends BlockStateProvider {
                 String module = mod.name().toLowerCase();
                 String suffix = (i % 4 == 0 ? "" : ("_" + (i % 4 >= 2 ? "u" : "") + (i % 2 == 1 ? "d" : "")));
                 models[i] = models().withExistingParent("lcc:" + module + (i >= 4 ? "_top" : "") + suffix, (i >= 4 ? this.computing_top : this.computing).getLocation())
-                    .texture("top", texture("computing/casing_top"))
-                    .texture("side", texture("computing/casing_side" + suffix))
-                    .texture("front", texture("computing/" + module + "_front"))
-                    .texture("frontwhite", texture("computing/" + (mod == ComputingModule.Type.COMPUTER ? module : "casing") + "_frontwhite"))
+                    .texture("top", path("computing/casing_top"))
+                    .texture("side", path("computing/casing_side" + suffix))
+                    .texture("front", path("computing/" + module + "_front"))
+                    .texture("frontwhite", path("computing/" + (mod == ComputingModule.Type.COMPUTER ? module : "casing") + "_frontwhite"))
                     .texture("particle", "#top");
             }
             computingMap.put(mod, models);
@@ -120,33 +121,33 @@ public class BlockAssetData extends BlockStateProvider {
         this.genericModels();
 
         //Blockstates
-        this.simpleBlock(LCCBlocks.test_block, texture("test/1"));
-        this.horizontalBlock(LCCBlocks.test_block_2, texture("test/2_side"), texture("test/2_front"), texture("test/2_top"));
-        this.directionalBlock(LCCBlocks.test_block_3, models().orientableVertical(name(LCCBlocks.test_block_3), texture("test/2_side"), texture("test/2_front")));
-        this.axisBlock(LCCBlocks.test_block_4, texture("test/4"));
-        this.simpleBlock(LCCBlocks.test_block_5, models().withExistingParent(name(LCCBlocks.test_block_5), "block").texture("particle", texture("test/5/default")));
+        this.simpleBlock(LCCBlocks.test_block, path("test/1"));
+        this.horizontalBlock(LCCBlocks.test_block_2, path("test/2_side"), path("test/2_front"), path("test/2_top"));
+        this.directionalBlock(LCCBlocks.test_block_3, models().orientableVertical(name(LCCBlocks.test_block_3), path("test/2_side"), path("test/2_front")));
+        this.axisBlock(LCCBlocks.test_block_4, path("test/4"));
+        this.simpleBlock(LCCBlocks.test_block_5, models().withExistingParent(name(LCCBlocks.test_block_5), "block").texture("particle", path("test/5/default")));
 
         this.addAll(this::simpleBlock, LCCBlocks.hydrated_soul_sand);
         this.addAll(block -> this.simpleBlock(block, model -> ConfiguredModel.allYRotations(model, 0, false)), LCCBlocks.nuclear_waste);
         this.simpleBlock(LCCBlocks.hydrated_soul_sand_bubble_column, models().withExistingParent(name(LCCBlocks.hydrated_soul_sand_bubble_column), "block"));
         this.simpleBlock(LCCBlocks.road,
             models().withExistingParent(name(LCCBlocks.road), "block").element().from(0,0,0).to(16,15,16).allFaces((dir, face) -> face.uvs(0, dir.getAxis().isHorizontal() ? 1 : 0, 16, 16).cullface(dir == Direction.UP ? null : dir).texture(dir == Direction.UP ? "#top" : (dir == Direction.DOWN ? "#bottom" : "#side"))).end()
-                .texture("particle", texture("road/side_base"))
-                .texture("top", texture("road/top_default"))
-                .texture("side", texture("road/side_base"))
-                .texture("bottom", texture("road/bottom_base"))
+                .texture("particle", path("road/side_base"))
+                .texture("top", path("road/top_default"))
+                .texture("side", path("road/side_base"))
+                .texture("bottom", path("road/bottom_base"))
         );
 
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> "resources/ore/" + path.replace("_ore", ""))), LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore);
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> "resources/storage/" + path.replace("_storage", ""))), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage);
-        this.simpleBlock(LCCBlocks.enriched_uranium_storage, texture("resources/storage/uranium_enriched"));
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> "resources/ore/" + path.replace("_ore", ""))), LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore, LCCBlocks.neon_ore);
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> "resources/storage/" + path.replace("_storage", ""))), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.neon_storage);
+        this.simpleBlock(LCCBlocks.enriched_uranium_storage, path("resources/storage/uranium_enriched"));
 
-        this.simpleBlock(LCCBlocks.rainbow_gate, models().withExistingParent(name(LCCBlocks.rainbow_gate), "block").texture("particle", texture("rainbow/gate/base")));
+        this.simpleBlock(LCCBlocks.rainbow_gate, models().withExistingParent(name(LCCBlocks.rainbow_gate), "block").texture("particle", path("rainbow/gate/base")));
         this.getVariantBuilder(LCCBlocks.rainbow_portal)
             .forAllStates(state -> {
                 int y = state.get(RainbowPortalBlock.Y);
                 Direction.Axis a = state.get(RainbowPortalBlock.AXIS);
-                ResourceLocation texture = texture("rainbow/gate/portal_" + y);
+                ResourceLocation texture = path("rainbow/gate/portal_" + y);
                 if (state.get(RainbowPortalBlock.MIDDLE)) {
                     return ConfiguredModel.builder()
                         .modelFile(models().withExistingParent(name(LCCBlocks.rainbow_portal) + "_" + y + "_invisible", "block").texture("particle", texture))
@@ -165,97 +166,97 @@ public class BlockAssetData extends BlockStateProvider {
                 }
             });
         this.addAll(block -> {
-            BlockModelBuilder normal = models().cubeAll(name(block), texture(block, path -> path.replace("twilight_", "rainbow/")));
-            BlockModelBuilder mirrored = models().singleTexture(name(block), mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), texture(block, path -> path.replace("twilight_", "rainbow/")));
+            BlockModelBuilder normal = models().cubeAll(name(block), path(block, path -> path.replace("twilight_", "rainbow/")));
+            BlockModelBuilder mirrored = models().singleTexture(name(block) + "_mirrored", mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), path(block, path -> path.replace("twilight_", "rainbow/")));
             this.simpleBlock(block, ConfiguredModel.builder().modelFile(normal).nextModel().modelFile(normal).rotationY(180).nextModel().modelFile(mirrored).rotationY(0).nextModel().modelFile(mirrored).rotationY(180).build());
         }, LCCBlocks.twilight_stone);
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> path.replace("twilight_", "rainbow/"))), LCCBlocks.twilight_cobblestone);
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> path.replace("twilight_", "rainbow/"))), LCCBlocks.twilight_cobblestone);
         this.addAll(block -> this.simpleBlock(block, ConfiguredModel.allYRotations(
-            models().cubeAll(name(block), texture(block, path -> path.replace("sparkling_", "rainbow/")))
+            models().cubeAll(name(block), path(block, path -> path.replace("sparkling_", "rainbow/")))
         , 0, false)), LCCBlocks.sparkling_dirt);
         this.simpleBlock(LCCBlocks.rainbow_grass_block, ConfiguredModel.allYRotations(models().withExistingParent(name(LCCBlocks.rainbow_grass_block), "grass_block")
-            .texture("particle", texture("rainbow/dirt"))
-            .texture("bottom", texture("rainbow/dirt"))
-            .texture("side", texture("rainbow/grass_side"))
-            .texture("top", texture("rainbow/rainbow_grass_top"))
-            .texture("overlay", texture("rainbow/rainbow_grass_overlay"))
+            .texture("particle", path("rainbow/dirt"))
+            .texture("bottom", path("rainbow/dirt"))
+            .texture("side", path("rainbow/grass_side"))
+            .texture("top", path("rainbow/rainbow_grass_top"))
+            .texture("overlay", path("rainbow/rainbow_grass_overlay"))
         , 0, false));
         this.simpleBlock(LCCBlocks.star_plating, ConfiguredModel.allYRotations(models().withExistingParent(name(LCCBlocks.star_plating), "grass_block")
-                .texture("particle", texture("rainbow/dirt"))
-                .texture("bottom", texture("rainbow/dirt"))
-                .texture("side", texture("rainbow/grass_side"))
-                .texture("top", texture("rainbow/star_plating_top"))
-                .texture("overlay", texture("rainbow/star_plating_overlay"))
+                .texture("particle", path("rainbow/dirt"))
+                .texture("bottom", path("rainbow/dirt"))
+                .texture("side", path("rainbow/grass_side"))
+                .texture("top", path("rainbow/star_plating_top"))
+                .texture("overlay", path("rainbow/star_plating_overlay"))
             , 0, false));
         this.simpleBlock(LCCBlocks.sugar_grass_block, ConfiguredModel.allYRotations(models().cubeBottomTop(name(LCCBlocks.sugar_grass_block),
-            texture("rainbow/sugar_grass_side"),
-            texture("rainbow/dirt"),
-            texture("rainbow/sugar_grass_top")
+            path("rainbow/sugar_grass_side"),
+            path("rainbow/dirt"),
+            path("rainbow/sugar_grass_top")
         ), 0, false));
         this.addAll(block -> this.simpleBlock(block, ConfiguredModel.allYRotations(models().withExistingParent(name(block), this.grassBlockIndex1.getLocation())
-            .texture("particle", texture("rainbow/dirt"))
-            .texture("bottom", texture("rainbow/dirt"))
-            .texture("side", texture("rainbow/grass_side"))
-            .texture("top", texture("rainbow/colored_grass_top"))
-            .texture("overlay", texture("rainbow/colored_grass_overlay"))
+            .texture("particle", path("rainbow/dirt"))
+            .texture("bottom", path("rainbow/dirt"))
+            .texture("side", path("rainbow/grass_side"))
+            .texture("top", path("rainbow/colored_grass_top"))
+            .texture("overlay", path("rainbow/colored_grass_overlay"))
         , 0, false)), LCCBlocks.sparkling_grass_block.values().toArray(new SparklingGrassBlock[0]));
         this.addAll(block -> this.candyCane(block,
-            texture("rainbow/candy_cane/end"),
-            texture(block, path -> path.replace("candy_cane_", "rainbow/candy_cane/") + "_0"),
-            texture(block, path -> path.replace("candy_cane_", "rainbow/candy_cane/") + "_1")
+            path("rainbow/candy_cane/end"),
+            path(block, path -> path.replace("candy_cane_", "rainbow/candy_cane/") + "_0"),
+            path(block, path -> path.replace("candy_cane_", "rainbow/candy_cane/") + "_1")
         ), LCCBlocks.candy_cane_red, LCCBlocks.candy_cane_green, LCCBlocks.candy_cane_blue);
         this.addAll(block -> this.candyCaneCoating(block,
-            texture(block, path -> path.replace("candy_cane_coating_", "rainbow/candy_cane/") + "_0"),
-            texture(block, path -> path.replace("candy_cane_coating_", "rainbow/candy_cane/") + "_1")
+            path(block, path -> path.replace("candy_cane_coating_", "rainbow/candy_cane/") + "_0"),
+            path(block, path -> path.replace("candy_cane_coating_", "rainbow/candy_cane/") + "_1")
         ), LCCBlocks.candy_cane_coating_red, LCCBlocks.candy_cane_coating_green, LCCBlocks.candy_cane_coating_blue);
         this.addAll(block -> this.axisBlock(block,
-            texture(block, path -> path.replace("refined_candy_cane_", "rainbow/candy_cane/refined_")),
-            texture("rainbow/candy_cane/end")
+            path(block, path -> path.replace("refined_candy_cane_", "rainbow/candy_cane/refined_")),
+            path("rainbow/candy_cane/end")
         ), LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue);
         this.addAll(block -> this.axisBlock(block,
-            texture(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_")),
-            texture(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_"))
+            path(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_")),
+            path(block, path -> path.replace("refined_candy_cane_coating_", "rainbow/candy_cane/refined_"))
         ), LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue);
         this.addAll(block -> this.axisBlock(block,
-            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
-            texture("rainbow/candy_cane/end")
+            path(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
+            path("rainbow/candy_cane/end")
         ), LCCBlocks.stripped_candy_cane, LCCBlocks.refined_stripped_candy_cane);
         this.addAll(block -> this.axisBlock(block,
-            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
-            texture(block, path -> "rainbow/candy_cane/" + path.split("_")[0])
+            path(block, path -> "rainbow/candy_cane/" + path.split("_")[0]),
+            path(block, path -> "rainbow/candy_cane/" + path.split("_")[0])
         ), LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_stripped_candy_cane_coating);
-        this.simpleBlock(LCCBlocks.candy_cane_block, texture("rainbow/candy_cane/end"));
-        this.addAll(block -> this.channelite(block, texture(block, path -> path.replace("channelite_", "rainbow/channelite/")), block.getColor() == null ? "none" : "invisible"), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
+        this.simpleBlock(LCCBlocks.candy_cane_block, path("rainbow/candy_cane/end"));
+        this.addAll(block -> this.channelite(block, path(block, path -> path.replace("channelite_", "rainbow/channelite/")), block.getColor() == null ? "none" : "invisible"), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
         this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), this.overlay.getLocation())
-            .texture("particle", texture("rainbow/channelite/sparkling"))
-            .texture("base", texture("rainbow/channelite/sparkling"))
-            .texture("overlay", texture(block, path -> path.replace("sparkling_channelite_source_", "rainbow/channelite/") + "_source"))
+            .texture("particle", path("rainbow/channelite/sparkling"))
+            .texture("base", path("rainbow/channelite/sparkling"))
+            .texture("overlay", path(block, path -> path.replace("sparkling_channelite_source_", "rainbow/channelite/") + "_source"))
         ), LCCBlocks.sparkling_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
         this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), this.overlay.getLocation())
-            .texture("particle", texture("rainbow/channelite/twilight"))
-            .texture("base", texture("rainbow/channelite/twilight"))
-            .texture("overlay", texture(block, path -> path.replace("twilight_channelite_source_", "rainbow/channelite/") + "_source"))
+            .texture("particle", path("rainbow/channelite/twilight"))
+            .texture("base", path("rainbow/channelite/twilight"))
+            .texture("overlay", path(block, path -> path.replace("twilight_channelite_source_", "rainbow/channelite/") + "_source"))
         ), LCCBlocks.twilight_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
 
-        this.simpleBlock(LCCBlocks.time_rift, models().withExistingParent(name(LCCBlocks.time_rift), "block").texture("particle", texture("time_rift")));
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> "nostalgia/" + path.replace("classic_", ""))), LCCBlocks.classic_bricks, LCCBlocks.classic_cobblestone, LCCBlocks.classic_glass, LCCBlocks.classic_gravel, LCCBlocks.classic_sponge, LCCBlocks.classic_mossy_cobblestone, LCCBlocks.classic_leaves, LCCBlocks.classic_planks, LCCBlocks.glowing_obsidian);
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> path.replace("classic_", "nostalgia/"))), LCCBlocks.classic_cloth.values().toArray(new Block[0]));
+        this.simpleBlock(LCCBlocks.time_rift, models().withExistingParent(name(LCCBlocks.time_rift), "block").texture("particle", path("time_rift")));
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> "nostalgia/" + path.replace("classic_", ""))), LCCBlocks.classic_bricks, LCCBlocks.classic_cobblestone, LCCBlocks.classic_glass, LCCBlocks.classic_gravel, LCCBlocks.classic_sponge, LCCBlocks.classic_mossy_cobblestone, LCCBlocks.classic_leaves, LCCBlocks.classic_planks, LCCBlocks.glowing_obsidian);
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> path.replace("classic_", "nostalgia/"))), LCCBlocks.classic_cloth.values().toArray(new Block[0]));
         this.addAll(block -> this.simpleBlock(block, models().cubeBottomTop(name(block),
-            texture(block, path -> path.replace("classic_", "nostalgia/") + "_side"),
-            texture(block, path -> path.replace("classic_", "nostalgia/") + "_bottom"),
-            texture(block, path -> path.replace("classic_", "nostalgia/") + "_top")
+            path(block, path -> path.replace("classic_", "nostalgia/") + "_side"),
+            path(block, path -> path.replace("classic_", "nostalgia/") + "_bottom"),
+            path(block, path -> path.replace("classic_", "nostalgia/") + "_top")
         )), LCCBlocks.classic_iron_block, LCCBlocks.classic_gold_block, LCCBlocks.classic_diamond_block);
-        this.addAll(block -> this.simpleBlock(block, texture(block, path -> path.replace("classic_smooth_", "nostalgia/"))), LCCBlocks.classic_smooth_iron_block, LCCBlocks.classic_smooth_gold_block, LCCBlocks.classic_smooth_diamond_block);
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> path.replace("classic_smooth_", "nostalgia/"))), LCCBlocks.classic_smooth_iron_block, LCCBlocks.classic_smooth_gold_block, LCCBlocks.classic_smooth_diamond_block);
         this.getVariantBuilder(LCCBlocks.classic_grass_block)
             .partialState().with(FunctionalGrassBlock.SNOWY, false).modelForState()
                 .modelFile(models().cubeBottomTop(name(LCCBlocks.classic_grass_block),
-                    texture("nostalgia/grass_block_side"),
+                    path("nostalgia/grass_block_side"),
                     mcLoc(ModelProvider.BLOCK_FOLDER + "/dirt"),
-                    texture("nostalgia/grass_block_top")
+                    path("nostalgia/grass_block_top")
                 )).addModel()
             .partialState().with(FunctionalGrassBlock.SNOWY, true).modelForState()
                 .modelFile(models().cubeBottomTop(name(LCCBlocks.classic_grass_block) + "_snowy",
-                    texture("nostalgia/grass_block_snowy"),
+                    path("nostalgia/grass_block_snowy"),
                     mcLoc(ModelProvider.BLOCK_FOLDER + "/dirt"),
                     mcLoc(ModelProvider.BLOCK_FOLDER + "/snow")
                 )).addModel();
@@ -264,87 +265,78 @@ public class BlockAssetData extends BlockStateProvider {
                 ChestType type = state.get(ClassicChestBlock.TYPE);
                 return ConfiguredModel.builder()
                     .modelFile(models().cube(name(LCCBlocks.classic_chest) + "_" + type.getName(),
-                        texture("nostalgia/chest_top"),
-                        texture("nostalgia/chest_top"),
-                        texture("nostalgia/chest_" + (type != ChestType.SINGLE ? (type.opposite().getName() + "_") : "") + "front"),
-                        texture("nostalgia/chest_" + (type != ChestType.SINGLE ? (type.getName() + "_back") : "side")),
-                        texture("nostalgia/chest_side"),
-                        texture("nostalgia/chest_side")
-                    ).texture("particle", texture("nostalgia/chest_front")))
+                        path("nostalgia/chest_top"),
+                        path("nostalgia/chest_top"),
+                        path("nostalgia/chest_" + (type != ChestType.SINGLE ? (type.opposite().getName() + "_") : "") + "front"),
+                        path("nostalgia/chest_" + (type != ChestType.SINGLE ? (type.getName() + "_back") : "side")),
+                        path("nostalgia/chest_side"),
+                        path("nostalgia/chest_side")
+                    ).texture("particle", path("nostalgia/chest_front")))
                     .rotationY((int)state.get(ClassicChestBlock.FACING).getOpposite().getHorizontalAngle())
                     .build();
             });
         this.getVariantBuilder(LCCBlocks.nether_reactor)
             .forAllStates(state -> ConfiguredModel.builder()
-                .modelFile(models().cubeAll(name(LCCBlocks.nether_reactor) + "_" + state.get(NetherReactorBlock.STATE).getName(), texture("nostalgia/nether_reactor_" + state.get(NetherReactorBlock.STATE).getName())))
+                .modelFile(models().cubeAll(name(LCCBlocks.nether_reactor) + "_" + state.get(NetherReactorBlock.STATE).getName(), path("nostalgia/nether_reactor_" + state.get(NetherReactorBlock.STATE).getName())))
                 .build()
             );
-        this.addAll(block -> this.simpleBlock(block, models().cross(name(block), texture(block, path -> path.replace("classic_", "nostalgia/")))), LCCBlocks.classic_sapling, LCCBlocks.classic_rose, LCCBlocks.classic_cyan_flower);
-        this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), "flower_pot_cross").texture("plant", texture(block, path -> path.replace("potted_classic_", "nostalgia/")))), LCCBlocks.potted_classic_sapling, LCCBlocks.potted_classic_rose, LCCBlocks.potted_classic_cyan_flower);
+        this.addAll(block -> this.simpleBlock(block, models().cross(name(block), path(block, path -> path.replace("classic_", "nostalgia/")))), LCCBlocks.classic_sapling, LCCBlocks.classic_rose, LCCBlocks.classic_cyan_flower);
+        this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), "flower_pot_cross").texture("plant", path(block, path -> path.replace("potted_classic_", "nostalgia/")))), LCCBlocks.potted_classic_sapling, LCCBlocks.potted_classic_rose, LCCBlocks.potted_classic_cyan_flower);
         this.simpleBlock(LCCBlocks.classic_tnt, models().cubeBottomTop(name(LCCBlocks.classic_tnt),
-            texture("nostalgia/tnt_side"),
-            texture("nostalgia/tnt_bottom"),
-            texture("nostalgia/tnt_top")
+            path("nostalgia/tnt_side"),
+            path("nostalgia/tnt_bottom"),
+            path("nostalgia/tnt_top")
         ));
-        this.simpleBlock(LCCBlocks.cog, models().withExistingParent(name(LCCBlocks.cog), "block").texture("particle", texture("nostalgia/cog")));
-        this.simpleBlock(LCCBlocks.crying_obsidian, models().withExistingParent(name(LCCBlocks.crying_obsidian), "block").texture("particle", texture("nostalgia/crying_obsidian_static")));
+        this.simpleBlock(LCCBlocks.cog, models().withExistingParent(name(LCCBlocks.cog), "block").texture("particle", path("nostalgia/cog")));
+        this.simpleBlock(LCCBlocks.crying_obsidian, models().withExistingParent(name(LCCBlocks.crying_obsidian), "block").texture("particle", path("nostalgia/crying_obsidian_static")));
 
         this.getVariantBuilder(LCCBlocks.atomic_bomb)
             .forAllStates(state -> ConfiguredModel.builder()
                 .modelFile(models().withExistingParent(name(LCCBlocks.atomic_bomb) + "_" + state.get(AtomicBombBlock.SEGMENT).getName(), new ResourceLocation(LCC.MODID, "template_atomic_bomb_" + state.get(AtomicBombBlock.SEGMENT).getName()))
-                    .texture("1", texture("atomic_bomb/tail_side"))
-                    .texture("2", texture("atomic_bomb/tail"))
-                    .texture("3", texture("atomic_bomb/fin"))
-                    .texture("4", texture("atomic_bomb/core"))
-                    .texture("5", texture("atomic_bomb/head"))
-                    .texture("particle", texture("atomic_bomb/tail"))
+                    .texture("1", path("atomic_bomb/tail_side"))
+                    .texture("2", path("atomic_bomb/tail"))
+                    .texture("3", path("atomic_bomb/fin"))
+                    .texture("4", path("atomic_bomb/core"))
+                    .texture("5", path("atomic_bomb/head"))
+                    .texture("particle", path("atomic_bomb/tail"))
                 )
                 .rotationY((int)state.get(AtomicBombBlock.FACING).getOpposite().getHorizontalAngle())
                 .build()
             );
 
-        this.bouncePad(LCCBlocks.bounce_pad, texture("bounce_pad/base_h"), texture("bounce_pad/base_v"), texture("bounce_pad/inner"), texture("bounce_pad/setting"));
+        this.bouncePad(LCCBlocks.bounce_pad, path("bounce_pad/base_h"), path("bounce_pad/base_v"), path("bounce_pad/inner"), path("bounce_pad/setting"));
 
         this.simpleBlock(LCCBlocks.computing, models().withExistingParent(name(LCCBlocks.computing), "block"));
         this.addAll(block -> this.cable(block, block == LCCBlocks.networking_cable ? mcLoc(ModelProvider.BLOCK_FOLDER + "/lime_wool") : mcLoc(ModelProvider.BLOCK_FOLDER + "/purple_wool"), 4), LCCBlocks.networking_cable, LCCBlocks.terminal_cable);
         this.addAll(block -> this.horizontalBlock(block, models().withExistingParent(name(block), this.colorableOrientable.getLocation())
-            .texture("top", texture("computing/casing_top"))
-            .texture("front", texture("computing/terminal_front"))
-            .texture("side", texture("computing/casing_top"))
-            .texture("particle", texture("computing/casing_top"))
+            .texture("top", path("computing/casing_top"))
+            .texture("front", path("computing/terminal_front"))
+            .texture("side", path("computing/casing_top"))
+            .texture("particle", path("computing/casing_top"))
         ), LCCBlocks.terminals.values().toArray(new TerminalBlock[0]));
 
         this.simpleBlock(LCCBlocks.spreader_interface, models().withExistingParent(name(LCCBlocks.spreader_interface), new ResourceLocation(LCC.MODID, "template_spreader_interface"))
-            .texture("0", texture("spreader/interface/lid_top"))
-            .texture("1", texture("spreader/interface/lid_side"))
-            .texture("2", texture("spreader/interface/base_side"))
-            .texture("3", texture("spreader/interface/base_top"))
-            .texture("4", texture("spreader/interface/core_side"))
-            .texture("5", texture("spreader/interface/legs"))
-            .texture("6", texture("spreader/interface/port"))
-            .texture("particle", texture("spreader/interface/particle"))
+            .texture("0", path("spreader/interface/lid_top"))
+            .texture("1", path("spreader/interface/lid_side"))
+            .texture("2", path("spreader/interface/base_side"))
+            .texture("3", path("spreader/interface/base_top"))
+            .texture("4", path("spreader/interface/core_side"))
+            .texture("5", path("spreader/interface/legs"))
+            .texture("6", path("spreader/interface/port"))
+            .texture("particle", path("spreader/interface/particle"))
         );
         this.addAll(block -> this.getVariantBuilder(block).forAllStates(state -> {
             int age = state.get(SpreaderBlock.AGE);
-            return ConfiguredModel.allRotations(models().withExistingParent(name(block) + "_" + age, this.colorable.getLocation()).texture("all", texture("spreader/age_" + age)), false);
+            return ConfiguredModel.allRotations(models().withExistingParent(name(block) + "_" + age, this.colorable.getLocation()).texture("all", path("spreader/age_" + age)), false);
         }), LCCBlocks.spreaders.values().toArray(new SpreaderBlock[0]));
 
-        this.addAll(block -> this.simpleBlock(block, ConfiguredModel.allYRotations(models().cubeAll(name(block), texture(block, path -> "wasteland/" + path)), 0, false)), LCCBlocks.cracked_mud);
-        this.simpleBlock(LCCBlocks.oil, models().withExistingParent(name(LCCBlocks.oil), "block").texture("particle", texture("wasteland/oil_still")));
+        this.addAll(block -> this.simpleBlock(block, ConfiguredModel.allYRotations(models().cubeAll(name(block), path(block, path -> "wasteland/" + path)), 0, false)), LCCBlocks.cracked_mud);
+        this.simpleBlock(LCCBlocks.oil, models().withExistingParent(name(LCCBlocks.oil), "block").texture("particle", path("wasteland/oil_still")));
     }
 
     //Happy helpers.
     private void simpleBlock(Block block, ResourceLocation texture) {
         this.simpleBlock(block, models().cubeAll(name(block), texture));
-    }
-
-    private ResourceLocation texture(Block block, Function<String, String> path) {
-        ResourceLocation name = block.getRegistryName();
-        return new ResourceLocation(name.getNamespace(), ModelProvider.BLOCK_FOLDER + "/" + path.apply(name.getPath()));
-    }
-
-    private ResourceLocation texture(String path) {
-        return new ResourceLocation(LCC.MODID, ModelProvider.BLOCK_FOLDER + "/" + path);
     }
 
     private void bouncePad(BouncePadBlock block, ResourceLocation base_h, ResourceLocation base_v, ResourceLocation inner, ResourceLocation setting) {
@@ -434,16 +426,6 @@ public class BlockAssetData extends BlockStateProvider {
             ).addModel().end();
         for (Direction d : Direction.values()) {
             builder.part().modelFile(cableModel(d, name(block), w).texture("cable", all)).addModel().condition(SixWayBlock.FACING_TO_PROPERTY_MAP.get(d), true).end();
-        }
-    }
-
-    private String name(Block block) {
-        return block.getRegistryName().getPath();
-    }
-
-    private <T extends Block> void addAll(Consumer<T> adder, T... values) {
-        for (T value : values) {
-            adder.accept(value);
         }
     }
 

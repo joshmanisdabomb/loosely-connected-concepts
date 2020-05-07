@@ -32,6 +32,9 @@ public abstract class LCCItems {
 	public static Item enriched_uranium_nugget;
 	public static Item enriched_uranium;
 
+	public static Item neon;
+	public static Item neon_nugget;
+
 	//Tools
 	public static SwordItem ruby_sword;
 	public static PickaxeItem ruby_pickaxe;
@@ -132,7 +135,7 @@ public abstract class LCCItems {
 	public static Item temporary_heart_half;
 	public static Item temporary_heart;
 
-	public static void init(Register<Item> e) {
+    public static void init(Register<Item> e) {
 		//Test Items
 		all.add((test_item = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "test_item"));
 
@@ -154,6 +157,9 @@ public abstract class LCCItems {
 		all.add((uranium = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "uranium"));
 		all.add((enriched_uranium_nugget = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "enriched_uranium_nugget"));
 		all.add((enriched_uranium = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "enriched_uranium"));
+
+		all.add((neon_nugget = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_nugget"));
+		all.add((neon = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon"));
 
 		//Tools
 		all.add((ruby_sword = new SwordItem(LCCItemTier.RUBY, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "ruby_sword"));

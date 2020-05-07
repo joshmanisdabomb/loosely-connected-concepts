@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/nostalgia/nether_reactor_ready"
-    }
+  "parent": "lcc:block/nether_reactor_ready"
 }

@@ -1,7 +1,7 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/computing/compact_disc_base",
-        "layer1": "lcc:item/computing/compact_disc_color"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/computing/compact_disc_base",
+    "layer1": "lcc:item/computing/compact_disc_color"
+  }
 }

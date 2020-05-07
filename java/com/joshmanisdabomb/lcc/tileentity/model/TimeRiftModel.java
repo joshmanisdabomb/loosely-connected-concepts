@@ -47,6 +47,7 @@ public class TimeRiftModel extends Model {
 
     @Override
     public void render(MatrixStack matrix, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        //TODO vsync too fast, the frame last changed code not working
         if (frameLastChanged != Minecraft.getInstance().getFrameTimer().getIndex()) {
             frameLastChanged = Minecraft.getInstance().getFrameTimer().getIndex();
 

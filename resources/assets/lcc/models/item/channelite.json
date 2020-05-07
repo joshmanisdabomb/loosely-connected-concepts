@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/rainbow/channelite/empty_none"
-    }
+  "parent": "lcc:block/channelite_empty_none"
 }

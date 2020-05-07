@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/nostalgia/cloth_green"
-    }
+  "parent": "lcc:block/classic_cloth_green"
 }

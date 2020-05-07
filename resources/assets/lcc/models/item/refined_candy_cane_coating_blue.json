@@ -1,7 +1,3 @@
 {
-    "parent": "block/cube_column",
-    "textures": {
-        "end": "lcc:block/rainbow/candy_cane/refined_blue",
-        "side": "lcc:block/rainbow/candy_cane/refined_blue"
-    }
+  "parent": "lcc:block/refined_candy_cane_coating_blue"
 }

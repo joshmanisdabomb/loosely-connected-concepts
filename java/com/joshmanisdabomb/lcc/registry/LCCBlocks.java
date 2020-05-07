@@ -27,7 +27,9 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public abstract class LCCBlocks {
-	
+
+	public static final float EFFECTIVE_HARDNESS_MODIFIER = 10F;
+
 	public static final ArrayList<Block> all = new ArrayList<>();
 	public static final ArrayList<BlockItem> allItem = new ArrayList<>();
 
@@ -56,6 +58,9 @@ public abstract class LCCBlocks {
 	public static Block uranium_ore;
 	public static Block uranium_storage;
 	public static Block enriched_uranium_storage;
+
+	public static Block neon_ore;
+	public static Block neon_storage;
 
 	//Wasteland
 	public static Block cracked_mud;
@@ -142,7 +147,12 @@ public abstract class LCCBlocks {
 	public static HashMap<DyeColor, ChanneliteBlock> channelite = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new HashMap<>();
+	public static Block neon_screen;
+
+	//Lighting
+	public static Block lit_air;
 	public static Block floodlight;
+	public static Block spotlight;
 
 	public static final BlockTags.Wrapper CANDY_CANES = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
 	public static final BlockTags.Wrapper CANDY_CANES_COATING = new BlockTags.Wrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));
@@ -176,7 +186,10 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(uranium_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "uranium_ore"));
 		addWithDefaultItem(uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "uranium_storage"));
 		addWithDefaultItem(enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "enriched_uranium_storage"));
-		
+
+		addWithDefaultItem(neon_ore = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(9).hardnessAndResistance(3.5F * EFFECTIVE_HARDNESS_MODIFIER)), new ResourceLocation(LCC.MODID, "neon_ore"));
+		addWithDefaultItem(neon_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.QUARTZ).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(15).hardnessAndResistance(5.8F * EFFECTIVE_HARDNESS_MODIFIER, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "neon_storage"));
+
 		//Wasteland
 		addWithDefaultItem(cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "cracked_mud"));
 		add(oil = new OilBlock(() -> LCCFluids.oil, Block.Properties.create(Material.WATER).hardnessAndResistance(100.0F).noDrops()), new ResourceLocation(LCC.MODID, "oil"));
@@ -241,43 +254,43 @@ public abstract class LCCBlocks {
 			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.rainbow_grass_block.getDefaultState();
 			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.TNT).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "rainbow_grass_block"));
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.TNT).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "rainbow_grass_block"));
 		addWithDefaultItem(sugar_grass_block = new FunctionalSnowlessGrassBlock(state -> {
 			if (state == null) return LCCBlocks.sparkling_dirt.getDefaultState();
 			else if (state.getBlock() == LCCBlocks.sparkling_dirt) return LCCBlocks.sugar_grass_block.getDefaultState();
 			else return null;
-		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
-		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "star_plating"));
-		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(6F, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
-		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(5F, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
-		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(15F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
-		addWithDefaultItem(twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_cobblestone"));
-		addWithDefaultItem(candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_red"));
-		addWithDefaultItem(candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_green"));
-		addWithDefaultItem(candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_blue"));
-		addWithDefaultItem(stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane"));
-		addWithDefaultItem(candy_cane_coating_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_red"));
-		addWithDefaultItem(candy_cane_coating_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_green"));
-		addWithDefaultItem(candy_cane_coating_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_blue"));
-		addWithDefaultItem(stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane_coating"));
-		addWithDefaultItem(refined_candy_cane_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_red"));
-		addWithDefaultItem(refined_candy_cane_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_green"));
-		addWithDefaultItem(refined_candy_cane_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_blue"));
-		addWithDefaultItem(refined_stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane"));
-		addWithDefaultItem(refined_candy_cane_coating_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_red"));
-		addWithDefaultItem(refined_candy_cane_coating_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_green"));
-		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
-		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
-		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(20F, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
+		}, Block.Properties.create(Material.ORGANIC, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).tickRandomly().sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "sugar_grass_block"));
+		addWithDefaultItem(star_plating = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "star_plating"));
+		factory(sparkling_grass_block, color -> addWithDefaultItem(new SparklingGrassBlock(color, Block.Properties.create(Material.ORGANIC, color).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).tickRandomly().sound(SoundType.GLASS)), new ResourceLocation(LCC.MODID, "sparkling_grass_block_" + color.getName())), DyeColor.values());
+		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.5F * EFFECTIVE_HARDNESS_MODIFIER, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
+		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(1.5F * EFFECTIVE_HARDNESS_MODIFIER, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
+		addWithDefaultItem(twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_cobblestone"));
+		addWithDefaultItem(candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_red"));
+		addWithDefaultItem(candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_green"));
+		addWithDefaultItem(candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_blue"));
+		addWithDefaultItem(stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane"));
+		addWithDefaultItem(candy_cane_coating_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_red"));
+		addWithDefaultItem(candy_cane_coating_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_green"));
+		addWithDefaultItem(candy_cane_coating_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_coating_blue"));
+		addWithDefaultItem(stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "stripped_candy_cane_coating"));
+		addWithDefaultItem(refined_candy_cane_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_red"));
+		addWithDefaultItem(refined_candy_cane_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_green"));
+		addWithDefaultItem(refined_candy_cane_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_blue"));
+		addWithDefaultItem(refined_stripped_candy_cane = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane"));
+		addWithDefaultItem(refined_candy_cane_coating_red = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_red"));
+		addWithDefaultItem(refined_candy_cane_coating_green = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_green"));
+		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
+		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
+		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
 		factory(channelite, color -> {
-			Block.Properties p = Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(7F, 2.0F).sound(SoundType.GLASS);
+			Block.Properties p = Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.7F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.GLASS);
 			if (color == null) p.notSolid();
 			return add(new ChanneliteBlock(color, p), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName())));
 		}, ArrayUtils.add(DyeColor.values(), null));
 		createDefaultItem(channelite.get(null), new ResourceLocation(LCC.MODID, "channelite"));
 		//TODO sources drop channelite crystals? less chance from dirt, better chance with stone
-		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
-		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(14F, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
+		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(1.4F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
+		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(1.4F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
 	}
 
 	public static void initRenderLayers() {

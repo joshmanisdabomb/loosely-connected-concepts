@@ -1,7 +1,7 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/computing/solid_state_drive_base",
-        "layer1": "lcc:item/computing/solid_state_drive_color"
-    }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/computing/solid_state_drive_base",
+    "layer1": "lcc:item/computing/solid_state_drive_color"
+  }
 }

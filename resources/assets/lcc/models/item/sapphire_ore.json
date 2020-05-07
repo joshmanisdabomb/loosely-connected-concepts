@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/resources/ore/sapphire"
-    }
+  "parent": "lcc:block/sapphire_ore"
 }

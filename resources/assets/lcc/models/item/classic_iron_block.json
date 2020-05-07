@@ -1,8 +1,3 @@
 {
-    "parent": "block/cube_bottom_top",
-    "textures": {
-        "bottom": "lcc:block/nostalgia/iron_block_bottom",
-        "top": "lcc:block/nostalgia/iron_block_top",
-        "side": "lcc:block/nostalgia/iron_block_side"
-    }
+  "parent": "lcc:block/classic_iron_block"
 }

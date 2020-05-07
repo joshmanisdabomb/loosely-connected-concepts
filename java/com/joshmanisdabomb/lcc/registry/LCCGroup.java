@@ -93,6 +93,10 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.enriched_uranium_nugget, LCCGroupCategory.RESOURCES, 160);
         set(LCCItems.enriched_uranium, LCCGroupCategory.RESOURCES, 170);
         set(LCCBlocks.enriched_uranium_storage, LCCGroupCategory.RESOURCES, 180);
+        set(LCCBlocks.neon_ore, LCCGroupCategory.RESOURCES, 190);
+        set(LCCItems.neon_nugget, LCCGroupCategory.RESOURCES, 200);
+        set(LCCItems.neon, LCCGroupCategory.RESOURCES, 210);
+        set(LCCBlocks.neon_storage, LCCGroupCategory.RESOURCES, 220);
 
         //Tools
         set(LCCItems.ruby_sword, LCCGroupCategory.TOOLS, 0);

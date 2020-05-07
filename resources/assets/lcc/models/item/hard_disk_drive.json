@@ -1,12 +1,27 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/computing/hard_disk_drive_base_1",
-        "layer1": "lcc:item/computing/hard_disk_drive_color_1"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/computing/hard_disk_drive_base_1",
+    "layer1": "lcc:item/computing/hard_disk_drive_color_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lcc:computing_level": 0.0
+      },
+      "model": "lcc:item/hard_disk_drive"
     },
-    "overrides": [
-        { "predicate": { "lcc:computing_level": 0 }, "model": "lcc:item/hard_disk_drive" },
-        { "predicate": { "lcc:computing_level": 3 }, "model": "lcc:item/hard_disk_drive_2" },
-        { "predicate": { "lcc:computing_level": 5 }, "model": "lcc:item/hard_disk_drive_3" }
-    ]
+    {
+      "predicate": {
+        "lcc:computing_level": 3.0
+      },
+      "model": "lcc:item/hard_disk_drive_2"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 5.0
+      },
+      "model": "lcc:item/hard_disk_drive_3"
+    }
+  ]
 }

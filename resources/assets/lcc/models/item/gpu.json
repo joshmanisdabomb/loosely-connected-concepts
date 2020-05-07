@@ -1,15 +1,50 @@
 {
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "lcc:item/computing/gpu_1"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "lcc:item/computing/gpu_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lcc:computing_level": 0.0
+      },
+      "model": "lcc:item/gpu"
     },
-    "overrides": [
-        { "predicate": { "lcc:computing_level": 0 }, "model": "lcc:item/gpu" },
-        { "predicate": { "lcc:computing_level": 1 }, "model": "lcc:item/gpu_2" },
-        { "predicate": { "lcc:computing_level": 2 }, "model": "lcc:item/gpu_3" },
-        { "predicate": { "lcc:computing_level": 3 }, "model": "lcc:item/gpu_4" },
-        { "predicate": { "lcc:computing_level": 4 }, "model": "lcc:item/gpu_5" },
-        { "predicate": { "lcc:computing_level": 5 }, "model": "lcc:item/gpu_6" },
-        { "predicate": { "lcc:computing_level": 6 }, "model": "lcc:item/gpu_7" }
-    ]
+    {
+      "predicate": {
+        "lcc:computing_level": 1.0
+      },
+      "model": "lcc:item/gpu_2"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 2.0
+      },
+      "model": "lcc:item/gpu_3"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 3.0
+      },
+      "model": "lcc:item/gpu_4"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 4.0
+      },
+      "model": "lcc:item/gpu_5"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 5.0
+      },
+      "model": "lcc:item/gpu_6"
+    },
+    {
+      "predicate": {
+        "lcc:computing_level": 6.0
+      },
+      "model": "lcc:item/gpu_7"
+    }
+  ]
 }

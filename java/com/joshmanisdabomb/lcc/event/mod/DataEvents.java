@@ -1,9 +1,6 @@
 package com.joshmanisdabomb.lcc.event.mod;
 
-import com.joshmanisdabomb.lcc.data.BlockAssetData;
-import com.joshmanisdabomb.lcc.data.LangData;
-import com.joshmanisdabomb.lcc.data.LootTableData;
-import com.joshmanisdabomb.lcc.data.RecipeData;
+import com.joshmanisdabomb.lcc.data.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
@@ -15,8 +12,9 @@ public abstract class DataEvents {
         DataGenerator dg = e.getGenerator();
         if (e.includeClient()) {
             dg.addProvider(new LangData(dg));
-            dg.addProvider(new BlockAssetData(dg, e.getExistingFileHelper()));
-            //dg.addProvider(new ItemAssetData(dg));
+            BlockAssetData blockAssetData = new BlockAssetData(dg, e.getExistingFileHelper());
+            dg.addProvider(blockAssetData);
+            dg.addProvider(new ItemAssetData(dg, e.getExistingFileHelper(), blockAssetData));
         }
         if (e.includeServer()) {
             dg.addProvider(new RecipeData(dg));

@@ -36,9 +36,11 @@ public class LangData extends LanguageProvider {
         this.add(LCCBlocks.test_block_5, this.basic(LCCBlocks.test_block) + " (Connected)");
         this.addAll(this::addItem, this::basic, LCCItems.test_item);
 
-        this.addAll(this::addBlock, this::basic, LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore);
-        this.addAll(this::addBlock, block -> "Block of " + basic(block).replace(" Storage", ""), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage);
+        this.addAll(this::addBlock, this::basic, LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore, LCCBlocks.neon_ore);
+        this.addAll(this::addBlock, block -> "Block of " + basic(block).replace(" Storage", ""), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage, LCCBlocks.neon_storage);
         this.addAll(this::addItem, this::basic, LCCItems.ruby, LCCItems.topaz, LCCItems.sapphire, LCCItems.amethyst, LCCItems.uranium_nugget, LCCItems.uranium, LCCItems.enriched_uranium_nugget, LCCItems.enriched_uranium);
+        this.add(LCCItems.neon, "Neon Orb");
+        this.add(LCCItems.neon_nugget, "Neon Pixel");
 
         this.addAll(this::addItem, this::basic, LCCItems.ruby_sword, LCCItems.ruby_pickaxe, LCCItems.ruby_shovel, LCCItems.ruby_axe, LCCItems.ruby_hoe, LCCItems.ruby_helmet, LCCItems.ruby_chestplate, LCCItems.ruby_leggings, LCCItems.ruby_boots);
         this.addAll(this::addItem, this::basic, LCCItems.topaz_sword, LCCItems.topaz_pickaxe, LCCItems.topaz_shovel, LCCItems.topaz_axe, LCCItems.topaz_hoe, LCCItems.topaz_helmet, LCCItems.topaz_chestplate, LCCItems.topaz_leggings, LCCItems.topaz_boots);
@@ -126,6 +128,7 @@ public class LangData extends LanguageProvider {
         this.addAll(this::addItem, this::basic, LCCItems.plastic);
 
         this.addAll(this::addEffect, this::basic, LCCEffects.stun, LCCEffects.vulnerable, LCCEffects.flammable);
+        this.add(LCCEffects.radiation, "Radiation Sickness");
 
         this.add("deathScreen.lcc.respawn_crying_obsidian", "Respawn at Crying Obsidian");
 
@@ -139,6 +142,9 @@ public class LangData extends LanguageProvider {
         this.add("death.attack.lcc.gauntlet_punch.item", "%1$s was obliterated by %2$s's punch using %3$s");
         this.add("death.attack.lcc.gauntlet_punch_wall", "%1$s was launched into the wall");
         this.add("death.attack.lcc.gauntlet_punch_wall.player", "%1$s was launched into the wall by %2$s's punch");
+
+        this.add("death.attack.lcc.nuke", "%1$s was nuked");
+        this.add("death.attack.lcc.nuke.player", "%1$s was nuked by %2$s");
 
         this.addAll(this::addEntityType, this::basic, LCCEntities.nuclear_explosion, LCCEntities.classic_zombie_pigman, LCCEntities.atomic_bomb);
         this.add(LCCEntities.classic_tnt, "Classic TNT");

@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/resources/storage/topaz"
-    }
+  "parent": "lcc:block/topaz_storage"
 }

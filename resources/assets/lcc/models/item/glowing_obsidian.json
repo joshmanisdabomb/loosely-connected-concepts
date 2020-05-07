@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "lcc:block/nostalgia/glowing_obsidian"
-    }
+  "parent": "lcc:block/glowing_obsidian"
 }

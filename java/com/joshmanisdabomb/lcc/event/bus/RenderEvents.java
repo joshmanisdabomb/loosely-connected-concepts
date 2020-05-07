@@ -2,7 +2,9 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.block.MultipartBlock;
 import com.joshmanisdabomb.lcc.capability.GauntletCapability;
+import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity;
 import com.joshmanisdabomb.lcc.entity.render.GauntletPlayerRenderer;
+import com.joshmanisdabomb.lcc.functionality.NuclearFunctionality;
 import com.joshmanisdabomb.lcc.item.render.GauntletRenderer;
 import com.joshmanisdabomb.lcc.registry.LCCFluids;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
@@ -19,6 +21,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.HandSide;
 import net.minecraft.util.math.BlockPos;
@@ -136,6 +139,31 @@ public class RenderEvents {
             e.setGreen(0.02F);
             e.setBlue(0.02F);
         }
+
+        float nukeSunset = -1;
+        for (Entity entity : Minecraft.getInstance().world.getAllEntities()) {
+            if (entity instanceof NuclearExplosionEntity) {
+                double radius = NuclearFunctionality.getExplosionRadius(((NuclearExplosionEntity) entity).partialTicks);
+                double distance = r.getProjectedView().distanceTo(entity.getPositionVec());
+                if (distance < radius + 5) {
+                    RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
+                    e.setRed(0.98F);
+                    e.setGreen(0.92F);
+                    e.setBlue(0.39F);
+                    return;
+                }
+                r.getViewVector().normalize();
+                float look = (float)Math.pow(r.getViewVector().dot(new Vector3f(entity.getPositionVec().subtract(r.getProjectedView()).normalize())), 4);
+                float intensity = ((NuclearExplosionEntity)entity).partialTicks / ((NuclearExplosionEntity) entity).getLifetime();
+                float initial = Math.max((15 - ((NuclearExplosionEntity)entity).partialTicks), 0) / 15F;
+                nukeSunset = Math.max(look * intensity + initial, Math.max(nukeSunset, 0.0F));
+            }
+        }
+        if (nukeSunset >= 0) {
+            e.setRed(0.68F + (0.32F * nukeSunset));
+            e.setGreen(0.67F + (0.33F * nukeSunset));
+            e.setBlue(0.6F + (0.3F * nukeSunset));
+        }
     }
 
     @SubscribeEvent(receiveCanceled = true)
@@ -144,6 +172,30 @@ public class RenderEvents {
         if (r.getFluidState().isTagged(LCCFluids.OIL)) {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
             e.setDensity(0.7F);
+            e.setCanceled(true);
+        }
+
+        float nukeSunset = -1;
+        for (Entity entity : Minecraft.getInstance().world.getAllEntities()) {
+            if (entity instanceof NuclearExplosionEntity) {
+                double radius = NuclearFunctionality.getExplosionRadius(((NuclearExplosionEntity) entity).partialTicks);
+                double distance = r.getProjectedView().distanceTo(entity.getPositionVec());
+                if (distance < radius + 5) {
+                    RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
+                    e.setDensity(0.03F * (float)MathHelper.clamp(radius + 5 - distance, 0, 10));
+                    e.setCanceled(true);
+                    return;
+                }
+                r.getViewVector().normalize();
+                float look = (float)Math.pow(r.getViewVector().dot(new Vector3f(entity.getPositionVec().subtract(r.getProjectedView()).normalize())), 4);
+                float intensity = ((NuclearExplosionEntity)entity).partialTicks / ((NuclearExplosionEntity) entity).getLifetime() * 2;
+                float initial = Math.max((15 - ((NuclearExplosionEntity)entity).partialTicks), 0) / 15F;
+                nukeSunset = Math.max(look * intensity + initial, Math.max(nukeSunset, 0.0F));
+            }
+        }
+        if (nukeSunset >= 0) {
+            RenderSystem.fogMode(GlStateManager.FogMode.EXP2);
+            e.setDensity(0.004F + (0.02F * nukeSunset));
             e.setCanceled(true);
         }
     }

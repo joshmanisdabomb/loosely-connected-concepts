@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.capability;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.functionality.NuclearFunctionality;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -24,7 +25,7 @@ public class NuclearCapability implements LCCCapabilityHelper {
     public static final ResourceLocation LOCATION = new ResourceLocation(LCC.MODID, "nuclear");
 
     private ListNBT strikes = new ListNBT();
-    private int strikeCount = 0;
+    public float score = 0;
 
     @Override
     public ResourceLocation getLocation() {
@@ -32,20 +33,27 @@ public class NuclearCapability implements LCCCapabilityHelper {
     }
 
     public void nuke(World world, BlockPos pos, int lifetime) {
+        int radius = (int) NuclearFunctionality.getExplosionRadius(lifetime);
+
         CompoundNBT strike = new CompoundNBT();
         strike.put("position", NBTUtil.writeBlockPos(pos));
         strike.putLong("time", world.getGameTime());
         strike.putInt("lifetime", lifetime);
-        strike.putInt("radius", NuclearCapability.getExplosionRadius(lifetime));
+        strike.putInt("radius", radius);
         strikes.add(strike);
-        strikeCount++;
+
+        score += (score * 0.1F) + 30 + lifetime;
+    }
+
+    public ListNBT getStrikes() {
+        return strikes;
     }
 
     @Override
     public void packetWrite(PacketBuffer buf) {
         CompoundNBT nbt = new CompoundNBT();
         nbt.put("strikes", this.strikes);
-        nbt.putInt("strikeCount", this.strikeCount);
+        nbt.putFloat("score", this.score);
         buf.writeCompoundTag(nbt);
     }
 
@@ -53,7 +61,7 @@ public class NuclearCapability implements LCCCapabilityHelper {
     public void packetRead(PacketBuffer buf) {
         CompoundNBT nbt = buf.readCompoundTag();
         this.strikes = nbt.getList("strikes", Constants.NBT.TAG_COMPOUND);
-        this.strikeCount = nbt.getInt("strikeCount");
+        this.score = nbt.getFloat("score");
     }
 
     @Override
@@ -61,21 +69,14 @@ public class NuclearCapability implements LCCCapabilityHelper {
         World w = Minecraft.getInstance().world;
         if (w != null) {
             w.getCapability(Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
+                int prevLevel = NuclearFunctionality.getWinterLevel(n.score);
                 n.strikes = this.strikes.copy();
+                n.score = this.score;
+                if (NuclearFunctionality.getWinterLevel(this.score) != prevLevel) {
+                    LCC.proxy.refreshWorld();
+                }
             });
         }
-    }
-
-    public static int getExplosionLifetime(int uranium, boolean missile) {
-        return (missile ? 15 : 10) + (int)Math.ceil((uranium / 9F) * 15);
-    }
-
-    public static int getExplosionRadius(int tick) {
-        return tick * 4;
-    }
-
-    public static int getFuse(int uranium) {
-        return 450 + (int)Math.ceil(150 * (uranium / 9F));
     }
 
     public static class Storage implements Capability.IStorage<NuclearCapability> {
@@ -84,7 +85,7 @@ public class NuclearCapability implements LCCCapabilityHelper {
         public INBT writeNBT(Capability<NuclearCapability> capability, NuclearCapability instance, Direction side) {
             CompoundNBT nbt = new CompoundNBT();
             nbt.put("strikes", instance.strikes);
-            nbt.putInt("strikeCount", instance.strikeCount);
+            nbt.putFloat("score", instance.score);
             return nbt;
         }
 
@@ -92,7 +93,7 @@ public class NuclearCapability implements LCCCapabilityHelper {
         public void readNBT(Capability<NuclearCapability> capability, NuclearCapability instance, Direction side, INBT nbt) {
             CompoundNBT nbtc = (CompoundNBT)nbt;
             instance.strikes = nbtc.getList("strikes", Constants.NBT.TAG_COMPOUND);
-            instance.strikeCount = nbtc.getInt("strikeCount");
+            instance.score = nbtc.getFloat("score");
         }
 
     }

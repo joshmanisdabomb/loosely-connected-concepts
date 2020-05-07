@@ -11,8 +11,12 @@ import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEffects;
 import com.joshmanisdabomb.lcc.registry.LCCParticles;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
+import com.joshmanisdabomb.lcc.world.NuclearSkyLightEngine;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHelper;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.*;
@@ -21,6 +25,11 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.lighting.LightEngine;
+import net.minecraft.world.lighting.SkyLightEngine;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -28,6 +37,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -165,6 +175,15 @@ public class GeneralEvents {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load e) {
+        IWorld world = e.getWorld();
+        LightEngine<?, ?> skyLight = world.getLightManager().skyLight;
+        if (world instanceof World && !(skyLight instanceof NuclearSkyLightEngine)) {
+            world.getLightManager().skyLight = new NuclearSkyLightEngine(world.getChunkProvider(), (World)world);
         }
     }
 

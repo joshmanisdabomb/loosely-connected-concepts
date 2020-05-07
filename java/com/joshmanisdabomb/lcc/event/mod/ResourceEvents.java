@@ -17,6 +17,8 @@ public abstract class ResourceEvents {
 
     @SubscribeEvent
     public static void onModelRegisterEvent(final ModelRegistryEvent e) {
+        LCCModels.register(e);
+
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             ((AdvancedBlockRender) block).getSpecialModels().forEach(ModelLoader::addSpecialModel);
         });
@@ -24,8 +26,6 @@ public abstract class ResourceEvents {
 
     @SubscribeEvent
     public static void onModelBakeEvent(final ModelBakeEvent e) {
-        LCCModels.bake(e);
-
         //Advanced block models.
         LCCBlocks.all.stream().filter(block -> block instanceof AdvancedBlockRender).forEach(block -> {
             IBakedModel model = ((AdvancedBlockRender)block).newModel(block);

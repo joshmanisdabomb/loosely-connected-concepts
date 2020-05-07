@@ -20,4 +20,9 @@ public class ClientProxy extends Proxy {
     @Override
     public Container getClientOpenContainer() { return Minecraft.getInstance().player.openContainer; }
 
+    @Override
+    public void refreshWorld() {
+        Minecraft.getInstance().worldRenderer.loadRenderers();
+    }
+
 }

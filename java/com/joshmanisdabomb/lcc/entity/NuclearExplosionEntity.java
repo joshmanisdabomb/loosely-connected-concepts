@@ -4,26 +4,36 @@ import com.joshmanisdabomb.lcc.capability.NuclearCapability;
 import com.joshmanisdabomb.lcc.network.CapabilitySyncPacket;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCDamage;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.FireBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.SplittableRandom;
@@ -34,28 +44,41 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
     private static final DataParameter<Integer> LIFETIME = EntityDataManager.createKey(NuclearExplosionEntity.class, DataSerializers.VARINT);
 
     private static final SplittableRandom FAST_RAND = new SplittableRandom();
+    private LivingEntity causedBy;
 
     private short tick = 1;
     private short lifetime = 70;
+
+    @OnlyIn(Dist.CLIENT)
+    public float partialTicks = 0;
 
     public NuclearExplosionEntity(EntityType<? extends NuclearExplosionEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
-    public NuclearExplosionEntity(World world, double x, double y, double z, short lifetime) {
+    public NuclearExplosionEntity(World world, double x, double y, double z, short lifetime, @Nullable LivingEntity entity) {
         this(LCCEntities.nuclear_explosion, world);
         this.setPosition(x, y, z);
+        this.causedBy = entity;
         this.dataManager.set(LIFETIME, (int)(this.lifetime = lifetime));
     }
 
     @Override
     protected void registerData() {
         this.dataManager.register(TICK, 1);
-        this.dataManager.register(LIFETIME, 70);
+        this.dataManager.register(LIFETIME, (int)this.lifetime);
     }
 
     public int getTicks() {
         return this.tick;
+    }
+
+    public int getLifetime() {
+        return this.lifetime;
+    }
+
+    public float getProgress() {
+        return (float)this.getTicks() / this.getLifetime();
     }
 
     public boolean canBeAttackedWithItem() {
@@ -74,11 +97,12 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         int c3 = (c - 2) * (c - 2);
         int d = (this.tick - 1) * 2;
         int d2 = d * d;
-        float progress = ((float)this.tick / this.lifetime);
+        float progress = this.getProgress();
         float p1 = progress*progress;
         float p2 = p1*progress;
         float fire = (p1 * 0.1F) - 0.05F;
         float damage = (((p2 * 0.5F) + (p1 * 0.5F)) * 1.1F) - 0.1F;
+        int e = c+3;
         BlockPos center = this.getPosition();
         BlockPos.Mutable mb = new BlockPos.Mutable();
         BlockPos.Mutable mbu = new BlockPos.Mutable();
@@ -86,6 +110,7 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         if (!this.world.isRemote) {
             if (this.tick == 1) {
                 this.world.getCapability(NuclearCapability.Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
+                    System.out.println("hello");
                     n.nuke(this.world, center, this.lifetime);
                     LCCPacketHandler.send(PacketDistributor.DIMENSION.with(() -> this.world.dimension.getType()), new CapabilitySyncPacket(n));
                 });
@@ -138,6 +163,14 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
                     }
                 }
             }
+            for (Entity entity : world.getEntitiesInAABBexcluding(this, new AxisAlignedBB(this.getPositionVec(), this.getPositionVec()).grow(e), EntityPredicates.NOT_SPECTATING)) {
+                double distance = entity.getDistance(entity);
+                if (distance < e) {
+                    entity.attackEntityFrom(LCCDamage.causeNukeDamage(this), (float)(e - distance));
+                    entity.setFireTimer(Integer.MAX_VALUE - 100);
+                    entity.hurtResistantTime = 0;
+                }
+            }
             this.dataManager.set(TICK, (int)this.tick++);
         }
         super.tick();
@@ -166,9 +199,7 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         return this.traitCreateSpawnPacket();
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public int getBrightnessForRender() {
-        return 15728880;
+    public LivingEntity getCausedBy() {
+        return causedBy;
     }
-
 }

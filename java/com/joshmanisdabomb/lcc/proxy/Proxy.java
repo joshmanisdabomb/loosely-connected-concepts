@@ -46,4 +46,6 @@ public abstract class Proxy {
 
     public Container getClientOpenContainer() { throw new IllegalStateException("Running on server. Bad."); }
 
+    public void refreshWorld() { throw new IllegalStateException("Running on server. Bad."); }
+
 }

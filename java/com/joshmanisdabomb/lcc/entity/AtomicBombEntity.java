@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity;
 
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
-import com.joshmanisdabomb.lcc.capability.NuclearCapability;
+import com.joshmanisdabomb.lcc.functionality.NuclearFunctionality;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.tileentity.AtomicBombTileEntity;
@@ -14,6 +14,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DirectionalPlaceContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -73,7 +74,7 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
         double lvt_9_1_ = world.rand.nextDouble() * 6.2831854820251465D;
         this.setMotion(-Math.sin(lvt_9_1_) * 0.02D, 0.20000000298023224D, -Math.cos(lvt_9_1_) * 0.02D);
         this.setActive(true);
-        this.setFuse(NuclearCapability.getFuse(this.getUranium()));
+        this.setFuse(NuclearFunctionality.getFuse(this.getUranium()));
         this.tntPlacedBy = entity;
     }
 
@@ -187,7 +188,8 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
     }
 
     protected void explode() {
-        world.addEntity(new NuclearExplosionEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), (short)(NuclearCapability.getExplosionLifetime(this.getUranium(), false))));
+        NuclearExplosionEntity entity = new NuclearExplosionEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), (short) (NuclearFunctionality.getExplosionLifetime(this.getUranium(), false)), this.tntPlacedBy);
+        world.addEntity(entity);
     }
 
     private int getUranium() {
@@ -217,6 +219,11 @@ public class AtomicBombEntity extends Entity implements LCCEntityHelper, IEntity
                         p_213625_1_.sendBreakAnimation(hand);
                     });
                     return true;
+                }
+            } else if (itemstack.getItem() == Items.FLINT_AND_STEEL && player.isCreative()) {
+                if (!this.world.isRemote) {
+                    this.remove();
+                    this.explode();
                 }
             }
         }

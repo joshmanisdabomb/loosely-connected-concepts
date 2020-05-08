@@ -7,7 +7,7 @@ import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-public class RainbowTerreneBiome extends Biome implements LCCBiomeHelper {
+public class RainbowTerreneBiome extends RainbowBiome implements LCCBiomeHelper {
 
     private static final BlockState GRASS = LCCBlocks.rainbow_grass_block.getDefaultState();
     private static final BlockState DIRT = LCCBlocks.sparkling_dirt.getDefaultState();

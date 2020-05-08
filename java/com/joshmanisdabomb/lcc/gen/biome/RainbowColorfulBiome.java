@@ -14,7 +14,7 @@ import net.minecraft.world.gen.placement.HeightWithChanceConfig;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-public class RainbowColorfulBiome extends Biome implements LCCBiomeHelper {
+public class RainbowColorfulBiome extends RainbowBiome implements LCCBiomeHelper {
 
     public static final OctavesNoiseGenerator[] COLORS = new OctavesNoiseGenerator[16];
     static {

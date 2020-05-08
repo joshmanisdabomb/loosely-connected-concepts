@@ -14,7 +14,7 @@ import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
-public class RainbowCandylandBiome extends Biome implements LCCBiomeHelper {
+public class RainbowCandylandBiome extends RainbowBiome implements LCCBiomeHelper {
 
     private static final BlockState GRASS = LCCBlocks.sugar_grass_block.getDefaultState();
     private static final BlockState DIRT = LCCBlocks.sparkling_dirt.getDefaultState();

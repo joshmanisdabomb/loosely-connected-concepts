@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.block.ChanneliteSourceBlock;
 import com.joshmanisdabomb.lcc.block.SparklingGrassBlock;
 import com.joshmanisdabomb.lcc.block.SpreaderBlock;
 import com.joshmanisdabomb.lcc.block.TerminalBlock;
-import com.joshmanisdabomb.lcc.misc.Colors;
+import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor;
 import com.joshmanisdabomb.lcc.registry.*;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -73,7 +73,7 @@ public class LangData extends LanguageProvider {
 
         this.addAll(this::addBlock, this::basic, LCCBlocks.time_rift, LCCBlocks.classic_grass_block, LCCBlocks.classic_cobblestone, LCCBlocks.classic_planks, LCCBlocks.classic_leaves, LCCBlocks.classic_sapling, LCCBlocks.classic_gravel, LCCBlocks.classic_sponge, LCCBlocks.classic_glass, LCCBlocks.classic_rose, LCCBlocks.classic_cyan_flower, LCCBlocks.classic_iron_block, LCCBlocks.classic_smooth_iron_block, LCCBlocks.classic_gold_block, LCCBlocks.classic_smooth_gold_block, LCCBlocks.classic_diamond_block, LCCBlocks.classic_smooth_diamond_block, LCCBlocks.classic_bricks, LCCBlocks.classic_mossy_cobblestone, LCCBlocks.classic_chest, LCCBlocks.nether_reactor, LCCBlocks.crying_obsidian, LCCBlocks.glowing_obsidian, LCCBlocks.cog);
         this.add(LCCBlocks.classic_tnt, "Classic TNT");
-        this.addAll(this::addBlock, block -> mover(basic(block), 8, Colors.ClassicDyeColor.values()), LCCBlocks.classic_cloth.values().toArray(new Block[0]));
+        this.addAll(this::addBlock, block -> mover(basic(block), 8, ExtendedDyeColor.ClassicDyeColor.values()), LCCBlocks.classic_cloth.values().toArray(new Block[0]));
         this.add(LCCBlocks.nether_reactor.getTranslationKey() + ".active", "Active!");
         this.add(LCCBlocks.nether_reactor.getTranslationKey() + ".incorrect", "Not the correct pattern!");
         this.add(LCCBlocks.nether_reactor.getTranslationKey() + ".players", "All players need to be close to the reactor.");

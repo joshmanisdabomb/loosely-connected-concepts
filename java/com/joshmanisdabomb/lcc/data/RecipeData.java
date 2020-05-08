@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.misc.Colors;
+import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCRecipes;
@@ -168,22 +168,22 @@ public class RecipeData extends RecipeProvider {
         //Time Rift Recipes TODO New dye colors.
         this.timerift(Blocks.BRICKS, LCCBlocks.classic_bricks, 1, consumer);
         this.timerift(Tags.Items.CHESTS_WOODEN, LCCBlocks.classic_chest, 1, consumer);
-        this.timerift(Tags.Items.DYES_RED, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.RED), 1, consumer);
-        this.timerift(Tags.Items.DYES_ORANGE, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.ORANGE), 1, consumer);
-        this.timerift(Tags.Items.DYES_YELLOW, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.YELLOW), 1, consumer);
-        this.timerift(Tags.Items.DYES_LIME, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.LIME), 1, consumer);
-        this.timerift(Tags.Items.DYES_GREEN, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.GREEN), 1, consumer);
-        this.timerift(Tags.Items.DYES_CYAN, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.TURQUOISE), 1, consumer);
+        this.timerift(Tags.Items.DYES_RED, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.RED), 1, consumer);
+        this.timerift(Tags.Items.DYES_ORANGE, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.ORANGE), 1, consumer);
+        this.timerift(Tags.Items.DYES_YELLOW, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.YELLOW), 1, consumer);
+        this.timerift(Tags.Items.DYES_LIME, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.LIME), 1, consumer);
+        this.timerift(Tags.Items.DYES_GREEN, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.GREEN), 1, consumer);
+        this.timerift(Tags.Items.DYES_CYAN, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.TURQUOISE), 1, consumer);
         //this.timerift(Tags.Items.DYES_AQUA, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.AQUA), consumer);
-        this.timerift(Tags.Items.DYES_LIGHT_BLUE, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.LIGHT_BLUE), 1, consumer);
+        this.timerift(Tags.Items.DYES_LIGHT_BLUE, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.LIGHT_BLUE), 1, consumer);
         //this.timerift(Tags.Items.DYES_LAVENDER, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.LAVENDER), consumer);
-        this.timerift(Tags.Items.DYES_PURPLE, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.PURPLE), 1, consumer);
+        this.timerift(Tags.Items.DYES_PURPLE, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.PURPLE), 1, consumer);
         //this.timerift(Tags.Items.DYES_LIGHT_PURPLE, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.LIGHT_PURPLE), consumer);
-        this.timerift(Tags.Items.DYES_MAGENTA, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.MAGENTA), 1, consumer);
+        this.timerift(Tags.Items.DYES_MAGENTA, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.MAGENTA), 1, consumer);
         //this.timerift(Tags.Items.DYES_HOT_PINK, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.HOT_PINK), consumer);
-        this.timerift(Tags.Items.DYES_GRAY, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.GRAY), 1, consumer);
-        this.timerift(Tags.Items.DYES_LIGHT_GRAY, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.LIGHT_GRAY), 1, consumer);
-        this.timerift(Tags.Items.DYES_WHITE, LCCBlocks.classic_cloth.get(Colors.ClassicDyeColor.WHITE), 1, consumer);
+        this.timerift(Tags.Items.DYES_GRAY, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.GRAY), 1, consumer);
+        this.timerift(Tags.Items.DYES_LIGHT_GRAY, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.LIGHT_GRAY), 1, consumer);
+        this.timerift(Tags.Items.DYES_WHITE, LCCBlocks.classic_cloth.get(ExtendedDyeColor.ClassicDyeColor.WHITE), 1, consumer);
         this.timerift(Blocks.COBBLESTONE, LCCBlocks.classic_cobblestone, 1, consumer);
         this.timerift(Items.CORNFLOWER, LCCBlocks.classic_cyan_flower, 1, consumer);
         this.timerift(Items.BLUE_ORCHID, LCCBlocks.classic_cyan_flower, 1, consumer);

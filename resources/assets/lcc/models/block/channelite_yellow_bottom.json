@@ -1,7 +1,7 @@
 {
   "parent": "lcc:block/noshade_cube_column",
   "textures": {
-    "end": "lcc:block/rainbow/channelite/yellow_none",
+    "end": "lcc:block/rainbow/channelite/yellow_end",
     "side": "lcc:block/rainbow/channelite/yellow_bottom"
   }
 }

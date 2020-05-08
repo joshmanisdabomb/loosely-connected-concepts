@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
+import net.minecraft.item.DyeColor;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -226,7 +227,7 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
             path(block, path -> "rainbow/candy_cane/" + path.split("_")[0])
         ), LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_stripped_candy_cane_coating);
         this.simpleBlock(LCCBlocks.candy_cane_block, path("rainbow/candy_cane/end"));
-        this.addAll(block -> this.channelite(block, path(block, path -> path.replace("channelite_", "rainbow/channelite/")), block.getColor() == null ? "none" : "invisible"), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
+        this.addAll(block -> this.channelite(block, path(block, path -> path.replace("channelite_", "rainbow/channelite/")), block.getColor() == null ? "none" : "invisible", block.getColor() == null ? "" : "end"), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
         this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), this.overlay.getLocation())
             .texture("particle", path("rainbow/channelite/sparkling"))
             .texture("base", path("rainbow/channelite/sparkling"))
@@ -383,14 +384,16 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
             });
     }
 
-    private void channelite(ChanneliteBlock block, ResourceLocation baseName, String invisibleSuffix) {
+    private void channelite(ChanneliteBlock block, ResourceLocation baseName, String invisibleSuffix, String endSuffix) {
         this.getVariantBuilder(block)
             .forAllStates(state -> {
                 Direction dir = state.get(ChanneliteBlock.FACING);
                 ChanneliteBlock.ChanneliteConnection c = state.get(ChanneliteBlock.CONNECTION);
+                String end2 = block.getColor() != null ? ("_" + endSuffix) : "";
+                String end = baseName.getPath() + (c == ChanneliteBlock.ChanneliteConnection.INVISIBLE ? ("_" + invisibleSuffix) : (end2.isEmpty() ? "_none" : ""));
                 return ConfiguredModel.builder()
                     .modelFile(models().withExistingParent(name(block) + "_" + c.getName(), this.noshadeCubeColumn.getLocation())
-                        .texture("end", new ResourceLocation(baseName.getNamespace(), baseName.getPath() + "_" + (c == ChanneliteBlock.ChanneliteConnection.INVISIBLE ? invisibleSuffix : ChanneliteBlock.ChanneliteConnection.NONE.getName())))
+                        .texture("end", new ResourceLocation(baseName.getNamespace(), end + end2))
                         .texture("side", new ResourceLocation(baseName.getNamespace(), baseName.getPath() + "_" + (c == ChanneliteBlock.ChanneliteConnection.INVISIBLE ? invisibleSuffix : c.getName())))
                     )
                     .rotationX(dir == Direction.DOWN ? 180 : (dir.getAxis().isHorizontal() ? 90 : 0))

@@ -24,11 +24,18 @@
                   }
                 }
               ],
-              "name": "lcc:twilight_stone"
+              "name": "lcc:neon_ore"
             },
             {
               "type": "minecraft:item",
-              "name": "lcc:twilight_cobblestone"
+              "functions": [
+                {
+                  "function": "minecraft:apply_bonus",
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:ore_drops"
+                }
+              ],
+              "name": "lcc:neon"
             }
           ]
         }

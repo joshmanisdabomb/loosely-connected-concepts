@@ -3,10 +3,7 @@ package com.joshmanisdabomb.lcc.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.block.ChanneliteSourceBlock;
-import com.joshmanisdabomb.lcc.block.NetherReactorBlock;
-import com.joshmanisdabomb.lcc.block.SparklingGrassBlock;
-import com.joshmanisdabomb.lcc.block.SpreaderBlock;
+import com.joshmanisdabomb.lcc.block.*;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
@@ -69,8 +66,9 @@ public class LootTableData extends LootTableProvider {
         dropOreFortune(LCCItems.topaz, LCCBlocks.topaz_ore);
         dropOreFortune(LCCItems.sapphire, LCCBlocks.sapphire_ore);
         dropOreFortune(LCCItems.amethyst, LCCBlocks.amethyst_ore);
+        dropOreFortune(LCCItems.neon, LCCBlocks.neon_ore);
         dropSelf(LCCBlocks.uranium_ore);
-        dropSelf(LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage);
+        dropSelf(LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage, LCCBlocks.neon_storage);
 
         dropSelf(LCCBlocks.road, LCCBlocks.hydrated_soul_sand, LCCBlocks.bounce_pad);
 
@@ -107,7 +105,9 @@ public class LootTableData extends LootTableProvider {
             )
         );
 
-        dropSelf(LCCBlocks.rainbow_gate, LCCBlocks.sparkling_dirt, LCCBlocks.twilight_stone, LCCBlocks.twilight_cobblestone, LCCBlocks.candy_cane_block, LCCBlocks.candy_cane_red, LCCBlocks.candy_cane_green, LCCBlocks.candy_cane_blue, LCCBlocks.stripped_candy_cane, LCCBlocks.candy_cane_coating_red, LCCBlocks.candy_cane_coating_green, LCCBlocks.candy_cane_coating_green, LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue, LCCBlocks.refined_stripped_candy_cane, LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue, LCCBlocks.refined_stripped_candy_cane_coating, LCCBlocks.channelite.get(null));
+        dropSelf(LCCBlocks.rainbow_gate, LCCBlocks.sparkling_dirt, LCCBlocks.twilight_cobblestone, LCCBlocks.candy_cane_block, LCCBlocks.candy_cane_red, LCCBlocks.candy_cane_green, LCCBlocks.candy_cane_blue, LCCBlocks.stripped_candy_cane, LCCBlocks.candy_cane_coating_red, LCCBlocks.candy_cane_coating_green, LCCBlocks.candy_cane_coating_green, LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue, LCCBlocks.refined_stripped_candy_cane, LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue, LCCBlocks.refined_stripped_candy_cane_coating);
+        dropItem(LCCBlocks.channelite.get(null), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
+        dropSilk(LCCBlocks.twilight_cobblestone, LCCBlocks.twilight_stone);
         dropSilk(LCCBlocks.sparkling_dirt, LCCBlocks.rainbow_grass_block, LCCBlocks.sugar_grass_block, LCCBlocks.star_plating);
         dropSilk(LCCBlocks.sparkling_dirt, LCCBlocks.sparkling_grass_block.values().toArray(new SparklingGrassBlock[0]));
         dropSelf(LCCBlocks.sparkling_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));

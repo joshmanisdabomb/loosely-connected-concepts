@@ -23,6 +23,8 @@ public abstract class DataEvents {
             dg.addProvider(new BlockTagData(dg));
             dg.addProvider(new ItemTagData(dg));
             dg.addProvider(new FluidTagData(dg));
+
+            dg.addProvider(new AdvancementData(dg));
         }
     }
 

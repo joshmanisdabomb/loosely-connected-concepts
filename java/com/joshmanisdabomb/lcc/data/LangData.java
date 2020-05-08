@@ -150,6 +150,30 @@ public class LangData extends LanguageProvider {
         this.add(LCCEntities.classic_tnt, "Classic TNT");
         this.add(LCCEntities.hitbox, "Internal Hitbox");
 
+        this.add("advancements.lcc.main.root.title", "Loosely Connected Concepts");
+        this.add("advancements.lcc.main.root.description", "Main progression line of Loosely Connected Concepts");
+        this.add("advancements.lcc.main.all_gems.title", "Gem Collector");
+        this.add("advancements.lcc.main.all_gems.description", "Available in 6 designer colours!");
+        this.add("advancements.lcc.main.rainbow_dimension.title", "One Way Trip");
+        this.add("advancements.lcc.main.rainbow_dimension.description", "Use the rainbow gate, 6 gem blocks and a chromatic core to enter the Rainbow Dimension");
+        this.add("advancements.lcc.main.enrich.title", "Enrichment Activities");
+        this.add("advancements.lcc.main.enrich.description", "Our words are backed with nuclear weapons!");
+        this.add("advancements.lcc.main.enrich_first.title", "Nuclear Arms Race");
+        this.add("advancements.lcc.main.enrich_first.description", "Be the first player in multiplayer to enrich uranium.");
+
+        this.add("advancements.lcc.rainbow.root.title", "LCC: Rainbow Dimension");
+        this.add("advancements.lcc.rainbow.root.description", "minecraft; the way home");
+        this.add("advancements.lcc.rainbow.stone.title", "This Seems Familiar");
+        this.add("advancements.lcc.rainbow.stone.description", "Mine twilight stone with a Rainbow Wood or Candy Cane Pickaxe");
+        this.add("advancements.lcc.rainbow.neon.title", "RTX On");
+        this.add("advancements.lcc.rainbow.neon.description", "Finally some lighting options!");
+        this.add("advancements.lcc.rainbow.temple.title", "Temple Run");
+        this.add("advancements.lcc.rainbow.temple.description", "Discover the Rainbow Temple. Dare to enter?");
+        this.add("advancements.lcc.rainbow.temple_boss.title", "Guard This!");
+        this.add("advancements.lcc.rainbow.temple_boss.description", "Destroy the Rainbow Guardian");
+        this.add("advancements.lcc.rainbow.leave.title", "Technology Repaired");
+        this.add("advancements.lcc.rainbow.leave.description", "Repair the original rainbow gate (TODO goal)");
+
         this.add("subtitle.lcc.block.hydrated_soul_sand.jump", "Hydrated Soul Sand squelches");
         this.add("subtitle.lcc.block.bounce_pad.jump", "Bounce Pad protracts");
         this.add("gui.lcc.computer.on", "Turn On");

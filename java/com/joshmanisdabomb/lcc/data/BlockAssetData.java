@@ -167,7 +167,7 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
             });
         this.addAll(block -> {
             BlockModelBuilder normal = models().cubeAll(name(block), path(block, path -> path.replace("twilight_", "rainbow/")));
-            BlockModelBuilder mirrored = models().singleTexture(name(block) + "_mirrored", mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), path(block, path -> path.replace("twilight_", "rainbow/")));
+            BlockModelBuilder mirrored = models().singleTexture(name(block) + "_mirrored", mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), "all", path(block, path -> path.replace("twilight_", "rainbow/")));
             this.simpleBlock(block, ConfiguredModel.builder().modelFile(normal).nextModel().modelFile(normal).rotationY(180).nextModel().modelFile(mirrored).rotationY(0).nextModel().modelFile(mirrored).rotationY(180).build());
         }, LCCBlocks.twilight_stone);
         this.addAll(block -> this.simpleBlock(block, path(block, path -> path.replace("twilight_", "rainbow/"))), LCCBlocks.twilight_cobblestone);

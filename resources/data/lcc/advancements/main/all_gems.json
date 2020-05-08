@@ -1,0 +1,100 @@
+{
+  "parent": "lcc:main/root",
+  "display": {
+    "icon": {
+      "item": "lcc:topaz"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.all_gems.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.all_gems.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ruby": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby"
+          }
+        ]
+      }
+    },
+    "topaz": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:topaz"
+          }
+        ]
+      }
+    },
+    "emerald": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:emerald"
+          }
+        ]
+      }
+    },
+    "diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond"
+          }
+        ]
+      }
+    },
+    "sapphire": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:sapphire"
+          }
+        ]
+      }
+    },
+    "amethyst": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:amethyst"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ruby"
+    ],
+    [
+      "topaz"
+    ],
+    [
+      "emerald"
+    ],
+    [
+      "diamond"
+    ],
+    [
+      "sapphire"
+    ],
+    [
+      "amethyst"
+    ]
+  ]
+}

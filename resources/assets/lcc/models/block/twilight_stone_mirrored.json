@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_mirrored_all",
   "textures": {
-    "texture": "lcc:block/rainbow/stone"
+    "all": "lcc:block/rainbow/stone"
   }
 }

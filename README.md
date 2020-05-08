@@ -1,7 +1,8 @@
 # Loosely Connected Concepts #
-This is a mod for Minecraft 1.14.4 that features blocks, items, mobs, biomes and dimensions that stand on their own, but also connect with each other.
+This is a mod for Minecraft 1.15.2 aiming for a vanilla-like expansion to the base game.
+It features blocks, items, mobs, biomes and dimensions that stand on their own, but also connect with each other.
 
-** This mod is in very early alpha. **
+** This mod is in beta and is not feature complete. **
 
 You can read more about the predecessors Aimless Agglomeration by clicking [here](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/AA.md) and Yet Another Mod by clicking [here](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/YAM.md).
 
@@ -14,20 +15,25 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Spreaders and Spreader Interface
  * Dimensional rift to access classic and pocket edition items.
  * Roads using connected textures.
- * Bounce pads.
+ * Bounce Pads
+ * Basic Rainbow Dimension and Wasteland biome.
+ * Atomic Bomb
 
 ## Plans ##
- * Standalone nuke, nuclear explosion.
  * Missiles with good ballistic movement.
- * Rainbow dimension.
+ * Make Rainbow Dimension less empty.
+ * Make Wasteland less empty (including new Derek boss fight)
  * Slippery speed block.
- * Wasteland biome (including new Derek boss fight)
  * Ruined cities which can be restored.
  * Computer with sortable storage solutions (physical and remote via "cloud").
  * 2D printer to print item with custom texture in-game.
  * 3D printer to print block with custom texture and model in-game.
+ * Cardboard Box for early Shulker Box.
  * Throw in everything that was decent from Yet Another Mod and Aimless Agglomeration.
  * Throw in everything that was a decent idea to add into Yet Another Mod or Aimless Agglomeration.
+ * Launch satellites in the air which show live maps or reveal chests.
+ * Launch space stations above planets (separate dimensions).
+ * Take rockets to different planets (other solar systems procedurally generated, similar to 20winfinity but more coherent and I thought of it first god dammit)
  
 ## Downloads ##
 ### Other Versions ###

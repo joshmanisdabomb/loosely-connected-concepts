@@ -36,6 +36,8 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Take rockets to different planets (other solar systems procedurally generated, similar to 20winfinity but more coherent and I thought of it first god dammit)
  
 ## Downloads ##
+ * [Beta 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.15.2-b1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/1beaa2d90b4bd7182eefdc4b1169b017a5d40481) for 1.15.2 on 08 May 2020
+
 ### Other Versions ###
  * [Alpha 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/cdbbe20844bd84589f1eea6ea54bed375599f6ed) for 1.14.4 on 04 October 2019
  * [Alpha 0.5](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a0.5.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 17 August 2019

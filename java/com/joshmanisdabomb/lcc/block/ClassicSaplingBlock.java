@@ -33,7 +33,7 @@ public class ClassicSaplingBlock extends SaplingBlock implements IPottableBlock,
         @Nullable
         @Override
         protected ConfiguredFeature<TreeFeatureConfig, ?> getTreeFeature(Random random, boolean b) {
-            return Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.ACACIA_TREE_CONFIG);
+            return Feature.NORMAL_TREE.withConfiguration(CLASSIC_TREE_CONFIG);
         }
     };
 

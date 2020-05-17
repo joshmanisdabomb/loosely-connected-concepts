@@ -15,7 +15,8 @@ public class FluidTagData extends FluidTagsProvider {
     @Override
     protected void registerTags() {
         this.getBuilder(LCCTags.OIL)
-            .add(LCCFluids.oil, LCCFluids.flowing_oil);
+            .add(LCCFluids.oil, LCCFluids.flowing_oil)
+            .ordered(true);
     }
 
 }

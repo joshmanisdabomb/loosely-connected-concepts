@@ -13,14 +13,17 @@ import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
+import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
@@ -46,6 +49,7 @@ public class LootTableData extends LootTableProvider {
     private static final ILootCondition.IBuilder NO_SILK_TOUCH = SILK_TOUCH.inverted();
     private static final ILootCondition.IBuilder SHEARS = MatchTool.builder(ItemPredicate.Builder.create().item(Items.SHEARS));
     private static final ILootCondition.IBuilder SILK_TOUCH_OR_SHEARS = SHEARS.alternative(SILK_TOUCH);
+    private static final ILootCondition.IBuilder NOT_SILK_TOUCH_OR_SHEARS = SILK_TOUCH_OR_SHEARS.inverted();
 
     protected final HashMap<Block, LootTable.Builder> blocks = new HashMap<>();
     protected final HashMap<EntityType, LootTable.Builder> entities = new HashMap<>();
@@ -99,9 +103,9 @@ public class LootTableData extends LootTableProvider {
                 LootPool.builder()
                     .rolls(ConstantRange.of(1))
                     .addEntry(ItemLootEntry.builder(LCCBlocks.nether_reactor)
-                    .acceptCondition(BlockStateProperty.builder(LCCBlocks.nether_reactor).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(NetherReactorBlock.STATE, NetherReactorBlock.ReactorState.READY)))
-                    .acceptCondition(SurvivesExplosion.builder())
-                )
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.nether_reactor).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(NetherReactorBlock.STATE, NetherReactorBlock.ReactorState.READY)))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
             )
         );
 
@@ -112,6 +116,39 @@ public class LootTableData extends LootTableProvider {
         dropSilk(LCCBlocks.sparkling_dirt, LCCBlocks.sparkling_grass_block.values().toArray(new SparklingGrassBlock[0]));
         dropSelf(LCCBlocks.sparkling_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
         dropSelf(LCCBlocks.twilight_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
+
+        dropSelf(LCCBlocks.vivid_log, LCCBlocks.vivid_wood, LCCBlocks.vivid_planks, LCCBlocks.vivid_sapling, LCCBlocks.stripped_vivid_log, LCCBlocks.stripped_vivid_wood, LCCBlocks.vivid_stairs, LCCBlocks.vivid_slab, LCCBlocks.vivid_pressure_plate, LCCBlocks.vivid_button, LCCBlocks.vivid_fence, LCCBlocks.vivid_fence_gate, LCCBlocks.vivid_trapdoor);
+        blocks.put(LCCBlocks.vivid_leaves,
+            silkShears(LCCBlocks.vivid_leaves,
+                ItemLootEntry.builder(LCCBlocks.vivid_sapling)
+                    .acceptCondition(SurvivesExplosion.builder())
+                    .acceptCondition(TableBonus.builder(Enchantments.FORTUNE, 0.05F, 0.0625F, 0.083333336F, 0.1F)
+                ).acceptCondition(SurvivesExplosion.builder())
+            ).addLootPool(LootPool.builder()
+                .addEntry(ItemLootEntry.builder(Items.STICK)
+                    .acceptCondition(SurvivesExplosion.builder())
+                    .acceptCondition(NOT_SILK_TOUCH_OR_SHEARS)
+                    .acceptCondition(TableBonus.builder(Enchantments.FORTUNE, 0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F))
+                    .acceptFunction(SetCount.builder(RandomValueRange.of(1,2)))
+                )
+            ).addLootPool(LootPool.builder()
+                .addEntry(ItemLootEntry.builder(Items.APPLE)
+                    .acceptCondition(SurvivesExplosion.builder())
+                    .acceptCondition(NOT_SILK_TOUCH_OR_SHEARS)
+                    .acceptCondition(TableBonus.builder(Enchantments.FORTUNE, 0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F))
+                )
+            )
+        );
+        blocks.put(LCCBlocks.vivid_door,
+            LootTable.builder().addLootPool(
+                LootPool.builder()
+                    .rolls(ConstantRange.of(1))
+                    .addEntry(ItemLootEntry.builder(LCCBlocks.vivid_door)
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.vivid_door).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(DoorBlock.HALF, DoubleBlockHalf.LOWER)))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
+            )
+        );
 
         //Entities
         entities.put(LCCEntities.classic_zombie_pigman,
@@ -183,6 +220,15 @@ public class LootTableData extends LootTableProvider {
             LootPool.builder()
                 .rolls(ConstantRange.of(1))
                 .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH).alternatively(nonSilk))
+                .acceptCondition(SurvivesExplosion.builder())
+        );
+    }
+
+    private LootTable.Builder silkShears(IItemProvider silk, LootEntry.Builder<?> nonSilk) {
+        return LootTable.builder().addLootPool(
+            LootPool.builder()
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH_OR_SHEARS).alternatively(nonSilk))
                 .acceptCondition(SurvivesExplosion.builder())
         );
     }

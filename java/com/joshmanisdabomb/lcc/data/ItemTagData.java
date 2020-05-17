@@ -55,25 +55,29 @@ public class ItemTagData extends ItemTagsProvider {
 
     private void registerForgeTags() {
         this.getBuilder(Tags.Items.CHESTS_WOODEN)
-            .add(LCCBlocks.classic_chest.asItem());
+            .add(LCCBlocks.classic_chest.asItem())
+            .ordered(true);
 
         this.getBuilder(Tags.Items.BEACON_PAYMENT)
             .add(LCCItems.ruby)
             .add(LCCItems.topaz)
             .add(LCCItems.sapphire)
             .add(LCCItems.amethyst)
-            .add(LCCItems.neon);
+            .add(LCCItems.neon)
+            .ordered(true);
 
         this.getBuilder(Tags.Items.GEMS)
             .add(LCCItems.ruby)
             .add(LCCItems.topaz)
             .add(LCCItems.sapphire)
-            .add(LCCItems.amethyst);
+            .add(LCCItems.amethyst)
+            .ordered(true);
 
         this.getBuilder(Tags.Items.NUGGETS)
             .add(LCCItems.uranium_nugget)
             .add(LCCItems.enriched_uranium_nugget)
-            .add(LCCItems.neon_nugget);
+            .add(LCCItems.neon_nugget)
+            .ordered(true);
 
         this.getBuilder(Tags.Items.ORES)
             .add(LCCBlocks.ruby_ore.asItem())
@@ -81,7 +85,8 @@ public class ItemTagData extends ItemTagsProvider {
             .add(LCCBlocks.sapphire_ore.asItem())
             .add(LCCBlocks.amethyst_ore.asItem())
             .add(LCCBlocks.uranium_ore.asItem())
-            .add(LCCBlocks.neon_ore.asItem());
+            .add(LCCBlocks.neon_ore.asItem())
+            .ordered(true);
 
         this.getBuilder(Tags.Items.STORAGE_BLOCKS)
             .add(LCCBlocks.ruby_storage.asItem())
@@ -89,7 +94,8 @@ public class ItemTagData extends ItemTagsProvider {
             .add(LCCBlocks.sapphire_storage.asItem())
             .add(LCCBlocks.amethyst_storage.asItem())
             .add(LCCBlocks.uranium_storage.asItem())
-            .add(LCCBlocks.neon_storage.asItem());
+            .add(LCCBlocks.neon_storage.asItem())
+            .ordered(true);
     }
 
 }

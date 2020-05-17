@@ -114,7 +114,7 @@ public class LangData extends LanguageProvider {
         this.add("item.lcc.computing_storage.id.value", "%s");
         this.add("item.lcc.computing_storage.partitions", "Partitions:");
 
-        this.addAll(this::addBlock, this::basic, LCCBlocks.rainbow_gate, LCCBlocks.rainbow_portal, LCCBlocks.rainbow_grass_block, LCCBlocks.star_plating, LCCBlocks.sparkling_dirt, LCCBlocks.twilight_stone, LCCBlocks.twilight_cobblestone);
+        this.addAll(this::addBlock, this::basic, LCCBlocks.rainbow_gate, LCCBlocks.rainbow_portal, LCCBlocks.rainbow_grass_block, LCCBlocks.star_plating, LCCBlocks.sparkling_dirt, LCCBlocks.twilight_stone, LCCBlocks.twilight_cobblestone, LCCBlocks.vivid_log, LCCBlocks.vivid_wood, LCCBlocks.stripped_vivid_log, LCCBlocks.stripped_vivid_wood, LCCBlocks.vivid_sapling, LCCBlocks.vivid_leaves, LCCBlocks.vivid_planks, LCCBlocks.vivid_stairs, LCCBlocks.vivid_slab, LCCBlocks.vivid_fence, LCCBlocks.vivid_fence_gate, LCCBlocks.vivid_door, LCCBlocks.vivid_trapdoor, LCCBlocks.vivid_pressure_plate, LCCBlocks.vivid_button);
         this.add(LCCBlocks.sugar_grass_block, "Sugared Grass Block");
         this.addAll(this::addBlock, block -> mover(basic(block), 0, DyeColor.values()), LCCBlocks.sparkling_grass_block.values().toArray(new SparklingGrassBlock[0]));
         this.add(LCCBlocks.channelite.get(null), "Channelite");

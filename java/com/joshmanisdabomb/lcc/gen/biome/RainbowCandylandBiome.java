@@ -10,6 +10,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -27,7 +28,10 @@ public class RainbowCandylandBiome extends RainbowBiome implements LCCBiomeHelpe
     public void lateGenerators() {
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
             LCCFeatures.big_candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).func_227227_a_(0.1F)
-        ), LCCFeatures.candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG))).withPlacement(LCCFeatures.COUNT_CHANCE_TOPS.configure(new HeightWithChanceConfig(2, 0.5F))));
+        ), LCCFeatures.candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG))).withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(2, 0.5F))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
+            LCCFeatures.big_candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).func_227227_a_(0.1F)
+        ), LCCFeatures.candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG))).withPlacement(LCCFeatures.COUNT_CHANCE_UNDER_SURFACE.configure(new HeightWithChanceConfig(4, 0.9F))));
     }
 
     @Override

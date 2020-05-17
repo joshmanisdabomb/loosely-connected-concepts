@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.gen.world.GenUtility;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -46,8 +47,8 @@ public class CandyCaneFeature extends Feature<NoFeatureConfig> {
         BlockState coating = COATING[type].getDefaultState().with(BlockStateProperties.AXIS, Direction.Axis.Y);
 
         if (pos.getY() + height >= world.getMaxHeight()) return false;
-        if (!GenUtility.allInAreaMatches(world, pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1, pos.getY() - 1, pos.getZ() + 1, 0, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.sugar_grass_block)) return false;
-        if (!GenUtility.allInAreaClear(world, pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + (d.getXOffset() * 2), pos.getY() + height, pos.getZ() + (d.getZOffset() * 2), 1)) return false;
+        if (!GenUtility.allInAreaMatches(world, pos.getX(), pos.getY() - 1, pos.getZ(), pos.getX(), pos.getY() - 1, pos.getZ(), 0, (w, p) -> w.getBlockState(p).getBlock() == LCCBlocks.sugar_grass_block)) return false;
+        if (!GenUtility.allInAreaClear(world, pos.getX(), pos.getY(), pos.getZ(), pos.getX() + (d.getXOffset() * 2), pos.getY() + height + 2, pos.getZ() + (d.getZOffset() * 2), 0)) return false;
 
         for (int i = 0; i <= height; i++) {
             if (i == height) {

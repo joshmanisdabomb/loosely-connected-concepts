@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wsw",
+    "wsw"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:vivid_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:vivid_fence"
+  }
+}

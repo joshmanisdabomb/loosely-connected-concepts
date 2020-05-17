@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:stripped_candy_cane",
+    "lcc:stripped_candy_cane_coating",
+    "lcc:refined_stripped_candy_cane",
+    "lcc:refined_stripped_candy_cane_coating",
+    "lcc:candy_cane_block"
+  ]
+}

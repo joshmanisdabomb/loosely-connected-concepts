@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "lcc:block/stripped_vivid_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lcc:block/stripped_vivid_wood"
+    },
+    "axis=z": {
+      "model": "lcc:block/stripped_vivid_wood",
+      "x": 90
+    }
+  }
+}

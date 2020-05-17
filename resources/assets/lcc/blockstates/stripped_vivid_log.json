@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "lcc:block/stripped_vivid_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lcc:block/stripped_vivid_log"
+    },
+    "axis=z": {
+      "model": "lcc:block/stripped_vivid_log",
+      "x": 90
+    }
+  }
+}

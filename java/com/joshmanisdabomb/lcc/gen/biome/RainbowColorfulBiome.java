@@ -11,6 +11,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
@@ -45,7 +46,8 @@ public class RainbowColorfulBiome extends RainbowBiome implements LCCBiomeHelper
 
     @Override
     public void lateGenerators() {
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, LCCFeatures.channelite.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(LCCFeatures.COUNT_CHANCE_TOPS.configure(new HeightWithChanceConfig(3, 0.1F))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, LCCFeatures.channelite.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(3, 0.1F))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, LCCFeatures.channelite.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(LCCFeatures.COUNT_CHANCE_UNDER_SURFACE.configure(new HeightWithChanceConfig(4, 0.8F))));
     }
 
     @Override

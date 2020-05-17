@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "lcc:block/rainbow/wood/log",
+    "end": "lcc:block/rainbow/wood/log"
+  }
+}

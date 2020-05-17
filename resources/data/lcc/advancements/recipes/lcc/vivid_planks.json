@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:vivid_planks"
+    ]
+  },
+  "criteria": {
+    "has_vivid_log": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "lcc:vivid_logs"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:vivid_planks"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vivid_log",
+      "has_the_recipe"
+    ]
+  ]
+}

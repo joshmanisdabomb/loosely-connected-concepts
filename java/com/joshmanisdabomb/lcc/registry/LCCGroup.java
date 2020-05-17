@@ -152,6 +152,7 @@ public class LCCGroup extends ItemGroup {
         //Rainbow
         set(LCCItems.chromatic_core, LCCGroupCategory.RAINBOW, 0);
         set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 10);
+
         set(LCCBlocks.rainbow_grass_block, LCCGroupCategory.RAINBOW, 1000);
         set(LCCBlocks.sugar_grass_block, LCCGroupCategory.RAINBOW, 1001);
         set(LCCBlocks.star_plating, LCCGroupCategory.RAINBOW, 1002);
@@ -159,29 +160,48 @@ public class LCCGroup extends ItemGroup {
             set(LCCBlocks.sparkling_grass_block.get(color), LCCGroupCategory.RAINBOW, color.getId()+1003);
         }
         set(LCCBlocks.sparkling_dirt, LCCGroupCategory.RAINBOW, 1020);
-        set(LCCBlocks.twilight_stone, LCCGroupCategory.RAINBOW, 1021);
-        set(LCCBlocks.twilight_cobblestone, LCCGroupCategory.RAINBOW, 1022);
-        set(LCCBlocks.candy_cane_red, LCCGroupCategory.RAINBOW, 1100);
-        set(LCCBlocks.candy_cane_green, LCCGroupCategory.RAINBOW, 1101);
-        set(LCCBlocks.candy_cane_blue, LCCGroupCategory.RAINBOW, 1102);
-        set(LCCBlocks.stripped_candy_cane, LCCGroupCategory.RAINBOW, 1103);
-        set(LCCBlocks.candy_cane_coating_red, LCCGroupCategory.RAINBOW, 1104);
-        set(LCCBlocks.candy_cane_coating_green, LCCGroupCategory.RAINBOW, 1105);
-        set(LCCBlocks.candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 1106);
-        set(LCCBlocks.stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 1107);
-        set(LCCBlocks.refined_candy_cane_red, LCCGroupCategory.RAINBOW, 1108);
-        set(LCCBlocks.refined_candy_cane_green, LCCGroupCategory.RAINBOW, 1109);
-        set(LCCBlocks.refined_candy_cane_blue, LCCGroupCategory.RAINBOW, 1110);
-        set(LCCBlocks.refined_stripped_candy_cane, LCCGroupCategory.RAINBOW, 1111);
-        set(LCCBlocks.refined_candy_cane_coating_red, LCCGroupCategory.RAINBOW, 1112);
-        set(LCCBlocks.refined_candy_cane_coating_green, LCCGroupCategory.RAINBOW, 1113);
-        set(LCCBlocks.refined_candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 1114);
-        set(LCCBlocks.refined_stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 1115);
-        set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 1116);
-        set(LCCBlocks.channelite.get(null), LCCGroupCategory.RAINBOW, 1120);
+
+        set(LCCBlocks.twilight_stone, LCCGroupCategory.RAINBOW, 2000);
+        set(LCCBlocks.twilight_cobblestone, LCCGroupCategory.RAINBOW, 2001);
+
+        set(LCCBlocks.vivid_log, LCCGroupCategory.RAINBOW, 3000);
+        set(LCCBlocks.vivid_wood, LCCGroupCategory.RAINBOW, 3001);
+        set(LCCBlocks.stripped_vivid_log, LCCGroupCategory.RAINBOW, 3002);
+        set(LCCBlocks.stripped_vivid_wood, LCCGroupCategory.RAINBOW, 3003);
+        set(LCCBlocks.vivid_sapling, LCCGroupCategory.RAINBOW, 3004);
+        set(LCCBlocks.vivid_leaves, LCCGroupCategory.RAINBOW, 3010);
+        set(LCCBlocks.vivid_planks, LCCGroupCategory.RAINBOW, 3100);
+        set(LCCBlocks.vivid_stairs, LCCGroupCategory.RAINBOW, 3101);
+        set(LCCBlocks.vivid_slab, LCCGroupCategory.RAINBOW, 3102);
+        set(LCCBlocks.vivid_fence, LCCGroupCategory.RAINBOW, 3103);
+        set(LCCBlocks.vivid_fence_gate, LCCGroupCategory.RAINBOW, 3104);
+        set(LCCBlocks.vivid_door, LCCGroupCategory.RAINBOW, 3200);
+        set(LCCBlocks.vivid_trapdoor, LCCGroupCategory.RAINBOW, 3201);
+        set(LCCBlocks.vivid_pressure_plate, LCCGroupCategory.RAINBOW, 3202);
+        set(LCCBlocks.vivid_button, LCCGroupCategory.RAINBOW, 3203);
+
+        set(LCCBlocks.candy_cane_red, LCCGroupCategory.RAINBOW, 4000);
+        set(LCCBlocks.candy_cane_green, LCCGroupCategory.RAINBOW, 4001);
+        set(LCCBlocks.candy_cane_blue, LCCGroupCategory.RAINBOW, 4002);
+        set(LCCBlocks.stripped_candy_cane, LCCGroupCategory.RAINBOW, 4003);
+        set(LCCBlocks.candy_cane_coating_red, LCCGroupCategory.RAINBOW, 4004);
+        set(LCCBlocks.candy_cane_coating_green, LCCGroupCategory.RAINBOW, 4005);
+        set(LCCBlocks.candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 4006);
+        set(LCCBlocks.stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 4007);
+        set(LCCBlocks.refined_candy_cane_red, LCCGroupCategory.RAINBOW, 4008);
+        set(LCCBlocks.refined_candy_cane_green, LCCGroupCategory.RAINBOW, 4009);
+        set(LCCBlocks.refined_candy_cane_blue, LCCGroupCategory.RAINBOW, 4010);
+        set(LCCBlocks.refined_stripped_candy_cane, LCCGroupCategory.RAINBOW, 4011);
+        set(LCCBlocks.refined_candy_cane_coating_red, LCCGroupCategory.RAINBOW, 4012);
+        set(LCCBlocks.refined_candy_cane_coating_green, LCCGroupCategory.RAINBOW, 4013);
+        set(LCCBlocks.refined_candy_cane_coating_blue, LCCGroupCategory.RAINBOW, 4014);
+        set(LCCBlocks.refined_stripped_candy_cane_coating, LCCGroupCategory.RAINBOW, 4015);
+        set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 4016);
+
+        set(LCCBlocks.channelite.get(null), LCCGroupCategory.RAINBOW, 5000);
         for (DyeColor color : DyeColor.values()) {
-            set(LCCBlocks.sparkling_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1121);
-            set(LCCBlocks.twilight_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+1141);
+            set(LCCBlocks.sparkling_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+5100);
+            set(LCCBlocks.twilight_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+5200);
         }
 
         //Spreaders

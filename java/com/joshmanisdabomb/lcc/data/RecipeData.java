@@ -5,12 +5,14 @@ import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCRecipes;
+import com.joshmanisdabomb.lcc.registry.LCCTags;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
@@ -230,6 +232,67 @@ public class RecipeData extends RecipeProvider {
         ShapelessRecipeBuilder.shapelessRecipe(LCCBlocks.classic_diamond_block)
             .addIngredient(LCCBlocks.classic_smooth_diamond_block)
             .addCriterion(has(LCCBlocks.classic_smooth_diamond_block), this.hasItem(LCCBlocks.classic_smooth_diamond_block))
+            .build(consumer);
+
+        //Vivid Wood
+        ShapelessRecipeBuilder.shapelessRecipe(LCCBlocks.vivid_planks, 4)
+            .addIngredient(LCCTags.VIVID_LOGS.item)
+            .addCriterion(has(LCCBlocks.vivid_log), this.hasItem(LCCTags.VIVID_LOGS.item))
+            .build(consumer);
+
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_wood, 3)
+            .patternLine("ww")
+            .patternLine("ww")
+            .key('w', LCCBlocks.vivid_log)
+            .addCriterion(has(LCCBlocks.vivid_log), this.hasItem(LCCTags.VIVID_LOGS.item))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_stairs, 4)
+            .patternLine("w  ")
+            .patternLine("ww ")
+            .patternLine("www")
+            .key('w', LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_slab, 6)
+            .patternLine("www")
+            .key('w', LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_door, 3)
+            .patternLine("ww")
+            .patternLine("ww")
+            .patternLine("ww")
+            .key('w', LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_pressure_plate)
+            .patternLine("ww")
+            .key('w', LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapelessRecipeBuilder.shapelessRecipe(LCCBlocks.vivid_button)
+            .addIngredient(LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_fence)
+            .patternLine("wsw")
+            .patternLine("wsw")
+            .key('w', LCCBlocks.vivid_planks)
+            .key('s', Items.STICK)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_fence_gate)
+            .patternLine("sws")
+            .patternLine("sws")
+            .key('w', LCCBlocks.vivid_planks)
+            .key('s', Items.STICK)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
+            .build(consumer);
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.vivid_trapdoor)
+            .patternLine("www")
+            .patternLine("www")
+            .key('w', LCCBlocks.vivid_planks)
+            .addCriterion(has(LCCBlocks.vivid_planks), this.hasItem(LCCBlocks.vivid_planks))
             .build(consumer);
     }
 

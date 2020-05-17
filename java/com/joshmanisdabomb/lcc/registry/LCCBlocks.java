@@ -15,12 +15,14 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.TallBlockItem;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -64,6 +66,7 @@ public abstract class LCCBlocks {
 	//Wasteland
 	public static Block cracked_mud;
 	public static OilBlock oil;
+	//TODO deadwood, obtained by placing normal wood in wasteland
 
 	//Nuclear
 	public static AtomicBombBlock atomic_bomb;
@@ -126,6 +129,7 @@ public abstract class LCCBlocks {
 	public static Block sparkling_dirt;
 	public static Block twilight_stone;
 	public static Block twilight_cobblestone;
+
 	public static CandyCaneBlock candy_cane_red;
 	public static CandyCaneBlock candy_cane_green;
 	public static CandyCaneBlock candy_cane_blue;
@@ -143,9 +147,30 @@ public abstract class LCCBlocks {
 	public static RefinedCandyCaneBlock refined_candy_cane_coating_green;
 	public static PillarBlock refined_stripped_candy_cane_coating;
 	public static Block candy_cane_block;
+
+	public static LogBlock vivid_log;
+	public static RotatedPillarBlock vivid_wood;
+	public static Block vivid_planks;
+	public static SaplingBlock vivid_sapling;
+	public static FlowerPotBlock potted_vivid_sapling;
+	public static LeavesBlock vivid_leaves;
+	public static RotatedPillarBlock stripped_vivid_log;
+	public static RotatedPillarBlock stripped_vivid_wood;
+	public static StairsBlock vivid_stairs;
+	public static SlabBlock vivid_slab;
+	public static StandingSignBlock vivid_sign;
+	public static WallSignBlock vivid_wall_sign;
+	public static DoorBlock vivid_door;
+	public static PressurePlateBlock vivid_pressure_plate;
+	public static WoodButtonBlock vivid_button;
+	public static FenceBlock vivid_fence;
+	public static FenceGateBlock vivid_fence_gate;
+	public static TrapDoorBlock vivid_trapdoor;
+
 	public static HashMap<DyeColor, ChanneliteBlock> channelite = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new HashMap<>();
 	public static HashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new HashMap<>();
+
 	public static Block neon_screen;
 
 	//Lighting
@@ -211,8 +236,7 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(classic_planks = new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 5.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "classic_planks"));
 		addWithDefaultItem(classic_leaves = new FunctionalLeavesBlock(state -> state.getBlock() == Blocks.OAK_LOG, Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()), new ResourceLocation(LCC.MODID, "classic_leaves"));
 		addWithDefaultItem(classic_sapling = new ClassicSaplingBlock(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_sapling"));
-		//TODO: Upgrade flower pots to Forge version
-		add(potted_classic_sapling = new FlowerPotBlock(LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_sapling"));
+		add(potted_classic_sapling = new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> LCCBlocks.classic_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_sapling"));
 		addWithDefaultItem(classic_gravel = new FallingBlock(Block.Properties.create(Material.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.6F).sound(SoundType.GROUND)) {
 			@Override
 			public int getDustColor(BlockState p_189876_1_) {
@@ -223,9 +247,9 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(classic_glass = new GlassBlock(Block.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()), new ResourceLocation(LCC.MODID, "classic_glass"));
 		factory(classic_cloth, color -> addWithDefaultItem(new ShearableBlock(5.0F, Block.Properties.create(Material.WOOL, color.mapColor).hardnessAndResistance(0.8F).sound(SoundType.CLOTH)), new ResourceLocation(LCC.MODID, "classic_cloth_" + color.getName())), ClassicDyeColor.values());
 		addWithDefaultItem(classic_rose = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_rose.getDefaultState(), Effects.ABSORPTION, 4, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_rose"));
-		add(potted_classic_rose = new FlowerPotBlock(LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_rose"));
+		add(potted_classic_rose = new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> LCCBlocks.classic_rose, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_rose"));
 		addWithDefaultItem(classic_cyan_flower = new PottableFlowerBlock(() -> LCCBlocks.potted_classic_cyan_flower.getDefaultState(), Effects.LEVITATION, 5, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "classic_cyan_flower"));
-		add(potted_classic_cyan_flower = new FlowerPotBlock(LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_cyan_flower"));
+		add(potted_classic_cyan_flower = new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> LCCBlocks.classic_cyan_flower, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_classic_cyan_flower"));
 		addWithDefaultItem(classic_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_iron_block"));
 		addWithDefaultItem(classic_smooth_iron_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.IRON).harvestTool(ToolType.PICKAXE).harvestLevel(1).hardnessAndResistance(5.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_smooth_iron_block"));
 		addWithDefaultItem(classic_gold_block = new Block(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "classic_gold_block"));
@@ -259,6 +283,7 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(sparkling_dirt = new Block(Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.5F * EFFECTIVE_HARDNESS_MODIFIER, 2.5F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_dirt"));
 		addWithDefaultItem(twilight_stone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(1.5F * EFFECTIVE_HARDNESS_MODIFIER, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_stone"));
 		addWithDefaultItem(twilight_cobblestone = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 6.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_cobblestone"));
+
 		addWithDefaultItem(candy_cane_red = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.PINK).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_red"));
 		addWithDefaultItem(candy_cane_green = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.GREEN).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_green"));
 		addWithDefaultItem(candy_cane_blue = new CandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_blue"));
@@ -276,13 +301,31 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(refined_candy_cane_coating_blue = new RefinedCandyCaneBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_candy_cane_coating_blue"));
 		addWithDefaultItem(refined_stripped_candy_cane_coating = new PillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "refined_stripped_candy_cane_coating"));
 		addWithDefaultItem(candy_cane_block = new Block(Block.Properties.create(Material.ROCK, MaterialColor.LIGHT_GRAY).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 1.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "candy_cane_block"));
+
+		addWithDefaultItem(vivid_log = new LogBlock(MaterialColor.PINK, Block.Properties.create(Material.WOOD, MaterialColor.RED_TERRACOTTA).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_log"));
+		addWithDefaultItem(vivid_wood = new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.RED_TERRACOTTA).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_wood"));
+		addWithDefaultItem(vivid_planks = new Block(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_planks"));
+		addWithDefaultItem(vivid_sapling = new FunctionalSaplingBlock((random, b) -> LCCFeatures.vivid_tree.withConfiguration(LCCFeatures.VIVID_TREE_CONFIG), random -> LCCFeatures.big_vivid_tree.withConfiguration(LCCFeatures.BIG_VIVID_TREE_CONFIG), () -> LCCBlocks.potted_vivid_sapling.getDefaultState(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT)), new ResourceLocation(LCC.MODID, "vivid_sapling"));
+		add(potted_vivid_sapling = new FlowerPotBlock(() -> (FlowerPotBlock)Blocks.FLOWER_POT, () -> LCCBlocks.vivid_sapling, Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F)), new ResourceLocation(LCC.MODID, "potted_vivid_sapling"));
+		addWithDefaultItem(vivid_leaves = new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F * EFFECTIVE_HARDNESS_MODIFIER, 0.2F).tickRandomly().sound(SoundType.PLANT).notSolid()), new ResourceLocation(LCC.MODID, "vivid_leaves"));
+		addWithDefaultItem(stripped_vivid_log = new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "stripped_vivid_log"));
+		addWithDefaultItem(stripped_vivid_wood = new RotatedPillarBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK_TERRACOTTA).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "stripped_vivid_wood"));
+		addWithDefaultItem(vivid_stairs = new StairsBlock(() -> LCCBlocks.vivid_planks.getDefaultState(), Block.Properties.from(vivid_planks)), new ResourceLocation(LCC.MODID, "vivid_stairs"));
+		addWithDefaultItem(vivid_slab = new SlabBlock(Block.Properties.from(vivid_planks).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F)), new ResourceLocation(LCC.MODID, "vivid_slab"));
+		add(vivid_door = new AccessibleDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(3.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.WOOD).notSolid()), new ResourceLocation(LCC.MODID, "vivid_door"));
+		allItem.add((BlockItem)new TallBlockItem(LCCBlocks.vivid_door, new Item.Properties().group(LCC.itemGroup)).setRegistryName(LCC.MODID, "vivid_door"));
+		addWithDefaultItem(vivid_pressure_plate = new AccessiblePressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).doesNotBlockMovement().hardnessAndResistance(0.5F * EFFECTIVE_HARDNESS_MODIFIER, 0.5F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_pressure_plate"));
+		addWithDefaultItem(vivid_button = new AccessibleWoodButtonBlock(Block.Properties.create(Material.MISCELLANEOUS).harvestTool(ToolType.AXE).harvestLevel(0).doesNotBlockMovement().hardnessAndResistance(0.5F * EFFECTIVE_HARDNESS_MODIFIER, 0.5F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_button"));
+		addWithDefaultItem(vivid_fence = new FenceBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_fence"));
+		addWithDefaultItem(vivid_fence_gate = new FenceGateBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_fence_gate"));
+		addWithDefaultItem(vivid_trapdoor = new AccessibleTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(3.0F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.WOOD).notSolid()), new ResourceLocation(LCC.MODID, "vivid_trapdoor"));
+
 		factory(channelite, color -> {
 			Block.Properties p = Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.7F * EFFECTIVE_HARDNESS_MODIFIER, 2.0F).sound(SoundType.GLASS);
 			if (color == null) p.notSolid();
 			return add(new ChanneliteBlock(color, p), new ResourceLocation(LCC.MODID, "channelite_" + (color == null ? "empty" : color.getName())));
 		}, ArrayUtils.add(DyeColor.values(), null));
 		createDefaultItem(channelite.get(null), new ResourceLocation(LCC.MODID, "channelite"));
-		//TODO sources drop channelite crystals? less chance from dirt, better chance with stone
 		factory(sparkling_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).lightValue(15).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(1.4F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.GROUND)), new ResourceLocation(LCC.MODID, "sparkling_channelite_source_" + color.getName())), DyeColor.values());
 		factory(twilight_channelite_source, color -> addWithDefaultItem(new ChanneliteSourceBlock(color, Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).lightValue(15).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(1.4F * EFFECTIVE_HARDNESS_MODIFIER, 3.0F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "twilight_channelite_source_" + color.getName())), DyeColor.values());
 	}
@@ -298,6 +341,8 @@ public abstract class LCCBlocks {
 		});
 		//Manual
 		LCCBlocks.setRenderLayer(RenderType.getCutoutMipped(), star_plating);
+		LCCBlocks.setRenderLayer(RenderType.getTranslucent(), vivid_door);
+		LCCBlocks.setRenderLayer(RenderType.getTranslucent(), vivid_trapdoor);
 
 	}
 

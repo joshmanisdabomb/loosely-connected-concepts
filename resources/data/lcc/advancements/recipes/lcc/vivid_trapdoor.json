@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:vivid_trapdoor"
+    ]
+  },
+  "criteria": {
+    "has_vivid_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:vivid_planks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:vivid_trapdoor"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_vivid_planks",
+      "has_the_recipe"
+    ]
+  ]
+}

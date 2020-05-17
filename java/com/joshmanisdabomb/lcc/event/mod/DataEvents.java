@@ -12,16 +12,20 @@ public abstract class DataEvents {
         DataGenerator dg = e.getGenerator();
         if (e.includeClient()) {
             dg.addProvider(new LangData(dg));
-            BlockAssetData blockAssetData = new BlockAssetData(dg, e.getExistingFileHelper());
-            dg.addProvider(blockAssetData);
+
+            BlockAssetData blockAssetData;
+
+            dg.addProvider(blockAssetData = new BlockAssetData(dg, e.getExistingFileHelper()));
             dg.addProvider(new ItemAssetData(dg, e.getExistingFileHelper(), blockAssetData));
         }
         if (e.includeServer()) {
             dg.addProvider(new RecipeData(dg));
             dg.addProvider(new LootTableData(dg));
 
-            dg.addProvider(new BlockTagData(dg));
-            dg.addProvider(new ItemTagData(dg));
+            BlockTagData blockTagData;
+
+            dg.addProvider(blockTagData = new BlockTagData(dg));
+            dg.addProvider(new ItemTagData(dg, blockTagData));
             dg.addProvider(new FluidTagData(dg));
 
             dg.addProvider(new AdvancementData(dg));

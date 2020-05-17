@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:vivid_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:vivid_stairs",
+    "count": 4
+  }
+}

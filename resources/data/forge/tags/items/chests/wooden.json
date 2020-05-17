@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "lcc:classic_chest",
     "lcc:classic_chest"
   ]
 }

@@ -147,6 +147,12 @@ public class ItemAssetData extends ItemModelProvider implements LCCAssetGenerato
             .end();
         this.cubeAll(name(LCCBlocks.test_block_5.asItem()), path("test/5/default", ModelProvider.BLOCK_FOLDER));
 
+        this.simpleItem(LCCBlocks.vivid_sapling.asItem(), path("rainbow/wood/sapling", ModelProvider.BLOCK_FOLDER));
+        this.simpleItem(LCCBlocks.vivid_door.asItem(), path("rainbow/door"));
+        this.simpleBlock(LCCBlocks.vivid_button.asItem(), mcLoc(ModelProvider.BLOCK_FOLDER + "/button_inventory")).texture("texture", path("rainbow/wood/planks", ModelProvider.BLOCK_FOLDER));
+        this.simpleBlock(LCCBlocks.vivid_fence.asItem(), mcLoc(ModelProvider.BLOCK_FOLDER + "/fence_inventory")).texture("texture", path("rainbow/wood/planks", ModelProvider.BLOCK_FOLDER));
+        this.simpleBlock(LCCBlocks.vivid_trapdoor.asItem(), path(name(LCCBlocks.vivid_trapdoor.asItem()) + "_bottom", ModelProvider.BLOCK_FOLDER));
+
         this.addAll(item -> this.simpleBlock(item, path(item, path -> item.getModule().name().toLowerCase(), ModelProvider.BLOCK_FOLDER)), LCCItems.all.stream().filter(bi -> bi instanceof ComputingBlockItem).toArray(ComputingBlockItem[]::new));
 
         this.addAll(this::simpleBlock, LCCBlocks.allItem.stream().filter(bi -> !this.generatedModels.containsKey(path(bi.getRegistryName().getPath()))).toArray(Item[]::new));

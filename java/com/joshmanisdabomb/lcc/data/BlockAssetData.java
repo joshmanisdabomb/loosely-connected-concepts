@@ -5,11 +5,11 @@ import com.joshmanisdabomb.lcc.block.*;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.misc.Util;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.SixWayBlock;
+import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.item.DyeColor;
+import net.minecraft.state.properties.AttachFace;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -53,6 +53,7 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
 
         //Fix blockstate files to be lowercase.
         this.forceBlockstateLowercase(LCCBlocks.classic_chest);
+        this.forceBlockstateLowercase(LCCBlocks.vivid_button);
     }
 
     private void genericModels() {
@@ -238,6 +239,19 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
             .texture("base", path("rainbow/channelite/twilight"))
             .texture("overlay", path(block, path -> path.replace("twilight_channelite_source_", "rainbow/channelite/") + "_source"))
         ), LCCBlocks.twilight_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
+        this.addAll(block -> this.axisBlock(block, path(block, path -> "rainbow/wood/" + path.replace("vivid_", "")), path(block, path -> "rainbow/wood/" + path.replace("vivid_", "") + "_top")), LCCBlocks.vivid_log, LCCBlocks.stripped_vivid_log);
+        this.addAll(block -> this.axisBlock(block, path(block, path -> "rainbow/wood/" + path.replace("vivid_wood", "log")), path(block, path -> "rainbow/wood/" + path.replace("vivid_wood", "log"))), LCCBlocks.vivid_wood, LCCBlocks.stripped_vivid_wood);
+        this.addAll(block -> this.simpleBlock(block, path(block, path -> path.replace("vivid_", "rainbow/wood/"))), LCCBlocks.vivid_planks, LCCBlocks.vivid_leaves);
+        this.addAll(block -> this.simpleBlock(block, models().cross(name(block), path(block, path -> path.replace("vivid_", "rainbow/wood/")))), LCCBlocks.vivid_sapling);
+        this.addAll(block -> this.simpleBlock(block, models().withExistingParent(name(block), "flower_pot_cross").texture("plant", path(block, path -> path.replace("potted_vivid_", "rainbow/wood/")))), LCCBlocks.potted_vivid_sapling);
+        this.stairsBlock(LCCBlocks.vivid_stairs, path("rainbow/wood/planks"));
+        this.slabBlock(LCCBlocks.vivid_slab, path(name(LCCBlocks.vivid_planks)), path("rainbow/wood/planks"));
+        this.doorBlock(LCCBlocks.vivid_door, path("rainbow/wood/door_bottom"), path("rainbow/wood/door_top"));
+        this.pressurePlateBlock(LCCBlocks.vivid_pressure_plate, path("rainbow/wood/planks"));
+        this.buttonBlock(LCCBlocks.vivid_button, path("rainbow/wood/planks"));
+        this.fenceBlock(LCCBlocks.vivid_fence, path("rainbow/wood/planks"));
+        this.fenceGateBlock(LCCBlocks.vivid_fence_gate, path("rainbow/wood/planks"));
+        this.trapdoorBlock(LCCBlocks.vivid_trapdoor, path("rainbow/wood/trapdoor"), true);
 
         this.simpleBlock(LCCBlocks.time_rift, models().withExistingParent(name(LCCBlocks.time_rift), "block").texture("particle", path("time_rift")));
         this.addAll(block -> this.simpleBlock(block, path(block, path -> "nostalgia/" + path.replace("classic_", ""))), LCCBlocks.classic_bricks, LCCBlocks.classic_cobblestone, LCCBlocks.classic_glass, LCCBlocks.classic_gravel, LCCBlocks.classic_sponge, LCCBlocks.classic_mossy_cobblestone, LCCBlocks.classic_leaves, LCCBlocks.classic_planks, LCCBlocks.glowing_obsidian);
@@ -430,6 +444,23 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
         for (Direction d : Direction.values()) {
             builder.part().modelFile(cableModel(d, name(block), w).texture("cable", all)).addModel().condition(SixWayBlock.FACING_TO_PROPERTY_MAP.get(d), true).end();
         }
+    }
+
+    private void pressurePlateBlock(PressurePlateBlock block, ResourceLocation texture) {
+        this.getVariantBuilder(block)
+            .forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(models().withExistingParent(name(block) + (state.get(PressurePlateBlock.POWERED) ? "_down" : ""), "pressure_plate_" + (state.get(PressurePlateBlock.POWERED) ? "down" : "up")).texture("texture", texture))
+                .build());
+    }
+
+    private void buttonBlock(AbstractButtonBlock block, ResourceLocation texture) {
+        this.getVariantBuilder(block)
+            .forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(models().withExistingParent(name(block) + "_" + (state.get(AbstractButtonBlock.POWERED) ? "pressed" : ""), "button" + (state.get(PressurePlateBlock.POWERED) ? "_pressed" : "")).texture("texture", texture))
+                .rotationX(state.get(AbstractButtonBlock.FACE).ordinal() * 90)
+                .rotationY(((int)state.get(AbstractButtonBlock.HORIZONTAL_FACING).getHorizontalAngle() + 180) % 360)
+                .uvLock(state.get(AbstractButtonBlock.FACE) == AttachFace.WALL)
+                .build());
     }
 
     private void forceBlockstateLowercase(Block block) {

@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_bottom_rh",
+  "textures": {
+    "bottom": "lcc:block/rainbow/wood/door_bottom",
+    "top": "lcc:block/rainbow/wood/door_top"
+  }
+}

@@ -29,11 +29,11 @@ public class RefinedCandyCaneBlock extends PillarBlock {
         if (stack.getItem() instanceof PickaxeItem) {
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
             if (!world.isRemote) {
-                if (LCCTags.COLORED_CANDY_CANE_COATING.contains(b)) {
+                if (LCCTags.COLORED_CANDY_CANE_COATING.block.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.stripped_candy_cane_coating.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
-                } else if (LCCTags.REFINED_COLORED_CANDY_CANE.contains(b)) {
+                } else if (LCCTags.REFINED_COLORED_CANDY_CANE.block.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.refined_stripped_candy_cane.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
-                } else if (LCCTags.REFINED_COLORED_CANDY_CANE_COATING.contains(b)) {
+                } else if (LCCTags.REFINED_COLORED_CANDY_CANE_COATING.block.contains(b)) {
                     world.setBlockState(pos, LCCBlocks.refined_stripped_candy_cane_coating.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);
                 } else {
                     world.setBlockState(pos, LCCBlocks.stripped_candy_cane.getDefaultState().with(BlockStateProperties.AXIS, state.get(BlockStateProperties.AXIS)), 11);

@@ -1,0 +1,6 @@
+{
+  "parent": "block/button",
+  "textures": {
+    "texture": "lcc:block/rainbow/wood/planks"
+  }
+}

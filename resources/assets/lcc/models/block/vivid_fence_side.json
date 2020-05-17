@@ -1,0 +1,6 @@
+{
+  "parent": "block/fence_side",
+  "textures": {
+    "texture": "lcc:block/rainbow/wood/planks"
+  }
+}

@@ -17,9 +17,9 @@ import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class TopsWithChanceConfig extends Placement<HeightWithChanceConfig> {
+public class UnderSurfaceWithChanceMultiple extends Placement<HeightWithChanceConfig> {
 
-    public TopsWithChanceConfig(Function<Dynamic<?>, ? extends HeightWithChanceConfig> configFactoryIn) {
+    public UnderSurfaceWithChanceMultiple(Function<Dynamic<?>, ? extends HeightWithChanceConfig> configFactoryIn) {
         super(configFactoryIn);
     }
 
@@ -34,7 +34,7 @@ public class TopsWithChanceConfig extends Placement<HeightWithChanceConfig> {
             BlockPos p = worldIn.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(i, 0, j));
             BlockPos.Mutable bp = new BlockPos.Mutable();
 
-            for (int k = 0; k <= p.getY(); k++) {
+            for (int k = 0; k < p.getY() - 1; k++) {
                 bp.setPos(p).setY(0);
                 BlockState state = worldIn.getBlockState(bp.move(0, k, 0));
                 BlockState state2 = worldIn.getBlockState(bp.move(0, 1, 0));

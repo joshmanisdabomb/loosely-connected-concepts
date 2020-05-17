@@ -6,6 +6,13 @@
     "lcc:sapphire_storage",
     "lcc:amethyst_storage",
     "lcc:uranium_storage",
+    "lcc:enriched_uranium_storage",
+    "lcc:neon_storage",
+    "lcc:ruby_storage",
+    "lcc:topaz_storage",
+    "lcc:sapphire_storage",
+    "lcc:amethyst_storage",
+    "lcc:uranium_storage",
     "lcc:neon_storage"
   ]
 }

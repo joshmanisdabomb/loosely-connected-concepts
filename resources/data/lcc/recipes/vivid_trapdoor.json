@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:vivid_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:vivid_trapdoor"
+  }
+}

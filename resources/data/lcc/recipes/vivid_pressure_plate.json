@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:vivid_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:vivid_pressure_plate"
+  }
+}

@@ -47,6 +47,11 @@ public class LangData extends LanguageProvider {
         this.addAll(this::addItem, this::basic, LCCItems.emerald_sword, LCCItems.emerald_pickaxe, LCCItems.emerald_shovel, LCCItems.emerald_axe, LCCItems.emerald_hoe, LCCItems.emerald_helmet, LCCItems.emerald_chestplate, LCCItems.emerald_leggings, LCCItems.emerald_boots);
         this.addAll(this::addItem, this::basic, LCCItems.sapphire_sword, LCCItems.sapphire_pickaxe, LCCItems.sapphire_shovel, LCCItems.sapphire_axe, LCCItems.sapphire_hoe, LCCItems.sapphire_helmet, LCCItems.sapphire_chestplate, LCCItems.sapphire_leggings, LCCItems.sapphire_boots);
         this.addAll(this::addItem, this::basic, LCCItems.amethyst_sword, LCCItems.amethyst_pickaxe, LCCItems.amethyst_shovel, LCCItems.amethyst_axe, LCCItems.amethyst_hoe, LCCItems.amethyst_helmet, LCCItems.amethyst_chestplate, LCCItems.amethyst_leggings, LCCItems.amethyst_boots);
+        this.addAll(this::addItem, this::basic, LCCItems.red_candy_cane_sword, LCCItems.red_candy_cane_pickaxe, LCCItems.red_candy_cane_shovel, LCCItems.red_candy_cane_axe, LCCItems.red_candy_cane_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.vivid_sword, LCCItems.vivid_pickaxe, LCCItems.vivid_shovel, LCCItems.vivid_axe, LCCItems.vivid_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.green_candy_cane_sword, LCCItems.green_candy_cane_pickaxe, LCCItems.green_candy_cane_shovel, LCCItems.green_candy_cane_axe, LCCItems.green_candy_cane_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.blue_candy_cane_sword, LCCItems.blue_candy_cane_pickaxe, LCCItems.blue_candy_cane_shovel, LCCItems.blue_candy_cane_axe, LCCItems.blue_candy_cane_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.neon_sword, LCCItems.neon_pickaxe, LCCItems.neon_shovel, LCCItems.neon_axe, LCCItems.neon_hoe, LCCItems.neon_helmet, LCCItems.neon_chestplate, LCCItems.neon_leggings, LCCItems.neon_boots);
 
         this.addAll(this::addBlock, this::basic, LCCBlocks.road, LCCBlocks.hydrated_soul_sand, LCCBlocks.bounce_pad);
         this.addAll(this::addItem, this::basic, LCCItems.chromatic_core);

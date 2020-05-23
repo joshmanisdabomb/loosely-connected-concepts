@@ -24,7 +24,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.function.Function;
 
 public abstract class LCCBlocks {
@@ -75,12 +75,12 @@ public abstract class LCCBlocks {
 
 	//Spreaders
 	public static SpreaderInterfaceBlock spreader_interface;
-    public static HashMap<DyeColor, SpreaderBlock> spreaders = new HashMap<>();
+    public static LinkedHashMap<DyeColor, SpreaderBlock> spreaders = new LinkedHashMap<>();
 
     //Computing
 	public static ComputingBlock computing;
 	public static CableBlock networking_cable;
-	public static HashMap<DyeColor, TerminalBlock> terminals = new HashMap<>();
+	public static LinkedHashMap<DyeColor, TerminalBlock> terminals = new LinkedHashMap<>();
 	public static CableBlock terminal_cable;
 	public static Block printer2d;
 	public static Block printer3d;
@@ -97,7 +97,7 @@ public abstract class LCCBlocks {
 	public static FunctionalLeavesBlock classic_leaves;
 	public static ClassicSpongeBlock classic_sponge;
 	public static GlassBlock classic_glass;
-	public static HashMap<ClassicDyeColor, ShearableBlock> classic_cloth = new HashMap<>();
+	public static LinkedHashMap<ClassicDyeColor, ShearableBlock> classic_cloth = new LinkedHashMap<>();
 	public static PottableFlowerBlock classic_rose;
 	public static FlowerPotBlock potted_classic_rose;
 	public static PottableFlowerBlock classic_cyan_flower;
@@ -125,7 +125,7 @@ public abstract class LCCBlocks {
 	public static FunctionalSnowlessGrassBlock rainbow_grass_block;
 	public static FunctionalSnowlessGrassBlock sugar_grass_block;
 	public static Block star_plating;
-	public static HashMap<DyeColor, SparklingGrassBlock> sparkling_grass_block = new HashMap<>();
+	public static LinkedHashMap<DyeColor, SparklingGrassBlock> sparkling_grass_block = new LinkedHashMap<>();
 	public static Block sparkling_dirt;
 	public static Block twilight_stone;
 	public static Block twilight_cobblestone;
@@ -167,9 +167,9 @@ public abstract class LCCBlocks {
 	public static FenceGateBlock vivid_fence_gate;
 	public static TrapDoorBlock vivid_trapdoor;
 
-	public static HashMap<DyeColor, ChanneliteBlock> channelite = new HashMap<>();
-	public static HashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new HashMap<>();
-	public static HashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new HashMap<>();
+	public static LinkedHashMap<DyeColor, ChanneliteBlock> channelite = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new LinkedHashMap<>();
 
 	public static Block neon_screen;
 
@@ -368,7 +368,7 @@ public abstract class LCCBlocks {
 		return bi;
 	}
 
-	private static <T, B extends Block> void factory(HashMap<T, B> map, Function<T, B> creator, T... values) {
+	private static <T, B extends Block> void factory(LinkedHashMap<T, B> map, Function<T, B> creator, T... values) {
 		for (T value : values) {
 			B b = creator.apply(value);
 			map.put(value, b);

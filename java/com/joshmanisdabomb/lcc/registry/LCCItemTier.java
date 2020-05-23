@@ -9,11 +9,16 @@ import java.util.function.Supplier;
 
 public enum LCCItemTier implements IItemTier {
 
-    RUBY(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.ruby); }),
-    TOPAZ(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.topaz); }),
-    EMERALD(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(Items.EMERALD); }),
-    SAPPHIRE(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.sapphire); }),
-    AMETHYST(3, 1561, 8.0F, 3.0F, 10, () -> { return Ingredient.fromItems(LCCItems.amethyst); });
+    RUBY(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.ruby)),
+    TOPAZ(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.topaz)),
+    EMERALD(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(Items.EMERALD)),
+    SAPPHIRE(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.sapphire)),
+    AMETHYST(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.amethyst)),
+    RED_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.RED_CANDY_CANES.item)),
+    GREEN_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.BLUE_CANDY_CANES.item)),
+    BLUE_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.GREEN_CANDY_CANES.item)),
+    VIVID_WOOD(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromItems(LCCBlocks.vivid_planks.asItem())),
+    NEON(3, 2200, 16.0F, 5.5F, 25, () -> Ingredient.fromItems(LCCItems.neon));
 
     private final int harvestLevel;
     private final int maxUses;

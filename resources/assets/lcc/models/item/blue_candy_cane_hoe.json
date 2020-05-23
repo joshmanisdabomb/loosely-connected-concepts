@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "lcc:item/equipment/blue_candy_cane_hoe"
+  }
+}

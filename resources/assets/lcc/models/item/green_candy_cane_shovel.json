@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "lcc:item/equipment/green_candy_cane_shovel"
+  }
+}

@@ -14,6 +14,9 @@ public abstract class LCCTags {
 
     public static final ArrayList<WrapperWrapper> ALL = new ArrayList<>();
 
+    public static final WrapperWrapper RED_CANDY_CANES = new WrapperWrapper(new ResourceLocation(LCC.MODID, "red_candy_canes"));
+    public static final WrapperWrapper GREEN_CANDY_CANES = new WrapperWrapper(new ResourceLocation(LCC.MODID, "green_candy_canes"));
+    public static final WrapperWrapper BLUE_CANDY_CANES = new WrapperWrapper(new ResourceLocation(LCC.MODID, "blue_candy_canes"));
     public static final WrapperWrapper COLORED_CANDY_CANES = new WrapperWrapper(new ResourceLocation(LCC.MODID, "colored_candy_canes"));
     public static final WrapperWrapper COLORED_CANDY_CANE = new WrapperWrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane"));
     public static final WrapperWrapper COLORED_CANDY_CANE_COATING = new WrapperWrapper(new ResourceLocation(LCC.MODID, "colored_candy_cane_coating"));

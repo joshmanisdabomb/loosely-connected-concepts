@@ -10,7 +10,7 @@ import net.minecraft.item.*;
 import net.minecraftforge.event.RegistryEvent.Register;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class LCCItems {
 
@@ -86,6 +86,40 @@ public abstract class LCCItems {
 	public static CustomArmorItem amethyst_leggings;
 	public static CustomArmorItem amethyst_boots;
 
+	public static SwordItem red_candy_cane_sword;
+	public static PickaxeItem red_candy_cane_pickaxe;
+	public static ShovelItem red_candy_cane_shovel;
+	public static AxeItem red_candy_cane_axe;
+	public static HoeItem red_candy_cane_hoe;
+
+	public static SwordItem green_candy_cane_sword;
+	public static PickaxeItem green_candy_cane_pickaxe;
+	public static ShovelItem green_candy_cane_shovel;
+	public static AxeItem green_candy_cane_axe;
+	public static HoeItem green_candy_cane_hoe;
+
+	public static SwordItem blue_candy_cane_sword;
+	public static PickaxeItem blue_candy_cane_pickaxe;
+	public static ShovelItem blue_candy_cane_shovel;
+	public static AxeItem blue_candy_cane_axe;
+	public static HoeItem blue_candy_cane_hoe;
+
+	public static SwordItem vivid_sword;
+	public static PickaxeItem vivid_pickaxe;
+	public static ShovelItem vivid_shovel;
+	public static AxeItem vivid_axe;
+	public static HoeItem vivid_hoe;
+
+	public static SwordItem neon_sword;
+	public static PickaxeItem neon_pickaxe;
+	public static ShovelItem neon_shovel;
+	public static AxeItem neon_axe;
+	public static HoeItem neon_hoe;
+	public static CustomArmorItem neon_helmet;
+	public static CustomArmorItem neon_chestplate;
+	public static CustomArmorItem neon_leggings;
+	public static CustomArmorItem neon_boots;
+
 	//Wasteland
 	public static BucketItem oil_bucket;
 
@@ -95,13 +129,13 @@ public abstract class LCCItems {
 	//Computing
 	public static VisualStackItem microchip;
 	public static Item chipset;
-	public static HashMap<DyeColor, ComputingBlockItem> computer_casings = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> computers = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> floppy_drives = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> cd_drives = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> card_readers = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> stick_readers = new HashMap<>();
-	public static HashMap<DyeColor, ComputingBlockItem> drive_bays = new HashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> computer_casings = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> computers = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> floppy_drives = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> cd_drives = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> card_readers = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> stick_readers = new LinkedHashMap<>();
+	public static LinkedHashMap<DyeColor, ComputingBlockItem> drive_bays = new LinkedHashMap<>();
 	public static ComputingItem cpu;
 	public static ComputingItem ram;
 	public static ComputingItem gpu;
@@ -211,6 +245,40 @@ public abstract class LCCItems {
 		all.add((amethyst_chestplate = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.CHEST, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "amethyst_chestplate"));
 		all.add((amethyst_leggings = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.LEGS, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "amethyst_leggings"));
 		all.add((amethyst_boots = new CustomArmorItem(LCCArmorMaterial.AMETHYST, EquipmentSlotType.FEET, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "amethyst_boots"));
+
+		all.add((red_candy_cane_sword = new SwordItem(LCCItemTier.RED_CANDY_CANE, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_candy_cane_sword"));
+		all.add((red_candy_cane_pickaxe = new PickaxeItem(LCCItemTier.RED_CANDY_CANE, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_candy_cane_pickaxe"));
+		all.add((red_candy_cane_shovel = new ShovelItem(LCCItemTier.RED_CANDY_CANE, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_candy_cane_shovel"));
+		all.add((red_candy_cane_axe = new AxeItem(LCCItemTier.RED_CANDY_CANE, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_candy_cane_axe"));
+		all.add((red_candy_cane_hoe = new HoeItem(LCCItemTier.RED_CANDY_CANE, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "red_candy_cane_hoe"));
+
+		all.add((green_candy_cane_sword = new SwordItem(LCCItemTier.GREEN_CANDY_CANE, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "green_candy_cane_sword"));
+		all.add((green_candy_cane_pickaxe = new PickaxeItem(LCCItemTier.GREEN_CANDY_CANE, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "green_candy_cane_pickaxe"));
+		all.add((green_candy_cane_shovel = new ShovelItem(LCCItemTier.GREEN_CANDY_CANE, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "green_candy_cane_shovel"));
+		all.add((green_candy_cane_axe = new AxeItem(LCCItemTier.GREEN_CANDY_CANE, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "green_candy_cane_axe"));
+		all.add((green_candy_cane_hoe = new HoeItem(LCCItemTier.GREEN_CANDY_CANE, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "green_candy_cane_hoe"));
+
+		all.add((blue_candy_cane_sword = new SwordItem(LCCItemTier.BLUE_CANDY_CANE, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "blue_candy_cane_sword"));
+		all.add((blue_candy_cane_pickaxe = new PickaxeItem(LCCItemTier.BLUE_CANDY_CANE, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "blue_candy_cane_pickaxe"));
+		all.add((blue_candy_cane_shovel = new ShovelItem(LCCItemTier.BLUE_CANDY_CANE, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "blue_candy_cane_shovel"));
+		all.add((blue_candy_cane_axe = new AxeItem(LCCItemTier.BLUE_CANDY_CANE, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "blue_candy_cane_axe"));
+		all.add((blue_candy_cane_hoe = new HoeItem(LCCItemTier.BLUE_CANDY_CANE, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "blue_candy_cane_hoe"));
+
+		all.add((vivid_sword = new SwordItem(LCCItemTier.VIVID_WOOD, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_sword"));
+		all.add((vivid_pickaxe = new PickaxeItem(LCCItemTier.VIVID_WOOD, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_pickaxe"));
+		all.add((vivid_shovel = new ShovelItem(LCCItemTier.VIVID_WOOD, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_shovel"));
+		all.add((vivid_axe = new AxeItem(LCCItemTier.VIVID_WOOD, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_axe"));
+		all.add((vivid_hoe = new HoeItem(LCCItemTier.VIVID_WOOD, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_hoe"));
+
+		all.add((neon_sword = new SwordItem(LCCItemTier.NEON, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_sword"));
+		all.add((neon_pickaxe = new PickaxeItem(LCCItemTier.NEON, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_pickaxe"));
+		all.add((neon_shovel = new ShovelItem(LCCItemTier.NEON, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_shovel"));
+		all.add((neon_axe = new AxeItem(LCCItemTier.NEON, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_axe"));
+		all.add((neon_hoe = new HoeItem(LCCItemTier.NEON, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_hoe"));
+		all.add((neon_helmet = new CustomArmorItem(LCCArmorMaterial.NEON, EquipmentSlotType.HEAD, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_helmet"));
+		all.add((neon_chestplate = new CustomArmorItem(LCCArmorMaterial.NEON, EquipmentSlotType.CHEST, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_chestplate"));
+		all.add((neon_leggings = new CustomArmorItem(LCCArmorMaterial.NEON, EquipmentSlotType.LEGS, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_leggings"));
+		all.add((neon_boots = new CustomArmorItem(LCCArmorMaterial.NEON, EquipmentSlotType.FEET, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_boots"));
 
 		//Wasteland
 		all.add((oil_bucket = new BucketItem(() -> LCCFluids.oil, new Item.Properties().containerItem(Items.BUCKET).maxStackSize(1).group(LCC.itemGroup))).setRegistryName(LCC.MODID, "oil_bucket"));

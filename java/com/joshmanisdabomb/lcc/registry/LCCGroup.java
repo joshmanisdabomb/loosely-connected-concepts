@@ -149,6 +149,40 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.amethyst_leggings, LCCGroupCategory.TOOLS, 470);
         set(LCCItems.amethyst_boots, LCCGroupCategory.TOOLS, 480);
 
+        set(LCCItems.vivid_sword, LCCGroupCategory.TOOLS, 500);
+        set(LCCItems.vivid_pickaxe, LCCGroupCategory.TOOLS, 510);
+        set(LCCItems.vivid_shovel, LCCGroupCategory.TOOLS, 520);
+        set(LCCItems.vivid_axe, LCCGroupCategory.TOOLS, 530);
+        set(LCCItems.vivid_hoe, LCCGroupCategory.TOOLS, 540);
+
+        set(LCCItems.red_candy_cane_sword, LCCGroupCategory.TOOLS, 600);
+        set(LCCItems.red_candy_cane_pickaxe, LCCGroupCategory.TOOLS, 610);
+        set(LCCItems.red_candy_cane_shovel, LCCGroupCategory.TOOLS, 620);
+        set(LCCItems.red_candy_cane_axe, LCCGroupCategory.TOOLS, 630);
+        set(LCCItems.red_candy_cane_hoe, LCCGroupCategory.TOOLS, 640);
+
+        set(LCCItems.green_candy_cane_sword, LCCGroupCategory.TOOLS, 700);
+        set(LCCItems.green_candy_cane_pickaxe, LCCGroupCategory.TOOLS, 710);
+        set(LCCItems.green_candy_cane_shovel, LCCGroupCategory.TOOLS, 720);
+        set(LCCItems.green_candy_cane_axe, LCCGroupCategory.TOOLS, 730);
+        set(LCCItems.green_candy_cane_hoe, LCCGroupCategory.TOOLS, 740);
+
+        set(LCCItems.blue_candy_cane_sword, LCCGroupCategory.TOOLS, 800);
+        set(LCCItems.blue_candy_cane_pickaxe, LCCGroupCategory.TOOLS, 810);
+        set(LCCItems.blue_candy_cane_shovel, LCCGroupCategory.TOOLS, 820);
+        set(LCCItems.blue_candy_cane_axe, LCCGroupCategory.TOOLS, 830);
+        set(LCCItems.blue_candy_cane_hoe, LCCGroupCategory.TOOLS, 840);
+
+        set(LCCItems.neon_sword, LCCGroupCategory.TOOLS, 900);
+        set(LCCItems.neon_pickaxe, LCCGroupCategory.TOOLS, 910);
+        set(LCCItems.neon_shovel, LCCGroupCategory.TOOLS, 920);
+        set(LCCItems.neon_axe, LCCGroupCategory.TOOLS, 930);
+        set(LCCItems.neon_hoe, LCCGroupCategory.TOOLS, 940);
+        set(LCCItems.neon_helmet, LCCGroupCategory.TOOLS, 950);
+        set(LCCItems.neon_chestplate, LCCGroupCategory.TOOLS, 960);
+        set(LCCItems.neon_leggings, LCCGroupCategory.TOOLS, 970);
+        set(LCCItems.neon_boots, LCCGroupCategory.TOOLS, 980);
+
         //Rainbow
         set(LCCItems.chromatic_core, LCCGroupCategory.RAINBOW, 0);
         set(LCCBlocks.rainbow_gate, LCCGroupCategory.RAINBOW, 10);

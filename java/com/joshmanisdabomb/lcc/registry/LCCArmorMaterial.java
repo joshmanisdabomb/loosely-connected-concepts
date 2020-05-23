@@ -14,11 +14,12 @@ import java.util.function.Supplier;
 
 public enum LCCArmorMaterial implements IArmorMaterial {
 
-    RUBY("ruby", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> { return Ingredient.fromItems(LCCItems.ruby); }),
-    TOPAZ("topaz", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> { return Ingredient.fromItems(LCCItems.topaz); }),
-    EMERALD("emerald", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> { return Ingredient.fromItems(Items.EMERALD); }),
-    SAPPHIRE("sapphire", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> { return Ingredient.fromItems(LCCItems.sapphire); }),
-    AMETHYST("amethyst", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> { return Ingredient.fromItems(LCCItems.amethyst); });
+    RUBY("ruby", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> Ingredient.fromItems(LCCItems.ruby)),
+    TOPAZ("topaz", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> Ingredient.fromItems(LCCItems.topaz)),
+    EMERALD("emerald", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> Ingredient.fromItems(Items.EMERALD)),
+    SAPPHIRE("sapphire", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> Ingredient.fromItems(LCCItems.sapphire)),
+    AMETHYST("amethyst", 33, new int[]{3, 6, 8, 3}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, () -> Ingredient.fromItems(LCCItems.amethyst)),
+    NEON("neon", 37, new int[]{4, 7, 9, 3}, 25, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 2.4F, () -> Ingredient.fromItems(LCCItems.neon));
 
     private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
     private final String name;

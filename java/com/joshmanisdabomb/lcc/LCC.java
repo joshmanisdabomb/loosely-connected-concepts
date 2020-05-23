@@ -56,6 +56,7 @@ public class LCC
 
         MinecraftForge.EVENT_BUS.register(new GeneralEvents());
         MinecraftForge.EVENT_BUS.register(new InterfaceEvents());
+        MinecraftForge.EVENT_BUS.register(new TagEvents());
 
         LCCCapabilities.init();
         MinecraftForge.EVENT_BUS.register(new CapabilityEvents());

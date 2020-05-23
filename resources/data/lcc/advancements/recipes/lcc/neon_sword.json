@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:neon_sword"
+    ]
+  },
+  "criteria": {
+    "has_neon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:neon"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:neon_sword"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_neon",
+      "has_the_recipe"
+    ]
+  ]
+}

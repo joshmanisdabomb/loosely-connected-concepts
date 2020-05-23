@@ -28,6 +28,21 @@ public class BlockTagData extends BlockTagsProvider {
         this.registerMinecraftTags();
         this.registerForgeTags();
 
+        this.getBuilder(LCCTags.RED_CANDY_CANES.block)
+            .add(LCCBlocks.candy_cane_red)
+            .add(LCCBlocks.candy_cane_coating_red)
+            .ordered(true);
+
+        this.getBuilder(LCCTags.GREEN_CANDY_CANES.block)
+            .add(LCCBlocks.candy_cane_green)
+            .add(LCCBlocks.candy_cane_coating_green)
+            .ordered(true);
+
+        this.getBuilder(LCCTags.BLUE_CANDY_CANES.block)
+            .add(LCCBlocks.candy_cane_blue)
+            .add(LCCBlocks.candy_cane_coating_blue)
+            .ordered(true);
+
         this.getBuilder(LCCTags.COLORED_CANDY_CANE.block)
             .add(LCCBlocks.candy_cane_red)
             .add(LCCBlocks.candy_cane_green)

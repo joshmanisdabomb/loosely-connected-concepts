@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
@@ -55,8 +56,25 @@ public class RecipeData extends RecipeProvider {
         this.armorset(LCCItems.sapphire_helmet, LCCItems.sapphire_chestplate, LCCItems.sapphire_leggings, LCCItems.sapphire_boots, LCCItems.sapphire, consumer);
         this.toolset(LCCItems.amethyst_sword, LCCItems.amethyst_pickaxe, LCCItems.amethyst_shovel, LCCItems.amethyst_axe, LCCItems.amethyst_hoe, LCCItems.amethyst, Items.STICK, consumer);
         this.armorset(LCCItems.amethyst_helmet, LCCItems.amethyst_chestplate, LCCItems.amethyst_leggings, LCCItems.amethyst_boots, LCCItems.amethyst, consumer);
+        this.toolset(LCCItems.vivid_sword, LCCItems.vivid_pickaxe, LCCItems.vivid_shovel, LCCItems.vivid_axe, LCCItems.vivid_hoe, LCCBlocks.vivid_planks, Items.STICK, consumer);
+        this.toolset(LCCItems.red_candy_cane_sword, LCCItems.red_candy_cane_pickaxe, LCCItems.red_candy_cane_shovel, LCCItems.red_candy_cane_axe, LCCItems.red_candy_cane_hoe, LCCTags.RED_CANDY_CANES.item, Items.STICK, consumer);
+        this.toolset(LCCItems.green_candy_cane_sword, LCCItems.green_candy_cane_pickaxe, LCCItems.green_candy_cane_shovel, LCCItems.green_candy_cane_axe, LCCItems.green_candy_cane_hoe, LCCTags.GREEN_CANDY_CANES.item, Items.STICK, consumer);
+        this.toolset(LCCItems.blue_candy_cane_sword, LCCItems.blue_candy_cane_pickaxe, LCCItems.blue_candy_cane_shovel, LCCItems.blue_candy_cane_axe, LCCItems.blue_candy_cane_hoe, LCCTags.BLUE_CANDY_CANES.item, Items.STICK, consumer);
+        this.toolset(LCCItems.neon_sword, LCCItems.neon_pickaxe, LCCItems.neon_shovel, LCCItems.neon_axe, LCCItems.neon_hoe, LCCItems.neon, Items.STICK, consumer);
+        this.armorset(LCCItems.neon_helmet, LCCItems.neon_chestplate, LCCItems.neon_leggings, LCCItems.neon_boots, LCCItems.neon, consumer);
 
         //Misc
+        ShapedRecipeBuilder.shapedRecipe(LCCBlocks.atomic_bomb)
+            .patternLine("ccc")
+            .patternLine("bdc")
+            .patternLine("ccc")
+            .key('c', Blocks.IRON_BLOCK)
+            .key('b', ItemTags.BUTTONS)
+            .key('d', Blocks.DISPENSER)
+            .addCriterion(has(LCCItems.enriched_uranium_nugget), this.hasItem(LCCItems.enriched_uranium_nugget))
+            .addCriterion(has(LCCItems.enriched_uranium), this.hasItem(LCCItems.enriched_uranium))
+            .addCriterion(has(LCCBlocks.enriched_uranium_storage), this.hasItem(LCCBlocks.enriched_uranium_storage))
+            .build(consumer);
         ShapedRecipeBuilder.shapedRecipe(LCCBlocks.bounce_pad, 6)
             .patternLine("rwr")
             .patternLine("ipi")
@@ -337,7 +355,29 @@ public class RecipeData extends RecipeProvider {
             .build(consumer);
     }
 
+    private void sword(IItemProvider sword, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(sword)
+            .patternLine("i")
+            .patternLine("i")
+            .patternLine("s")
+            .key('i', ingot)
+            .key('s', stick)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
     private void pickaxe(IItemProvider pickaxe, IItemProvider ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(pickaxe)
+            .patternLine("iii")
+            .patternLine(" s ")
+            .patternLine(" s ")
+            .key('i', ingot)
+            .key('s', stick)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
+    private void pickaxe(IItemProvider pickaxe, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(pickaxe)
             .patternLine("iii")
             .patternLine(" s ")
@@ -359,7 +399,29 @@ public class RecipeData extends RecipeProvider {
             .build(consumer);
     }
 
+    private void shovel(IItemProvider shovel, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(shovel)
+            .patternLine("i")
+            .patternLine("s")
+            .patternLine("s")
+            .key('i', ingot)
+            .key('s', stick)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
     private void axe(IItemProvider axe, IItemProvider ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(axe)
+            .patternLine("ii")
+            .patternLine("is")
+            .patternLine(" s")
+            .key('i', ingot)
+            .key('s', stick)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
+    private void axe(IItemProvider axe, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(axe)
             .patternLine("ii")
             .patternLine("is")
@@ -381,6 +443,17 @@ public class RecipeData extends RecipeProvider {
             .build(consumer);
     }
 
+    private void hoe(IItemProvider hoe, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(hoe)
+            .patternLine("ii")
+            .patternLine(" s")
+            .patternLine(" s")
+            .key('i', ingot)
+            .key('s', stick)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
     private void helmet(IItemProvider helmet, IItemProvider ingot, Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(helmet)
             .patternLine("iii")
@@ -390,7 +463,26 @@ public class RecipeData extends RecipeProvider {
             .build(consumer);
     }
 
+    private void helmet(IItemProvider helmet, Tag<Item> ingot, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(helmet)
+            .patternLine("iii")
+            .patternLine("i i")
+            .key('i', ingot)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
     private void chestplate(IItemProvider chestplate, IItemProvider ingot, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(chestplate)
+            .patternLine("i i")
+            .patternLine("iii")
+            .patternLine("iii")
+            .key('i', ingot)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
+    private void chestplate(IItemProvider chestplate, Tag<Item> ingot, Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(chestplate)
             .patternLine("i i")
             .patternLine("iii")
@@ -410,7 +502,26 @@ public class RecipeData extends RecipeProvider {
             .build(consumer);
     }
 
+    private void leggings(IItemProvider leggings, Tag<Item> ingot, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(leggings)
+            .patternLine("iii")
+            .patternLine("i i")
+            .patternLine("i i")
+            .key('i', ingot)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
     private void boots(IItemProvider boots, IItemProvider ingot, Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(boots)
+            .patternLine("i i")
+            .patternLine("i i")
+            .key('i', ingot)
+            .addCriterion(has(ingot), this.hasItem(ingot))
+            .build(consumer);
+    }
+
+    private void boots(IItemProvider boots, Tag<Item> ingot, Consumer<IFinishedRecipe> consumer) {
         ShapedRecipeBuilder.shapedRecipe(boots)
             .patternLine("i i")
             .patternLine("i i")
@@ -427,7 +538,22 @@ public class RecipeData extends RecipeProvider {
         if (hoe != null) this.hoe(hoe, ingot, stick, consumer);
     }
 
+    private void toolset(IItemProvider sword, IItemProvider pickaxe, IItemProvider shovel, IItemProvider axe, IItemProvider hoe, Tag<Item> ingot, IItemProvider stick, Consumer<IFinishedRecipe> consumer) {
+        if (sword != null) this.sword(sword, ingot, stick, consumer);
+        if (pickaxe != null) this.pickaxe(pickaxe, ingot, stick, consumer);
+        if (shovel != null) this.shovel(shovel, ingot, stick, consumer);
+        if (axe != null) this.axe(axe, ingot, stick, consumer);
+        if (hoe != null) this.hoe(hoe, ingot, stick, consumer);
+    }
+
     private void armorset(IItemProvider helmet, IItemProvider chestplate, IItemProvider leggings, IItemProvider boots, IItemProvider ingot, Consumer<IFinishedRecipe> consumer) {
+        if (helmet != null) this.helmet(helmet, ingot, consumer);
+        if (chestplate != null) this.chestplate(chestplate, ingot, consumer);
+        if (leggings != null) this.leggings(leggings, ingot, consumer);
+        if (boots != null) this.boots(boots, ingot, consumer);
+    }
+
+    private void armorset(IItemProvider helmet, IItemProvider chestplate, IItemProvider leggings, IItemProvider boots, Tag<Item> ingot, Consumer<IFinishedRecipe> consumer) {
         if (helmet != null) this.helmet(helmet, ingot, consumer);
         if (chestplate != null) this.chestplate(chestplate, ingot, consumer);
         if (leggings != null) this.leggings(leggings, ingot, consumer);

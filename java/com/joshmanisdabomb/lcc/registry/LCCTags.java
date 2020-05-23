@@ -31,8 +31,10 @@ public abstract class LCCTags {
 
     public static final WrapperWrapper RAINBOW_EFFECTIVE = new WrapperWrapper(new ResourceLocation(LCC.MODID, "rainbow_effective"));
     public static final WrapperWrapper RAINBOW_REQUIRED = new WrapperWrapper(new ResourceLocation(LCC.MODID, "rainbow_required"));
+    public static final ItemTags.Wrapper RAINBOW_EQUIPMENT = new ItemTags.Wrapper(new ResourceLocation(LCC.MODID, "rainbow_equipment"));
     public static final WrapperWrapper WASTELAND_EFFECTIVE = new WrapperWrapper(new ResourceLocation(LCC.MODID, "wasteland_effective"));
     public static final WrapperWrapper WASTELAND_REQUIRED = new WrapperWrapper(new ResourceLocation(LCC.MODID, "wasteland_required"));
+    public static final ItemTags.Wrapper WASTELAND_EQUIPMENT = new ItemTags.Wrapper(new ResourceLocation(LCC.MODID, "wasteland_equipment"));
 
     public static final FluidTags.Wrapper OIL = new FluidTags.Wrapper(new ResourceLocation(LCC.MODID, "oil"));
 

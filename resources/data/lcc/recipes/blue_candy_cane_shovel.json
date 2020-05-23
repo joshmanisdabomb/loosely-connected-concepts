@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i",
+    "s",
+    "s"
+  ],
+  "key": {
+    "i": {
+      "tag": "lcc:blue_candy_canes"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:blue_candy_cane_shovel"
+  }
+}

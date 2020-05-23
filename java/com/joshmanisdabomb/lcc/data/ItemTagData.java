@@ -51,6 +51,38 @@ public class ItemTagData extends ItemTagsProvider {
         this.copy(Tags.Blocks.ORES, Tags.Items.ORES);
         this.copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
         this.registerForgeTags();
+
+        this.getBuilder(LCCTags.RAINBOW_EQUIPMENT)
+            .add(LCCItems.vivid_sword)
+            .add(LCCItems.vivid_pickaxe)
+            .add(LCCItems.vivid_shovel)
+            .add(LCCItems.vivid_axe)
+            .add(LCCItems.vivid_hoe)
+            .add(LCCItems.red_candy_cane_sword)
+            .add(LCCItems.red_candy_cane_pickaxe)
+            .add(LCCItems.red_candy_cane_shovel)
+            .add(LCCItems.red_candy_cane_axe)
+            .add(LCCItems.red_candy_cane_hoe)
+            .add(LCCItems.green_candy_cane_sword)
+            .add(LCCItems.green_candy_cane_pickaxe)
+            .add(LCCItems.green_candy_cane_shovel)
+            .add(LCCItems.green_candy_cane_axe)
+            .add(LCCItems.green_candy_cane_hoe)
+            .add(LCCItems.blue_candy_cane_sword)
+            .add(LCCItems.blue_candy_cane_pickaxe)
+            .add(LCCItems.blue_candy_cane_shovel)
+            .add(LCCItems.blue_candy_cane_axe)
+            .add(LCCItems.blue_candy_cane_hoe)
+            .add(LCCItems.neon_sword)
+            .add(LCCItems.neon_pickaxe)
+            .add(LCCItems.neon_shovel)
+            .add(LCCItems.neon_axe)
+            .add(LCCItems.neon_hoe)
+            .add(LCCItems.neon_helmet)
+            .add(LCCItems.neon_chestplate)
+            .add(LCCItems.neon_leggings)
+            .add(LCCItems.neon_boots)
+            .ordered(true);
     }
 
     private void registerForgeTags() {

@@ -7,7 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -27,10 +26,10 @@ public class RainbowTerreneBiome extends RainbowBiome implements LCCBiomeHelper 
     @Override
     public void lateGenerators() {
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
-            LCCFeatures.big_vivid_tree.withConfiguration(LCCFeatures.BIG_VIVID_TREE_CONFIG).func_227227_a_(0.01F)
+            LCCFeatures.big_vivid_tree.withConfiguration(LCCFeatures.BIG_VIVID_TREE_CONFIG).withChance(0.01F)
         ), LCCFeatures.vivid_tree.withConfiguration(LCCFeatures.VIVID_TREE_CONFIG))).withPlacement(Placement.COUNT_CHANCE_HEIGHTMAP.configure(new HeightWithChanceConfig(3, 0.9F))));
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
-            LCCFeatures.big_vivid_tree.withConfiguration(LCCFeatures.BIG_VIVID_TREE_CONFIG).func_227227_a_(0.1F)
+            LCCFeatures.big_vivid_tree.withConfiguration(LCCFeatures.BIG_VIVID_TREE_CONFIG).withChance(0.1F)
         ), LCCFeatures.vivid_tree.withConfiguration(LCCFeatures.VIVID_TREE_CONFIG))).withPlacement(LCCFeatures.COUNT_CHANCE_UNDER_SURFACE.configure(new HeightWithChanceConfig(10, 0.95F))));
     }
 

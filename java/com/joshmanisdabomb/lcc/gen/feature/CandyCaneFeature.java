@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.gen.world.GenUtility;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;

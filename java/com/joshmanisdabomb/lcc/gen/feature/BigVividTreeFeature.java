@@ -1,23 +1,18 @@
 package com.joshmanisdabomb.lcc.gen.feature;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.block.CandyCaneBlock;
 import com.joshmanisdabomb.lcc.gen.world.GenUtility;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.HugeTreeFeatureConfig;
+import net.minecraft.world.gen.feature.HugeTreesFeature;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
@@ -26,9 +21,6 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-
-import static com.joshmanisdabomb.lcc.gen.feature.CandyCaneFeature.CANES;
-import static com.joshmanisdabomb.lcc.gen.feature.CandyCaneFeature.COATING;
 
 public class BigVividTreeFeature extends HugeTreesFeature<HugeTreeFeatureConfig> {
 
@@ -39,9 +31,9 @@ public class BigVividTreeFeature extends HugeTreesFeature<HugeTreeFeatureConfig>
     }
 
     @Override
-    protected boolean func_225557_a_(IWorldGenerationReader wg, Random random, BlockPos pos, Set<BlockPos> posSet, Set<BlockPos> posSet2, MutableBoundingBox bb, HugeTreeFeatureConfig config) {
+    protected boolean place(IWorldGenerationReader wg, Random random, BlockPos pos, Set<BlockPos> posSet, Set<BlockPos> posSet2, MutableBoundingBox bb, HugeTreeFeatureConfig config) {
         BlockPos.Mutable bp = new BlockPos.Mutable(pos);
-        int i = config.baseHeight + random.nextInt(config.field_227275_a_ + 1) + random.nextInt(config.field_227276_b_ + 1);
+        int i = config.baseHeight + random.nextInt(config.heightInterval + 1) + random.nextInt(config.crownHeight + 1);
 
 
         if (!(wg instanceof IWorld)) return false;

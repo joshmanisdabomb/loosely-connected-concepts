@@ -1,44 +1,14 @@
-package com.joshmanisdabomb.lcc.registry;
+package com.joshmanisdabomb.lcc.item.group;
 
 import com.joshmanisdabomb.lcc.LCC;
-import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor.ClassicDyeColor;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
+import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-
-public class LCCGroup extends ItemGroup {
-
-    private static final HashMap<Predicate<ItemStack>, LCCGroupCategory> CATEGORY_MAP = new HashMap<>();
-    private static final HashMap<Predicate<ItemStack>, Integer> VALUE_MAP = new HashMap<>();
-
-    private static final Comparator<ItemStack> SORTER = (i1, i2) -> {
-        if (i1.isEmpty() || i2.isEmpty()) return 0;
-
-        LCCGroupCategory ic1 = null, ic2 = null;
-        for (Map.Entry<Predicate<ItemStack>, LCCGroupCategory> e : CATEGORY_MAP.entrySet()) {
-            if (ic1 != null && ic2 != null) break;
-            if (ic1 == null && e.getKey().test(i1)) ic1 = e.getValue();
-            if (ic2 == null && e.getKey().test(i2)) ic2 = e.getValue();
-        }
-        if (ic1.ordinal() != ic2.ordinal()) return ic1.ordinal() - ic2.ordinal();
-
-        Integer iv1 = null, iv2 = null;
-        for (Map.Entry<Predicate<ItemStack>, Integer> e : VALUE_MAP.entrySet()) {
-            if (iv1 != null && iv2 != null) break;
-            if (iv1 == null && e.getKey().test(i1)) iv1 = e.getValue();
-            if (iv2 == null && e.getKey().test(i2)) iv2 = e.getValue();
-        }
-        return iv1 - iv2;
-    };
+public class LCCGroup extends Creative2Group {
 
     public LCCGroup() {
         super(LCC.MODID);
@@ -51,14 +21,7 @@ public class LCCGroup extends ItemGroup {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void fill(NonNullList<ItemStack> items) {
-        super.fill(items);
-        items.sort(SORTER);
-        LCCGroup.addSpacing(items);
-    }
-
-    public static void initSorting() {
+    public void initSorting() {
         //Test Blocks
         set(LCCBlocks.test_block, LCCGroupCategory.TESTING, 0);
         set(LCCBlocks.test_block_2, LCCGroupCategory.TESTING, 10);
@@ -190,9 +153,7 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.rainbow_grass_block, LCCGroupCategory.RAINBOW, 1000);
         set(LCCBlocks.sugar_grass_block, LCCGroupCategory.RAINBOW, 1001);
         set(LCCBlocks.star_plating, LCCGroupCategory.RAINBOW, 1002);
-        for (DyeColor color : DyeColor.values()) {
-            set(LCCBlocks.sparkling_grass_block.get(color), LCCGroupCategory.RAINBOW, color.getId()+1003);
-        }
+        group(LCCBlocks.sparkling_grass_block, LCCGroupCategory.RAINBOW, k -> k.getId()+1003);
         set(LCCBlocks.sparkling_dirt, LCCGroupCategory.RAINBOW, 1020);
 
         set(LCCBlocks.twilight_stone, LCCGroupCategory.RAINBOW, 2000);
@@ -233,17 +194,13 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.candy_cane_block, LCCGroupCategory.RAINBOW, 4016);
 
         set(LCCBlocks.channelite.get(null), LCCGroupCategory.RAINBOW, 5000);
-        for (DyeColor color : DyeColor.values()) {
-            set(LCCBlocks.sparkling_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+5100);
-            set(LCCBlocks.twilight_channelite_source.get(color), LCCGroupCategory.RAINBOW, color.getId()+5200);
-        }
+        group(LCCBlocks.sparkling_channelite_source, LCCGroupCategory.RAINBOW, k -> k.getId()+5100);
+        group(LCCBlocks.twilight_channelite_source, LCCGroupCategory.RAINBOW, k -> k.getId()+5200);
 
         //Spreaders
         set(LCCItems.spreader_essence, LCCGroupCategory.SPREADERS, 0);
         set(LCCBlocks.spreader_interface, LCCGroupCategory.SPREADERS, 1);
-        for (DyeColor color : DyeColor.values()) {
-            set(LCCBlocks.spreaders.get(color), LCCGroupCategory.SPREADERS, color.getId()+2);
-        }
+        group(LCCBlocks.spreaders, LCCGroupCategory.SPREADERS, k -> k.getId()+2);
 
         //Wasteland
         set(LCCBlocks.cracked_mud, LCCGroupCategory.WASTELAND, 0);
@@ -258,16 +215,14 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.chipset, LCCGroupCategory.COMPUTING, -990);
         set(LCCBlocks.networking_cable, LCCGroupCategory.COMPUTING, -100);
         set(LCCBlocks.terminal_cable, LCCGroupCategory.COMPUTING, -90);
-        for (DyeColor color : DyeColor.values()) {
-            set(LCCItems.computer_casings.get(color), LCCGroupCategory.COMPUTING, color.getId());
-            set(LCCItems.computers.get(color), LCCGroupCategory.COMPUTING, color.getId()+100);
-            set(LCCBlocks.terminals.get(color), LCCGroupCategory.COMPUTING, color.getId()+200);
-            set(LCCItems.floppy_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+300);
-            set(LCCItems.cd_drives.get(color), LCCGroupCategory.COMPUTING, color.getId()+400);
-            set(LCCItems.card_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+500);
-            set(LCCItems.stick_readers.get(color), LCCGroupCategory.COMPUTING, color.getId()+600);
-            set(LCCItems.drive_bays.get(color), LCCGroupCategory.COMPUTING, color.getId()+700);
-        }
+        group(LCCItems.computer_casings, LCCGroupCategory.COMPUTING, DyeColor::getId);
+        group(LCCItems.computers, LCCGroupCategory.COMPUTING, k -> k.getId()+100);
+        group(LCCBlocks.terminals, LCCGroupCategory.COMPUTING, k -> k.getId()+200);
+        group(LCCItems.floppy_drives, LCCGroupCategory.COMPUTING, k -> k.getId()+300);
+        group(LCCItems.cd_drives, LCCGroupCategory.COMPUTING, k -> k.getId()+400);
+        group(LCCItems.card_readers, LCCGroupCategory.COMPUTING, k -> k.getId()+500);
+        group(LCCItems.stick_readers, LCCGroupCategory.COMPUTING, k -> k.getId()+600);
+        group(LCCItems.drive_bays, LCCGroupCategory.COMPUTING, k -> k.getId()+700);
         set(LCCItems.cpu, LCCGroupCategory.COMPUTING, 5000);
         set(LCCItems.ram, LCCGroupCategory.COMPUTING, 5100);
         set(LCCItems.gpu, LCCGroupCategory.COMPUTING, 5200);
@@ -289,9 +244,7 @@ public class LCCGroup extends ItemGroup {
         set(LCCBlocks.classic_gravel, LCCGroupCategory.NOSTALGIA, 1050);
         set(LCCBlocks.classic_sponge, LCCGroupCategory.NOSTALGIA, 1060);
         set(LCCBlocks.classic_glass, LCCGroupCategory.NOSTALGIA, 1070);
-        for (ClassicDyeColor color : ClassicDyeColor.values()) {
-            set(LCCBlocks.classic_cloth.get(color), LCCGroupCategory.NOSTALGIA, 1080+color.ordinal());
-        }
+        group(LCCBlocks.classic_cloth, LCCGroupCategory.NOSTALGIA, k -> k.ordinal()+1080);
         set(LCCBlocks.classic_rose, LCCGroupCategory.NOSTALGIA, 1100);
         set(LCCBlocks.classic_cyan_flower, LCCGroupCategory.NOSTALGIA, 1110);
         set(LCCBlocks.classic_iron_block, LCCGroupCategory.NOSTALGIA, 1120);
@@ -325,61 +278,4 @@ public class LCCGroup extends ItemGroup {
         set(LCCItems.temporary_heart_half, LCCGroupCategory.HEALTH, 90);
         set(LCCItems.temporary_heart, LCCGroupCategory.HEALTH, 100);
     }
-
-    private static void set(IItemProvider item, LCCGroupCategory category, int sortValue) {
-        set(i -> i.getItem().asItem() == item.asItem(), category, sortValue);
-    }
-
-    private static void set(Predicate<ItemStack> predicate, LCCGroupCategory category, int sortValue) {
-        CATEGORY_MAP.put(predicate, category);
-        VALUE_MAP.put(predicate, sortValue);
-    }
-
-    private static void addSpacing(NonNullList<ItemStack> items) {
-        NonNullList<ItemStack> items2 = NonNullList.create();
-        int categorySize = 0;
-        for (int i = 0; i < items.size(); i++) {
-            ItemStack s = items.get(i);
-            categorySize++;
-            items2.add(s);
-
-            if (i < items.size() - 1) {
-                ItemStack s2 = items.get(i + 1);
-
-                LCCGroupCategory ic1 = null, ic2 = null;
-                for (Map.Entry<Predicate<ItemStack>, LCCGroupCategory> e : CATEGORY_MAP.entrySet()) {
-                    if (ic1 != null && ic2 != null) break;
-                    if (ic1 == null && e.getKey().test(s)) ic1 = e.getValue();
-                    if (ic2 == null && e.getKey().test(s2)) ic2 = e.getValue();
-                }
-                if (ic1.ordinal() != ic2.ordinal()) {
-                    int emptySpaces = 9 - (((categorySize - 1) % 9) + 1);
-                    for (int j = 0; j < emptySpaces; j++) {
-                        items2.add(ItemStack.EMPTY);
-                    }
-                    categorySize = 0;
-                }
-            }
-        }
-        items.clear();
-        items.addAll(items2);
-    }
-
-    public enum LCCGroupCategory {
-
-        RESOURCES,
-        TOOLS,
-        GIZMOS,
-        RAINBOW,
-        SPREADERS,
-        WASTELAND,
-        NUCLEAR,
-        COMPUTING,
-        NOSTALGIA,
-        POWER,
-        HEALTH,
-        TESTING
-
-    }
-
 }

@@ -23,7 +23,7 @@ public class InputEvents {
             e.getMovementInput().leftKeyDown = false;
             e.getMovementInput().rightKeyDown = false;
             e.getMovementInput().jump = false;
-            e.getMovementInput().field_228350_h_ = false;
+            e.getMovementInput().sneaking = false;
             e.getMovementInput().moveForward = 0.0F;
             e.getMovementInput().moveStrafe = 0.0F;
         }

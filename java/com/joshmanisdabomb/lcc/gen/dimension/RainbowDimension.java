@@ -39,7 +39,7 @@ public class RainbowDimension extends Dimension {
         genSettings.setDefaultFluid(Blocks.AIR.getDefaultState());
         genSettings.setSpawnPos(new BlockPos(0, 100, 0));
 
-        MultiBiomeProvider.MultiBiomeProviderSettings bpSettings = LCCDimensions.multiple_biomes.func_226840_a_(this.world.getWorldInfo())
+        MultiBiomeProvider.MultiBiomeProviderSettings bpSettings = LCCDimensions.multiple_biomes.createSettings(this.world.getWorldInfo())
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_candyland, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_colorful, 20))
             .addBiome(new BiomeManager.BiomeEntry(LCCBiomes.rainbow_starlight, 20))

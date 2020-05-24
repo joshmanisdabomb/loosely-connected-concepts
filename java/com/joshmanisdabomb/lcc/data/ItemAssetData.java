@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.item.*;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.*;
 import net.minecraft.util.Direction;

@@ -22,7 +22,6 @@ import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.function.Function;

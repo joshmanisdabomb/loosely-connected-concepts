@@ -138,6 +138,22 @@ public class LangData extends LanguageProvider {
         this.add("deathScreen.lcc.respawn_crying_obsidian", "Respawn at Crying Obsidian");
 
         this.add("itemGroup.lcc", "Loosely Connected Concepts");
+        this.add("itemGroup.lcc.short", "LCC");
+        this.add("itemGroup.lcc.group.amount", "%s item");
+        this.add("itemGroup.lcc.group.amount.s", "s");
+        this.add("itemGroup.lcc.group.sparkling_grass_block", "Sparkling Grass");
+        this.add("itemGroup.lcc.group.sparkling_channelite_source", "Sparkling Channelite Sources");
+        this.add("itemGroup.lcc.group.twilight_channelite_source", "Twilight Channelite Sources");
+        this.add("itemGroup.lcc.group.spreader", "Spreaders");
+        this.add("itemGroup.lcc.group.computer_casing", "Computer Casings");
+        this.add("itemGroup.lcc.group.computer", "Computers");
+        this.add("itemGroup.lcc.group.terminal", "Terminals");
+        this.add("itemGroup.lcc.group.floppy_drive", "Floppy Disk Drives");
+        this.add("itemGroup.lcc.group.cd_drive", "Compact Disc Drives");
+        this.add("itemGroup.lcc.group.card_reader", "Memory Card Readers");
+        this.add("itemGroup.lcc.group.stick_reader", "Memory Stick Readers");
+        this.add("itemGroup.lcc.group.drive_bay", "Drive Bays");
+        this.add("itemGroup.lcc.group.classic_cloth", "Classic Cloths");
 
         this.addAll(this::addBiome, this::basic, LCCBiomes.wasteland, LCCBiomes.rainbow_candyland, LCCBiomes.rainbow_colorful, LCCBiomes.rainbow_starlight, LCCBiomes.rainbow_terrene);
 

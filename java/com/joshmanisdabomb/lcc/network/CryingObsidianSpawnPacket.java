@@ -63,7 +63,7 @@ public class CryingObsidianSpawnPacket implements LCCPacket {
         interactions.initializeGameType(world.getWorldInfo().getGameType());
         playerNew.setLocationAndAngles(spawn.getX() + 0.5, spawn.getY() + 1, spawn.getZ() + 0.5, 0.0F, 0.0F);
 
-        while(!world.func_226669_j_(playerNew) && playerNew.getPosY() < 256.0D) playerNew.setPosition(playerNew.getPosX(), playerNew.getPosY() + 1.0D, playerNew.getPosZ());
+        while(!world.hasNoCollisions(playerNew) && playerNew.getPosY() < 256.0D) playerNew.setPosition(playerNew.getPosX(), playerNew.getPosY() + 1.0D, playerNew.getPosZ());
 
         WorldInfo info = playerNew.world.getWorldInfo();
         playerNew.connection.sendPacket(new SRespawnPacket(playerNew.dimension, WorldInfo.byHashing(info.getSeed()), info.getGenerator(), playerNew.interactionManager.getGameType()));

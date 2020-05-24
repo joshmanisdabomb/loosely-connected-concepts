@@ -33,7 +33,7 @@ public abstract class LCCFeatures {
 
     public static final TreeFeatureConfig CLASSIC_TREE_CONFIG = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.classic_leaves.getDefaultState()), new BlobFoliagePlacer(2, 0)).baseHeight(4).heightRandA(2).foliageHeight(3).ignoreVines().setSapling(LCCBlocks.classic_sapling).build();
     public static final TreeFeatureConfig VIVID_TREE_CONFIG = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(LCCBlocks.vivid_log.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.vivid_leaves.getDefaultState()), new BlobFoliagePlacer(2, 0)).baseHeight(7).heightRandA(4).ignoreVines().setSapling(LCCBlocks.vivid_sapling).maxWaterDepth(256).build();
-    public static final HugeTreeFeatureConfig BIG_VIVID_TREE_CONFIG = new HugeTreeFeatureConfig.Builder(new SimpleBlockStateProvider(LCCBlocks.vivid_log.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.vivid_leaves.getDefaultState())).baseHeight(10).func_227283_b_(15).func_227284_c_(3).setSapling(LCCBlocks.vivid_sapling).build();
+    public static final HugeTreeFeatureConfig BIG_VIVID_TREE_CONFIG = new HugeTreeFeatureConfig.Builder(new SimpleBlockStateProvider(LCCBlocks.vivid_log.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.vivid_leaves.getDefaultState())).baseHeight(10).heightInterval(15).crownHeight(3).setSapling(LCCBlocks.vivid_sapling).build();
 
     public static final UnderSurfaceWithChanceMultiple COUNT_CHANCE_UNDER_SURFACE = new UnderSurfaceWithChanceMultiple(HeightWithChanceConfig::deserialize);
 

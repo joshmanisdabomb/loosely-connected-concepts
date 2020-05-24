@@ -3,8 +3,6 @@ package com.joshmanisdabomb.lcc.gen.feature;
 import com.joshmanisdabomb.lcc.gen.world.GenUtility;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -13,11 +11,8 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.AbstractSmallTreeFeature;
-import net.minecraft.world.gen.feature.HugeTreeFeatureConfig;
-import net.minecraft.world.gen.feature.HugeTreesFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
@@ -29,7 +24,7 @@ public class VividTreeFeature extends AbstractSmallTreeFeature<TreeFeatureConfig
     }
 
     @Override
-    protected boolean func_225557_a_(IWorldGenerationReader wg, Random random, BlockPos pos, Set<BlockPos> posSet, Set<BlockPos> posSet2, MutableBoundingBox bb, TreeFeatureConfig config) {
+    protected boolean place(IWorldGenerationReader wg, Random random, BlockPos pos, Set<BlockPos> posSet, Set<BlockPos> posSet2, MutableBoundingBox bb, TreeFeatureConfig config) {
         BlockPos.Mutable bp = new BlockPos.Mutable(pos);
         int i = config.baseHeight + random.nextInt(config.heightRandA + 1) + random.nextInt(config.heightRandB + 1);
 

@@ -75,7 +75,7 @@ public class MultiBiomeProvider extends BiomeProvider {
 
     public boolean hasStructure(Structure<?> structureIn) {
         return this.hasStructureCache.computeIfAbsent(structureIn, (p_205006_1_) -> {
-            for (Biome biome : this.field_226837_c_) {
+            for (Biome biome : this.biomes) {
                 if (biome.hasStructure(p_205006_1_)) {
                     return true;
                 }
@@ -87,7 +87,7 @@ public class MultiBiomeProvider extends BiomeProvider {
 
     public Set<BlockState> getSurfaceBlocks() {
         if (this.topBlocksCache.isEmpty()) {
-            for (Biome biome : this.field_226837_c_) {
+            for (Biome biome : this.biomes) {
                 this.topBlocksCache.add(biome.getSurfaceBuilderConfig().getTop());
             }
         }

@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.block.AtomicBombBlock;
 import com.joshmanisdabomb.lcc.entity.AtomicBombEntity;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

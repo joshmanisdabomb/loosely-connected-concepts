@@ -1,6 +1,7 @@
-package com.joshmanisdabomb.lcc.registry;
+package com.joshmanisdabomb.lcc.gen.surface;
 
 import com.joshmanisdabomb.lcc.gen.biome.RainbowColorfulBiome;
+import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.mojang.datafixers.Dynamic;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

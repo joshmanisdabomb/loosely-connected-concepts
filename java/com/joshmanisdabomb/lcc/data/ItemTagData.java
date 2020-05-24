@@ -3,21 +3,12 @@ package com.joshmanisdabomb.lcc.data;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
 import com.joshmanisdabomb.lcc.registry.LCCTags;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IDataProvider;
 import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraftforge.common.Tags;
-
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class ItemTagData extends ItemTagsProvider {
 

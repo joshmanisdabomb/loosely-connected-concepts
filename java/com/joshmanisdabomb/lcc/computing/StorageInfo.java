@@ -243,21 +243,24 @@ public class StorageInfo implements ShortenableUniqueIdentifier {
         }
 
         public enum PartitionType implements IStringSerializable {
-            ITEM(TextFormatting.AQUA),
-            OS_CONSOLE(TextFormatting.GOLD, OperatingSystem.Type.CONSOLE),
-            OS_GRAPHICAL(TextFormatting.GREEN, OperatingSystem.Type.GRAPHICAL);
+            ITEM(TextFormatting.AQUA, 0x3232A2),
+            OS_CONSOLE(TextFormatting.GOLD, 0xB83D14, OperatingSystem.Type.CONSOLE),
+            OS_GRAPHICAL(TextFormatting.GREEN, 0x4BBDF2, OperatingSystem.Type.GRAPHICAL);
 
             public final TextFormatting color;
             public final OperatingSystem.Type os;
+            public final int colorValue;
 
-            PartitionType(TextFormatting color) {
+            PartitionType(TextFormatting color, int colorValue) {
                 this.os = null;
                 this.color = color;
+                this.colorValue = colorValue;
             }
 
-            PartitionType(TextFormatting color, OperatingSystem.Type os) {
+            PartitionType(TextFormatting color, int colorValue, OperatingSystem.Type os) {
                 this.os = os;
                 this.color = color;
+                this.colorValue = colorValue;
             }
 
             @Override

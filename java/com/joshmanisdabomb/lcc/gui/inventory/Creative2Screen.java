@@ -72,7 +72,7 @@ public class Creative2Screen extends CreativeScreen {
 
             for (Slot slot : this.container.inventorySlots) {
                 if (slot.inventory != this.minecraft.player.inventory) {
-                    Map<? extends Enum<?>, Item> group = this.group.getGroup(slot.getStack().getItem().asItem());
+                    Map<?, ItemStack> group = this.group.getGroup(slot.getStack());
                     if (group != null) {
                         if (this.isFirstOfGroup(slot.slotNumber, group)) {
                             this.drawSelectors(group, slot, this.guiLeft + slot.xPos, this.guiTop + slot.yPos, mouseX, mouseY, 1.0F);
@@ -100,7 +100,7 @@ public class Creative2Screen extends CreativeScreen {
 
             for (Slot slot : this.container.inventorySlots) {
                 if (slot.inventory != this.minecraft.player.inventory) {
-                    Map<? extends Enum<?>, Item> group = this.group.getGroup(slot.getStack().getItem().asItem());
+                    Map<?, ItemStack> group = this.group.getGroup(slot.getStack());
                     if (group != null && this.isFirstOfGroup(slot.slotNumber, group)) {
                         int xOffset = this.group.expandedGroups.contains(group) ? 6 : 0;
                         this.blit(slot.xPos + 10, slot.yPos + 10, xOffset, this.ySize + 34, 6, 6);
@@ -120,12 +120,12 @@ public class Creative2Screen extends CreativeScreen {
         }
     }
 
-    private int drawSelectors(Map<? extends Enum<?>, Item> group, Slot slot, int xPos, int yPos, int mouseX, int mouseY, float alpha) {
-        Enum<?>[] keys = group.keySet().toArray(new Enum[0]);
+    private int drawSelectors(Map<?, ItemStack> group, Slot slot, int xPos, int yPos, int mouseX, int mouseY, float alpha) {
+        Object[] keys = group.keySet().toArray(new Object[0]);
 
         //Convert DyeColor to ExtendedDyeColor.
         if (Arrays.stream(keys).allMatch(k -> k instanceof DyeColor)) {
-            keys = Arrays.stream(keys).map(d -> ExtendedDyeColor.CompoundDyeColor.get((DyeColor)d)).toArray(Enum<?>[]::new);
+            keys = Arrays.stream(keys).map(d -> ExtendedDyeColor.CompoundDyeColor.get((DyeColor)d)).toArray(Object[]::new);
         }
 
         //Display group items with recognised implementations.
@@ -150,7 +150,7 @@ public class Creative2Screen extends CreativeScreen {
 
                     this.group.group_items.put(group, i);
 
-                    ItemStack newStack = new ItemStack(group.get(k.getGroupKey(group.keySet())), 1);
+                    ItemStack newStack = group.get(k.getGroupKey(group.keySet())).copy();
                     this.container.getSlot(slot.slotNumber).putStack(newStack);
                     this.container.itemList.set(this.getListIndex(slot.getSlotIndex()), newStack);
                 }
@@ -181,7 +181,7 @@ public class Creative2Screen extends CreativeScreen {
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
         if (this.hoveredSelector == -1 && this.searchField.getText().isEmpty() && this.minecraft.player.inventory.getItemStack().isEmpty() && this.hoveredSlot != null && this.hoveredSlot.getHasStack() && this.hoveredSlot.inventory != this.minecraft.player.inventory) {
-            Map<? extends Enum<?>, IItemProvider> g = group.getGroup(this.hoveredSlot.getStack().getItem().asItem());
+            Map<?, ItemStack> g = group.getGroup(this.hoveredSlot.getStack());
             if (g != null && this.isFirstOfGroup(this.hoveredSlot.slotNumber, g)) {
                 ITextComponent count = new TranslationTextComponent("itemGroup.lcc.group.amount", g.size()).applyTextStyle(TextFormatting.DARK_GRAY);
                 if (g.size() != 1) count.appendSibling(new TranslationTextComponent("itemGroup.lcc.group.amount.s"));
@@ -196,7 +196,7 @@ public class Creative2Screen extends CreativeScreen {
     public int getSlotColor(int index) {
         Slot slot = this.container.inventorySlots.get(index);
         if (this.searchField.getText().isEmpty() && slot != null && slot.getHasStack() && slot.inventory != this.minecraft.player.inventory) {
-            Map<? extends Enum<?>, IItemProvider> g = group.getGroup(this.hoveredSlot.getStack().getItem().asItem());
+            Map<?, ItemStack> g = group.getGroup(this.hoveredSlot.getStack());
             if (g != null && this.isFirstOfGroup(this.hoveredSlot.slotNumber, g)) {
                 return 0x00000000;
             }
@@ -220,10 +220,10 @@ public class Creative2Screen extends CreativeScreen {
         return (this.getListRow(this.currentScroll) * 9) + slotNumber;
     }
 
-    protected boolean isFirstOfGroup(int slotNumber, Map<? extends Enum<?>, ? extends IItemProvider> g) {
+    protected boolean isFirstOfGroup(int slotNumber, Map<?, ? extends ItemStack> g) {
         int listIndex = this.getListIndex(slotNumber);
         if (listIndex <= 0) return true;
-        return group.getGroup(this.container.itemList.get(listIndex - 1).getItem().asItem()) != g;
+        return group.getGroup(this.container.itemList.get(listIndex - 1)) != g;
     }
 
     @Override
@@ -257,7 +257,7 @@ public class Creative2Screen extends CreativeScreen {
     @Override
     protected void handleMouseClick(@Nullable Slot slotIn, int slotId, int mouseButton, ClickType type) {
         if (this.hoveredSelector == -1 && this.searchField.getText().isEmpty() && this.minecraft.player.inventory.getItemStack().isEmpty() && slotIn != null && slotIn.getHasStack() && slotIn.inventory != this.minecraft.player.inventory) {
-            Map<? extends Enum<?>, IItemProvider> g = group.getGroup(this.hoveredSlot.getStack().getItem().asItem());
+            Map<?, ItemStack> g = group.getGroup(this.hoveredSlot.getStack());
             if (g != null && this.isFirstOfGroup(this.hoveredSlot.slotNumber, g)) {
                 if (type == ClickType.PICKUP) {
                     if (group.expandedGroups.contains(g)) group.expandedGroups.remove(g);

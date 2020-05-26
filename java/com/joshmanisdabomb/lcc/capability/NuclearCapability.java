@@ -66,7 +66,7 @@ public class NuclearCapability implements LCCCapabilityHelper {
 
     @Override
     public void packetHandle() {
-        World w = Minecraft.getInstance().world;
+        World w = LCC.proxy.getClientWorld();
         if (w != null) {
             w.getCapability(Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
                 int prevLevel = NuclearFunctionality.getWinterLevel(n.score);

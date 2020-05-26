@@ -60,7 +60,7 @@ public class CryingObsidianCapability implements LCCCapabilityHelper {
 
     @Override
     public void packetHandle() {
-        PlayerEntity player = Minecraft.getInstance().player;
+        PlayerEntity player = LCC.proxy.getClientPlayer();
         if (player != null) {
             player.getCapability(Provider.DEFAULT_CAPABILITY).ifPresent(co -> {
                 co.pos = this.pos;

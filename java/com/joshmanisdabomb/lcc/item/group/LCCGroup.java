@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.item.group;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.creative2.Creative2Category;
 import com.joshmanisdabomb.lcc.creative2.Creative2Group;
+import com.joshmanisdabomb.lcc.creative2.key.ComputingGroupKey;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,6 +23,7 @@ public class LCCGroup extends Creative2Group {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void initSorting() {
         //Test Blocks
         set(LCCBlocks.test_block, Category.TESTING, 0);
@@ -155,7 +156,7 @@ public class LCCGroup extends Creative2Group {
         set(LCCBlocks.rainbow_grass_block, Category.RAINBOW, 1000);
         set(LCCBlocks.sugar_grass_block, Category.RAINBOW, 1001);
         set(LCCBlocks.star_plating, Category.RAINBOW, 1002);
-        group(LCCBlocks.sparkling_grass_block, Category.RAINBOW, k -> k.getId()+1003);
+        group(LCCBlocks.sparkling_grass_block, Category.RAINBOW, (k, v) -> k.getId()+1003);
         set(LCCBlocks.sparkling_dirt, Category.RAINBOW, 1020);
 
         set(LCCBlocks.twilight_stone, Category.RAINBOW, 2000);
@@ -196,13 +197,13 @@ public class LCCGroup extends Creative2Group {
         set(LCCBlocks.candy_cane_block, Category.RAINBOW, 4016);
 
         set(LCCBlocks.channelite.get(null), Category.RAINBOW, 5000);
-        group(LCCBlocks.sparkling_channelite_source, Category.RAINBOW, k -> k.getId()+5100);
-        group(LCCBlocks.twilight_channelite_source, Category.RAINBOW, k -> k.getId()+5200);
+        group(LCCBlocks.sparkling_channelite_source, Category.RAINBOW, (k, v) -> k.getId()+5100);
+        group(LCCBlocks.twilight_channelite_source, Category.RAINBOW, (k, v) -> k.getId()+5200);
 
         //Spreaders
         set(LCCItems.spreader_essence, Category.SPREADERS, 0);
         set(LCCBlocks.spreader_interface, Category.SPREADERS, 1);
-        group(LCCBlocks.spreaders, Category.SPREADERS, k -> k.getId()+2);
+        group(LCCBlocks.spreaders, Category.SPREADERS, (k, v) -> k.getId()+2);
 
         //Wasteland
         set(LCCBlocks.cracked_mud, Category.WASTELAND, 0);
@@ -217,24 +218,24 @@ public class LCCGroup extends Creative2Group {
         set(LCCItems.chipset, Category.COMPUTING, -990);
         set(LCCBlocks.networking_cable, Category.COMPUTING, -100);
         set(LCCBlocks.terminal_cable, Category.COMPUTING, -90);
-        group(LCCItems.computer_casings, Category.COMPUTING, DyeColor::getId);
-        group(LCCItems.computers, Category.COMPUTING, k -> k.getId()+100);
-        group(LCCBlocks.terminals, Category.COMPUTING, k -> k.getId()+200);
-        group(LCCItems.floppy_drives, Category.COMPUTING, k -> k.getId()+300);
-        group(LCCItems.cd_drives, Category.COMPUTING, k -> k.getId()+400);
-        group(LCCItems.card_readers, Category.COMPUTING, k -> k.getId()+500);
-        group(LCCItems.stick_readers, Category.COMPUTING, k -> k.getId()+600);
-        group(LCCItems.drive_bays, Category.COMPUTING, k -> k.getId()+700);
-        set(LCCItems.cpu, Category.COMPUTING, 5000);
-        set(LCCItems.ram, Category.COMPUTING, 5100);
-        set(LCCItems.gpu, Category.COMPUTING, 5200);
+        group(LCCItems.computer_casings, Category.COMPUTING, (k, v) -> k.getId());
+        group(LCCItems.computers, Category.COMPUTING, (k, v) -> k.getId()+100);
+        group(LCCBlocks.terminals, Category.COMPUTING, (k, v) -> k.getId()+200);
+        group(LCCItems.floppy_drives, Category.COMPUTING, (k, v) -> k.getId()+300);
+        group(LCCItems.cd_drives, Category.COMPUTING, (k, v) -> k.getId()+400);
+        group(LCCItems.card_readers, Category.COMPUTING, (k, v) -> k.getId()+500);
+        group(LCCItems.stick_readers, Category.COMPUTING, (k, v) -> k.getId()+600);
+        group(LCCItems.drive_bays, Category.COMPUTING, (k, v) -> k.getId()+700);
+        group(LCCItems.cpu, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+5000);
+        group(LCCItems.ram, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+5100);
+        group(LCCItems.gpu, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+5200);
         set(LCCItems.floppy_disk, Category.COMPUTING, 10000);
-        set(LCCItems.compact_disc, Category.COMPUTING, 10100);
-        set(LCCItems.memory_card, Category.COMPUTING, 10200);
-        set(LCCItems.memory_stick, Category.COMPUTING, 10300);
-        set(LCCItems.hard_disk_drive, Category.COMPUTING, 10400);
-        set(LCCItems.solid_state_drive, Category.COMPUTING, 10500);
-        set(LCCItems.m2, Category.COMPUTING, 10600);
+        group(LCCItems.compact_disc, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10100);
+        group(LCCItems.memory_card, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10200);
+        group(LCCItems.memory_stick, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10300);
+        group(LCCItems.hard_disk_drive, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10400);
+        group(LCCItems.solid_state_drive, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10500);
+        group(LCCItems.m2, ComputingGroupKey::new, Category.COMPUTING, (k, v) -> k.levelIndex+10600);
 
         //Nostalgia
         set(LCCBlocks.time_rift, Category.NOSTALGIA, 0);
@@ -246,7 +247,7 @@ public class LCCGroup extends Creative2Group {
         set(LCCBlocks.classic_gravel, Category.NOSTALGIA, 1050);
         set(LCCBlocks.classic_sponge, Category.NOSTALGIA, 1060);
         set(LCCBlocks.classic_glass, Category.NOSTALGIA, 1070);
-        group(LCCBlocks.classic_cloth, Category.NOSTALGIA, k -> k.ordinal()+1080);
+        group(LCCBlocks.classic_cloth, Category.NOSTALGIA, (k, v) -> k.ordinal()+1080);
         set(LCCBlocks.classic_rose, Category.NOSTALGIA, 1100);
         set(LCCBlocks.classic_cyan_flower, Category.NOSTALGIA, 1110);
         set(LCCBlocks.classic_iron_block, Category.NOSTALGIA, 1120);
@@ -281,6 +282,7 @@ public class LCCGroup extends Creative2Group {
         set(LCCItems.temporary_heart, Category.HEALTH, 100);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public enum Category implements Creative2Category {
 
         RESOURCES(0xFFFF00FF),

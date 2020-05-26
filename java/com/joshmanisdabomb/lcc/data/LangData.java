@@ -154,6 +154,15 @@ public class LangData extends LanguageProvider {
         this.add("itemGroup.lcc.group.stick_reader", "Memory Stick Readers");
         this.add("itemGroup.lcc.group.drive_bay", "Drive Bays");
         this.add("itemGroup.lcc.group.classic_cloth", "Classic Cloths");
+        this.add("itemGroup.lcc.group.cpu", "Central Processing Units");
+        this.add("itemGroup.lcc.group.ram", "Random Access Memory");
+        this.add("itemGroup.lcc.group.gpu", "Graphics Cards");
+        this.add("itemGroup.lcc.group.compact_disc", "Compact Discs");
+        this.add("itemGroup.lcc.group.memory_card", "Memory Cards");
+        this.add("itemGroup.lcc.group.memory_stick", "Memory Sticks");
+        this.add("itemGroup.lcc.group.hard_disk_drive", "Hard Disk Drives");
+        this.add("itemGroup.lcc.group.solid_state_drive", "Solid State Drives");
+        this.add("itemGroup.lcc.group.m2", "M.2 Solid State Drives");
 
         this.addAll(this::addBiome, this::basic, LCCBiomes.wasteland, LCCBiomes.rainbow_candyland, LCCBiomes.rainbow_colorful, LCCBiomes.rainbow_starlight, LCCBiomes.rainbow_terrene);
 

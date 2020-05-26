@@ -3,31 +3,34 @@ package com.joshmanisdabomb.lcc.creative2;
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.gui.inventory.Creative2Screen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.*;
-import java.util.function.Predicate;
-import java.util.function.ToIntFunction;
+import java.util.function.*;
+import java.util.stream.Collectors;
 
 public abstract class Creative2Group extends ItemGroup {
 
     public static final ArrayList<Creative2Group> GROUPS = new ArrayList<>();
+    private static final BinaryOperator<ItemStack> MERGE = (a, b) -> {
+        throw new IllegalStateException("Duplicate key " + a);
+    };
 
     private final HashMap<Predicate<ItemStack>, Creative2Category> category_map = new HashMap<>();
     private final HashMap<Predicate<ItemStack>, Integer> value_map = new HashMap<>();
 
-    public final ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> groups = new ArrayList<>();
-    private final HashMap<Map<? extends Enum<?>, ? extends IItemProvider>, String> group_translations = new HashMap<>();
-    public final HashMap<Map<? extends Enum<?>, ? extends IItemProvider>, Integer> group_items = new HashMap<>();
+    public final ArrayList<Map<?, ItemStack>> groups = new ArrayList<>();
+    private final HashMap<Map<?, ItemStack>, String> group_names = new HashMap<>();
+    public final HashMap<Map<?, ItemStack>, Integer> group_items = new HashMap<>();
 
-    public final ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> expandedGroups = new ArrayList<>();
+    public final ArrayList<Map<?, ItemStack>> expandedGroups = new ArrayList<>();
 
     private final Comparator<ItemStack> SORTER = (i1, i2) -> {
         if (i1.isEmpty() || i2.isEmpty()) return 0;
@@ -60,6 +63,7 @@ public abstract class Creative2Group extends ItemGroup {
         items.sort(SORTER);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public void fillNoSearch(NonNullList<ItemStack> items) {
         this.fill(items);
         this.collapseGroups(items);
@@ -78,6 +82,7 @@ public abstract class Creative2Group extends ItemGroup {
         return 139;
     }
 
+    @OnlyIn(Dist.CLIENT)
     protected boolean hijackCreativeScreen() {
         if (!(Minecraft.getInstance().currentScreen instanceof Creative2Screen)) {
             Minecraft.getInstance().displayGuiScreen(new Creative2Screen(this, LCC.proxy.getClientPlayer()));
@@ -87,28 +92,58 @@ public abstract class Creative2Group extends ItemGroup {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public ResourceLocation getBackgroundImage() {
         return new ResourceLocation(LCC.MODID, "textures/gui/container/creative2.png");
     }
 
+    @OnlyIn(Dist.CLIENT)
     public abstract void initSorting();
 
+    @OnlyIn(Dist.CLIENT)
     protected void set(IItemProvider item, Creative2Category category, int sortValue) {
         set(i -> i.getItem().asItem() == item.asItem(), category, sortValue);
     }
 
-    protected <K extends Enum<K>, V extends IItemProvider> void group(Map<K, V> map, Creative2Category category, ToIntFunction<K> sortValue) {
-        for (Map.Entry<K, V> e : map.entrySet()) {
-            set(e.getValue(), category, sortValue.applyAsInt(e.getKey()));
-        }
-        groups.add(map);
+    @OnlyIn(Dist.CLIENT)
+    protected <K, V extends IItemProvider> void group(Map<K, V> map, Creative2Category category, ToIntBiFunction<K, IItemProvider> sortValue) {
+        group(map, category, sortValue, map.values().iterator().next().asItem().getRegistryName().getPath().replaceAll("_[^_]*$", ""));
     }
 
+    @OnlyIn(Dist.CLIENT)
+    protected <K, V extends IItemProvider> void group(Map<K, V> map, Creative2Category category, ToIntBiFunction<K, IItemProvider> sortValue, String name) {
+        Map<K, ItemStack> collect = map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> new ItemStack(v.getValue().asItem()), MERGE, LinkedHashMap::new));
+        ToIntBiFunction<K, ItemStack> func = (k, is) -> sortValue.applyAsInt(k, is.getItem().asItem());
+        groupStacks(collect, category, func, name);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected <K, V extends IItemProvider> void group(V item, Function<ItemStack, K> keys, Creative2Category category, ToIntBiFunction<K, ItemStack> sortValue) {
+        group(item, keys, category, sortValue, item.asItem().getRegistryName().getPath());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected <K, V extends IItemProvider> void group(V item, Function<ItemStack, K> keys, Creative2Category category, ToIntBiFunction<K, ItemStack> sortValue, String name) {
+        NonNullList<ItemStack> list = Util.make(NonNullList.create(), l -> item.asItem().fillItemGroup(this, l));
+        groupStacks(list.stream().collect(Collectors.toMap(keys, v -> v, MERGE, LinkedHashMap::new)), category, sortValue, name);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     protected void set(Predicate<ItemStack> predicate, Creative2Category category, int sortValue) {
         category_map.put(predicate, category);
         value_map.put(predicate, sortValue);
     }
 
+    @OnlyIn(Dist.CLIENT)
+    protected <K> void groupStacks(Map<K, ItemStack> map, Creative2Category category, ToIntBiFunction<K, ItemStack> sortValue, String name) {
+        for (Map.Entry<K, ItemStack> e : map.entrySet()) {
+            set(i -> ItemStack.areItemStacksEqual(i, e.getValue()), category, sortValue.applyAsInt(e.getKey(), e.getValue()));
+        }
+        groups.add(map);
+        group_names.put(map, name);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     protected void addSpacing(NonNullList<ItemStack> items) {
         NonNullList<ItemStack> items2 = NonNullList.create();
         int categorySize = 0;
@@ -138,26 +173,26 @@ public abstract class Creative2Group extends ItemGroup {
         items.addAll(items2);
     }
 
+    @OnlyIn(Dist.CLIENT)
     protected void collapseGroups(NonNullList<ItemStack> items) {
         ListIterator<ItemStack> it = items.listIterator();
-        ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> expandedGroupMark = new ArrayList<>();
+        ArrayList<Map<?, ItemStack>> expandedGroupMark = new ArrayList<>();
         while (it.hasNext()) {
             ItemStack is = it.next();
-            Item i = is.getItem();
             expandedGroupMark.clear();
-            for (Map<? extends Enum<?>, ? extends IItemProvider> group : groups) {
+            for (Map<?, ItemStack> group : groups) {
                 int k = group_items.computeIfAbsent(group, g -> 0);
-                IItemProvider[] values = group.values().toArray(new IItemProvider[0]);
-                if (group.values().stream().map(IItemProvider::asItem).anyMatch(i2 -> i2 == i)) {
+                ItemStack[] values = group.values().toArray(new ItemStack[0]);
+                if (group.values().stream().anyMatch(s -> ItemStack.areItemStacksEqual(s, is))) {
                     if (expandedGroups.contains(group)) {
-                        if (i.asItem() == values[k].asItem() && !expandedGroupMark.contains(group)) {
+                        if (ItemStack.areItemStacksEqual(values[k], is) && !expandedGroupMark.contains(group)) {
                             for (int a = 0; a <= k; a++) it.previous();
                             it.add(is.copy());
                             for (int a = 0; a <= k; a++) it.next();
                             expandedGroupMark.add(group);
                         }
                         break;
-                    } else if (i.asItem() != values[k].asItem()) {
+                    } else if (!ItemStack.areItemStacksEqual(values[k], is)) {
                         it.remove();
                         break;
                     }
@@ -166,26 +201,17 @@ public abstract class Creative2Group extends ItemGroup {
         }
     }
 
-    public <V extends IItemProvider> Map<? extends Enum<?>, V> getGroup(V item) {
-        return (Map<? extends Enum<?>, V>)groups.stream().filter(m -> m.values().stream().map(IItemProvider::asItem).anyMatch(i -> i.asItem() == item.asItem())).findFirst().orElse(null);
+    @OnlyIn(Dist.CLIENT)
+    public <V extends IItemProvider> Map<?, ItemStack> getGroup(ItemStack is) {
+        return groups.stream().filter(m -> m.values().stream().anyMatch(is2 -> ItemStack.areItemStacksEqual(is, is2))).findFirst().orElse(null);
     }
 
-    public <K extends Enum<K>, V extends IItemProvider> Map<K, V> getGroup(V item, Class<K> hint) {
-        return (Map<K, V>)getGroup(item);
+    @OnlyIn(Dist.CLIENT)
+    public String getGroupTranslationKey(Map<?, ItemStack> group) {
+        return "itemGroup.lcc.group." + group_names.get(group);
     }
 
-    public int getGroupSlot(Map<? extends Enum<?>, ? extends IItemProvider> group, NonNullList<ItemStack> items) {
-        for (int i = 0; i < items.size(); i++) {
-            int k = i;
-            if (group.values().stream().map(IItemProvider::asItem).anyMatch(ii -> ii == items.get(k).getItem())) return i;
-        }
-        return -1;
-    }
-
-    public String getGroupTranslationKey(Map<? extends Enum<?>, IItemProvider> group) {
-        return group_translations.computeIfAbsent(group, k -> "itemGroup.lcc.group." + group.values().iterator().next().asItem().getRegistryName().getPath().replaceAll("_[^_]*$", ""));
-    }
-
+    @OnlyIn(Dist.CLIENT)
     public Creative2Category getCategory(ItemStack is) {
         return category_map.entrySet().stream().filter(e -> e.getKey().test(is)).map(Map.Entry::getValue).findFirst().orElse(null);
     }

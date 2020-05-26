@@ -14,21 +14,25 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ComputingItem extends Item {
 
     public static final ResourceLocation PREDICATE = new ResourceLocation(LCC.MODID, "computing_level");
     public static final double LOG2 = Math.log(2);
 
-    private final int levelMin;
-    private final int levelMax;
+    public final int[] levels;
 
     public ComputingItem(int levelMin, int levelMax, Properties p) {
+        this(IntStream.rangeClosed((int)getLogLevel(levelMin, levelMin), (int)getLogLevel(levelMax, levelMin)).map(i -> (int)Math.pow(2, i) * levelMin).toArray(), p);
+    }
+
+    public ComputingItem(int[] levels, Properties p) {
         super(p.maxStackSize(1));
-        this.addPropertyOverride(PREDICATE, (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("level") / (double)levelMin) / LOG2));
-        this.levelMin = levelMin;
-        this.levelMax = levelMax;
+        this.levels = levels;
+        this.addPropertyOverride(PREDICATE, (stack, world, entity) -> (float)getLogLevel(stack.getOrCreateChildTag("lcc:computing").getInt(this.getLevelTag()), levels[0]));
     }
 
     @Override
@@ -44,13 +48,29 @@ public class ComputingItem extends Item {
         if (this.isInGroup(group)) {
             ItemStack stack = new ItemStack(this);
             CompoundNBT tag = stack.getOrCreateChildTag("lcc:computing");
-            tag.putInt("level", this.levelMin);
-            items.add(stack.copy());
-            if (this.levelMax != this.levelMin) {
-                tag.putInt("level", this.levelMax);
-                items.add(stack.copy());
-            }
+            Arrays.stream(levels).mapToObj(i -> this.fillItemGroupStack(stack, tag, i).copy()).forEach(items::add);
         }
+    }
+
+    protected ItemStack fillItemGroupStack(ItemStack is, CompoundNBT tag, int level) {
+        tag.putInt(this.getLevelTag(), level);
+        return is;
+    }
+
+    protected static double getLogLevel(int level, double levelMin) {
+        return Math.log(level / levelMin) / LOG2;
+    }
+
+    protected String getLevelTag() {
+        return "level";
+    }
+
+    public int getLevelIndex(ItemStack is) {
+        return this.getLevelIndex(is.getOrCreateChildTag("lcc:computing").getInt(this.getLevelTag()));
+    }
+
+    public int getLevelIndex(int level) {
+        return Arrays.binarySearch(levels, level);
     }
 
 }

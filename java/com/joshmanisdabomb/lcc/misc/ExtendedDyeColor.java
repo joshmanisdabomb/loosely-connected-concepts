@@ -237,8 +237,8 @@ public interface ExtendedDyeColor extends IStringSerializable, Creative2GroupKey
         }
 
         @Override
-        public Enum<?> getGroupKey(Set<? extends Enum<?>> groupKeys) {
-            if (groupKeys.stream().allMatch(k -> k instanceof DyeColor)) return (DyeColor)this.dyeColor;
+        public Object getGroupKey(Set<?> groupKeys) {
+            if (groupKeys.stream().allMatch(k -> k instanceof DyeColor)) return this.dyeColor;
             return this;
         }
 

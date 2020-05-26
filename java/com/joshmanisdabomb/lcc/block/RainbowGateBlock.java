@@ -27,6 +27,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -189,11 +191,13 @@ public class RainbowGateBlock extends Block implements AdvancedBlockRender {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public IBakedModel newModel(Block block) {
         return new RainbowGateModel(block);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public Collection<ResourceLocation> getTextures() {
         return Arrays.asList(
             new ResourceLocation(LCC.MODID, "block/rainbow/gate/base"),

@@ -9,6 +9,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -18,23 +19,20 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static com.joshmanisdabomb.lcc.item.ComputingItem.LOG2;
 
-public class StorageItem extends Item implements TintedItem {
+public class StorageItem extends ComputingItem implements TintedItem {
 
-    private final int sizeMin;
-    private final int sizeMax;
     private final int amountCost;
     private final int typeCost;
     private final int typeLimit;
 
-    public StorageItem(int sizeMin, int sizeMax, int amountCost, int typeCost, int typeLimit, Properties p) {
-        super(p.maxStackSize(1));
-        this.addPropertyOverride(ComputingItem.PREDICATE, (stack, world, entity) -> (float)(Math.log(stack.getOrCreateChildTag("lcc:computing").getInt("size") / (double)sizeMin) / LOG2));
-        this.sizeMin = sizeMin;
-        this.sizeMax = sizeMax;
+    public StorageItem(int[] levels, int amountCost, int typeCost, int typeLimit, Properties p) {
+        super(levels, p.maxStackSize(1));
         this.amountCost = amountCost;
         this.typeCost = typeCost;
         this.typeLimit = typeLimit;
@@ -79,22 +77,22 @@ public class StorageItem extends Item implements TintedItem {
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
+            super.fillItemGroup(group, items);
             ItemStack stack = new ItemStack(this);
             StorageInfo i = new StorageInfo(stack);
-            i.setColor(0xCC44CC).setSize(this.sizeMin);
-            items.add(stack.copy());
-            if (this.sizeMax != this.sizeMin) {
-                i.setColor(0xDDAADD).setSize(this.sizeMax);
-                items.add(stack.copy());
-            }
-            if (this == LCCItems.compact_disc) {
+            int last = levels[levels.length - 1];
+            if (last > OperatingSystem.Type.CONSOLE.size) {
+                i.setSize(last);
                 i.setColor(0xB83D14);
                 StorageInfo.Partition p = new StorageInfo.Partition(null, "Console OS", StorageInfo.Partition.PartitionType.OS_CONSOLE, OperatingSystem.Type.CONSOLE.size);
                 i.addPartition(p);
                 items.add(stack.copy());
-            } else if (this == LCCItems.memory_card) {
-                i.setColor(0x4BBDF2).setSize(this.sizeMax);
+            }
+            if (last > OperatingSystem.Type.GRAPHICAL.size) {
+                i.setSize(last);
+                i.setColor(0x4BBDF2);
                 StorageInfo.Partition p = new StorageInfo.Partition(null, "Graphical OS", StorageInfo.Partition.PartitionType.OS_GRAPHICAL, OperatingSystem.Type.GRAPHICAL.size);
+                i.clearPartitions();
                 i.addPartition(p);
                 items.add(stack.copy());
             }
@@ -112,6 +110,18 @@ public class StorageItem extends Item implements TintedItem {
     public ITextComponent getDisplayName(ItemStack stack) {
         StorageInfo i = new StorageInfo(stack);
         return i.hasName() ? new StringTextComponent(i.getName()) : super.getDisplayName(stack);
+    }
+
+    @Override
+    protected String getLevelTag() {
+        return "size";
+    }
+
+    @Override
+    protected ItemStack fillItemGroupStack(ItemStack is, CompoundNBT tag, int level) {
+        float percent = (float)this.getLevelIndex(level) / (levels.length - 1);
+        tag.putInt("color", 0x323232 + (int)(0x70 * percent));
+        return super.fillItemGroupStack(is, tag, level);
     }
 
 }

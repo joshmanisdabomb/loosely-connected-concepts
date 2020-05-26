@@ -2,13 +2,13 @@ package com.joshmanisdabomb.lcc;
 
 import com.joshmanisdabomb.lcc.capability.CapabilityEvents;
 import com.joshmanisdabomb.lcc.capability.LCCCapabilities;
+import com.joshmanisdabomb.lcc.creative2.Creative2Group;
 import com.joshmanisdabomb.lcc.event.bus.*;
 import com.joshmanisdabomb.lcc.event.mod.ColorEvents;
 import com.joshmanisdabomb.lcc.event.mod.DataEvents;
 import com.joshmanisdabomb.lcc.event.mod.RegistryEvents;
 import com.joshmanisdabomb.lcc.event.mod.ResourceEvents;
 import com.joshmanisdabomb.lcc.gen.world.BiomeBasedGenerator;
-import com.joshmanisdabomb.lcc.item.group.Creative2Group;
 import com.joshmanisdabomb.lcc.item.group.LCCGroup;
 import com.joshmanisdabomb.lcc.network.LCCPacketHandler;
 import com.joshmanisdabomb.lcc.proxy.ClientProxy;

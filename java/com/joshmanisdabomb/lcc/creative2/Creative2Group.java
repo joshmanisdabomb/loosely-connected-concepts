@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.item.group;
+package com.joshmanisdabomb.lcc.creative2;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.gui.inventory.Creative2Screen;
@@ -20,31 +20,28 @@ public abstract class Creative2Group extends ItemGroup {
 
     public static final ArrayList<Creative2Group> GROUPS = new ArrayList<>();
 
-    private final HashMap<Predicate<ItemStack>, LCCGroupCategory> category_map = new HashMap<>();
+    private final HashMap<Predicate<ItemStack>, Creative2Category> category_map = new HashMap<>();
     private final HashMap<Predicate<ItemStack>, Integer> value_map = new HashMap<>();
 
     public final ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> groups = new ArrayList<>();
-    private final HashMap<Map<? extends Enum<?>, ? extends IItemProvider>, String> group_keys = new HashMap<>();
+    private final HashMap<Map<? extends Enum<?>, ? extends IItemProvider>, String> group_translations = new HashMap<>();
+    public final HashMap<Map<? extends Enum<?>, ? extends IItemProvider>, Integer> group_items = new HashMap<>();
+
+    public final ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> expandedGroups = new ArrayList<>();
 
     private final Comparator<ItemStack> SORTER = (i1, i2) -> {
         if (i1.isEmpty() || i2.isEmpty()) return 0;
 
-        LCCGroupCategory ic1 = null, ic2 = null;
-        for (Map.Entry<Predicate<ItemStack>, LCCGroupCategory> e : category_map.entrySet()) {
-            if (ic1 != null && ic2 != null) break;
-            if (ic1 == null && e.getKey().test(i1)) ic1 = e.getValue();
-            if (ic2 == null && e.getKey().test(i2)) ic2 = e.getValue();
-        }
+        Creative2Category ic1 = category_map.entrySet().stream().filter(e -> e.getKey().test(i1)).map(Map.Entry::getValue).findFirst().orElse(null);
+        Creative2Category ic2 = category_map.entrySet().stream().filter(e -> e.getKey().test(i2)).map(Map.Entry::getValue).findFirst().orElse(null);
+
         if (ic1 == null) System.err.println(i1.toString() + " needs a LCC group category!");
         if (ic2 == null) System.err.println(i2.toString() + " needs a LCC group category!");
-        if (ic1 != ic2) return (ic1 == null ? -1 : ic1.ordinal()) - (ic2 == null ? -1 : ic2.ordinal());
+        if (ic1 != ic2) return (ic1 == null ? -1 : ic1.getSortValue()) - (ic2 == null ? -1 : ic2.getSortValue());
 
-        Integer iv1 = null, iv2 = null;
-        for (Map.Entry<Predicate<ItemStack>, Integer> e : value_map.entrySet()) {
-            if (iv1 != null && iv2 != null) break;
-            if (iv1 == null && e.getKey().test(i1)) iv1 = e.getValue();
-            if (iv2 == null && e.getKey().test(i2)) iv2 = e.getValue();
-        }
+        Integer iv1 = value_map.entrySet().stream().filter(e -> e.getKey().test(i1)).map(Map.Entry::getValue).findFirst().orElse(null);
+        Integer iv2 = value_map.entrySet().stream().filter(e -> e.getKey().test(i2)).map(Map.Entry::getValue).findFirst().orElse(null);
+
         if (iv1 == null) System.err.println(i1.toString() + " needs a LCC group sort value!");
         if (iv2 == null) System.err.println(i2.toString() + " needs a LCC group sort value!");
         return (iv1 == null ? Integer.MIN_VALUE : iv1) - (iv2 == null ? Integer.MIN_VALUE : iv2);
@@ -96,18 +93,18 @@ public abstract class Creative2Group extends ItemGroup {
 
     public abstract void initSorting();
 
-    protected void set(IItemProvider item, LCCGroupCategory category, int sortValue) {
+    protected void set(IItemProvider item, Creative2Category category, int sortValue) {
         set(i -> i.getItem().asItem() == item.asItem(), category, sortValue);
     }
 
-    protected <K extends Enum<K>, V extends IItemProvider> void group(Map<K, V> map, LCCGroupCategory category, ToIntFunction<K> sortValue) {
+    protected <K extends Enum<K>, V extends IItemProvider> void group(Map<K, V> map, Creative2Category category, ToIntFunction<K> sortValue) {
         for (Map.Entry<K, V> e : map.entrySet()) {
             set(e.getValue(), category, sortValue.applyAsInt(e.getKey()));
         }
         groups.add(map);
     }
 
-    protected void set(Predicate<ItemStack> predicate, LCCGroupCategory category, int sortValue) {
+    protected void set(Predicate<ItemStack> predicate, Creative2Category category, int sortValue) {
         category_map.put(predicate, category);
         value_map.put(predicate, sortValue);
     }
@@ -123,12 +120,9 @@ public abstract class Creative2Group extends ItemGroup {
             if (i < items.size() - 1) {
                 ItemStack s2 = items.get(i + 1);
 
-                LCCGroupCategory ic1 = null, ic2 = null;
-                for (Map.Entry<Predicate<ItemStack>, LCCGroupCategory> e : category_map.entrySet()) {
-                    if (ic1 != null && ic2 != null) break;
-                    if (ic1 == null && e.getKey().test(s)) ic1 = e.getValue();
-                    if (ic2 == null && e.getKey().test(s2)) ic2 = e.getValue();
-                }
+                Creative2Category ic1 = category_map.entrySet().stream().filter(e -> e.getKey().test(s)).map(Map.Entry::getValue).findFirst().orElse(null);
+                Creative2Category ic2 = category_map.entrySet().stream().filter(e -> e.getKey().test(s2)).map(Map.Entry::getValue).findFirst().orElse(null);
+
                 if (ic1 == null) System.err.println(s.toString() + " needs a LCC group category!");
                 if (ic2 == null) System.err.println(s2.toString() + " needs a LCC group category!");
                 if (ic1 != ic2) {
@@ -145,13 +139,28 @@ public abstract class Creative2Group extends ItemGroup {
     }
 
     protected void collapseGroups(NonNullList<ItemStack> items) {
-        Iterator<ItemStack> it = items.iterator();
+        ListIterator<ItemStack> it = items.listIterator();
+        ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> expandedGroupMark = new ArrayList<>();
         while (it.hasNext()) {
-            Item i = it.next().getItem();
+            ItemStack is = it.next();
+            Item i = is.getItem();
+            expandedGroupMark.clear();
             for (Map<? extends Enum<?>, ? extends IItemProvider> group : groups) {
-                if (group.values().stream().skip(1).map(IItemProvider::asItem).anyMatch(i2 -> i2 == i)) {
-                    it.remove();
-                    break;
+                int k = group_items.computeIfAbsent(group, g -> 0);
+                IItemProvider[] values = group.values().toArray(new IItemProvider[0]);
+                if (group.values().stream().map(IItemProvider::asItem).anyMatch(i2 -> i2 == i)) {
+                    if (expandedGroups.contains(group)) {
+                        if (i.asItem() == values[k].asItem() && !expandedGroupMark.contains(group)) {
+                            for (int a = 0; a <= k; a++) it.previous();
+                            it.add(is.copy());
+                            for (int a = 0; a <= k; a++) it.next();
+                            expandedGroupMark.add(group);
+                        }
+                        break;
+                    } else if (i.asItem() != values[k].asItem()) {
+                        it.remove();
+                        break;
+                    }
                 }
             }
         }
@@ -165,7 +174,7 @@ public abstract class Creative2Group extends ItemGroup {
         return (Map<K, V>)getGroup(item);
     }
 
-    public static <K extends Enum<K>, V extends IItemProvider> int getGroupSlot(Map<? extends Enum<?>, ? extends IItemProvider> group, NonNullList<ItemStack> items) {
+    public int getGroupSlot(Map<? extends Enum<?>, ? extends IItemProvider> group, NonNullList<ItemStack> items) {
         for (int i = 0; i < items.size(); i++) {
             int k = i;
             if (group.values().stream().map(IItemProvider::asItem).anyMatch(ii -> ii == items.get(k).getItem())) return i;
@@ -174,24 +183,11 @@ public abstract class Creative2Group extends ItemGroup {
     }
 
     public String getGroupTranslationKey(Map<? extends Enum<?>, IItemProvider> group) {
-        return group_keys.computeIfAbsent(group, k -> "itemGroup.lcc.group." + group.values().iterator().next().asItem().getRegistryName().getPath().replaceAll("_[^_]*$", ""));
+        return group_translations.computeIfAbsent(group, k -> "itemGroup.lcc.group." + group.values().iterator().next().asItem().getRegistryName().getPath().replaceAll("_[^_]*$", ""));
     }
 
-    public enum LCCGroupCategory {
-
-        RESOURCES,
-        TOOLS,
-        GIZMOS,
-        RAINBOW,
-        SPREADERS,
-        WASTELAND,
-        NUCLEAR,
-        COMPUTING,
-        NOSTALGIA,
-        POWER,
-        HEALTH,
-        TESTING
-
+    public Creative2Category getCategory(ItemStack is) {
+        return category_map.entrySet().stream().filter(e -> e.getKey().test(is)).map(Map.Entry::getValue).findFirst().orElse(null);
     }
 
 }

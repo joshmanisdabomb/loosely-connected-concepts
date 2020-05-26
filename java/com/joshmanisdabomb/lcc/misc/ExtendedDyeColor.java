@@ -1,15 +1,32 @@
 package com.joshmanisdabomb.lcc.misc;
 
+import com.joshmanisdabomb.lcc.creative2.Creative2GroupKey;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.IStringSerializable;
 
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
-public interface ExtendedDyeColor extends IStringSerializable {
+public interface ExtendedDyeColor extends IStringSerializable, Creative2GroupKey {
 
     int getColorValue();
+
+    default float[] getComponents(int color) {
+        int i = (color & 16711680) >> 16;
+        int j = (color & '\uff00') >> 8;
+        int k = color & 255;
+        return new float[]{(float)i / 255.0F, (float)j / 255.0F, (float)k / 255.0F};
+    }
+
+    @Override
+    default float[] getSelectionColor() {
+        float[] c = getColorValueComponents();
+        return new float[]{c[0], c[1], c[2], 1.0F};
+    }
+
+    float[] getColorValueComponents();
 
     int getTextColor();
 
@@ -45,15 +62,22 @@ public interface ExtendedDyeColor extends IStringSerializable {
 
         public final MaterialColor mapColor;
         public final int colorValue;
+        private final float[] colorValueComponents;
 
         ClassicDyeColor(MaterialColor mapColor, int colorValue) {
             this.mapColor = mapColor;
             this.colorValue = colorValue;
+            this.colorValueComponents = this.getComponents(colorValue);
         }
 
         @Override
         public int getColorValue() {
             return this.colorValue;
+        }
+
+        @Override
+        public float[] getColorValueComponents() {
+            return this.colorValueComponents;
         }
 
         @Override
@@ -99,15 +123,22 @@ public interface ExtendedDyeColor extends IStringSerializable {
 
         public final MaterialColor mapColor;
         public final int colorValue;
+        private final float[] colorValueComponents;
 
         AlternateDyeColor(MaterialColor mapColor, int colorValue) {
             this.mapColor = mapColor;
             this.colorValue = colorValue;
+            this.colorValueComponents = this.getComponents(colorValue);
         }
 
         @Override
         public int getColorValue() {
             return this.colorValue;
+        }
+
+        @Override
+        public float[] getColorValueComponents() {
+            return this.colorValueComponents;
         }
 
         @Override
@@ -188,6 +219,9 @@ public interface ExtendedDyeColor extends IStringSerializable {
         }
 
         @Override
+        public float[] getColorValueComponents() { return get(DyeColor::getColorComponentValues, ExtendedDyeColor::getColorValueComponents); }
+
+        @Override
         public int getTextColor() {
             return get(DyeColor::getTextColor, ExtendedDyeColor::getTextColor);
         }
@@ -203,8 +237,22 @@ public interface ExtendedDyeColor extends IStringSerializable {
         }
 
         @Override
+        public Enum<?> getGroupKey(Set<? extends Enum<?>> groupKeys) {
+            if (groupKeys.stream().allMatch(k -> k instanceof DyeColor)) return (DyeColor)this.dyeColor;
+            return this;
+        }
+
+        @Override
         public String toString() {
             return this.getName();
+        }
+
+        public static CompoundDyeColor get(DyeColor c) {
+            return CompoundDyeColor.values()[c.ordinal()];
+        }
+
+        public static CompoundDyeColor get(AlternateDyeColor c) {
+            return CompoundDyeColor.values()[c.ordinal() + DyeColor.values().length];
         }
 
     }

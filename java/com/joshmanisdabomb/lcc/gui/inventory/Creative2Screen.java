@@ -33,8 +33,6 @@ public class Creative2Screen extends CreativeScreen {
 
     protected static boolean refreshed = false;
 
-    private final ArrayList<Map<? extends Enum<?>, ? extends IItemProvider>> groupMark = new ArrayList<>();
-
     private int hoveredSelector = -1;
 
     public Creative2Screen(Creative2Group group, PlayerEntity player) {
@@ -72,15 +70,12 @@ public class Creative2Screen extends CreativeScreen {
         if (this.searchField.getText().isEmpty()) {
             this.blit(this.guiLeft + 158, this.guiTop + 4, 0, this.ySize + 12, 12, 12);
 
-            groupMark.clear();
             for (Slot slot : this.container.inventorySlots) {
                 if (slot.inventory != this.minecraft.player.inventory) {
                     Map<? extends Enum<?>, Item> group = this.group.getGroup(slot.getStack().getItem().asItem());
                     if (group != null) {
-                        if (!groupMark.contains(group)) {
+                        if (this.isFirstOfGroup(slot.slotNumber, group)) {
                             this.drawSelectors(group, slot, this.guiLeft + slot.xPos, this.guiTop + slot.yPos, mouseX, mouseY, 1.0F);
-
-                            groupMark.add(group);
                         } else {
                             Creative2Category category = this.group.getCategory(slot.getStack());
                             this.fillGradient(this.guiLeft + slot.xPos, this.guiTop + slot.yPos, this.guiLeft + slot.xPos + 16, this.guiTop + slot.yPos + 16, category.getGroupColor(), category.getGroupColor());
@@ -103,11 +98,10 @@ public class Creative2Screen extends CreativeScreen {
         if (this.searchField.getText().isEmpty()) {
             this.minecraft.getTextureManager().bindTexture(group.getBackgroundImage());
 
-            groupMark.clear();
             for (Slot slot : this.container.inventorySlots) {
                 if (slot.inventory != this.minecraft.player.inventory) {
                     Map<? extends Enum<?>, Item> group = this.group.getGroup(slot.getStack().getItem().asItem());
-                    if (group != null && !groupMark.contains(group)) {
+                    if (group != null && this.isFirstOfGroup(slot.slotNumber, group)) {
                         int xOffset = this.group.expandedGroups.contains(group) ? 6 : 0;
                         this.blit(slot.xPos + 10, slot.yPos + 10, xOffset, this.ySize + 34, 6, 6);
 
@@ -120,8 +114,6 @@ public class Creative2Screen extends CreativeScreen {
                             this.blit(slot.xPos + 10, slot.yPos + 10, xOffset, this.ySize + 28, 6, 6);
                         }
                         RenderSystem.disableBlend();
-
-                        groupMark.add(group);
                     }
                 }
             }
@@ -212,11 +204,20 @@ public class Creative2Screen extends CreativeScreen {
         return super.getSlotColor(index);
     }
 
-    protected int getListIndex(int slotNumber) {
+    protected int getListRow(float pos) {
         int i = (this.container.itemList.size() + 9 - 1) / 9 - 5;
-        int j = (int)((double)(this.currentScroll * (float)i) + 0.5D);
+        int j = (int)((double)(pos * (float)i) + 0.5D);
         if (j < 0) j = 0;
-        return (j*9) + slotNumber;
+        return j;
+    }
+
+    protected float getScrollForRow(int row) {
+        int i = (this.container.itemList.size() + 9 - 1) / 9 - 5;
+        return (float)(row - 0.5D) / i;
+    }
+
+    protected int getListIndex(int slotNumber) {
+        return (this.getListRow(this.currentScroll) * 9) + slotNumber;
     }
 
     protected boolean isFirstOfGroup(int slotNumber, Map<? extends Enum<?>, ? extends IItemProvider> g) {
@@ -261,9 +262,13 @@ public class Creative2Screen extends CreativeScreen {
                 if (type == ClickType.PICKUP) {
                     if (group.expandedGroups.contains(g)) group.expandedGroups.remove(g);
                     else group.expandedGroups.add(g);
+
+                    int listIndex = this.getListIndex(0);
+
                     this.container.itemList.clear();
                     group.fillNoSearch(this.container.itemList);
-                    container.scrollTo(this.currentScroll);
+
+                    container.scrollTo(this.currentScroll = this.getScrollForRow(listIndex / 9));
                 }
                 return;
             }

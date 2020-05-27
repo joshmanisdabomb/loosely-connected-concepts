@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.gen.dimension.teleporter.RainbowTeleporter;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCDimensions;
 import net.minecraft.block.Block;
@@ -20,6 +21,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 
 public class RainbowPortalBlock extends Block implements LCCBlockHelper {
 
@@ -67,8 +69,47 @@ public class RainbowPortalBlock extends Block implements LCCBlockHelper {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!world.isRemote) {
-            entity.changeDimension(LCCDimensions.rainbow.getType());
+            BlockPos middle = this.findMiddle(state, world, pos);
+            if (middle == null) return;
+            Direction.Axis axis = this.findAxis(state, world, middle);
+            if (axis == null) return;
+            entity.changeDimension(world.getDimension().getType() == LCCDimensions.rainbow.getType() ? DimensionType.OVERWORLD : LCCDimensions.rainbow.getType(), RainbowTeleporter.INSTANCE.setGateMiddle(middle).setGateAxis(axis));
         }
+    }
+
+    protected BlockPos findMiddle(BlockState state, World world, BlockPos pos) {
+        BlockPos.Mutable bp = new BlockPos.Mutable(pos);
+        BlockState state2 = null;
+        for (int i = 0; i < 4; i++) {
+            state2 = world.getBlockState(bp);
+            if (state2 == state.with(Y, 0)) break;
+            bp.move(Direction.DOWN);
+            if (i == 3) return null;
+        }
+        if (state2.get(MIDDLE)) return bp;
+        for (int i = 0; i < 4; i++) {
+            Direction d = Direction.byHorizontalIndex(i);
+            bp.move(d);
+            state2 = world.getBlockState(bp);
+            if (state2.getBlock() == this && state2.get(MIDDLE)) return bp.toImmutable();
+            bp.move(d.getOpposite());
+        }
+        return null;
+    }
+
+    protected Direction.Axis findAxis(BlockState state, World world, BlockPos middle) {
+        BlockPos.Mutable bp = new BlockPos.Mutable(middle);
+        for (int i = 0; i < 4; i++) {
+            Direction d = Direction.byHorizontalIndex(i);
+            bp.move(d);
+            if (world.getBlockState(bp) == state.with(MIDDLE, false)) {
+                bp.move(d);
+                if (world.getBlockState(bp).getBlock() instanceof RainbowGateBlock) return d.getAxis();
+                bp.move(d.getOpposite());
+            }
+            bp.move(d.getOpposite());
+        }
+        return null;
     }
 
 }

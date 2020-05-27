@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.block.model;
 
 import com.joshmanisdabomb.lcc.block.render.AdvancedBlockRender;
+import com.joshmanisdabomb.lcc.gen.dimension.teleporter.RainbowTeleporter;
+import com.joshmanisdabomb.lcc.registry.LCCDimensions;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -11,6 +13,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ILightReader;
+import net.minecraft.world.IWorld;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -39,7 +42,7 @@ public class RainbowGateModel implements IBakedModel {
     @Override
     public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         tileData = AdvancedBlockRender.DATA;
-        tileData.setData(RAND, MathHelper.getPositionRandom(new BlockPos(pos.getX(), state.get(Y), pos.getZ())));
+        tileData.setData(RAND, world instanceof IWorld && ((IWorld)world).getDimension().getType() == LCCDimensions.rainbow.getType() ? RainbowTeleporter.getGateRandomFromRainbow(pos, state.get(Y)) : RainbowTeleporter.getGateRandomToRainbow(pos, state.get(Y)));
         return tileData;
     }
 
@@ -60,7 +63,7 @@ public class RainbowGateModel implements IBakedModel {
         } else {
             for (int i = 0; i < 4; i++) {
                 Direction d = Direction.byHorizontalIndex(i);
-                quads.add(VertexUtility.create2DFace(d, 5/16D, 0, 11/16D, 1, 0.375, textures[(int)(Math.abs(r / 179) % 6) + 1], 5, 0, 11, 16));
+                quads.add(VertexUtility.create2DFace(d, 5/16D, 0, 11/16D, 1, 0.375, textures[RainbowTeleporter.getCode(r) + 1], 5, 0, 11, 16));
             }
         }
 

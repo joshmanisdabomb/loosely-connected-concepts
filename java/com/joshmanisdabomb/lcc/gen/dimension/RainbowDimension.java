@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.gen.dimension;
 
 import com.joshmanisdabomb.lcc.gen.dimension.provider.MultiBiomeProvider;
+import com.joshmanisdabomb.lcc.gen.dimension.teleporter.RainbowTeleporter;
 import com.joshmanisdabomb.lcc.registry.LCCBiomes;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCDimensions;
@@ -9,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;

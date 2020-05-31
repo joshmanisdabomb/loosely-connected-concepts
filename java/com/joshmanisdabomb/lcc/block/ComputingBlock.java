@@ -296,9 +296,6 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
             case 1:
                 return te.getModule(SlabType.BOTTOM).color.getColorValue();
             default:
-                System.out.println(location);
-                System.out.println(te.getModule(location));
-                System.out.println(te.getModule(location).color);
                 if (location == SlabType.DOUBLE) {
                     return te.getModule(SlabType.TOP).color.getColorValue();
                 } else {

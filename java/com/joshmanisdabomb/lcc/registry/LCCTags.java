@@ -53,4 +53,28 @@ public abstract class LCCTags {
 
     }
 
+    public enum AreaEffectivity {
+        RAINBOW(RAINBOW_EQUIPMENT, RAINBOW_EFFECTIVE, RAINBOW_REQUIRED),
+        WASTELAND(WASTELAND_EQUIPMENT, WASTELAND_EFFECTIVE, WASTELAND_REQUIRED);
+
+        public final ItemTags.Wrapper equipment;
+        public final WrapperWrapper effective;
+        public final WrapperWrapper required;
+
+        AreaEffectivity(ItemTags.Wrapper equipment, WrapperWrapper effective, WrapperWrapper required) {
+            this.equipment = equipment;
+            this.effective = effective;
+            this.required = required;
+        }
+
+        public float getEffectiveSpeed(float speed) {
+            return 0.2F + (speed * 0.04F);
+        }
+
+        public float getRequiredSpeed(float speed) {
+            return 0.1F + (speed * 0.02F);
+        }
+
+    }
+
 }

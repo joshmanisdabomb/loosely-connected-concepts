@@ -105,7 +105,6 @@ public class NuclearExplosionEntity extends Entity implements LCCEntityHelper {
         if (!this.world.isRemote) {
             if (this.tick == 1) {
                 this.world.getCapability(NuclearCapability.Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
-                    System.out.println("hello");
                     n.nuke(this.world, center, this.lifetime);
                     LCCPacketHandler.send(PacketDistributor.DIMENSION.with(() -> this.world.dimension.getType()), new CapabilitySyncPacket(n));
                 });

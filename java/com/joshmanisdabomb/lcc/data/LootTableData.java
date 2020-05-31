@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.block.*;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCEntities;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
+import com.joshmanisdabomb.lcc.registry.LCCTags;
 import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.MinMaxBounds;
@@ -38,6 +39,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class LootTableData extends LootTableProvider {
 
@@ -69,9 +72,10 @@ public class LootTableData extends LootTableProvider {
         dropOreFortune(LCCItems.topaz, LCCBlocks.topaz_ore);
         dropOreFortune(LCCItems.sapphire, LCCBlocks.sapphire_ore);
         dropOreFortune(LCCItems.amethyst, LCCBlocks.amethyst_ore);
-        dropOreFortune(LCCItems.neon, LCCBlocks.neon_ore);
+        dropOreFortune(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCItems.neon, LCCBlocks.neon_ore);
         dropSelf(LCCBlocks.uranium_ore);
-        dropSelf(LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage, LCCBlocks.neon_storage);
+        dropSelf(LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage);
+        dropSelf(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCBlocks.neon_storage);
 
         dropSelf(LCCBlocks.road, LCCBlocks.hydrated_soul_sand, LCCBlocks.bounce_pad);
 
@@ -108,9 +112,10 @@ public class LootTableData extends LootTableProvider {
             )
         );
 
-        dropSelf(LCCBlocks.rainbow_gate, LCCBlocks.sparkling_dirt, LCCBlocks.twilight_cobblestone, LCCBlocks.candy_cane_block, LCCBlocks.candy_cane_red, LCCBlocks.candy_cane_green, LCCBlocks.candy_cane_blue, LCCBlocks.stripped_candy_cane, LCCBlocks.candy_cane_coating_red, LCCBlocks.candy_cane_coating_green, LCCBlocks.candy_cane_coating_green, LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue, LCCBlocks.refined_stripped_candy_cane, LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue, LCCBlocks.refined_stripped_candy_cane_coating);
-        dropItem(LCCBlocks.channelite.get(null), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
-        dropSilk(LCCBlocks.twilight_cobblestone, LCCBlocks.twilight_stone);
+        dropSelf(LCCBlocks.rainbow_gate, LCCBlocks.sparkling_dirt, LCCBlocks.candy_cane_block, LCCBlocks.candy_cane_red, LCCBlocks.candy_cane_green, LCCBlocks.candy_cane_blue, LCCBlocks.stripped_candy_cane, LCCBlocks.candy_cane_coating_red, LCCBlocks.candy_cane_coating_green, LCCBlocks.candy_cane_coating_green, LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue, LCCBlocks.refined_stripped_candy_cane, LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue, LCCBlocks.refined_stripped_candy_cane_coating);
+        dropSelf(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCBlocks.twilight_cobblestone);
+        dropItem(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCBlocks.channelite.get(null), LCCBlocks.channelite.values().toArray(new ChanneliteBlock[0]));
+        dropSilk(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCBlocks.twilight_cobblestone, LCCBlocks.twilight_stone);
         dropSilk(LCCBlocks.sparkling_dirt, LCCBlocks.rainbow_grass_block, LCCBlocks.sugar_grass_block, LCCBlocks.star_plating);
         dropSilk(LCCBlocks.sparkling_dirt, LCCBlocks.sparkling_grass_block.values().toArray(new SparklingGrassBlock[0]));
         dropSelf(LCCBlocks.sparkling_channelite_source.values().toArray(new ChanneliteSourceBlock[0]));
@@ -118,12 +123,12 @@ public class LootTableData extends LootTableProvider {
 
         dropSelf(LCCBlocks.vivid_log, LCCBlocks.vivid_wood, LCCBlocks.vivid_planks, LCCBlocks.vivid_sapling, LCCBlocks.stripped_vivid_log, LCCBlocks.stripped_vivid_wood, LCCBlocks.vivid_stairs, LCCBlocks.vivid_slab, LCCBlocks.vivid_pressure_plate, LCCBlocks.vivid_button, LCCBlocks.vivid_fence, LCCBlocks.vivid_fence_gate, LCCBlocks.vivid_trapdoor);
         blocks.put(LCCBlocks.vivid_leaves,
-            silkShears(LCCBlocks.vivid_leaves,
+            LootTable.builder().addLootPool(silkShears(LCCBlocks.vivid_leaves,
                 ItemLootEntry.builder(LCCBlocks.vivid_sapling)
                     .acceptCondition(SurvivesExplosion.builder())
                     .acceptCondition(TableBonus.builder(Enchantments.FORTUNE, 0.05F, 0.0625F, 0.083333336F, 0.1F)
                 ).acceptCondition(SurvivesExplosion.builder())
-            ).addLootPool(LootPool.builder()
+            )).addLootPool(LootPool.builder()
                 .addEntry(ItemLootEntry.builder(Items.STICK)
                     .acceptCondition(SurvivesExplosion.builder())
                     .acceptCondition(NOT_SILK_TOUCH_OR_SHEARS)
@@ -205,66 +210,84 @@ public class LootTableData extends LootTableProvider {
 
     //Happy helpers.
 
-    private LootTable.Builder basic(IItemProvider item) {
-        return LootTable.builder().addLootPool(
-            LootPool.builder()
-                .rolls(ConstantRange.of(1))
-                .addEntry(ItemLootEntry.builder(item))
-                .acceptCondition(SurvivesExplosion.builder())
-        );
+    private LootPool.Builder basic(IItemProvider item) {
+        return LootPool.builder()
+            .rolls(ConstantRange.of(1))
+            .addEntry(ItemLootEntry.builder(item))
+            .acceptCondition(SurvivesExplosion.builder());
     }
 
-    private LootTable.Builder silk(IItemProvider silk, LootEntry.Builder<?> nonSilk) {
-        return LootTable.builder().addLootPool(
-            LootPool.builder()
-                .rolls(ConstantRange.of(1))
-                .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH).alternatively(nonSilk))
-                .acceptCondition(SurvivesExplosion.builder())
-        );
+    private LootPool.Builder silk(IItemProvider silk, LootEntry.Builder<?> nonSilk) {
+        return LootPool.builder()
+            .rolls(ConstantRange.of(1))
+            .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH).alternatively(nonSilk))
+            .acceptCondition(SurvivesExplosion.builder());
     }
 
-    private LootTable.Builder silkShears(IItemProvider silk, LootEntry.Builder<?> nonSilk) {
-        return LootTable.builder().addLootPool(
-            LootPool.builder()
-                .rolls(ConstantRange.of(1))
-                .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH_OR_SHEARS).alternatively(nonSilk))
-                .acceptCondition(SurvivesExplosion.builder())
-        );
+    private LootPool.Builder silkShears(IItemProvider silk, LootEntry.Builder<?> nonSilk) {
+        return LootPool.builder()
+            .rolls(ConstantRange.of(1))
+            .addEntry(ItemLootEntry.builder(silk).acceptCondition(SILK_TOUCH_OR_SHEARS).alternatively(nonSilk))
+            .acceptCondition(SurvivesExplosion.builder());
+    }
+
+    private LootPool.Builder silkOnly(IItemProvider silk) {
+        return LootPool.builder()
+            .rolls(ConstantRange.of(1))
+            .addEntry(ItemLootEntry.builder(silk))
+            .acceptCondition(SILK_TOUCH);
+    }
+
+    private LootPool.Builder ore(IItemProvider ore, IItemProvider ingot) {
+        return silk(ore, ItemLootEntry.builder(ingot).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)));
+    }
+
+    private <B extends Block> void dropOneTable(Function<B, LootPool.Builder> pool, Consumer<LootPool.Builder> lp, B... blocks) {
+        for (B b : blocks) {
+            LootPool.Builder lpb = pool.apply(b);
+            lp.accept(lpb);
+            this.blocks.put(b, LootTable.builder().addLootPool(lpb));
+        }
+    }
+
+    private void dropSelf(Consumer<LootPool.Builder> lp, Block... blocks) {
+        this.dropOneTable(this::basic, lp, blocks);
     }
 
     private void dropSelf(Block... blocks) {
-        for (Block b : blocks) {
-            this.blocks.put(b, basic(b));
-        }
+        this.dropSelf(lp -> {}, blocks);
+    }
+
+    private void dropItem(Consumer<LootPool.Builder> lp, IItemProvider drop, Block... blocks) {
+        this.dropOneTable(b -> this.basic(drop), lp, blocks);
     }
 
     private void dropItem(IItemProvider drop, Block... blocks) {
-        for (Block b : blocks) {
-            this.blocks.put(b, basic(drop));
-        }
+        this.dropItem(lp -> {}, drop, blocks);
+    }
+
+    private void dropSilk(Consumer<LootPool.Builder> lp, IItemProvider nonSilk, Block... blocks) {
+        this.dropOneTable(b -> this.silk(b, ItemLootEntry.builder(nonSilk)), lp, blocks);
     }
 
     private void dropSilk(IItemProvider nonSilk, Block... blocks) {
-        for (Block b : blocks) {
-            this.blocks.put(b, silk(b, ItemLootEntry.builder(nonSilk)));
-        }
+        this.dropSilk(lp -> {}, nonSilk, blocks);
+    }
+
+    private void dropSilkOnly(Consumer<LootPool.Builder> lp, Block... blocks) {
+        this.dropOneTable(this::silkOnly, lp, blocks);
     }
 
     private void dropSilkOnly(Block... blocks) {
-        for (Block b : blocks) {
-            this.blocks.put(b, LootTable.builder().addLootPool(
-                LootPool.builder()
-                    .rolls(ConstantRange.of(1))
-                    .addEntry(ItemLootEntry.builder(b))
-                    .acceptCondition(SILK_TOUCH)
-            ));
-        }
+        this.dropSilkOnly(lp -> {}, blocks);
+    }
+
+    private void dropOreFortune(Consumer<LootPool.Builder> lp, IItemProvider ingot, Block... blocks) {
+        this.dropOneTable(b -> this.ore(b, ingot), lp, blocks);
     }
 
     private void dropOreFortune(IItemProvider nonSilk, Block... blocks) {
-        for (Block b : blocks) {
-            this.blocks.put(b, silk(b, ItemLootEntry.builder(nonSilk).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))));
-        }
+        this.dropOreFortune(lp -> {}, nonSilk, blocks);
     }
 
     private void dropSpreader(Block... blocks) {
@@ -281,13 +304,17 @@ public class LootTableData extends LootTableProvider {
 
     private void dropPot(FlowerPotBlock... blocks) {
         for (FlowerPotBlock b : blocks) {
-            this.blocks.put(b, basic(b.func_220276_d()).addLootPool(
+            this.blocks.put(b, LootTable.builder().addLootPool(basic(b.func_220276_d())).addLootPool(
                 LootPool.builder()
                     .rolls(ConstantRange.of(1))
                     .addEntry(ItemLootEntry.builder(b.getEmptyPot()))
                     .acceptCondition(SurvivesExplosion.builder())
             ));
         }
+    }
+
+    private Consumer<LootPool.Builder> areaRequired(LCCTags.AreaEffectivity ae) {
+        return lp -> lp.acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().tag(ae.equipment)));
     }
 
     //This isn't built into forge for some reason.

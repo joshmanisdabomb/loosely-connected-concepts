@@ -10,7 +10,7 @@
       "item": "lcc:sapphire"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     }
   },
   "result": {

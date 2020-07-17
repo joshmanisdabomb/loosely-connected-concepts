@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "X",
-    "X",
-    "#"
+    "i",
+    "i",
+    "s"
   ],
   "key": {
-    "X": {
+    "i": {
       "type": "lcc:excluding",
       "ingredient": {
         "tag": "minecraft:planks"
@@ -15,7 +15,7 @@
         "lcc:vivid_planks"
       ]
     },
-    "#": {
+    "s": {
       "tag": "forge:rods/wooden"
     }
   },

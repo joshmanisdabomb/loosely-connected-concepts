@@ -10,7 +10,7 @@
       "item": "lcc:amethyst"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     }
   },
   "result": {

@@ -10,7 +10,7 @@
       "tag": "lcc:red_candy_canes"
     },
     "s": {
-      "item": "minecraft:stick"
+      "tag": "forge:rods/wooden"
     }
   },
   "result": {

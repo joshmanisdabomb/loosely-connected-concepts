@@ -7,13 +7,19 @@
   ],
   "key": {
     "i": {
-      "item": "minecraft:emerald"
+      "type": "lcc:excluding",
+      "ingredient": {
+        "tag": "minecraft:planks"
+      },
+      "excludes": [
+        "lcc:vivid_planks"
+      ]
     },
     "s": {
       "tag": "forge:rods/wooden"
     }
   },
   "result": {
-    "item": "lcc:emerald_axe"
+    "item": "minecraft:wooden_axe"
   }
 }

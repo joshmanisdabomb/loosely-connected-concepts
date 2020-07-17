@@ -7,13 +7,19 @@
   ],
   "key": {
     "i": {
-      "item": "lcc:neon"
+      "type": "lcc:excluding",
+      "ingredient": {
+        "tag": "minecraft:planks"
+      },
+      "excludes": [
+        "lcc:vivid_planks"
+      ]
     },
     "s": {
       "tag": "forge:rods/wooden"
     }
   },
   "result": {
-    "item": "lcc:neon_pickaxe"
+    "item": "minecraft:wooden_pickaxe"
   }
 }

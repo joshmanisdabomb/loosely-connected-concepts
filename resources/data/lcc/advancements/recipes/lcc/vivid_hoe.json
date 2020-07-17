@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_vivid_planks": {
+    "has_stick": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:vivid_planks"
+            "item": "minecraft:stick"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_vivid_planks",
+      "has_stick",
       "has_the_recipe"
     ]
   ]

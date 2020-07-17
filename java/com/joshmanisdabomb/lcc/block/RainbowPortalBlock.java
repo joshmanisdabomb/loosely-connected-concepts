@@ -1,5 +1,7 @@
 package com.joshmanisdabomb.lcc.block;
 
+import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.capability.RainbowCapability;
 import com.joshmanisdabomb.lcc.gen.dimension.teleporter.RainbowTeleporter;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCDimensions;
@@ -66,15 +68,19 @@ public class RainbowPortalBlock extends Block implements LCCBlockHelper {
         return hasSolidSideOnTop(world, pos);
     }
 
-    @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        if (!world.isRemote) {
-            BlockPos middle = this.findMiddle(state, world, pos);
-            if (middle == null) return;
-            Direction.Axis axis = this.findAxis(state, world, middle);
-            if (axis == null) return;
-            entity.changeDimension(world.getDimension().getType() == LCCDimensions.rainbow.getType() ? DimensionType.OVERWORLD : LCCDimensions.rainbow.getType(), RainbowTeleporter.INSTANCE.setGateMiddle(middle).setGateAxis(axis));
-        }
+    public void onPortalInside(BlockState state, World world, BlockPos pos, Entity entity) {
+        entity.getCapability(RainbowCapability.Provider.DEFAULT_CAPABILITY).ifPresent(r -> {
+            r.portalTimer = Math.min(r.portalTimer + 1, 100);
+            if (world.isRemote) {
+                LCC.proxy.rainbowPortalRender(entity, r.portalTimer);
+            } else if (r.portalTimer >= 100 && r.portalDelay <= 0) {
+                BlockPos middle = this.findMiddle(state, world, pos);
+                Direction.Axis axis = this.findAxis(world.getBlockState(middle), world, middle);
+
+                r.portalTimer = 20;
+                entity.changeDimension(world.getDimension().getType() == LCCDimensions.rainbow.getType() ? DimensionType.OVERWORLD : LCCDimensions.rainbow.getType(), RainbowTeleporter.INSTANCE.setGateMiddle(middle).setGateAxis(axis));
+            }
+        });
     }
 
     protected BlockPos findMiddle(BlockState state, World world, BlockPos pos) {
@@ -86,7 +92,7 @@ public class RainbowPortalBlock extends Block implements LCCBlockHelper {
             bp.move(Direction.DOWN);
             if (i == 3) return null;
         }
-        if (state2.get(MIDDLE)) return bp;
+        if (state2.get(MIDDLE)) return bp.toImmutable();
         for (int i = 0; i < 4; i++) {
             Direction d = Direction.byHorizontalIndex(i);
             bp.move(d);

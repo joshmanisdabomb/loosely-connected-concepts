@@ -2,11 +2,9 @@ package com.joshmanisdabomb.lcc.item;
 
 import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.computing.system.OperatingSystem;
-import com.joshmanisdabomb.lcc.registry.LCCItems;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -19,11 +17,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
-
-import static com.joshmanisdabomb.lcc.item.ComputingItem.LOG2;
 
 public class StorageItem extends ComputingItem implements TintedItem {
 
@@ -81,14 +75,14 @@ public class StorageItem extends ComputingItem implements TintedItem {
             ItemStack stack = new ItemStack(this);
             StorageInfo i = new StorageInfo(stack);
             int last = levels[levels.length - 1];
-            if (last > OperatingSystem.Type.CONSOLE.size) {
+            if (last >= OperatingSystem.Type.CONSOLE.size) {
                 i.setSize(last);
                 i.setColor(0xB83D14);
                 StorageInfo.Partition p = new StorageInfo.Partition(null, "Console OS", StorageInfo.Partition.PartitionType.OS_CONSOLE, OperatingSystem.Type.CONSOLE.size);
                 i.addPartition(p);
                 items.add(stack.copy());
             }
-            if (last > OperatingSystem.Type.GRAPHICAL.size) {
+            if (last >= OperatingSystem.Type.GRAPHICAL.size) {
                 i.setSize(last);
                 i.setColor(0x4BBDF2);
                 StorageInfo.Partition p = new StorageInfo.Partition(null, "Graphical OS", StorageInfo.Partition.PartitionType.OS_GRAPHICAL, OperatingSystem.Type.GRAPHICAL.size);

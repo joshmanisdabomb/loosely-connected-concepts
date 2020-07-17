@@ -48,4 +48,8 @@ public abstract class Proxy {
 
     public void refreshWorld() { throw new IllegalStateException("Running on server. Bad."); }
 
+    public void rainbowPortalRender(Entity entity, int portalTimer) {
+        throw new IllegalStateException("Running on server. Bad.");
+    }
+
 }

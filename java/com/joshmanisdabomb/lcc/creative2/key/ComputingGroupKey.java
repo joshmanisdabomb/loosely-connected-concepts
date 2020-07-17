@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.computing.StorageInfo;
 import com.joshmanisdabomb.lcc.creative2.Creative2GroupKey;
 import com.joshmanisdabomb.lcc.item.ComputingItem;
 import com.joshmanisdabomb.lcc.item.StorageItem;
-import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

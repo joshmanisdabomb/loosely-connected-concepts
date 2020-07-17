@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.ILightReader;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.client.model.data.EmptyModelData;

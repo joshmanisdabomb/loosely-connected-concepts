@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.capability;
 
 import com.joshmanisdabomb.lcc.LCC;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;

@@ -21,6 +21,7 @@ public class CapabilityEvents {
         if (event.getObject() instanceof LivingEntity) {
             event.addCapability(GauntletCapability.LOCATION, new GauntletCapability.Provider());
             event.addCapability(HeartsCapability.LOCATION, new HeartsCapability.Provider());
+            event.addCapability(RainbowCapability.LOCATION, new RainbowCapability.Provider());
             if (event.getObject() instanceof PlayerEntity) {
                 event.addCapability(CryingObsidianCapability.LOCATION, new CryingObsidianCapability.Provider());
             }
@@ -81,6 +82,10 @@ public class CapabilityEvents {
             });
             player.world.getCapability(NuclearCapability.Provider.DEFAULT_CAPABILITY).ifPresent(n -> {
                 LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CapabilitySyncPacket(n));
+            });
+            player.getCapability(RainbowCapability.Provider.DEFAULT_CAPABILITY).ifPresent(r -> {
+                r.portalDelay = 20;
+                LCCPacketHandler.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new CapabilitySyncPacket(r));
             });
         }
     }

@@ -11,10 +11,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.server.TicketType;
 import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.function.Function;
@@ -49,8 +47,8 @@ public class RainbowTeleporter implements ITeleporter {
 
         int x;
         int z;
-        double xOffset = gate.getX() - posX;
-        double zOffset = gate.getZ() - posZ;
+        double xOffset = (gate.getX() + 0.5F) - posX;
+        double zOffset = (gate.getZ() + 0.5F) - posZ;
 
         if (currentWorld.getDimension().getType() == LCCDimensions.rainbow.getType()) {
             x = RainbowTeleporter.shiftFromRainbow(gate.getX(), kx1, kx2);
@@ -60,24 +58,28 @@ public class RainbowTeleporter implements ITeleporter {
             z = RainbowTeleporter.shiftToRainbow(gate.getZ(), kz1, kz2);
         }
 
-        System.out.println(x);
-        System.out.println(z);
-
         ChunkPos cp = new ChunkPos(new BlockPos(x, 0, z));
         destWorld.getChunkProvider().getChunk(cp.x, cp.z, true);
-        int y = destWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z);
+        int y = destWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z) + 1;
+        boolean skyblock = false;
         if (y < 10) {
-            //TODO: unsafe, spawn a skyblock
             y = 100;
+            skyblock = true;
         }
 
-        BlockPos pos = new BlockPos(x + xOffset, y, z + zOffset);
+        BlockPos pos = new BlockPos(x, y, z);
 
         BlockPos.Mutable bp = new BlockPos.Mutable(pos);
-        for (int i = -1 - (axis == Direction.Axis.X ? 2 : 0); i <= 1 + (axis == Direction.Axis.X ? 2 : 0); i++) {
-            for (int k = -1 - (axis == Direction.Axis.Z ? 2 : 0); k <= 1 + (axis == Direction.Axis.Z ? 2 : 0); k++) {
+        int ii = 1 + (axis == Direction.Axis.X ? 2 : 0);
+        int kk = 1 + (axis == Direction.Axis.Z ? 2 : 0);
+        for (int i = -ii; i <= ii; i++) {
+            for (int k = -kk; k <= kk; k++) {
                 bp.setPos(pos).move(i, -1, k);
-                destWorld.setBlockState(bp, Blocks.DARK_PRISMARINE.getDefaultState());
+                if (i == -3 || i == 3 || k == -3 || k == 3) {
+                    destWorld.setBlockState(bp, Blocks.DARK_PRISMARINE_SLAB.getDefaultState());
+                } else {
+                    destWorld.setBlockState(bp, Blocks.DARK_PRISMARINE.getDefaultState());
+                }
             }
         }
         for (int j = 0; j < 4; j++) {
@@ -88,7 +90,16 @@ public class RainbowTeleporter implements ITeleporter {
             }
         }
 
-        newEntity.moveToBlockPosAndAngles(pos, yaw, entity.rotationPitch);
+        if (skyblock && GenUtility.allInAreaClear(destWorld, pos.getX()-ii-3, y-25, pos.getZ()-kk-3, pos.getX()+ii+3, y-2, pos.getZ()+kk+3, 0)) {
+            for (int i = -ii - 1; i <= ii + 1; i++) {
+                for (int k = -kk - 1; k <= kk + 1; k++) {
+                    bp.setPos(pos).move(i, -2, k);
+                    destWorld.setBlockState(bp, LCCBlocks.rainbow_grass_block.getDefaultState());
+                }
+            }
+        }
+
+        newEntity.setLocationAndAngles((x + 0.5F) - xOffset, y, (z + 0.5F) - zOffset, yaw, entity.rotationPitch);
         if (newEntity instanceof ServerPlayerEntity) {
             ((ServerPlayerEntity)newEntity).connection.setPlayerLocation(newEntity.getPosX(), newEntity.getPosY(), newEntity.getPosZ(), yaw, entity.rotationPitch);
         }

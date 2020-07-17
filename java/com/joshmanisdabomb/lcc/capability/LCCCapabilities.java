@@ -19,6 +19,7 @@ public abstract class LCCCapabilities {
         register(CryingObsidianCapability.class, new CryingObsidianCapability.Storage(), CryingObsidianCapability::new);
         register(PartitionCapability.class, new PartitionCapability.Storage(), PartitionCapability::new);
         register(NuclearCapability.class, new NuclearCapability.Storage(), NuclearCapability::new);
+        register(RainbowCapability.class, new RainbowCapability.Storage(), RainbowCapability::new);
     }
 
     public static <T extends LCCCapabilityHelper> void register(Class<T> type, Capability.IStorage<T> storage, Callable<? extends T> factory) {

@@ -2,8 +2,10 @@ package com.joshmanisdabomb.lcc.event.bus;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.block.ClassicSpongeBlock;
+import com.joshmanisdabomb.lcc.block.RainbowPortalBlock;
 import com.joshmanisdabomb.lcc.capability.GauntletCapability;
 import com.joshmanisdabomb.lcc.capability.HeartsCapability;
+import com.joshmanisdabomb.lcc.capability.RainbowCapability;
 import com.joshmanisdabomb.lcc.functionality.GauntletFunctionality;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.GauntletItem;
@@ -36,7 +38,12 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GeneralEvents {
+
+    private static final ThreadLocal<HashMap<BlockPos, BlockState>> colldingBlocks = ThreadLocal.withInitial(HashMap::new);
 
     @SubscribeEvent
     public void onBreakSpeed(PlayerEvent.BreakSpeed e) {
@@ -65,6 +72,40 @@ public class GeneralEvents {
                     .forEach(PrioritizedGoal::resetTask);
             }
         }
+
+        colldingBlocks.get().clear();
+        AxisAlignedBB axisalignedbb = entity.getBoundingBox();
+        try (
+            BlockPos.PooledMutable bp = BlockPos.PooledMutable.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
+            BlockPos.PooledMutable bp1 = BlockPos.PooledMutable.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
+            BlockPos.PooledMutable bp2 = BlockPos.PooledMutable.retain()
+        ) {
+            if (entity.world.isAreaLoaded(bp, bp1)) {
+                for (int i = bp.getX(); i <= bp1.getX(); ++i) {
+                    for (int j = bp.getY(); j <= bp1.getY(); ++j) {
+                        for (int k = bp.getZ(); k <= bp1.getZ(); ++k) {
+                            bp2.setPos(i, j, k);
+                            BlockState state = entity.world.getBlockState(bp2);
+                            colldingBlocks.get().put(bp2.toImmutable(), state);
+                        }
+                    }
+                }
+            }
+        }
+        entity.getCapability(RainbowCapability.Provider.DEFAULT_CAPABILITY).ifPresent(r -> {
+            boolean flag = true;
+            for (Map.Entry<BlockPos, BlockState> s : colldingBlocks.get().entrySet()) {
+                if (flag && s != null && s.getValue().getBlock() instanceof RainbowPortalBlock) {
+                    ((RainbowPortalBlock) s.getValue().getBlock()).onPortalInside(s.getValue(), entity.world, s.getKey(), entity);
+                    flag = false;
+                }
+            }
+            if (flag) {
+                r.portalTimer = Math.max(0, r.portalTimer - 1);
+                r.portalDelay = Math.max(0, r.portalDelay - 1);
+                if (entity.world.isRemote) LCC.proxy.rainbowPortalRender(entity, -1);
+            }
+        });
     }
 
     @SubscribeEvent

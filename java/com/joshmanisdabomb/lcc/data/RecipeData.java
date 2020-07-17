@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.crafting.ExcludingIngredient;
 import com.joshmanisdabomb.lcc.misc.ExtendedDyeColor;
 import com.joshmanisdabomb.lcc.registry.LCCBlocks;
 import com.joshmanisdabomb.lcc.registry.LCCItems;
@@ -12,12 +13,14 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
+import java.util.Collections;
 import java.util.function.Consumer;
 
 public class RecipeData extends RecipeProvider {
@@ -60,6 +63,16 @@ public class RecipeData extends RecipeProvider {
         this.toolset(LCCItems.blue_candy_cane_sword, LCCItems.blue_candy_cane_pickaxe, LCCItems.blue_candy_cane_shovel, LCCItems.blue_candy_cane_axe, LCCItems.blue_candy_cane_hoe, LCCTags.BLUE_CANDY_CANES.item, Items.STICK, consumer);
         this.toolset(LCCItems.neon_sword, LCCItems.neon_pickaxe, LCCItems.neon_shovel, LCCItems.neon_axe, LCCItems.neon_hoe, LCCItems.neon, Items.STICK, consumer);
         this.armorset(LCCItems.neon_helmet, LCCItems.neon_chestplate, LCCItems.neon_leggings, LCCItems.neon_boots, LCCItems.neon, consumer);
+
+        //Wooden Tool Vivid Overrides
+        ShapedRecipeBuilder.shapedRecipe(Items.WOODEN_SWORD)
+            .patternLine("X")
+            .patternLine("X")
+            .patternLine("#")
+            .key('X', new ExcludingIngredient(Ingredient.fromTag(ItemTags.PLANKS), Collections.singletonList(LCCBlocks.vivid_planks.asItem())))
+            .key('#', Tags.Items.RODS_WOODEN)
+            .addCriterion(has(Items.STICK), this.hasItem(Items.STICK))
+            .build(consumer);
 
         //Misc
         ShapedRecipeBuilder.shapedRecipe(LCCBlocks.atomic_bomb)

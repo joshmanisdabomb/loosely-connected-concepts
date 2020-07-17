@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "type": "lcc:excluding",
+      "ingredient": {
+        "tag": "minecraft:planks"
+      },
+      "excludes": [
+        "lcc:vivid_planks"
+      ]
+    },
+    "#": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "minecraft:wooden_sword"
+  }
+}

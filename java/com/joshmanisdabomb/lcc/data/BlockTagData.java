@@ -126,6 +126,7 @@ public class BlockTagData extends BlockTagsProvider {
             .add(LCCBlocks.vivid_fence)
             .add(LCCBlocks.vivid_fence_gate)
             .add(LCCBlocks.vivid_trapdoor)
+            .add(LCCBlocks.chancite_ore)
             .ordered(true);
 
         this.getBuilder(LCCTags.WASTELAND_REQUIRED.block)

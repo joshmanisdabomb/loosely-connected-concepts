@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "lcc:block/chancite_ore"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_1"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_2"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_3"
+      }
+    ]
+  }
+}

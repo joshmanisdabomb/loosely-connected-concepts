@@ -45,6 +45,7 @@ public class RecipeData extends RecipeProvider {
         CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(LCCBlocks.sapphire_ore.asItem()), LCCItems.sapphire, 1.0F, 100).addCriterion(has(LCCBlocks.sapphire_ore), this.hasItem(LCCBlocks.sapphire_ore)).build(consumer, new ResourceLocation(LCC.MODID, name(LCCItems.sapphire) + "_from_blasting"));
         CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(LCCBlocks.amethyst_ore.asItem()), LCCItems.amethyst, 1.0F, 100).addCriterion(has(LCCBlocks.amethyst_ore), this.hasItem(LCCBlocks.amethyst_ore)).build(consumer, new ResourceLocation(LCC.MODID, name(LCCItems.amethyst) + "_from_blasting"));
         CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(LCCBlocks.uranium_ore.asItem()), LCCItems.uranium, 1.0F, 100).addCriterion(has(LCCBlocks.uranium_ore), this.hasItem(LCCBlocks.uranium_ore)).build(consumer, new ResourceLocation(LCC.MODID, name(LCCItems.uranium) + "_from_blasting"));
+        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(LCCBlocks.neon_ore.asItem()), LCCItems.neon, 1.0F, 100).addCriterion(has(LCCBlocks.neon_ore), this.hasItem(LCCBlocks.neon_ore)).build(consumer, new ResourceLocation(LCC.MODID, name(LCCItems.neon) + "_from_blasting"));
 
         //Tools & Armour
         this.toolset(LCCItems.ruby_sword, LCCItems.ruby_pickaxe, LCCItems.ruby_shovel, LCCItems.ruby_axe, LCCItems.ruby_hoe, LCCItems.ruby, Tags.Items.RODS_WOODEN, LCCItems.ruby, consumer);

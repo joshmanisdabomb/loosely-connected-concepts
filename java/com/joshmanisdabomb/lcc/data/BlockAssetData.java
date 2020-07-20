@@ -146,6 +146,15 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
         this.addAll(block -> this.simpleBlock(block, path(block, path -> "resources/storage/" + path.replace("_storage", ""))), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.neon_storage);
         this.simpleBlock(LCCBlocks.enriched_uranium_storage, path("resources/storage/uranium_enriched"));
 
+        this.addAll(block -> {
+            this.simpleBlock(block, ConfiguredModel.builder()
+                .modelFile(models().cubeAll(name(block), path("rainbow/chancite/1"))).nextModel()
+                .modelFile(models().cubeAll(name(block) + "_alt_1", path("rainbow/chancite/2"))).nextModel()
+                .modelFile(models().cubeAll(name(block) + "_alt_2", path("rainbow/chancite/3"))).nextModel()
+                .modelFile(models().cubeAll(name(block) + "_alt_3", path("rainbow/chancite/4")))
+            .build());
+        }, LCCBlocks.chancite_ore);
+
         this.simpleBlock(LCCBlocks.rainbow_gate, models().withExistingParent(name(LCCBlocks.rainbow_gate), "block").texture("particle", path("rainbow/gate/base")));
         this.getVariantBuilder(LCCBlocks.rainbow_portal)
             .forAllStates(state -> {

@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.TallBlockItem;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent.Register;
 import org.apache.commons.lang3.ArrayUtils;
@@ -59,6 +60,7 @@ public abstract class LCCBlocks {
 
 	public static Block neon_ore;
 	public static Block neon_storage;
+	public static Block chancite_ore;
 
 	//Wasteland
 	public static Block cracked_mud;
@@ -191,20 +193,21 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(bounce_pad = new BouncePadBlock(Block.Properties.create(Material.IRON, MaterialColor.GOLD).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "bounce_pad"));
 		
 		//Resources
-		addWithDefaultItem(ruby_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "ruby_ore"));
+		addWithDefaultItem(ruby_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F), rand -> MathHelper.nextInt(rand, 3, 7)), new ResourceLocation(LCC.MODID, "ruby_ore"));
 		addWithDefaultItem(ruby_storage = new BeaconBaseBlock(Block.Properties.create(Material.IRON, MaterialColor.TNT).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "ruby_storage"));
-		addWithDefaultItem(topaz_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "topaz_ore"));
+		addWithDefaultItem(topaz_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F), rand -> MathHelper.nextInt(rand, 3, 7)), new ResourceLocation(LCC.MODID, "topaz_ore"));
 		addWithDefaultItem(topaz_storage = new BeaconBaseBlock(Block.Properties.create(Material.IRON, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "topaz_storage"));
-		addWithDefaultItem(sapphire_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "sapphire_ore"));
+		addWithDefaultItem(sapphire_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F), rand -> MathHelper.nextInt(rand, 3, 7)), new ResourceLocation(LCC.MODID, "sapphire_ore"));
 		addWithDefaultItem(sapphire_storage = new BeaconBaseBlock(Block.Properties.create(Material.IRON, DyeColor.BLUE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "sapphire_storage"));
-		addWithDefaultItem(amethyst_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "amethyst_ore"));
+		addWithDefaultItem(amethyst_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(3.0F), rand -> MathHelper.nextInt(rand, 3, 7)), new ResourceLocation(LCC.MODID, "amethyst_ore"));
 		addWithDefaultItem(amethyst_storage = new BeaconBaseBlock(Block.Properties.create(Material.IRON, DyeColor.PURPLE).harvestTool(ToolType.PICKAXE).harvestLevel(2).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "amethyst_storage"));
 		addWithDefaultItem(uranium_ore = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(3.0F)), new ResourceLocation(LCC.MODID, "uranium_ore"));
 		addWithDefaultItem(uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "uranium_storage"));
 		addWithDefaultItem(enriched_uranium_storage = new Block(Block.Properties.create(Material.IRON, DyeColor.LIME).harvestTool(ToolType.PICKAXE).harvestLevel(3).hardnessAndResistance(5.0F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "enriched_uranium_storage"));
 
-		addWithDefaultItem(neon_ore = new Block(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(9).hardnessAndResistance(3.5F)), new ResourceLocation(LCC.MODID, "neon_ore"));
-		addWithDefaultItem(neon_storage = new Block(Block.Properties.create(Material.IRON, MaterialColor.QUARTZ).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(15).hardnessAndResistance(5.8F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "neon_storage"));
+		addWithDefaultItem(neon_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(15).hardnessAndResistance(3.5F), rand -> MathHelper.nextInt(rand, 3, 7)), new ResourceLocation(LCC.MODID, "neon_ore"));
+		addWithDefaultItem(neon_storage = new BeaconBaseBlock(Block.Properties.create(Material.IRON, MaterialColor.QUARTZ).harvestTool(ToolType.PICKAXE).harvestLevel(1).lightValue(15).hardnessAndResistance(5.8F, 6.0F).sound(SoundType.METAL)), new ResourceLocation(LCC.MODID, "neon_storage"));
+		addWithDefaultItem(chancite_ore = new FunctionalOreBlock(Block.Properties.create(Material.ROCK, MaterialColor.PURPLE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).lightValue(8).hardnessAndResistance(2.5F), rand -> MathHelper.nextInt(rand, 0, 8)), new ResourceLocation(LCC.MODID, "chancite_ore"));
 
 		//Wasteland
 		addWithDefaultItem(cracked_mud = new Block(Block.Properties.create(Material.ROCK, MaterialColor.WHITE_TERRACOTTA).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.6F, 0.1F).sound(SoundType.STONE)), new ResourceLocation(LCC.MODID, "cracked_mud"));

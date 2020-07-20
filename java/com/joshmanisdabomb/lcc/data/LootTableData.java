@@ -73,6 +73,16 @@ public class LootTableData extends LootTableProvider {
         dropOreFortune(LCCItems.sapphire, LCCBlocks.sapphire_ore);
         dropOreFortune(LCCItems.amethyst, LCCBlocks.amethyst_ore);
         dropOreFortune(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCItems.neon, LCCBlocks.neon_ore);
+        blocks.put(LCCBlocks.chancite_ore,
+            LootTable.builder().addLootPool(
+                LootPool.builder()
+                    .rolls(ConstantRange.of(1))
+                    .addEntry(ItemLootEntry.builder(Items.COAL).weight(5))
+                    .addEntry(ItemLootEntry.builder(Items.IRON_INGOT).weight(3))
+                    .addEntry(ItemLootEntry.builder(Items.GOLD_INGOT).weight(2))
+                    .addEntry(ItemLootEntry.builder(Items.DIAMOND).weight(1))
+            ).addLootPool(this.silkOnly(LCCBlocks.chancite_ore))
+        );
         dropSelf(LCCBlocks.uranium_ore);
         dropSelf(LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage);
         dropSelf(this.areaRequired(LCCTags.AreaEffectivity.RAINBOW), LCCBlocks.neon_storage);

@@ -36,7 +36,7 @@ public class LangData extends LanguageProvider {
         this.add(LCCBlocks.test_block_5, this.basic(LCCBlocks.test_block) + " (Connected)");
         this.addAll(this::addItem, this::basic, LCCItems.test_item);
 
-        this.addAll(this::addBlock, this::basic, LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore, LCCBlocks.neon_ore);
+        this.addAll(this::addBlock, this::basic, LCCBlocks.ruby_ore, LCCBlocks.topaz_ore, LCCBlocks.sapphire_ore, LCCBlocks.amethyst_ore, LCCBlocks.uranium_ore, LCCBlocks.neon_ore, LCCBlocks.chancite_ore);
         this.addAll(this::addBlock, block -> "Block of " + basic(block).replace(" Storage", ""), LCCBlocks.ruby_storage, LCCBlocks.topaz_storage, LCCBlocks.sapphire_storage, LCCBlocks.amethyst_storage, LCCBlocks.uranium_storage, LCCBlocks.enriched_uranium_storage, LCCBlocks.neon_storage);
         this.addAll(this::addItem, this::basic, LCCItems.ruby, LCCItems.topaz, LCCItems.sapphire, LCCItems.amethyst, LCCItems.uranium_nugget, LCCItems.uranium, LCCItems.enriched_uranium_nugget, LCCItems.enriched_uranium);
         this.add(LCCItems.neon, "Neon Orb");

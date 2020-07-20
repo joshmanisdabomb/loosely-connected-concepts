@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:neon_from_blasting"
+    ]
+  },
+  "criteria": {
+    "has_neon_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:neon_ore"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:neon_from_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_neon_ore",
+      "has_the_recipe"
+    ]
+  ]
+}

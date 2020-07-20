@@ -63,6 +63,7 @@ public class LCCGroup extends Creative2Group {
         set(LCCItems.neon_nugget, Category.RESOURCES, 200);
         set(LCCItems.neon, Category.RESOURCES, 210);
         set(LCCBlocks.neon_storage, Category.RESOURCES, 220);
+        set(LCCBlocks.chancite_ore, Category.RESOURCES, 230);
 
         //Tools
         set(LCCItems.ruby_sword, Category.TOOLS, 0);

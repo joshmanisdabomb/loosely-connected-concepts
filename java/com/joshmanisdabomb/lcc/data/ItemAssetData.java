@@ -67,6 +67,7 @@ public class ItemAssetData extends ItemModelProvider implements LCCAssetGenerato
         this.simpleItem(LCCItems.enriched_uranium, path("resources/ingot/uranium_enriched"));
         this.simpleItem(LCCItems.enriched_uranium_nugget, path("resources/nugget/uranium_enriched"));
 
+        //Automated Equipment
         this.addAll(item -> this.handheldItem(item, path(item, path -> "equipment/" + path)), LCCItems.all.stream().filter(i -> i instanceof SwordItem || i instanceof PickaxeItem || i instanceof ShovelItem || i instanceof AxeItem || i instanceof HoeItem).toArray(Item[]::new));
         this.addAll(item -> this.simpleItem(item, path(item, path -> "equipment/" + path)), LCCItems.all.stream().filter(i -> i instanceof CustomArmorItem).toArray(Item[]::new));
 

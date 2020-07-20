@@ -14,11 +14,12 @@ public enum LCCItemTier implements IItemTier {
     EMERALD(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(Items.EMERALD)),
     SAPPHIRE(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.sapphire)),
     AMETHYST(3, 1561, 8.0F, 3.0F, 10, () -> Ingredient.fromItems(LCCItems.amethyst)),
-    RED_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.RED_CANDY_CANES.item)),
-    GREEN_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.BLUE_CANDY_CANES.item)),
-    BLUE_CANDY_CANE(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromTag(LCCTags.GREEN_CANDY_CANES.item)),
-    VIVID_WOOD(3, 500, 12.0F, 4.0F, 5, () -> Ingredient.fromItems(LCCBlocks.vivid_planks.asItem())),
-    NEON(3, 2200, 16.0F, 5.0F, 25, () -> Ingredient.fromItems(LCCItems.neon));
+    RED_CANDY_CANE(0, 314, 10.0F, 3.0F, 5, () -> Ingredient.fromTag(LCCTags.RED_CANDY_CANES.item)),
+    GREEN_CANDY_CANE(0, 314, 10.0F, 3.0F, 5, () -> Ingredient.fromTag(LCCTags.BLUE_CANDY_CANES.item)),
+    BLUE_CANDY_CANE(0, 314, 10.0F, 3.0F, 5, () -> Ingredient.fromTag(LCCTags.GREEN_CANDY_CANES.item)),
+    VIVID_WOOD(0, 127, 12.0F, 2.0F, 33, () -> Ingredient.fromItems(LCCBlocks.vivid_planks.asItem())),
+    TWILIGHT(1, 1149, 13.5F, 3.5F, 14, () -> Ingredient.fromItems(LCCBlocks.twilight_cobblestone.asItem())),
+    NEON(2, 2102, 16.0F, 4.0F, 25, () -> Ingredient.fromItems(LCCItems.neon));
 
     private final int harvestLevel;
     private final int maxUses;

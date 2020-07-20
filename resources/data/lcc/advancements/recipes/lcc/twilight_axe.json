@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:vivid_pickaxe"
+      "lcc:twilight_axe"
     ]
   },
   "criteria": {
-    "has_vivid_planks": {
+    "has_twilight_cobblestone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:vivid_planks"
+            "item": "lcc:twilight_cobblestone"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:vivid_pickaxe"
+        "recipe": "lcc:twilight_axe"
       }
     }
   },
   "requirements": [
     [
-      "has_vivid_planks",
+      "has_twilight_cobblestone",
       "has_the_recipe"
     ]
   ]

@@ -139,15 +139,21 @@ public class LCCGroup extends Creative2Group {
         set(LCCItems.blue_candy_cane_axe, Category.TOOLS, 830);
         set(LCCItems.blue_candy_cane_hoe, Category.TOOLS, 840);
 
-        set(LCCItems.neon_sword, Category.TOOLS, 900);
-        set(LCCItems.neon_pickaxe, Category.TOOLS, 910);
-        set(LCCItems.neon_shovel, Category.TOOLS, 920);
-        set(LCCItems.neon_axe, Category.TOOLS, 930);
-        set(LCCItems.neon_hoe, Category.TOOLS, 940);
-        set(LCCItems.neon_helmet, Category.TOOLS, 950);
-        set(LCCItems.neon_chestplate, Category.TOOLS, 960);
-        set(LCCItems.neon_leggings, Category.TOOLS, 970);
-        set(LCCItems.neon_boots, Category.TOOLS, 980);
+        set(LCCItems.twilight_sword, Category.TOOLS, 900);
+        set(LCCItems.twilight_pickaxe, Category.TOOLS, 910);
+        set(LCCItems.twilight_shovel, Category.TOOLS, 920);
+        set(LCCItems.twilight_axe, Category.TOOLS, 930);
+        set(LCCItems.twilight_hoe, Category.TOOLS, 940);
+
+        set(LCCItems.neon_sword, Category.TOOLS, 1000);
+        set(LCCItems.neon_pickaxe, Category.TOOLS, 1010);
+        set(LCCItems.neon_shovel, Category.TOOLS, 1020);
+        set(LCCItems.neon_axe, Category.TOOLS, 1030);
+        set(LCCItems.neon_hoe, Category.TOOLS, 1040);
+        set(LCCItems.neon_helmet, Category.TOOLS, 1050);
+        set(LCCItems.neon_chestplate, Category.TOOLS, 1060);
+        set(LCCItems.neon_leggings, Category.TOOLS, 1070);
+        set(LCCItems.neon_boots, Category.TOOLS, 1080);
 
         //Rainbow
         set(LCCItems.chromatic_core, Category.RAINBOW, 0);

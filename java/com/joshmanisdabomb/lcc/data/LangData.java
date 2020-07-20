@@ -48,9 +48,10 @@ public class LangData extends LanguageProvider {
         this.addAll(this::addItem, this::basic, LCCItems.sapphire_sword, LCCItems.sapphire_pickaxe, LCCItems.sapphire_shovel, LCCItems.sapphire_axe, LCCItems.sapphire_hoe, LCCItems.sapphire_helmet, LCCItems.sapphire_chestplate, LCCItems.sapphire_leggings, LCCItems.sapphire_boots);
         this.addAll(this::addItem, this::basic, LCCItems.amethyst_sword, LCCItems.amethyst_pickaxe, LCCItems.amethyst_shovel, LCCItems.amethyst_axe, LCCItems.amethyst_hoe, LCCItems.amethyst_helmet, LCCItems.amethyst_chestplate, LCCItems.amethyst_leggings, LCCItems.amethyst_boots);
         this.addAll(this::addItem, this::basic, LCCItems.red_candy_cane_sword, LCCItems.red_candy_cane_pickaxe, LCCItems.red_candy_cane_shovel, LCCItems.red_candy_cane_axe, LCCItems.red_candy_cane_hoe);
-        this.addAll(this::addItem, this::basic, LCCItems.vivid_sword, LCCItems.vivid_pickaxe, LCCItems.vivid_shovel, LCCItems.vivid_axe, LCCItems.vivid_hoe);
         this.addAll(this::addItem, this::basic, LCCItems.green_candy_cane_sword, LCCItems.green_candy_cane_pickaxe, LCCItems.green_candy_cane_shovel, LCCItems.green_candy_cane_axe, LCCItems.green_candy_cane_hoe);
         this.addAll(this::addItem, this::basic, LCCItems.blue_candy_cane_sword, LCCItems.blue_candy_cane_pickaxe, LCCItems.blue_candy_cane_shovel, LCCItems.blue_candy_cane_axe, LCCItems.blue_candy_cane_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.vivid_sword, LCCItems.vivid_pickaxe, LCCItems.vivid_shovel, LCCItems.vivid_axe, LCCItems.vivid_hoe);
+        this.addAll(this::addItem, this::basic, LCCItems.twilight_sword, LCCItems.twilight_pickaxe, LCCItems.twilight_shovel, LCCItems.twilight_axe, LCCItems.twilight_hoe);
         this.addAll(this::addItem, this::basic, LCCItems.neon_sword, LCCItems.neon_pickaxe, LCCItems.neon_shovel, LCCItems.neon_axe, LCCItems.neon_hoe, LCCItems.neon_helmet, LCCItems.neon_chestplate, LCCItems.neon_leggings, LCCItems.neon_boots);
 
         this.addAll(this::addBlock, this::basic, LCCBlocks.road, LCCBlocks.hydrated_soul_sand, LCCBlocks.bounce_pad);
@@ -194,7 +195,7 @@ public class LangData extends LanguageProvider {
         this.add("advancements.lcc.rainbow.root.title", "LCC: Rainbow Dimension");
         this.add("advancements.lcc.rainbow.root.description", "minecraft; the way home");
         this.add("advancements.lcc.rainbow.stone.title", "This Seems Familiar");
-        this.add("advancements.lcc.rainbow.stone.description", "Mine twilight stone with a Rainbow Wood or Candy Cane Pickaxe");
+        this.add("advancements.lcc.rainbow.stone.description", "Mine twilight stone with a Vivid or Candy Cane Pickaxe");
         this.add("advancements.lcc.rainbow.neon.title", "RTX On");
         this.add("advancements.lcc.rainbow.neon.description", "Finally some lighting options!");
         this.add("advancements.lcc.rainbow.temple.title", "Temple Run");

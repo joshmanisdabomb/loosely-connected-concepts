@@ -110,6 +110,12 @@ public abstract class LCCItems {
 	public static AxeItem vivid_axe;
 	public static HoeItem vivid_hoe;
 
+	public static SwordItem twilight_sword;
+	public static PickaxeItem twilight_pickaxe;
+	public static ShovelItem twilight_shovel;
+	public static AxeItem twilight_axe;
+	public static HoeItem twilight_hoe;
+
 	public static SwordItem neon_sword;
 	public static PickaxeItem neon_pickaxe;
 	public static ShovelItem neon_shovel;
@@ -269,6 +275,12 @@ public abstract class LCCItems {
 		all.add((vivid_shovel = new ShovelItem(LCCItemTier.VIVID_WOOD, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_shovel"));
 		all.add((vivid_axe = new AxeItem(LCCItemTier.VIVID_WOOD, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_axe"));
 		all.add((vivid_hoe = new HoeItem(LCCItemTier.VIVID_WOOD, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "vivid_hoe"));
+
+		all.add((twilight_sword = new SwordItem(LCCItemTier.TWILIGHT, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "twilight_sword"));
+		all.add((twilight_pickaxe = new PickaxeItem(LCCItemTier.TWILIGHT, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "twilight_pickaxe"));
+		all.add((twilight_shovel = new ShovelItem(LCCItemTier.TWILIGHT, 1.5F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "twilight_shovel"));
+		all.add((twilight_axe = new AxeItem(LCCItemTier.TWILIGHT, 5.0F, -3.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "twilight_axe"));
+		all.add((twilight_hoe = new HoeItem(LCCItemTier.TWILIGHT, 0.0F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "twilight_hoe"));
 
 		all.add((neon_sword = new SwordItem(LCCItemTier.NEON, 3, -2.4F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_sword"));
 		all.add((neon_pickaxe = new PickaxeItem(LCCItemTier.NEON, 1, -2.8F, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "neon_pickaxe"));

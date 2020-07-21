@@ -77,10 +77,11 @@ public class LootTableData extends LootTableProvider {
             LootTable.builder().addLootPool(
                 LootPool.builder()
                     .rolls(ConstantRange.of(1))
-                    .addEntry(ItemLootEntry.builder(Items.COAL).weight(5))
-                    .addEntry(ItemLootEntry.builder(Items.IRON_INGOT).weight(3))
-                    .addEntry(ItemLootEntry.builder(Items.GOLD_INGOT).weight(2))
-                    .addEntry(ItemLootEntry.builder(Items.DIAMOND).weight(1))
+                    .addEntry(ItemLootEntry.builder(Items.COAL).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)).weight(7))
+                    .addEntry(ItemLootEntry.builder(Items.IRON_INGOT).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)).weight(6))
+                    .addEntry(ItemLootEntry.builder(Items.GOLD_INGOT).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)).weight(3))
+                    .addEntry(ItemLootEntry.builder(Items.DIAMOND).acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE)).weight(1))
+                    .acceptCondition(NO_SILK_TOUCH)
             ).addLootPool(this.silkOnly(LCCBlocks.chancite_ore))
         );
         dropSelf(LCCBlocks.uranium_ore);

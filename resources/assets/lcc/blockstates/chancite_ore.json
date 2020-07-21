@@ -12,6 +12,24 @@
       },
       {
         "model": "lcc:block/chancite_ore_alt_3"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_4"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_5"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_6"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_7"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_8"
+      },
+      {
+        "model": "lcc:block/chancite_ore_alt_9"
       }
     ]
   }

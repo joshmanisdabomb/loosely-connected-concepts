@@ -20,7 +20,7 @@ public abstract class RainbowBiome extends Biome {
         OreFeatureConfig.FillerBlockType twilight_stone = OreFeatureConfig.FillerBlockType.create("LCC_TWILIGHT_STONE", "lcc:twilight_stone", new BlockMatcher(LCCBlocks.twilight_stone));
         this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(twilight_stone, LCCBlocks.neon_ore.getDefaultState(), 6)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(20, 0, 0, 128))));
         //TODO: change to netherite placement
-        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(twilight_stone, LCCBlocks.chancite_ore.getDefaultState(), 10)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 128))));
+        this.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(twilight_stone, LCCBlocks.chancite_ore.getDefaultState(), 14)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(4, 0, 0, 128))));
     }
 
 }

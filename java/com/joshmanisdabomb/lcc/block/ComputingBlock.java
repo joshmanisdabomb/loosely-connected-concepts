@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.item.ComputingBlockItem;
 import com.joshmanisdabomb.lcc.registry.LCCSounds;
 import com.joshmanisdabomb.lcc.tileentity.ComputingTileEntity;
 import net.minecraft.block.*;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -308,6 +309,12 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     @Override
     public int getItemTintColor(ItemStack stack, int tintIndex) {
         return 0xFFFFFF;
+    }
+
+    @Override
+    public MaterialColor getMaterialColor(BlockState state, IBlockReader world, BlockPos pos) {
+        ComputingTileEntity te = (ComputingTileEntity)world.getTileEntity(pos);
+        return te.getModule(state.get(MODULE) == SlabType.BOTTOM ? SlabType.BOTTOM : SlabType.TOP).color.getMapColor();
     }
 
 }

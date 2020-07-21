@@ -105,6 +105,7 @@ public class BlockTagData extends BlockTagsProvider {
             .add(LCCTags.CHANNELITE_SOURCE.block)
             .add(LCCBlocks.neon_ore)
             .add(LCCBlocks.neon_storage)
+            .add(LCCBlocks.chocolate)
             .ordered(true);
 
         this.getBuilder(LCCTags.RAINBOW_EFFECTIVE.block)

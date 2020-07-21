@@ -207,6 +207,11 @@ public class LCCGroup extends Creative2Group {
         group(LCCBlocks.sparkling_channelite_source, Category.RAINBOW, (k, v) -> k.getId()+5100);
         group(LCCBlocks.twilight_channelite_source, Category.RAINBOW, (k, v) -> k.getId()+5200);
 
+        set(LCCItems.chocolate_dark, Category.RAINBOW, 6000);
+        set(LCCItems.chocolate_milk, Category.RAINBOW, 6000);
+        set(LCCItems.chocolate_white, Category.RAINBOW, 6000);
+        set(LCCItems.chocolate_pink, Category.RAINBOW, 6000);
+
         //Spreaders
         set(LCCItems.spreader_essence, Category.SPREADERS, 0);
         set(LCCBlocks.spreader_interface, Category.SPREADERS, 1);

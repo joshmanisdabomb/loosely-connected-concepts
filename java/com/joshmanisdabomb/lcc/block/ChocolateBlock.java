@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.Entity;
@@ -92,6 +93,13 @@ public class ChocolateBlock extends Block implements MultipartBlock, AdvancedBlo
         if (this.isDouble(state)) return DOUBLE_SHAPE;
         if (state.get(TOP) != Type.NONE) return TOP_SHAPE;
         else return BOTTOM_SHAPE;
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        if (this.isDouble(state)) return VoxelShapes.fullCube();
+        if (state.get(TOP) != Type.NONE) return TOP_SLAB;
+        else return BOTTOM_SLAB;
     }
 
     @Override
@@ -215,12 +223,23 @@ public class ChocolateBlock extends Block implements MultipartBlock, AdvancedBlo
         return models;
     }
 
+    @Override
+    public MaterialColor getMaterialColor(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        return state.get(TOP) == Type.NONE ? state.get(BOTTOM).mapColor : state.get(TOP).mapColor;
+    }
+
     public enum Type implements IStringSerializable {
-        NONE,
-        DARK,
-        MILK,
-        WHITE,
-        PINK;
+        NONE(null),
+        DARK(MaterialColor.BROWN_TERRACOTTA),
+        MILK(MaterialColor.OBSIDIAN),
+        WHITE(MaterialColor.WHITE_TERRACOTTA),
+        PINK(MaterialColor.PINK_TERRACOTTA);
+
+        public final MaterialColor mapColor;
+
+        Type(MaterialColor mapColor) {
+            this.mapColor = mapColor;
+        }
 
         @Override
         public String getName() {
@@ -231,6 +250,7 @@ public class ChocolateBlock extends Block implements MultipartBlock, AdvancedBlo
         public String toString() {
             return this.getName();
         }
+
     }
 
 }

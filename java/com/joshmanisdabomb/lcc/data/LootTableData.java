@@ -165,6 +165,29 @@ public class LootTableData extends LootTableProvider {
             )
         );
 
+        blocks.put(LCCBlocks.chocolate,
+            LootTable.builder().addLootPool(
+                LootPool.builder()
+                    .rolls(ConstantRange.of(1))
+                    .addEntry(ItemLootEntry.builder(LCCItems.chocolate_dark)
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.TOP, ChocolateBlock.Type.DARK)).alternative(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.BOTTOM, ChocolateBlock.Type.DARK))))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
+                    .addEntry(ItemLootEntry.builder(LCCItems.chocolate_milk)
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.TOP, ChocolateBlock.Type.MILK)).alternative(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.BOTTOM, ChocolateBlock.Type.MILK))))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
+                    .addEntry(ItemLootEntry.builder(LCCItems.chocolate_white)
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.TOP, ChocolateBlock.Type.WHITE)).alternative(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.BOTTOM, ChocolateBlock.Type.WHITE))))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
+                    .addEntry(ItemLootEntry.builder(LCCItems.chocolate_pink)
+                        .acceptCondition(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.TOP, ChocolateBlock.Type.PINK)).alternative(BlockStateProperty.builder(LCCBlocks.chocolate).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(ChocolateBlock.BOTTOM, ChocolateBlock.Type.PINK))))
+                        .acceptCondition(SurvivesExplosion.builder())
+                    )
+            )
+        );
+
         //Entities
         entities.put(LCCEntities.classic_zombie_pigman,
             LootTable.builder().addLootPool(

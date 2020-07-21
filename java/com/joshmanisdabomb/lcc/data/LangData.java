@@ -131,6 +131,8 @@ public class LangData extends LanguageProvider {
         this.addAll(this::addBlock, block -> mover(basic(block), 8, "red", "green", "blue"), LCCBlocks.refined_candy_cane_red, LCCBlocks.refined_candy_cane_green, LCCBlocks.refined_candy_cane_blue, LCCBlocks.refined_candy_cane_coating_red, LCCBlocks.refined_candy_cane_coating_green, LCCBlocks.refined_candy_cane_coating_blue);
         this.addAll(this::addBlock, this::basic, LCCBlocks.stripped_candy_cane, LCCBlocks.stripped_candy_cane_coating, LCCBlocks.refined_stripped_candy_cane, LCCBlocks.refined_stripped_candy_cane_coating, LCCBlocks.candy_cane_block);
 
+        this.addAll(this::addItem, block -> mover(basic(block), 0, "dark", "milk", "white", "pink"), LCCItems.chocolate_dark, LCCItems.chocolate_milk, LCCItems.chocolate_white, LCCItems.chocolate_pink);
+
         this.addAll(this::addItem, this::basic, LCCItems.plastic);
 
         this.addAll(this::addEffect, this::basic, LCCEffects.stun, LCCEffects.vulnerable, LCCEffects.flammable);

@@ -38,6 +38,7 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
     ModelFile computing_top;
 
     private HashMap<ComputingModule.Type, ModelFile[]> computingMap = new HashMap<>();
+    private HashMap<ChocolateBlock.Type, ModelFile[]> chocolateMap = new HashMap<>();
 
     public BlockAssetData(DataGenerator dg, ExistingFileHelper fileHelper) {
         super(dg, LCC.MODID, fileHelper);
@@ -117,6 +118,20 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
                     .texture("particle", "#top");
             }
             computingMap.put(mod, models);
+        }
+
+        for (ChocolateBlock.Type type : ChocolateBlock.Type.values()) {
+            if (type == ChocolateBlock.Type.NONE) continue;
+            ModelFile[] models = new ModelFile[2];
+            models[0] = models().withExistingParent(name(LCCBlocks.chocolate) + "_" + type.getName() + "_bottom", new ResourceLocation(LCC.MODID, "template_chocolate_bottom"))
+                .texture("0", path("rainbow/chocolate/" + type.getName()))
+                .texture("1", path("rainbow/chocolate/" + type.getName() + "_brand"))
+                .texture("particle", path("rainbow/chocolate/" + type.getName()));
+            models[1] = models().withExistingParent(name(LCCBlocks.chocolate) + "_" + type.getName() + "_top", new ResourceLocation(LCC.MODID, "template_chocolate_top"))
+                .texture("0", path("rainbow/chocolate/" + type.getName()))
+                .texture("1", path("rainbow/chocolate/" + type.getName() + "_brand"))
+                .texture("particle", path("rainbow/chocolate/" + type.getName()));
+            chocolateMap.put(type, models);
         }
     }
 
@@ -264,6 +279,8 @@ public class BlockAssetData extends BlockStateProvider implements LCCAssetGenera
         this.fenceBlock(LCCBlocks.vivid_fence, path("rainbow/wood/planks"));
         this.fenceGateBlock(LCCBlocks.vivid_fence_gate, path("rainbow/wood/planks"));
         this.trapdoorBlock(LCCBlocks.vivid_trapdoor, path("rainbow/wood/trapdoor"), true);
+
+        this.simpleBlock(LCCBlocks.chocolate, models().withExistingParent(name(LCCBlocks.chocolate), "block"));
 
         this.simpleBlock(LCCBlocks.time_rift, models().withExistingParent(name(LCCBlocks.time_rift), "block").texture("particle", path("time_rift")));
         this.addAll(block -> this.simpleBlock(block, path(block, path -> "nostalgia/" + path.replace("classic_", ""))), LCCBlocks.classic_bricks, LCCBlocks.classic_cobblestone, LCCBlocks.classic_glass, LCCBlocks.classic_gravel, LCCBlocks.classic_sponge, LCCBlocks.classic_mossy_cobblestone, LCCBlocks.classic_leaves, LCCBlocks.classic_planks, LCCBlocks.glowing_obsidian);

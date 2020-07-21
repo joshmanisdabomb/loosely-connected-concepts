@@ -154,6 +154,7 @@ public class ItemAssetData extends ItemModelProvider implements LCCAssetGenerato
         this.simpleBlock(LCCBlocks.vivid_trapdoor.asItem(), path(name(LCCBlocks.vivid_trapdoor.asItem()) + "_bottom", ModelProvider.BLOCK_FOLDER));
 
         this.addAll(item -> this.simpleBlock(item, path(item, path -> item.getModule().name().toLowerCase(), ModelProvider.BLOCK_FOLDER)), LCCItems.all.stream().filter(bi -> bi instanceof ComputingBlockItem).toArray(ComputingBlockItem[]::new));
+        this.addAll(item -> this.simpleBlock(item, path(item, path -> "chocolate_" + item.getType().name().toLowerCase() + "_bottom", ModelProvider.BLOCK_FOLDER)), LCCItems.all.stream().filter(bi -> bi instanceof ChocolateBlockItem).toArray(ChocolateBlockItem[]::new));
 
         this.addAll(this::simpleBlock, LCCBlocks.allItem.stream().filter(bi -> !this.generatedModels.containsKey(path(bi.getRegistryName().getPath()))).toArray(Item[]::new));
     }

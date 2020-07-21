@@ -1,6 +1,6 @@
 {
   "block.hydrated_soul_sand.jump": {
-    "subtitle": "subtitle.lcc.block.hydrated_soul_sand.jump",
+    "subtitle": "subtitles.lcc.block.hydrated_soul_sand.jump",
     "sounds": [ "lcc:block/hydrated_soul_sand_jump" ]
   },
   "block.hydrated_soul_sand.break": {
@@ -75,10 +75,10 @@
     "subtitle": "subtitles.block.generic.footsteps"
   },
   "block.bounce_pad.jump": {
-    "subtitle": "subtitle.lcc.block.bounce_pad.jump",
+    "subtitle": "subtitles.lcc.block.bounce_pad.jump",
     "sounds": [ "lcc:block/bounce_pad_jump" ]
   },
-  "block.cog.break": {
+  "block.multipart.break": {
     "subtitle": "subtitles.block.generic.break",
     "sounds": [ "lcc:silence" ]
   }

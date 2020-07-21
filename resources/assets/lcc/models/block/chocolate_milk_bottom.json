@@ -1,0 +1,8 @@
+{
+  "parent": "lcc:block/template_chocolate_bottom",
+  "textures": {
+    "0": "lcc:block/rainbow/chocolate/milk",
+    "1": "lcc:block/rainbow/chocolate/milk_brand",
+    "particle": "lcc:block/rainbow/chocolate/milk"
+  }
+}

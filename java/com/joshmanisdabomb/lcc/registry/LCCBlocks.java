@@ -166,6 +166,8 @@ public abstract class LCCBlocks {
 	public static FenceGateBlock vivid_fence_gate;
 	public static TrapDoorBlock vivid_trapdoor;
 
+	public static ChocolateBlock chocolate;
+
 	public static LinkedHashMap<DyeColor, ChanneliteBlock> channelite = new LinkedHashMap<>();
 	public static LinkedHashMap<DyeColor, ChanneliteSourceBlock> sparkling_channelite_source = new LinkedHashMap<>();
 	public static LinkedHashMap<DyeColor, ChanneliteSourceBlock> twilight_channelite_source = new LinkedHashMap<>();
@@ -319,6 +321,8 @@ public abstract class LCCBlocks {
 		addWithDefaultItem(vivid_fence = new FenceBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_fence"));
 		addWithDefaultItem(vivid_fence_gate = new FenceGateBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "vivid_fence_gate"));
 		addWithDefaultItem(vivid_trapdoor = new AccessibleTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.PINK).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(3.0F, 3.0F).sound(SoundType.WOOD).notSolid()), new ResourceLocation(LCC.MODID, "vivid_trapdoor"));
+
+		add(chocolate = new ChocolateBlock(Block.Properties.create(Material.WOOD, MaterialColor.DIRT).harvestTool(ToolType.AXE).harvestLevel(0).hardnessAndResistance(2.8F, 1.5F).sound(SoundType.WOOD)), new ResourceLocation(LCC.MODID, "chocolate"));
 
 		factory(channelite, color -> {
 			Block.Properties p = Block.Properties.create(Material.GLASS).lightValue(color != null ? 14 : 0).harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(0.7F, 2.0F).sound(SoundType.GLASS);

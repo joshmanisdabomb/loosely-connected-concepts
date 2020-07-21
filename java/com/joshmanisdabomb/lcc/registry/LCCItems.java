@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.registry;
 
 import com.joshmanisdabomb.lcc.LCC;
+import com.joshmanisdabomb.lcc.block.ChocolateBlock;
 import com.joshmanisdabomb.lcc.computing.ComputingModule;
 import com.joshmanisdabomb.lcc.functionality.HeartsFunctionality;
 import com.joshmanisdabomb.lcc.item.*;
@@ -34,6 +35,10 @@ public abstract class LCCItems {
 
 	public static Item neon;
 	public static Item neon_nugget;
+
+	//TODO: activated neon from refiner
+	//TODO: candy cane (can be used as sticks)
+	//TODO: chocolate -> 4 chocolate squares (edible)
 
 	//Tools
 	public static SwordItem ruby_sword;
@@ -131,6 +136,11 @@ public abstract class LCCItems {
 
 	//Rainbow
 	public static Item chromatic_core;
+
+	public static ChocolateBlockItem chocolate_dark;
+	public static ChocolateBlockItem chocolate_milk;
+	public static ChocolateBlockItem chocolate_white;
+	public static ChocolateBlockItem chocolate_pink;
 
 	//Computing
 	public static VisualStackItem microchip;
@@ -297,6 +307,11 @@ public abstract class LCCItems {
 
 		//Rainbow
 		all.add((chromatic_core = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "chromatic_core"));
+
+		all.add((chocolate_dark = new ChocolateBlockItem(ChocolateBlock.Type.DARK, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "chocolate_dark"));
+		all.add((chocolate_milk = new ChocolateBlockItem(ChocolateBlock.Type.MILK, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "chocolate_milk"));
+		all.add((chocolate_white = new ChocolateBlockItem(ChocolateBlock.Type.WHITE, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "chocolate_white"));
+		all.add((chocolate_pink = new ChocolateBlockItem(ChocolateBlock.Type.PINK, new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "chocolate_pink"));
 
 		//Spreaders
 		all.add((spreader_essence = new Item(new Item.Properties().group(LCC.itemGroup))).setRegistryName(LCC.MODID, "spreader_essence"));

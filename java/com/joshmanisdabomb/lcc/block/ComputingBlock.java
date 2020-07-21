@@ -236,7 +236,7 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
 
     @Override
     public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
-        return !this.onePart(state, (IWorld)world, pos) ? LCCSounds.cog_multiple : super.getSoundType(state, world, pos, entity);
+        return !this.onePart(state, (IWorld)world, pos) ? LCCSounds.computing_multiple : super.getSoundType(state, world, pos, entity);
     }
 
     @Override
@@ -270,6 +270,7 @@ public class ComputingBlock extends ContainerBlock implements LCCBlockHelper, Mu
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public Collection<ResourceLocation> getSpecialModels() {
         Collection<ResourceLocation> models = new ArrayList<>();
         for (ComputingModule.Type type : ComputingModule.Type.values()) {

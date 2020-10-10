@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.client",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "HeartsHudMixin",
+    "HeartsEntityOverlayMixin",
+    "HeartsLivingRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

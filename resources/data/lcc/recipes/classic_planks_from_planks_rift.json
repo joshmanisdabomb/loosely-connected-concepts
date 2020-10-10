@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "minecraft:planks"
-  },
-  "result": "lcc:classic_planks",
-  "count": 1
-}

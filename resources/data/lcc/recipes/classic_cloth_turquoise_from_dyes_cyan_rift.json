@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "forge:dyes/cyan"
-  },
-  "result": "lcc:classic_cloth_turquoise",
-  "count": 1
-}

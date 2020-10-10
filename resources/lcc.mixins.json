@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "GauntletPlayerMixin",
+    "GauntletLivingMixin",
+    "GauntletEntityMixin",
+    "EventPlayerMixin",
+    "HeartsLivingMixin",
+    "HeartsPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

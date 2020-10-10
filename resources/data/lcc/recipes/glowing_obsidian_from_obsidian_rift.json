@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "minecraft:obsidian"
-  },
-  "result": "lcc:glowing_obsidian",
-  "count": 1
-}

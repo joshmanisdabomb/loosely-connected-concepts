@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "lcc:amethyst_ore"
-  },
-  "result": "lcc:amethyst",
-  "experience": 1.0,
-  "cookingtime": 100
-}

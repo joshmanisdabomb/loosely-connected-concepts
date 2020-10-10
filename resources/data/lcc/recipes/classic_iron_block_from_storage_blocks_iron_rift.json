@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "forge:storage_blocks/iron"
-  },
-  "result": "lcc:classic_iron_block",
-  "count": 1
-}

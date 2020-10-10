@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "lcc",
+  "version": "${version}",
+
+  "name": "Loosely Connected Concepts",
+  "description": "A bottom tier expansion pack for Minecraft.",
+  "authors": [
+    "joshmanisdabomb"
+  ],
+  "contact": {
+    "homepage": "https://joshmanisdabomb.com/",
+    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/"
+  },
+
+  "license": "not sure yet all rights reserved",
+  "icon": "assets/lcc/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCC"
+      }
+    ]
+  },
+  "mixins": [
+    "lcc.mixins.json",
+    {
+      "config": "lcc.client-mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.9.3",
+    "fabric": "*",
+    "fabric-language-kotlin": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "forge:nether_stars"
-  },
-  "result": "lcc:nether_reactor",
-  "count": 1
-}

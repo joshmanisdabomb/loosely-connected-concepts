@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "forge:dyes/lime"
-  },
-  "result": "lcc:classic_cloth_lime",
-  "count": 1
-}

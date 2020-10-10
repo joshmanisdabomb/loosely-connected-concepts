@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "tag": "forge:chests/wooden"
-  },
-  "result": "lcc:classic_chest",
-  "count": 1
-}

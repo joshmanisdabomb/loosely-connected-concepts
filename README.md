@@ -1,14 +1,14 @@
 # Loosely Connected Concepts #
-This is a mod for Minecraft 1.15.2 aiming for a vanilla-like expansion to the base game.
+This is a mod for Minecraft 1.16.3 aiming to be a vanilla-like expansion to the base game.
 It features blocks, items, mobs, biomes and dimensions that stand on their own, but also connect with each other.
 
-** This mod is in beta and is not feature complete. **
+** This mod is currently being ported to Fabric and is not feature complete. **
 
 You can read more about the predecessors Aimless Agglomeration by clicking [here](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/AA.md) and Yet Another Mod by clicking [here](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/YAM.md).
 
 ---
 
-## Currently in Mod ##
+## Port In Progress ##
  * Ores, Tools and Armour
  * Hearts and Heart Containers
  * Doom Gauntlet

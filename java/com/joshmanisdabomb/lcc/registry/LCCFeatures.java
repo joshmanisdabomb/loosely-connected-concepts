@@ -31,6 +31,8 @@ public abstract class LCCFeatures {
 
     public static ChanneliteFeature channelite;
 
+    public static ChocolateMoundFeature chocolate_mound;
+
     public static final TreeFeatureConfig CLASSIC_TREE_CONFIG = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.OAK_LOG.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.classic_leaves.getDefaultState()), new BlobFoliagePlacer(2, 0)).baseHeight(4).heightRandA(2).foliageHeight(3).ignoreVines().setSapling(LCCBlocks.classic_sapling).build();
     public static final TreeFeatureConfig VIVID_TREE_CONFIG = new TreeFeatureConfig.Builder(new SimpleBlockStateProvider(LCCBlocks.vivid_log.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.vivid_leaves.getDefaultState()), new BlobFoliagePlacer(2, 0)).baseHeight(7).heightRandA(4).ignoreVines().setSapling(LCCBlocks.vivid_sapling).maxWaterDepth(256).build();
     public static final HugeTreeFeatureConfig BIG_VIVID_TREE_CONFIG = new HugeTreeFeatureConfig.Builder(new SimpleBlockStateProvider(LCCBlocks.vivid_log.getDefaultState()), new SimpleBlockStateProvider(LCCBlocks.vivid_leaves.getDefaultState())).baseHeight(10).heightInterval(15).crownHeight(3).setSapling(LCCBlocks.vivid_sapling).build();
@@ -47,6 +49,8 @@ public abstract class LCCFeatures {
         all.add((big_candy_cane = new BigCandyCaneFeature(NoFeatureConfig::deserialize, 15, 15)).setRegistryName(LCC.MODID, "big_candy_cane"));
 
         all.add((channelite = new ChanneliteFeature(NoFeatureConfig::deserialize, 2, 5)).setRegistryName(LCC.MODID, "channelite"));
+
+        all.add((chocolate_mound = new ChocolateMoundFeature(NoFeatureConfig::deserialize)).setRegistryName(LCC.MODID, "chocolate_mound"));
     }
 
     public static void initPlacements(RegistryEvent.Register<Placement<?>> e) {

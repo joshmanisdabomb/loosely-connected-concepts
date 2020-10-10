@@ -9,6 +9,7 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
+import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.HeightWithChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilder;
@@ -32,6 +33,7 @@ public class RainbowCandylandBiome extends RainbowBiome implements LCCBiomeHelpe
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(
             LCCFeatures.big_candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withChance(0.1F)
         ), LCCFeatures.candy_cane.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG))).withPlacement(LCCFeatures.COUNT_CHANCE_UNDER_SURFACE.configure(new HeightWithChanceConfig(4, 0.9F))));
+        this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, LCCFeatures.chocolate_mound.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(0, 0.08F, 2))));
     }
 
     @Override

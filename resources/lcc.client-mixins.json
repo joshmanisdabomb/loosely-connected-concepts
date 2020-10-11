@@ -5,7 +5,8 @@
   "client": [
     "HeartsHudMixin",
     "HeartsEntityOverlayMixin",
-    "HeartsLivingRendererMixin"
+    "HeartsLivingRendererMixin",
+    "GauntletHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

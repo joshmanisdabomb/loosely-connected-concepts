@@ -34,7 +34,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         override val targetTimer = 10
         val targetSpeedV = 1.9
         val damageRange = 3f..16f
-        val hitbox = Vec3d(1.1, 3.0, 1.1)
+        val hitbox = Vec3d(1.2, 3.0, 1.2)
         val healthCalcPow = 1f/2.3f
 
         override fun castInitial(player: PlayerEntity, tag: CompoundTag) {
@@ -54,13 +54,13 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         }
 
         override fun castTick(player: PlayerEntity, tag: CompoundTag) {
-            player.replaceVelocity(y = actorSpeedV * (1 - castPercentage(tag.duration)!!).pow(2.7))
+            player.replaceVelocity(y = actorSpeedV * (1 - castPercent(tag.duration)!!).pow(2.7))
             player.velocityDirty = true
             if (tag.duration < 8) {
                 val s = tag.getFloat("sin")
                 val c = tag.getFloat("cos")
                 val f = sqrt(s * s + c * c)
-                val entities = player.world.getOtherEntities(player, player.boundingBox.expand(hitbox.x, hitbox.y, hitbox.z)/*.offset(s * (0.95 / f), -1.0, c * (0.95 / f))*/) { GauntletAction.isPunchable(it) && !isTarget(it, player) }
+                val entities = player.world.getOtherEntities(player, player.boundingBox.expand(hitbox.x, hitbox.y, hitbox.z).offset(s * (0.95 / f), -1.0, c * (0.95 / f))) { GauntletAction.isPunchable(it) && !isTarget(it, player) }
                 if (entities.any()) {
                     //TODO play custom gauntlet sound for all to hear
                     if (!player.world.isClient) player.playSound(SoundEvents.ENTITY_ARROW_HIT_PLAYER, SoundCategory.PLAYERS, 0.18F, 0.45F)
@@ -143,18 +143,22 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
 
     open fun targetTick(entity: Entity, tag: CompoundTag) = Unit
 
-    fun cooldown(player: PlayerEntity): Int = if (!player.isCreative) 130 else (actorCast ?: -1)
+    fun cooldown(player: PlayerEntity) = if (!player.isCreative) 130 else (actorCast ?: -1)
 
-    fun castPercentage(tick: Int): Double? {
+    protected fun castPercent(tick: Int): Double? {
         if (this.actorCast == null || this.actorCast!! <= 0) return null
         val percent = tick.toDouble() / this.actorCast!!
         if (percent !in 0.0..1.0) return null
         return percent
     }
 
-    fun isCasting(tick: Int): Boolean = castPercentage(tick) != null
+    fun castPercentage(player: PlayerEntity, offset: Int = 0) = castPercent(actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
 
-    fun cooldownPercentage(player: PlayerEntity, tick: Int): Double? {
+    fun isCasting(tick: Int) = castPercent(tick) != null
+
+    fun isCasting(player: PlayerEntity) = isCasting(actorManager.fromTracker(player).duration)
+
+    protected fun cooldownPercent(player: PlayerEntity, tick: Int): Double? {
         val effectiveCooldown = this.cooldown(player) - (this.actorCast ?: 0)
         if (effectiveCooldown <= 0) return null
         val percent = (tick.toDouble() - (this.actorCast ?: 0)) / effectiveCooldown
@@ -162,7 +166,11 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         return percent
     }
 
-    fun isCooldown(player: PlayerEntity, tick: Int): Boolean = cooldownPercentage(player, tick) != null
+    fun cooldownPercentage(player: PlayerEntity, offset: Int = 0) = cooldownPercent(player, actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
+
+    fun isCooldown(player: PlayerEntity, tick: Int) = cooldownPercent(player, tick) != null
+
+    fun isCooldown(player: PlayerEntity) = isCooldown(player, actorManager.fromTracker(player).duration)
 
     fun targetPercentage(tick: Int): Double? {
         if (this.targetTimer == null || this.targetTimer!! <= 0) return null

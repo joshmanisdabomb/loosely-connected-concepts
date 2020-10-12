@@ -10,11 +10,11 @@ interface GauntletProgressRenderer {
     val loc: Int
     val size: Int
 
-    fun renderProgress(matrix: MatrixStack, camera: PlayerEntity, percentage: (entity: PlayerEntity, offset: Int) -> Double?, reverse: Boolean, u: Int, v: Int, angle: Float, delta: Float) {
+    fun renderProgress(matrix: MatrixStack, camera: PlayerEntity, percentage: (entity: PlayerEntity, offset: Int) -> Double?, reverse: Boolean, u: Int, v: Int, angle: Float, delta: Float, offset: Int = -1) {
         if (reverse) {
-            renderProgress(matrix, lerp(delta.toDouble(), 1 - (percentage(camera, -1) ?: 1.0), 1 - (percentage(camera, 0) ?: 1.0)), u, v, angle)
+            renderProgress(matrix, lerp(delta.toDouble(), 1 - (percentage(camera, offset) ?: 1.0), 1 - (percentage(camera, 0) ?: 1.0)), u, v, angle)
         } else {
-            renderProgress(matrix, lerp(delta.toDouble(), percentage(camera, -1) ?: 0.0, percentage(camera, 0) ?: 0.0), u, v, angle)
+            renderProgress(matrix, lerp(delta.toDouble(), percentage(camera, offset) ?: 0.0, percentage(camera, 0) ?: 0.0), u, v, angle)
         }
     }
 

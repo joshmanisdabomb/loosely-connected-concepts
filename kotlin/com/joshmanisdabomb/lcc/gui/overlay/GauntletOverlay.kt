@@ -62,9 +62,10 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
     fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction, current: GauntletAction?, ticks: Int, delta: Float, angle: Float) {
         val shine = ticks.minus(actionLastUnlocked[action] ?: ticks)
         val selected = (current == action).toInt(2)
+        val charging = current == action && action.isChargeable() && camera.activeItem.item == LCCItems.gauntlet
 
-        val baseU = action.isActing(camera).toInt(action.isCasting(camera).toInt(0, 5), if (shine <= 3) shine.plus(1) else 0)
-        val baseV = action.isCasting(camera).toInt(1) + selected
+        val baseU = charging.toInt(2, action.isActing(camera).toInt(action.isCasting(camera).toInt(0, 5), if (shine <= 3) shine.plus(1) else 0))
+        val baseV = (charging || action.isCasting(camera)).toInt(1) + selected
 
         matrix.push()
         matrix.translate(sw.div(2).toDouble(), 0.0, 0.0)
@@ -76,6 +77,11 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
             renderProgress(matrix, camera, action::castPercentage, true, 1, 1.plus(selected), angle, delta)
         } else if (action.isCooldown(camera)) {
             renderProgress(matrix, camera, action::cooldownPercentage, false, 6, selected, angle, delta)
+        } else if (charging) {
+            renderProgress(matrix, camera, { player, offset -> action.chargePercentage(player, offset = offset) }, false, 3, 1.plus(selected), angle, delta, 1)
+            if (camera.itemUseTime > action.chargeBiteTime && ticks % 2 == 0) {
+                this.drawTexture(matrix, loc, loc, 4.times(size), 1.plus(selected).times(size), size, size)
+            }
         }
 
         matrix.pop()

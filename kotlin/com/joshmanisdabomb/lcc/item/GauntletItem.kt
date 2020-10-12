@@ -42,6 +42,15 @@ class GauntletItem(settings: Item.Settings) : Item(settings), LCCExtendedItem {
         return TypedActionResult.fail(stack)
     }
 
+    override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
+        if (user.isSneaking) {
+            user.clearActiveItem()
+            stack.orCreateTag.ability.cancel(user as? PlayerEntity ?: return)
+        } else {
+            stack.orCreateTag.ability.chargeTick(user as? PlayerEntity ?: return, remainingUseTicks)
+        }
+    }
+
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
         val ability = stack.orCreateTag.ability
         if (user is PlayerEntity && ability.isChargeable()) {

@@ -20,6 +20,8 @@ object LCCTrackers : ThingDirectory<TrackedData<*>, Class<out Entity>>() {
 
     val gauntletFallHandler by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.BYTE) }
     val gauntletUppercut by create(PlayerEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
-    val gauntletUppercutee by create(Entity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+    val gauntletUppercutTarget by create(Entity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+    val gauntletPunch by create(PlayerEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+    val gauntletPunchTarget by create(Entity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
 
 }

@@ -14,4 +14,11 @@ fun Entity.replaceVelocity(x: Double? = null, y: Double? = null, z: Double? = nu
     this.setVelocity(x ?: v.x, y ?: v.y, z ?: v.z);
 }
 
+const val NBT_BYTE = 1
+const val NBT_SHORT = 2
 const val NBT_INT = 3
+const val NBT_LONG = 4
+const val NBT_FLOAT = 5
+const val NBT_DOUBLE = 6
+const val NBT_COMPOUND = 10
+const val NBT_NUMERIC = 99

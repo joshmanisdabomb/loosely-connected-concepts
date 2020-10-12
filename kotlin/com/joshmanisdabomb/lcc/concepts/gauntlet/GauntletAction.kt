@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.concepts.gauntlet
 
+import com.joshmanisdabomb.lcc.NBT_BYTE
 import com.joshmanisdabomb.lcc.NBT_INT
 import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
@@ -19,13 +20,14 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.UseAction
 import net.minecraft.util.math.MathHelper.*
 import net.minecraft.util.math.Vec3d
 import kotlin.math.pow
 
 enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val targetManager: EntityDataManager<CompoundTag>? = null) : StringIdentifiable {
 
-    UPPERCUT(EntityDataManager("gauntlet_uppercut", LCCTrackers.gauntletUppercut), EntityDataManager("gauntlet_uppercutee", LCCTrackers.gauntletUppercutee)) { //rising stone?
+    UPPERCUT(EntityDataManager("gauntlet_uppercut", LCCTrackers.gauntletUppercut), EntityDataManager("gauntlet_uppercut_target", LCCTrackers.gauntletUppercutTarget)) { //rising stone?
         val actorSpeedV = 1.2
         val actorSpeedH = 0.5
         override val actorCooldown = 130
@@ -96,24 +98,42 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             entity.replaceVelocity(y = targetSpeedV * (1 - targetPercentage(tag.duration)!!).pow(1.2))
             entity.velocityDirty = true
         }
-    }/*,
-    PUNCH(2), //jet stone?
-    STOMP(2), //tremor stone?
+    },
+    PUNCH(EntityDataManager("gauntlet_punch", LCCTrackers.gauntletPunch), EntityDataManager("gauntlet_punch_target", LCCTrackers.gauntletPunchTarget)) {
+        override val actorCooldown = 184
+        override val actorCast = 13
+        override val targetTimer = 22
+        override val chargeMaxTime = 40
+        override val chargeBiteTime = 20
+
+        override fun castInitial(player: PlayerEntity, tag: CompoundTag) {
+            println("punch")
+        }
+
+        override fun castTick(player: PlayerEntity, tag: CompoundTag) {
+            println("punch tick")
+        }
+    }, //jet stone?
+    /*STOMP(2), //tremor stone?
     BEAM(2)*/; //beam stone
 
     abstract val actorCooldown: Int
     abstract val actorCast: Int?
     open val actorFallBreak: Double? = null
-    abstract val targetTimer: Int?
+    open val targetTimer: Int? = null
     open val targetFallBreak: Double? = null
+
+    open val chargeMaxTime = 0
+    open val chargeBiteTime = 0
+    open val chargeAction = UseAction.BOW
 
     override fun asString() = name.toLowerCase()
 
     fun isActing(player: PlayerEntity) = actorManager.fromTracker(player).duration > -1
 
-    fun act(player: PlayerEntity, only: Boolean = !isActing(player)): Boolean {
+    fun act(player: PlayerEntity, remaining: Int = 0, only: Boolean = !isActing(player)): Boolean {
         if (only) {
-            val tag = CompoundTag().also { it.duration = 0 }
+            val tag = CompoundTag().also { it.duration = 0; it.remaining = remaining }
             this.castInitial(player, tag)
             actorManager.toTracker(player, tag)
             return true
@@ -172,7 +192,14 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
 
     fun isCooldown(player: PlayerEntity) = isCooldown(player, actorManager.fromTracker(player).duration)
 
-    fun targetPercentage(tick: Int): Double? {
+    fun isChargeable() = chargeMaxTime > 0
+
+    protected fun chargePercentage(remaining: Int): Double? {
+        if (!this.isChargeable()) return null
+        return ((chargeMaxTime - remaining) / chargeBiteTime.toDouble()).coerceIn(0.0, 1.0)
+    }
+
+    protected fun targetPercentage(tick: Int): Double? {
         if (this.targetTimer == null || this.targetTimer!! <= 0) return null
         val percent = tick.toDouble() / this.targetTimer!!
         if (percent !in 0.0..1.0) return null
@@ -218,8 +245,11 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             }
             return false
         }
+
+        var CompoundTag.ability get() = if (contains("lcc_gauntlet_ability", NBT_BYTE)) values()[getByte("lcc_gauntlet_ability").toInt().minus(1)] else UPPERCUT; set(v) = putByte("lcc_gauntlet_ability", v.ordinal.plus(1).toByte())
     }
 
-    var CompoundTag.duration: Int get() = if (contains("duration", NBT_INT)) getInt("duration") else -1; set(v) = putInt("duration", v)
+    var CompoundTag.duration get() = if (contains("duration", NBT_INT)) getInt("duration") else -1; set(v) = putInt("duration", v)
+    var CompoundTag.remaining get() = if (contains("remaining", NBT_INT)) getInt("remaining") else -1; set(v) = putInt("remaining", v)
 
 }

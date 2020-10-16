@@ -1,12 +1,10 @@
 package com.joshmanisdabomb.lcc.concepts.gauntlet
 
-import com.joshmanisdabomb.lcc.NBT_BYTE
-import com.joshmanisdabomb.lcc.NBT_INT
+import com.joshmanisdabomb.lcc.*
 import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
+import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
-import com.joshmanisdabomb.lcc.replaceVelocity
-import com.joshmanisdabomb.lcc.toInt
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
@@ -16,14 +14,20 @@ import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.entity.vehicle.MinecartEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.MathHelper.*
+import net.minecraft.util.math.MathHelper.abs
+import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.MathHelper.cos
+import net.minecraft.util.math.MathHelper.sin
+import net.minecraft.util.math.MathHelper.sqrt
 import net.minecraft.util.math.Vec3d
-import kotlin.math.pow
+import kotlin.math.*
 
 enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val targetManager: EntityDataManager<CompoundTag>? = null) : StringIdentifiable {
 
@@ -52,15 +56,14 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             tag.putFloat("cos", c)
 
             player.setVelocity(xspeed, actorSpeedV.pow(2.7), zspeed)
-            player.velocityDirty = true
+            confirmVelocity(player)
             player.fallDistance = 0f
             markFallHandler(player, true)
         }
 
         override fun castTick(player: PlayerEntity, tag: CompoundTag) {
             player.replaceVelocity(y = actorSpeedV * (1 - castPercent(player, tag.duration)!!).pow(2.7))
-            player.velocityModified = true
-            player.velocityDirty = true
+            confirmVelocity(player)
             if (tag.duration < 8) {
                 val s = tag.getFloat("sin")
                 val c = tag.getFloat("cos")
@@ -78,12 +81,12 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
                     tag.putFloat("mobHealthsCalc", mobHealthsCalc)
 
                     for (entity in entities) {
-                        entity.damage(DamageSource.player(player), (entity as? LivingEntity)?.maxHealth?.times(0.8f)?.coerceIn(damageRange) ?: damageRange.start)
+                        damageReady(entity)
+                        entity.damage(LCCDamage.gauntletUppercut(player), (entity as? LivingEntity)?.maxHealth?.times(0.8f)?.coerceIn(damageRange) ?: damageRange.start)
                         if (!player.world.isClient) {
                             entity.velocity = player.velocity.add(s * (actorSpeedH / f), 0.0, c * (actorSpeedH / f))
                             entity.replaceVelocity(y = targetSpeedV)
-                            entity.velocityModified = true
-                            entity.velocityDirty = true
+                            confirmVelocity(entity)
                         }
                         target(entity, player, tag)
                     }
@@ -93,16 +96,14 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
 
         override fun targetInitial(entity: Entity, player: PlayerEntity, tag: CompoundTag) {
             entity.replaceVelocity(y = targetSpeedV.pow(1.2))
-            entity.velocityModified = true
-            entity.velocityDirty = true
+            confirmVelocity(entity)
             entity.fallDistance = 0f
             if (entity is LivingEntity) markFallHandler(entity, true)
         }
 
         override fun targetTick(entity: Entity, tag: CompoundTag) {
             entity.replaceVelocity(y = targetSpeedV * (1 - (targetPercentage(entity, tag) ?: 0.0)).pow(1.2))
-            entity.velocityModified = true
-            entity.velocityDirty = true
+            confirmVelocity(entity)
         }
     },
     PUNCH(EntityDataManager("gauntlet_punch", LCCTrackers.gauntletPunch), EntityDataManager("gauntlet_punch_target", LCCTrackers.gauntletPunchTarget)) {
@@ -111,6 +112,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         val damageRange = 3f..16f
         val initialHitbox = Vec3d(1.2, 1.9, 1.2)
         val shockHitbox = Vec3d(1.5, 0.5, 1.5)
+        val stepHeightMap = mutableMapOf<PlayerEntity, Float>()
 
         override fun getActorCooldown(player: PlayerEntity, tag: CompoundTag) = 184
         override fun getActorCast(player: PlayerEntity, tag: CompoundTag): Int = ceil(chargePercentage(player, tag.remaining, 0)?.times(9) ?: 0.0)
@@ -133,10 +135,14 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             tag.putFloat("sqrt", f)
 
             player.setVelocity(xspeed, 0.0, zspeed)
-            player.velocityModified = true
-            player.velocityDirty = true
+            confirmVelocity(player)
             player.fallDistance = 0f
             markFallHandler(player, true)
+
+            if (player.world.isClient) {
+                stepHeightMap[player] = player.stepHeight
+                player.stepHeight = 1.2F
+            }
         }
 
         override fun castTick(player: PlayerEntity, tag: CompoundTag) {
@@ -154,26 +160,57 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
                 HeartType.TEMPORARY.addHealth(player, kotlin.math.floor(entities.sumOf { (it as? LivingEntity)?.maxHealth?.toDouble() ?: 0.0 }.toFloat()).pow(healthCalcPow).times(1.4f))
 
                 for (entity in entities) {
-                    entity.damage(DamageSource.player(player), (entity as? LivingEntity)?.maxHealth?.times(0.8f)?.coerceIn(damageRange) ?: damageRange.start)
+                    damageReady(entity)
+                    entity.damage(LCCDamage.gauntletPunch(player), ((entity as? LivingEntity)?.maxHealth?.times(0.8f)?.coerceIn(damageRange) ?: damageRange.start).times((chargePercent(tag.remaining)?.coerceAtLeast(0.3) ?: 0.3).toFloat()))
                     if (!player.world.isClient) {
                         entity.setVelocity(s * (targetSpeedH / f), 0.0, c * (targetSpeedH / f))
-                        entity.velocityModified = true
-                        entity.velocityDirty = true
+                        confirmVelocity(entity)
                     }
                     target(entity, player, tag)
                 }
 
-                player.setVelocity(-s * (0.2 / f), 0.5, -c * (0.2 / f))
-                player.velocityModified = true
-                player.velocityDirty = true
-                tag.duration = getActorCast(player) + 1
-                return
+                //FIXME sometimes only server sees entities in range, so step height not reset for client, probably packet
+                return rebound(player, tag, s, c, f)
             }
-            val actorThrust = actorSpeedH.times(chargePercent(tag.remaining)?.coerceAtLeast(0.3) ?: 0.3)
-            player.replaceVelocity(x = s * (actorThrust / f), y = 0.0, z = c * (actorThrust / f))
-            player.velocityModified = true
-            player.velocityDirty = true
+            val thrust = actorSpeedH.times(chargePercent(tag.remaining)?.coerceAtLeast(0.3) ?: 0.3)
+            if (player.horizontalCollision) {
+                val vel = player.velocity
+                if (vel.x == 0.0) {
+                    if (vel.z.absoluteValue < thrust * 0.5) {
+                        return rebound(player, tag, s, c, f)
+                    }
+                } else if (vel.z == 0.0) {
+                    if (vel.x.absoluteValue < thrust * 0.5) {
+                        return rebound(player, tag, s, c, f)
+                    }
+                }
+            }
+            player.setVelocity(s * (thrust / f), 0.0, c * (thrust / f))
+            confirmVelocity(player)
+            if (player.world.isClient && tag.duration >= getActorCast(player, tag) - 2) player.stepHeight = stepHeightMap.getOrDefault(player, 0.6f)
         }
+
+        override fun targetTick(entity: Entity, tag: CompoundTag) {
+            val s = tag.getFloat("sin")
+            val c = tag.getFloat("cos")
+            val f = tag.getFloat("sqrt")
+            val thrust = targetSpeedH.times(chargePercent(tag.remaining)?.coerceAtLeast(0.3) ?: 0.3)
+            val vel = entity.velocity
+            val x = abs(s * (thrust / f) * 0.1)
+            val z = abs(c * (thrust / f) * 0.1)
+            println(x)
+            println(z)
+            if ((x > 0.01 && vel.x.absoluteValue < x) || (z > 0.01 && vel.z.absoluteValue < z)) {
+                //if (entity.world.isClient || person isnt online) damage without getting person attributed
+                damageReady(entity)
+                entity.damage(LCCDamage.gauntlet_punch_wall, 18f.times((chargePercent(tag.remaining)?.coerceAtLeast(0.3) ?: 0.3).toFloat()))
+                return rebound(entity, tag, s, c, f)
+            }
+            entity.setVelocity(s * (thrust / f), 0.0, c * (thrust / f))
+            confirmVelocity(entity)
+        }
+
+        override fun forceStep(player:  PlayerEntity, tag: CompoundTag) = true
 
         override fun chargeTick(player: PlayerEntity, remaining: Int) {
             val chargePercent = chargePercent(remaining) ?: 1.0
@@ -181,6 +218,19 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
                 if (chargePercent < 0.6) player.fallDistance = 0f
                 player.replaceVelocity(y = player.velocity.y * 0.66.plus(chargePercent.times(0.34)))
             }
+        }
+
+        private fun rebound(player: PlayerEntity, tag: CompoundTag, s: Float = tag.getFloat("sin"), c: Float = tag.getFloat("cos"), f: Float = tag.getFloat("sqrt")) {
+            player.setVelocity(-s * (0.34 / f), 0.5, -c * (0.34 / f))
+            confirmVelocity(player)
+            if (player.world.isClient) player.stepHeight = stepHeightMap.getOrDefault(player, 0.6f)
+            tag.duration = getActorCast(player, tag) + 1
+        }
+
+        private fun rebound(entity: Entity, tag: CompoundTag, s: Float = tag.getFloat("sin"), c: Float = tag.getFloat("cos"), f: Float = tag.getFloat("sqrt")) {
+            entity.setVelocity(-s * (0.34 / f), 0.5, -c * (0.34 / f))
+            confirmVelocity(entity)
+            tag.duration = getTargetTimer(entity, tag) + 1
         }
     }, //jet stone?
     /*STOMP(2), //tremor stone?
@@ -219,10 +269,10 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
     fun canTarget(): Boolean = targetManager != null
 
     fun target(entity: Entity, player: PlayerEntity, tag: CompoundTag = CompoundTag()): Boolean {
-        val new = tag.copy().also { it.duration = 0 }
+        val new = tag.copy().also { it.duration = 0; it.putUuid("by", player.uuid) }
         this.targetInitial(entity, player, new)
         targetManager?.modifyTracker(entity) { it.copy().also { it.put(player.uuidAsString, new) } }
-        if (entity is ServerPlayerEntity && entity.deathTime <= 0) entity.networkHandler.sendPacket(EntityTrackerUpdateS2CPacket(entity.entityId, entity.dataTracker, true))
+        //if (entity is ServerPlayerEntity && entity.deathTime <= 0) entity.networkHandler.sendPacket(EntityTrackerUpdateS2CPacket(entity.entityId, entity.dataTracker, true))
         return true
     }
 
@@ -237,9 +287,11 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
     open fun targetTick(entity: Entity, tag: CompoundTag) = Unit
 
     fun cooldown(player: PlayerEntity): Int {
-        if (actorManager.fromTracker(player).getBoolean("cancelled")) return if (!player.isCreative) ceil(getActorCooldown(player).times(chargeCancelCooldown)) else 40
-        return if (!player.isCreative) getActorCooldown(player) else (getActorCast(player) ?: -1)
+        if (actorManager.fromTracker(player).getBoolean("cancelled")) return if (!player.isCreative) ceil(getActorCooldown(player).times(chargeCancelCooldown)) else cooldownCreative(player, true)
+        return if (!player.isCreative) getActorCooldown(player) else max(getActorCast(player) ?: -1, cooldownCreative(player, false))
     }
+
+    open fun cooldownCreative(player: PlayerEntity, cancelled: Boolean) = isChargeable().toInt(40.div(cancelled.toInt(1, 2)), -1)
 
     protected fun castPercent(player: PlayerEntity, tick: Int): Double? {
         val actorCast = this.getActorCast(player)
@@ -306,8 +358,17 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
 
     fun markFallHandler(entity: LivingEntity, actor: Boolean) = entity.dataTracker.set(LCCTrackers.gauntletFallHandler, (ordinal + 1 + actor.toInt()).toByte())
 
-    fun cancel(player: PlayerEntity) {
-        actorManager.toTracker(player, CompoundTag().also { it.duration = (getActorCast(player) ?: 0) + 1; it.putBoolean("cancelled", true) })
+    fun cancel(player: PlayerEntity) = actorManager.toTracker(player, CompoundTag().also { it.duration = (getActorCast(player) ?: 0) + 1; it.putBoolean("cancelled", true) })
+
+    open fun forceStep(player: PlayerEntity, tag: CompoundTag) = false
+
+    protected fun confirmVelocity(entity: Entity) { entity.velocityModified = true; entity.velocityDirty = true }
+
+    protected fun damageReady(entity: Entity) {
+        if (entity is LivingEntity) {
+            entity.hurtTime = 0
+            entity.timeUntilRegen = 0
+        }
     }
 
     companion object {

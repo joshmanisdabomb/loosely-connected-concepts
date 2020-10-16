@@ -17,7 +17,11 @@ abstract class ThingDirectory<V, P> {
         return delegates.filter { (k, v) -> predicate(k, v.properties) }.mapValues { (k, v) -> v.properties }
     }
 
-    protected fun <R : V> create(properties: P = Unit as P, supplier: (properties: P) -> R): ThingDelegate<R> = ThingDelegate(supplier, properties)
+    protected fun <R : V> create(properties: P = Unit as P, supplier: (properties: P) -> R): ThingDelegate<R> = ThingDelegate({ _, p -> supplier(p) }, properties)
+
+    protected fun <R : V> createNP(properties: P = Unit as P, supplier: (name: String, properties: P) -> R): ThingDelegate<R> = ThingDelegate(supplier, properties)
+
+    protected fun <R : V> createN(supplier: (name: String) -> R): ThingDelegate<R> = ThingDelegate({ n, _ -> supplier(n) }, Unit as P)
 
     fun init(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }) {
         registerAll(things(predicate), properties(predicate))
@@ -27,11 +31,11 @@ abstract class ThingDirectory<V, P> {
 
     }
 
-    inner class ThingDelegate<R : V> internal constructor(private val supplier: (properties: P) -> R, val properties: P = Unit as P) {
+    inner class ThingDelegate<R : V> internal constructor(private val supplier: (name: String, properties: P) -> R, val properties: P = Unit as P) {
         private var store: R? = null
 
         operator fun getValue(dir: ThingDirectory<in R, P>, property: KProperty<*>): R {
-            store = store ?: supplier(properties)
+            store = store ?: supplier(property.name, properties)
             return store!!
         }
     }

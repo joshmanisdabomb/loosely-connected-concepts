@@ -6,9 +6,10 @@ import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
+import net.minecraft.util.StringIdentifiable
 import org.jetbrains.annotations.NotNull
 
-enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val maxManager: EntityDataManager<Float>? = null) {
+enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val maxManager: EntityDataManager<Float>? = null) : StringIdentifiable {
 
     RED(maxManager = EntityDataManager("hearts_red_max", LCCTrackers.heartsRedMax)) {
         override val drawable = false
@@ -35,6 +36,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
     TEMPORARY(amountManager = EntityDataManager("hearts_temporary", LCCTrackers.heartsTemporary)) {
         override val v = 45
         override val hurtColor = 0xB2AA0000.toInt()
+        override val container = false
 
         override fun getMaxHealth(entity: LivingEntity) = getHealth(entity)
 
@@ -47,6 +49,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
         }
     };
 
+    open val container = true
     open val drawable = true
     abstract val v: Int
     open val hurtColor = 0xB20000FF.toInt()
@@ -86,6 +89,8 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
         val damage2 = before - after
         return damage - damage2
     }
+
+    override fun asString() = name.toLowerCase()
 
     companion object {
         @JvmStatic

@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "lcc:item/computing/memory_stick_base_2",
-    "layer1": "lcc:item/computing/memory_stick_color_2"
-  }
-}

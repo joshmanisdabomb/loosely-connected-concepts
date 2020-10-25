@@ -198,8 +198,6 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             val vel = entity.velocity
             val x = abs(s * (thrust / f) * 0.1)
             val z = abs(c * (thrust / f) * 0.1)
-            println(x)
-            println(z)
             if ((x > 0.01 && vel.x.absoluteValue < x) || (z > 0.01 && vel.z.absoluteValue < z)) {
                 //if (entity.world.isClient || person isnt online) damage without getting person attributed
                 damageReady(entity)

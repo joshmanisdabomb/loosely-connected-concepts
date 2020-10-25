@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "side": "lcc:block/rainbow/wood/planks",
-    "bottom": "lcc:block/rainbow/wood/planks",
-    "top": "lcc:block/rainbow/wood/planks"
-  }
-}

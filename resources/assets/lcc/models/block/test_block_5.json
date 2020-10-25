@@ -1,6 +1,0 @@
-{
-  "parent": "block/block",
-  "textures": {
-    "particle": "lcc:block/test/5/default"
-  }
-}

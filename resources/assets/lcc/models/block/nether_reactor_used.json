@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "lcc:block/nostalgia/nether_reactor_used"
-  }
-}

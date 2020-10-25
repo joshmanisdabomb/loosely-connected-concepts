@@ -1,9 +1,0 @@
-{
-  "parent": "lcc:block/colorable_orientable",
-  "textures": {
-    "particle": "#all",
-    "top": "#all",
-    "front": "#all",
-    "side": "#all"
-  }
-}

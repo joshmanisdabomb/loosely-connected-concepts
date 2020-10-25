@@ -1,9 +1,0 @@
-{
-    "parent": "lcc:item/computing",
-    "textures": {
-        "top": "lcc:block/computing/casing_top",
-        "front": "lcc:block/computing/computer_front",
-        "side": "lcc:block/computing/casing_side",
-        "bottom": "lcc:block/computing/casing_top"
-    }
-}

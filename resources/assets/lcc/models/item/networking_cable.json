@@ -1,6 +1,0 @@
-{
-  "parent": "lcc:item/cable",
-  "textures": {
-    "cable": "block/lime_wool"
-  }
-}

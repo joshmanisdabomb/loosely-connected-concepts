@@ -1,8 +1,0 @@
-{
-  "parent": "lcc:block/template_chocolate_top",
-  "textures": {
-    "0": "lcc:block/rainbow/chocolate/dark",
-    "1": "lcc:block/rainbow/chocolate/dark_brand",
-    "particle": "lcc:block/rainbow/chocolate/dark"
-  }
-}

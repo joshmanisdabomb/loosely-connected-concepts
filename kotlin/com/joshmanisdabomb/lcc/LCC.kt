@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier
 
 object LCC : ModInitializer, ClientModInitializer {
 
-    val modid = "lcc"
+    const val modid = "lcc"
 
     override fun onInitialize() {
         LCCItems.init()

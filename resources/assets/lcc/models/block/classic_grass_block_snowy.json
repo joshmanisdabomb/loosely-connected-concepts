@@ -1,8 +1,0 @@
-{
-  "parent": "block/cube_bottom_top",
-  "textures": {
-    "side": "lcc:block/nostalgia/grass_block_snowy",
-    "bottom": "block/dirt",
-    "top": "block/snow"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "lcc:block/colorable",
-  "textures": {
-    "all": "lcc:block/spreader/age_11"
-  }
-}

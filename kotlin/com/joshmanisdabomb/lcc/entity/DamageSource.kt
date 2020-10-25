@@ -9,12 +9,8 @@ class LCCDamageSource(name: String, bypassArmor: Boolean = false, unblockable: B
         if (unblockable) setUnblockable()
     }
 
-    public override fun setBypassesArmor(): DamageSource {
-        return super.setBypassesArmor()
-    }
+    public override fun setBypassesArmor() = super.setBypassesArmor()
 
-    public override fun setUnblockable(): DamageSource {
-        return super.setUnblockable()
-    }
+    public override fun setUnblockable() = super.setUnblockable()
 
 }

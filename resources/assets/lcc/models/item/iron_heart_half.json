@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/heart/iron_half"
+    "layer0": "lcc:item/iron_heart_half"
   }
 }

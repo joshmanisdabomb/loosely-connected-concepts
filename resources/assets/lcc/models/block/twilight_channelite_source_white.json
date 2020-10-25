@@ -1,8 +1,0 @@
-{
-  "parent": "lcc:block/overlay",
-  "textures": {
-    "particle": "lcc:block/rainbow/channelite/twilight",
-    "base": "lcc:block/rainbow/channelite/twilight",
-    "overlay": "lcc:block/rainbow/channelite/white_source"
-  }
-}

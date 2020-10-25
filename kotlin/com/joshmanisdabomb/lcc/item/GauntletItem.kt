@@ -1,7 +1,5 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.NBT_BYTE
-import com.joshmanisdabomb.lcc.NBT_INT
 import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction.Companion.ability
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
 import net.minecraft.block.BlockState
@@ -10,14 +8,13 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.stat.Stats
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class GauntletItem(settings: Item.Settings) : Item(settings), LCCExtendedItem {
+class GauntletItem(settings: Settings) : Item(settings), LCCExtendedItem {
 
     override fun canMine(state: BlockState, world: World, pos: BlockPos, miner: PlayerEntity) = false
 

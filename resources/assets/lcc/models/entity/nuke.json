@@ -1,8 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "lcc:models/entity/nuke.obj",
-  "flip-v": true,
-  "detectCullableFaces": false,
-  "diffuseLighting": false,
-  "ambientToFullbright": true
-}

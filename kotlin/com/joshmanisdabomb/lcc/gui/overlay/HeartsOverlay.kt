@@ -73,11 +73,14 @@ object HeartsOverlay : DrawableHelper() {
         }
         type.lastHealthValue = health
 
+        val regen = ceil(type.getHealth(player) + HeartType.crystalRegen.fromTracker(player).getFloat("amount"))
+
         val xPos = sw.div(2).minus(91)
 
         val half = health.rem(2) == 1
         val halfFlash = type.renderHealthValue.rem(2) == 1
         val halfMax = healthMax.rem(2) == 1
+        val halfRegen = regen.rem(2) == 1
 
         random.setSeed((ticks * 324587).toLong())
         for (row in rows-1 downTo 0) {
@@ -86,6 +89,7 @@ object HeartsOverlay : DrawableHelper() {
             val inRow = ceil(getHalfHeartsInRow(health, row).div(2f))
             val inRowFlash = ceil(getHalfHeartsInRow(type.renderHealthValue, row).div(2f))
             val inRowMax = ceil(getHalfHeartsInRow(healthMax, row).div(2f))
+            val inRowRegen = ceil(getHalfHeartsInRow(regen, row).div(2f))
             val effect = if (player.hasStatusEffect(StatusEffects.POISON)) 36 else player.hasStatusEffect(StatusEffects.WITHER).toInt(72)
 
             for (heart in 0 until inRowMax) {
@@ -96,6 +100,9 @@ object HeartsOverlay : DrawableHelper() {
                 this.drawTexture(matrix, xPosCurrent, yPosCurrent, maxHeartHalf.toInt(36) + maxHeartFlash.toInt(9), type.v + hardcore.toInt(9), 9, 9)
                 if (maxHeartFlash && heart < inRowFlash) {
                     this.drawTexture(matrix, xPosCurrent, yPosCurrent, 90 + (maxHeartHalf || (row.times(20) + heart.times(2) >= type.renderHealthValue - 1 && halfFlash)).toInt(9) + effect,  type.v + hardcore.toInt(9), 9, 9)
+                }
+                if (type == HeartType.CRYSTAL && heart < inRowRegen) {
+                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= regen - 1 && halfRegen).toInt(9) + effect, type.v + 18, 9, 9)
                 }
                 if (heart < inRow) {
                     this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= health - 1 && half).toInt(9) + effect, type.v + hardcore.toInt(9), 9, 9)

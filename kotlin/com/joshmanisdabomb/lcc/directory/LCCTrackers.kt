@@ -14,7 +14,7 @@ object LCCTrackers : ThingDirectory<TrackedData<*>, Class<out Entity>>() {
     val heartsIron by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsIronMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsCrystal by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
-    val heartsCrystalRegen by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
+    val heartsCrystalRegen by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
     val heartsCrystalMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsTemporary by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
 

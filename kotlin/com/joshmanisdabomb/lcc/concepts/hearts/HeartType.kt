@@ -6,11 +6,15 @@ import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.StringIdentifiable
 import org.jetbrains.annotations.NotNull
 import kotlin.math.pow
 
 enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val maxManager: EntityDataManager<Float>? = null) : StringIdentifiable {
+
+    //TODO fix multiplayer desync
 
     RED(maxManager = EntityDataManager("hearts_red_max", LCCTrackers.heartsRedMax)) {
         override val drawable = false
@@ -57,8 +61,19 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
             val after = getHealth(entity).minus(damageMod).coerceAtLeast(0f)
             setHealth(entity, after)
 
+            crystalRegen.toTracker(entity, CompoundTag().apply { putFloat("amount", before - after); putLong("tick", entity.world.time) })
+
             val maxAbsorbable = before.coerceAtMost(2f) + before.minus(2).coerceAtLeast(0f).pow(1/1.32f)
             return damage - maxAbsorbable
+        }
+
+        override fun tick(entity: LivingEntity) {
+            val regen = crystalRegen.fromTracker(entity)
+            if (regen.getFloat("amount") > 0 && entity.world.time > regen.getLong("tick") + 60) {
+                val amount = 0.0005F * entity.world.time.minus(regen.getLong("tick") + 60).coerceAtLeast(0)
+                addHealth(entity, amount)
+                crystalRegen.modifyTracker(entity) { it.putFloat("amount", it.getFloat("amount").minus(amount).coerceAtLeast(0f)); it }
+            }
         }
     },
     TEMPORARY(amountManager = EntityDataManager("hearts_temporary", LCCTrackers.heartsTemporary)) {
@@ -123,8 +138,11 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
     override fun asString() = name.toLowerCase()
 
     companion object {
+        val crystalRegen by lazy { EntityDataManager("hearts_crystal_regen", LCCTrackers.heartsCrystalRegen) }
+
         @JvmStatic
         fun calculateDamageAll(entity: LivingEntity, damage: Float): Float {
+            crystalRegen.resetTracker(entity)
             if (damage <= 0F) {
                 heartsLastType.toTracker(entity, RED.ordinal.toByte())
                 return 0f

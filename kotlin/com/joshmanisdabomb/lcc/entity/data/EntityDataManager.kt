@@ -36,9 +36,7 @@ class EntityDataManager<T>(val name: String, val tracker: TrackedData<T>, val de
         operator fun invoke(name: String, tracker: TrackedData<Long>, defaultValue: Long = 0) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getLong, CompoundTag::putLong)
         operator fun invoke(name: String, tracker: TrackedData<Short>, defaultValue: Short = 0) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getShort, CompoundTag::putShort)
         operator fun invoke(name: String, tracker: TrackedData<Byte>, defaultValue: Byte = 0) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getByte, CompoundTag::putByte)
-
         operator fun invoke(name: String, tracker: TrackedData<Float>, defaultValue: Float = 0f) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getFloat, CompoundTag::putFloat)
-
         operator fun invoke(name: String, tracker: TrackedData<Double>, defaultValue: Double = 0.0) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getDouble, CompoundTag::putDouble)
 
         operator fun invoke(name: String, tracker: TrackedData<CompoundTag>, defaultValue: CompoundTag = CompoundTag()) = EntityDataManager(name, tracker, defaultValue, CompoundTag::getCompound, { t, s, v -> t.put(s, v) })

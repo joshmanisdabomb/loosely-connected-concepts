@@ -34,6 +34,7 @@ public abstract class HeartsLivingMixin extends Entity {
             if (h.getMaxManager() != null) h.getMaxManager().read(this, tag);
         }
         EntityDataManagersKt.getHeartsLastType().read(this, tag);
+        HeartType.Companion.getCrystalRegen().read(this, tag);
     }
 
     @Inject(at = @At("TAIL"), method = "writeCustomDataToTag")
@@ -43,6 +44,7 @@ public abstract class HeartsLivingMixin extends Entity {
             if (h.getMaxManager() != null) h.getMaxManager().write(this, tag);
         }
         EntityDataManagersKt.getHeartsLastType().write(this, tag);
+        HeartType.Companion.getCrystalRegen().write(this, tag);
     }
 
     @Inject(at = @At("TAIL"), method = "initDataTracker")
@@ -52,6 +54,7 @@ public abstract class HeartsLivingMixin extends Entity {
             if (h.getMaxManager() != null) h.getMaxManager().startTracker(this);
         }
         EntityDataManagersKt.getHeartsLastType().startTracker(this);
+        HeartType.Companion.getCrystalRegen().startTracker(this);
     }
 
     @Inject(at = @At("TAIL"), method = "tick")

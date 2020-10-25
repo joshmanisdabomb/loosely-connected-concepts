@@ -8,6 +8,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.StringIdentifiable
 import org.jetbrains.annotations.NotNull
+import kotlin.math.pow
 
 enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val maxManager: EntityDataManager<Float>? = null) : StringIdentifiable {
 
@@ -39,8 +40,6 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
             val after = getHealth(entity).minus(damageMod).coerceAtLeast(0f)
             setHealth(entity, after)
 
-            println(damageMod)
-
             val maxAbsorbable = before + before.minus(4).coerceAtLeast(0f)
             return damage - maxAbsorbable
         }
@@ -49,6 +48,18 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
         override val v = 18
         override val hurtColor = 0xB2EBCC34.toInt()
         override val sortOrder = 10
+
+        override fun calculateDamage(entity: LivingEntity, damage: Float): Float {
+            //any damage over 1 heart is exponential
+            val before = getHealth(entity)
+
+            val damageMod = damage.coerceAtMost(2f) + damage.minus(2).coerceAtLeast(0f).pow(1.32f)
+            val after = getHealth(entity).minus(damageMod).coerceAtLeast(0f)
+            setHealth(entity, after)
+
+            val maxAbsorbable = before.coerceAtMost(2f) + before.minus(2).coerceAtLeast(0f).pow(1/1.32f)
+            return damage - maxAbsorbable
+        }
     },
     TEMPORARY(amountManager = EntityDataManager("hearts_temporary", LCCTrackers.heartsTemporary)) {
         override val v = 45

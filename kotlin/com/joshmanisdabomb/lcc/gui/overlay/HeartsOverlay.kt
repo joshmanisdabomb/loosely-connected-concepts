@@ -25,10 +25,10 @@ object HeartsOverlay : DrawableHelper() {
 
     fun render(matrix: MatrixStack, player: PlayerEntity, armorPosition: Int, ticks: Int) {
         MinecraftClient.getInstance().textureManager.bindTexture(icons)
-        var start = armorPosition + 10
-        for (type in types.filter { it.getMaxHealth(player) > 0 }) {
+        var start = armorPosition + 9 + types.filter { it.getMaxHealth(player) > 0 }.count()
+        for (type in types.filter { it.getMaxHealth(player) > 0 }.sortedBy { it.sortOrder }) {
             renderHealthBar(matrix, player, type, start, ticks)
-            start + getTypeSpace(ceil(type.getMaxHealth(player))) + 1
+            start += getTypeSpace(ceil(type.getMaxHealth(player)))
         }
         MinecraftClient.getInstance().textureManager.bindTexture(GUI_ICONS_TEXTURE)
     }
@@ -55,7 +55,7 @@ object HeartsOverlay : DrawableHelper() {
         val spacing = getHeartSpacing(rows)
 
         val maxHeartFlash = type.heartJumpEndTick > ticks && (type.heartJumpEndTick - ticks) / 3 % 2 == 1L
-        val hardcore = player.world.getLevelProperties().isHardcore()
+        val hardcore = player.world.levelProperties.isHardcore
         val danger = shouldShake(player)
 
         //flashing hearts
@@ -94,10 +94,10 @@ object HeartsOverlay : DrawableHelper() {
 
                 val maxHeartHalf = row.times(20) + heart.times(2) >= healthMax - 1 && halfMax
                 this.drawTexture(matrix, xPosCurrent, yPosCurrent, maxHeartHalf.toInt(36) + maxHeartFlash.toInt(9), type.v + hardcore.toInt(9), 9, 9)
-                if (maxHeartFlash && heart <= inRowFlash) {
+                if (maxHeartFlash && heart < inRowFlash) {
                     this.drawTexture(matrix, xPosCurrent, yPosCurrent, 90 + (maxHeartHalf || (row.times(20) + heart.times(2) >= type.renderHealthValue - 1 && halfFlash)).toInt(9) + effect,  type.v + hardcore.toInt(9), 9, 9)
                 }
-                if (heart <= inRow) {
+                if (heart < inRow) {
                     this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= health - 1 && half).toInt(9) + effect, type.v + hardcore.toInt(9), 9, 9)
                 }
             }

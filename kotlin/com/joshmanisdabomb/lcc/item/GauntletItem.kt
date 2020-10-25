@@ -24,7 +24,7 @@ class GauntletItem(settings: Settings) : Item(settings), LCCExtendedItem {
 
     override fun getUseAction(stack: ItemStack) = stack.orCreateTag.ability.chargeAction
 
-    override fun use(world: World?, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand) ?: return TypedActionResult.fail(ItemStack.EMPTY)
         val ability = stack.orCreateTag.ability
         if (ability.isChargeable()) {

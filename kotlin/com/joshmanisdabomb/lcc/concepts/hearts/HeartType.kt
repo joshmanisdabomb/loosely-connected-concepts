@@ -14,6 +14,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
     RED(maxManager = EntityDataManager("hearts_red_max", LCCTrackers.heartsRedMax)) {
         override val drawable = false
         override val v = -1
+        override val sortOrder = 30
 
         override fun getHealth(entity: LivingEntity) = entity.health
 
@@ -21,21 +22,24 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
             entity.health = amount.coerceIn(0f, limit)
         }
 
-        override fun calculateDamage(entity: LivingEntity, damage: Float): Float {
-            return damage
-        }
+        override fun getDefaultLimit(entity: LivingEntity) = entity.maxHealth
+
+        override fun calculateDamage(entity: LivingEntity, damage: Float) = damage
     },
     IRON(EntityDataManager("hearts_iron", LCCTrackers.heartsIron), EntityDataManager("hearts_iron_max", LCCTrackers.heartsIronMax)) {
         override val v = 0
         override val hurtColor = 0xB288889E.toInt()
+        override val sortOrder = 20
     },
     CRYSTAL(EntityDataManager("hearts_crystal", LCCTrackers.heartsCrystal), EntityDataManager("hearts_crystal_max", LCCTrackers.heartsCrystalMax)) {
         override val v = 18
         override val hurtColor = 0xB2EBCC34.toInt()
+        override val sortOrder = 10
     },
     TEMPORARY(amountManager = EntityDataManager("hearts_temporary", LCCTrackers.heartsTemporary)) {
         override val v = 45
         override val hurtColor = 0xB2AA0000.toInt()
+        override val sortOrder = 0
         override val container = false
 
         override fun getMaxHealth(entity: LivingEntity) = getHealth(entity)
@@ -52,6 +56,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
     open val container = true
     open val drawable = true
     abstract val v: Int
+    abstract val sortOrder: Int
     open val hurtColor = 0xB20000FF.toInt()
 
     //Render Caches
@@ -72,7 +77,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
 
     open fun getMaxHealth(entity: LivingEntity) = maxManager?.fromTracker(entity) ?: 0f
 
-    open fun setMaxHealth(entity: LivingEntity, amount: Float, limit: Float = getDefaultMaxLimit(entity)) = amountManager?.toTracker(entity, amount.coerceIn(0f, limit))
+    open fun setMaxHealth(entity: LivingEntity, amount: Float, limit: Float = getDefaultMaxLimit(entity)) = maxManager?.toTracker(entity, amount.coerceIn(0f, limit))
 
     fun addMaxHealth(entity: LivingEntity, amount: Float, limit: Float = getDefaultMaxLimit(entity)) = setMaxHealth(entity, getMaxHealth(entity) + amount)
 
@@ -100,7 +105,7 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
                 return 0f
             }
             var d = damage
-            for (ht in values().filter { it.getHealth(entity) > 0 }) {
+            for (ht in values().filter { it.getHealth(entity) > 0 }.sortedBy { it.sortOrder }) {
                 heartsLastType.toTracker(entity, ht.ordinal.toByte())
                 d = ht.calculateDamage(entity, d).coerceAtLeast(0f)
                 if (d <= 0) break

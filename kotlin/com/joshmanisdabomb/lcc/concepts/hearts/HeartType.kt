@@ -30,6 +30,20 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
         override val v = 0
         override val hurtColor = 0xB288889E.toInt()
         override val sortOrder = 20
+
+        override fun calculateDamage(entity: LivingEntity, damage: Float): Float {
+            //any damage after 2 hearts is halved
+            val before = getHealth(entity)
+
+            val damageMod = damage - damage.minus(4).coerceAtLeast(0f).div(2)
+            val after = getHealth(entity).minus(damageMod).coerceAtLeast(0f)
+            setHealth(entity, after)
+
+            println(damageMod)
+
+            val maxAbsorbable = before + before.minus(4).coerceAtLeast(0f)
+            return damage - maxAbsorbable
+        }
     },
     CRYSTAL(EntityDataManager("hearts_crystal", LCCTrackers.heartsCrystal), EntityDataManager("hearts_crystal_max", LCCTrackers.heartsCrystalMax)) {
         override val v = 18

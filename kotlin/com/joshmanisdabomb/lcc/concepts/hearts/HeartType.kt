@@ -6,17 +6,22 @@ import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.util.StringIdentifiable
 import org.jetbrains.annotations.NotNull
+import java.util.*
 import kotlin.math.pow
 
 enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val maxManager: EntityDataManager<Float>? = null) : StringIdentifiable {
 
     //TODO fix multiplayer desync
 
-    RED(maxManager = EntityDataManager("hearts_red_max", LCCTrackers.heartsRedMax)) {
+    RED() {
+        private val id = UUID.fromString("a1494707-946f-462b-9c27-522404db24a0")
+
         override val drawable = false
         override val v = -1
         override val sortOrder = 30
@@ -27,9 +32,21 @@ enum class HeartType(val amountManager: EntityDataManager<Float>? = null, val ma
             entity.health = amount.coerceIn(0f, limit)
         }
 
+        override fun getMaxHealth(entity: LivingEntity) = entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.getModifier(id)?.value?.toFloat() ?: 0f
+
+        override fun setMaxHealth(entity: LivingEntity, amount: Float, limit: Float) {
+            val modifier = createModifier(amount.toDouble())
+            entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.apply {
+                removeModifier(modifier.id)
+                addPersistentModifier(modifier)
+            }
+        }
+
         override fun getDefaultLimit(entity: LivingEntity) = entity.maxHealth
 
         override fun calculateDamage(entity: LivingEntity, damage: Float) = damage
+
+        fun createModifier(amount: Double) = EntityAttributeModifier(id, "LCC Red Heart Max Health", amount, EntityAttributeModifier.Operation.ADDITION)
     },
     IRON(EntityDataManager("hearts_iron", LCCTrackers.heartsIron), EntityDataManager("hearts_iron_max", LCCTrackers.heartsIronMax)) {
         override val v = 0

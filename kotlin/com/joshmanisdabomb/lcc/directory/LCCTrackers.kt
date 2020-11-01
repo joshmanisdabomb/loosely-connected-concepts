@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity
 object LCCTrackers : ThingDirectory<TrackedData<*>, Class<out Entity>>() {
 
     val heartsLastType by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.BYTE) }
-    val heartsRedMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsIron by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsIronMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
     val heartsCrystal by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }

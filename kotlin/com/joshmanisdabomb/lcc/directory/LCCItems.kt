@@ -8,7 +8,7 @@ import net.minecraft.item.Item
 import net.minecraft.util.Rarity
 import net.minecraft.util.registry.Registry
 
-object LCCItems : RegistryDirectory<Item>() {
+object LCCItems : RegistryDirectory<Item, Unit>() {
 
     override val _registry by lazy { Registry.ITEM }
 

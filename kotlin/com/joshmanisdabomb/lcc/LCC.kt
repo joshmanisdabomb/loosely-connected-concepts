@@ -16,6 +16,7 @@ object LCC : ModInitializer, ClientModInitializer {
         LCCEvents.init()
         LCCPackets.init()
         LCCDamage.init()
+        LCCBiomes.init()
     }
 
     override fun onInitializeClient() {

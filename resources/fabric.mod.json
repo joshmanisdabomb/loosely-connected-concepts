@@ -23,6 +23,12 @@
         "adapter": "kotlin",
         "value": "com.joshmanisdabomb.lcc.LCC"
       }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCClient"
+      }
     ]
   },
   "mixins": [

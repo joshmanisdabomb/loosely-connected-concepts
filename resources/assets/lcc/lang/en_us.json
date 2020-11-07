@@ -1,5 +1,6 @@
 {
   "block.lcc.cracked_mud": "Cracked Mud",
+  "block.lcc.oil": "Oil",
   "block.lcc.test_block": "Test Block",
   "block.lcc.test_block_2": "Test Block 2",
   "block.lcc.test_block_3": "Test Block 3",
@@ -17,6 +18,7 @@
   "item.lcc.iron_heart_container": "Iron Heart Container",
   "item.lcc.iron_heart_full": "Iron Heart",
   "item.lcc.iron_heart_half": "Iron Heart Half",
+  "item.lcc.oil_bucket": "Oil Bucket",
   "item.lcc.red_heart_container": "Red Heart Container",
   "item.lcc.red_heart_full": "Red Heart",
   "item.lcc.red_heart_half": "Red Heart Half",

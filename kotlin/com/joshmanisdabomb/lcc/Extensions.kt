@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
 
 fun Boolean.toInt(t: Int = 1, f: Int = 0) = if (this) t else f
 

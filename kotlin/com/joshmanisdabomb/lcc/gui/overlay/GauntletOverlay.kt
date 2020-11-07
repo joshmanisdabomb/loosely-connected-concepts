@@ -15,8 +15,6 @@ import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.util.math.Vector3f
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.util.math.MathHelper.lerp
-import kotlin.math.roundToInt
 
 @Environment(EnvType.CLIENT)
 object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {

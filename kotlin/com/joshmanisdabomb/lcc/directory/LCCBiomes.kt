@@ -2,22 +2,19 @@ package com.joshmanisdabomb.lcc.directory
 
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate
-import net.minecraft.client.sound.MusicType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
-import net.minecraft.particle.ParticleTypes
-import net.minecraft.sound.BiomeAdditionsSound
 import net.minecraft.sound.BiomeMoodSound
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.RegistryKey
-import net.minecraft.world.biome.*
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.biome.BiomeEffects
+import net.minecraft.world.biome.GenerationSettings
+import net.minecraft.world.biome.SpawnSettings
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.carver.ConfiguredCarvers
-import net.minecraft.world.gen.feature.ConfiguredFeatures
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures
-import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilders
 
 object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>() {
 
@@ -43,15 +40,16 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
             .spawnSettings(SpawnSettings.Builder()
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.SPIDER, 10, 2, 4))
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.CAVE_SPIDER, 10, 4, 8))
-                .spawnCost(EntityType.SPIDER, 1.0, 0.12)
-                .spawnCost(EntityType.CAVE_SPIDER, 1.0, 0.12)
+                .spawnCost(EntityType.SPIDER, 0.1, 0.12)
+                .spawnCost(EntityType.CAVE_SPIDER, 0.1, 0.12)
                 .build())
             .generationSettings(GenerationSettings.Builder()
-                .surfaceBuilder(LCCSurfaceBuilders.wasteland)
+                .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland)
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON)
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.NETHER_CAVE)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

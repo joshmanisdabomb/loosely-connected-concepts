@@ -1,33 +1,30 @@
 package com.joshmanisdabomb.lcc.concepts.gauntlet
 
-import com.joshmanisdabomb.lcc.*
+import com.joshmanisdabomb.lcc.NBT_BYTE
+import com.joshmanisdabomb.lcc.NBT_INT
 import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
+import com.joshmanisdabomb.lcc.replaceVelocity
+import com.joshmanisdabomb.lcc.toInt
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.vehicle.BoatEntity
 import net.minecraft.entity.vehicle.MinecartEntity
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.MathHelper.*
-import net.minecraft.util.math.MathHelper.abs
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.MathHelper.cos
-import net.minecraft.util.math.MathHelper.sin
-import net.minecraft.util.math.MathHelper.sqrt
 import net.minecraft.util.math.Vec3d
-import kotlin.math.*
+import kotlin.math.abs
+import kotlin.math.absoluteValue
+import kotlin.math.max
+import kotlin.math.pow
 
 enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val targetManager: EntityDataManager<CompoundTag>? = null) : StringIdentifiable {
 

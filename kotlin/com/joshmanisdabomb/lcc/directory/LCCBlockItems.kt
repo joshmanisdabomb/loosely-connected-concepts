@@ -8,7 +8,7 @@ import net.minecraft.util.registry.Registry
 
 object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
 
-    //val test_block by create { Replacement() }
+    val oil by create { Replacement() }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

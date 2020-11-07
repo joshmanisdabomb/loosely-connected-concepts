@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.traitDirectionalPlacement
-import com.joshmanisdabomb.lcc.directory.LCCBlocks.traitHorizontalPlacement
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FacingBlock

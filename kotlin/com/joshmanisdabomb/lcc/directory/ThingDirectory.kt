@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.directory
 import net.minecraft.util.StringIdentifiable
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -44,6 +43,10 @@ abstract class ThingDirectory<V, P> {
     protected fun <R : V, K> createMap(vararg keys: K, keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, properties: P = Unit as P, supplier: (key: K, name: String, properties: P) -> R): ThingMapDelegate<out K, R> = ThingMapDelegate(keys, keyToString, supplier, properties)
 
     val all by lazy { things() }
+
+    operator fun get(key: String) = all[key]
+
+    operator fun get(thing: V) = all.filterValues { it == thing }.keys.firstOrNull()
 
     inner abstract class ThingDelegate<R : V, S> internal constructor(val properties: P = Unit as P) {
         private var store: S? = null

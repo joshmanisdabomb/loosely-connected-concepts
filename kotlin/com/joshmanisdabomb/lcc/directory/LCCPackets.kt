@@ -1,14 +1,11 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.fabricmc.fabric.api.network.PacketConsumer
 import net.fabricmc.fabric.api.network.PacketRegistry
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.minecraft.util.Identifier
-import kotlin.reflect.KProperty
 import kotlin.reflect.KProperty0
-import kotlin.reflect.KProperty1
 
 object LCCPackets : ThingDirectory<PacketConsumer, PacketRegistry>() {
 

@@ -18,6 +18,7 @@ object LCC : ModInitializer, ClientModInitializer {
         LCCEvents.init()
         LCCPackets.init()
         LCCDamage.init()
+        LCCSurfaceBuilders.init()
         LCCBiomes.init()
     }
 

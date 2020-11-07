@@ -1,20 +1,64 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.directory.LCCItems.defaults
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate
-import net.minecraft.item.Item
+import net.minecraft.client.sound.MusicType
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.SpawnGroup
+import net.minecraft.particle.ParticleTypes
+import net.minecraft.sound.BiomeAdditionsSound
+import net.minecraft.sound.BiomeMoodSound
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.registry.BuiltinRegistries
-import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
-import net.minecraft.world.biome.Biome
-import net.minecraft.world.biome.DefaultBiomeCreator
+import net.minecraft.world.biome.*
+import net.minecraft.world.biome.SpawnSettings.SpawnEntry
+import net.minecraft.world.gen.GenerationStep
+import net.minecraft.world.gen.carver.ConfiguredCarvers
+import net.minecraft.world.gen.feature.ConfiguredFeatures
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures
+import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilders
 
 object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>() {
 
     override val _registry by lazy { BuiltinRegistries.BIOME }
 
-    val test_biome by create({ OverworldBiomes.addContinentalBiome(it, OverworldClimate.DRY, 5.0) }) { DefaultBiomeCreator.createWarpedForest() }
+    val wasteland by create({ OverworldBiomes.addContinentalBiome(it, OverworldClimate.DRY, 0.5) }) {
+        Biome.Builder()
+            .precipitation(Biome.Precipitation.NONE)
+            .category(Biome.Category.DESERT)
+            .depth(0.1f)
+            .scale(-0.1f)
+            .temperature(1.23F)
+            .downfall(0.0f)
+            .effects(BiomeEffects.Builder()
+                .grassColor(0x8f8865)
+                .foliageColor(0x8f8865)
+                .waterColor(0x3f535c)
+                .waterFogColor(0x172226)
+                .fogColor(0xccc8b4)
+                .skyColor(0xb0d4d6)
+                .moodSound(BiomeMoodSound.CAVE)
+                .build())
+            .spawnSettings(SpawnSettings.Builder()
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.SPIDER, 10, 2, 4))
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.CAVE_SPIDER, 10, 4, 8))
+                .spawnCost(EntityType.SPIDER, 1.0, 0.12)
+                .spawnCost(EntityType.CAVE_SPIDER, 1.0, 0.12)
+                .build())
+            .generationSettings(GenerationSettings.Builder()
+                .surfaceBuilder(LCCSurfaceBuilders.wasteland)
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON)
+                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.NETHER_CAVE)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL)
+                .apply {
+                    DefaultBiomeFeatures.addMineables(this)
+                    DefaultBiomeFeatures.addDefaultDisks(this)
+                    DefaultBiomeFeatures.addInfestedStone(this)
+                    DefaultBiomeFeatures.addFossils(this)
+                }.build()).build()
+    }
 
     override fun register(key: String, thing: Biome, properties: (RegistryKey<Biome>) -> Unit): RegistryKey<Biome> = super.register(key, thing, properties).apply { properties(this) }
 

@@ -11,7 +11,9 @@ object LCC : ModInitializer, ClientModInitializer {
     const val modid = "lcc"
 
     override fun onInitialize() {
+        LCCBlocks.init()
         LCCItems.init()
+        LCCBlockItems.init()
         LCCCommands.init()
         LCCEvents.init()
         LCCPackets.init()

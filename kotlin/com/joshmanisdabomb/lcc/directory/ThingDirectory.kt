@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import net.minecraft.util.StringIdentifiable
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -12,15 +13,15 @@ abstract class ThingDirectory<V, P> {
         (this::class as KClass<ThingDirectory<V, P>>).declaredMemberProperties.filter{ it.isAccessible = true; it.getDelegate(this) is ThingDirectory<*, *>.ThingDelegate<*, *> && !it.name.startsWith("_") }.map { it.name to it.getDelegate(this) }.filterIsInstance<Pair<String, ThingDelegate<V, *>>>().toMap()
     }
 
-    private fun things(predicate: (name: String, properties: P) -> Boolean): Map<String, V> {
+    fun things(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, V> {
         return delegates.filter { (k, v) -> predicate(k, v.properties) }.map { (k, v) -> v.getAll(k) }.flatMap { it.toList() }.toMap()
     }
 
-    private fun properties(predicate: (name: String, properties: P) -> Boolean): Map<String, P> {
+    private fun properties(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, P> {
         return delegates.filter { (k, v) -> predicate(k, v.properties) }.map { (k, v) -> v.getAll(k) to v.properties }.flatMap { it.first.keys.map { it2 -> it2 to it.second } }.toMap()
     }
 
-    fun init(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }) {
+    open fun init(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }) {
         loadAll(predicate)
         registerAll(things(predicate), properties(predicate))
     }
@@ -36,11 +37,13 @@ abstract class ThingDirectory<V, P> {
 
     protected fun <R : V> create(properties: P = Unit as P, supplier: (properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate({ _, p -> supplier(p) }, properties)
 
-    protected fun <R : V> createNP(properties: P = Unit as P, supplier: (name: String, properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate(supplier, properties)
+    protected fun <R : V> createWithNameProperties(properties: P = Unit as P, supplier: (name: String, properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate(supplier, properties)
 
-    protected fun <R : V> createN(supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, Unit as P)
+    protected fun <R : V> createWithName(supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, Unit as P)
 
     protected fun <R : V, K> createMap(vararg keys: K, keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, properties: P = Unit as P, supplier: (key: K, name: String, properties: P) -> R): ThingMapDelegate<out K, R> = ThingMapDelegate(keys, keyToString, supplier, properties)
+
+    val all by lazy { things() }
 
     inner abstract class ThingDelegate<R : V, S> internal constructor(val properties: P = Unit as P) {
         private var store: S? = null

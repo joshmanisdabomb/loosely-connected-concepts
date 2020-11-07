@@ -8,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 
 object LCCDamage : ThingDirectory<DamageSource, Unit>() {
 
-    val gauntlet_punch_wall by createN { LCCDamageSource(id(it), bypassArmor = true, unblockable = true) }
+    val gauntlet_punch_wall by createWithName { LCCDamageSource(id(it), bypassArmor = true, unblockable = true) }
 
     fun gauntletUppercut(player: PlayerEntity) = EntityDamageSource(id("gauntlet_uppercut"), player)
 

@@ -20,8 +20,6 @@ object LCCItems : RegistryDirectory<Item, Unit>() {
     val heart_full by createMap(*HeartType.values()) { key, name, properties -> HeartItem(key, 2.0F, Item.Settings().defaults()) }
     val heart_container by createMap(*HeartType.values().filter { it.container }.toTypedArray()) { key, name, properties -> HeartContainerItem(key, 2.0F, Item.Settings().defaults()) }
 
-    fun Item.Settings.defaults(): Item.Settings {
-        return this.group(LCCGroups.group)
-    }
+    fun Item.Settings.defaults(): Item.Settings = this.group(LCCGroups.group)
 
 }

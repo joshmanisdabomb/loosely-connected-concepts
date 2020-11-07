@@ -1,4 +1,9 @@
 {
+  "block.lcc.cracked_mud": "Cracked Mud",
+  "block.lcc.test_block": "Test Block",
+  "block.lcc.test_block_2": "Test Block 2",
+  "block.lcc.test_block_3": "Test Block 3",
+  "block.lcc.test_block_4": "Test Block 4",
   "death.attack.lcc.gauntlet_punch": "%1$s was obliterated by %2$s using Punch",
   "death.attack.lcc.gauntlet_punch.item": "%1$s was obliterated by %2$s using Punch of %3$s",
   "death.attack.lcc.gauntlet_punch_wall": "%1$s was launched into the wall using Punch",

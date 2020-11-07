@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.client;
 
 import com.joshmanisdabomb.lcc.concepts.hearts.HeartType;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.OverlayTexture;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

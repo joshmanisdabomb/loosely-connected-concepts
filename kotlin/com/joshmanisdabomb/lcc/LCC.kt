@@ -15,7 +15,7 @@ object LCC : ModInitializer {
         LCCItems.init()
         LCCBlockItems.init()
         LCCEvents.init()
-        LCCPackets.init()
+        LCCPacketsServer.init()
         LCCDamage.init()
         LCCEffects.init()
         LCCCommands.init()

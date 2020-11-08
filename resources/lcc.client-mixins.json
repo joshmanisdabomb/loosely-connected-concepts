@@ -7,7 +7,9 @@
     "HeartsEntityOverlayMixin",
     "HeartsLivingRendererMixin",
     "GauntletHudMixin",
-    "BackgroundRendererMixin"
+    "BackgroundRendererMixin",
+    "StunPlayerMixin",
+    "StunMouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

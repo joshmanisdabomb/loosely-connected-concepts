@@ -3,9 +3,13 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
 import com.joshmanisdabomb.lcc.events.DamageEntityCallback
 import com.joshmanisdabomb.lcc.events.InteractEntityCallback
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback
-import net.fabricmc.fabric.api.event.player.UseEntityCallback
+import net.fabricmc.fabric.api.event.player.*
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.world.World
 import kotlin.math.floor
 import kotlin.math.min
 
@@ -14,6 +18,13 @@ object LCCEvents : ThingDirectory<Any, Function1<*, Unit>>() {
     val gauntletAttackDeny by create(AttackEntityCallback.EVENT::register) { AttackEntityCallback { player, world, hand, entity, entityHitResult -> if (player.mainHandStack?.item == LCCItems.gauntlet) ActionResult.FAIL else ActionResult.PASS } }
     val gauntletUseEntityDeny by create(UseEntityCallback.EVENT::register) { UseEntityCallback { player, world, hand, entity, entityHitResult -> if (player.mainHandStack?.item == LCCItems.gauntlet) ActionResult.FAIL else ActionResult.PASS } }
     val gauntletInteractEntityDeny by create(InteractEntityCallback.EVENT::register) { InteractEntityCallback { player, world, hand, entity -> if (player.mainHandStack?.item == LCCItems.gauntlet) ActionResult.FAIL else ActionResult.PASS } }
+
+    val stunAttackDeny by create(AttackEntityCallback.EVENT::register) { AttackEntityCallback { player, world, hand, entity, entityHitResult -> if (player.hasStatusEffect(LCCEffects.stun)) ActionResult.FAIL else ActionResult.PASS } }
+    val stunAttackBlockDeny by create(AttackBlockCallback.EVENT::register) { AttackBlockCallback { player, world, hand, pos, direction -> if (player.hasStatusEffect(LCCEffects.stun)) ActionResult.FAIL else ActionResult.PASS } }
+    val stunUseBlockDeny by create(UseBlockCallback.EVENT::register) { UseBlockCallback { player, world, hand, blockHitResult -> if (player.hasStatusEffect(LCCEffects.stun)) ActionResult.FAIL else ActionResult.PASS } }
+    val stunUseEntityDeny by create(UseEntityCallback.EVENT::register) { UseEntityCallback { player, world, hand, entity, entityHitResult -> if (player.hasStatusEffect(LCCEffects.stun)) ActionResult.FAIL else ActionResult.PASS } }
+    val stunUseItemDeny by create(UseItemCallback.EVENT::register) { UseItemCallback { player, world, hand -> if (player.hasStatusEffect(LCCEffects.stun)) TypedActionResult.fail(player.getStackInHand(hand)) else TypedActionResult.pass(player.getStackInHand(hand)) } }
+    val stunInteractEntityDeny by create(InteractEntityCallback.EVENT::register) { InteractEntityCallback { player, world, hand, entity -> if (player.hasStatusEffect(LCCEffects.stun)) ActionResult.FAIL else ActionResult.PASS } }
 
     val hurtResistanceStatusEffect by create(DamageEntityCallback.EVENT::register) { DamageEntityCallback { entity, source, initial, original ->
         entity.statusEffects.filter { it.effectType is HurtResistanceStatusEffect }.forEach {

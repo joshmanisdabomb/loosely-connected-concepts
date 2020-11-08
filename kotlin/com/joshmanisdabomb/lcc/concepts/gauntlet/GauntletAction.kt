@@ -4,12 +4,14 @@ import com.joshmanisdabomb.lcc.NBT_BYTE
 import com.joshmanisdabomb.lcc.NBT_INT
 import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
+import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import com.joshmanisdabomb.lcc.replaceVelocity
 import com.joshmanisdabomb.lcc.toInt
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.vehicle.BoatEntity
@@ -85,6 +87,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
                             entity.replaceVelocity(y = targetSpeedV)
                             confirmVelocity(entity)
                         }
+                        (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.stun, 12, 0, false, false, true))
                         target(entity, player, tag)
                     }
                 }
@@ -95,7 +98,9 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             entity.replaceVelocity(y = targetSpeedV.pow(1.2))
             confirmVelocity(entity)
             entity.fallDistance = 0f
-            if (entity is LivingEntity) markFallHandler(entity, true)
+            if (entity is LivingEntity) {
+                markFallHandler(entity, true)
+            }
         }
 
         override fun targetTick(entity: Entity, tag: CompoundTag) {
@@ -163,6 +168,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
                         entity.setVelocity(s * (targetSpeedH / f), 0.0, c * (targetSpeedH / f))
                         confirmVelocity(entity)
                     }
+                    (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.stun, floor((chargePercent(tag.remaining)?.coerceAtLeast(0.4) ?: 0.4).times(13)), 0, false, false, true))
                     target(entity, player, tag)
                 }
 

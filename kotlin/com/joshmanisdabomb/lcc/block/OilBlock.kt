@@ -41,7 +41,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
 
     override fun onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         if (states.none { it.get(GEYSER) }) {
-            entity.slowMovement(states.first(), Vec3d(0.38, 0.38, 0.38))
+            entity.slowMovement(states.first(), Vec3d(0.38, 0.4, 0.38))
         } else {
             entity.replaceVelocity(y = entity.velocity.y.plus(0.25).coerceAtMost(0.65))
         }

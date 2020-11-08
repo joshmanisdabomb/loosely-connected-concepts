@@ -1,16 +1,19 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.replaceVelocity
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.effect.StatusEffectInstance
-import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.BooleanProperty
+import net.minecraft.state.property.IntProperty
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos
@@ -23,14 +26,27 @@ import java.util.*
 
 class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings) {
 
+    companion object {
+        val GEYSER: BooleanProperty = BooleanProperty.of("geyser")
+    }
+
     init {
         arrayOf(Blocks.FIRE).forEach { FlammableBlockRegistry.getInstance(it).add(this, 3000, 300) }
+        defaultState = stateManager.defaultState.with(LEVEL, 0).with(GEYSER, false)
     }
+
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = super.appendProperties(builder).also { builder.add(GEYSER) }
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
-        entity.slowMovement(state, Vec3d(0.38, 0.38, 0.38))
+        //TODO tick event to do this all once
+        if (!state.get(GEYSER)) {
+            entity.slowMovement(state, Vec3d(0.38, 0.38, 0.38))
+        } else {
+            entity.replaceVelocity(y = entity.velocity.y.plus(0.05).coerceAtMost(0.45))
+        }
+
         if (!entity.isAlive) return
         if ((entity as? PlayerEntity)?.isCreative != true) {
             (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.flammable, 400, 0))

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.fluid.OilFluid
 import com.joshmanisdabomb.lcc.fluid.render.FluidRenderer
+import com.joshmanisdabomb.lcc.fluid.render.OilRenderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.fluid.Fluid
@@ -16,7 +17,7 @@ object LCCFluids : RegistryDirectory<Fluid, Unit>() {
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
-        FluidRenderer(oil_still, oil_flowing).register()
+        OilRenderer().register()
     }
 
 }

@@ -22,7 +22,7 @@ import net.minecraft.world.BlockRenderView
 import java.util.function.Function
 
 @Environment(EnvType.CLIENT)
-class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val still_texture: Identifier = Identifier(LCC.modid, "block/${LCCFluids[still]}"), val flowing_texture: Identifier = Identifier(LCC.modid, "block/${LCCFluids[flowing]}"), val color: Int = 0xFFFFFF) : FluidRenderHandler, SimpleSynchronousResourceReloadListener, ClientSpriteRegistryCallback {
+open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val still_texture: Identifier = LCC.id("block/${LCCFluids[still]}"), val flowing_texture: Identifier = LCC.id("block/${LCCFluids[flowing]}"), val color: Int = 0xFFFFFF) : FluidRenderHandler, SimpleSynchronousResourceReloadListener, ClientSpriteRegistryCallback {
 
     val sprites = arrayOfNulls<Sprite>(2)
 
@@ -43,9 +43,10 @@ class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val st
     override fun getFabricId() = Identifier(LCC.modid, "${LCCFluids[still]}_reload_listener")
 
     override fun apply(resourceManager: ResourceManager) {
-        val atlas: Function<Identifier, Sprite> = MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)
-        sprites[0] = atlas.apply(still_texture)
-        sprites[1] = atlas.apply(flowing_texture)
+        with(MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {
+            sprites[0] = apply(still_texture)
+            sprites[1] = apply(flowing_texture)
+        }
     }
 
     override fun getFluidSprites(view: BlockRenderView?, pos: BlockPos?, state: FluidState): Array<Sprite> = sprites.requireNoNulls()

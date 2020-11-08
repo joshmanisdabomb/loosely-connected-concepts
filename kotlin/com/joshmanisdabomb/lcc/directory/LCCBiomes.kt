@@ -50,6 +50,8 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
                 .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.NETHER_CAVE)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
+                .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.oil_hidden)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

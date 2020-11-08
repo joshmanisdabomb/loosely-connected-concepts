@@ -10,11 +10,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(LivingEntityRenderer.class)
 public abstract class HeartsLivingRendererMixin {
 
-    /*@Redirect(method = "getOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/OverlayTexture;getV(Z)I", ordinal = 0))
-    private static int getV(boolean hurt) {
-        return 2;
-    }*/
-
     @Redirect(method = "getOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/OverlayTexture;getV(Z)I", ordinal = 0))
     private static int getV(boolean hurt, LivingEntity entity) {
         if (!hurt) return 10;

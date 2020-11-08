@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.fluid
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.block.*
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.fluid.Fluid
@@ -17,7 +19,9 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class OilFluid(val source: Boolean) : FlowableFluid() {
+class OilFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
+
+    val colors = Array(3) { 0.03f }
 
     override fun getStill() = LCCFluids.oil_still
 
@@ -62,5 +66,9 @@ class OilFluid(val source: Boolean) : FlowableFluid() {
             else -> return super.flow(world, pos, state, direction, fluidState)
         }
     }
+
+    override fun lcc_fogColor() = colors
+
+    override fun lcc_fogDensity() = RenderSystem.fogMode(GlStateManager.FogMode.EXP2).let { 0.7f }
 
 }

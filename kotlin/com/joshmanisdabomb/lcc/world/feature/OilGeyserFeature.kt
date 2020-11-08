@@ -19,13 +19,9 @@ class OilGeyserFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
     override fun generate(world: StructureWorldAccess, chunkGenerator: ChunkGenerator, random: Random, pos: BlockPos, config: DefaultFeatureConfig): Boolean {
         val height = 4 + random.nextInt(4)
 
-        println("1")
         if (!GenUtils.areaMatches(world, pos.x, pos.y, pos.z, height = height.minus(1)) { it.y < world.height }) return false
-        println("2")
-        if (!GenUtils.areaMatches(world, pos.x, pos.y - 2, pos.z, ex = 2, ez = 2, height = 1) { world.getBlockState(it).isOf(LCCBlocks.cracked_mud) }) return false
-        println("3")
+        if (!GenUtils.areaMatches(world, pos.x, pos.y - 2, pos.z, ex = 3, ez = 3, height = 1) { world.getBlockState(it).isOf(LCCBlocks.cracked_mud) }) return false
         if (!GenUtils.areaMatches(world, pos.x, pos.y, pos.z, ex = 2, ez = 2, height = height.minus(1))) return false
-        println("4")
 
         val bp = BlockPos.Mutable()
         for (i in height.minus(1) downTo -1) {
@@ -36,9 +32,19 @@ class OilGeyserFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
                 if (i == 0) {
                     world.setBlockState(bp.offset(direction, 2), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 7), 18)
                     world.setBlockState(bp.add(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 7), 18)
+                } else if (i == -1) {
+                    if (random.nextInt(2) == 0) world.setBlockState(bp.offset(direction, 2), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
+                    if (random.nextInt(2) == 0) world.setBlockState(bp.add(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
                 }
             }
         }
+
+        for (x in -2..2) {
+            for (z in -2..2) {
+                if (random.nextInt(3) == 0) world.setBlockState(bp.set(pos).move(x, -1, z), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
+            }
+        }
+
         return true
     }
 

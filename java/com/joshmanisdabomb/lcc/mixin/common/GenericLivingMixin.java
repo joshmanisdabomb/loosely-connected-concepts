@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(LivingEntity.class)
-public abstract class EventLivingMixin extends Entity {
+public abstract class GenericLivingMixin extends Entity {
 
-    public EventLivingMixin(EntityType<?> type, World world) {
+    public GenericLivingMixin(EntityType<?> type, World world) {
         super(type, world);
     }
 

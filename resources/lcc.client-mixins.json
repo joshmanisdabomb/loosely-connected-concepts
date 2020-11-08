@@ -6,7 +6,8 @@
     "HeartsHudMixin",
     "HeartsEntityOverlayMixin",
     "HeartsLivingRendererMixin",
-    "GauntletHudMixin"
+    "GauntletHudMixin",
+    "BackgroundRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

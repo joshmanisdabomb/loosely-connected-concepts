@@ -25,7 +25,6 @@ public class BackgroundRendererMixin {
     private static void changeFogColor(Camera camera, float partialTicks, ClientWorld world, int i, float f, CallbackInfo info) {
         Object submergedFluidState = camera.getSubmergedFluidState().getFluid();
         if (submergedFluidState instanceof LCCExtendedFluid) {
-            System.out.println(submergedFluidState);
             Float[] colors = ((LCCExtendedFluid) submergedFluidState).lcc_fogColor();
             if (colors != null) {
                 red = colors[0];
@@ -39,7 +38,6 @@ public class BackgroundRendererMixin {
     private static void changeFogDensity(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo info) {
         Object submergedFluidState = camera.getSubmergedFluidState().getFluid();
         if (submergedFluidState instanceof LCCExtendedFluid) {
-            System.out.println(submergedFluidState);
             Float density = ((LCCExtendedFluid)submergedFluidState).lcc_fogDensity();
             if (density != null) {
                 RenderSystem.fogDensity(density);

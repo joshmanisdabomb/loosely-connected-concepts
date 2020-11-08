@@ -3,10 +3,12 @@
   "package": "com.joshmanisdabomb.lcc.mixin.common",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ExtendedBlockMixin",
     "ExtendedFluidMixin",
     "ExtendedItemMixin",
     "GenericPlayerMixin",
     "GenericLivingMixin",
+    "GenericEntityMixin",
     "GauntletPlayerMixin",
     "GauntletLivingMixin",
     "GauntletEntityMixin",

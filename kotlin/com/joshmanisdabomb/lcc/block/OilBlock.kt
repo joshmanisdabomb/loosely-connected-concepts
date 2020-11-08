@@ -24,7 +24,7 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.World
 import java.util.*
 
-class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings) {
+class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCExtendedBlock {
 
     companion object {
         val GEYSER: BooleanProperty = BooleanProperty.of("geyser")
@@ -39,12 +39,11 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
-        //TODO tick event to do this all once
-        if (!state.get(GEYSER)) {
-            entity.slowMovement(state, Vec3d(0.38, 0.38, 0.38))
+    override fun onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+        if (states.none { it.get(GEYSER) }) {
+            entity.slowMovement(states.first(), Vec3d(0.38, 0.38, 0.38))
         } else {
-            entity.replaceVelocity(y = entity.velocity.y.plus(0.05).coerceAtMost(0.45))
+            entity.replaceVelocity(y = entity.velocity.y.plus(0.25).coerceAtMost(0.65))
         }
 
         if (!entity.isAlive) return

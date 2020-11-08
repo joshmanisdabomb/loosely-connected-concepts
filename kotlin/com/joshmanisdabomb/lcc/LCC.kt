@@ -14,10 +14,11 @@ object LCC : ModInitializer {
         LCCFluids.init()
         LCCItems.init()
         LCCBlockItems.init()
-        LCCCommands.init()
         LCCEvents.init()
         LCCPackets.init()
         LCCDamage.init()
+        LCCEffects.init()
+        LCCCommands.init()
         LCCWorldgen.init()
         LCCBiomes.init()
     }

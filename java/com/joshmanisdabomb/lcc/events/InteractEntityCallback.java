@@ -15,7 +15,7 @@ public interface InteractEntityCallback {
             for (InteractEntityCallback listener : listeners) {
                 ActionResult result = listener.interact(player, world, hand, entity);
 
-                if(result != ActionResult.PASS) {
+                if (result != ActionResult.PASS) {
                     return result;
                 }
             }

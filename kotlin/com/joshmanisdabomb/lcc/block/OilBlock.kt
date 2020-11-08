@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.directory.LCCEffects
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
@@ -32,7 +33,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
         entity.slowMovement(state, Vec3d(0.38, 0.38, 0.38))
         if (!entity.isAlive) return
         if ((entity as? PlayerEntity)?.isCreative != true) {
-            (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(StatusEffects.GLOWING/* TODO LCCEffects.flammable*/, 400, 0))
+            (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.flammable, 400, 0))
         }
     }
 

@@ -1,17 +1,14 @@
 package com.joshmanisdabomb.lcc.fluid.render
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.OilBlock
 import com.joshmanisdabomb.lcc.block.OilBlock.Companion.GEYSER
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.texture.SpriteAtlasTexture
-import net.minecraft.fluid.FlowableFluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.resource.ResourceManager
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockRenderView
 

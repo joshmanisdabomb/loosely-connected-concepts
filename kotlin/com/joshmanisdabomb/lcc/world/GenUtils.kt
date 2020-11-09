@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.world
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.StructureWorldAccess
-import java.util.function.BiPredicate
 import kotlin.math.max
 import kotlin.math.min
 

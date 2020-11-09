@@ -13,7 +13,6 @@ import net.minecraft.fluid.FlowableFluid
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
-import net.minecraft.state.property.IntProperty
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos
@@ -31,7 +30,6 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
     }
 
     init {
-        arrayOf(Blocks.FIRE).forEach { FlammableBlockRegistry.getInstance(it).add(this, 3000, 300) }
         defaultState = stateManager.defaultState.with(LEVEL, 0).with(GEYSER, false)
     }
 

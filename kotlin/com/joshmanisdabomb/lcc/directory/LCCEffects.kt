@@ -4,8 +4,7 @@ import com.joshmanisdabomb.lcc.effect.FlammableStatusEffect
 import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
 import com.joshmanisdabomb.lcc.effect.StunStatusEffect
 import net.minecraft.entity.effect.StatusEffect
-import net.minecraft.entity.effect.StatusEffectType
-import net.minecraft.entity.effect.StatusEffectType.*
+import net.minecraft.entity.effect.StatusEffectType.HARMFUL
 import net.minecraft.util.registry.Registry
 import kotlin.math.pow
 

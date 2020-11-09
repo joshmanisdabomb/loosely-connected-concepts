@@ -1,19 +1,11 @@
 package com.joshmanisdabomb.lcc.effect
 
-import com.joshmanisdabomb.lcc.directory.LCCPacketsClient
-import com.joshmanisdabomb.lcc.directory.LCCPacketsServer
-import com.joshmanisdabomb.lcc.directory.LCCPacketsServer.id
-import io.netty.buffer.Unpooled
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.attribute.AttributeContainer
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation.MULTIPLY_TOTAL
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectType
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.network.PacketByteBuf
 
 class StunStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(type, color) {
 

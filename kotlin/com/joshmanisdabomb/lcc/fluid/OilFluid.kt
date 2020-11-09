@@ -10,7 +10,6 @@ import net.minecraft.fluid.FlowableFluid
 import net.minecraft.fluid.Fluid
 import net.minecraft.fluid.FluidState
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos

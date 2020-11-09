@@ -4,14 +4,8 @@ import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
 import com.joshmanisdabomb.lcc.events.DamageEntityCallback
 import com.joshmanisdabomb.lcc.events.InteractEntityCallback
 import net.fabricmc.fabric.api.event.player.*
-import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
-import net.minecraft.util.hit.BlockHitResult
-import net.minecraft.world.World
-import kotlin.math.floor
-import kotlin.math.min
 
 object LCCEvents : ThingDirectory<Any, Function1<*, Unit>>() {
 

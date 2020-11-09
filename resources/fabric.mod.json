@@ -28,6 +28,10 @@
       {
         "adapter": "kotlin",
         "value": "com.joshmanisdabomb.lcc.LCCClient"
+      },
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.creativeex.CreativeEx"
       }
     ]
   },

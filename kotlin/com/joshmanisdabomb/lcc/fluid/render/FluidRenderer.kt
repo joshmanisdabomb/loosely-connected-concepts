@@ -19,7 +19,6 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockRenderView
-import java.util.function.Function
 
 @Environment(EnvType.CLIENT)
 open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val still_texture: Identifier = LCC.id("block/${LCCFluids[still]}"), val flowing_texture: Identifier = LCC.id("block/${LCCFluids[flowing]}"), val color: Int = 0xFFFFFF) : FluidRenderHandler, SimpleSynchronousResourceReloadListener, ClientSpriteRegistryCallback {

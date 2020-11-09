@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.fluid.OilFluid
-import com.joshmanisdabomb.lcc.fluid.render.FluidRenderer
 import com.joshmanisdabomb.lcc.fluid.render.OilRenderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

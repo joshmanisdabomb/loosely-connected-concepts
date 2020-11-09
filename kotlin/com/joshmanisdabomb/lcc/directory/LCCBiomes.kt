@@ -60,6 +60,6 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
                 }.build()).build()
     }
 
-    override fun register(key: String, thing: Biome, properties: (RegistryKey<Biome>) -> Unit): RegistryKey<Biome> = super.register(key, thing, properties).apply { properties(this) }
+    override fun register(key: String, thing: Biome, properties: (RegistryKey<Biome>) -> Unit) = super.register(key, thing, properties).apply { properties(this) }
 
 }

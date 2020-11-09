@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import net.minecraft.util.StringIdentifiable
+import java.lang.ClassCastException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
@@ -34,21 +35,30 @@ abstract class ThingDirectory<V, P> {
 
     }
 
-    protected fun <R : V> create(properties: P = Unit as P, supplier: (properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate({ _, p -> supplier(p) }, properties)
+    protected open fun getDefaultProperty(): P = Unit as P
 
-    protected fun <R : V> createWithNameProperties(properties: P = Unit as P, supplier: (name: String, properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate(supplier, properties)
+    protected fun <R : V> create(properties: P = getDefaultProperty(), supplier: (properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate({ _, p -> supplier(p) }, properties)
 
-    protected fun <R : V> createWithName(supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, Unit as P)
+    protected fun <R : V> createWithNameProperties(properties: P = getDefaultProperty(), supplier: (name: String, properties: P) -> R): ThingOneDelegate<R> = ThingOneDelegate(supplier, properties)
 
-    protected fun <R : V, K> createMap(vararg keys: K, keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, properties: P = Unit as P, supplier: (key: K, name: String, properties: P) -> R): ThingMapDelegate<out K, R> = ThingMapDelegate(keys, keyToString, supplier, properties)
+    protected fun <R : V> createWithName(supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, getDefaultProperty())
+
+    protected fun <R : V, K> createMap(vararg keys: K, keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, properties: P = getDefaultProperty(), supplier: (key: K, name: String, properties: P) -> R): ThingMapDelegate<out K, R> = ThingMapDelegate(keys, keyToString, supplier, properties)
 
     val all by lazy { things() }
+    val allProperties by lazy { properties() }
 
     operator fun get(key: String) = all[key]
 
     operator fun get(thing: V) = all.filterValues { it == thing }.keys.firstOrNull()
 
-    inner abstract class ThingDelegate<R : V, S> internal constructor(val properties: P = Unit as P) {
+    fun getProperties(key: String) = allProperties[key]
+
+    fun getProperties(thing: V): P? {
+        return allProperties[this[thing] ?: return null]
+    }
+
+    inner abstract class ThingDelegate<R : V, S> internal constructor(val properties: P = getDefaultProperty()) {
         private var store: S? = null
 
         operator fun getValue(dir: ThingDirectory<in R, P>, property: KProperty<*>): S {
@@ -63,12 +73,12 @@ abstract class ThingDirectory<V, P> {
         protected abstract fun getAll(name: String, body: S): Map<String, R>
     }
 
-    inner class ThingOneDelegate<R : V> internal constructor(private val supplier: (name: String, properties: P) -> R, properties: P = Unit as P) : ThingDelegate<R, R>(properties) {
+    inner class ThingOneDelegate<R : V> internal constructor(private val supplier: (name: String, properties: P) -> R, properties: P = getDefaultProperty()) : ThingDelegate<R, R>(properties) {
         override fun supply(dir: ThingDirectory<in R, P>, property: KProperty<*>) = supplier(property.name, properties)
         override fun getAll(name: String, body: R) = mapOf(name to body)
     }
 
-    inner class ThingMapDelegate<K, R : V> internal constructor(private val keys: Array<K>, private val keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, private val supplier: (key: K, name: String, properties: P) -> R, properties: P = Unit as P) : ThingDelegate<R, Map<K, R>>(properties) {
+    inner class ThingMapDelegate<K, R : V> internal constructor(private val keys: Array<K>, private val keyToString: (name: String, key: K) -> String = ::defaultKeyStringMap, private val supplier: (key: K, name: String, properties: P) -> R, properties: P = getDefaultProperty()) : ThingDelegate<R, Map<K, R>>(properties) {
         override fun supply(dir: ThingDirectory<in R, P>, property: KProperty<*>) = keys.map { it to supplier(it, property.name, properties) }.toMap()
         override fun getAll(name: String, body: Map<K, R>) = body.mapKeys { (k, _) -> keyToString(name, k) }
     }

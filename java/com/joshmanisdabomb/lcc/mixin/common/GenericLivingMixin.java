@@ -1,14 +1,11 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.concepts.hearts.HeartType;
 import com.joshmanisdabomb.lcc.events.DamageEntityCallback;
-import com.joshmanisdabomb.lcc.events.InteractEntityCallback;
 import com.joshmanisdabomb.lcc.item.LCCExtendedItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -17,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(LivingEntity.class)
 public abstract class GenericLivingMixin extends Entity {

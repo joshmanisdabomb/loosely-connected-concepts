@@ -1,15 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.LCC
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.fabricmc.fabric.api.network.PacketConsumer
-import net.fabricmc.fabric.api.network.PacketRegistry
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
-import net.minecraft.client.MinecraftClient
-import net.minecraft.util.Identifier
-import kotlin.reflect.KProperty0
 
 object LCCPacketsServer : PacketDirectory() {
 

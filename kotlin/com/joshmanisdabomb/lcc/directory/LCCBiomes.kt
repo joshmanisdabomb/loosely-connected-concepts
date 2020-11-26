@@ -20,7 +20,7 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
 
     override val _registry by lazy { BuiltinRegistries.BIOME }
 
-    val wasteland by create({ OverworldBiomes.addContinentalBiome(it, OverworldClimate.DRY, 0.5) }) {
+    val wasteland by create({ OverworldBiomes.addContinentalBiome(it, OverworldClimate.DRY, 0.3); OverworldBiomes.setRiverBiome(it, it) }) {
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
@@ -45,11 +45,12 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
                 .build())
             .generationSettings(GenerationSettings.Builder()
                 .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland)
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CAVE)
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.CANYON)
-                .carver(GenerationStep.Carver.AIR, ConfiguredCarvers.NETHER_CAVE)
+                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
+                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_copper)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_wasteland)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.oil_hidden)
                 .apply {

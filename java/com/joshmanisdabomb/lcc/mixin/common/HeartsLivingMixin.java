@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
 import com.joshmanisdabomb.lcc.concepts.EntityDataManagersKt;
-import com.joshmanisdabomb.lcc.concepts.hearts.HeartType;
+import com.joshmanisdabomb.lcc.concepts.heart.HeartType;
 import com.joshmanisdabomb.lcc.directory.LCCTrackers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

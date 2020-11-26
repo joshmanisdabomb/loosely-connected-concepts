@@ -2,17 +2,32 @@ package com.joshmanisdabomb.lcc.group
 
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExGroup
+import com.joshmanisdabomb.creativeex.CreativeExItemStackDisplay
+import com.joshmanisdabomb.creativeex.CreativeExStackDisplay
+import com.joshmanisdabomb.lcc.item.HeartItem
+import com.joshmanisdabomb.lcc.item.HeartContainerItem
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.identifier
+import com.joshmanisdabomb.lcc.toInt
 import net.minecraft.item.ItemStack
 
 class LCCGroup : CreativeExGroup(LCC.id("group")) {
 
     override fun createIcon() = ItemStack(LCCBlocks.test_block)
 
-    enum class LCCGroupCategory(override val groupColor: Long) : CreativeExCategory {
+    enum class LCCGroupCategory(override val groupColor: Long, override val comparator: (CreativeExStackDisplay) -> Int = { it.sortValue }) : CreativeExCategory {
 
-        RESOURCES(0xFFFF00FF),
+        RESOURCES(0xFFFF00FF, label@{
+            if (it !is CreativeExItemStackDisplay) return@label it.sortValue
+            val id = it.stack.item.identifier.path ?: return@label 0
+            it.sortValue + when {
+                id.endsWith("ore") -> 0
+                id.endsWith("nugget") -> 1
+                id.endsWith("block") -> 3
+                else -> 2
+            }
+        }),
         TOOLS(0xFFFF00FF),
         GIZMOS(0xFFFF00FF),
         RAINBOW(0xFFAD72AD),
@@ -21,8 +36,11 @@ class LCCGroup : CreativeExGroup(LCC.id("group")) {
         NUCLEAR(0xFFFF00FF),
         COMPUTING(0xFF194a19),
         NOSTALGIA(0xFF69854E),
-        POWER(0xFFFF00FF),
-        HEALTH(0xFFFF00FF),
+        SPECIAL(0xFFFF00FF),
+        HEALTH(0xFFFF00FF, label@{
+            if (it !is CreativeExItemStackDisplay) return@label it.sortValue
+            it.sortValue.times(3).plus(if (it.stack.item is HeartContainerItem) 2 else (it.stack.item as? HeartItem)?.value?.toInt() ?: return@label it.sortValue)
+        }),
         TESTING(0xFFFF00FF);
 
         override val sortValue = ordinal

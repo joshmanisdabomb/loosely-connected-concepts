@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
+import com.joshmanisdabomb.lcc.concepts.heart.HeartType
 import com.joshmanisdabomb.lcc.toInt
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

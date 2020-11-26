@@ -5,6 +5,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.BackgroundRenderer;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.tag.FluidTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,10 +23,10 @@ public class BackgroundRendererMixin {
     @Shadow
     private static float blue;
 
+    /* FIXME Changing in 1.17
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;clearColor(FFFF)V", shift = At.Shift.BY, by = -4))
     private static void changeFogColor(Camera camera, float partialTicks, ClientWorld world, int i, float f, CallbackInfo info) {
-        Object submergedFluidState = camera.getSubmergedFluidState().getFluid();
-        if (submergedFluidState instanceof LCCExtendedFluid) {
+        if (fluidState && this.pos.y < (double)((float)this.blockPos.getY() + fluidState.getHeight(this.area, this.blockPos)) instanceof LCCExtendedFluid) {
             Float[] colors = ((LCCExtendedFluid) submergedFluidState).lcc_fogColor();
             if (colors != null) {
                 red = colors[0];
@@ -44,6 +46,6 @@ public class BackgroundRendererMixin {
                 info.cancel();
             }
         }
-    }
+    }*/
 
 }

@@ -1,12 +1,18 @@
 package com.joshmanisdabomb.lcc
 
+import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.util.registry.Registry
 
 fun Boolean.toInt(t: Int = 1, f: Int = 0) = if (this) t else f
 
 fun Item.stack(count: Int = 1) = ItemStack(this, count)
+
+val Block.identifier get() = Registry.BLOCK.getId(this)
+
+val Item.identifier get() = Registry.ITEM.getId(this)
 
 fun Entity.replaceVelocity(x: Double? = null, y: Double? = null, z: Double? = null) {
     val v = this.velocity

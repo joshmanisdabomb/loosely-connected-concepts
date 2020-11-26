@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.creativeex
 
 import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions
-import net.minecraft.block.Blocks
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.collection.DefaultedList
 
 abstract class CreativeExGroup(id: Identifier, index: Int = (BUILDING_BLOCKS as ItemGroupExtensions).fabric_expandArray().let { GROUPS.size - 1 }) : ItemGroup(index, "${id.namespace}.${id.path}") {
@@ -16,13 +16,13 @@ abstract class CreativeExGroup(id: Identifier, index: Int = (BUILDING_BLOCKS as 
         display.getOrPut(category) { mutableListOf() }.add(CreativeExItemStackDisplay(stack, sortValue))
     }
 
-    fun addToSet(stack: ItemStack, set: String, key: CreativeExSetKey, setCategory: CreativeExCategory, setSortValue: Int) {
-        sets.getOrPut(set) { CreativeExSet(set, setSortValue).apply { display.getOrPut(setCategory) { mutableListOf() }.add(this) } }.add(stack)
+    fun addToSet(stack: ItemStack, set: String, key: CreativeExSetKey, sortValue: Int, setCategory: CreativeExCategory, setSortValue: Int = sortValue) {
+        sets.getOrPut(set) { CreativeExSet(set, setSortValue).apply { display.getOrPut(setCategory) { mutableListOf() }.add(this) } }.add(stack, sortValue)
     }
 
     override fun appendStacks(stacks: DefaultedList<ItemStack>) {
         val map = display.toSortedMap(Comparator.comparingInt { it.sortValue })
-        map.forEach { (k, v) -> v.sortedBy { it.sortValue }.forEach { it.appendStacks(stacks) }; newLine(stacks) }
+        map.forEach { (k, v) -> v.sortedBy(k.comparator).forEach { it.appendStacks(stacks) }; newLine(stacks) }
     }
 
     private fun newLine(stacks: DefaultedList<ItemStack>) {

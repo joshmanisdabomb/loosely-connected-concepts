@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
+import com.joshmanisdabomb.lcc.concepts.heart.HeartType
 import net.minecraft.entity.LivingEntity
 
 class HeartContainerItem(heart: HeartType, value: Float, settings: Settings) : HeartItem(heart, value, settings) {

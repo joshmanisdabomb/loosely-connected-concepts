@@ -6,6 +6,7 @@ import com.joshmanisdabomb.creativeex.CreativeExSetKey
 import com.joshmanisdabomb.lcc.block.DirectionalBlock
 import com.joshmanisdabomb.lcc.block.HorizontalBlock
 import com.joshmanisdabomb.lcc.block.OilBlock
+import com.joshmanisdabomb.lcc.concepts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
@@ -13,6 +14,7 @@ import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.item.BlockItem
+import net.minecraft.item.Item
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.BlockSoundGroup
@@ -22,25 +24,37 @@ import net.minecraft.util.DyeColor
 import net.minecraft.util.Util
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction.Axis
+import net.minecraft.util.math.IntRange
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.registry.Registry
-import net.minecraft.util.registry.RegistryKey
-import net.minecraft.world.biome.Biome
 
 object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
 
     override val _registry by lazy { Registry.BLOCK }
 
+    //Test Blocks
     val test_block by create(ExtraSettings().creativeEx(TESTING)) { Block(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_2 by create(ExtraSettings().creativeEx(TESTING)) { HorizontalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_3 by create(ExtraSettings().creativeEx(TESTING)) { DirectionalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_4 by create(ExtraSettings().creativeEx(TESTING)) { PillarBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
 
-    val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES, 0).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    //Resources
+    val ruby_ore by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(0))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(FabricToolTags.PICKAXES, 2), IntRange.between(3, 7)) }
+    val ruby_block by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(0))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LAVA).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val topaz_block by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(100))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.WHITE_TERRACOTTA).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val sapphire_block by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(200))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val uranium_ore by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(300))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(FabricToolTags.PICKAXES, 3), IntRange.between(3, 7)) }
+    val uranium_block by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(300))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val enriched_uranium_block by create(ExtraSettings().creativeEx(RESOURCES, ExtraSettings.intSortValue(400))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+
+    //Wasteland
+    val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val oil by create(ExtraSettings().flammable(3000, 300, Blocks.FIRE)) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
 
-    //
+    //Nostalgia
+    val classic_cloth by createMap(*ClassicDyeColor.values(), propertySupplier = { ExtraSettings().creativeEx(NOSTALGIA, { default, _ -> default }, "classic_cloth", { stack -> it }) }) { key, name, properties -> Block(FabricBlockSettings.of(Material.WOOL, key.lcc_mapColor).requiresTool().breakByTool(FabricToolTags.SHEARS).strength(0.8f).sounds(BlockSoundGroup.WOOL)) }
 
-    override fun register(key: String, thing: Block, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.init(thing) }
+    override fun register(key: String, thing: Block, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initBlock(thing) }
 
     override fun getDefaultProperty() = ExtraSettings()
 
@@ -48,42 +62,27 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     fun Block.traitDirectionalPlacement(context: ItemPlacementContext, property: DirectionProperty = FacingBlock.FACING) = defaultState.with(property, context.playerLookDirection.opposite)!!
     fun Block.traitPillarPlacement(context: ItemPlacementContext, property: EnumProperty<Axis> = PillarBlock.AXIS) = defaultState.with(property, context.side.axis)!!
 
-    class ExtraSettings internal constructor (vararg flammabilityEntries: FlammabilityEntry = emptyArray(), private var category: CreativeExCategory? = null, private var sortValue: () -> Int = { _sortValue++ }, private var set: String? = null, private var setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) {
+    class ExtraSettings internal constructor(vararg flammabilityEntries: FlammabilityEntry = emptyArray(), category: CreativeExCategory? = null, sortValue: (default: Int, item: Item) -> Int = defaultSortValue(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) : LCCItems.ExtraSettings(category, sortValue, set, setKey) {
 
         private val flammability = mutableListOf(*flammabilityEntries)
+
+        override fun creativeEx(category: CreativeExCategory, sortValue: (default: Int, item: Item) -> Int, set: String?, setKey: ((stack: ItemStack) -> CreativeExSetKey)?): ExtraSettings = super.creativeEx(category, sortValue, set, setKey).let { this }
 
         fun flammable(burn: Int, chance: Int, vararg fires: Block): ExtraSettings {
             flammability.add(FlammabilityEntry(burn, chance, *fires))
             return this
         }
 
-        fun creativeEx(category: CreativeExCategory, set: String? = null, sortValue: () -> Int = { _sortValue++ }, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null): ExtraSettings {
-            this.category = category
-            this.set = set
-            this.setKey = setKey
-            this.sortValue = sortValue
-            return this
-        }
-
-        fun init(block: Block) {
+        fun initBlock(block: Block) {
             flammability.forEach { f -> f.fires.forEach { FlammableBlockRegistry.getInstance(it).add(block, f.burn, f.chance) } }
         }
 
-        fun initItem(item: BlockItem) {
-            if (category == null) return
-            val group = item.group as? CreativeExGroup ?: return
-            val list = Util.make(DefaultedList.of<ItemStack>()) { item.appendStacks(item.group, it) }
-            if (set != null && setKey != null) {
-                list.forEach { group.addToSet(it, set!!, setKey!!.invoke(it), category!!, sortValue()) }
-            } else {
-                list.forEach { group.addToCategory(it, category!!, sortValue()) }
-            }
-        }
-
         companion object {
-            private var _sortValue = 0;
+            internal class FlammabilityEntry(val burn: Int, val chance: Int, vararg val fires: Block)
 
-            internal class FlammabilityEntry(val burn: Int, val chance: Int, vararg val fires: Block) {}
+            fun defaultSortValue() = LCCItems.ExtraSettings.defaultSortValue()
+
+            fun intSortValue(sortValue: Int) = LCCItems.ExtraSettings.intSortValue(sortValue)
         }
 
     }

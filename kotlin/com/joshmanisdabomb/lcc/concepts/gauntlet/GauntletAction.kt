@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.concepts.gauntlet
 
 import com.joshmanisdabomb.lcc.NBT_BYTE
 import com.joshmanisdabomb.lcc.NBT_INT
-import com.joshmanisdabomb.lcc.concepts.hearts.HeartType
+import com.joshmanisdabomb.lcc.concepts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCTrackers

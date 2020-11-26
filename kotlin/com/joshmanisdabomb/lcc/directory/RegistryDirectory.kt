@@ -17,4 +17,6 @@ abstract class RegistryDirectory<V, P> : ThingDirectory<V, P>() {
         return _registry.getKey(thing).orElseThrow(::RuntimeException)
     }
 
+    fun getRegistryKey(thing: V): RegistryKey<V>? = _registry.getKey(thing).orElse(null)
+
 }

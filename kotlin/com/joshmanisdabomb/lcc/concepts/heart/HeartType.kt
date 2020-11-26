@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.concepts.hearts
+package com.joshmanisdabomb.lcc.concepts.heart
 
 import com.joshmanisdabomb.lcc.concepts.heartsLastType
 import com.joshmanisdabomb.lcc.directory.LCCTrackers

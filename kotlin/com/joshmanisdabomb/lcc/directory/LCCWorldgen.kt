@@ -52,7 +52,7 @@ object LCCConfiguredFeatures : RegistryDirectory<ConfiguredFeature<*, *>, Unit>(
 
     val abundant_coal by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COAL_ORE.defaultState, 14)).rangeOf(128).spreadHorizontally().repeat(26) }
     val abundant_iron by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.IRON_ORE.defaultState, 11)).rangeOf(128).spreadHorizontally().repeat(26) }
-    val abundant_copper by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.IRON_ORE.defaultState, 14)).rangeOf(128).spreadHorizontally().repeat(15) }
+    val abundant_copper by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COPPER_ORE.defaultState, 14)).rangeOf(128).spreadHorizontally().repeat(15) }
 
     val oil_geyser by create { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.01f, 1))) }
     val oil_hidden by create { Feature.NO_SURFACE_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 6)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(59, 59, 67))).spreadHorizontally().applyChance(4) }

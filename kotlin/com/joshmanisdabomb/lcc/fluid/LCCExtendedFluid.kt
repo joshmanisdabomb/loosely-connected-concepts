@@ -7,7 +7,7 @@ interface LCCExtendedFluid {
 
     @JvmDefault
     @Environment(EnvType.CLIENT)
-    fun lcc_fogColor(): Array<Float>? = null
+    fun lcc_fogColor(): FloatArray? = null
 
     @JvmDefault
     @Environment(EnvType.CLIENT)

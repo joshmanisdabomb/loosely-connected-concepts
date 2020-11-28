@@ -20,7 +20,7 @@ import net.minecraft.world.WorldView
 
 class OilFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
-    val colors = Array(3) { 0.03f }
+    val colors = FloatArray(3) { 0.03f }
 
     override fun getStill() = LCCFluids.oil_still
 

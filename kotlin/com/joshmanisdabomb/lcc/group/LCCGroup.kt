@@ -4,12 +4,11 @@ import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExGroup
 import com.joshmanisdabomb.creativeex.CreativeExItemStackDisplay
 import com.joshmanisdabomb.creativeex.CreativeExStackDisplay
-import com.joshmanisdabomb.lcc.item.HeartItem
-import com.joshmanisdabomb.lcc.item.HeartContainerItem
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.identifier
-import com.joshmanisdabomb.lcc.toInt
+import com.joshmanisdabomb.lcc.item.HeartContainerItem
+import com.joshmanisdabomb.lcc.item.HeartItem
 import net.minecraft.item.ItemStack
 
 class LCCGroup : CreativeExGroup(LCC.id("group")) {
@@ -20,7 +19,7 @@ class LCCGroup : CreativeExGroup(LCC.id("group")) {
 
         RESOURCES(0xFFFF00FF, label@{
             if (it !is CreativeExItemStackDisplay) return@label it.sortValue
-            val id = it.stack.item.identifier.path ?: return@label 0
+            val id = it.stack.item.identifier.path!!
             it.sortValue + when {
                 id.endsWith("ore") -> 0
                 id.endsWith("nugget") -> 1
@@ -28,7 +27,19 @@ class LCCGroup : CreativeExGroup(LCC.id("group")) {
                 else -> 2
             }
         }),
-        TOOLS(0xFFFF00FF),
+        TOOLS(0xFFFF00FF, label@{
+            if (it !is CreativeExItemStackDisplay) return@label it.sortValue
+            val item = it.stack.item!!
+            it.sortValue + when (item) {
+                is net.minecraft.item.SwordItem -> 0
+                is net.minecraft.item.PickaxeItem -> 1
+                is net.minecraft.item.ShovelItem -> 2
+                is net.minecraft.item.AxeItem -> 3
+                is net.minecraft.item.HoeItem -> 4
+                is net.minecraft.item.ArmorItem -> 8.minus(item.slotType.entitySlotId)
+                else -> 9
+            }
+        }),
         GIZMOS(0xFFFF00FF),
         RAINBOW(0xFFAD72AD),
         SPREADERS(0xFF5D473E),

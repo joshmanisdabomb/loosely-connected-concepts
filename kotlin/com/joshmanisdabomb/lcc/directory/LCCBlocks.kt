@@ -35,6 +35,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val test_block_2 by create(ExtraSettings().creativeEx(TESTING)) { HorizontalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_3 by create(ExtraSettings().creativeEx(TESTING)) { DirectionalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_4 by create(ExtraSettings().creativeEx(TESTING)) { PillarBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
+    val test_block_5 by create(ExtraSettings().creativeEx(TESTING)) { Block(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
 
     //Resources
     val ruby_ore by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(FabricToolTags.PICKAXES, 2), IntRange.between(3, 7)) }
@@ -46,6 +47,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val enriched_uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
     //Gizmos
+
 
     //Wasteland
     val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }

@@ -94,8 +94,6 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     //Wasteland
     val oil_bucket by create(ExtraSettings().creativeEx(WASTELAND, sortValue = sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
 
-    //
-
     override fun register(key: String, thing: Item, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initItem(thing) }
 
     override fun getDefaultProperty() = ExtraSettings()

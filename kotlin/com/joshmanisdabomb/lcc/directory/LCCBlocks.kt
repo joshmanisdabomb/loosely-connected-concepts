@@ -21,9 +21,13 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.DyeColor
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction.Axis
 import net.minecraft.util.math.IntRange
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockView
 import kotlin.reflect.KProperty0
 
 object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
@@ -35,7 +39,11 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val test_block_2 by create(ExtraSettings().creativeEx(TESTING)) { HorizontalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_3 by create(ExtraSettings().creativeEx(TESTING)) { DirectionalBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
     val test_block_4 by create(ExtraSettings().creativeEx(TESTING)) { PillarBlock(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
-    val test_block_5 by create(ExtraSettings().creativeEx(TESTING)) { Block(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) }
+    val test_block_5 by create(ExtraSettings().creativeEx(TESTING)) { object : Block(Settings.of(Material.SOIL, DyeColor.YELLOW).strength(0.5F).sounds(BlockSoundGroup.SCAFFOLDING)) {
+        override fun getOutlineShape(state: BlockState?, world: BlockView?, pos: BlockPos?, context: ShapeContext?): VoxelShape {
+            return VoxelShapes.cuboid(0.1, 0.2, 0.3, 0.6, 0.7, 0.8)
+        }
+    } }
 
     //Resources
     val ruby_ore by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(FabricToolTags.PICKAXES, 2), IntRange.between(3, 7)) }

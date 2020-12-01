@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier
 
 object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResourceProvider {
 
-    val test_block_5 by create { ConnectedTextureModel("test_block_5", pos1 = Vector3f(0.25f, 0.0f, 0.25f), pos2 = Vector3f(0.75f, 1.0f, 0.75f)) }
+    val test_block_5 by create { ConnectedTextureModel("test_block_5", pos1 = Vector3f(0.1f, 0.2f, 0.3f), pos2 = Vector3f(0.6f, 0.7f, 0.8f)) }
 
     val models by lazy { all.mapKeys { (k, _) -> allProperties[k]!!(k) } }
 

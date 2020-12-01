@@ -24,7 +24,10 @@ class ConnectedTextureModel(defaultPrefix: String, val connector: (state: BlockS
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         Direction.values().forEach {
             renderContext.emitter
-                .square(it, pos1.x, pos1.y, pos2.x, pos2.y, pos1.z)
+                .cubeFace(it, pos1, pos2) {
+                    it[2] = it[2].coerceAtMost(it[0] + 0.25f)
+                    it[3] = it[3].coerceAtMost(it[1] + 0.25f)
+                }
                 .spriteBake(0, map.get("top", "base"), MutableQuadView.BAKE_LOCK_UV)
                 .spriteColor(0, -1, -1, -1, -1)
                 .material(RendererAccess.INSTANCE.renderer!!.materialFinder().find())

@@ -99,17 +99,17 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
                 }
                 Direction.UP -> {
                     left = pos1.x
-                    bottom = pos1.y
+                    bottom = 1 - pos2.z
                     right = pos2.x
-                    top = pos2.y
-                    depth = pos1.z
+                    top = 1 - pos1.z
+                    depth = 1 - pos2.y
                 }
                 Direction.DOWN -> {
                     left = pos1.x
                     bottom = pos1.z
                     right = pos2.x
                     top = pos2.z
-                    depth = 1 - pos2.z
+                    depth = pos1.y
                 }
             }
             val parameters = floatArrayOf(left, bottom, right, top, depth).also(faceTransform)

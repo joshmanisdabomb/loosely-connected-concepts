@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
+import com.joshmanisdabomb.lcc.block.AsphaltBlock
 import com.joshmanisdabomb.lcc.block.DirectionalBlock
 import com.joshmanisdabomb.lcc.block.HorizontalBlock
 import com.joshmanisdabomb.lcc.block.OilBlock
@@ -47,7 +48,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val enriched_uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
     //Gizmos
-
+    val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
 
     //Wasteland
     val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }

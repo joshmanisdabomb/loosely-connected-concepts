@@ -1,6 +1,7 @@
 {
   "biome.lcc.wasteland": "Wasteland",
   "block.lcc.aqua_classic_cloth": "Aqua Classic Cloth",
+  "block.lcc.asphalt": "Asphalt",
   "block.lcc.cracked_mud": "Cracked Mud",
   "block.lcc.enriched_uranium_block": "Block of Enriched Uranium",
   "block.lcc.gray_classic_cloth": "Gray Classic Cloth",
@@ -50,6 +51,7 @@
   "item.lcc.amethyst_pickaxe": "Amethyst Pickaxe",
   "item.lcc.amethyst_shovel": "Amethyst Shovel",
   "item.lcc.amethyst_sword": "Amethyst Sword",
+  "item.lcc.asphalt_bucket": "Asphalt Bucket",
   "item.lcc.crystal_heart_container": "Crystal Heart Container",
   "item.lcc.crystal_heart_full": "Crystal Heart",
   "item.lcc.crystal_heart_half": "Crystal Heart Half",

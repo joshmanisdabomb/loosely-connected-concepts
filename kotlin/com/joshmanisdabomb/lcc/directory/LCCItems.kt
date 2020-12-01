@@ -36,6 +36,9 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     val enriched_uranium by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(400))) { Item(Item.Settings().defaults()) }
     val enriched_uranium_nugget by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(::enriched_uranium))) { Item(Item.Settings().defaults()) }
 
+    //Gizmos
+    val asphalt_bucket by create(ExtraSettings().creativeEx(GIZMOS, sortValueInt(99))) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
+
     //Tools
     val ruby_sword by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { SwordItem(LCCToolMaterials.RUBY, Item.Settings().defaults()) }
     val ruby_pickaxe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { PickaxeItem(LCCToolMaterials.RUBY, Item.Settings().defaults()) }
@@ -92,7 +95,7 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     val heart_container by createMap(*HeartType.values().filter { it.container }.toTypedArray(), propertySupplier = { ExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }) { key, name, properties -> HeartContainerItem(key, 2.0F, Item.Settings().defaults()) }
 
     //Wasteland
-    val oil_bucket by create(ExtraSettings().creativeEx(WASTELAND, sortValue = sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
+    val oil_bucket by create(ExtraSettings().creativeEx(WASTELAND, sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
 
     override fun register(key: String, thing: Item, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initItem(thing) }
 

@@ -7,12 +7,11 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry
 import net.fabricmc.fabric.api.client.model.ModelProviderContext
 import net.fabricmc.fabric.api.client.model.ModelResourceProvider
 import net.minecraft.client.render.model.UnbakedModel
-import net.minecraft.client.util.math.Vector3f
 import net.minecraft.util.Identifier
 
 object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResourceProvider {
 
-    val test_block_5 by create { ConnectedTextureModel("test_block_5", pos1 = Vector3f(0.0f, 0.3f, 0.3f), pos2 = Vector3f(1.0f, 0.7f, 0.7f)) }
+    val test_block_5 by create { ConnectedTextureModel("test_block_5") }
 
     val models by lazy { all.mapKeys { (k, _) -> allProperties[k]!!(k) } }
 

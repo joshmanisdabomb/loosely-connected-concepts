@@ -61,7 +61,7 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
     abstract override fun emitItemQuads(stack: ItemStack, random: Supplier<Random>, renderContext: RenderContext)
 
     companion object {
-        fun QuadEmitter.cubeFace(direction: Direction, pos1: Vector3f, pos2: Vector3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter {
+        fun QuadEmitter.cubeFace(direction: Direction, pos1: Vector3f, pos2: Vector3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {
             val left: Float
             val bottom: Float
             val right: Float
@@ -113,6 +113,7 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
                 }
             }
             val parameters = floatArrayOf(left, bottom, right, top, depth).also(faceTransform)
+            if (parameters[2] <= parameters[0] || parameters[3] <= parameters[1]) return null
             return square(direction, parameters[0], parameters[1], parameters[2], parameters[3], parameters[4])
         }
     }

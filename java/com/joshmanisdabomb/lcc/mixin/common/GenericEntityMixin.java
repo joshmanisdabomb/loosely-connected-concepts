@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(Entity.class)
-public class GenericEntityMixin {
+public abstract class GenericEntityMixin {
 
     private final HashMap<BlockPos, BlockState> lcc_onEntitySingleCollision_positions = new HashMap<>();
 

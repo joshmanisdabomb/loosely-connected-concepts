@@ -1,0 +1,301 @@
+{
+  "variants": {
+    "markings=none,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=white,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=orange,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=magenta,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=light_blue,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=yellow,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=lime,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=pink,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=gray,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=light_gray,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=cyan,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=purple,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=blue,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=brown,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=green,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=red,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=black,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=cinnabar,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=maroon,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=brick,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=tan,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=gold,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=light_green,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=mint,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=turquoise,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=navy,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=indigo,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=lavender,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=light_purple,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=hot_pink,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=burgundy,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=rose,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=dark_gray,shape=full": {
+      "model": "lcc:block/road_full"
+    },
+    "markings=none,shape=path": {
+      "model": "lcc:block/road_path"
+    },
+    "markings=white,shape=path": {
+      "model": "lcc:block/road_path_white"
+    },
+    "markings=orange,shape=path": {
+      "model": "lcc:block/road_path_orange"
+    },
+    "markings=magenta,shape=path": {
+      "model": "lcc:block/road_path_magenta"
+    },
+    "markings=light_blue,shape=path": {
+      "model": "lcc:block/road_path_light_blue"
+    },
+    "markings=yellow,shape=path": {
+      "model": "lcc:block/road_path_yellow"
+    },
+    "markings=lime,shape=path": {
+      "model": "lcc:block/road_path_lime"
+    },
+    "markings=pink,shape=path": {
+      "model": "lcc:block/road_path_pink"
+    },
+    "markings=gray,shape=path": {
+      "model": "lcc:block/road_path_gray"
+    },
+    "markings=light_gray,shape=path": {
+      "model": "lcc:block/road_path_light_gray"
+    },
+    "markings=cyan,shape=path": {
+      "model": "lcc:block/road_path_cyan"
+    },
+    "markings=purple,shape=path": {
+      "model": "lcc:block/road_path_purple"
+    },
+    "markings=blue,shape=path": {
+      "model": "lcc:block/road_path_blue"
+    },
+    "markings=brown,shape=path": {
+      "model": "lcc:block/road_path_brown"
+    },
+    "markings=green,shape=path": {
+      "model": "lcc:block/road_path_green"
+    },
+    "markings=red,shape=path": {
+      "model": "lcc:block/road_path_red"
+    },
+    "markings=black,shape=path": {
+      "model": "lcc:block/road_path_black"
+    },
+    "markings=cinnabar,shape=path": {
+      "model": "lcc:block/road_path_cinnabar"
+    },
+    "markings=maroon,shape=path": {
+      "model": "lcc:block/road_path_maroon"
+    },
+    "markings=brick,shape=path": {
+      "model": "lcc:block/road_path_brick"
+    },
+    "markings=tan,shape=path": {
+      "model": "lcc:block/road_path_tan"
+    },
+    "markings=gold,shape=path": {
+      "model": "lcc:block/road_path_gold"
+    },
+    "markings=light_green,shape=path": {
+      "model": "lcc:block/road_path_light_green"
+    },
+    "markings=mint,shape=path": {
+      "model": "lcc:block/road_path_mint"
+    },
+    "markings=turquoise,shape=path": {
+      "model": "lcc:block/road_path_turquoise"
+    },
+    "markings=navy,shape=path": {
+      "model": "lcc:block/road_path_navy"
+    },
+    "markings=indigo,shape=path": {
+      "model": "lcc:block/road_path_indigo"
+    },
+    "markings=lavender,shape=path": {
+      "model": "lcc:block/road_path_lavender"
+    },
+    "markings=light_purple,shape=path": {
+      "model": "lcc:block/road_path_light_purple"
+    },
+    "markings=hot_pink,shape=path": {
+      "model": "lcc:block/road_path_hot_pink"
+    },
+    "markings=burgundy,shape=path": {
+      "model": "lcc:block/road_path_burgundy"
+    },
+    "markings=rose,shape=path": {
+      "model": "lcc:block/road_path_rose"
+    },
+    "markings=dark_gray,shape=path": {
+      "model": "lcc:block/road_path_dark_gray"
+    },
+    "markings=none,shape=half": {
+      "model": "lcc:block/road_half"
+    },
+    "markings=white,shape=half": {
+      "model": "lcc:block/road_half_white"
+    },
+    "markings=orange,shape=half": {
+      "model": "lcc:block/road_half_orange"
+    },
+    "markings=magenta,shape=half": {
+      "model": "lcc:block/road_half_magenta"
+    },
+    "markings=light_blue,shape=half": {
+      "model": "lcc:block/road_half_light_blue"
+    },
+    "markings=yellow,shape=half": {
+      "model": "lcc:block/road_half_yellow"
+    },
+    "markings=lime,shape=half": {
+      "model": "lcc:block/road_half_lime"
+    },
+    "markings=pink,shape=half": {
+      "model": "lcc:block/road_half_pink"
+    },
+    "markings=gray,shape=half": {
+      "model": "lcc:block/road_half_gray"
+    },
+    "markings=light_gray,shape=half": {
+      "model": "lcc:block/road_half_light_gray"
+    },
+    "markings=cyan,shape=half": {
+      "model": "lcc:block/road_half_cyan"
+    },
+    "markings=purple,shape=half": {
+      "model": "lcc:block/road_half_purple"
+    },
+    "markings=blue,shape=half": {
+      "model": "lcc:block/road_half_blue"
+    },
+    "markings=brown,shape=half": {
+      "model": "lcc:block/road_half_brown"
+    },
+    "markings=green,shape=half": {
+      "model": "lcc:block/road_half_green"
+    },
+    "markings=red,shape=half": {
+      "model": "lcc:block/road_half_red"
+    },
+    "markings=black,shape=half": {
+      "model": "lcc:block/road_half_black"
+    },
+    "markings=cinnabar,shape=half": {
+      "model": "lcc:block/road_half_cinnabar"
+    },
+    "markings=maroon,shape=half": {
+      "model": "lcc:block/road_half_maroon"
+    },
+    "markings=brick,shape=half": {
+      "model": "lcc:block/road_half_brick"
+    },
+    "markings=tan,shape=half": {
+      "model": "lcc:block/road_half_tan"
+    },
+    "markings=gold,shape=half": {
+      "model": "lcc:block/road_half_gold"
+    },
+    "markings=light_green,shape=half": {
+      "model": "lcc:block/road_half_light_green"
+    },
+    "markings=mint,shape=half": {
+      "model": "lcc:block/road_half_mint"
+    },
+    "markings=turquoise,shape=half": {
+      "model": "lcc:block/road_half_turquoise"
+    },
+    "markings=navy,shape=half": {
+      "model": "lcc:block/road_half_navy"
+    },
+    "markings=indigo,shape=half": {
+      "model": "lcc:block/road_half_indigo"
+    },
+    "markings=lavender,shape=half": {
+      "model": "lcc:block/road_half_lavender"
+    },
+    "markings=light_purple,shape=half": {
+      "model": "lcc:block/road_half_light_purple"
+    },
+    "markings=hot_pink,shape=half": {
+      "model": "lcc:block/road_half_hot_pink"
+    },
+    "markings=burgundy,shape=half": {
+      "model": "lcc:block/road_half_burgundy"
+    },
+    "markings=rose,shape=half": {
+      "model": "lcc:block/road_half_rose"
+    },
+    "markings=dark_gray,shape=half": {
+      "model": "lcc:block/road_half_dark_gray"
+    }
+  }
+}

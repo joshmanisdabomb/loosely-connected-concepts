@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import net.minecraft.block.*
-import net.minecraft.block.enums.SlabType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.fluid.FlowableFluid
@@ -37,7 +37,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
-        if (world.getBlockState(posFrom).isOf(Blocks.SMOOTH_STONE_SLAB)) return state
+        if (world.getBlockState(posFrom).isOf(LCCBlocks.road)) return state
         if (state.fluidState.isStill || newState.fluidState.isStill) {
             world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state.get(AGE_7).times(2).plus(1)))
         }
@@ -45,7 +45,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
-        if (world.getBlockState(fromPos).isOf(Blocks.SMOOTH_STONE_SLAB)) return
+        if (world.getBlockState(fromPos).isOf(LCCBlocks.road)) return
         world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state.get(AGE_7).times(2).plus(1)))
     }
 
@@ -59,11 +59,11 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
             val surrounding = Direction.values().filter { it.horizontal > -1 }.mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FlowableFluid.FALLING)) return@mapNotNull null }.level }.toIntArray().min()
 
             if (surrounding == null || surrounding >= level) {
-                world.setBlockState(pos, Blocks.SMOOTH_STONE_SLAB.defaultState.with(SlabBlock.TYPE, SlabType.DOUBLE))
+                world.setBlockState(pos, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH))
                 val posU = pos.up()
                 val stateU = world.getBlockState(posU)
                 if (stateU.isOf(this) && stateU.level != 8 && !stateU.fluidState.get(FALLING)) {
-                    world.setBlockState(posU, Blocks.SMOOTH_STONE_SLAB.defaultState.with(SlabBlock.TYPE, SlabType.BOTTOM))
+                    world.setBlockState(posU, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.HALF))
                 }
             }
         } else {

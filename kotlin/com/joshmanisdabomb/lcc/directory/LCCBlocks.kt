@@ -2,10 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
-import com.joshmanisdabomb.lcc.block.AsphaltBlock
-import com.joshmanisdabomb.lcc.block.DirectionalBlock
-import com.joshmanisdabomb.lcc.block.HorizontalBlock
-import com.joshmanisdabomb.lcc.block.OilBlock
+import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.concepts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueDefault
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueFrom
@@ -49,6 +46,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
 
     //Gizmos
     val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
+    val road by create(ExtraSettings()) { RoadBlock(Settings.of(Material.STONE, DyeColor.GRAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.TUFF)) }
 
     //Wasteland
     val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }

@@ -18,7 +18,7 @@ import net.minecraft.world.BlockRenderView
 import java.util.*
 import java.util.function.Supplier
 
-class ConnectedTextureModel(defaultPrefix: String, val connector: (state: BlockState, other: BlockState) -> Boolean = { state, other -> state == other }, val borderSize: Int = 4, val pos1: Vector3f = Vector3f(0f, 0f, 0f), val pos2: Vector3f = Vector3f(1f, 1f, 1f), val innerSeams: Boolean = true, mapConsumer: (map: ConnectedTextureMap) -> Unit = {}) : LCCModel({ (this as ConnectedTextureModel).textureMap }) {
+open class ConnectedTextureModel(defaultPrefix: String, val connector: (state: BlockState, other: BlockState) -> Boolean = { state, other -> state == other }, val borderSize: Int = 4, val pos1: Vector3f = Vector3f(0f, 0f, 0f), val pos2: Vector3f = Vector3f(1f, 1f, 1f), val innerSeams: Boolean = true, mapConsumer: ConnectedTextureMap.() -> Unit = {}) : LCCModel({ (this as ConnectedTextureModel).textureMap }) {
 
     val map by lazy { ConnectedTextureMap(defaultPrefix).also(mapConsumer) }
     val textureMap by lazy { map.map }

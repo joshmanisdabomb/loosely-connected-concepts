@@ -10,6 +10,7 @@ object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
 
     val oil by create { Replacement() }
     val asphalt by create { Replacement() }
+    val road by create { Replacement() }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

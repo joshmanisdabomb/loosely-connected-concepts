@@ -9,7 +9,6 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.gen.ProbabilityConfig
-import net.minecraft.world.gen.carver.CaveCarver
 import net.minecraft.world.gen.carver.RavineCarver
 import org.apache.commons.lang3.mutable.MutableBoolean
 import java.util.*

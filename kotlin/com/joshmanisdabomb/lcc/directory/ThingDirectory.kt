@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
 import net.minecraft.util.StringIdentifiable
-import java.lang.ClassCastException
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties

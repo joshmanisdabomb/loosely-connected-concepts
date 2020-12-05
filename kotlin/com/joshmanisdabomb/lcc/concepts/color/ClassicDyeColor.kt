@@ -27,4 +27,6 @@ enum class ClassicDyeColor(override val lcc_mapColor: MapColor, override val lcc
     override val lcc_fireworkColor = lcc_color
     override val lcc_signColor = lcc_color
 
+    override val lcc_dye = null
+
 }

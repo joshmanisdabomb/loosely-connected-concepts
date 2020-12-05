@@ -56,14 +56,16 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
             if (world.getBlockState(pos.down()).isOf(this)) return
 
             val level = state.level
-            val surrounding = Direction.values().filter { it.horizontal > -1 }.mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FlowableFluid.FALLING)) return@mapNotNull null }.level }.toIntArray().min()
+            val surrounding = Direction.values().filter { it.horizontal > -1 }.mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FALLING)) return@mapNotNull null }.level }.toIntArray().min()
 
             if (surrounding == null || surrounding >= level) {
-                world.setBlockState(pos, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH))
+                world.setBlockState(pos, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH), pos))
+                LCCBlocks.road.updateRoads(world, pos)
                 val posU = pos.up()
                 val stateU = world.getBlockState(posU)
                 if (stateU.isOf(this) && stateU.level != 8 && !stateU.fluidState.get(FALLING)) {
-                    world.setBlockState(posU, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.HALF))
+                    world.setBlockState(posU, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.HALF), posU))
+                    LCCBlocks.road.updateRoads(world, posU)
                 }
             }
         } else {
@@ -78,6 +80,8 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
             }
         }
     }
+
+
 
     private val BlockState.level get() = if (this.fluidState.isStill) 8 else this.fluidState.get(FLUID_LEVEL)
 

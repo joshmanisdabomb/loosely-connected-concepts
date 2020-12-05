@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "ExtendedBlockMixin",
+    "ExtendedDyeColorMixin",
     "ExtendedFluidMixin",
     "ExtendedItemMixin",
     "GenericPlayerMixin",

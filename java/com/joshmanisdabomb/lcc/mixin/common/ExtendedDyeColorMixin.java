@@ -1,21 +1,17 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.block.LCCExtendedBlock;
 import com.joshmanisdabomb.lcc.concepts.color.LCCExtendedDyeColor;
-import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
+import net.minecraft.item.DyeItem;
+import net.minecraft.item.Item;
 import net.minecraft.util.DyeColor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(DyeColor.class)
 public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
-
-    @Shadow
-    public abstract String name();
 
     @Shadow @Final
     private int color;
@@ -31,12 +27,6 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
 
     @Shadow
     public abstract MapColor getMapColor();
-
-    @NotNull
-    @Override
-    public String getName() {
-        return name();
-    }
 
     @Override
     public int getLcc_color() {
@@ -63,6 +53,12 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
     @Override
     public MapColor getLcc_mapColor() {
         return getMapColor();
+    }
+
+    @NotNull
+    @Override
+    public Item getLcc_dye() {
+        return DyeItem.byColor((DyeColor)(Object)this);
     }
 
 }

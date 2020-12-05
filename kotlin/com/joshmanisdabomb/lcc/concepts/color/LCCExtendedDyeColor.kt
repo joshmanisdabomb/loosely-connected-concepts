@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.concepts.color
 
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
 import net.minecraft.block.MapColor
+import net.minecraft.item.Item
 import net.minecraft.util.StringIdentifiable
 
 interface LCCExtendedDyeColor : StringIdentifiable, CreativeExSetKey {
@@ -16,6 +17,8 @@ interface LCCExtendedDyeColor : StringIdentifiable, CreativeExSetKey {
     val lcc_fireworkColor: Int
 
     val lcc_mapColor: MapColor
+
+    val lcc_dye: Item?
 
     override fun asString() = this.name.toLowerCase()
 

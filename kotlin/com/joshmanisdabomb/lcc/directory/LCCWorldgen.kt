@@ -12,7 +12,6 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.carver.Carver
-import net.minecraft.world.gen.carver.CaveCarver
 import net.minecraft.world.gen.carver.ConfiguredCarver
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
 import net.minecraft.world.gen.decorator.Decorator

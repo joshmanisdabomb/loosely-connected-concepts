@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.block.model
 
 import com.mojang.datafixers.util.Pair
+import net.fabricmc.fabric.api.renderer.v1.RendererAccess
+import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
@@ -59,6 +61,16 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
     abstract override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext)
 
     abstract override fun emitItemQuads(stack: ItemStack, random: Supplier<Random>, renderContext: RenderContext)
+
+    protected fun emitFace(direction: Direction, renderContext: RenderContext, sprite: Sprite, pos1: Vector3f = Vector3f(0f, 0f, 0f), pos2: Vector3f = Vector3f(1f, 1f, 1f), faceTransform: (FloatArray) -> Unit = {}) {
+        renderContext.emitter
+            .cubeFace(direction, pos1, pos2, faceTransform)
+            ?.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV)
+            ?.lightmap(0, 15)?.lightmap(1, 15)?.lightmap(2, 15)?.lightmap(3, 15)
+            ?.spriteColor(0, -1, -1, -1, -1)
+            ?.material(RendererAccess.INSTANCE.renderer!!.materialFinder().find())
+            ?.emit()
+    }
 
     companion object {
         fun QuadEmitter.cubeFace(direction: Direction, pos1: Vector3f, pos2: Vector3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {

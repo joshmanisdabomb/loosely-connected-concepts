@@ -13,7 +13,6 @@ import net.minecraft.world.biome.GenerationSettings
 import net.minecraft.world.biome.SpawnSettings
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry
 import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.carver.ConfiguredCarvers
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures
 
 object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>() {

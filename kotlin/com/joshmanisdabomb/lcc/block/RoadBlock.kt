@@ -7,6 +7,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.SideShapeType
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.AxeItem
 import net.minecraft.state.StateManager
@@ -50,6 +51,7 @@ class RoadBlock(settings: Settings) : Block(settings) {
         val stack = player.getStackInHand(hand)
         val item = stack?.item ?: ActionResult.PASS
         if (state.get(MARKINGS) != RoadMarkings.NONE && item is AxeItem) {
+            //TODO horrible custom scrape sound effect
             world.setBlockState(pos, state.with(MARKINGS, RoadMarkings.NONE))
             updateRoads(world, pos)
             stack.damage(1, player, { it.sendToolBreakStatus(hand) })
@@ -65,6 +67,10 @@ class RoadBlock(settings: Settings) : Block(settings) {
         }
         state2 = state2.with(INNER, isInner(world, state, pos))
         return state2
+    }
+
+    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+        entity.velocity = entity.velocity.multiply(1.3, 1.0, 1.3)
     }
 
     fun connector(world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>, inner: Boolean? = null): Boolean {

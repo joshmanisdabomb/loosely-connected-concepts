@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.concepts.color.AlternateDyeColor
 import com.joshmanisdabomb.lcc.concepts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.isHorizontal
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -43,11 +44,12 @@ class RoadBlock(settings: Settings) : Block(settings) {
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         val vec = fromPos.subtract(pos)
-        val state2 = this.getStateForNeighborUpdate(state, Direction.fromVector(vec.x, vec.y, vec.z)!!, state, world, pos, fromPos)
+        val state2 = this.getStateForNeighborUpdate(state, Direction.fromVector(vec.x, vec.y, vec.z) ?: return, state, world, pos, fromPos)
         if (state2 != state) world.setBlockState(pos, state2)
     }
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        if (state.get(SHAPE) == RoadShape.FULL) return ActionResult.PASS
         val stack = player.getStackInHand(hand)
         val item = stack?.item ?: ActionResult.PASS
         if (state.get(MARKINGS) != RoadMarkings.NONE && item is AxeItem) {
@@ -63,7 +65,11 @@ class RoadBlock(settings: Settings) : Block(settings) {
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         var state2 = super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom)
         if (state.get(SHAPE) != RoadShape.HALF && direction == Direction.UP) {
-            state2 = state2.with(SHAPE, if (world.getBlockState(posFrom).isSideSolid(world, posFrom, Direction.DOWN, SideShapeType.FULL)) RoadShape.FULL else RoadShape.PATH)
+            val stateUp = world.getBlockState(posFrom)
+            state2 = state2.with(SHAPE, if (stateUp.isSideSolid(world, posFrom, Direction.DOWN, SideShapeType.FULL)) RoadShape.FULL else RoadShape.PATH)
+            if (stateUp.isOf(this) && stateUp.get(SHAPE) == RoadShape.HALF && stateUp.get(MARKINGS) != state.get(MARKINGS)) {
+                state2 = state2.with(MARKINGS, stateUp.get(MARKINGS))
+            }
         }
         state2 = state2.with(INNER, isInner(world, state, pos))
         return state2
@@ -80,30 +86,32 @@ class RoadBlock(settings: Settings) : Block(settings) {
                 val other2 = world.getBlockState(otherPos.down())
                 if (!other2.isOf(this)) return false
                 val m = other2.get(MARKINGS)
-                return other2.get(SHAPE) == RoadShape.PATH && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && inner?.run { other2.get(INNER) == this } ?: true
+                return other2.get(SHAPE) == RoadShape.PATH && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other2.get(INNER) == this } ?: true)
             } else {
                 val other2 = world.getBlockState(otherPos.up())
                 if (!other2.isOf(this)) return false
                 val m = other2.get(MARKINGS)
-                return other2.get(SHAPE) == RoadShape.HALF && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && inner?.run { other2.get(INNER) == this } ?: true
+                return other2.get(SHAPE) == RoadShape.HALF && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other2.get(INNER) == this } ?: true)
             }
         } else {
             val m = other.get(MARKINGS)
-            return (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && inner?.run { other.get(INNER) == this } ?: true
+            return (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other.get(INNER) == this } ?: true)
         }
     }
 
-    fun isInner(world: WorldAccess, state: BlockState, pos: BlockPos) = Direction.values().filter { it.horizontal != -1 }.all { val pos2 = pos.offset(it); val pos3 = pos.offset(it).offset(it.rotateYClockwise()); connector(world, state, pos, world.getBlockState(pos2), pos2, arrayOf(it)) && connector(world, state, pos, world.getBlockState(pos3), pos3, arrayOf(it, it.rotateYClockwise())) }
+    fun isInner(world: WorldAccess, state: BlockState, pos: BlockPos) = Direction.values().filter(Direction::isHorizontal).all { val pos2 = pos.offset(it); val pos3 = pos.offset(it).offset(it.rotateYClockwise()); connector(world, state, pos, world.getBlockState(pos2), pos2, arrayOf(it)) && connector(world, state, pos, world.getBlockState(pos3), pos3, arrayOf(it, it.rotateYClockwise())) }
 
     fun inner(world: WorldAccess, state: BlockState, pos: BlockPos) = state.with(INNER, isInner(world, state, pos))
 
     fun updateRoads(world: World, pos: BlockPos) {
         if (world.getBlockState(pos).isOf(LCCBlocks.road)) world.updateNeighbors(pos, LCCBlocks.road)
-        Direction.values().filter { it.horizontal != -1 }.forEach {
-            val pos2 = pos.offset(it)
-            if (world.getBlockState(pos2).isOf(LCCBlocks.road)) world.updateNeighbors(pos2, LCCBlocks.road)
-            val pos3 = pos.offset(it).offset(it.rotateYClockwise())
-            if (world.getBlockState(pos3).isOf(LCCBlocks.road)) world.updateNeighbors(pos3, LCCBlocks.road)
+        Direction.values().filter(Direction::isHorizontal).forEach {
+            with (pos.offset(it)) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
+            with (pos.offset(it).offset(it.rotateYClockwise())) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
+            with (pos.offset(it).down()) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
+            with (pos.offset(it).down().offset(it.rotateYClockwise())) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
+            with (pos.offset(it).up()) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
+            with (pos.offset(it).up().offset(it.rotateYClockwise())) { if (world.getBlockState(this).isOf(LCCBlocks.road)) world.updateNeighbors(this, LCCBlocks.road) }
         }
     }
 
@@ -161,6 +169,11 @@ class RoadBlock(settings: Settings) : Block(settings) {
             constructor(color: DyeColor) : this(color as LCCExtendedDyeColor)
 
             override fun asString() = name.toLowerCase()
+
+            fun suffix(prefix: String = "") = when (this) {
+                NONE -> ""
+                else -> "_$prefix${this.asString()}"
+            }
         }
     }
 

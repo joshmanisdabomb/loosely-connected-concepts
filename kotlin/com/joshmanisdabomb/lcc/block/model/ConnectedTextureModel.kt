@@ -26,6 +26,7 @@ open class ConnectedTextureModel(defaultPrefix: String, val connector: (world: B
     protected val faceConnections by lazy { FaceConnectionMap() }
 
     val bp by lazy { BlockPos.Mutable() }
+    val bp2 by lazy { BlockPos.Mutable() }
     val bpc by lazy { BlockPos.Mutable() }
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
@@ -197,6 +198,13 @@ open class ConnectedTextureModel(defaultPrefix: String, val connector: (world: B
         val downRight get() = cache.getOrPut("downRight", { connection(_face, _facePerps[2], _facePerps[1]) })
         val downLeft get() = cache.getOrPut("downLeft", { connection(_face, _facePerps[3], _facePerps[2]) })
 
+        val front get() = cache.getOrPut("front", { connection(null, _face) })
+        val back get() = cache.getOrPut("back", { connection(null, _face.opposite) })
+        val frontLeft get() = cache.getOrPut("frontLeft", { connection(null, _face, _facePerps[3]) })
+        val backLeft get() = cache.getOrPut("backLeft", { connection(null, _face.opposite, _facePerps[3]) })
+        val frontRight get() = cache.getOrPut("frontRight", { connection(null, _face, _facePerps[1]) })
+        val backRight get() = cache.getOrPut("backRight", { connection(null, _face.opposite, _facePerps[1]) })
+
         val allSides get() = up && right && down && left
 
         fun reload(face: Direction, renderView: BlockRenderView, state: BlockState, pos: BlockPos, connector: (world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) -> Boolean = this@ConnectedTextureModel.connector) {
@@ -209,12 +217,14 @@ open class ConnectedTextureModel(defaultPrefix: String, val connector: (world: B
             cache.clear()
         }
 
-        private fun connection(innerSeamPath: Direction, vararg path: Direction): Boolean {
+        private fun connection(innerSeamPath: Direction?, vararg path: Direction): Boolean {
             bp.set(_pos).apply { path.map { this.move(it) } }
             return try {
-                val pos2 = bp.offset(innerSeamPath)
-                if (innerSeams && connector(_renderView, _state, bp, _renderView.getBlockState(pos2), pos2, arrayOf(innerSeamPath))) return false
-                connector(_renderView, _state, bp, _renderView.getBlockState(bp), bp, path.toList().toTypedArray())
+                if (innerSeamPath != null) {
+                    bp2.set(bp).move(innerSeamPath)
+                    if (innerSeams && connector(_renderView, _state, _pos, _renderView.getBlockState(bp2), bp2, arrayOf(innerSeamPath))) return false
+                }
+                connector(_renderView, _state, _pos, _renderView.getBlockState(bp), bp, path.toList().toTypedArray())
             } catch (exception: ArrayIndexOutOfBoundsException) {
                 false
             }

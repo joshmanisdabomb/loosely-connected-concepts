@@ -15,12 +15,12 @@ object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResource
 
     val test_block_5 by create { ConnectedTextureModel("test_block_5") }
     
-    val road_full by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_full_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, false, 1f) }
-    val road_path by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_path_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.9375f) }
-    val road_half by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_half_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.4375f) }
-    val road_full_inner by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_full_inner_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, true, 1f) }
-    val road_path_inner by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_path_inner_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.9375f) }
-    val road_half_inner by createMap(*RoadBlock.Companion.RoadMarkings.values().filter { it != RoadBlock.Companion.RoadMarkings.NONE }.toTypedArray(), propertySupplier = { rm -> { "block/road_half_inner_${rm.asString()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.4375f) }
+    val road_full by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 1f) }
+    val road_path by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.9375f) }
+    val road_half by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_half${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.4375f) }
+    val road_full_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 1f) }
+    val road_path_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.9375f) }
+    val road_half_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_half_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.4375f) }
 
     val models by lazy { all.mapKeys { (k, _) -> allProperties[k]!!(k) } }
 

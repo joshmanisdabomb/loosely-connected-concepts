@@ -27,6 +27,8 @@ fun Entity.replacePosition(x: Double? = null, y: Double? = null, z: Double? = nu
 
 val Direction.perpendiculars get() = perps[this]!!
 
+val Direction.isHorizontal get() = this.horizontal != -1
+
 const val NBT_BYTE = 1
 const val NBT_SHORT = 2
 const val NBT_INT = 3

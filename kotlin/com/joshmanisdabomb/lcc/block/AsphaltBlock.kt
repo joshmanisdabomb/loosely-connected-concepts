@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.isHorizontal
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -56,7 +57,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
             if (world.getBlockState(pos.down()).isOf(this)) return
 
             val level = state.level
-            val surrounding = Direction.values().filter { it.horizontal > -1 }.mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FALLING)) return@mapNotNull null }.level }.toIntArray().min()
+            val surrounding = Direction.values().filter(Direction::isHorizontal).mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FALLING)) return@mapNotNull null }.level }.toIntArray().min()
 
             if (surrounding == null || surrounding >= level) {
                 world.setBlockState(pos, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH), pos))

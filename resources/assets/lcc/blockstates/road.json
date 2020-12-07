@@ -4,7 +4,7 @@
       "model": "lcc:block/road_full"
     },
     "inner=true,markings=none,shape=full": {
-      "model": "lcc:block/road_full"
+      "model": "lcc:block/road_full_inner"
     },
     "inner=false,markings=white,shape=full": {
       "model": "lcc:block/road_full_white"
@@ -202,7 +202,7 @@
       "model": "lcc:block/road_path"
     },
     "inner=true,markings=none,shape=path": {
-      "model": "lcc:block/road_path"
+      "model": "lcc:block/road_path_inner"
     },
     "inner=false,markings=white,shape=path": {
       "model": "lcc:block/road_path_white"
@@ -400,7 +400,7 @@
       "model": "lcc:block/road_half"
     },
     "inner=true,markings=none,shape=half": {
-      "model": "lcc:block/road_half"
+      "model": "lcc:block/road_half_inner"
     },
     "inner=false,markings=white,shape=half": {
       "model": "lcc:block/road_half_white"

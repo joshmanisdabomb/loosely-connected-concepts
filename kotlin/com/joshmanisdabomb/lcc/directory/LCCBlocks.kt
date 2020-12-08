@@ -44,12 +44,12 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
     val enriched_uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
-    //IDEA uranium refiner, oil refiner, rainbow refiner (saturator?), universal refiner
+    //IDEA uranium refiner, oil refiner -> (fuel, asphalt, plastic), rainbow refiner (saturator?), universal refiner
 
     //Gizmos
     val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
     val road by create(ExtraSettings()) { RoadBlock(Settings.of(Material.STONE, DyeColor.GRAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.TUFF)) }
-    //TODO hydrated soul sand
+    val soaking_soul_sand by create(ExtraSettings().creativeEx(GIZMOS)) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.BROWN_TERRACOTTA).breakByTool(FabricToolTags.SHOVELS).strength(0.75F, 2.5F).sounds(BlockSoundGroup.SOUL_SAND)) }
     //TODO bounce pads, 6 directions, 5 settings
 
     //Wasteland

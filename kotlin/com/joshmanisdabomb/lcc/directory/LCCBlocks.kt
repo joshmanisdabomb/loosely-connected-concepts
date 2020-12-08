@@ -44,16 +44,39 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
     val enriched_uranium_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(FabricToolTags.PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
+    //IDEA uranium refiner, oil refiner, rainbow refiner (saturator?), universal refiner
+
     //Gizmos
     val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
     val road by create(ExtraSettings()) { RoadBlock(Settings.of(Material.STONE, DyeColor.GRAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.TUFF)) }
+    //TODO hydrated soul sand
+    //TODO bounce pads, 6 directions, 5 settings
 
     //Wasteland
     val cracked_mud by create(ExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val oil by create(ExtraSettings().flammable(3000, 300, Blocks.FIRE)) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
+    //IDEA deadwood, rarely spawns naturally or dries out wood
+    //IDEA rusted iron blocks, first tier of wasteland tools
 
-    //Nostalgia
+    //TODO atomic bomb
+
+    //TODO spreaders
+
+    //TODO computers
+
+    //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
+
+    //Nostalgia TODO
+    //IDEA dungeon table, placed on top of zombie, skeleton or regular spider spawner, creates simulation fabric using recipe from powerpoint
+    //IDEA simulation fabric
+    //IDEA time rift, basic method of taking blocks back in time to notable versions
+    //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
+
     val classic_cloth by createMap(*ClassicDyeColor.values(), propertySupplier = { ExtraSettings().creativeEx(NOSTALGIA, sortValueDefault(), "classic_cloth", { stack -> it }) }) { key, name, properties -> Block(FabricBlockSettings.of(Material.WOOL, key.lcc_mapColor).requiresTool().breakByTool(FabricToolTags.SHEARS).strength(0.8f).sounds(BlockSoundGroup.WOOL)) }
+
+    //TODO pill printer
+
+    //TODO rainbow
 
     override fun register(key: String, thing: Block, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initBlock(thing) }
 

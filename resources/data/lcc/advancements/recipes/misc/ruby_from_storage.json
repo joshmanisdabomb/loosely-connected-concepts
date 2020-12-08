@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:ruby_from_storage"
+    ]
+  },
+  "criteria": {
+    "has_ruby_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:ruby_from_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_ruby_block",
+      "has_the_recipe"
+    ]
+  ]
+}

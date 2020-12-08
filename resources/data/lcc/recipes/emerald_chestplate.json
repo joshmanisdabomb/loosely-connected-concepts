@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "lcc:emerald_chestplate"
+  }
+}

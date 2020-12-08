@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i",
+    "s",
+    "s"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:topaz"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:topaz_shovel"
+  }
+}

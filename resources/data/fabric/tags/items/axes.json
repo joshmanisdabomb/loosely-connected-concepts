@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:ruby_axe",
+    "lcc:topaz_axe",
+    "lcc:emerald_axe",
+    "lcc:sapphire_axe",
+    "lcc:amethyst_axe"
+  ]
+}

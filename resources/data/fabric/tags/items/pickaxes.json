@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:ruby_pickaxe",
+    "lcc:topaz_pickaxe",
+    "lcc:emerald_pickaxe",
+    "lcc:sapphire_pickaxe",
+    "lcc:amethyst_pickaxe"
+  ]
+}

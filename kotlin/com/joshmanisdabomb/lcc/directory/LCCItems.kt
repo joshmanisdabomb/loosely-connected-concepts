@@ -31,7 +31,7 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     val ruby by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(0))) { Item(Item.Settings().defaults()) } //TODO from time rift
     val topaz by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(100))) { Item(Item.Settings().defaults()) } //TODO from fishing
     val sapphire by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(200))) { Item(Item.Settings().defaults()) } //TODO from dungeon, temple, etc chests
-    val uranium by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(300))) { Item(Item.Settings().defaults()) } //TODO very rare ore, more common in wasteland
+    val uranium by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(300))) { Item(Item.Settings().defaults()) }
     val uranium_nugget by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(::uranium))) { Item(Item.Settings().defaults()) }
     val enriched_uranium by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(400))) { Item(Item.Settings().defaults()) }
     val enriched_uranium_nugget by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(::enriched_uranium))) { Item(Item.Settings().defaults()) }
@@ -96,6 +96,8 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
 
     //Wasteland
     val oil_bucket by create(ExtraSettings().creativeEx(WASTELAND, sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
+
+    //TODO pills
 
     override fun register(key: String, thing: Item, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initItem(thing) }
 

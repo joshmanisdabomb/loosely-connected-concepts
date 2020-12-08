@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:ruby_shovel",
+    "lcc:topaz_shovel",
+    "lcc:emerald_shovel",
+    "lcc:sapphire_shovel",
+    "lcc:amethyst_shovel"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "i i"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:ruby"
+    }
+  },
+  "result": {
+    "item": "lcc:ruby_boots"
+  }
+}

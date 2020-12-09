@@ -7,9 +7,9 @@ import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 
-class HorizontalBlock(settings: Settings) : HorizontalFacingBlock(settings) {
+open class HorizontalBlock(settings: Settings) : HorizontalFacingBlock(settings) {
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING).let { Unit }
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = traitHorizontalPlacement(context)
 

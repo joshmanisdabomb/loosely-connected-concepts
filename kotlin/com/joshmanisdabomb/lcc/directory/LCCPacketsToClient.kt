@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.fabricmc.fabric.api.network.PacketConsumer
 import net.minecraft.client.MinecraftClient
@@ -21,6 +22,17 @@ object LCCPacketsToClient : PacketDirectory() {
         val dz = data.readDouble()
         context.taskQueue.execute {
             MinecraftClient.getInstance()?.world?.addParticle(particle, always, x, y, z, dx, dy, dz)
+        }
+    } }
+
+    val bounce_pad_extension by create { PacketConsumer { context, data ->
+        val pos = data.readBlockPos()
+        context.taskQueue.execute {
+            val world = MinecraftClient.getInstance()?.world ?: return@execute
+            if (!world.isRegionLoaded(pos, pos)) return@execute
+            val be = world.getBlockEntity(pos) as? BouncePadBlockEntity ?: return@execute
+            be.extend()
+            be.effects()
         }
     } }
 

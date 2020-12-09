@@ -10,7 +10,7 @@ abstract class PacketDirectory : ThingDirectory<PacketConsumer, Unit>() {
 
     protected abstract val _registry: PacketRegistry
 
-    fun KProperty0<PacketConsumer>.id(): Identifier = LCC.id(name)
+    val KProperty0<PacketConsumer>.id: Identifier get() = LCC.id(name)
 
     override fun registerAll(things: Map<String, PacketConsumer>, properties: Map<String, Unit>) {
         for ((k, v) in things) {

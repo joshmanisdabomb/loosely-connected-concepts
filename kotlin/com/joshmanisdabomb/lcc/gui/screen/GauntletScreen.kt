@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction.Companion.ability
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCPacketsServer
-import com.joshmanisdabomb.lcc.directory.LCCPacketsServer.id
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
 import com.joshmanisdabomb.lcc.toInt
 import io.netty.buffer.Unpooled
@@ -49,7 +49,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         if (!client!!.options.keyAttack.isPressed) {
             if (hovered != null) {
                 camera.mainHandStack.orCreateTag.ability = hovered
-                ClientSidePacketRegistry.INSTANCE.sendToServer(LCCPacketsServer::gauntletSwitch.id(), PacketByteBuf(Unpooled.buffer()).apply { writeByte(hovered.ordinal.plus(1)) })
+                ClientSidePacketRegistry.INSTANCE.sendToServer(LCCPacketsToServer::gauntlet_switch.id, PacketByteBuf(Unpooled.buffer()).apply { writeByte(hovered.ordinal.plus(1)) })
             }
             client!!.openScreen(null)
         }

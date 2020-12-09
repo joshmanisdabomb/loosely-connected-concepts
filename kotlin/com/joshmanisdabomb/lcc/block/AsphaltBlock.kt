@@ -29,7 +29,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         entity.slowMovement(states.first(), Vec3d(0.16, 0.2, 0.16))
     }
 

@@ -43,7 +43,7 @@ public abstract class GenericEntityMixin {
             if (!lcc_onEntitySingleCollision_positions.isEmpty()) {
                 try {
                     lcc_onEntitySingleCollision_positions.values().stream().map(AbstractBlock.AbstractBlockState::getBlock).distinct().forEach(block -> {
-                        if (block instanceof LCCExtendedBlock) ((LCCExtendedBlock)block).onEntitySingleCollision(world, lcc_onEntitySingleCollision_positions.entrySet().stream().filter(e -> e.getValue().isOf(block)).map(Map.Entry::getKey).toArray(BlockPos[]::new), lcc_onEntitySingleCollision_positions.values().stream().filter(state -> state.isOf(block)).toArray(BlockState[]::new), (Entity)(Object)this);
+                        if (block instanceof LCCExtendedBlock) ((LCCExtendedBlock)block).lcc_onEntitySingleCollision(world, lcc_onEntitySingleCollision_positions.entrySet().stream().filter(e -> e.getValue().isOf(block)).map(Map.Entry::getKey).toArray(BlockPos[]::new), lcc_onEntitySingleCollision_positions.values().stream().filter(state -> state.isOf(block)).toArray(BlockState[]::new), (Entity)(Object)this);
                     });
                 } catch (Throwable var12) {
                     CrashReport crashReport = CrashReport.create(var12, "LCC: Single colliding entity with blocks");

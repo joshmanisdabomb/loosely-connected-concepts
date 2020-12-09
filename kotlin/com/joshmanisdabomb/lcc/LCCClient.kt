@@ -9,7 +9,7 @@ object LCCClient : ClientModInitializer {
         LCCGroups.init()
         LCCModels.init()
         LCCFluids.initRenderers()
-        LCCPacketsClient.init()
+        LCCPacketsToClient.init()
         LCCParticlesClient.init()
     }
 

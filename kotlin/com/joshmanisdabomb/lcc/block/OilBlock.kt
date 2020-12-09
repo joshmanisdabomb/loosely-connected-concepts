@@ -36,7 +36,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         if (states.none { it.get(GEYSER) }) {
             entity.slowMovement(states.first(), Vec3d(0.38, 0.4, 0.38))
         } else {

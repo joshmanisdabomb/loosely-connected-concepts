@@ -134,5 +134,7 @@
   "itemGroup.lcc.group": "Loosely Connected Concepts",
   "itemGroup.lcc.group.set.amount": "%s item",
   "itemGroup.lcc.group.set.amount.s": "s",
-  "itemGroup.lcc.group.set.classic_cloth": "Classic Cloths"
+  "itemGroup.lcc.group.set.classic_cloth": "Classic Cloths",
+  "subtitles.lcc.block.bounce_pad.jump": "Bounce Pad protracts",
+  "subtitles.lcc.block.soaking_soul_sand.jump": "Soaking Soul Sand squelches"
 }

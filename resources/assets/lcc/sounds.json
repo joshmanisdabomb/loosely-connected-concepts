@@ -1,0 +1,81 @@
+{
+  "block.soaking_soul_sand.jump": {
+    "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump",
+    "sounds": [ "lcc:block/soaking_soul_sand_jump" ]
+  },
+  "block.soaking_soul_sand.break": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/soaking_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/soaking_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.soaking_soul_sand.fall": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ]
+  },
+  "block.soaking_soul_sand.hit": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.soaking_soul_sand.place": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/soaking_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/soaking_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.soaking_soul_sand.step": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.bounce_pad.jump": {
+    "subtitle": "subtitles.lcc.block.bounce_pad.jump",
+    "sounds": [ "lcc:block/bounce_pad_jump" ]
+  }
+}

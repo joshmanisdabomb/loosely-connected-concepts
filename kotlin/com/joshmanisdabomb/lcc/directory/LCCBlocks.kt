@@ -49,7 +49,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     //Gizmos
     val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
     val road by create(ExtraSettings()) { RoadBlock(Settings.of(Material.STONE, DyeColor.GRAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.TUFF)) }
-    val soaking_soul_sand by create(ExtraSettings().creativeEx(GIZMOS)) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.BROWN_TERRACOTTA).breakByTool(FabricToolTags.SHOVELS).strength(0.75F, 2.5F).sounds(BlockSoundGroup.SOUL_SAND)) }
+    val soaking_soul_sand by create(ExtraSettings().creativeEx(GIZMOS)) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.BROWN_TERRACOTTA).breakByTool(FabricToolTags.SHOVELS).strength(0.75F, 2.5F).sounds(LCCSounds.soaking_soul_sand)) }
     //TODO bounce pads, 6 directions, 5 settings
 
     //Wasteland

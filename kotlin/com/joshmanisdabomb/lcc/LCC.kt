@@ -10,6 +10,7 @@ object LCC : ModInitializer {
     const val modid = "lcc"
 
     override fun onInitialize() {
+        LCCSounds.init()
         LCCBlocks.init()
         LCCFluids.init()
         LCCItems.init()

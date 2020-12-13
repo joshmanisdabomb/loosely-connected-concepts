@@ -1,0 +1,370 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "down"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4",
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad"
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0"
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1"
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2"
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3"
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "up"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4"
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4",
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4",
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4",
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "0",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_0",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "1",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_1",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "2",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_2",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "3",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_3",
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "setting": "4",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "lcc:block/bounce_pad_4",
+        "x": 90,
+        "y": 90
+      }
+    }
+  ]
+}

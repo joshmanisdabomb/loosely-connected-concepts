@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_bounce_pad_0",
+  "textures": {
+    "2": "lcc:block/bounce_pad_setting"
+  }
+}

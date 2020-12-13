@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
+import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.fabricmc.fabric.api.network.PacketConsumer
 import net.minecraft.client.MinecraftClient
 import net.minecraft.particle.DefaultParticleType
+import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
 
 object LCCPacketsToClient : PacketDirectory() {
@@ -22,6 +24,23 @@ object LCCPacketsToClient : PacketDirectory() {
         val dz = data.readDouble()
         context.taskQueue.execute {
             MinecraftClient.getInstance()?.world?.addParticle(particle, always, x, y, z, dx, dy, dz)
+        }
+    } }
+
+    val soul_sand_jump_particle by create { PacketConsumer { context, data ->
+        val always = data.readBoolean()
+        val x = data.readDouble()
+        val y = data.readDouble()
+        val z = data.readDouble()
+        val dx = data.readDouble()
+        val dy = data.readDouble()
+        val dz = data.readDouble()
+        val direction = Direction.values()[data.readByte().toInt()]
+        val area = data.readFloat()
+        val height = data.readFloat()
+        val ring = data.readFloat()
+        context.taskQueue.execute {
+            MinecraftClient.getInstance()?.world?.addParticle(SoakingSoulSandJumpParticleEffect(direction, area, height, ring), always, x, y, z, dx, dy, dz)
         }
     } }
 

@@ -77,5 +77,9 @@
   "block.bounce_pad.jump": {
     "subtitle": "subtitles.lcc.block.bounce_pad.jump",
     "sounds": [ "lcc:block/bounce_pad_jump" ]
+  },
+  "block.bounce_pad.set": {
+    "subtitle": "subtitles.lcc.block.bounce_pad.set",
+    "sounds": [ "minecraft:random/click" ]
   }
 }

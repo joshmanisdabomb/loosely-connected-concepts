@@ -9,7 +9,8 @@
     "GauntletHudMixin",
     "BackgroundRendererMixin",
     "StunPlayerMixin",
-    "StunMouseMixin"
+    "StunMouseMixin",
+    "EntityModelsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

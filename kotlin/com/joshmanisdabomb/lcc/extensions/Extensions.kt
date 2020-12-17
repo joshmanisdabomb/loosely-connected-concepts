@@ -1,6 +1,8 @@
-package com.joshmanisdabomb.lcc
+package com.joshmanisdabomb.lcc.extensions
 
 import net.minecraft.block.Block
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.util.math.Vector3f
 import net.minecraft.entity.Entity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -28,6 +30,34 @@ fun Entity.replacePosition(x: Double? = null, y: Double? = null, z: Double? = nu
 val Direction.perpendiculars get() = perps[this]!!
 
 val Direction.isHorizontal get() = this.horizontal != -1
+
+fun Direction.blockEntityTransform(matrices: MatrixStack) {
+    when (this) {
+        Direction.DOWN -> {
+            matrices.translate(0.0, 1.0, 1.0);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180.0f))
+        }
+        Direction.NORTH -> {
+            matrices.translate(1.0, 1.0, 1.0);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+            matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0f))
+        }
+        Direction.EAST -> {
+            matrices.translate(0.0, 1.0, 1.0);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+            matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(-90.0f))
+        }
+        Direction.SOUTH -> {
+            matrices.translate(0.0, 1.0, 0.0);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+        }
+        Direction.WEST -> {
+            matrices.translate(1.0, 1.0, 0.0);
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0f))
+            matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(90.0f))
+        }
+    }
+}
 
 const val NBT_BYTE = 1
 const val NBT_SHORT = 2

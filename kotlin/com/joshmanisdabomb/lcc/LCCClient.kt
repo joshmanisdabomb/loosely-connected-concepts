@@ -7,7 +7,9 @@ object LCCClient : ClientModInitializer {
 
     override fun onInitializeClient() {
         LCCGroups.init()
+        LCCModelLayers.init()
         LCCModels.init()
+        LCCBlockEntities.initRenderers()
         LCCFluids.initRenderers()
         LCCPacketsToClient.init()
         LCCParticlesClient.init()

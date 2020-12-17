@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.events.DamageEntityCallback;
-import com.joshmanisdabomb.lcc.events.InteractEntityCallback;
+import com.joshmanisdabomb.lcc.event.DamageEntityCallback;
+import com.joshmanisdabomb.lcc.event.InteractEntityCallback;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

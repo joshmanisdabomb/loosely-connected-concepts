@@ -1,24 +1,28 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
+import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCBlocks.traitDirectionalFacePlacement
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
 import com.joshmanisdabomb.lcc.extensions.RotatableShape.Companion.rotatable
-import com.joshmanisdabomb.lcc.replaceVelocity
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream
-import net.minecraft.block.Block
-import net.minecraft.block.BlockEntityProvider
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
+import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
+import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -27,13 +31,15 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class BouncePadBlock(settings: Settings, val motions: DoubleArray) : DirectionalBlock(settings), BlockEntityProvider, LCCExtendedBlock {
+class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEntity(settings), BlockEntityProvider, LCCExtendedBlock {
 
     init {
         defaultState = stateManager.defaultState.with(FACING, Direction.UP).with(SETTING, 0)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING, SETTING).let {}
+
+    override fun getPlacementState(context: ItemPlacementContext) = traitDirectionalFacePlacement(context)
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BouncePadBlockEntity(pos, state)
 
@@ -86,6 +92,12 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : Directional
             PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient::bounce_pad_extension.id, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
         }
     }
+
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+        return if (world.isClient) checkType(type, LCCBlockEntities.bounce_pad, BouncePadBlockEntity::tick) else null
+    }
+
+    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 
     companion object {
         val SHAPE = Block.createCuboidShape(0.0, 0.0, 9.0, 16.0, 16.0, 16.0).rotatable

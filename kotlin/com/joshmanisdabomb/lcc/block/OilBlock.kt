@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCEffects
-import com.joshmanisdabomb.lcc.replaceVelocity
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity

@@ -23,7 +23,8 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
     public abstract int getFireworkColor();
 
     @Shadow
-    public abstract int getSignColor();
+    @Final
+    public int signColor;
 
     @Shadow
     public abstract MapColor getMapColor();
@@ -41,7 +42,7 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
 
     @Override
     public int getLcc_signColor() {
-        return getSignColor();
+        return signColor;
     }
 
     @Override

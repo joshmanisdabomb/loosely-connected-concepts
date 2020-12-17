@@ -6,7 +6,7 @@ import com.joshmanisdabomb.creativeex.CreativeExItemStackDisplay
 import com.joshmanisdabomb.creativeex.CreativeExStackDisplay
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.identifier
+import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.item.HeartContainerItem
 import com.joshmanisdabomb.lcc.item.HeartItem
 import net.minecraft.item.ItemStack

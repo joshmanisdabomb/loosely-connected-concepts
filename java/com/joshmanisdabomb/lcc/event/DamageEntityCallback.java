@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.events;
+package com.joshmanisdabomb.lcc.event;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;

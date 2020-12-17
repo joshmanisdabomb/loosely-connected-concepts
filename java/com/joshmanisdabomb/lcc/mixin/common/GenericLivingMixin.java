@@ -1,9 +1,8 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
 import com.joshmanisdabomb.lcc.block.LCCExtendedBlock;
-import com.joshmanisdabomb.lcc.events.DamageEntityCallback;
+import com.joshmanisdabomb.lcc.event.DamageEntityCallback;
 import com.joshmanisdabomb.lcc.item.LCCExtendedItem;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -22,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,14 +1,14 @@
 package com.joshmanisdabomb.lcc.concepts.gauntlet
 
-import com.joshmanisdabomb.lcc.NBT_BYTE
-import com.joshmanisdabomb.lcc.NBT_INT
 import com.joshmanisdabomb.lcc.concepts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
-import com.joshmanisdabomb.lcc.replaceVelocity
-import com.joshmanisdabomb.lcc.toInt
+import com.joshmanisdabomb.lcc.extensions.NBT_BYTE
+import com.joshmanisdabomb.lcc.extensions.NBT_INT
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
+import com.joshmanisdabomb.lcc.extensions.toInt
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance

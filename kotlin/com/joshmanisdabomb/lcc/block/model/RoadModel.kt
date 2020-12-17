@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.RoadBlock.Companion.INNER
 import com.joshmanisdabomb.lcc.block.RoadBlock.Companion.SHAPE
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.isHorizontal
+import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.block.BlockState
 import net.minecraft.client.util.math.Vector3f

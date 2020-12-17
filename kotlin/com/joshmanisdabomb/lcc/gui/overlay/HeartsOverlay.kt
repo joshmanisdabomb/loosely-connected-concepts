@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.concepts.heart.HeartType
-import com.joshmanisdabomb.lcc.toInt
+import com.joshmanisdabomb.lcc.extensions.toInt
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient

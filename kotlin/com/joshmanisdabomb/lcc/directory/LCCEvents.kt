@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
-import com.joshmanisdabomb.lcc.events.DamageEntityCallback
-import com.joshmanisdabomb.lcc.events.InteractEntityCallback
+import com.joshmanisdabomb.lcc.event.DamageEntityCallback
+import com.joshmanisdabomb.lcc.event.InteractEntityCallback
 import net.fabricmc.fabric.api.event.player.*
 import net.minecraft.util.ActionResult
 import net.minecraft.util.TypedActionResult

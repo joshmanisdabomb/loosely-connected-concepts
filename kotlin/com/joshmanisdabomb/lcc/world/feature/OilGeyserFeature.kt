@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.world.feature
 
 import com.joshmanisdabomb.lcc.block.OilBlock.Companion.GEYSER
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.toInt
+import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.world.GenUtils
 import com.mojang.serialization.Codec
 import net.minecraft.block.FluidBlock

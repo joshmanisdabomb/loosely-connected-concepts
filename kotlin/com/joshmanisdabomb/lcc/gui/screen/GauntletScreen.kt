@@ -6,8 +6,8 @@ import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction.Companion.abilit
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
+import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
-import com.joshmanisdabomb.lcc.toInt
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.minecraft.client.MinecraftClient

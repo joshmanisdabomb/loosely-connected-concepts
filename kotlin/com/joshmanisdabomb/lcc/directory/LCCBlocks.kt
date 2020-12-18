@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.EnumProperty
-import net.minecraft.state.property.Properties
 import net.minecraft.util.DyeColor
 import net.minecraft.util.math.Direction.Axis
 import net.minecraft.util.math.IntRange
@@ -68,7 +67,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 
     //Nostalgia TODO
-    val spawner_table by create(ExtraSettings().creativeEx(CRAFTERS)) { DungeonTableBlock(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE).strength(20.0F, 50.0F).luminance { if (it.get(Properties.BOTTOM)) 7 else 0 }.breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val spawner_table by create(ExtraSettings().creativeEx(CRAFTERS)) { DungeonTableBlock(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE).strength(20.0F, 50.0F).luminance { 7 }.breakByTool(FabricToolTags.PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     //IDEA dungeon table, placed on top of zombie, skeleton or regular spider spawner, creates simulation fabric using recipe from powerpoint
     //IDEA simulation fabric
     //IDEA time rift, basic method of taking blocks back in time to notable versions

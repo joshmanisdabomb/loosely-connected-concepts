@@ -9,18 +9,20 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties.BOTTOM
 import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import net.minecraft.world.WorldView
-
+import net.minecraft.world.WorldAccess
+import kotlin.random.asKotlinRandom
 
 class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
@@ -30,7 +32,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(BOTTOM, ENTITY).let {}
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) VoxelShapes.fullCube() else SHAPE
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) BOTTOM_OUTLINE else TOP_OUTLINE
 
     override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) VoxelShapes.fullCube() else SHAPE
 
@@ -53,12 +55,6 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         return ActionResult.SUCCESS
     }
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
-        val down = pos.down()
-        val state2 = world.getBlockState(down)
-        return state2.isOf(Blocks.SPAWNER) || world.getBlockEntity(down) is DungeonTableBlockEntity
-    }
-
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val down = ctx.blockPos.down()
         val state2 = ctx.world.getBlockState(down)
@@ -73,34 +69,63 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             } catch (e: InvalidIdentifierException) {
                 null
             }
-        } else {
-            return null
+        } else if (ctx.player?.isCreative == true) {
+            val entity = DungeonTableEntity.values().random(ctx.world.random.asKotlinRandom())
+            val up = ctx.blockPos.up()
+            if (ctx.world.getBlockState(up).isAir) {
+                return defaultState.with(BOTTOM, true).with(ENTITY, entity)
+            }
         }
+        return null
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
-        if (itemStack.hasCustomName()) {
-            val blockEntity = world.getBlockEntity(pos) as? DungeonTableBlockEntity ?: return
-            blockEntity.customName = itemStack.name
+        if (state.get(BOTTOM)) {
+            val up = pos.up()
+            world.setBlockState(up, state.with(BOTTOM, false))
+            if (itemStack.hasCustomName()) (world.getBlockEntity(pos) as? DungeonTableBlockEntity)?.customName = itemStack.name
+        } else {
+            val down = pos.down()
+            val state2 = world.getBlockState(down)
+            if (state2.isOf(Blocks.SPAWNER)) {
+                world.setBlockState(down, state.with(BOTTOM, true))
+                if (itemStack.hasCustomName()) (world.getBlockEntity(down) as? DungeonTableBlockEntity)?.customName = itemStack.name
+            }
         }
-        val down = pos.down()
-        val state2 = world.getBlockState(down)
-        if (state2.isOf(Blocks.SPAWNER)) {
-            world.setBlockState(down, defaultState.with(BOTTOM, true).with(ENTITY, state.get(ENTITY)))
+    }
+
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, fromState: BlockState, world: WorldAccess, pos: BlockPos, fromPos: BlockPos): BlockState {
+        return if (state.get(BOTTOM) && direction == Direction.UP && fromState != state.with(BOTTOM, false)) {
+            Blocks.AIR.defaultState
+        } else if (!state.get(BOTTOM) && direction == Direction.DOWN && fromState != state.with(BOTTOM, true)) {
+            Blocks.AIR.defaultState
+        } else {
+            state
         }
     }
 
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
         if (state != newState) {
             ItemScatterer.spawn(world, pos, world.getBlockEntity(pos) as? DungeonTableBlockEntity ?: return super.onStateReplaced(state, world, pos, newState, moved))
+            world.updateComparators(pos, this);
         }
         super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    override fun hasComparatorOutput(state: BlockState) = true
+
+    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
+        if (!state.get(BOTTOM)) return 0
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 
     companion object {
         val SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 4.0, 16.0)
+
+        val BOTTOM_OUTLINE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 20.0, 16.0)
+        val TOP_OUTLINE = Block.createCuboidShape(0.0, -16.0, 0.0, 16.0, 4.0, 16.0)
 
         val ENTITY = EnumProperty.of("entity", DungeonTableEntity::class.java)
 

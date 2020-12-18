@@ -13,9 +13,6 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(DyeColor.class)
 public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
 
-    @Shadow @Final
-    private int color;
-
     @Shadow
     public abstract float[] getColorComponents();
 
@@ -29,9 +26,18 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
     @Shadow
     public abstract MapColor getMapColor();
 
+    private int lcc_intColor = -1;
+
     @Override
     public int getLcc_color() {
-        return color;
+        if (lcc_intColor == -1) {
+            float[] cols = getColorComponents();
+            int r = (int)(cols[0] * 255);
+            int g = (int)(cols[0] * 255);
+            int b = (int)(cols[0] * 255);
+            lcc_intColor = b + (g << 8) + (r << 16);
+        }
+        return lcc_intColor;
     }
 
     @NotNull

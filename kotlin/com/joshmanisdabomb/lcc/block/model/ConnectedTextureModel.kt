@@ -7,16 +7,16 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.SpriteIdentifier
-import net.minecraft.client.util.math.Vector3f
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3f
 import net.minecraft.world.BlockRenderView
 import net.minecraft.world.BlockView
 import java.util.*
 import java.util.function.Supplier
 
-open class ConnectedTextureModel(defaultPrefix: String, val connector: (world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) -> Boolean = { world, state, pos, other, otherPos, path -> state == other }, val borderSize: Int = 4, val pos1: Vector3f = Vector3f(0f, 0f, 0f), val pos2: Vector3f = Vector3f(1f, 1f, 1f), val innerSeams: Boolean = true, mapConsumer: ConnectedTextureMap.() -> Unit = {}) : LCCModel({ (this as ConnectedTextureModel).textureMap }) {
+open class ConnectedTextureModel(defaultPrefix: String, val connector: (world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) -> Boolean = { world, state, pos, other, otherPos, path -> state == other }, val borderSize: Int = 4, val pos1: Vec3f = Vec3f(0f, 0f, 0f), val pos2: Vec3f = Vec3f(1f, 1f, 1f), val innerSeams: Boolean = true, mapConsumer: ConnectedTextureMap.() -> Unit = {}) : LCCModel({ (this as ConnectedTextureModel).textureMap }) {
 
     val map by lazy { ConnectedTextureMap().all(defaultPrefix).also(mapConsumer) }
     val textureMap by lazy { map.map }

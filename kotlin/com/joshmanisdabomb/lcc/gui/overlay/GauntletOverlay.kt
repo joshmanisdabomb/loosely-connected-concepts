@@ -13,7 +13,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.Vector3f
+import net.minecraft.util.math.Vec3f
 import net.minecraft.entity.player.PlayerEntity
 
 @Environment(EnvType.CLIENT)
@@ -68,7 +68,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         matrix.push()
         matrix.translate(sw.div(2).toDouble(), 0.0, 0.0)
         matrix.translate(0.0, sh.div(2).toDouble(), 0.0)
-        matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(angle))
+        matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(angle))
 
         this.drawTexture(matrix, loc, loc, baseU.times(size), baseV.times(size), size, size)
         if (action.isCasting(camera)) {

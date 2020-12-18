@@ -11,6 +11,7 @@ object LCCClient : ClientModInitializer {
         LCCModels.init()
         LCCBlockEntities.initRenderers()
         LCCFluids.initRenderers()
+        LCCScreens.init()
         LCCPacketsToClient.init()
         LCCParticlesClient.init()
     }

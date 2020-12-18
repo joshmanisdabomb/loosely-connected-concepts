@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.DungeonTableBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -15,6 +16,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     override val _registry = Registry.BLOCK_ENTITY_TYPE
 
     val bounce_pad by create { BlockEntityType.Builder.create(::BouncePadBlockEntity, LCCBlocks.bounce_pad).build(null) }
+    val spawner_table by create { BlockEntityType.Builder.create(::DungeonTableBlockEntity, LCCBlocks.spawner_table).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

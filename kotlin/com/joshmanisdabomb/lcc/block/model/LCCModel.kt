@@ -13,11 +13,11 @@ import net.minecraft.client.render.model.ModelLoader
 import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
-import net.minecraft.client.util.math.Vector3f
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3f
 import net.minecraft.world.BlockRenderView
 import java.util.*
 import java.util.function.Function
@@ -62,7 +62,7 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
 
     abstract override fun emitItemQuads(stack: ItemStack, random: Supplier<Random>, renderContext: RenderContext)
 
-    protected fun emitFace(direction: Direction, renderContext: RenderContext, sprite: Sprite, pos1: Vector3f = Vector3f(0f, 0f, 0f), pos2: Vector3f = Vector3f(1f, 1f, 1f), faceTransform: (FloatArray) -> Unit = {}) {
+    protected fun emitFace(direction: Direction, renderContext: RenderContext, sprite: Sprite, pos1: Vec3f = Vec3f(0f, 0f, 0f), pos2: Vec3f = Vec3f(1f, 1f, 1f), faceTransform: (FloatArray) -> Unit = {}) {
         renderContext.emitter
             .cubeFace(direction, pos1, pos2, faceTransform)
             ?.spriteBake(0, sprite, MutableQuadView.BAKE_LOCK_UV)
@@ -73,7 +73,7 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
     }
 
     companion object {
-        fun QuadEmitter.cubeFace(direction: Direction, pos1: Vector3f, pos2: Vector3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {
+        fun QuadEmitter.cubeFace(direction: Direction, pos1: Vec3f, pos2: Vec3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {
             val left: Float
             val bottom: Float
             val right: Float

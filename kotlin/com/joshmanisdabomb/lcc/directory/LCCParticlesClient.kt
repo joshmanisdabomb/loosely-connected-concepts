@@ -21,7 +21,7 @@ object LCCParticlesClient : ThingDirectory<(FabricSpriteProvider) -> ParticleFac
         things.forEach { (k, v) -> typedRegister(properties[k]!!, v) }
     }
 
-    private fun <T : ParticleEffect> typedRegister(type: ParticleType<T>, factory: (FabricSpriteProvider) -> ParticleFactory<*>) {
+    private inline fun <T : ParticleEffect> typedRegister(type: ParticleType<T>, crossinline factory: (FabricSpriteProvider) -> ParticleFactory<*>) {
         ParticleFactoryRegistry.getInstance().register(type) { sp -> factory(sp) as ParticleFactory<T> }
     }
 

@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.Vector3f
+import net.minecraft.util.math.Vec3f
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.LiteralText
@@ -80,7 +80,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         matrix.push()
         matrix.translate(sw.div(2).toDouble(), 0.0, 0.0)
         matrix.translate(0.0, sh.div(2).toDouble(), 0.0)
-        matrix.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(angle))
+        matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(angle))
 
         this.drawTexture(matrix, loc, loc, u.times(size), v.times(size), size, size)
         if (action.isCooldown(camera)) {

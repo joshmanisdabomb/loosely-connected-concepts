@@ -115,7 +115,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
 
     companion object {
         val SHAPE = Block.createCuboidShape(0.0, 0.0, 9.0, 16.0, 16.0, 16.0).rotatable
-        val COLLISION_UP = Block.createCuboidShape(0.0, 02.0, 0.0, 16.0, 4.0, 16.0)
+        val COLLISION_UP = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 4.0, 16.0)
         val COLLISION = Block.createCuboidShape(0.0, 0.0, 15.99, 16.0, 16.0, 16.0).rotatable
 
         val SETTING = IntProperty.of("setting", 0, 4)

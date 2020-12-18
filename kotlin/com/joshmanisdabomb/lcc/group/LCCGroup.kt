@@ -41,6 +41,7 @@ class LCCGroup : CreativeExGroup(LCC.id("group")) {
             }
         }),
         GIZMOS(0xFFFF00FF),
+        CRAFTERS(0xFFB97A57),
         RAINBOW(0xFFAD72AD),
         SPREADERS(0xFF5D473E),
         WASTELAND(0xFFFF00FF),

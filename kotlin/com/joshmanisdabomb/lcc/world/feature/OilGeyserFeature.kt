@@ -19,7 +19,7 @@ class OilGeyserFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
     override fun generate(world: StructureWorldAccess, chunkGenerator: ChunkGenerator, random: Random, pos: BlockPos, config: DefaultFeatureConfig): Boolean {
         val height = 4 + random.nextInt(4)
 
-        if (!GenUtils.areaMatches(world, pos.x, pos.y, pos.z, height = height.minus(1)) { it.y < world.height }) return false
+        if (!GenUtils.areaMatches(world, pos.x, pos.y, pos.z, height = height.minus(1)) { !world.isOutOfHeightLimit(it.y) }) return false
         if (!GenUtils.areaMatches(world, pos.x, pos.y - 2, pos.z, ex = 3, ez = 3, height = 1) { world.getBlockState(it).isOf(LCCBlocks.cracked_mud) }) return false
         if (!GenUtils.areaMatches(world, pos.x, pos.y, pos.z, ex = 2, ez = 2, height = height.minus(1))) return false
 

@@ -70,7 +70,6 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     //IDEA Kiln for faster smelting of non smokable or blastables
 
     //Nostalgia TODO
-    //IDEA simulation fabric
     //IDEA time rift, basic method of taking blocks back in time to notable versions
     //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
 
@@ -79,6 +78,8 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     //TODO pill printer
 
     //TODO rainbow
+    //IDEA shinestream, slippy passthrough block to gain speed
+    //IDEA dash blocks, made from star plating and shinestream
 
     override fun register(key: String, thing: Block, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initBlock(thing) }
 

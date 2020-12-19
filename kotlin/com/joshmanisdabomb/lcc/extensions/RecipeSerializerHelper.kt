@@ -29,8 +29,19 @@ fun RecipeSerializer<*>.getShapedPattern(pattern: JsonArray, maxWidth: Int, maxH
     }.toTypedArray()
 }
 
-fun RecipeSerializer<*>.getIngredients(keys: Map<String, Ingredient>, pattern: Array<String>, w: Int, h: Int): DefaultedList<Ingredient> {
+fun RecipeSerializer<*>.getShapedIngredients(keys: Map<String, Ingredient>, pattern: Array<String>, w: Int, h: Int): DefaultedList<Ingredient> {
     return DefaultedList.copyOf(Ingredient.EMPTY, *pattern.flatMapIndexed { k, v -> v.map { if (it == ' ') Ingredient.EMPTY else keys[it.toString()] ?: throw JsonSyntaxException("Pattern references symbol '$it' but it's not defined in the key") } }.toTypedArray())
+}
+
+fun RecipeSerializer<*>.getShapelessIngredients(ingredients: JsonArray): DefaultedList<Ingredient> {
+    val defaultedList = DefaultedList.of<Ingredient>()
+
+    for (i in 0 until ingredients.size()) {
+        val ingredient = Ingredient.fromJson(ingredients[i])
+        if (!ingredient.isEmpty) defaultedList += ingredient
+    }
+
+    return defaultedList
 }
 
 fun RecipeSerializer<*>.getStack(result: JsonObject) = ShapedRecipe.getItemStack(result)

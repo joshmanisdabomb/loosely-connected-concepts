@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.SpawnEggItem
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
@@ -30,7 +31,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         defaultState = stateManager.defaultState.with(BOTTOM, false).with(ENTITY, DungeonTableEntity.SKELETON)
     }
 
-    //TODO right click with spawn egg to change type
+    //TODO maybe lava ember particle effects and zombie infection sounds
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(BOTTOM, ENTITY).let {}
 
@@ -45,7 +46,19 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = if (state.get(BOTTOM)) DungeonTableBlockEntity(pos, state) else null
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        if (!world.isClient) {
+        val stack = player.getStackInHand(hand)
+        val item = stack?.item
+        if (item is SpawnEggItem) {
+            val entity = DungeonTableEntity.from(item.getEntityType(stack.tag)) ?: return ActionResult.FAIL
+            world.setBlockState(pos, state.with(ENTITY, entity), 18)
+            if (state.get(BOTTOM)) {
+                world.setBlockState(pos.up(), state.with(BOTTOM, false).with(ENTITY, entity), 18)
+            } else {
+                world.setBlockState(pos.down(), state.with(BOTTOM, true).with(ENTITY, entity), 18)
+            }
+            if (!player.isCreative) stack.decrement(1)
+            return ActionResult.CONSUME
+        } else if (!world.isClient) {
             if (state.get(BOTTOM)) {
                 player.openHandledScreen(state.createScreenHandlerFactory(world, pos) ?: return ActionResult.SUCCESS)
             } else {
@@ -107,7 +120,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
-        if (state != newState) {
+        if (!state.isOf(newState.block)) {
             ItemScatterer.spawn(world, pos, (world.getBlockEntity(pos) as? DungeonTableBlockEntity)?.inventory ?: return super.onStateReplaced(state, world, pos, newState, moved))
             world.updateComparators(pos, this);
         }

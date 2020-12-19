@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.screen
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.container.DungeonTableScreenHandler
+import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.util.math.MatrixStack

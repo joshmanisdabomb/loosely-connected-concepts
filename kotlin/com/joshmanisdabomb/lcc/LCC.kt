@@ -20,6 +20,8 @@ object LCC : ModInitializer {
         LCCScreenHandlers.init()
         LCCPacketsToServer.init()
         LCCParticles.init()
+        LCCRecipeTypes.init()
+        LCCRecipeSerializers.init()
         LCCDamage.init()
         LCCEffects.init()
         LCCCommands.init()

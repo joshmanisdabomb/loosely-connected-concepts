@@ -30,6 +30,8 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         defaultState = stateManager.defaultState.with(BOTTOM, false).with(ENTITY, DungeonTableEntity.SKELETON)
     }
 
+    //TODO right click with spawn egg to change type
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(BOTTOM, ENTITY).let {}
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) BOTTOM_OUTLINE else TOP_OUTLINE
@@ -106,7 +108,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
         if (state != newState) {
-            ItemScatterer.spawn(world, pos, world.getBlockEntity(pos) as? DungeonTableBlockEntity ?: return super.onStateReplaced(state, world, pos, newState, moved))
+            ItemScatterer.spawn(world, pos, (world.getBlockEntity(pos) as? DungeonTableBlockEntity)?.inventory ?: return super.onStateReplaced(state, world, pos, newState, moved))
             world.updateComparators(pos, this);
         }
         super.onStateReplaced(state, world, pos, newState, moved)

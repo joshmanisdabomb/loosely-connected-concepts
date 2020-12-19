@@ -1,0 +1,20 @@
+{
+  "type": "lcc:spawner_table_shaped",
+  "pattern": [
+    "  r r",
+    " rb r",
+    "rb   "
+  ],
+  "key": {
+    "r": {
+      "item": "lcc:ruby_block"
+    },
+    "b": {
+      "item": "lcc:sapphire_block"
+    }
+  },
+  "result": {
+    "item": "lcc:gauntlet",
+    "count": 7
+  }
+}

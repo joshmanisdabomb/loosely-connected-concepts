@@ -21,7 +21,7 @@ import kotlin.math.min
 
 class DungeonTableScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: DungeonTableInventory) : AbstractRecipeScreenHandler<Inventory>(LCCScreenHandlers.spawner_table, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, DungeonTableInventory().apply { println("listened2") })
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, DungeonTableInventory())
 
     val result = CraftingResultInventory()
     val listener = InventoryChangedListener(this::onContentChanged)

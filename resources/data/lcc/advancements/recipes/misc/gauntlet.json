@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_ruby_block": {
+    "has_nether_star": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:ruby_block"
+            "item": "minecraft:nether_star"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_ruby_block",
+      "has_nether_star",
       "has_the_recipe"
     ]
   ]

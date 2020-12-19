@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos
 
 class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.spawner_table, pos, state), NamedScreenHandlerFactory {
 
-    val inventory = DungeonTableInventory().apply { addListener { this@DungeonTableBlockEntity.markDirty(); println("listened") } }
+    val inventory = DungeonTableInventory().apply { addListener { this@DungeonTableBlockEntity.markDirty() } }
     var customName: Text? = null
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = DungeonTableScreenHandler(syncId, inv, inventory)

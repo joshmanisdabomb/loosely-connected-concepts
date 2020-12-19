@@ -9,7 +9,7 @@
       "item": "minecraft:redstone"
     },
     "g": {
-      "item": "minecraft:glowstone"
+      "item": "minecraft:glowstone_dust"
     },
     "p": {
       "item": "minecraft:gunpowder"
@@ -19,7 +19,6 @@
     }
   },
   "result": {
-    "item": "lcc:spawner_table",
-    "count": 8
+    "item": "lcc:spawner_table"
   }
 }

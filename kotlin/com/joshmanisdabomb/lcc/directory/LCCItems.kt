@@ -98,7 +98,7 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     val oil_bucket by create(ExtraSettings().creativeEx(WASTELAND, sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
 
     //Nostalgia
-    val simulation_fabric by create(ExtraSettings().creativeEx(NOSTALGIA, sortValueInt(0))) { Item(Item.Settings().defaults()) }
+    val simulation_fabric by create(ExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-1))) { Item(Item.Settings().defaults()) }
 
     //TODO pills
 

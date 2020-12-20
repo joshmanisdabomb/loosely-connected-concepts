@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.inventory.DungeonTableInventory
+import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos
 
 class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.spawner_table, pos, state), NamedScreenHandlerFactory {
 
-    val inventory = DungeonTableInventory().apply { addListener { this@DungeonTableBlockEntity.markDirty() } }
+    val inventory = DefaultInventory(48).apply { addListener { this@DungeonTableBlockEntity.markDirty() } }
     var customName: Text? = null
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = DungeonTableScreenHandler(syncId, inv, inventory)

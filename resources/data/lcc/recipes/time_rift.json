@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cdc",
+    "dsd",
+    "cdc"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:clock"
+    },
+    "d": {
+      "item": "minecraft:ancient_debris"
+    },
+    "s": {
+      "item": "lcc:simulation_fabric"
+    }
+  },
+  "result": {
+    "item": "lcc:time_rift"
+  }
+}

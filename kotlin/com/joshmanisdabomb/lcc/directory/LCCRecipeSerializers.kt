@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.recipe.DungeonTableShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.DungeonTableShapelessRecipe
+import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.util.registry.Registry
 
@@ -11,5 +12,7 @@ object LCCRecipeSerializers : RegistryDirectory<RecipeSerializer<*>, Unit>() {
 
     val spawner_table_shaped by create { DungeonTableShapedRecipe.Serializer() }
     val spawner_table_shapeless by create { DungeonTableShapelessRecipe.Serializer() }
+
+    val time_rift by create { TimeRiftRecipe.Serializer() }
 
 }

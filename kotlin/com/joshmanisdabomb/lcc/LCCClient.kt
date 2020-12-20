@@ -6,6 +6,7 @@ import net.fabricmc.api.ClientModInitializer
 object LCCClient : ClientModInitializer {
 
     override fun onInitializeClient() {
+        LCCBlocks.initRenderLayers()
         LCCGroups.init()
         LCCModelLayers.init()
         LCCModels.init()

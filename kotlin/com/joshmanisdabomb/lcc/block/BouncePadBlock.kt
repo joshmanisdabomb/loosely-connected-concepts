@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -107,9 +106,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         }
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
-        return if (world.isClient) checkType(type, LCCBlockEntities.bounce_pad, BouncePadBlockEntity::tick) else null
-    }
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.bounce_pad, BouncePadBlockEntity::tick) else null
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 

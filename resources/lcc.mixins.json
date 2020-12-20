@@ -14,7 +14,8 @@
     "GauntletLivingMixin",
     "GauntletEntityMixin",
     "HeartsLivingMixin",
-    "HeartsPlayerMixin"
+    "HeartsPlayerMixin",
+    "ItemEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

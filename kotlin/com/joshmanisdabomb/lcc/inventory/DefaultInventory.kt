@@ -7,10 +7,10 @@ import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.util.collection.DefaultedList
 
-interface DefaultInventory : Inventory {
+open class DefaultInventory(size: Int) : Inventory {
 
-    abstract val inventory: DefaultedList<ItemStack>
-    abstract val listeners: MutableList<InventoryChangedListener>
+    val inventory = DefaultedList.ofSize(size, ItemStack.EMPTY)
+    val listeners = mutableListOf<InventoryChangedListener>()
 
     override fun clear() = inventory.clear()
 

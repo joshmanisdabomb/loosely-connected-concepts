@@ -1,5 +1,5 @@
 # Loosely Connected Concepts #
-This is a mod for Minecraft 1.16.3 aiming to be a vanilla-like expansion to the base game.
+This is a mod targeted at the most recent snapshots of Minecraft aiming to be a vanilla-like expansion to the base game.
 It features blocks, items, mobs, biomes and dimensions that stand on their own, but also connect with each other.
 
 ** This mod is currently being ported to Fabric and is not feature complete. **
@@ -8,14 +8,16 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
 
 ---
 
-## Port In Progress ##
+## Features ##
  * Ores, Tools and Armour
  * Hearts and Heart Containers
  * Doom Gauntlet
- * Spreaders and Spreader Interface
- * Dimensional rift to access classic and pocket edition items.
  * Roads using connected textures.
  * Bounce Pads
+ 
+## Port In Progress ##
+ * Spreaders and Spreader Interface
+ * Dimensional rift to access classic and pocket edition items.
  * Basic Rainbow Dimension and Wasteland biome.
  * Atomic Bomb
 
@@ -36,9 +38,10 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Take rockets to different planets (other solar systems procedurally generated, similar to 20winfinity but more coherent and I thought of it first god dammit)
  
 ## Downloads ##
+ * [0.1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.1.0/) for 20w51a on 21 December 2020
+ 
+## Discontinued Forge Version ##
  * [Beta 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.15.2-b1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/1beaa2d90b4bd7182eefdc4b1169b017a5d40481) for 1.15.2 on 08 May 2020
-
-### Other Versions ###
  * [Alpha 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/cdbbe20844bd84589f1eea6ea54bed375599f6ed) for 1.14.4 on 04 October 2019
  * [Alpha 0.5](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.4-a0.5.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/956f8f1b8ea49a253ad1b0e680e924f574bb8752) for 1.14.4 on 17 August 2019
  * [Alpha 0.4](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.14.3-a0.4.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/4e0d31d185f6fe2c89f51ffd8ec9683e27ed4e34) for 1.14.3 on 20 July 2019

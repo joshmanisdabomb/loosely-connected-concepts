@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "lcc",
-  "version": "${version}",
+  "version": "0.1.0",
 
   "name": "Loosely Connected Concepts",
   "description": "A bottom tier expansion pack for Minecraft.",

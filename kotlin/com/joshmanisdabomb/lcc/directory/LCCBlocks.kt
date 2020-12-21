@@ -85,7 +85,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val classic_planks by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.WOOD).strength(2.0f, 5.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
     val classic_leaves by create(ExtraSettings().creativeEx(NOSTALGIA).renderCutoutMipped()) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2f).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).allowsSpawning(::never).suffocates(::never).blockVision(::never)) }
     val classic_sapling by create(ExtraSettings().creativeEx(NOSTALGIA).renderCutout()) { ClassicSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
-    val potted_classic_sapling by create(ExtraSettings().renderCutout()) { FlowerPotBlock(classic_sapling, Settings.of(Material.SUPPORTED).breakInstantly().nonOpaque()) }
+    val potted_classic_sapling by create(ExtraSettings().renderCutout()) { FlowerPotBlock(classic_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
     val classic_gravel by create(ExtraSettings().creativeEx(NOSTALGIA)) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.STONE).breakByTool(SHOVELS).strength(0.6f).sounds(BlockSoundGroup.GRAVEL)) {
         override fun getColor(state: BlockState, world: BlockView, pos: BlockPos) = 0x9C9193
     } }
@@ -93,9 +93,9 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val classic_glass by create(ExtraSettings().creativeEx(NOSTALGIA).renderCutout()) { GlassBlock(FabricBlockSettings.of(Material.GLASS).strength(0.3f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never)) }
     val classic_cloth by createMap(*ClassicDyeColor.values(), propertySupplier = { ExtraSettings().creativeEx(NOSTALGIA, sortValueDefault(), "classic_cloth", { stack -> it }) }) { key, name, properties -> Block(FabricBlockSettings.of(Material.WOOL, key.lcc_mapColor).breakByTool(SHEARS).strength(0.8f).sounds(BlockSoundGroup.WOOL)) }
     val classic_rose by create(ExtraSettings().creativeEx(NOSTALGIA).renderCutout()) { FlowerBlock(StatusEffects.ABSORPTION, 4, Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
-    val potted_classic_rose by create(ExtraSettings().renderCutout()) { FlowerPotBlock(classic_rose, Settings.of(Material.SUPPORTED).breakInstantly().nonOpaque()) }
+    val potted_classic_rose by create(ExtraSettings().renderCutout()) { FlowerPotBlock(classic_rose, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
     val cyan_flower by create(ExtraSettings().creativeEx(NOSTALGIA).renderCutout()) { FlowerBlock(StatusEffects.LEVITATION, 5, Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
-    val potted_cyan_flower by create(ExtraSettings().renderCutout()) { FlowerPotBlock(cyan_flower, Settings.of(Material.SUPPORTED).breakInstantly().nonOpaque()) }
+    val potted_cyan_flower by create(ExtraSettings().renderCutout()) { FlowerPotBlock(cyan_flower, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
     val classic_iron_block by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.IRON).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
     val alpha_iron_block by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.copy(classic_iron_block)) }
     val classic_gold_block by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).requiresTool().strength(3.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
@@ -110,7 +110,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val classic_crying_obsidian by create(ExtraSettings().creativeEx(NOSTALGIA)) { ClassicCryingObsidianBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(50.0f, 1200.0f).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val glowing_obsidian by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.NETHER).strength(50.0f, 1200.0f).luminance(12).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_stonecutter by create(ExtraSettings().creativeEx(NOSTALGIA)) { ClassicStonecutterBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE).breakByTool(PICKAXES).requiresTool().strength(2.0f, 6.0f).sounds(BlockSoundGroup.STONE)) }
-    val cog by create(ExtraSettings().creativeEx(NOSTALGIA)) { CogBlock(FabricBlockSettings.of(Material.SUPPORTED, MapColor.IRON).breakInstantly().sounds(BlockSoundGroup.METAL)) }
+    val cog by create(ExtraSettings().creativeEx(NOSTALGIA)) { CogBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON).breakInstantly().sounds(BlockSoundGroup.METAL)) }
 
     //TODO pill printer
 

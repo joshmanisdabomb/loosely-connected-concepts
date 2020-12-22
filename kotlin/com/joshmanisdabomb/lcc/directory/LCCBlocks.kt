@@ -3,17 +3,20 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
 import com.joshmanisdabomb.lcc.block.*
+import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.concepts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueDefault
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags.*
 import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.Item
@@ -76,7 +79,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     //IDEA Kiln for faster smelting of non smokable or blastables
 
     //Nostalgia TODO
-    val time_rift by create(ExtraSettings().creativeEx(NOSTALGIA)) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
+    val time_rift by create(ExtraSettings().creativeEx(NOSTALGIA).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
     //IDEA time rift, basic method of taking blocks back in time to notable versions (4 ancient debris, 4 clocks, 1 sim fabric)
     //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
 
@@ -120,6 +123,10 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
 
     override fun register(key: String, thing: Block, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initBlock(thing) }
 
+    fun initClient() {
+        all.forEach { (k, v) -> allProperties[k]!!.initBlockClient(v) }
+    }
+
     override fun getDefaultProperty() = ExtraSettings()
 
     fun Block.traitHorizontalPlacement(context: ItemPlacementContext, property: DirectionProperty = HorizontalFacingBlock.FACING) = defaultState.with(property, context.playerFacing.opposite)!!
@@ -127,32 +134,29 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     fun Block.traitDirectionalFacePlacement(context: ItemPlacementContext, property: DirectionProperty = FacingBlock.FACING) = defaultState.with(property, context.side)!!
     fun Block.traitPillarPlacement(context: ItemPlacementContext, property: EnumProperty<Axis> = PillarBlock.AXIS) = defaultState.with(property, context.side.axis)!!
 
-    class ExtraSettings internal constructor(vararg flammabilityEntries: FlammabilityEntry = emptyArray(), private var renderLayer: Int = 0, category: CreativeExCategory? = null, sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) : LCCItems.ExtraSettings(category, sortValue, set, setKey) {
+    class ExtraSettings internal constructor(vararg flammabilityEntries: FlammabilityEntry = emptyArray(), private var renderLayer: (() -> () -> RenderLayer)? = null, category: CreativeExCategory? = null, dynamicRender: (() -> (BlockEntityRendererFactory.Context?) -> BuiltinItemRendererRegistry.DynamicItemRenderer)? = null, sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) : LCCItems.ExtraSettings(dynamicRender, category, sortValue, set, setKey) {
 
         private val flammability = mutableListOf(*flammabilityEntries)
-
-        override fun creativeEx(category: CreativeExCategory, sortValue: (default: Int, item: Item) -> Int, set: String?, setKey: ((stack: ItemStack) -> CreativeExSetKey)?): ExtraSettings = super.creativeEx(category, sortValue, set, setKey).let { this }
-
-        fun flammable(burn: Int, chance: Int, vararg fires: Block) = flammability.add(FlammabilityEntry(burn, chance, *fires)).let { this }
-
-        fun renderCutout() = this.also { renderLayer = 1 }
-
-        fun renderCutoutMipped() = this.also { renderLayer = 2 }
-
-        fun renderTranslucent() = this.also { renderLayer = 3 }
 
         fun initBlock(block: Block) {
             flammability.forEach { f -> f.fires.forEach { FlammableBlockRegistry.getInstance(it).add(block, f.burn, f.chance) } }
         }
 
-        fun initRenderLayer(map: BlockRenderLayerMap, block: Block) {
-            map.putBlock(block, when (renderLayer) {
-                1 -> RenderLayer.getCutout()
-                2 -> RenderLayer.getCutoutMipped()
-                3 -> RenderLayer.getTranslucent()
-                else -> return
-            })
+        fun initBlockClient(block: Block) {
+            if (renderLayer != null) BlockRenderLayerMap.INSTANCE.putBlock(block, renderLayer!!()())
         }
+
+        override fun creativeEx(category: CreativeExCategory, sortValue: (default: Int, item: Item) -> Int, set: String?, setKey: ((stack: ItemStack) -> CreativeExSetKey)?): ExtraSettings = super.creativeEx(category, sortValue, set, setKey).let { this }
+
+        override fun dynamicItemRender(renderer: () -> (context: BlockEntityRendererFactory.Context?) -> BuiltinItemRendererRegistry.DynamicItemRenderer) = super.dynamicItemRender(renderer).let { this }
+
+        fun flammable(burn: Int, chance: Int, vararg fires: Block) = flammability.add(FlammabilityEntry(burn, chance, *fires)).let { this }
+
+        fun renderCutout() = this.also { renderLayer = { RenderLayer::getCutout } }
+
+        fun renderCutoutMipped() = this.also { renderLayer = { RenderLayer::getCutoutMipped } }
+
+        fun renderTranslucent() = this.also { renderLayer = { RenderLayer::getTranslucent } }
 
         companion object {
 
@@ -169,10 +173,6 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
 
         }
 
-    }
-
-    fun initRenderLayers() {
-        allProperties.forEach { (k, v) -> v.initRenderLayer(BlockRenderLayerMap.INSTANCE, all[k]!!) }
     }
 
     private fun never(state: BlockState, world: BlockView, pos: BlockPos) = false

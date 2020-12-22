@@ -8,6 +8,8 @@ import net.minecraft.util.registry.Registry
 
 object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
 
+    private val _map = mutableMapOf<String, BlockItem>()
+
     val oil by create { Replacement() }
     val asphalt by create { Replacement() }
     val road by create { Replacement() }
@@ -18,6 +20,13 @@ object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
             val blockItem = all.getOrDefault(k, Replacement(BlockItem(v, Item.Settings().defaults()))).bi ?: return@forEach
             Registry.register(Registry.ITEM, LCC.id(k), blockItem)
             LCCBlocks.getProperties(blockItem.block)?.initItem(blockItem)
+            _map[k] = blockItem
+        }
+    }
+
+    fun initClient() {
+        _map.forEach { (k, v) ->
+            LCCBlocks.getProperties(v.block)?.initItemClient(v)
         }
     }
 

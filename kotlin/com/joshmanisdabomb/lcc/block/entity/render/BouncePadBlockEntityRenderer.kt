@@ -4,23 +4,20 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.extensions.blockEntityTransform
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
-import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.item.ItemStack
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.MathHelper
 import kotlin.math.PI
 
-class BouncePadBlockEntityRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BouncePadBlockEntity>, BuiltinItemRendererRegistry.DynamicItemRenderer {
+class BouncePadBlockEntityRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BouncePadBlockEntity> {
 
     val bouncers: Array<ModelPart>
 
@@ -40,10 +37,6 @@ class BouncePadBlockEntityRenderer(context: BlockEntityRendererFactory.Context) 
         direction.blockEntityTransform(matrices)
         bouncers[8.minus(extensionWhole).coerceIn(0, 8)].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
         matrices.pop()
-    }
-
-    override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
-
     }
 
     companion object : ClientSpriteRegistryCallback {

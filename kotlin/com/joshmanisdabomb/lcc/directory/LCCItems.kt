@@ -11,9 +11,14 @@ import com.joshmanisdabomb.lcc.item.*
 import com.joshmanisdabomb.lcc.item.AxeItem
 import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.block.Block
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.*
+import net.minecraft.resource.ResourceType
 import net.minecraft.util.Rarity
 import net.minecraft.util.Util
 import net.minecraft.util.collection.DefaultedList
@@ -104,19 +109,15 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
 
     override fun register(key: String, thing: Item, properties: ExtraSettings) = super.register(key, thing, properties).apply { properties.initItem(thing) }
 
+    fun initClient() {
+        all.forEach { (k, v) -> allProperties[k]!!.initItemClient(v) }
+    }
+
     override fun getDefaultProperty() = ExtraSettings()
 
     fun Item.Settings.defaults(): Item.Settings = this.group(LCCGroups.group)
 
-    open class ExtraSettings internal constructor (private var category: CreativeExCategory? = null, private var sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), private var set: String? = null, private var setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) {
-
-        open fun creativeEx(category: CreativeExCategory, sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null): ExtraSettings {
-            this.category = category
-            this.set = set
-            this.setKey = setKey
-            this.sortValue = sortValue
-            return this
-        }
+    open class ExtraSettings internal constructor (private var dynamicRender: (() -> (context: BlockEntityRendererFactory.Context?) -> BuiltinItemRendererRegistry.DynamicItemRenderer)? = null, private var category: CreativeExCategory? = null, private var sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), private var set: String? = null, private var setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) {
 
         open fun initItem(item: Item) {
             if (category == null) return
@@ -128,6 +129,27 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
             } else {
                 list.forEachIndexed { k, v -> group.addToCategory(v, category!!, sortValue) }
             }
+        }
+
+        open fun initItemClient(item: Item) {
+            if (dynamicRender != null) {
+                val renderer = dynamicRender!!()(null)
+                BuiltinItemRendererRegistry.INSTANCE.register(item, renderer)
+                (renderer as? IdentifiableResourceReloadListener)?.apply { ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(renderer) }
+            }
+        }
+
+        open fun creativeEx(category: CreativeExCategory, sortValue: (default: Int, item: Item) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null): ExtraSettings {
+            this.category = category
+            this.set = set
+            this.setKey = setKey
+            this.sortValue = sortValue
+            return this
+        }
+
+        open fun dynamicItemRender(renderer: () -> (context: BlockEntityRendererFactory.Context?) -> BuiltinItemRendererRegistry.DynamicItemRenderer): ExtraSettings {
+            dynamicRender = renderer
+            return this
         }
 
         companion object {

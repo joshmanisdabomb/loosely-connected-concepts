@@ -55,7 +55,7 @@ class TimeRiftBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
         fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: TimeRiftBlockEntity) {
             entity.lastSize = entity.size
-            entity.size = Math.max(1.0f, entity.size * 0.94f)
+            entity.size = max(1.0f, entity.size * 0.94f)
 
             tick(world, pos, state, entity) { item, _, _, _, _, _ -> item.velocity = Vec3d.ZERO }
         }

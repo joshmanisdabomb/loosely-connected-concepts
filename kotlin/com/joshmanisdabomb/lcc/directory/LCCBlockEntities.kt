@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.DungeonTableBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
+import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry
@@ -24,6 +25,8 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     fun initRenderers() {
         BlockEntityRendererRegistry.INSTANCE.register(bounce_pad, ::BouncePadBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(BouncePadBlockEntityRenderer)
+        BlockEntityRendererRegistry.INSTANCE.register(time_rift, ::TimeRiftBlockEntityRenderer)
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TimeRiftBlockEntityRenderer)
     }
 
 }

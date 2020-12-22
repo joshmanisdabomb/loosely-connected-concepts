@@ -34,7 +34,7 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
 
     //Resources
     val ruby by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(0))) { Item(Item.Settings().defaults()) } //TODO from time rift
-    val topaz by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(100))) { Item(Item.Settings().defaults()) } //TODO from fishing
+    val topaz_shard by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(100))) { Item(Item.Settings().defaults()) }
     val sapphire by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(200))) { Item(Item.Settings().defaults()) } //TODO from dungeon, temple, etc chests
     val uranium by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(300))) { Item(Item.Settings().defaults()) }
     val uranium_nugget by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(::uranium))) { Item(Item.Settings().defaults()) }
@@ -54,15 +54,15 @@ object LCCItems : RegistryDirectory<Item, LCCItems.ExtraSettings>() {
     val ruby_chestplate by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { ArmorItem(LCCArmorMaterials.RUBY, EquipmentSlot.CHEST, Item.Settings().defaults()) }
     val ruby_leggings by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { ArmorItem(LCCArmorMaterials.RUBY, EquipmentSlot.LEGS, Item.Settings().defaults()) }
     val ruby_boots by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { ArmorItem(LCCArmorMaterials.RUBY, EquipmentSlot.FEET, Item.Settings().defaults()) }
-    val topaz_sword by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { SwordItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
-    val topaz_pickaxe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { PickaxeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
-    val topaz_shovel by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { ShovelItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
-    val topaz_axe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { AxeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
-    val topaz_hoe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { HoeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
-    val topaz_helmet by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.HEAD, Item.Settings().defaults()) }
-    val topaz_chestplate by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.CHEST, Item.Settings().defaults()) }
-    val topaz_leggings by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.LEGS, Item.Settings().defaults()) }
-    val topaz_boots by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.FEET, Item.Settings().defaults()) }
+    val topaz_sword by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { SwordItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
+    val topaz_pickaxe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { PickaxeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
+    val topaz_shovel by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { ShovelItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
+    val topaz_axe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { AxeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
+    val topaz_hoe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { HoeItem(LCCToolMaterials.TOPAZ, Item.Settings().defaults()) }
+    val topaz_helmet by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.HEAD, Item.Settings().defaults()) }
+    val topaz_chestplate by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.CHEST, Item.Settings().defaults()) }
+    val topaz_leggings by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.LEGS, Item.Settings().defaults()) }
+    val topaz_boots by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::topaz_shard))) { ArmorItem(LCCArmorMaterials.TOPAZ, EquipmentSlot.FEET, Item.Settings().defaults()) }
     val emerald_sword by create(ExtraSettings().creativeEx(TOOLS, sortValueInt(150))) { SwordItem(LCCToolMaterials.EMERALD, Item.Settings().defaults()) }
     val emerald_pickaxe by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::emerald_sword))) { PickaxeItem(LCCToolMaterials.EMERALD, Item.Settings().defaults()) }
     val emerald_shovel by create(ExtraSettings().creativeEx(TOOLS, sortValueFrom(::emerald_sword))) { ShovelItem(LCCToolMaterials.EMERALD, Item.Settings().defaults()) }

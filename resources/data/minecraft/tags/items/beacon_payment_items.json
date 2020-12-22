@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "lcc:ruby",
-    "lcc:topaz",
+    "lcc:topaz_shard",
     "lcc:sapphire",
     "minecraft:amethyst_shard"
   ]

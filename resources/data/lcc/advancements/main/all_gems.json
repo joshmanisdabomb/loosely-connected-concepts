@@ -2,7 +2,7 @@
   "parent": "lcc:main/root",
   "display": {
     "icon": {
-      "item": "lcc:topaz"
+      "item": "lcc:topaz_shard"
     },
     "title": {
       "translate": "advancements.lcc.main.all_gems.title"
@@ -31,7 +31,7 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:topaz"
+            "item": "lcc:topaz_shard"
           }
         ]
       }

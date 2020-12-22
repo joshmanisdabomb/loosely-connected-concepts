@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
 import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
+import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
@@ -13,6 +14,7 @@ import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.carver.Carver
 import net.minecraft.world.gen.carver.ConfiguredCarver
+import net.minecraft.world.gen.decorator.ChanceDecoratorConfig
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
 import net.minecraft.world.gen.decorator.Decorator
 import net.minecraft.world.gen.decorator.RangeDecoratorConfig
@@ -34,6 +36,7 @@ object LCCWorldgen {
 
     fun biomeModifications() {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biome != LCCBiomes.wasteland }, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.uranium));
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biome != LCCBiomes.wasteland }, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.topaz_geode));
     }
 }
 
@@ -42,6 +45,8 @@ object LCCFeatures : RegistryDirectory<Feature<*>, Unit>() {
     override val _registry by lazy { Registry.FEATURE }
 
     val oil_geyser by create { OilGeyserFeature(DefaultFeatureConfig.CODEC) }
+
+    val topaz_geode by create { SmallGeodeFeature(DefaultFeatureConfig.CODEC) }
 
 }
 
@@ -58,6 +63,8 @@ object LCCConfiguredFeatures : RegistryDirectory<ConfiguredFeature<*, *>, Unit>(
 
     val uranium by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2) }
     val uranium_wasteland by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2).repeat(3) }
+
+    val topaz_geode by create { LCCFeatures.topaz_geode.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.CHANCE.configure(ChanceDecoratorConfig(2))) }
 
 }
 

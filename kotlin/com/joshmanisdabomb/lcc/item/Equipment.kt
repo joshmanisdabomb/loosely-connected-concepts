@@ -21,11 +21,11 @@ class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -m
 
 enum class LCCToolMaterials(private val durability: Int, private val miningSpeed: Float, private val attackDamage: Float, private val miningLevel: Int, private val enchantability: Int, ingredientFactory: () -> Ingredient) : ToolMaterial {
 
-    RUBY(ToolMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
-    TOPAZ(ToolMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz) }),
-    EMERALD(ToolMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
-    SAPPHIRE(ToolMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
-    AMETHYST(ToolMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) });
+    RUBY(ToolMaterials.DIAMOND, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
+    TOPAZ(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz_shard) }),
+    EMERALD(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
+    SAPPHIRE(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
+    AMETHYST(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) });
 
     constructor(base: ToolMaterial, durability: Int = base.durability, miningSpeed: Float = base.miningSpeedMultiplier, attackDamage: Float = base.attackDamage, miningLevel: Int = base.miningLevel, enchantability: Int = base.enchantability, ingredientFactory: () -> Ingredient = base::getRepairIngredient) : this(durability, miningSpeed, attackDamage, miningLevel, enchantability, ingredientFactory)
 
@@ -42,11 +42,11 @@ enum class LCCToolMaterials(private val durability: Int, private val miningSpeed
 
 enum class LCCArmorMaterials(durabilityMultiplier: Float, private val protections: IntArray, private val enchantability: Int, private val toughness: Float, private val knockbackResistance: Float, private val equipSound: SoundEvent, ingredientFactory: () -> Ingredient) : ArmorMaterial {
 
-    RUBY(ArmorMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
-    TOPAZ(ArmorMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz) }),
-    EMERALD(ArmorMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
-    SAPPHIRE(ArmorMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
-    AMETHYST(ArmorMaterials.DIAMOND, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) });
+    RUBY(ArmorMaterials.DIAMOND, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
+    TOPAZ(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz_shard) }),
+    EMERALD(ArmorMaterials.IRON, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
+    SAPPHIRE(ArmorMaterials.IRON, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
+    AMETHYST(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) });
 
     private val durabilities = intArrayOf(13, 15, 16, 11).map { it.times(durabilityMultiplier).toInt() }
     private val ingredient by lazy(ingredientFactory)

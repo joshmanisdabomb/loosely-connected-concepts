@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_topaz": {
+    "has_topaz_shard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:topaz"
+            "item": "lcc:topaz_shard"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_topaz",
+      "has_topaz_shard",
       "has_the_recipe"
     ]
   ]

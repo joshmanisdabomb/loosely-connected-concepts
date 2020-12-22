@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/topaz"
+    "layer0": "lcc:block/topaz_cluster"
   }
 }

@@ -38,7 +38,8 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Take rockets to different planets (other solar systems procedurally generated, similar to 20winfinity but more coherent and I thought of it first god dammit)
  
 ## Downloads ##
- * [0.1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.1.0/) for 20w51a on 21 December 2020
+* [0.1.1](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.1.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.1-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.1.1/) for 20w51a on 22 December 2020
+* [0.1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.1.0-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.1.0/) for 20w51a on 21 December 2020
  
 ## Discontinued Forge Version ##
  * [Beta 1.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-1.15.2-b1.0.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/1beaa2d90b4bd7182eefdc4b1169b017a5d40481) for 1.15.2 on 08 May 2020

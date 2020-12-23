@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.concepts.color.LCCExtendedDyeColor;
+import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor;
 import net.minecraft.block.MapColor;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;

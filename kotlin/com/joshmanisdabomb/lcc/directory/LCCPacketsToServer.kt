@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import net.fabricmc.fabric.api.network.PacketConsumer
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 

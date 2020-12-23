@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction
-import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction.Companion.ability
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction.Companion.ability
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id

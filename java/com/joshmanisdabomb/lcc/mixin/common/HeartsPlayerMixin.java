@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.concepts.heart.HeartType;
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

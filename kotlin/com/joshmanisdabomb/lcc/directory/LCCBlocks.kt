@@ -4,7 +4,7 @@ import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
-import com.joshmanisdabomb.lcc.concepts.color.ClassicDyeColor
+import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueDefault
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueInt
@@ -63,8 +63,8 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val small_topaz_bud by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).renderCutout()) { AmethystClusterBlock(3, 4, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(1)}.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
 
     //Building
-    //TODO basalt as outer shell of topaz "geode"
-    //TODO marble as inner shell of topaz "geode"
+    val pumice by create(ExtraSettings().creativeEx(BUILDING)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY_TERRACOTTA).sounds(BlockSoundGroup.POINTED_DRIPSTONE).breakByTool(PICKAXES).requiresTool().strength(0.4f, 4.0f)) }
+    val rhyolite by create(ExtraSettings().creativeEx(BUILDING)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY).sounds(BlockSoundGroup.STONE).breakByTool(PICKAXES).requiresTool().strength(1.0f, 10.0f)) }
 
     //Gizmos
     val asphalt by create(ExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }

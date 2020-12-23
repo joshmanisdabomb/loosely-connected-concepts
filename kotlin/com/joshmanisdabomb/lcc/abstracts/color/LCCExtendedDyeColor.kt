@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.concepts.color
+package com.joshmanisdabomb.lcc.abstracts.color
 
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
 import net.minecraft.block.MapColor

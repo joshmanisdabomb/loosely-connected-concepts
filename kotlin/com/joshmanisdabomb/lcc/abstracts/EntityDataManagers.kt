@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.concepts
+package com.joshmanisdabomb.lcc.abstracts
 
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager

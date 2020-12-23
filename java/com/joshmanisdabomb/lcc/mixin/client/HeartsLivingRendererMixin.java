@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.client;
 
-import com.joshmanisdabomb.lcc.concepts.EntityDataManagersKt;
+import com.joshmanisdabomb.lcc.abstracts.EntityDataManagersKt;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

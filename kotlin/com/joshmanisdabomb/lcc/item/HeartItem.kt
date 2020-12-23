@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.concepts.heart.HeartType
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item

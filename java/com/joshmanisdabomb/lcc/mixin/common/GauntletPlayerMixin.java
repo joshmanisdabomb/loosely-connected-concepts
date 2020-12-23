@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.concepts.gauntlet.GauntletAction;
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.directory.LCCTrackers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

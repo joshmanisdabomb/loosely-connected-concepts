@@ -1,6 +1,6 @@
-package com.joshmanisdabomb.lcc.concepts.gauntlet
+package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
-import com.joshmanisdabomb.lcc.concepts.heart.HeartType
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCTrackers

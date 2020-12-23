@@ -1,6 +1,6 @@
-package com.joshmanisdabomb.lcc.concepts.heart
+package com.joshmanisdabomb.lcc.abstracts.heart
 
-import com.joshmanisdabomb.lcc.concepts.heartsLastType
+import com.joshmanisdabomb.lcc.abstracts.heartsLastType
 import com.joshmanisdabomb.lcc.directory.LCCTrackers
 import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import net.fabricmc.api.EnvType

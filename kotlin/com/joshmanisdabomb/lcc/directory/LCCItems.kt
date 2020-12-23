@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExGroup
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
-import com.joshmanisdabomb.lcc.concepts.heart.HeartType
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCItems.ExtraSettings.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.directory.LCCItems.ExtraSettings.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*

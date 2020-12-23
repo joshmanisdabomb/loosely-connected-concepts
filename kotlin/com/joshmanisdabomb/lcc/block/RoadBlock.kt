@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.concepts.color.AlternateDyeColor
-import com.joshmanisdabomb.lcc.concepts.color.LCCExtendedDyeColor
+import com.joshmanisdabomb.lcc.abstracts.color.AlternateDyeColor
+import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import net.minecraft.block.Block

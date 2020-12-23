@@ -2,8 +2,10 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
+import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
 import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
+import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
@@ -14,10 +16,7 @@ import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.carver.Carver
 import net.minecraft.world.gen.carver.ConfiguredCarver
-import net.minecraft.world.gen.decorator.ChanceDecoratorConfig
-import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
-import net.minecraft.world.gen.decorator.Decorator
-import net.minecraft.world.gen.decorator.RangeDecoratorConfig
+import net.minecraft.world.gen.decorator.*
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder
@@ -26,6 +25,7 @@ import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig
 object LCCWorldgen {
     fun init() {
         LCCFeatures.init()
+        LCCDecorators.init()
         LCCConfiguredFeatures.init()
         LCCCarvers.init()
         LCCConfiguredCarvers.init()
@@ -44,9 +44,9 @@ object LCCFeatures : RegistryDirectory<Feature<*>, Unit>() {
 
     override val _registry by lazy { Registry.FEATURE }
 
-    val oil_geyser by create { OilGeyserFeature(DefaultFeatureConfig.CODEC) }
+    val topaz_geode by create { SmallGeodeFeature(SmallGeodeFeatureConfig.codec) }
 
-    val topaz_geode by create { SmallGeodeFeature(DefaultFeatureConfig.CODEC) }
+    val oil_geyser by create { OilGeyserFeature(DefaultFeatureConfig.CODEC) }
 
 }
 
@@ -64,7 +64,7 @@ object LCCConfiguredFeatures : RegistryDirectory<ConfiguredFeature<*, *>, Unit>(
     val uranium by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2) }
     val uranium_wasteland by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2).repeat(3) }
 
-    val topaz_geode by create { LCCFeatures.topaz_geode.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.CHANCE.configure(ChanceDecoratorConfig(2))) }
+    val topaz_geode by create { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(43, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 
 }
 
@@ -91,5 +91,13 @@ object LCCConfiguredSurfaceBuilders : RegistryDirectory<ConfiguredSurfaceBuilder
     override val _registry by lazy { BuiltinRegistries.CONFIGURED_SURFACE_BUILDER }
 
     val wasteland by create { SurfaceBuilder.DEFAULT.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
+
+}
+
+object LCCDecorators : RegistryDirectory<Decorator<*>, Unit>() {
+
+    override val _registry by lazy { Registry.DECORATOR }
+
+    val near_lava_lake by create { NearLavaLakeDecorator(NopeDecoratorConfig.CODEC) }
 
 }

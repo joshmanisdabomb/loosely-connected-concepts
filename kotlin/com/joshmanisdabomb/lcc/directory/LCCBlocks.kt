@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.creativeex.CreativeExCategory
 import com.joshmanisdabomb.creativeex.CreativeExSetKey
+import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
-import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueDefault
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueInt
@@ -57,7 +57,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
 
     val topaz_block by create(ExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard))) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).strength(1.5f).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
     val budding_topaz by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(101))) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
-    val topaz_cluster by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).renderCutout()) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).ticksRandomly().nonOpaque().strength(1.5f).luminance {it.get(Properties.LIT).toInt(5)}.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
+    val topaz_cluster by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).renderCutout()) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).breakByTool(PICKAXES, 2).ticksRandomly().nonOpaque().strength(1.5f).luminance {it.get(Properties.LIT).toInt(5)}.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
     val large_topaz_bud by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(104)).renderCutout()) { AmethystClusterBlock(5, 3, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(4)}.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
     val medium_topaz_bud by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(103)).renderCutout()) { AmethystClusterBlock(4, 3, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(2)}.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
     val small_topaz_bud by create(ExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).renderCutout()) { AmethystClusterBlock(3, 4, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(1)}.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }

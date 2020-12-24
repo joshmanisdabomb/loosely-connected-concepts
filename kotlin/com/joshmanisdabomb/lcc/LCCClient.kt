@@ -12,6 +12,7 @@ object LCCClient : ClientModInitializer {
         LCCBlockItems.initClient()
         LCCGroups.init()
         LCCModels.init()
+        LCCEntities.initRenderers()
         LCCBlockEntities.initRenderers()
         LCCFluids.initRenderers()
         LCCScreens.init()

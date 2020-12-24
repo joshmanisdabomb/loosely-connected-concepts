@@ -102,7 +102,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
             entity.velocityModified = true
             entity.velocityDirty = true
 
-            PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient::bounce_pad_extension.id, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
+            PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient.id { bounce_pad_extension }, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
         }
     }
 

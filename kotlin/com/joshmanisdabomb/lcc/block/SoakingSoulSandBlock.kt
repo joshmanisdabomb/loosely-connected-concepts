@@ -42,7 +42,7 @@ class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCExtendedBlo
             entity.addVelocity(0.0, 0.78, 0.0)
             entity.fallDistance = -1.0F
             if (!world.isClient) {
-                PlayerStream.watching(world, this).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient::soul_sand_jump_particle.id, PacketByteBuf(Unpooled.buffer()).also { it.writeBoolean(true).writeDouble(this.x + 0.5).writeDouble(this.y + 1.0).writeDouble(this.z + 0.5).writeDouble(0.0).writeDouble(0.0).writeDouble(0.0).writeByte(Direction.UP.ordinal).writeFloat(1.0f).writeFloat(1.0f).writeFloat(1.0f) }) }
+                PlayerStream.watching(world, this).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient.id { soul_sand_jump_particle }, PacketByteBuf(Unpooled.buffer()).also { it.writeBoolean(true).writeDouble(this.x + 0.5).writeDouble(this.y + 1.0).writeDouble(this.z + 0.5).writeDouble(0.0).writeDouble(0.0).writeDouble(0.0).writeByte(Direction.UP.ordinal).writeFloat(1.0f).writeFloat(1.0f).writeFloat(1.0f) }) }
                 entity.world.playSound(null, this.x + 0.5, this.y + 0.5, this.z + 0.5, LCCSounds.soaking_soul_sand_jump, SoundCategory.BLOCKS, 0.4F, 1.3F)
             }
         }

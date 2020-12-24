@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueDefault
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.directory.LCCBlocks.ExtraSettings.Companion.sortValueInt
+import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -119,7 +120,7 @@ object LCCBlocks : RegistryDirectory<Block, LCCBlocks.ExtraSettings>() {
     val classic_diamond_block by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.DIAMOND).breakByTool(PICKAXES, 2).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
     val alpha_diamond_block by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.copy(classic_diamond_block)) }
     val classic_bricks by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).strength(2.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
-    val classic_tnt by create(ExtraSettings().creativeEx(NOSTALGIA)) { FunctionalTNTBlock(FabricBlockSettings.of(Material.TNT).breakInstantly().sounds(BlockSoundGroup.GRASS)) }
+    val classic_tnt by create(ExtraSettings().creativeEx(NOSTALGIA)) { FunctionalTNTBlock(::ClassicTNTEntity, FabricBlockSettings.of(Material.TNT).breakInstantly().sounds(BlockSoundGroup.GRASS), unstable = true) }
     val classic_mossy_cobblestone by create(ExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_chest by create(ExtraSettings().creativeEx(NOSTALGIA)) { ClassicChestBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(AXES).strength(2.5f).sounds(BlockSoundGroup.WOOD)) }
     val nether_reactor by create(ExtraSettings().creativeEx(NOSTALGIA)) { NetherReactorBlock(FabricBlockSettings.of(Material.STONE, MapColor.CYAN).breakByTool(PICKAXES).requiresTool().strength(4.0f, 5.0f).sounds(BlockSoundGroup.STONE)) }

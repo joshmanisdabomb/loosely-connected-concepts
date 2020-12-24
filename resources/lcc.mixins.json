@@ -5,6 +5,7 @@
   "mixins": [
     "ExtendedBlockMixin",
     "ExtendedDyeColorMixin",
+    "ExtendedEntityMixin",
     "ExtendedFluidMixin",
     "ExtendedItemMixin",
     "GenericPlayerMixin",

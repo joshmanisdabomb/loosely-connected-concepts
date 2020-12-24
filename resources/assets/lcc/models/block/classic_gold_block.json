@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "lcc:block/classic_gold_block_side",
+    "bottom": "lcc:block/classic_gold_block_bottom",
+    "top": "lcc:block/classic_gold_block_top"
+  }
+}

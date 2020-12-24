@@ -1,9 +1,15 @@
 package com.joshmanisdabomb.lcc.block
 
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.BlockView
 
-class ClassicGrassBlock(settings: Settings) : Block(settings) {
+open class ClassicGrassBlock(settings: Settings) : FunctionalSnowyGrassBlock(defaultSnowyFunction(Blocks.DIRT.defaultState), settings), LCCExtendedBlock {
 
-    init { println("TODO") }
+    override fun lcc_isPlantable(state: BlockState, world: BlockView, pos: BlockPos, plant: Block) = true
+
+    override fun lcc_isSoil(state: BlockState) = true
 
 }

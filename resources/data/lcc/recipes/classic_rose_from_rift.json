@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:poppy"
+  },
+  "result": "lcc:classic_rose",
+  "count": 1
+}

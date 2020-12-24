@@ -5,8 +5,32 @@
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "lcc:time_rift"
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "name": "lcc:time_rift"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "lcc:simulation_fabric"
+            }
+          ]
         }
       ],
       "conditions": [

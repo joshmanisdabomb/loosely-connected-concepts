@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:gravel"
+  },
+  "result": "lcc:classic_gravel",
+  "count": 1
+}

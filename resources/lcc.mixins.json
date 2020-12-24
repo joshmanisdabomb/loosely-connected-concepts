@@ -15,7 +15,11 @@
     "GauntletEntityMixin",
     "HeartsLivingMixin",
     "HeartsPlayerMixin",
-    "ItemEntityAccessor"
+    "ItemEntityAccessor",
+    "HookFlowableFluidMixin",
+    "HookPlantBlockMixin",
+    "HookFeatureMixin",
+    "StonecutterHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -14,13 +14,18 @@ import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
+import net.minecraft.world.gen.UniformIntDistribution
 import net.minecraft.world.gen.carver.Carver
 import net.minecraft.world.gen.carver.ConfiguredCarver
 import net.minecraft.world.gen.decorator.*
 import net.minecraft.world.gen.feature.*
+import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
+import net.minecraft.world.gen.foliage.BlobFoliagePlacer
+import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig
+import net.minecraft.world.gen.trunk.StraightTrunkPlacer
 
 object LCCWorldgen {
     fun init() {
@@ -65,6 +70,8 @@ object LCCConfiguredFeatures : RegistryDirectory<ConfiguredFeature<*, *>, Unit>(
     val uranium_wasteland by create { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2).repeat(3) }
 
     val topaz_geode by create { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(43, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
+
+    val classic_tree by create { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), StraightTrunkPlacer(4, 2, 0), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
 
 }
 

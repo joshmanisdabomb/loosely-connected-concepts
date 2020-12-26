@@ -9,4 +9,7 @@ object LCCTags : ThingDirectory<Tag<*>, Unit>() {
     val wasteland_effective by createWithName { TagRegistry.block(LCC.id(it)) }
     val wasteland_required by createWithName { TagRegistry.block(LCC.id(it)) }
 
+    val nether_reactor_base by createWithName { TagRegistry.block(LCC.id(it)) }
+    val nether_reactor_shell by createWithName { TagRegistry.block(LCC.id(it)) }
+
 }

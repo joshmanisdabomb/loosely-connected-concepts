@@ -10,6 +10,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.ItemEntity
+import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.boss.BossBar
 import net.minecraft.entity.boss.ServerBossBar
 import net.minecraft.loot.context.LootContext
@@ -90,10 +91,10 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
             val p = (world.random.nextFloat() * 5 + 2) * if (world.random.nextBoolean()) 1 else -1
             val s = world.random.nextFloat() * 14 - 7
             val xp = world.random.nextBoolean()
-            /*val pigman = ClassicZombiePigmanEntity(world)
-            pigman.setPosition(pos.x + 0.5 + if (xp) p else s, pos.y - 0.5, pos.z + 0.5 + if (xp) s else p)
-            pigman.onInitialSpawn(world, world.getLocalDifficulty(BlockPos(pos)), SpawnReason.EVENT, null, null)
-            world.spawnEntity(pigman)*/
+            val pigman = PocketZombiePigmanEntity(world)
+            pigman.updatePosition(pos.x + 0.5 + if (xp) p else s, pos.y - 0.5, pos.z + 0.5 + if (xp) s else p)
+            pigman.initialize(world, world.getLocalDifficulty(BlockPos(pos)), SpawnReason.EVENT, null, null)
+            world.spawnEntity(pigman)
         }
     }
 

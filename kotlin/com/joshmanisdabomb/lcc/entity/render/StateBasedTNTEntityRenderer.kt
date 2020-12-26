@@ -10,7 +10,7 @@ import net.minecraft.entity.TntEntity
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3f
 
-class StateBasedTNTRenderer(val state: BlockState, dispatcher: EntityRendererFactory.Context) : TntEntityRenderer(dispatcher) {
+class StateBasedTNTEntityRenderer(val state: BlockState, dispatcher: EntityRendererFactory.Context) : TntEntityRenderer(dispatcher) {
 
     override fun render(entity: TntEntity, yaw: Float, tickDelta: Float, matrixStack: MatrixStack, vertexConsumerProvider: VertexConsumerProvider, light: Int) {
         matrixStack.push()

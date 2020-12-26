@@ -1,9 +1,9 @@
 {
-  "block.soaking_soul_sand.jump": {
+  "block.lcc.soaking_soul_sand.jump": {
     "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump",
     "sounds": [ "lcc:block/soaking_soul_sand_jump" ]
   },
-  "block.soaking_soul_sand.break": {
+  "block.lcc.soaking_soul_sand.break": {
     "sounds": [
       {
         "name":  "lcc:dig/soaking_soul_sand1",
@@ -24,7 +24,7 @@
     ],
     "subtitle": "subtitles.block.generic.break"
   },
-  "block.soaking_soul_sand.fall": {
+  "block.lcc.soaking_soul_sand.fall": {
     "sounds": [
       "lcc:step/soaking_soul_sand1",
       "lcc:step/soaking_soul_sand2",
@@ -33,7 +33,7 @@
       "lcc:step/soaking_soul_sand5"
     ]
   },
-  "block.soaking_soul_sand.hit": {
+  "block.lcc.soaking_soul_sand.hit": {
     "sounds": [
       "lcc:step/soaking_soul_sand1",
       "lcc:step/soaking_soul_sand2",
@@ -43,7 +43,7 @@
     ],
     "subtitle": "subtitles.block.generic.hit"
   },
-  "block.soaking_soul_sand.place": {
+  "block.lcc.soaking_soul_sand.place": {
     "sounds": [
       {
         "name":  "lcc:dig/soaking_soul_sand1",
@@ -64,7 +64,7 @@
     ],
     "subtitle": "subtitles.block.generic.place"
   },
-  "block.soaking_soul_sand.step": {
+  "block.lcc.soaking_soul_sand.step": {
     "sounds": [
       "lcc:step/soaking_soul_sand1",
       "lcc:step/soaking_soul_sand2",
@@ -74,12 +74,34 @@
     ],
     "subtitle": "subtitles.block.generic.footsteps"
   },
-  "block.bounce_pad.jump": {
+  "block.lcc.bounce_pad.jump": {
     "subtitle": "subtitles.lcc.block.bounce_pad.jump",
     "sounds": [ "lcc:block/bounce_pad_jump" ]
   },
-  "block.bounce_pad.set": {
+  "block.lcc.bounce_pad.set": {
     "subtitle": "subtitles.lcc.block.bounce_pad.set",
     "sounds": [ "minecraft:random/click" ]
+  },
+  "entity.lcc.pocket_zombie_pigman.ambient": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpigangry1",
+      "minecraft:mob/zombified_piglin/zpigangry2",
+      "minecraft:mob/zombified_piglin/zpigangry3",
+      "minecraft:mob/zombified_piglin/zpigangry4"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.ambient"
+  },
+  "entity.lcc.pocket_zombie_pigman.hurt": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpighurt1",
+      "minecraft:mob/zombified_piglin/zpighurt2"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.hurt"
+  },
+  "entity.lcc.pocket_zombie_pigman.death": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpigdeath"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.death"
   }
 }

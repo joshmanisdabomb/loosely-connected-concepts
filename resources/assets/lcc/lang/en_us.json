@@ -44,7 +44,7 @@
   "block.lcc.classic_rose": "Classic Rose",
   "block.lcc.classic_sapling": "Classic Sapling",
   "block.lcc.classic_sponge": "Classic Sponge",
-  "block.lcc.classic_tnt": "Classic Tnt",
+  "block.lcc.classic_tnt": "Classic TNT",
   "block.lcc.cracked_mud": "Cracked Mud",
   "block.lcc.cyan_flower": "Cyan Flower",
   "block.lcc.enriched_uranium_block": "Block of Enriched Uranium",
@@ -105,6 +105,8 @@
   "effect.lcc.flammable": "Flammable",
   "effect.lcc.stun": "Stun",
   "effect.lcc.vulnerable": "Vulnerable",
+  "entity.lcc.classic_tnt": "Classic TNT",
+  "entity.lcc.pocket_zombie_pigman": "Pocket Zombie Pigman",
   "item.lcc.amethyst_axe": "Amethyst Axe",
   "item.lcc.amethyst_boots": "Amethyst Boots",
   "item.lcc.amethyst_chestplate": "Amethyst Chestplate",
@@ -179,5 +181,8 @@
   "itemGroup.lcc.group.set.classic_cloth": "Classic Cloths",
   "subtitles.lcc.block.bounce_pad.jump": "Bounce Pad protracts",
   "subtitles.lcc.block.bounce_pad.set": "Bounce Pad set",
-  "subtitles.lcc.block.soaking_soul_sand.jump": "Soaking Soul Sand squelches"
+  "subtitles.lcc.block.soaking_soul_sand.jump": "Soaking Soul Sand squelches",
+  "subtitles.lcc.entity.pocket_zombie_pigman.ambient": "Pocket Zombie Pigman grunts angrily",
+  "subtitles.lcc.entity.pocket_zombie_pigman.death": "Pocket Zombie Pigman dies",
+  "subtitles.lcc.entity.pocket_zombie_pigman.hurt": "Pocket Zombie Pigman hurts"
 }

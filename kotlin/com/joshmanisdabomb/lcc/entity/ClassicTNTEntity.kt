@@ -4,10 +4,9 @@ import com.joshmanisdabomb.lcc.directory.LCCEntities
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.TntEntity
-import net.minecraft.network.Packet
 import net.minecraft.world.World
 
-class ClassicTNTEntity(type: EntityType<ClassicTNTEntity>, world: World) : TntEntity(type, world), LCCExtendedEntity {
+class ClassicTNTEntity(type: EntityType<out ClassicTNTEntity>, world: World) : TntEntity(type, world), LCCExtendedEntity {
 
     private var placer: LivingEntity? = null
 

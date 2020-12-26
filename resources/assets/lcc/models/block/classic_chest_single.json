@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "lcc:block/classic_chest_top",
+    "up": "lcc:block/classic_chest_top",
+    "north": "lcc:block/classic_chest_front",
+    "south": "lcc:block/classic_chest_side",
+    "east": "lcc:block/classic_chest_side",
+    "west": "lcc:block/classic_chest_side",
+    "particle": "lcc:block/classic_chest_front"
+  }
+}

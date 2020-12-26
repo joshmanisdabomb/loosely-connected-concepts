@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.ClassicChestBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.DungeonTableBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
@@ -20,6 +21,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     val bounce_pad by create { BlockEntityType.Builder.create(::BouncePadBlockEntity, LCCBlocks.bounce_pad).build(null) }
     val spawner_table by create { BlockEntityType.Builder.create(::DungeonTableBlockEntity, LCCBlocks.spawner_table).build(null) }
     val time_rift by create { BlockEntityType.Builder.create(::TimeRiftBlockEntity, LCCBlocks.time_rift).build(null) }
+    val classic_chest by create { BlockEntityType.Builder.create(::ClassicChestBlockEntity, LCCBlocks.classic_chest).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

@@ -127,7 +127,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun hasComparatorOutput(state: BlockState) = true
+    override fun hasComparatorOutput(state: BlockState) = state.get(BOTTOM)
 
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
         if (!state.get(BOTTOM)) return 0

@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:chest"
+  },
+  "result": "lcc:classic_chest",
+  "count": 1
+}

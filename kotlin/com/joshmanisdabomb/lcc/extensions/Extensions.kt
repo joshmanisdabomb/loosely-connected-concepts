@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.slot.Slot
 import net.minecraft.util.math.Direction
@@ -92,4 +93,11 @@ fun ScreenHandler.addSlots(inventory: Inventory, x: Int, y: Int, w: Int, h: Int,
             adder(Slot(inventory, start.plus(i).plus(j.times(w)), x + i.times(18), y + j.times(18)))
         }
     }
+}
+
+fun CompoundTag.build(key: String, modify: CompoundTag.() -> Unit): CompoundTag {
+    val tag = this.getCompound(key)
+    modify(tag)
+    this.put(key, tag)
+    return tag
 }

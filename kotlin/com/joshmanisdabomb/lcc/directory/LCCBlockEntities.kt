@@ -20,6 +20,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     val time_rift by create { BlockEntityType.Builder.create(::TimeRiftBlockEntity, LCCBlocks.time_rift).build(null) }
     val classic_chest by create { BlockEntityType.Builder.create(::ClassicChestBlockEntity, LCCBlocks.classic_chest).build(null) }
     val nether_reactor by create { BlockEntityType.Builder.create(::NetherReactorBlockEntity, LCCBlocks.nether_reactor).build(null) }
+    val classic_crying_obsidian by create { BlockEntityType.Builder.create(::ClassicCryingObsidianBlockEntity, LCCBlocks.classic_crying_obsidian).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

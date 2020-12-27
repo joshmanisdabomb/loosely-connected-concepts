@@ -1,9 +1,68 @@
 package com.joshmanisdabomb.lcc.block
 
-import net.minecraft.block.Block
+import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.RespawnAnchorBlock
+import net.minecraft.command.argument.EntityAnchorArgumentType
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.Items
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
+import java.util.*
 
-class ClassicCryingObsidianBlock(settings: Settings) : Block(settings) {
+class ClassicCryingObsidianBlock(settings: Settings) : BlockWithEntity(settings), LCCExtendedBlock {
 
-    init { println("TODO") }
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        val stack = player.getStackInHand(hand)
+        if (player.isCreative || stack.isOf(Items.LAPIS_LAZULI)) {
+            if (!player.isCreative) stack.decrement(1)
+            if (!world.isClient) {
+                val splayer = player as? ServerPlayerEntity ?: return ActionResult.SUCCESS
+                if (splayer.spawnPointDimension != world.registryKey || splayer.spawnPointPosition != pos) {
+                    splayer.setSpawnPoint(world.registryKey, pos, 0.0f, false, true)
+                    world.playSound(null as PlayerEntity?, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, SoundEvents.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, SoundCategory.BLOCKS, 1.0f, 1.0f)
+                }
+            }
+            return ActionResult.SUCCESS
+        } else {
+            return ActionResult.PASS
+        }
+    }
+
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = ClassicCryingObsidianBlockEntity(pos, state)
+
+    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+
+    override fun lcc_spawnOn(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, yaw: Float, spawnPointSet: Boolean, alive: Boolean): Optional<Vec3d>? {
+        run {
+            val be = world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity ?: return@run
+            val playerPos = be.getLocation(player) ?: return@run
+            return Optional.of(playerPos)
+        }
+        return RespawnAnchorBlock.findRespawnPosition(EntityType.PLAYER, world, pos)
+    }
+
+    override fun lcc_spawnAfter(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
+        player.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, Vec3d.ofCenter(pos))
+    }
+
+    override fun lcc_spawnSet(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, oldWorld: ServerWorld?, oldState: BlockState?, oldPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
+        (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.register(player, player.pos)
+    }
+
+    override fun lcc_spawnRemoved(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, newWorld: ServerWorld?, newState: BlockState?, newPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
+        (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.deregister(player)
+    }
 
 }

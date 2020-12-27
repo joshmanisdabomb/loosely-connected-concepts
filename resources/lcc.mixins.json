@@ -8,6 +8,8 @@
     "ExtendedEntityMixin",
     "ExtendedFluidMixin",
     "ExtendedItemMixin",
+    "GenericPlayerSpawnMixin",
+    "GenericServerPlayerMixin",
     "GenericPlayerMixin",
     "GenericLivingMixin",
     "GenericEntityMixin",

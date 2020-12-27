@@ -1,13 +1,16 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
 import com.joshmanisdabomb.lcc.entity.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.fabricmc.fabric.api.network.PacketConsumer
+import net.minecraft.block.Blocks
 import net.minecraft.client.MinecraftClient
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
 
 object LCCPacketsToClient : PacketDirectory() {
@@ -79,6 +82,19 @@ object LCCPacketsToClient : PacketDirectory() {
             val be = world.getBlockEntity(pos) as? BouncePadBlockEntity ?: return@execute
             be.extend()
             be.effects()
+        }
+    } }
+
+    val classic_crying_obsidian_update by create { PacketConsumer { context, data ->
+        val pos = data.readBlockPos()
+        val activate = data.readBoolean()
+        context.taskQueue.execute {
+            val world = MinecraftClient.getInstance()?.world ?: return@execute
+            val player = MinecraftClient.getInstance()?.player ?: return@execute
+            if (!world.isRegionLoaded(pos, pos)) return@execute
+            val be = world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity ?: return@execute
+            if (activate) be.register(player, Vec3d.ZERO) else be.deregister(player)
+            world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.defaultState, LCCBlocks.classic_crying_obsidian.defaultState)
         }
     } }
 

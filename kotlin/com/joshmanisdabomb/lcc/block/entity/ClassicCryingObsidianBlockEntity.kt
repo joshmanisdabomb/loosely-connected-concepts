@@ -2,8 +2,10 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.build
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.network.ServerPlayerEntity
@@ -11,7 +13,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import java.util.*
 
-class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.classic_crying_obsidian, pos, state) {
+class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.classic_crying_obsidian, pos, state), BlockEntityClientSerializable {
 
     private val spawns = mutableMapOf<UUID, Vec3d>()
 
@@ -26,6 +28,21 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
     }
 
     override fun fromTag(tag: CompoundTag) {
+        fromClientTag(tag)
+        super.fromTag(tag)
+    }
+
+    override fun toTag(tag: CompoundTag): CompoundTag {
+        return super.toTag(toClientTag(tag))
+    }
+
+    fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]
+
+    fun isActive(player: ClientPlayerEntity): Boolean {
+        return spawns.contains(player.uuid)
+    }
+
+    override fun fromClientTag(tag: CompoundTag) {
         with (tag.getCompound("Spawns")) {
             keys.forEach {
                 with (this.getCompound(it)) {
@@ -33,10 +50,9 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
                 }
             }
         }
-        super.fromTag(tag)
     }
 
-    override fun toTag(tag: CompoundTag): CompoundTag {
+    override fun toClientTag(tag: CompoundTag): CompoundTag {
         tag.build("Spawns") {
             spawns.forEach { (k, v) ->
                 this.build(k.toString().toLowerCase()) {
@@ -46,9 +62,7 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
                 }
             }
         }
-        return super.toTag(tag)
+        return tag
     }
-
-    fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]
 
 }

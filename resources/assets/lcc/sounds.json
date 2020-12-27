@@ -103,5 +103,13 @@
       "minecraft:mob/zombified_piglin/zpigdeath"
     ],
     "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.death"
+  },
+  "block.lcc.classic_crying_obsidian.set_spawn": {
+    "sounds": [
+      "minecraft:block/respawn_anchor/set_spawn1",
+      "minecraft:block/respawn_anchor/set_spawn2",
+      "minecraft:block/respawn_anchor/set_spawn3"
+    ],
+    "subtitle": "subtitles.lcc.block.classic_crying_obsidian.set_spawn"
   }
 }

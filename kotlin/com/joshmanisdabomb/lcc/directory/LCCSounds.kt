@@ -23,6 +23,8 @@ object LCCSounds : RegistryDirectory<SoundEvent, Unit>() {
     val pocket_zombie_pigman_hurt by create { SoundEvent(LCC.id("entity.lcc.pocket_zombie_pigman.hurt")) }
     val pocket_zombie_pigman_death by create { SoundEvent(LCC.id("entity.lcc.pocket_zombie_pigman.death")) }
 
+    val classic_crying_obsidian_set_spawn by create { SoundEvent(LCC.id("block.lcc.classic_crying_obsidian.set_spawn")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

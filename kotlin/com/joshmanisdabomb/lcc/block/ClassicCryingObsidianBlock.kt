@@ -1,18 +1,21 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
-import net.minecraft.block.BlockRenderType
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.RespawnAnchorBlock
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient.id
+import com.joshmanisdabomb.lcc.directory.LCCSounds
+import io.netty.buffer.Unpooled
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
+import net.fabricmc.fabric.api.server.PlayerStream
+import net.minecraft.block.*
 import net.minecraft.command.argument.EntityAnchorArgumentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Items
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
@@ -25,13 +28,13 @@ class ClassicCryingObsidianBlock(settings: Settings) : BlockWithEntity(settings)
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
-        if (player.isCreative || stack.isOf(Items.LAPIS_LAZULI)) {
+        if (player.isCreative || stack.isOf(Items.LAPIS_BLOCK)) {
             if (!player.isCreative) stack.decrement(1)
             if (!world.isClient) {
                 val splayer = player as? ServerPlayerEntity ?: return ActionResult.SUCCESS
                 if (splayer.spawnPointDimension != world.registryKey || splayer.spawnPointPosition != pos) {
                     splayer.setSpawnPoint(world.registryKey, pos, 0.0f, false, true)
-                    world.playSound(null as PlayerEntity?, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, SoundEvents.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, SoundCategory.BLOCKS, 1.0f, 1.0f)
+                    world.playSound(null, pos.x.toDouble() + 0.5, pos.y.toDouble() + 0.5, pos.z.toDouble() + 0.5, LCCSounds.classic_crying_obsidian_set_spawn, SoundCategory.BLOCKS, 1.0f, 2.0f)
                 }
             }
             return ActionResult.SUCCESS
@@ -59,10 +62,14 @@ class ClassicCryingObsidianBlock(settings: Settings) : BlockWithEntity(settings)
 
     override fun lcc_spawnSet(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, oldWorld: ServerWorld?, oldState: BlockState?, oldPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
         (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.register(player, player.pos)
+        val p = PlayerStream.watching(world, pos).filter { it == player }.findFirst().orElse(null) ?: return
+        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient.id { classic_crying_obsidian_update }, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(true) })
     }
 
     override fun lcc_spawnRemoved(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, newWorld: ServerWorld?, newState: BlockState?, newPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
         (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.deregister(player)
+        val p = PlayerStream.watching(world, pos).filter { it == player }.findFirst().orElse(null) ?: return
+        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient.id { classic_crying_obsidian_update }, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(false) })
     }
 
 }

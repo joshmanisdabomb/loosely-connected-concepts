@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
+import com.joshmanisdabomb.lcc.block.model.ClassicCryingObsidianModel
 import com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel
 import com.joshmanisdabomb.lcc.block.model.LCCModel
 import com.joshmanisdabomb.lcc.block.model.RoadModel
@@ -21,6 +22,8 @@ object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResource
     val road_full_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 1f) }
     val road_path_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.9375f) }
     val road_half_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_half_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.4375f) }
+
+    val classic_crying_obsidian by create { ClassicCryingObsidianModel() }
 
     val models by lazy { all.mapKeys { (k, _) -> allProperties[k]!!(k) } }
 

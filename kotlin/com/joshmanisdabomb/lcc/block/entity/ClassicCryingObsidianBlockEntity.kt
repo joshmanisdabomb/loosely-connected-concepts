@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.extensions.build
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.network.ServerPlayerEntity
@@ -38,7 +37,7 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
 
     fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]
 
-    fun isActive(player: ClientPlayerEntity): Boolean {
+    fun isActive(player: PlayerEntity): Boolean {
         return spawns.contains(player.uuid)
     }
 

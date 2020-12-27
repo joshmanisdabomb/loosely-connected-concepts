@@ -29,6 +29,8 @@ class ClassicCryingObsidianBlock(settings: Settings) : BlockWithEntity(settings)
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
         if (player.isCreative || stack.isOf(Items.LAPIS_BLOCK)) {
+            val be = world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity ?: return ActionResult.SUCCESS
+            if (be.isActive(player)) return ActionResult.SUCCESS
             if (!player.isCreative) stack.decrement(1)
             if (!world.isClient) {
                 val splayer = player as? ServerPlayerEntity ?: return ActionResult.SUCCESS

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "side": "lcc:block/classic_iron_block_side",
-    "bottom": "lcc:block/classic_iron_block_bottom",
-    "top": "lcc:block/classic_iron_block_top"
-  }
-}

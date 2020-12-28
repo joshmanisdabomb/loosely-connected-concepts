@@ -1,0 +1,5 @@
+archivesBaseName = "lcc-multipart"
+
+dependencies {
+    compile project(':lcc-base')
+}

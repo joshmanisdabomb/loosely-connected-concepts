@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/orientable",
-  "textures": {
-    "side": "lcc:block/classic_chest_side",
-    "front": "lcc:block/classic_chest_front",
-    "top": "lcc:block/classic_chest_top"
-  }
-}

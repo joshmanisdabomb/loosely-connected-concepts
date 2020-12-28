@@ -1,1 +1,24 @@
-resources/.cache/cache
+# gradle
+
+.gradle/
+build/
+out/
+
+# idea
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# fabric
+
+run/
+minecraft/
+remappedSrc/
+
+# lcc
+
+assets/
+lcc-content/src/main/resources/.cache/
+lcc-content/src/generated/

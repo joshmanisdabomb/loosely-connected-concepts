@@ -1,0 +1,6 @@
+archivesBaseName = "lcc-content"
+
+dependencies {
+    compile project(':lcc-base')
+    compile project(':lcc-creative-ex')
+}

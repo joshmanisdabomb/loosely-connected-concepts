@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "side": "lcc:block/classic_grass_block_snowy",
-    "bottom": "minecraft:block/dirt",
-    "top": "lcc:block/classic_grass_block_top"
-  }
-}

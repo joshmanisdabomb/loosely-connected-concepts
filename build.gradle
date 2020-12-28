@@ -1,0 +1,213 @@
+import net.fabricmc.loom.task.RemapJarTask
+
+plugins {
+    id 'fabric-loom'
+    id 'maven-publish'
+    id "org.jetbrains.kotlin.jvm"
+}
+
+archivesBaseName = project.archives_base_name
+version = project.mod_version
+group = project.maven_group
+
+project(':lcc-base') {
+    version = '0.1.0'
+}
+project(':lcc-content') {
+    version = rootProject.version
+}
+project(':lcc-creative-ex') {
+    version = '0.1.0'
+}
+project(':lcc-multipart') {
+    version = '0.1.0'
+}
+
+allprojects {
+
+    apply plugin: 'fabric-loom'
+    apply plugin: 'maven-publish'
+    apply plugin: "org.jetbrains.kotlin.jvm"
+
+    group = rootProject.group
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    compileKotlin.kotlinOptions.jvmTarget = "1.8"
+    compileKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
+
+    loom {
+        shareCaches = true
+    }
+
+    repositories {
+        maven { url = "http://maven.fabricmc.net/" }
+    }
+
+    dependencies {
+        //to change the versions see the gradle.properties file
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+        // Fabric API. This is technically optional, but you probably want it anyway.
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+        modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+
+        // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
+        // You may need to force-disable transitiveness on them.
+    }
+
+    configurations {
+        dev
+    }
+
+    jar {
+        classifier = "dev"
+    }
+
+    afterEvaluate {
+        remapJar {
+            input = file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar")
+            archiveName = "${archivesBaseName}-${version}.jar"
+        }
+
+        artifacts {
+            dev file: file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar"), type: "jar", builtBy: jar
+        }
+
+        processResources {
+            inputs.property "version", project.version
+
+            from(sourceSets.main.resources.srcDirs) {
+                include "fabric.mod.json"
+                expand "version": project.version
+            }
+
+            from(sourceSets.main.resources.srcDirs) {
+                exclude "fabric.mod.json"
+            }
+        }
+
+        jar {
+            from rootProject.file("LICENSE.md")
+        }
+
+        sourcesJar {
+            classifier = "sources"
+            from rootProject.file("LICENSE.md")
+        }
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        archiveClassifier.set('sources')
+        from sourceSets.main.allSource
+    }
+
+}
+
+// ensure that the encoding is set to UTF-8, no matter what the system default is
+// this fixes some edge cases with special characters not displaying correctly
+// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+subprojects {
+
+    task remapMavenJar(type: Copy, dependsOn: remapJar) {
+        afterEvaluate {
+            from("${project.buildDir}/libs/$archivesBaseName-${version}.jar")
+            into("${project.buildDir}/libs/")
+            rename {String fn -> "$archivesBaseName-${version}-maven.jar"}
+        }
+    }
+
+    publishing {
+        publications {
+            create("${archivesBaseName}_mavenJava", MavenPublication) {
+                afterEvaluate {
+                    artifact(file("${project.buildDir}/libs/$archivesBaseName-${version}-maven.jar")) {
+                        builtBy remapMavenJar
+                    }
+                    artifact(sourcesJar) {
+                        classifier = 'sources'
+                        builtBy remapSourcesJar
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+jar {
+    from rootProject.file("LICENSE.md")
+}
+
+sourcesJar {
+    from rootProject.file("LICENSE.md")
+
+    //Force submodule sources into main source jar.
+    subprojects.each { proj ->
+        into("/" + proj.name + "-" + proj.version + "-sources") {
+            from proj.file("src/main")
+        }
+    }
+}
+
+task remapMavenJar(type: net.fabricmc.loom.task.RemapJarTask, dependsOn: jar) {
+    afterEvaluate {
+        input = file("${project.buildDir}/libs/${archivesBaseName}-${version}-dev.jar")
+        archiveName = "${archivesBaseName}-${version}-maven.jar"
+        addNestedDependencies = false
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact(file("${project.buildDir}/libs/$archivesBaseName-${version}-maven.jar")) {
+                builtBy remapMavenJar
+            }
+            artifact(sourcesJar) {
+                classifier = 'sources'
+                builtBy remapSourcesJar
+            }
+            pom.withXml {
+                def depsNode = asNode().appendNode("dependencies")
+                subprojects.each {
+                    def depNode = depsNode.appendNode("dependency")
+                    depNode.appendNode("groupId", it.group)
+                    depNode.appendNode("artifactId", it.name)
+                    depNode.appendNode("version", it.version)
+                    depNode.appendNode("scope", "compile")
+                }
+            }
+        }
+    }
+}
+
+subprojects.each {remapJar.dependsOn("${it.path}:remapJar")}
+
+repositories {
+    flatDir {
+        dirs 'jars'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    afterEvaluate {
+        subprojects.each {
+            compile project(path: ":${it.name}", configuration: "dev")
+            include project("${it.name}:")
+        }
+    }
+}
+
+loom {
+    shareCaches = true
+}

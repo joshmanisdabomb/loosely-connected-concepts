@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "lcc-base",
+  "version": "${version}",
+
+  "name": "Loosely Connected Concepts - Base",
+  "description": "This module contains the foundation that powers Loosely Connected Concepts.",
+  "authors": [
+    "joshmanisdabomb"
+  ],
+  "contact": {
+    "homepage": "https://joshmanisdabomb.com/",
+    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/"
+  },
+
+  "license": "All rights reserved, see LICENSE.md",
+  "icon": "assets/lcc-base/icon.png",
+
+  "environment": "*",
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.10.8",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.4.21",
+    "minecraft": "1.17.x"
+  }
+}

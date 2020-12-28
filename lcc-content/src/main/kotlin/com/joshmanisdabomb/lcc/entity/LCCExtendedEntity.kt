@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient.id
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
-import net.fabricmc.fabric.impl.networking.ServerSidePacketRegistryImpl
 import net.minecraft.entity.Entity
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf

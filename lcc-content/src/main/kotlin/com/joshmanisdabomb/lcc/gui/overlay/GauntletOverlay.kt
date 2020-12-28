@@ -13,8 +13,8 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.util.math.Vec3f
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.math.Vec3f
 
 @Environment(EnvType.CLIENT)
 object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {

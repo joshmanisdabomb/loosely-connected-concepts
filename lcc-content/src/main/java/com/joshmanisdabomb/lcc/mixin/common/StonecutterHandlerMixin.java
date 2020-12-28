@@ -1,9 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.common;
 
-import com.joshmanisdabomb.lcc.block.LCCExtendedBlock;
 import com.joshmanisdabomb.lcc.directory.LCCBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;

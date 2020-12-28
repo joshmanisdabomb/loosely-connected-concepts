@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.block.NetherReactorBlock
 import com.joshmanisdabomb.lcc.block.NetherReactorBlock.Companion.nrstate
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity

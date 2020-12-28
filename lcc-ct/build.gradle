@@ -1,0 +1,5 @@
+archivesBaseName = "lcc-ct"
+
+dependencies {
+    compile project(':lcc-base')
+}

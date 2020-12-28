@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient.id
 import com.joshmanisdabomb.lcc.directory.LCCSounds

@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.base.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ExtendedBlockMixin",
+    "ExtendedEntityMixin",
+    "ExtendedFluidMixin",
+    "ExtendedItemMixin",
+    "ImplPlayerSpawnMixin",
+    "ImplServerPlayerMixin",
+    "ImplPlayerMixin",
+    "ImplLivingMixin",
+    "ImplEntityMixin",
+    "ImplPlantBlockMixin",
+    "ImplFeatureMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

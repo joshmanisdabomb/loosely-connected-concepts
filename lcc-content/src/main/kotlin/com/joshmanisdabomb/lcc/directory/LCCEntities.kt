@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.entity.PocketZombiePigmanEntity
+import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import com.joshmanisdabomb.lcc.entity.render.StateBasedTNTEntityRenderer

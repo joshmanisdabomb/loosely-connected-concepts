@@ -1,13 +1,12 @@
 {
   "required": true,
-  "package": "com.joshmanisdabomb.lcc.mixin.client",
+  "package": "com.joshmanisdabomb.lcc.mixin.content.client",
   "compatibilityLevel": "JAVA_8",
   "client": [
     "HeartsHudMixin",
     "HeartsEntityOverlayMixin",
     "HeartsLivingRendererMixin",
     "GauntletHudMixin",
-    "BackgroundRendererMixin",
     "StunPlayerMixin",
     "StunMouseMixin",
     "EntityModelsMixin"

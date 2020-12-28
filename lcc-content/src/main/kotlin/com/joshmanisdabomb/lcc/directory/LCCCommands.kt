@@ -1,22 +1,14 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.data.LCCData
 import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import com.mojang.brigadier.context.CommandContext
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
-import net.minecraft.text.TranslatableText
-import kotlin.math.max
-import kotlin.math.sign
 
 object LCCCommands : ThingDirectory<LiteralArgumentBuilder<ServerCommandSource>, Unit>() {
 
     val lcc by lazy {
-        literal("lcc").requires{it.hasPermissionLevel(4)}
+        /*literal("lcc").requires{it.hasPermissionLevel(4)}
             .then(literal("data")
                 .then(literal("gen").executes { datagen(it) }
                     .then(CommandManager.argument("includeClient", BoolArgumentType.bool()).then(CommandManager.argument("includeServer", BoolArgumentType.bool()).executes{ datagen(it, BoolArgumentType.getBool(it, "includeClient"), BoolArgumentType.getBool(it, "includeServer")) }))
@@ -29,7 +21,7 @@ object LCCCommands : ThingDirectory<LiteralArgumentBuilder<ServerCommandSource>,
                     }
                     max(run.sign, 0)
                 })
-            )
+            )*/
     }
 
     override fun registerAll(things: Map<String, LiteralArgumentBuilder<ServerCommandSource>>, properties: Map<String, Unit>) {
@@ -40,7 +32,7 @@ object LCCCommands : ThingDirectory<LiteralArgumentBuilder<ServerCommandSource>,
 
 }
 
-private fun datagen(context: CommandContext<ServerCommandSource>, client: Boolean = true, server: Boolean = true): Int {
+/*private fun datagen(context: CommandContext<ServerCommandSource>, client: Boolean = true, server: Boolean = true): Int {
     val run = LCCData.generate(client, server)
     if (run >= 0) {
         context.source.sendFeedback(TranslatableText("commands.lcc.data.gen.success", run), true)
@@ -48,4 +40,4 @@ private fun datagen(context: CommandContext<ServerCommandSource>, client: Boolea
         context.source.sendError(TranslatableText("commands.lcc.data.gen.failure"))
     }
     return max(run.sign, 0)
-}
+}*/

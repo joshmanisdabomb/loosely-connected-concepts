@@ -19,4 +19,4 @@ rootProject.name = "lcc"
 
 include 'lcc-base'
 
-include 'lcc-content', 'lcc-creative-ex', 'lcc-multipart'
+include 'lcc-content', 'lcc-creative-ex', 'lcc-ct', 'lcc-multipart'

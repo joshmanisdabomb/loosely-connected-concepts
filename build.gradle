@@ -5,20 +5,23 @@ plugins {
 }
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = project.root_version
 group = project.maven_group
 
 project(':lcc-base') {
-    version = '0.1.0'
+    version = project.base_version
 }
 project(':lcc-content') {
     version = rootProject.version
 }
+project(':lcc-ct') {
+    version = project.ct_version
+}
 project(':lcc-creative-ex') {
-    version = '0.1.0'
+    version = project.creative_ex_version
 }
 project(':lcc-multipart') {
-    version = '0.1.0'
+    version = project.multipart_version
 }
 
 allprojects {

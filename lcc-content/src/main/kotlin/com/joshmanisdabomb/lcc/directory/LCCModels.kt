@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.model.ClassicCryingObsidianModel
-import com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel
 import com.joshmanisdabomb.lcc.block.model.LCCModel
 import com.joshmanisdabomb.lcc.block.model.RoadModel
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry
@@ -14,7 +13,7 @@ import net.minecraft.util.Identifier
 
 object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResourceProvider {
 
-    val test_block_5 by create { ConnectedTextureModel("test_block_5") }
+    val test_block_5 by create { com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel(LCC.id("test_block_5")) }
     
     val road_full by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 1f) }
     val road_path by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.9375f) }

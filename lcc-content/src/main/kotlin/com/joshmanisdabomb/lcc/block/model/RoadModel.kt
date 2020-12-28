@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block.model
 
+import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.RoadBlock.Companion.INNER
 import com.joshmanisdabomb.lcc.block.RoadBlock.Companion.SHAPE
@@ -15,7 +16,7 @@ import net.minecraft.world.BlockView
 import java.util.*
 import java.util.function.Supplier
 
-class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, height: Float) : ConnectedTextureModel("road", connector = if (inner) ::innerConnector else ::connector, innerSeams = false, borderSize = if (inner) 7 else 4, pos2 = Vec3f(1.0f, height, 1.0f), mapConsumer = { if (inner) innerMap(this, markings) else map(this, markings) }) {
+class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, height: Float) : ConnectedTextureModel(LCC.id("road"), connector = if (inner) ::innerConnector else ::connector, innerSeams = false, borderSize = if (inner) 7 else 4, pos2 = Vec3f(1.0f, height, 1.0f), mapConsumer = { if (inner) innerMap(this, markings) else map(this, markings) }) {
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         Direction.values().forEach {
@@ -52,8 +53,8 @@ class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, heig
         private fun connector(world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) = LCCBlocks.road.connector(world, state, pos, other, otherPos, path)
         private fun innerConnector(world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) = LCCBlocks.road.connector(world, state, pos, other, otherPos, path, true)
 
-        private fun map(map: ConnectedTextureMap, markings: RoadBlock.Companion.RoadMarkings) = map.top("road${markings.suffix()}").sides("road${markings.suffix()}") {it == 1}
-        private fun innerMap(map: ConnectedTextureMap, markings: RoadBlock.Companion.RoadMarkings) = map.top("road${markings.suffix("inner_")}")
+        private fun map(map: ConnectedTextureMap, markings: RoadBlock.Companion.RoadMarkings) = map.top(LCC.id("road${markings.suffix()}")).sides(LCC.id("road${markings.suffix()}")) {it == 1}
+        private fun innerMap(map: ConnectedTextureMap, markings: RoadBlock.Companion.RoadMarkings) = map.top(LCC.id("road${markings.suffix("inner_")}"))
     }
 
 }

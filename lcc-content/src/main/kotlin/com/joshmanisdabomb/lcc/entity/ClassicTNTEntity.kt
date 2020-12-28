@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity

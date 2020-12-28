@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.fluid
 
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedFluid
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems

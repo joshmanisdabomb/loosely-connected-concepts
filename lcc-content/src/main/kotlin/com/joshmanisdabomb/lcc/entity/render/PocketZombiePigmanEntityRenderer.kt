@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity.render
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.entity.PocketZombiePigmanEntity
+import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.RenderLayer

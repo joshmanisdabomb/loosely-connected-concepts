@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction.Companion.ability
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient

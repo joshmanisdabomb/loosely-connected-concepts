@@ -1,3 +1,5 @@
+import net.fabricmc.loom.task.RunClientTask
+
 plugins {
     id 'fabric-loom'
     id 'maven-publish'
@@ -20,6 +22,9 @@ project(':lcc-ct') {
 project(':lcc-creative-ex') {
     version = project.creative_ex_version
 }
+project(':lcc-data') {
+    version = rootProject.version
+}
 project(':lcc-multipart') {
     version = project.multipart_version
 }
@@ -37,6 +42,10 @@ allprojects {
 
     compileKotlin.kotlinOptions.jvmTarget = "1.8"
     compileKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
+
+    ext {
+        dataTask = path == ":lcc-data"
+    }
 
     loom {
         shareCaches = true
@@ -100,6 +109,13 @@ allprojects {
             classifier = "sources"
             from rootProject.file("LICENSE.md")
         }
+
+        /*if (dataTask) {
+            task genData(type: RunClientTask, dependsOn: downloadAssets) {
+                classpath = configurations.runtimeClasspath
+                classpath sourceSets.main.output
+            }
+        }*/
     }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -180,11 +196,13 @@ publishing {
             pom.withXml {
                 def depsNode = asNode().appendNode("dependencies")
                 subprojects.each {
-                    def depNode = depsNode.appendNode("dependency")
-                    depNode.appendNode("groupId", it.group)
-                    depNode.appendNode("artifactId", it.name)
-                    depNode.appendNode("version", it.version)
-                    depNode.appendNode("scope", "compile")
+                    if (!it.dataTask) {
+                        def depNode = depsNode.appendNode("dependency")
+                        depNode.appendNode("groupId", it.group)
+                        depNode.appendNode("artifactId", it.name)
+                        depNode.appendNode("version", it.version)
+                        depNode.appendNode("scope", "compile")
+                    }
                 }
             }
         }
@@ -203,8 +221,10 @@ repositories {
 dependencies {
     afterEvaluate {
         subprojects.each {
-            compile project(path: ":${it.name}", configuration: "dev")
-            include project("${it.name}:")
+            if (!it.dataTask) {
+                compile project(path: ":${it.name}", configuration: "dev")
+                include project("${it.name}:")
+            }
         }
     }
 }
@@ -212,3 +232,10 @@ dependencies {
 loom {
     shareCaches = true
 }
+
+/*task generateData
+subprojects.forEach {
+    if (it.dataTask) {
+        generateData.dependsOn("${it.path}:genData")
+    }
+}*/

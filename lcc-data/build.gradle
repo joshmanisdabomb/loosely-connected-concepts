@@ -1,0 +1,8 @@
+archivesBaseName = "lcc-data"
+
+dependencies {
+    compile project(':lcc-content')
+
+    modApi "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
+    include "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
+}

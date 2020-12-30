@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.NetherReactorBlock
-import com.joshmanisdabomb.lcc.block.NetherReactorBlock.Companion.nrstate
+import com.joshmanisdabomb.lcc.block.NetherReactorBlock.Companion.reactor_state
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
@@ -40,7 +40,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
 
     private var activeTicks = -1
     private val reactionVariance = FloatArray(10)
-    val active get() = activeTicks in 0..860 && cachedState.get(nrstate) === NetherReactorBlock.NetherReactorState.ACTIVE || activeTicks in 861..900 && cachedState.get(nrstate) === NetherReactorBlock.NetherReactorState.USED
+    val active get() = activeTicks in 0..860 && cachedState.get(reactor_state) === NetherReactorBlock.NetherReactorState.ACTIVE || activeTicks in 861..900 && cachedState.get(reactor_state) === NetherReactorBlock.NetherReactorState.USED
 
     var customName: Text? = null
     val name get() = customName ?: TranslatableText(LCCBlocks.nether_reactor.translationKey)
@@ -170,7 +170,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                     for (i in -1..1) {
                         for (k in -1..1) {
                             if (i == 0 && k == 0) {
-                                world.setBlockState(pos, state.with(nrstate, NetherReactorBlock.NetherReactorState.USED), 3)
+                                world.setBlockState(pos, state.with(reactor_state, NetherReactorBlock.NetherReactorState.USED), 3)
                             } else {
                                 world.setBlockState(bp.set(pos).move(i, 0, k), Blocks.OBSIDIAN.defaultState, 3)
                             }

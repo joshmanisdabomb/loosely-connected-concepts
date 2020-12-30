@@ -25,15 +25,15 @@ import net.minecraft.world.World
 class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
-        defaultState = stateManager.defaultState.with(nrstate, NetherReactorState.READY)
+        defaultState = stateManager.defaultState.with(reactor_state, NetherReactorState.READY)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(nrstate).let {}
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(reactor_state).let {}
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = NetherReactorBlockEntity(pos, state)
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        if (state.get(nrstate) === NetherReactorState.READY) {
+        if (state.get(reactor_state) === NetherReactorState.READY) {
             if (!world.isClient) {
                 if (pos.y < world.sectionCount + 4 || pos.y >= world.topHeightLimit - 35) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.y"), true)
@@ -43,7 +43,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.players"), true)
                 } else {
                     (world.getBlockEntity(pos) as? NetherReactorBlockEntity)?.activate()
-                    world.setBlockState(pos, state.with(nrstate, NetherReactorState.ACTIVE), 3)
+                    world.setBlockState(pos, state.with(reactor_state, NetherReactorState.ACTIVE), 3)
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.active"), true)
                 }
             }
@@ -96,9 +96,9 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
 
     companion object {
 
-        val nrstate = EnumProperty.of("state", NetherReactorState::class.java)
+        val reactor_state = EnumProperty.of("state", NetherReactorState::class.java)
 
-        fun getMapColor(state: BlockState) = when (state.get(nrstate)) {
+        fun getMapColor(state: BlockState) = when (state.get(reactor_state)) {
             NetherReactorState.ACTIVE -> MapColor.LAVA;
             NetherReactorState.USED -> MapColor.BLACK;
             else -> MapColor.CYAN;

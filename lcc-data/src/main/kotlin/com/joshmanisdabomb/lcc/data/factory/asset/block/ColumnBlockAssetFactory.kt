@@ -12,7 +12,7 @@ object ColumnBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val column = modelPillar(data, entry)
-        val columnHorizontal = modelPillarHorizontal(data, entry, suffix(id(assetPath(entry), data.modid), "horizontal"))
+        val columnHorizontal = modelPillarHorizontal(data, entry, suffix(loc(entry), "horizontal"))
         stateVariant(data, entry) { coordinate(BlockStateVariantMap.create(Properties.AXIS)
             .register(Direction.Axis.Y, BlockStateVariant.create().put(VariantSettings.MODEL, column))
             .register(Direction.Axis.X, BlockStateVariant.create().put(VariantSettings.MODEL, columnHorizontal).put(VariantSettings.X, VariantSettings.Rotation.R90))

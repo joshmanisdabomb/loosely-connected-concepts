@@ -6,3 +6,7 @@ dependencies {
     modApi "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
     include "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
 }
+
+minecraft {
+    accessWidener "src/main/resources/lcc-data.accesswidener"
+}

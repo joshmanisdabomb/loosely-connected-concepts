@@ -4,12 +4,12 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
 import net.minecraft.util.Identifier
 
-open class CustomModelBlockAssetFactory(val id: Identifier? = null) : BlockAssetFactory {
+open class PlantBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        stateOne(data, entry) { id ?: loc(entry) }
+        stateOne(data, entry) { modelCross(data, entry, texture ?: loc(entry)) }
     }
 
-    companion object : CustomModelBlockAssetFactory()
+    companion object : PlantBlockAssetFactory()
 
 }

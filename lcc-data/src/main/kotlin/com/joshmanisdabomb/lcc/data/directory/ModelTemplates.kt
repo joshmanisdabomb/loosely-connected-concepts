@@ -13,13 +13,18 @@ object ModelTemplates : ThingDirectory<Model, Pair<String, String>>() {
     private val parser = JsonParser()
 
     val aligned_cross by createWithNameProperties("block" to aligned_cross_json, model(TextureKey.CROSS))
-    val template_bounce_pad_block by createWithNameProperties("block" to template_bounce_pad_block_json, model(TextureKey.CROSS))
+    val template_bounce_pad_block by createWithNameProperties("block" to template_bounce_pad_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_0_block by createWithNameProperties("block" to template_bounce_pad_0_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_1_block by createWithNameProperties("block" to template_bounce_pad_1_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_2_block by createWithNameProperties("block" to template_bounce_pad_2_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_3_block by createWithNameProperties("block" to template_bounce_pad_3_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_4_block by createWithNameProperties("block" to template_bounce_pad_4_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
 
     override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String, String>>) {
         things.forEach { (k, v) -> LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${properties[k]!!.first}/$k")) { parser.parse(properties[k]!!.second) } }
     }
 
-    fun model(vararg keys: TextureKey) = { n: String, p: Pair<String, String> -> Model(Optional.of(Identifier(LCCData.accessor.modid, "$n/${p.second}")), Optional.empty(), *keys) }
+    fun model(vararg keys: TextureKey) = { n: String, p: Pair<String, String> -> Model(Optional.of(Identifier(LCCData.accessor.modid, "${p.first}/$n")), Optional.empty(), *keys) }
 
 }
 
@@ -160,6 +165,241 @@ private const val template_bounce_pad_block_json =
 				"east": {"uv": [1, 10, 15, 15], "texture": "#1"},
 				"south": {"uv": [1, 10, 15, 15], "texture": "#1"},
 				"west": {"uv": [1, 10, 15, 15], "texture": "#1"}
+			}
+		}
+	]
+}"""
+
+private const val template_bounce_pad_0_block_json =
+    """{
+	"parent": "lcc:block/bounce_pad",
+	"elements": [
+		{
+			"name": "setting1",
+			"from": [7, 1, 0],
+			"to": [9, 2, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "north"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting2",
+			"from": [15, 1, 7],
+			"to": [16, 2, 9],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "east"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting3",
+			"from": [7, 1, 15],
+			"to": [9, 2, 16],
+			"faces": {
+				"south": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "south"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting4",
+			"from": [0, 1, 7],
+			"to": [1, 2, 9],
+			"faces": {
+				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_bounce_pad_1_block_json =
+"""{
+	"parent": "lcc:block/bounce_pad",
+	"elements": [
+		{
+			"name": "setting1",
+			"from": [7, 2, 0],
+			"to": [9, 3, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "north"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting2",
+			"from": [15, 2, 7],
+			"to": [16, 3, 9],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "east"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting3",
+			"from": [7, 2, 15],
+			"to": [9, 3, 16],
+			"faces": {
+				"south": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "south"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting4",
+			"from": [0, 2, 7],
+			"to": [1, 3, 9],
+			"faces": {
+				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_bounce_pad_2_block_json =
+"""{
+	"parent": "lcc:block/bounce_pad",
+	"elements": [
+		{
+			"name": "setting1",
+			"from": [7, 3, 0],
+			"to": [9, 4, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "north"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting2",
+			"from": [15, 3, 7],
+			"to": [16, 4, 9],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "east"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting3",
+			"from": [7, 3, 15],
+			"to": [9, 4, 16],
+			"faces": {
+				"south": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "south"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting4",
+			"from": [0, 3, 7],
+			"to": [1, 4, 9],
+			"faces": {
+				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_bounce_pad_3_block_json =
+"""{
+	"parent": "lcc:block/bounce_pad",
+	"elements": [
+		{
+			"name": "setting1",
+			"from": [7, 4, 0],
+			"to": [9, 5, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "north"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting2",
+			"from": [15, 4, 7],
+			"to": [16, 5, 9],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "east"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting3",
+			"from": [7, 4, 15],
+			"to": [9, 5, 16],
+			"faces": {
+				"south": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "south"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting4",
+			"from": [0, 4, 7],
+			"to": [1, 5, 9],
+			"faces": {
+				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_bounce_pad_4_block_json =
+"""{
+	"parent": "lcc:block/bounce_pad",
+	"elements": [
+		{
+			"name": "setting1",
+			"from": [7, 5, 0],
+			"to": [9, 6, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "north"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting2",
+			"from": [15, 5, 7],
+			"to": [16, 6, 9],
+			"faces": {
+				"east": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "east"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting3",
+			"from": [7, 5, 15],
+			"to": [9, 6, 16],
+			"faces": {
+				"south": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "south"},
+				"up": {"uv": [0, 0, 2, 1], "texture": "#2"},
+				"down": {"uv": [0, 0, 2, 1], "texture": "#2"}
+			}
+		},
+		{
+			"name": "setting4",
+			"from": [0, 5, 7],
+			"to": [1, 6, 9],
+			"faces": {
+				"west": {"uv": [0, 0, 2, 1], "texture": "#2", "cullface": "west"},
+				"up": {"uv": [0, 0, 1, 2], "texture": "#2"},
+				"down": {"uv": [0, 0, 1, 2], "texture": "#2"}
 			}
 		}
 	]

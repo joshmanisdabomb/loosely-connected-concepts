@@ -11,10 +11,10 @@ object NetherReactorBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         stateVariant(data, entry) {
-            BlockStateVariantMap.create(NetherReactorBlock.reactor_state).register {
+            coordinate(BlockStateVariantMap.create(NetherReactorBlock.reactor_state).register {
                 val id = suffix(loc(entry), it.asString())
                 BlockStateVariant.create().put(VariantSettings.MODEL, modelCubeAll(data, entry, id, id))
-            }
+            })
         }
     }
 

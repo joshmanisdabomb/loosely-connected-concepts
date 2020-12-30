@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.factory.asset
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.data.client.model.Models
+import net.minecraft.data.client.model.SimpleModelSupplier
 import net.minecraft.data.client.model.Texture
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.util.Identifier
@@ -45,5 +46,13 @@ interface AssetFactory<T> {
     fun modelCross(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.CROSS.upload(model, Texture.cross(texture), data.modelStates::addModel)
 
     fun modelPottedCross(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.FLOWER_POT_CROSS.upload(model, Texture.plant(texture), data.modelStates::addModel)
+
+    fun modelGenerated(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.GENERATED.upload(model, Texture.layer0(texture), data.modelStates::addModel)
+
+    fun modelHandheld(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.HANDHELD.upload(model, Texture.layer0(texture), data.modelStates::addModel)
+
+    fun modelParent(data: DataAccessor, entry: T, parent: Identifier, model: Identifier = loc(entry)) = data.modelStates.addModel(model, SimpleModelSupplier(parent))
+
+    fun modelBuiltin(data: DataAccessor, entry: T, model: Identifier = loc(entry)) = modelParent(data, entry, Identifier("minecraft", "builtin/entity"), model)
 
 }

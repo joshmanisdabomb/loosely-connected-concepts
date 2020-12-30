@@ -14,7 +14,7 @@ object ClassicChestBlockAssetFactory : BlockAssetFactory {
     override fun apply(data: DataAccessor, entry: Block) {
         val id = loc(entry)
         stateVariant(data, entry) {
-            BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.CHEST_TYPE).register { facing, chest ->
+            coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.CHEST_TYPE).register { facing, chest ->
                 BlockStateVariant.create().put(VariantSettings.MODEL, modelCube(data, entry, suffix(id, chest.asString().toLowerCase()),
                     textureUp = suffix(id, "top"),
                     textureDown = suffix(id, "top"),
@@ -24,7 +24,7 @@ object ClassicChestBlockAssetFactory : BlockAssetFactory {
                     textureWest = suffix(id, "side"),
                     textureParticle = suffix(id, "front")
                 )).apply(HorizontalBlockAssetFactory.defaultDirections[Direction.NORTH]!![facing]!!)
-            }
+            })
         }
     }
 

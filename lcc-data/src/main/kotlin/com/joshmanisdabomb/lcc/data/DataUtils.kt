@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc
+package com.joshmanisdabomb.lcc.data
 
 import com.google.gson.GsonBuilder
 

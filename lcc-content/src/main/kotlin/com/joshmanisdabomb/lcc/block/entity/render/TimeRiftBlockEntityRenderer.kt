@@ -55,6 +55,8 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
         parts.forEachIndexed { k, v ->
             render(k, v, tickDelta, matrices, vertexConsumers, light, overlay, MathHelper.lerp(tickDelta, entity.lastSize, entity.size))
         }
+
+        //TODO possibly scale with WorldRenderer breaking progress
     }
 
     override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {

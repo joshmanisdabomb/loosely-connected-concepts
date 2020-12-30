@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.translation
 
-import com.joshmanisdabomb.lcc.DataAccessor
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.BlockDataFactory
 import com.joshmanisdabomb.lcc.data.factory.EntityDataFactory
 import com.joshmanisdabomb.lcc.data.factory.ItemDataFactory

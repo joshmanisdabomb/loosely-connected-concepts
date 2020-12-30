@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory
 
-import com.joshmanisdabomb.lcc.DataAccessor
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
 import net.minecraft.block.Block
 

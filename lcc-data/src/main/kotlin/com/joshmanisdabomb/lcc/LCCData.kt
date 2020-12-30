@@ -1,8 +1,10 @@
 package com.joshmanisdabomb.lcc
 
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.BlockData
 import com.joshmanisdabomb.lcc.data.directory.EntityData
 import com.joshmanisdabomb.lcc.data.directory.ItemData
+import com.joshmanisdabomb.lcc.data.directory.ModelTemplates
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
 import java.nio.file.Paths
@@ -18,6 +20,7 @@ object LCCData : PreLaunchEntrypoint {
         BlockData.init()
         ItemData.init()
         EntityData.init()
+        ModelTemplates.init()
 
         accessor.handler.run()
         exitProcess(0)

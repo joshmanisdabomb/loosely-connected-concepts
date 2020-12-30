@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.data.factory.translation
 
-import com.joshmanisdabomb.lcc.DataAccessor
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.generators.LangData
 
-class BritishTranslationFactory(val from: String = LangData.defaultLocale, val to: String = "en_gb") : TranslationFactory {
+open class BritishTranslationFactory(val from: String = LangData.defaultLocale, val to: String = "en_gb") : TranslationFactory {
 
     override fun translate(data: DataAccessor, key: String, path: String, locale: String): String? {
         if (locale != to) return null
@@ -17,5 +17,7 @@ class BritishTranslationFactory(val from: String = LangData.defaultLocale, val t
         if (str == original) return null
         return str
     }
+
+    companion object : BritishTranslationFactory()
 
 }

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.data.generators
 
-import com.joshmanisdabomb.lcc.DataUtils
+import com.joshmanisdabomb.lcc.data.DataUtils
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider

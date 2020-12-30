@@ -36,6 +36,8 @@ abstract class ThingDirectory<V, P> {
 
     protected fun <R : V> createWithName(supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, getDefaultProperty())
 
+    protected fun <R : V> createWithName(properties: P = getDefaultProperty(), supplier: (name: String) -> R): ThingOneDelegate<R> = ThingOneDelegate({ n, _ -> supplier(n) }, properties)
+
     protected fun <R : V, K> createMap(vararg keys: K, keyToString: (name: String, key: K) -> String = Companion::defaultKeyStringMap, propertySupplier: (key: K) -> P = { getDefaultProperty() }, supplier: (key: K, name: String, properties: P) -> R): ThingMapDelegate<out K, R> = ThingMapDelegate(keys, keyToString, supplier, propertySupplier)
 
     val all by lazy { things() }

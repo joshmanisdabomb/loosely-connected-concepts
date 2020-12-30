@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.translation
 
-import com.joshmanisdabomb.lcc.DataAccessor
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.generators.LangData
 
 open class BasicTranslationFactory(vararg val replacements: Pair<String, String>) : TranslationFactory {

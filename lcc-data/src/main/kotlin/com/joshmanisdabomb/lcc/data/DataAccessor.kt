@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.data
 import com.joshmanisdabomb.lcc.data.generators.LangData
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 
-class DataAccessor(val modid: String, val handler: DataGeneratorHandler, val languages: List<String>) {
+class DataAccessor(val modid: String, val handler: DataGeneratorHandler, val locales: List<String>) {
 
-    val lang by lazy { languages.map { it to LangData(handler.dataGenerator, modid, it).apply { handler.install(this) } }.toMap() }
+    val lang by lazy { locales.map { it to LangData(handler.dataGenerator, modid, it).apply { handler.install(this) } }.toMap() }
 
     val modelStates by lazy { handler.modelStates }
     val recipes by lazy { handler.recipes }

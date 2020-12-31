@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 import com.joshmanisdabomb.lcc.block.BouncePadBlock
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.ModelTemplates
-import com.joshmanisdabomb.lcc.data.directory.ModelTextureKeys
+import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 import net.minecraft.state.property.Properties
@@ -13,7 +13,7 @@ object BouncePadBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val id = loc(entry)
-        val textures = Texture().put(ModelTextureKeys.t0, suffix(id, "base_h")).put(ModelTextureKeys.t1, suffix(id, "inner")).put(ModelTextureKeys.t2, suffix(id, "setting")).put(ModelTextureKeys.t3, suffix(id, "base_v")).put(TextureKey.PARTICLE, suffix(id, "base_v"))
+        val textures = Texture().put(LCCModelTextureKeys.t0, suffix(id, "base_h")).put(LCCModelTextureKeys.t1, suffix(id, "inner")).put(LCCModelTextureKeys.t2, suffix(id, "setting")).put(LCCModelTextureKeys.t3, suffix(id, "base_v")).put(TextureKey.PARTICLE, suffix(id, "base_v"))
         val bounce_pad = ModelTemplates.template_bounce_pad.upload(id, textures, data.modelStates::addModel)
         val bounce_pad_settings = listOf(
             ModelTemplates.template_bounce_pad_0.upload(suffix(id, "0"), textures, data.modelStates::addModel),

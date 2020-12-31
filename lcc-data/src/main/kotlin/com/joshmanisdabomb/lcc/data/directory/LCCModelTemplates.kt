@@ -11,13 +11,13 @@ import java.util.*
 object ModelTemplates : ThingDirectory<Model, Pair<String, String>>() {
 
     val aligned_cross by createWithNameProperties("block" to aligned_cross_json, model(TextureKey.CROSS))
-    val template_bounce_pad by createWithNameProperties("block" to template_bounce_pad_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_0 by createWithNameProperties("block" to template_bounce_pad_0_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_1 by createWithNameProperties("block" to template_bounce_pad_1_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_2 by createWithNameProperties("block" to template_bounce_pad_2_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_3 by createWithNameProperties("block" to template_bounce_pad_3_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_4 by createWithNameProperties("block" to template_bounce_pad_4_block_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, TextureKey.PARTICLE))
-    val template_bounce_pad_item by createWithNameProperties("item" to template_bounce_pad_item_json, model(ModelTextureKeys.t0, ModelTextureKeys.t1, ModelTextureKeys.t2, ModelTextureKeys.t3, ModelTextureKeys.t4, ModelTextureKeys.t5))
+    val template_bounce_pad by createWithNameProperties("block" to template_bounce_pad_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_0 by createWithNameProperties("block" to template_bounce_pad_0_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_1 by createWithNameProperties("block" to template_bounce_pad_1_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_2 by createWithNameProperties("block" to template_bounce_pad_2_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_3 by createWithNameProperties("block" to template_bounce_pad_3_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_4 by createWithNameProperties("block" to template_bounce_pad_4_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
+    val template_bounce_pad_item by createWithNameProperties("item" to template_bounce_pad_item_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5))
     val template_spawner_table by createWithNameProperties("block" to template_spawner_table_json, model(TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE))
 
     override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String, String>>) {

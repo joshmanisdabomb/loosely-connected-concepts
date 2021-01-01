@@ -19,6 +19,7 @@ object LCCData : PreLaunchEntrypoint {
         LCCItemData.init()
         LCCEntityData.init()
         ModelTemplates.init()
+        LCCAdvancementData.init()
 
         accessor.handler.run()
         exitProcess(0)

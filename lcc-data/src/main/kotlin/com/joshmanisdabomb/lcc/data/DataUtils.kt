@@ -8,12 +8,14 @@ import net.minecraft.loot.condition.MatchToolLootCondition
 import net.minecraft.predicate.NumberRange
 import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
+import org.apache.logging.log4j.LogManager
 
 object DataUtils {
 
     internal val parser = JsonParser()
 
     internal val gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+    internal val logger = LogManager.getLogger()
 
     internal val silk_touch = MatchToolLootCondition.builder(ItemPredicate.Builder.create().enchantment(EnchantmentPredicate(Enchantments.SILK_TOUCH, NumberRange.IntRange.atLeast(1))))
     internal val no_silk_touch = silk_touch.invert()

@@ -1,0 +1,28 @@
+{
+  "parent": "lcc:main/nuke",
+  "display": {
+    "icon": {
+      "item": "minecraft:air"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.winter_survive.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.winter_survive.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "nope": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "nope"
+    ]
+  ]
+}

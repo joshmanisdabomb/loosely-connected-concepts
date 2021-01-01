@@ -29,6 +29,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val ruby_ore by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_ORE)) }
     val ruby_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_BLOCK)) }
     val topaz_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.topaz_shard, from = false)) }
+    val budding_topaz by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset() }
     val topaz_clusters by createWithName { BlockDataContainer().affects(LCCBlocks.budding_topaz.crystals.toList()).defaultLang().add(ClusterBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(ClusterBlockLootFactory(LCCItems.topaz_shard)) }
     val sapphire_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)) }
     val uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)) }
@@ -36,14 +37,14 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
 
     val cracked_mud by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)) }
 
-    val oil by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("oil_still"))) }
-    val asphalt by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("asphalt_still"))) }
+    val oil by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/oil_still"))) }
+    val asphalt by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/asphalt_still"))) }
     val road by createWithName { BlockDataContainer().defaultLang().add(RoadBlockAssetFactory) } //TODO maybe drop something
 
     val pumice by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory(x = (0..3).toList(), y = (0..3).toList())) }
     val rhyolite by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(MirroredBlockAssetFactory) }
 
-    val soaking_soul_sand by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
+    val soaking_soul_sand by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().defaultBlockAsset().add(CustomRecipeFactory { d, i ->
         ShapelessRecipeJsonFactory.create(i, 8)
             .input(Blocks.WET_SPONGE)
             .input(Blocks.SOUL_SAND, 8)

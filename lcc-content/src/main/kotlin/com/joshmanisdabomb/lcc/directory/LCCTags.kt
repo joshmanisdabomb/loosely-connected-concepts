@@ -12,4 +12,7 @@ object LCCTags : ThingDirectory<Tag<*>, Unit>() {
     val nether_reactor_base by createWithName { TagRegistry.block(LCC.id(it)) }
     val nether_reactor_shell by createWithName { TagRegistry.block(LCC.id(it)) }
 
+    val oil by createWithName { TagRegistry.fluid(LCC.id(it)) }
+    val asphalt by createWithName { TagRegistry.fluid(LCC.id(it)) }
+
 }

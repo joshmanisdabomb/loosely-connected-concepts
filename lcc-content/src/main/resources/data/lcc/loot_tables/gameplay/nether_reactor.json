@@ -1,11 +1,13 @@
 {
+  "type": "minecraft:empty",
   "pools": [
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 20.0,
-        "max": 40.0,
-        "type": "minecraft:uniform"
+        "max": 40.0
       },
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -166,9 +168,9 @@
             {
               "function": "minecraft:enchant_with_levels",
               "levels": {
-                "min": 6.0,
-                "max": 22.0,
-                "type": "minecraft:uniform"
+                "type": "minecraft:uniform",
+                "min": 7.0,
+                "max": 30.0
               },
               "treasure": false
             }

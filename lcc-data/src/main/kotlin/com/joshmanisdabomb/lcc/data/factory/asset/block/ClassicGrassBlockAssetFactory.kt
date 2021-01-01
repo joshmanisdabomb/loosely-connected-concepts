@@ -13,7 +13,8 @@ object ClassicGrassBlockAssetFactory : BlockAssetFactory {
     override fun apply(data: DataAccessor, entry: Block) {
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.SNOWY).register { snowy ->
-                BlockStateVariant.create().put(VariantSettings.MODEL, modelCubeBottomTop(data, entry, loc(entry) { suffix(it, if (snowy) "snowy" else null) }, textureBottom = Identifier("minecraft", "dirt")))
+                val id = loc(entry) { suffix(it, if (snowy) "snowy" else null) }
+                BlockStateVariant.create().put(VariantSettings.MODEL, modelCubeBottomTop(data, entry, id, textureSide = if (snowy) id else loc(entry) { suffix(it, "side") }, textureBottom = Identifier("minecraft", "block/dirt")))
             })
         }
     }

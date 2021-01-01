@@ -42,7 +42,7 @@ object LCCBlocks : BlockDirectory() {
     val ruby_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), IntRange.between(3, 7)) }
     val ruby_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LAVA).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
     val sapphire_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::sapphire))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
-    val uranium_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3), IntRange.between(3, 7)) }
+    val uranium_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
     val uranium_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
     val enriched_uranium_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 

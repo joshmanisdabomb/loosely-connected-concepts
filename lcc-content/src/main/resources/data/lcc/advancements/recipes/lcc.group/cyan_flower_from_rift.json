@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:cyan_flower_from_rift"
+    ]
+  },
+  "criteria": {
+    "has_cyan_flower": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:cyan_flower"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:cyan_flower_from_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cyan_flower",
+      "has_the_recipe"
+    ]
+  ]
+}

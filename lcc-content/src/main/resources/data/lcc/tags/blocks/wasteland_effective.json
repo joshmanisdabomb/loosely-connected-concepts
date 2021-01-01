@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#lcc:wasteland_required",
-    "lcc:cracked_mud"
+    "lcc:cracked_mud",
+    "#lcc:wasteland_required"
   ]
 }

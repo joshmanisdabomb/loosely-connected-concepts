@@ -26,7 +26,7 @@
         ]
       }
     },
-    "topaz": {
+    "topaz_shard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -66,7 +66,7 @@
         ]
       }
     },
-    "amethyst": {
+    "amethyst_shard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
@@ -80,11 +80,11 @@
   "requirements": [
     [
       "ruby",
-      "topaz",
+      "topaz_shard",
       "emerald",
       "diamond",
       "sapphire",
-      "amethyst"
+      "amethyst_shard"
     ]
   ]
 }

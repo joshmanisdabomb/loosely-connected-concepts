@@ -12,6 +12,7 @@ open class SilkBlockLootFactory(val or: ItemConvertible? = null, val count: Loot
 
     override fun apply(data: DataAccessor, entry: Block) {
         if (or != null) data.lootTables.register(entry, LootTableData.dropsSilkBlockAndNormalItem(entry, or, count))
+        else data.lootTables.register(entry, LootTableData.dropsBlockWithSilkTouch(entry))
     }
 
     companion object : SilkBlockLootFactory()

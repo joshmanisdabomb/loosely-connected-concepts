@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "nnn",
-    "nnn",
-    "nnn"
+    "iii",
+    "iii",
+    "iii"
   ],
   "key": {
-    "n": {
+    "i": {
       "item": "lcc:uranium_nugget"
     }
   },

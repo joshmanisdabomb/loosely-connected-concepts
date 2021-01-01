@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
+import com.joshmanisdabomb.lcc.data.LCCLangData
 import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.CommitData
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
@@ -20,8 +21,10 @@ object LCCData : PreLaunchEntrypoint {
         LCCBlockData.init()
         LCCItemData.init()
         LCCEntityData.init()
+
         ModelTemplates.init()
         LCCAdvancementData.init()
+        LCCLangData(accessor.lang)
 
         accessor.handler.install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid) })
 

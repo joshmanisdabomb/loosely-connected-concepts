@@ -1,0 +1,35 @@
+{
+  "parent": "lcc:wasteland/root",
+  "display": {
+    "icon": {
+      "item": "lcc:sapphire"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.sapphire.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.sapphire.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "sapphire": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:sapphire"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "sapphire"
+    ]
+  ]
+}

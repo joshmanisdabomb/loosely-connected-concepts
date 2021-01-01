@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.directory.ThingDirectory
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.CriterionMerger
+import net.minecraft.advancement.criterion.ImpossibleCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.advancement.criterion.LocationArrivalCriterion
 import net.minecraft.advancement.criterion.PlacedBlockCriterion
@@ -26,32 +27,39 @@ import java.io.IOException
 
 object LCCAdvancementData : ThingDirectory<Advancement, Pair<String, String?>>(), DataProvider {
 
-    val main_root by createWithNameProperties("main" to "root") { n, p -> Advancement.Task.create().display(LCCBlocks.test_block, p.first, null, toast = false, chat = false).has(LCCItems.ruby).has(LCCItems.topaz_shard).has(Items.EMERALD).has(Items.DIAMOND).has(LCCItems.sapphire).has(Items.AMETHYST_SHARD).criteriaMerger(CriterionMerger.OR).build(n, p) }
-        val spawner_table by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCBlocks.spawner_table, p.first, n).criterion("place", PlacedBlockCriterion.Conditions.block(LCCBlocks.spawner_table)).build(n, p) }
-            val simulation_fabric by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(spawner_table).display(LCCItems.simulation_fabric, p.first, n).has(LCCItems.simulation_fabric).build(n, p) }
-                val ruby by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(simulation_fabric).display(LCCItems.ruby, p.first, n).has(LCCItems.ruby).has(LCCBlocks.ruby_ore).has(LCCBlocks.ruby_block).criteriaMerger(CriterionMerger.OR).build(n, p) }
-            val rainbow_portal by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(spawner_table, n, p) }
+    val main_root by createWithNameProperties("main" to "root") { n, p -> Advancement.Task.create().display(LCCBlocks.test_block, p.first, null, toast = false, chat = false).has(LCCItems.ruby).has(LCCItems.topaz_shard).has(Items.EMERALD).has(Items.DIAMOND).has(LCCItems.sapphire).has(Items.AMETHYST_SHARD).criteriaMerger(CriterionMerger.OR).translation("Loosely Connected Concepts", "Main progression line of Loosely Connected Concepts", "en_us", p.first, p.second ?: n).build(n, p) }
+        val spawner_table by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCBlocks.spawner_table, p.first, n).criterion("place", PlacedBlockCriterion.Conditions.block(LCCBlocks.spawner_table)).translation("Next Level Crafting", "Convert a mob spawner into a crafting station", "en_us", p.first, p.second ?: n).build(n, p) }
+            val simulation_fabric by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(spawner_table).display(LCCItems.simulation_fabric, p.first, n).has(LCCItems.simulation_fabric).translation("Enter the Matrix", "Craft the Simulation Fabric in an Arcane Table", "en_us", p.first, p.second ?: n).build(n, p) }
+                val ruby by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(simulation_fabric).display(LCCItems.ruby, p.first, n).has(LCCItems.ruby).has(LCCBlocks.ruby_ore).has(LCCBlocks.ruby_block).criteriaMerger(CriterionMerger.OR).translation("What Could Have Been", "Obtain rubies by throwing emeralds into the time rift", "en_us", p.first, p.second ?: n).build(n, p) }
+            val rainbow_portal by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(spawner_table, n, p) } //into the rainbowverse
 
-        val topaz by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCItems.topaz_shard, p.first, n).has(LCCItems.topaz_shard).build(n, p) }
+        val topaz by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCItems.topaz_shard, p.first, n).has(LCCItems.topaz_shard).translation("Reskinned Amethyst", "Collect topaz from a volcanic geode near a lava lake", "en_us", p.first, p.second ?: n).build(n, p) }
 
-        val refiner by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(main_root, n, p) }
-            val uranium by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCItems.enriched_uranium, p.first, n).has(LCCItems.enriched_uranium).has(LCCItems.enriched_uranium_nugget).has(LCCBlocks.enriched_uranium_block).build(n, p) }
-                val nuke by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(uranium, n, p) }
-                    val nuke_first by createWithNameProperties("main" to null/*hidden*/) { n, p -> emptyAdvancement(uranium, n, p) }
+        val refiner by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(main_root, n, p) } //refined taste
+            val uranium by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCItems.enriched_uranium, p.first, n).has(LCCItems.enriched_uranium).has(LCCItems.enriched_uranium_nugget).has(LCCBlocks.enriched_uranium_block).translation("Enrichment Activities", "Refine the uranium into a different shade of green", "en_us", p.first, p.second ?: n).build(n, p) }
+                val nuke by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(uranium, n, p) } //when all else fails
+                    val nuke_first by createWithNameProperties("main" to null/*hidden*/) { n, p -> emptyAdvancement(nuke, n, p) } //nuclear arms race, be the first on a multiplayer server to detonate a nuclear device
+                    val winter_survive by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(nuke, n, p) } //the struggle was real, return to winter level 0 after being at winter level 5
 
-    val wasteland_root by createWithNameProperties("wasteland" to "root") { n, p -> Advancement.Task.create().display(LCCBlocks.cracked_mud, p.first, null, toast = false, chat = false).criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland)))).build(n, p) }
-        val oil by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(wasteland_root).display(LCCItems.oil_bucket, p.first, n).has(LCCItems.oil_bucket).build(n, p) }
-            val asphalt by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(oil).display(LCCItems.asphalt_bucket, p.first, n).has(LCCItems.asphalt_bucket).build(n, p) }
+    val wasteland_root by createWithNameProperties("wasteland" to "root") { n, p -> Advancement.Task.create().display(LCCBlocks.cracked_mud, p.first, null, toast = false, chat = false).criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland)))).translation("LCC: Wasteland", "Perambulate into the haze of the wasteland", "en_us", p.first, p.second ?: n).build(n, p) }
+        val oil by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(wasteland_root).display(LCCItems.oil_bucket, p.first, n).has(LCCItems.oil_bucket).translation("Another Mod With Oil", "Daring today aren't we?", "en_us", p.first, p.second ?: n).build(n, p) }
+            val asphalt by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(oil).display(LCCItems.asphalt_bucket, p.first, n).has(LCCItems.asphalt_bucket).translation("Paving the Way", "Refine oil and gravel into paving mixture", "en_us", p.first, p.second ?: n).build(n, p) }
                 //IDEA walk 200m in a straight line from point a without leaving road - all roads lead to home
-        val sapphire by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(wasteland_root).display(LCCItems.sapphire, p.first, n).has(LCCItems.sapphire).build(n, p) }
+        val sapphire by createWithNameProperties("wasteland" to null) { n, p -> Advancement.Task.create().parent(wasteland_root).display(LCCItems.sapphire, p.first, n).has(LCCItems.sapphire).translation("Beauty Amongst the Unsightly", "Find a sapphire", "en_us", p.first, p.second ?: n).build(n, p) }
 
     private fun Advancement.Task.display(item: ItemConvertible, category: String, id: String? = null, frame: AdvancementFrame = AdvancementFrame.TASK, toast: Boolean = true, chat: Boolean = true, hidden: Boolean = false) = this.display(item, TranslatableText("advancements.lcc.$category.${id ?: "root"}.title"), TranslatableText("advancements.lcc.$category.${id ?: "root"}.description"), if (id != null) null else LCC.id("textures/gui/advancements/backgrounds/$category.png"), frame, toast, chat, hidden)
+
+    private fun Advancement.Task.translation(title: String, description: String, locale: String, category: String, id: String? = null): Advancement.Task {
+        LCCData.accessor.lang[locale]!!["advancements.lcc.$category.${id ?: "root"}.title"] = title
+        LCCData.accessor.lang[locale]!!["advancements.lcc.$category.${id ?: "root"}.description"] = description
+        return this
+    }
 
     private fun Advancement.Task.has(item: ItemConvertible) = this.criterion(Registry.ITEM.getId(item.asItem()).path, InventoryChangedCriterion.Conditions.items(item))
 
     private fun Advancement.Task.build(path: String, properties: Pair<String, String?>) = build(LCC.id("${properties.first}/${properties.second ?: path}"))
 
-    private fun emptyAdvancement(parent: Advancement?, n: String, p: Pair<String, String?>) = Advancement.Task.create().apply { if (parent != null) parent(parent) }.display(Items.AIR, p.first, n).build(n, p)
+    private fun emptyAdvancement(parent: Advancement?, n: String, p: Pair<String, String?>) = Advancement.Task.create().apply { if (parent != null) parent(parent) }.display(Items.AIR, p.first, n).criterion("nope", ImpossibleCriterion.Conditions()).build(n, p)
 
     override fun init(predicate: (name: String, properties: Pair<String, String?>) -> Boolean) {
         super.init(predicate)

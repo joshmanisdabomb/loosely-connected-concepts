@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:yellow_classic_cloth_from_rift"
+    ]
+  },
+  "criteria": {
+    "has_yellow_classic_cloth": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:yellow_classic_cloth"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:yellow_classic_cloth_from_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_yellow_classic_cloth",
+      "has_the_recipe"
+    ]
+  ]
+}

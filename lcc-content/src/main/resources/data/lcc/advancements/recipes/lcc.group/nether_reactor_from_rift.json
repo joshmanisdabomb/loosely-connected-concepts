@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:nether_reactor_from_rift"
+    ]
+  },
+  "criteria": {
+    "has_nether_reactor": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:nether_reactor"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:nether_reactor_from_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_nether_reactor",
+      "has_the_recipe"
+    ]
+  ]
+}

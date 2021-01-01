@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.world.feature
 
+import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
 import net.minecraft.state.property.Properties.*
+import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
@@ -13,6 +15,7 @@ import net.minecraft.world.WorldAccess
 import net.minecraft.world.gen.chunk.ChunkGenerator
 import net.minecraft.world.gen.feature.Feature
 import java.util.*
+import kotlin.math.max
 import kotlin.random.asKotlinRandom
 
 class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<SmallGeodeFeatureConfig>(configCodec) {
@@ -54,6 +57,7 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
         var q: Double
         var r: Double
         var s: Double
+        val geodeMap = mutableMapOf<BlockPos, Int>()
         n = 0
         while (n < k) {
             val f = n.toFloat() / k.toFloat()
@@ -114,20 +118,14 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
                                         val an = ah - x + (aj - y) * size + (al - z) * size * i
                                         if (!bitSet[an]) {
                                             bitSet.set(an)
-                                            mutable.set(ah, aj, al)
-                                            j = set(world.getBlockState(mutable), config.gem.defaultState, random, world, config, mutable, j)
+                                            geodeSet(geodeMap, 3, mutable.set(ah, aj, al))
                                             for (d in Direction.values()) {
-                                                mutable.move(d)
-                                                j = set(world.getBlockState(mutable), config.inner, random, world, config, mutable, j)
-                                                mutable.move(d)
-                                                j = set(world.getBlockState(mutable), config.outer, random, world, config, mutable, j)
-                                                if (d.horizontal != -1) {
-                                                    mutable.set(ah, aj, al).move(d).move(d.rotateYClockwise())
-                                                    j = set(world.getBlockState(mutable), config.outer, random, world, config, mutable, j)
-                                                    mutable.set(ah, aj, al).move(d).move(Direction.UP)
-                                                    j = set(world.getBlockState(mutable), config.outer, random, world, config, mutable, j)
-                                                    mutable.move(Direction.DOWN, 2)
-                                                    j = set(world.getBlockState(mutable), config.outer, random, world, config, mutable, j)
+                                                geodeSet(geodeMap,  2, mutable.set(ah, aj, al).move(d))
+                                                geodeSet(geodeMap,  1, mutable.move(d))
+                                                if (d.isHorizontal) {
+                                                    geodeSet(geodeMap,  1, mutable.set(ah, aj, al).move(d).move(d.rotateYClockwise()))
+                                                    geodeSet(geodeMap,  1, mutable.set(ah, aj, al).move(d).move(Direction.UP))
+                                                    geodeSet(geodeMap,  1, mutable.move(Direction.DOWN, 2))
                                                 }
                                             }
                                         }
@@ -140,27 +138,41 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
             }
             ++n
         }
+
+        for (entry in geodeMap) {
+            j = set(world.getBlockState(entry.key), entry.value, random, world, config, entry.key, j)
+        }
+
         return j > 0
     }
 
-    private fun set(state: BlockState, to: BlockState, random: Random, world: WorldAccess, config: SmallGeodeFeatureConfig, mutable: BlockPos.Mutable, changed: Int): Int {
+    private fun geodeSet(geodeMap: MutableMap<BlockPos, Int>, to: Int, pos: BlockPos.Mutable) {
+        val p = pos.toImmutable()
+        geodeMap[p] = max(to, geodeMap[p] ?: 0)
+    }
+
+    private fun set(state: BlockState, to: Int, random: Random, world: WorldAccess, config: SmallGeodeFeatureConfig, pos: BlockPos, changed: Int): Int {
+        val to = when (to) {
+            3 -> config.gem.defaultState
+            2 -> config.inner
+            1 -> config.outer
+            else -> return changed
+        }
+        println(to)
+        println(pos)
         var c = changed
-        if (state.isOf(config.gem) || state.isOf(config.bud)) return changed
-        if (state == config.inner && !to.isOf(config.gem)) return changed
-        if (state == config.outer && !to.isOf(config.gem) && to != config.inner) return changed
-        if (state.isFullCube(world, mutable)) {
-            if (to.isOf(config.gem) && random.nextInt(8) == 0) {
-                world.setBlockState(mutable, config.bud.defaultState, 2)
+        if (state.isFullCube(world, pos) && (state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.isIn(BlockTags.ENDERMAN_HOLDABLE))) {
+            if (to.isOf(config.gem) && random.nextInt(9) == 0) {
+                world.setBlockState(pos, config.bud.defaultState, 2)
                 for (d in Direction.values()) {
-                    mutable.move(d)
-                    val state2 = world.getBlockState(mutable)
+                    val pos2 = pos.offset(d)
+                    val state2 = world.getBlockState(pos2)
                     if (random.nextInt(2) == 0 && state2.isAir) {
-                        world.setBlockState(mutable, config.bud.crystals.random(random.asKotlinRandom()).defaultState.with(FACING, d).with(LIT, true).with(WATERLOGGED, false), 2)
+                        world.setBlockState(pos2, config.bud.crystals.random(random.asKotlinRandom()).defaultState.with(FACING, d).with(LIT, true).with(WATERLOGGED, false), 2)
                     }
-                    mutable.move(d.opposite)
                 }
             } else {
-                world.setBlockState(mutable, to, 2)
+                world.setBlockState(pos, to, 2)
             }
             c++
         }

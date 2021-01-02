@@ -82,9 +82,8 @@ object LCCBlocks : BlockDirectory() {
     //IDEA uranium refiner, oil refiner -> (fuel, asphalt, plastic), rainbow refiner (saturator?), universal refiner
     //IDEA Kiln for faster smelting of non smokable or blastables
 
-    //Nostalgia TODO
-    val time_rift by create(BlockExtraSettings().creativeEx(NOSTALGIA).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
-    //IDEA time rift, basic method of taking blocks back in time to notable versions (4 ancient debris, 4 clocks, 1 sim fabric)
+    //Nostalgia
+    val time_rift by create(BlockExtraSettings().creativeEx(NOSTALGIA).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(2.0F, 0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
     //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
 
     val classic_grass_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(0.6f).breakByTool(SHOVELS).ticksRandomly().sounds(BlockSoundGroup.GRASS)) }

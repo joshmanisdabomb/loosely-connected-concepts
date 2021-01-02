@@ -158,8 +158,6 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
             1 -> config.outer
             else -> return changed
         }
-        println(to)
-        println(pos)
         var c = changed
         if (state.isFullCube(world, pos) && (state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.isIn(BlockTags.ENDERMAN_HOLDABLE))) {
             if (to.isOf(config.gem) && random.nextInt(9) == 0) {

@@ -19,6 +19,6 @@ remappedSrc/
 
 # lcc
 
-assets/
+/assets/
 lcc-content/src/main/resources/.cache/
 lcc-content/src/generated/

@@ -17,7 +17,7 @@ interface BlockAssetFactory : BlockDataFactory, AssetFactory<Block> {
 
     override fun registry(obj: Block) = Registry.BLOCK.getId(obj)
 
-    fun stateOne(data: DataAccessor, entry: Block, model: () -> Identifier) = stateVariantModel(data, entry, model) {}
+    fun stateOne(data: DataAccessor, entry: Block, supplier: (entry: Block) -> VariantsBlockStateSupplier = VariantsBlockStateSupplier::create, consumer: VariantsBlockStateSupplier.() -> Unit = {}, model: () -> Identifier) = stateVariantModel(data, entry, model, consumer)
 
     fun stateVariant(data: DataAccessor, entry: Block, supplier: (entry: Block) -> VariantsBlockStateSupplier = VariantsBlockStateSupplier::create, consumer: VariantsBlockStateSupplier.() -> Unit) = data.modelStates.addState(entry, supplier(entry).apply(consumer))
 

@@ -1,0 +1,115 @@
+{
+  "block.lcc.soaking_soul_sand.jump": {
+    "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump",
+    "sounds": [ "lcc:block/soaking_soul_sand_jump" ]
+  },
+  "block.lcc.soaking_soul_sand.break": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/soaking_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/soaking_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.lcc.soaking_soul_sand.fall": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ]
+  },
+  "block.lcc.soaking_soul_sand.hit": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.lcc.soaking_soul_sand.place": {
+    "sounds": [
+      {
+        "name":  "lcc:dig/soaking_soul_sand1",
+        "volume": 0.8
+      },
+      {
+        "name":  "lcc:dig/soaking_soul_sand2",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand3",
+        "volume": 0.8
+      },
+      {
+        "name": "lcc:dig/soaking_soul_sand4",
+        "volume": 0.8
+      }
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.lcc.soaking_soul_sand.step": {
+    "sounds": [
+      "lcc:step/soaking_soul_sand1",
+      "lcc:step/soaking_soul_sand2",
+      "lcc:step/soaking_soul_sand3",
+      "lcc:step/soaking_soul_sand4",
+      "lcc:step/soaking_soul_sand5"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.lcc.bounce_pad.jump": {
+    "subtitle": "subtitles.lcc.block.bounce_pad.jump",
+    "sounds": [ "lcc:block/bounce_pad_jump" ]
+  },
+  "block.lcc.bounce_pad.set": {
+    "subtitle": "subtitles.lcc.block.bounce_pad.set",
+    "sounds": [ "minecraft:random/click" ]
+  },
+  "entity.lcc.pocket_zombie_pigman.ambient": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpigangry1",
+      "minecraft:mob/zombified_piglin/zpigangry2",
+      "minecraft:mob/zombified_piglin/zpigangry3",
+      "minecraft:mob/zombified_piglin/zpigangry4"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.ambient"
+  },
+  "entity.lcc.pocket_zombie_pigman.hurt": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpighurt1",
+      "minecraft:mob/zombified_piglin/zpighurt2"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.hurt"
+  },
+  "entity.lcc.pocket_zombie_pigman.death": {
+    "sounds": [
+      "minecraft:mob/zombified_piglin/zpigdeath"
+    ],
+    "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.death"
+  },
+  "block.lcc.classic_crying_obsidian.set_spawn": {
+    "sounds": [
+      "minecraft:block/respawn_anchor/set_spawn1",
+      "minecraft:block/respawn_anchor/set_spawn2",
+      "minecraft:block/respawn_anchor/set_spawn3"
+    ],
+    "subtitle": "subtitles.lcc.block.classic_crying_obsidian.set_spawn"
+  }
+}

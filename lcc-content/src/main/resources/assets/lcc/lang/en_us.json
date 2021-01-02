@@ -181,5 +181,9 @@
   "subtitles.lcc.entity.pocket_zombie_pigman.ambient": "Pocket Zombie Pigman grunts angrily",
   "subtitles.lcc.entity.pocket_zombie_pigman.hurt": "Pocket Zombie Pigman hurts",
   "subtitles.lcc.entity.pocket_zombie_pigman.death": "Pocket Zombie Pigman dies",
-  "subtitles.lcc.block.classic_crying_obsidian.set_spawn": "Classic Crying Obsidian sets spawn"
+  "subtitles.lcc.block.classic_crying_obsidian.set_spawn": "Classic Crying Obsidian sets spawn",
+  "block.lcc.nether_reactor.active": "Active!",
+  "block.lcc.nether_reactor.incorrect": "Not the correct pattern!",
+  "block.lcc.nether_reactor.players": "All players need to be close to the reactor.",
+  "block.lcc.nether_reactor.y": "The reactor must be placed between y=4 and y=221"
 }

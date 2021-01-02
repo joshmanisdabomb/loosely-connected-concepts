@@ -50,10 +50,10 @@ class CommitData(val source: Path, val to: Path, val excluder: (path: String) ->
 
     companion object {
         fun defaultExcluder(path: String, modid: String): Boolean {
-            if (path.startsWith("assets\\$modid")) {
+            if (path.startsWith("assets\\$modid\\")) {
                 return !path.startsWith("assets\\$modid\\textures") && !path.startsWith("assets\\$modid\\particles") && !path.startsWith("assets\\$modid\\sounds") && !path.startsWith("assets\\$modid\\font") && !path.contains("\\template_") && !path.endsWith("\\sounds.json") && !path.endsWith("\\icon.png") && !path.endsWith("\\pack.png")
             }
-            if (path.startsWith("data\\$modid")) {
+            if (path.startsWith("data\\$modid\\")) {
                 return !path.startsWith("data\\$modid\\structures")
             }
             return false

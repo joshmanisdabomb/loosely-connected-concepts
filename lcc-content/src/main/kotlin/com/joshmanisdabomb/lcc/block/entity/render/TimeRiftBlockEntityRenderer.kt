@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.utils.RenderingUtils
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
@@ -52,22 +53,22 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
     override fun render(entity: TimeRiftBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         moveTick(entity.world?.time)
 
+        val progress = RenderingUtils.breakingProgress(entity.pos) ?: 0f
+        val size = 1f - progress
         parts.forEachIndexed { k, v ->
-            render(k, v, tickDelta, matrices, vertexConsumers, light, overlay, MathHelper.lerp(tickDelta, entity.lastSize, entity.size))
+            render(k, v, tickDelta, matrices, vertexConsumers, light, overlay, MathHelper.lerp(tickDelta, entity.lastSize, entity.size) * size, 0f + progress, 1f - progress, 1f - progress)
         }
-
-        //TODO possibly scale with WorldRenderer breaking progress
     }
 
     override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         moveTick(MinecraftClient.getInstance().world?.time)
 
         parts.forEachIndexed { k, v ->
-            render(k, v, MinecraftClient.getInstance().tickDelta, matrices, vertexConsumers, light, overlay, 1f)
+            render(k, v, MinecraftClient.getInstance().tickDelta, matrices, vertexConsumers, light, overlay, 1f, 0f, 1f, 1f)
         }
     }
 
-    private fun render(index: Int, part: ModelPart, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int, size: Float) {
+    private fun render(index: Int, part: ModelPart, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int, size: Float, red: Float, green: Float, blue: Float) {
         matrices.push()
         matrices.translate(0.5, 0.5, 0.5)
         matrices.scale(size, size, size)
@@ -76,7 +77,7 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
         val z = MathHelper.lerp(tickDelta.toDouble(), lastPos[index].z, pos[index].z)
         color(colors[index], x, y, z)
         matrices.translate(x, y, z)
-        part.render(matrices, texture.getVertexConsumer(vertexConsumers, { RenderLayer.getEntityAlpha(it, 0.0f) }), light, overlay, colors[index].x.toFloat(), colors[index].y.toFloat(), colors[index].z.toFloat(), 1.0f)
+        part.render(matrices, texture.getVertexConsumer(vertexConsumers, { RenderLayer.getEntityAlpha(it, 0.0f) }), light, overlay, red * colors[index].x.toFloat(), green * colors[index].y.toFloat(), blue * colors[index].z.toFloat(), 1.0f)
         matrices.pop()
     }
 
@@ -117,6 +118,7 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
 
     private fun color(color: Vector3d, x: Double, y: Double, z: Double): Vector3d {
         val distance = min((MathHelper.absMax(MathHelper.absMax(x, y), z) * 2).pow(4.0).times(3.0), 1.0)
+        color.x = distance
         color.y = distance
         color.z = distance
         return color

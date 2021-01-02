@@ -3,7 +3,9 @@
   "package": "com.joshmanisdabomb.lcc.mixin.base.client",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "BackgroundRendererMixin"
+    "BackgroundRendererMixin",
+    "WorldRendererAccessor",
+    "ClientPlayerInteractionAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

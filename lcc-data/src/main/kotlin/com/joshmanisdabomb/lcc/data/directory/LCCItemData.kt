@@ -22,8 +22,8 @@ import net.minecraft.tag.ItemTags
 
 object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
 
-    val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.BLASTING)).add(RiftFromItemRecipeFactory(Items.EMERALD)) }
-    val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.BLASTING)) }
+    val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING, RecipeSerializer.BLASTING)).add(RiftFromItemRecipeFactory(Items.EMERALD)) }
+    val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING, RecipeSerializer.BLASTING)) }
     val uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
     val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)) }
 
@@ -53,7 +53,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offer(this, d, override = LCCRecipeSerializers.spawner_table_shapeless) }
     }) }
     val classic_raw_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.PORKCHOP)) }
-    val classic_cooked_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_PORKCHOP)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMOKING)) }
+    val classic_cooked_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_PORKCHOP)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMELTING, RecipeSerializer.SMOKING)) }
     val classic_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.APPLE)) }
     val classic_golden_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.ENCHANTED_GOLDEN_APPLE)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)

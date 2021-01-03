@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.state.property.Properties.*
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
@@ -154,12 +155,12 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
     private fun set(state: BlockState, to: Int, random: Random, world: WorldAccess, config: SmallGeodeFeatureConfig, pos: BlockPos, changed: Int): Int {
         val to = when (to) {
             3 -> config.gem.defaultState
-            2 -> config.inner
-            1 -> config.outer
+            2 -> if (random.nextInt(5) > 0) config.inner else return changed
+            1 -> if (random.nextInt(4) > 0) config.outer else return changed
             else -> return changed
         }
         var c = changed
-        if (state.isFullCube(world, pos) && (state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.isIn(BlockTags.ENDERMAN_HOLDABLE))) {
+        if (state.isFullCube(world, pos) && (state.isIn(BlockTags.BASE_STONE_OVERWORLD) || state.isIn(BlockTags.ENDERMAN_HOLDABLE) || state.isOf(Blocks.SANDSTONE))) {
             if (to.isOf(config.gem) && random.nextInt(9) == 0) {
                 world.setBlockState(pos, config.bud.defaultState, 2)
                 for (d in Direction.values()) {

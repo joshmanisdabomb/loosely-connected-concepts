@@ -41,8 +41,11 @@ public abstract class ImplPlayerSpawnMixin {
 
     @Inject(method = "respawnPlayer", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void newPlayerConsume(ServerPlayerEntity player, boolean alive, CallbackInfoReturnable<ServerPlayerEntity> info, BlockPos pos, float yaw, boolean spawnPointSet, ServerWorld world, Optional<Vec3d> optional, ServerWorld spawn, ServerPlayerEntity clone) {
+        if (player == null || clone == null || world == null || spawn == null || pos == null) return;
         BlockState state = spawn.getBlockState(pos);
+        if (state == null) return;
         Block block = state.getBlock();
+        if (block == null) return;
         if (block instanceof LCCExtendedBlock) {
             ((LCCExtendedBlock)block).lcc_spawnAfter(clone, spawn, state, pos, yaw, spawnPointSet, alive);
         }

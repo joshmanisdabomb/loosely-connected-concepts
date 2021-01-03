@@ -11,8 +11,10 @@ import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativ
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
+import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.*
+import net.minecraft.tag.ItemTags
 import net.minecraft.util.Rarity
 
 object LCCItems : ItemDirectory() {
@@ -98,6 +100,8 @@ object LCCItems : ItemDirectory() {
     val classic_cooked_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.COOKED_PORKCHOP)) }
     val classic_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.APPLE)) }
     val classic_golden_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponent.Builder().hunger(20).saturationModifier(1.2F).build())) }
+
+    val quiver by create(ItemExtraSettings().creativeEx(NOSTALGIA).modelPredicate(LCC.id("filled")) { (it as BagItem)::predicate }) { BagItem(192, Item.Settings().defaults().maxCount(1)) { it.isIn(ItemTags.ARROWS) } }
 
     //TODO pills
 

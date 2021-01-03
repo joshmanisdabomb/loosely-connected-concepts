@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.data.container.ItemDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.item.DynamicItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.item.GeneratedItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.item.HandheldItemAssetFactory
+import com.joshmanisdabomb.lcc.data.factory.asset.item.QuiverItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.recipe.*
 import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactory
@@ -65,6 +66,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterion(this, LCCItems.classic_apple) }
             .apply { offer(this, d) }
     }) }
+    val quiver by createWithName { ItemDataContainer().defaultLang().add(QuiverItemAssetFactory).add(RiftFromItemRecipeFactory(Items.BUNDLE)) }
 
     val full_hearts by createWithName { ItemDataContainer().affects(LCCItems.heart_full.values.toList()).defaultLang().defaultItemAsset().add(TransformTranslationFactory(*LCCData.accessor.locales.toTypedArray()) { it.replace(" Full", "") }) }
 

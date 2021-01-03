@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_classic_leaves": {
+    "has_time_rift": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:classic_leaves"
+            "item": "lcc:time_rift"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_classic_leaves",
+      "has_time_rift",
       "has_the_recipe"
     ]
   ]

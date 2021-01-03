@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data.factory.recipe
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
 import net.minecraft.data.server.recipe.SingleItemRecipeJsonFactory
 import net.minecraft.item.Item
@@ -15,7 +16,7 @@ class RiftFromTagRecipeFactory(val tag: Tag<Item>, criterion: (SingleItemRecipeJ
 
     override fun apply(data: DataAccessor, entry: Item) {
         val id = registry(entry)
-        SingleItemRecipeJsonFactory(LCCRecipeSerializers.time_rift, ingredient, entry, 1).apply { this@RiftFromTagRecipeFactory.criterion(this, entry) }.apply { offer(this, data, name ?: loc(id) { "${it}_from_rift" }) }
+        SingleItemRecipeJsonFactory(LCCRecipeSerializers.time_rift, ingredient, entry, 1).apply { this@RiftFromTagRecipeFactory.criterion(this, LCCBlocks.time_rift.asItem()) }.apply { offer(this, data, name ?: loc(id) { "${it}_from_rift" }) }
     }
 
 }

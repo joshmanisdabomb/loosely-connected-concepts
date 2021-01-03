@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:classic_grass_block_from_rift"
+      "lcc:quiver_from_rift"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:classic_grass_block_from_rift"
+        "recipe": "lcc:quiver_from_rift"
       }
     }
   },

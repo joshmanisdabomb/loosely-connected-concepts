@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:bundle"
+  },
+  "result": "lcc:quiver",
+  "count": 1
+}

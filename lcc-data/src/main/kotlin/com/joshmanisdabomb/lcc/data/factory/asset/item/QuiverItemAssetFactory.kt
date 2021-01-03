@@ -16,7 +16,7 @@ object QuiverItemAssetFactory : ItemAssetFactory {
     "overrides": [
         { "predicate": { "lcc:filled": 0.0000001 }, "model": "${filled[0]}" },
         { "predicate": { "lcc:filled": 0.3333334 }, "model": "${filled[1]}" },
-        { "predicate": { "lcc:filled": 0.6666667 }, "model": "${filled[2]}" }
+        { "predicate": { "lcc:filled": 0.6666668 }, "model": "${filled[2]}" }
     ]
 }""".trimMargin()) }
 

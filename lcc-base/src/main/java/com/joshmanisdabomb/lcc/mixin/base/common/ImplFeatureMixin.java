@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Feature.class)
-public class ImplFeatureMixin {
+public abstract class ImplFeatureMixin {
 
     @Inject(method = "isSoil", at = @At("HEAD"), cancellable = true)
     private static void soilCheck(BlockState state, CallbackInfoReturnable<Boolean> info) {

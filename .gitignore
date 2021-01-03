@@ -14,7 +14,7 @@ out/
 # fabric
 
 run/
-minecraft/
+/minecraft/
 remappedSrc/
 
 # lcc

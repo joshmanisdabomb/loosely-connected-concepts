@@ -13,7 +13,9 @@
     "ImplLivingMixin",
     "ImplEntityMixin",
     "ImplPlantBlockMixin",
-    "ImplFeatureMixin"
+    "ImplFeatureMixin",
+    "ImplBowMixin",
+    "ImplCrossbowMixin"
   ],
   "injectors": {
     "defaultRequire": 1

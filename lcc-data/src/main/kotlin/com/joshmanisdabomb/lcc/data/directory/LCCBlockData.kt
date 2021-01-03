@@ -18,6 +18,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
 import net.minecraft.item.Items
+import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 
 object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
@@ -28,15 +29,15 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val test_block_5 by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block")) }) }
 
     val ruby_ore by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_ORE)) }
-    val ruby_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_BLOCK)) }
-    val topaz_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.topaz_shard, from = false)) }
-    val budding_topaz by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset() }
-    val topaz_clusters by createWithName { BlockDataContainer().affects(LCCBlocks.budding_topaz.crystals.toList()).defaultLang().add(ClusterBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(ClusterBlockLootFactory(LCCItems.topaz_shard)) }
-    val sapphire_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)) }
+    val ruby_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_BLOCK)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
+    val topaz_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.topaz_shard, from = false)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
+    val budding_topaz by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset().add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
+    val topaz_clusters by createWithName { BlockDataContainer().affects(LCCBlocks.budding_topaz.crystals.toList()).defaultLang().add(ClusterBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(ClusterBlockLootFactory(LCCItems.topaz_shard)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
+    val sapphire_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
     val uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)) }
     val enriched_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)) }
 
-    val cracked_mud by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)) }
+    val cracked_mud by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)) }
 
     val oil by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/oil_still"))) }
     val asphalt by createWithName { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/asphalt_still"))) }
@@ -87,21 +88,21 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .input('o', Blocks.OBSIDIAN)
             .apply { hasCriterion(this, Items.GLOWSTONE_DUST) }
             .apply { offer(this, d) }
-    }) }
+    }).add(BlockTagFactory(BlockTags.DRAGON_IMMUNE)) }
 
     val classic_grass_block by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(ClassicGrassBlockAssetFactory).add(SilkBlockLootFactory(Blocks.DIRT)).add(RiftFromItemRecipeFactory(Blocks.GRASS_BLOCK)) }
     val classic_cobblestone by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.COBBLESTONE)).add(BlockTagFactory(LCCTags.nether_reactor_shell)) }
     val classic_planks by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromTagRecipeFactory(ItemTags.PLANKS)) }
-    val classic_leaves by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(LeavesBlockLootFactory(LCCBlocks.classic_sapling)).add(RiftFromTagRecipeFactory(ItemTags.LEAVES)) }
-    val classic_sapling by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromTagRecipeFactory(ItemTags.SAPLINGS)) }
-    val potted_classic_sapling by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory) }
-    val classic_rose by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromItemRecipeFactory(Blocks.POPPY)) }
-    val potted_classic_rose by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory) }
-    val cyan_flower by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromItemRecipeFactory(Blocks.BLUE_ORCHID)) }
-    val potted_cyan_flower by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory) }
+    val classic_leaves by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(LeavesBlockLootFactory(LCCBlocks.classic_sapling)).add(RiftFromTagRecipeFactory(ItemTags.LEAVES)).add(BlockTagFactory(BlockTags.LEAVES)) }
+    val classic_sapling by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromTagRecipeFactory(ItemTags.SAPLINGS)).add(BlockTagFactory(BlockTags.SAPLINGS)) }
+    val potted_classic_sapling by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
+    val classic_rose by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromItemRecipeFactory(Blocks.POPPY)).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
+    val potted_classic_rose by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
+    val cyan_flower by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(RiftFromItemRecipeFactory(Blocks.BLUE_ORCHID)).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
+    val potted_cyan_flower by createWithName { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
     val classic_gravel by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(ChanceAlternativeBlockLootFactory(Items.FLINT, 0.1f, 0.14285715f, 0.25f, 1.0f)).add(RiftFromItemRecipeFactory(Blocks.GRAVEL)) }
     val classic_sponge by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.SPONGE)) }
-    val classic_glass by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(SilkBlockLootFactory).add(RiftFromItemRecipeFactory(Blocks.GLASS)) }
+    val classic_glass by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(SilkBlockLootFactory).add(RiftFromItemRecipeFactory(Blocks.GLASS)).add(BlockTagFactory(BlockTags.IMPERMEABLE)) }
     val classic_bricks by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.BRICKS)) }
     val classic_mossy_cobblestone by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.MOSSY_COBBLESTONE)) }
     val classic_iron_block by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(SideBottomTopBlockAssetFactory).add(StorageTranslationFactory).add(TransformTranslationFactory(*LCCData.accessor.locales.toTypedArray()) { it.replace("Block of Classic", "Classic Block of") }).add(RiftFromItemRecipeFactory(Blocks.IRON_BLOCK)) }
@@ -114,7 +115,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val pocket_stonecutter by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(StonecutterBlockAssetFactory).add(RiftFromItemRecipeFactory(Blocks.STONECUTTER)) }
     val classic_chest by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(ClassicChestBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelOrientable(d, i, texture = loc(i, folder = "block")) }).add(RiftFromItemRecipeFactory(Blocks.CHEST)) }
     val nether_reactor by createWithName { BlockDataContainer().defaultLang().add(NetherReactorBlockAssetFactory).add(ParentBlockItemAssetFactory(LCC.id("block/nether_reactor_ready"))).add(NetherReactorBlockLootFactory).add(RiftFromItemRecipeFactory(Items.NETHER_STAR)) }
-    val classic_crying_obsidian by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block") { it.plus("_static") }) }).add(RiftFromItemRecipeFactory(Blocks.CRYING_OBSIDIAN)) }
+    val classic_crying_obsidian by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block") { it.plus("_static") }) }).add(RiftFromItemRecipeFactory(Blocks.CRYING_OBSIDIAN)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
 
     val red_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.RED_WOOL)) }
     val orange_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.ORANGE_WOOL)) }

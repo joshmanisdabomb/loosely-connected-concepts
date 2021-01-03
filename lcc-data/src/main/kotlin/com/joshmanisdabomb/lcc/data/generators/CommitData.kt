@@ -49,12 +49,14 @@ class CommitData(val source: Path, val to: Path, val excluder: (path: String) ->
     }
 
     companion object {
-        fun defaultExcluder(path: String, modid: String): Boolean {
-            if (path.startsWith("assets\\$modid\\")) {
-                return !path.startsWith("assets\\$modid\\textures") && !path.startsWith("assets\\$modid\\particles") && !path.startsWith("assets\\$modid\\sounds") && !path.startsWith("assets\\$modid\\font") && !path.contains("\\template_") && !path.endsWith("\\sounds.json") && !path.endsWith("\\icon.png") && !path.endsWith("\\pack.png")
-            }
-            if (path.startsWith("data\\$modid\\")) {
-                return !path.startsWith("data\\$modid\\structures")
+        fun defaultExcluder(path: String, vararg modids: String): Boolean {
+            modids.forEach {
+                if (path.startsWith("assets\\$it\\")) {
+                    return !path.startsWith("assets\\$it\\textures") && !path.startsWith("assets\\$it\\particles") && !path.startsWith("assets\\$it\\sounds") && !path.startsWith("assets\\$it\\font") && !path.contains("\\template_") && !path.endsWith("\\sounds.json") && !path.endsWith("\\icon.png") && !path.endsWith("\\pack.png")
+                }
+                if (path.startsWith("data\\$it\\")) {
+                    return !path.startsWith("data\\$it\\structures")
+                }
             }
             return false
         }

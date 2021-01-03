@@ -26,7 +26,7 @@ object LCCData : PreLaunchEntrypoint {
         LCCAdvancementData.init()
         LCCLangData(accessor.lang)
 
-        accessor.handler.install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid) })
+        accessor.handler.install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") })
 
         accessor.handler.run()
         exitProcess(0)

@@ -7,32 +7,37 @@ import net.minecraft.client.item.BundleTooltipData
 import net.minecraft.client.item.ModelPredicateProvider
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.client.item.TooltipData
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.BundleItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.screen.slot.Slot
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 import java.util.*
 import java.util.stream.Stream
 import kotlin.math.min
 
-class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStack) -> Boolean = { true }) : BundleItem(settings) {
+open class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStack) -> Boolean = { true }) : BundleItem(settings) {
 
     override fun onStackClicked(stack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         if (clickType != ClickType.RIGHT) return false
         val its = slot.stack
         if (its.isEmpty) {
-            addStack(stack).ifPresent { addToBundle(stack, slot.method_32756(it)) }
+            retrieve(stack).ifPresent { transfer(stack, slot.method_32756(it)) }
         } else if (its.item.hasStoredInventory()) {
+            if (!predicate(its)) return false
             val i = (size - getBundleOccupancy(stack)) / getItemOccupancy(its)
-            addToBundle(stack, slot.method_32753(its.count, i, playerInventory.player))
+            transfer(stack, slot.method_32753(its.count, i, playerInventory.player))
         }
         return true
     }
@@ -40,9 +45,10 @@ class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStac
     override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         return if (clickType == ClickType.RIGHT && slot.method_32754(playerInventory.player)) {
             if (otherStack.isEmpty) {
-                addStack(stack).ifPresent { playerInventory.cursorStack = it }
+                retrieve(stack).ifPresent { playerInventory.cursorStack = it }
             } else {
-                otherStack.decrement(addToBundle(stack, otherStack))
+                if (!predicate(otherStack)) return false
+                otherStack.decrement(transfer(stack, otherStack))
             }
             true
         } else {
@@ -50,12 +56,9 @@ class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStac
         }
     }
 
-    fun getFirstStack(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
-        return if (stack.item is BagItem) {
-            Optional.empty()
-        } else {
-            listTag.stream().filter { CompoundTag::class.java.isInstance(it) }.map { CompoundTag::class.java.cast(it) }.filter { ItemStack.canCombine(ItemStackUtils.fromTagIntCount(it), stack) }.findFirst()
-        }
+    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+        val itemStack = user.getStackInHand(hand)
+        return if (dropAll(itemStack, user)) TypedActionResult.success(itemStack, world.isClient()) else TypedActionResult.fail(itemStack)
     }
 
     @Environment(EnvType.CLIENT)
@@ -88,7 +91,33 @@ class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStac
         return 64 / stack.maxCount
     }
 
-    private fun addStack(stack: ItemStack): Optional<ItemStack> {
+    fun dropAll(stack: ItemStack, player: PlayerEntity): Boolean {
+        val compoundTag = stack.orCreateTag
+        if (!compoundTag.contains("Items")) return false
+
+        if (player is ServerPlayerEntity) {
+            val listTag = compoundTag.getList("Items", 10)
+            for (i in listTag.indices) {
+                val compoundTag2 = listTag.getCompound(i)
+                val itemStack = ItemStackUtils.fromTagIntCount(compoundTag2)
+                while (!itemStack.isEmpty) {
+                    player.dropItem(itemStack.split(64), true)
+                }
+            }
+        }
+        stack.removeSubTag("Items")
+        return true
+    }
+
+    protected fun combineCheck(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
+        return if (stack.item is BagItem) {
+            Optional.empty()
+        } else {
+            listTag.stream().filter { CompoundTag::class.java.isInstance(it) }.map { CompoundTag::class.java.cast(it) }.filter { ItemStack.canCombine(ItemStackUtils.fromTagIntCount(it), stack) }.findFirst()
+        }
+    }
+
+    protected fun retrieve(stack: ItemStack): Optional<ItemStack> {
         val compoundTag = stack.orCreateTag
         return if (!compoundTag.contains("Items")) {
             Optional.empty()
@@ -104,7 +133,7 @@ class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStac
         }
     }
 
-    private fun addToBundle(bundle: ItemStack, stack: ItemStack): Int {
+    protected fun transfer(bundle: ItemStack, stack: ItemStack): Int {
         return if (!stack.isEmpty && stack.item.hasStoredInventory()) {
             val compoundTag = bundle.orCreateTag
             if (!compoundTag.contains("Items")) {
@@ -117,7 +146,7 @@ class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStac
                 0
             } else {
                 val listTag = compoundTag.getList("Items", 10)
-                val optional = getFirstStack(stack, listTag)
+                val optional = combineCheck(stack, listTag)
                 if (optional.isPresent) {
                     val compoundTag2 = optional.get()
                     val itemStack = ItemStackUtils.fromTagIntCount(compoundTag2)

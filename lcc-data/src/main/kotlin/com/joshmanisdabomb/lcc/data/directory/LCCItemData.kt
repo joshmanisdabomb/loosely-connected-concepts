@@ -7,6 +7,8 @@ import com.joshmanisdabomb.lcc.data.factory.asset.item.GeneratedItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.item.HandheldItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.item.QuiverItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.recipe.*
+import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
+import com.joshmanisdabomb.lcc.data.factory.tag.ToolItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactory
@@ -23,16 +25,17 @@ import net.minecraft.tag.ItemTags
 
 object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
 
-    val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING, RecipeSerializer.BLASTING)).add(RiftFromItemRecipeFactory(Items.EMERALD)) }
+    val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING, RecipeSerializer.BLASTING)).add(RiftFromItemRecipeFactory(Items.EMERALD)).add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
+    val sapphire by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
     val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING, RecipeSerializer.BLASTING)) }
     val uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
     val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)) }
 
-    val ruby_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "ruby" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)) }
-    val topaz_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "topaz" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.topaz_shard)) }
-    val emerald_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "emerald" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.EMERALD)) }
-    val sapphire_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "sapphire" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.sapphire)) }
-    val amethyst_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "amethyst" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.AMETHYST_SHARD)) }
+    val ruby_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "ruby" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)).add(ToolItemTagFactory) }
+    val topaz_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "topaz" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.topaz_shard)).add(ToolItemTagFactory) }
+    val emerald_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "emerald" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.EMERALD)).add(ToolItemTagFactory) }
+    val sapphire_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "sapphire" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.sapphire)).add(ToolItemTagFactory) }
+    val amethyst_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.split('_').first() == "amethyst" }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.AMETHYST_SHARD)).add(ToolItemTagFactory) }
     val ruby_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.split('_').first() == "ruby" }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.ruby)) }
     val topaz_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.split('_').first() == "topaz" }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.topaz_shard)) }
     val emerald_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.split('_').first() == "emerald" }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(Items.EMERALD)) }

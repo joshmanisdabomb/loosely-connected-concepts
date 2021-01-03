@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import com.joshmanisdabomb.lcc.settings.BlockExtraSettings
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
+import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeExSet
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.settings.DynamicItemRenderExtraSetting.Companion.dynamicItemRender
@@ -83,10 +84,10 @@ object LCCBlocks : BlockDirectory() {
     //IDEA Kiln for faster smelting of non smokable or blastables
 
     //Nostalgia
-    val time_rift by create(BlockExtraSettings().creativeEx(NOSTALGIA).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(2.0F, 0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
+    val time_rift by create(BlockExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-1)).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(2.0F, 0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }
     //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
 
-    val classic_grass_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(0.6f).breakByTool(SHOVELS).ticksRandomly().sounds(BlockSoundGroup.GRASS)) }
+    val classic_grass_block by create(BlockExtraSettings().creativeEx(NOSTALGIA, sortValueInt(0, 1))) { ClassicGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(0.6f).breakByTool(SHOVELS).ticksRandomly().sounds(BlockSoundGroup.GRASS)) }
     val classic_cobblestone by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_planks by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.WOOD).strength(2.0f, 5.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
     val classic_leaves by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutoutMipped()) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2f).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isOf(Blocks.OAK_LOG) } }
@@ -97,7 +98,7 @@ object LCCBlocks : BlockDirectory() {
     } }
     val classic_sponge by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicSpongeBlock(FabricBlockSettings.of(Material.SPONGE).breakByTool(HOES).strength(0.6f).sounds(BlockSoundGroup.GRASS)) }
     val classic_glass by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { GlassBlock(FabricBlockSettings.of(Material.GLASS).strength(0.3f).sounds(BlockSoundGroup.GLASS).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never)) }
-    val classic_cloth by createMap(*ClassicDyeColor.values(), propertySupplier = { BlockExtraSettings().creativeEx(NOSTALGIA, "classic_cloth", { stack -> it }) }) { key, name, properties -> Block(FabricBlockSettings.of(Material.WOOL, key.lcc_mapColor).breakByTool(SHEARS).strength(0.8f).sounds(BlockSoundGroup.WOOL)) }
+    val classic_cloth by createMap(*ClassicDyeColor.values(), propertySupplier = { BlockExtraSettings().creativeExSet(NOSTALGIA, "classic_cloth") { stack -> it } }) { key, name, properties -> Block(FabricBlockSettings.of(Material.WOOL, key.lcc_mapColor).breakByTool(SHEARS).strength(0.8f).sounds(BlockSoundGroup.WOOL)) }
     val classic_rose by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { FlowerBlock(StatusEffects.ABSORPTION, 4, Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
     val potted_classic_rose by create(BlockExtraSettings().cutout()) { FlowerPotBlock(classic_rose, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
     val cyan_flower by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { FlowerBlock(StatusEffects.LEVITATION, 5, Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)) }

@@ -10,10 +10,7 @@ import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.TransformTranslationFactory
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
-import com.joshmanisdabomb.lcc.directory.ThingDirectory
+import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
@@ -54,6 +51,19 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .input(Items.CACTUS).input(Items.SUGAR_CANE).input(Items.WHEAT_SEEDS).input(Items.DANDELION).input(Items.POPPY)
             .apply { hasCriterion(this, LCCItems.simulation_fabric) }
             .apply { offer(this, d, override = LCCRecipeSerializers.spawner_table_shapeless) }
+    }) }
+    val classic_raw_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.PORKCHOP)) }
+    val classic_cooked_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_PORKCHOP)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMOKING)) }
+    val classic_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.APPLE)) }
+    val classic_golden_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.ENCHANTED_GOLDEN_APPLE)).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("ggg")
+            .pattern("gag")
+            .pattern("ggg")
+            .input('g', LCCTags.gold_blocks)
+            .input('a', LCCItems.classic_apple)
+            .apply { hasCriterion(this, LCCItems.classic_apple) }
+            .apply { offer(this, d) }
     }) }
 
     val full_hearts by createWithName { ItemDataContainer().affects(LCCItems.heart_full.values.toList()).defaultLang().defaultItemAsset().add(TransformTranslationFactory(*LCCData.accessor.locales.toTypedArray()) { it.replace(" Full", "") }) }

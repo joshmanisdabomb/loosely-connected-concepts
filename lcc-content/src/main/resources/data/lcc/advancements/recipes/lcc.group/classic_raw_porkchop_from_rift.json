@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_raw_porkchop_from_rift"
+    ]
+  },
+  "criteria": {
+    "has_classic_raw_porkchop": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:classic_raw_porkchop"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_raw_porkchop_from_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_classic_raw_porkchop",
+      "has_the_recipe"
+    ]
+  ]
+}

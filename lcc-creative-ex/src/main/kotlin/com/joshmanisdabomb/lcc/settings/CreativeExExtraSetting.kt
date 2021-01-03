@@ -42,7 +42,7 @@ class CreativeExExtraSetting(val category: CreativeExCategory, val sortValue: (s
 
         fun <T : ItemExtraSettings> T.creativeEx(category: CreativeExCategory, sortValue: (sort: CreativeExSortValue, category: CreativeExCategory) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) = this.add(CreativeExExtraSetting(category, sortValue, set, setKey)).let { this }
 
-        fun <T : ItemExtraSettings> T.creativeEx(category: CreativeExCategory, set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) = this.add(CreativeExExtraSetting(category, sortValueDefault(), set, setKey)).let { this }
+        fun <T : ItemExtraSettings> T.creativeExSet(category: CreativeExCategory, set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) = this.add(CreativeExExtraSetting(category, sortValueDefault(), set, setKey)).let { this }
 
     }
 

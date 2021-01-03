@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_apple_from_rift"
+    ]
+  },
+  "criteria": {
+    "has_classic_apple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:classic_apple"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_apple_from_rift"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_classic_apple",
+      "has_the_recipe"
+    ]
+  ]
+}

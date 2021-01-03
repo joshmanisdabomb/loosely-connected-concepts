@@ -4,15 +4,15 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import com.joshmanisdabomb.lcc.item.*
+import com.joshmanisdabomb.lcc.item.AxeItem
+import com.joshmanisdabomb.lcc.item.HoeItem
+import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import net.minecraft.entity.EquipmentSlot
-import net.minecraft.item.ArmorItem
-import net.minecraft.item.BucketItem
-import net.minecraft.item.Item
-import net.minecraft.item.Items
+import net.minecraft.item.*
 import net.minecraft.util.Rarity
 
 object LCCItems : ItemDirectory() {
@@ -93,7 +93,11 @@ object LCCItems : ItemDirectory() {
     val oil_bucket by create(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100))) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
 
     //Nostalgia
-    val simulation_fabric by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-1))) { Item(Item.Settings().defaults()) }
+    val simulation_fabric by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-2))) { Item(Item.Settings().defaults()) }
+    val classic_raw_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(1000, 1))) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.PORKCHOP)) }
+    val classic_cooked_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.COOKED_PORKCHOP)) }
+    val classic_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.APPLE)) }
+    val classic_golden_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponent.Builder().hunger(20).saturationModifier(1.2F).build())) }
 
     //TODO pills
 

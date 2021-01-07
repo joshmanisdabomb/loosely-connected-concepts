@@ -1,0 +1,45 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "front": "lcc:block/cog_cw",
+    "back": "lcc:block/cog_ccw",
+    "particle": "lcc:block/cog"
+  },
+  "elements": [
+    {
+      "from": [
+        -1,
+        15.5,
+        -1
+      ],
+      "to": [
+        17,
+        15.5,
+        17
+      ],
+      "shade": false,
+      "faces": {
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#back"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": "#front"
+        }
+      }
+    }
+  ]
+}

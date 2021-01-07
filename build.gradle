@@ -1,5 +1,3 @@
-import net.fabricmc.loom.task.RunClientTask
-
 plugins {
     id 'fabric-loom'
     id 'maven-publish'
@@ -25,8 +23,11 @@ project(':lcc-creative-ex') {
 project(':lcc-data') {
     version = rootProject.version
 }
-project(':lcc-multipart') {
-    version = project.multipart_version
+project(':lcc-network') {
+    version = project.network_version
+}
+project(':lcc-subblock') {
+    version = project.subblock_version
 }
 
 allprojects {

@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:leather_chestplate"
+  },
+  "result": "lcc:classic_leather_chestplate",
+  "count": 1
+}

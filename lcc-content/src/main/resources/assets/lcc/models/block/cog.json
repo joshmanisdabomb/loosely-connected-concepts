@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "lcc:block/template_cog",
   "textures": {
-    "all": "lcc:block/cog"
+    "front": "lcc:block/cog",
+    "back": "lcc:block/cog",
+    "particle": "lcc:block/cog"
   }
 }

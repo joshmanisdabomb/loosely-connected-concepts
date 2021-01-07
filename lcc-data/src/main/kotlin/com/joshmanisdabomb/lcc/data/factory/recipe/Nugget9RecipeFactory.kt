@@ -8,8 +8,8 @@ import net.minecraft.item.ItemConvertible
 
 class Nugget9RecipeFactory(val ingot: ItemConvertible, val to: Boolean = true, val from: Boolean = true, val group: String? = null, toCriterion: (ShapedRecipeJsonFactory.(entry: Item) -> Unit)? = null, fromCriterion: (ShapelessRecipeJsonFactory.(entry: Item) -> Unit)? = null) : RecipeFactory {
 
-    val toCriterion = toCriterion ?: { hasCriterion(this, it) }
-    val fromCriterion = fromCriterion ?: { hasCriterion(this, it) }
+    val toCriterion = toCriterion ?: { hasCriterionShaped(this, it) }
+    val fromCriterion = fromCriterion ?: { hasCriterionShapeless(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         if (to) {
@@ -19,13 +19,13 @@ class Nugget9RecipeFactory(val ingot: ItemConvertible, val to: Boolean = true, v
                 .pattern("iii")
                 .input('i', entry)
                 .group(group)
-                .apply { this@Nugget9RecipeFactory.toCriterion(this, entry) }.apply { offer(this, data, loc(registry(ingot.asItem())) { it.plus("_from_nuggets") }) }
+                .apply { this@Nugget9RecipeFactory.toCriterion(this, entry) }.apply { offerShaped(this, data, loc(registry(ingot.asItem())) { it.plus("_from_nuggets") }) }
         }
         if (from) {
             ShapelessRecipeJsonFactory.create(entry, 9)
                 .input(ingot)
                 .group(group)
-                .apply { this@Nugget9RecipeFactory.fromCriterion(this, ingot.asItem()) }.apply { offer(this, data, loc(registry(entry))) }
+                .apply { this@Nugget9RecipeFactory.fromCriterion(this, ingot.asItem()) }.apply { offerShapeless(this, data, loc(registry(entry))) }
         }
     }
 

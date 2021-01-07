@@ -97,8 +97,18 @@ object LCCItems : ItemDirectory() {
 
     //Nostalgia
     val simulation_fabric by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-2))) { Item(Item.Settings().defaults()) }
-    val classic_raw_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(1000, 1))) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.PORKCHOP)) }
+    val classic_leather_helmet by create(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(1000, 1))) { ArmorItem(LCCArmorMaterials.CLASSIC_LEATHER, EquipmentSlot.HEAD, Item.Settings().defaults()) }
+    val classic_leather_chestplate by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_LEATHER, EquipmentSlot.CHEST, Item.Settings().defaults()) }
+    val classic_leather_leggings by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_LEATHER, EquipmentSlot.LEGS, Item.Settings().defaults()) }
+    val classic_leather_boots by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_LEATHER, EquipmentSlot.FEET, Item.Settings().defaults()) }
+    val classic_studded_leather_helmet by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_STUDDED_LEATHER, EquipmentSlot.HEAD, Item.Settings().defaults()) }
+    val classic_studded_leather_chestplate by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_STUDDED_LEATHER, EquipmentSlot.CHEST, Item.Settings().defaults()) }
+    val classic_studded_leather_leggings by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_STUDDED_LEATHER, EquipmentSlot.LEGS, Item.Settings().defaults()) }
+    val classic_studded_leather_boots by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ArmorItem(LCCArmorMaterials.CLASSIC_STUDDED_LEATHER, EquipmentSlot.FEET, Item.Settings().defaults()) }
+    val classic_raw_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.PORKCHOP)) }
     val classic_cooked_porkchop by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.COOKED_PORKCHOP)) }
+    val classic_raw_fish by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.COD)) }
+    val classic_cooked_fish by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.COOKED_COD)) }
     val classic_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.APPLE)) }
     val classic_golden_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponent.Builder().hunger(20).saturationModifier(1.2F).build())) }
 

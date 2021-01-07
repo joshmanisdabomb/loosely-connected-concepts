@@ -9,7 +9,7 @@ import net.minecraft.recipe.Ingredient
 
 class ToolRecipeFactory(val ingot: ItemConvertible, val stick: Ingredient = Ingredient.ofItems(Items.STICK), criterion: (ShapedRecipeJsonFactory.(entry: Item) -> Unit)? = null, val type: String? = null) : RecipeFactory {
 
-    val criterion = criterion ?: { hasCriterion(this, it) }
+    val criterion = criterion ?: { hasCriterionShaped(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         val path = assetPath(entry)
@@ -38,7 +38,7 @@ class ToolRecipeFactory(val ingot: ItemConvertible, val stick: Ingredient = Ingr
         }
         .input('i', ingot)
         .input('s', stick)
-        .apply { this@ToolRecipeFactory.criterion(this, ingot.asItem()) }.apply { offer(this, data, loc(registry(entry))) }
+        .apply { this@ToolRecipeFactory.criterion(this, ingot.asItem()) }.apply { offerShaped(this, data, loc(registry(entry))) }
     }
 
 }

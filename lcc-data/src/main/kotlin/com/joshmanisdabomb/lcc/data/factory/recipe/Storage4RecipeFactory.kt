@@ -8,8 +8,8 @@ import net.minecraft.item.ItemConvertible
 
 class Storage4RecipeFactory(val ingot: ItemConvertible, val to: Boolean = true, val from: Boolean = true, val group: String? = null, toCriterion: (ShapedRecipeJsonFactory.(entry: Item) -> Unit)? = null, fromCriterion: (ShapelessRecipeJsonFactory.(entry: Item) -> Unit)? = null) : RecipeFactory {
 
-    val toCriterion = toCriterion ?: { hasCriterion(this, it) }
-    val fromCriterion = fromCriterion ?: { hasCriterion(this, it) }
+    val toCriterion = toCriterion ?: { hasCriterionShaped(this, it) }
+    val fromCriterion = fromCriterion ?: { hasCriterionShapeless(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         if (to) {
@@ -18,13 +18,13 @@ class Storage4RecipeFactory(val ingot: ItemConvertible, val to: Boolean = true, 
                 .pattern("ii")
                 .input('i', ingot)
                 .group(group)
-                .apply { this@Storage4RecipeFactory.toCriterion(this, ingot.asItem()) }.apply { offer(this, data, loc(registry(entry))) }
+                .apply { this@Storage4RecipeFactory.toCriterion(this, ingot.asItem()) }.apply { offerShaped(this, data, loc(registry(entry))) }
         }
         if (from) {
             ShapelessRecipeJsonFactory.create(ingot, 4)
                 .input(entry)
                 .group(group)
-                .apply { this@Storage4RecipeFactory.fromCriterion(this, entry) }.apply { offer(this, data, loc(registry(ingot.asItem())) { it.plus("_from_storage") }) }
+                .apply { this@Storage4RecipeFactory.fromCriterion(this, entry) }.apply { offerShapeless(this, data, loc(registry(ingot.asItem())) { it.plus("_from_storage") }) }
         }
     }
 

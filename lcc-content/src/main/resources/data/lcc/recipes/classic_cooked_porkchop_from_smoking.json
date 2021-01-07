@@ -4,6 +4,6 @@
     "item": "lcc:classic_raw_porkchop"
   },
   "result": "lcc:classic_cooked_porkchop",
-  "experience": 1.0,
+  "experience": 0.35,
   "cookingtime": 100
 }

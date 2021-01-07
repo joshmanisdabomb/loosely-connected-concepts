@@ -50,8 +50,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
         ShapelessRecipeJsonFactory.create(i, 8)
             .input(Blocks.WET_SPONGE)
             .input(Blocks.SOUL_SAND, 8)
-            .apply { hasCriterion(this, Blocks.SPONGE) }
-            .apply { offer(this, d) }
+            .apply { hasCriterionShapeless(this, Blocks.SPONGE) }
+            .apply { offerShapeless(this, d) }
     }) }
     val bounce_pad by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(BouncePadBlockAssetFactory).add(BouncePadItemAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
@@ -63,8 +63,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .input('i', Blocks.IRON_BLOCK)
             .input('p', Blocks.PISTON)
             .input('s', LCCBlocks.soaking_soul_sand)
-            .apply { hasCriterion(this, LCCBlocks.soaking_soul_sand) }
-            .apply { offer(this, d) }
+            .apply { hasCriterionShaped(this, LCCBlocks.soaking_soul_sand) }
+            .apply { offerShaped(this, d) }
     }) }
 
     val time_rift by createWithName { BlockDataContainer().defaultLang().add(LiteralTranslationFactory("Wibbly Wobbly Timey Wimey Stuff", "en_gb")).add(ParticleBlockAssetFactory).add(DynamicItemAssetFactory(DynamicItemAssetFactory.block)).add(SilkBlockLootFactory(LCCItems.simulation_fabric)).add(CustomRecipeFactory { d, i ->
@@ -75,8 +75,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .input('c', Items.CLOCK)
             .input('d', Blocks.ANCIENT_DEBRIS)
             .input('s', LCCItems.simulation_fabric)
-            .apply { hasCriterion(this, LCCItems.simulation_fabric) }
-            .apply { offer(this, d) }
+            .apply { hasCriterionShaped(this, LCCItems.simulation_fabric) }
+            .apply { offerShaped(this, d) }
     }) }
     val spawner_table by createWithName { BlockDataContainer().defaultItemAsset().add(LiteralTranslationFactory("Arcane Table")).add(DungeonTableBlockAssetFactory).add(DungeonTableBlockLootFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
@@ -86,8 +86,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .input('g', Items.GLOWSTONE_DUST)
             .input('p', Items.GUNPOWDER)
             .input('o', Blocks.OBSIDIAN)
-            .apply { hasCriterion(this, Items.GLOWSTONE_DUST) }
-            .apply { offer(this, d) }
+            .apply { hasCriterionShaped(this, Items.GLOWSTONE_DUST) }
+            .apply { offerShaped(this, d) }
     }).add(BlockTagFactory(BlockTags.DRAGON_IMMUNE)) }
 
     val classic_grass_block by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(ClassicGrassBlockAssetFactory).add(SilkBlockLootFactory(Blocks.DIRT)).add(RiftFromItemRecipeFactory(Blocks.GRASS_BLOCK)) }
@@ -116,6 +116,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val classic_chest by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(ClassicChestBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelOrientable(d, i, texture = loc(i, folder = "block")) }).add(RiftFromItemRecipeFactory(Blocks.CHEST)) }
     val nether_reactor by createWithName { BlockDataContainer().defaultLang().add(NetherReactorBlockAssetFactory).add(ParentBlockItemAssetFactory(LCC.id("block/nether_reactor_ready"))).add(NetherReactorBlockLootFactory).add(RiftFromItemRecipeFactory(Items.NETHER_STAR)) }
     val classic_crying_obsidian by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block") { it.plus("_static") }) }).add(RiftFromItemRecipeFactory(Blocks.CRYING_OBSIDIAN)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
+    val cog by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(GeneratedBlockItemAssetFactory).add(CogBlockAssetFactory).add(RiftFromItemRecipeFactory(Items.REDSTONE)) }
 
     val red_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.RED_WOOL)) }
     val orange_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.ORANGE_WOOL)) }

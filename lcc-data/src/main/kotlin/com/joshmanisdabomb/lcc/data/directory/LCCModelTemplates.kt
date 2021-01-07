@@ -19,6 +19,7 @@ object ModelTemplates : ThingDirectory<Model, Pair<String, String>>() {
     val template_bounce_pad_4 by createWithNameProperties("block" to template_bounce_pad_4_block_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE))
     val template_bounce_pad_item by createWithNameProperties("item" to template_bounce_pad_item_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5))
     val template_spawner_table by createWithNameProperties("block" to template_spawner_table_json, model(TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE))
+    val template_cog by createWithNameProperties("block" to template_cog_json, model(TextureKey.FRONT, TextureKey.BACK, TextureKey.PARTICLE))
 
     override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String, String>>) {
         things.forEach { (k, v) -> LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${properties[k]!!.first}/$k")) { DataUtils.parser.parse(properties[k]!!.second) } }
@@ -588,4 +589,27 @@ private const val template_spawner_table_json =
       }
     }
   ]
+}"""
+
+private const val template_cog_json =
+"""{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+    "ambientocclusion": false,
+	"textures": {
+		"front": "lcc:block/cog_cw",
+		"back": "lcc:block/cog_ccw",
+		"particle": "lcc:block/cog"
+	},
+	"elements": [
+		{
+			"from": [-1, 15.5, -1],
+			"to": [17, 15.5, 17],
+            "shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#back"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#front"}
+			}
+		}
+	]
 }"""

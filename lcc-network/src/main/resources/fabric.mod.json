@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
-  "id": "lcc-multipart",
+  "id": "lcc-network",
   "version": "${version}",
 
-  "name": "Loosely Connected Concepts - Multipart",
-  "description": "This module is responsible for the multipart system of Loosely Connected Concepts.",
+  "name": "Loosely Connected Concepts - Traversable Network",
+  "description": "This module is a helper for creating traversable networks of blocks used by Loosely Connected Concepts.",
   "authors": [
     "joshmanisdabomb"
   ],
   "contact": {
     "homepage": "https://joshmanisdabomb.com/",
-    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/master/"
+    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric/"
   },
 
   "license": "All rights reserved, see LICENSE.md",
-  "icon": "assets/lcc-multipart/icon.png",
+  "icon": "assets/lcc-network/icon.png",
 
   "environment": "*",
   "mixins": [],

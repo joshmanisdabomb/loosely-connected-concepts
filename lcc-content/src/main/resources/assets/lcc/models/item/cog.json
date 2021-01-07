@@ -1,3 +1,6 @@
 {
-  "parent": "lcc:block/cog"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lcc:block/cog"
+  }
 }

@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
@@ -112,9 +112,9 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 
     companion object {
-        val SHAPE = Block.createCuboidShape(0.0, 0.0, 9.0, 16.0, 16.0, 16.0).rotatable
-        val COLLISION_UP = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 4.0, 16.0)
-        val COLLISION = Block.createCuboidShape(0.0, 0.0, 15.99, 16.0, 16.0, 16.0).rotatable
+        val SHAPE = createCuboidShape(0.0, 0.0, 9.0, 16.0, 16.0, 16.0).rotatable
+        val COLLISION_UP = createCuboidShape(0.0, 0.0, 0.0, 16.0, 4.0, 16.0)
+        val COLLISION = createCuboidShape(0.0, 0.0, 15.99, 16.0, 16.0, 16.0).rotatable
 
         val SETTING = IntProperty.of("setting", 0, 4)
     }

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemConvertible
 
 class ArmorRecipeFactory(val ingot: ItemConvertible, criterion: (ShapedRecipeJsonFactory.(entry: Item) -> Unit)? = null, val type: String? = null) : RecipeFactory {
 
-    val criterion = criterion ?: { hasCriterion(this, it) }
+    val criterion = criterion ?: { hasCriterionShaped(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         val path = assetPath(entry)
@@ -29,7 +29,7 @@ class ArmorRecipeFactory(val ingot: ItemConvertible, criterion: (ShapedRecipeJso
             else -> error("Could not determine armor type from path.")
         }
         .input('i', ingot)
-        .apply { this@ArmorRecipeFactory.criterion(this, ingot.asItem()) }.apply { offer(this, data, loc(registry(entry))) }
+        .apply { this@ArmorRecipeFactory.criterion(this, ingot.asItem()) }.apply { offerShaped(this, data, loc(registry(entry))) }
     }
 
 }

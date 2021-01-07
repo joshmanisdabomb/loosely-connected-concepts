@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_cooked_porkchop_from_campfire_cooking"
+    ]
+  },
+  "criteria": {
+    "has_classic_cooked_porkchop": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:classic_cooked_porkchop"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_cooked_porkchop_from_campfire_cooking"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_classic_cooked_porkchop",
+      "has_the_recipe"
+    ]
+  ]
+}

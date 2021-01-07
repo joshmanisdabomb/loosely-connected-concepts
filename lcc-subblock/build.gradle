@@ -1,0 +1,5 @@
+archivesBaseName = "lcc-subblock"
+
+dependencies {
+    compile project(':lcc-base')
+}

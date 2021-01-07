@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_cooked_fish_from_smoking"
+    ]
+  },
+  "criteria": {
+    "has_classic_cooked_fish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:classic_cooked_fish"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_cooked_fish_from_smoking"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_classic_cooked_fish",
+      "has_the_recipe"
+    ]
+  ]
+}

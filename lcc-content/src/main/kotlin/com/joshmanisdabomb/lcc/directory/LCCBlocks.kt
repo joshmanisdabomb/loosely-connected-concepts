@@ -117,7 +117,7 @@ object LCCBlocks : BlockDirectory() {
     val classic_crying_obsidian by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicCryingObsidianBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(50.0f, 1200.0f).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val glowing_obsidian by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.NETHER).strength(50.0f, 1200.0f).luminance(12).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val pocket_stonecutter by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicStonecutterBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE).breakByTool(PICKAXES).requiresTool().strength(2.0f, 6.0f).sounds(BlockSoundGroup.STONE)) }
-    val cog by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { CogBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON).breakInstantly().sounds(BlockSoundGroup.METAL)) }
+    val cog by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { CogBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON).breakInstantly().noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never).sounds(BlockSoundGroup.METAL)) }
 
     //TODO pill printer
 

@@ -15,7 +15,8 @@
     "ImplPlantBlockMixin",
     "ImplFeatureMixin",
     "ImplBowMixin",
-    "ImplCrossbowMixin"
+    "ImplCrossbowMixin",
+    "ImplServerInteractionManager"
   ],
   "injectors": {
     "defaultRequire": 1

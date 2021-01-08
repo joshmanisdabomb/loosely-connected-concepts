@@ -13,6 +13,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.RaycastContext
+import net.minecraft.world.World
 
 interface SubblockSystem {
 
@@ -46,6 +47,12 @@ interface SubblockSystem {
     fun getSubblockFromTrace(state: BlockState, world: BlockView, pos: BlockPos, entity: Entity, subblocks: List<Subblock> = getSubblocks(state, world, pos)) = getSubblocksFromTrace(state, world, pos, entity, subblocks).firstOrNull()
 
     fun getSubblockFromTrace(state: BlockState, world: BlockView, pos: BlockPos, hit: Vec3d, subblocks: List<Subblock> = getSubblocks(state, world, pos)) = getSubblocksFromTrace(state, world, pos, hit, subblocks).firstOrNull()
+
+    fun breakSubblock(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, onBreak: (World, BlockPos, BlockState, PlayerEntity) -> Unit): Subblock? {
+        val subblock = getSubblockFromTrace(state, world, pos, player) ?: return onBreak(world, pos, state, player).let { null }
+        onBreak(world, pos, subblock.single, player)
+        return subblock
+    }
 
     companion object {
         private fun entityRaycast(entity: Entity, maxDistance: Double, tickDelta: Float, includeFluids: Boolean): HitResult {

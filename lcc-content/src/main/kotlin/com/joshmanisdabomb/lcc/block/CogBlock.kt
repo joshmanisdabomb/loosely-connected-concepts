@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
 import com.joshmanisdabomb.lcc.extensions.toInt
@@ -11,7 +12,10 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.SideShapeType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable
@@ -22,7 +26,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
+class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, SubblockSystem {
 
     init {
         defaultState = stateManager.defaultState.apply { cog_states.values.forEach { with(it, CogState.NONE) } }.with(cog_states[Direction.DOWN], CogState.INACTIVE)
@@ -31,17 +35,13 @@ class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
     val empty = defaultState.with(cog_states[Direction.DOWN], CogState.NONE)
     val network = CogNetwork()
 
+    val cog_parts = Direction.values().map { it to Subblock(LCC.id("cog_${it.asString().toLowerCase()}"), shape[it], empty.with(cog_states[it], CogState.INACTIVE)) }.toMap()
+
+    private fun getPartDirection(subblock: Subblock) = cog_parts.filterValues { it == subblock }.keys.first()
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(*cog_states.values.toTypedArray()).let {}
 
     override fun getSubblocks(state: BlockState, world: BlockView, pos: BlockPos) = cog_states.filterValues { state[it].exists }.map { (k, v) -> cog_parts[k]!! }
-
-    override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
-        val vec = fromPos.subtract(pos)
-        val side = Direction.fromVector(vec.x, vec.y, vec.z) ?: return
-        if (!state[cog_states[side]!!].exists) return
-        updateNetwork(state, world, pos, side)
-        super.neighborUpdate(state, world, pos, block, fromPos, notify)
-    }
 
     override fun getPlacementState(context: ItemPlacementContext): BlockState? {
         val face = context.side
@@ -52,8 +52,8 @@ class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
         val newState = if (state.block === this) state else empty
 
         if (!context.canReplaceExisting() && from.block === this) {
-            val subblock = getSubblockFromTrace(from, context.world, posFrom, context.hitPos)
-            val face2 = cog_parts.filterValues { it == subblock }.keys.first()
+            val subblock = getSubblockFromTrace(from, context.world, posFrom, context.hitPos) ?: return null
+            val face2 = getPartDirection(subblock)
             return if (face.opposite === face2) {
                 null
             } else {
@@ -64,7 +64,40 @@ class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
         return if (!this.valid(face.opposite, context.world, pos)) null else newState.with(cog_states[face.opposite], CogState.INACTIVE)
     }
 
+    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
+        if (placer != null) {
+            val subblock = getSubblockFromTrace(state, world, pos, placer) ?: return updateNetwork(state, world, pos, null)
+            val face = getPartDirection(subblock)
+            updateNetwork(state, world, pos, face)
+        } else {
+            updateNetwork(state, world, pos, null)
+        }
+        super.onPlaced(world, pos, state, placer, stack)
+    }
+
     override fun canReplace(state: BlockState, context: ItemPlacementContext) = context.stack.item == this.asItem() && !context.canReplaceExisting()
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        val subblock = breakSubblock(state, world, pos, player) { w, p, s, pl -> super.onBreak(w, p, s, pl) } ?: return
+        val state2 = state.with(cog_states[getPartDirection(subblock)], CogState.NONE)
+        if (state2 != empty) {
+            if (!world.isClient) world.setBlockState(pos, state2, 3)
+            afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
+        } else {
+            world.removeBlock(pos, false)
+            afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
+        }
+    }
+
+    override fun lcc_overrideBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) = true
+
+    override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
+        val vec = fromPos.subtract(pos)
+        val side = Direction.fromVector(vec.x, vec.y, vec.z) ?: return
+        if (!state[cog_states[side]!!].exists) return
+        updateNetwork(state, world, pos, side)
+        super.neighborUpdate(state, world, pos, block, fromPos, notify)
+    }
 
     override fun emitsRedstonePower(state: BlockState) = true
 
@@ -94,7 +127,7 @@ class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
         return false
     }
 
-    protected fun updateNetwork(state: BlockState, world: World, pos: BlockPos, side: Direction) {
+    protected fun updateNetwork(state: BlockState, world: World, pos: BlockPos, side: Direction?) {
         val result = network.discover(world, pos to side)
         val nodes = result.nodes
         if (nodes["powered"]?.size ?: 0 > 0) {
@@ -118,7 +151,6 @@ class CogBlock(settings: Settings) : Block(settings), SubblockSystem {
         val shape = createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 1.0).rotatable
 
         val cog_states = Direction.values().map { it to EnumProperty.of(it.asString().toLowerCase(), CogState::class.java) }.toMap()
-        val cog_parts = Direction.values().map { it to Subblock(LCC.id("cog_${it.asString().toLowerCase()}"), shape[it]) }.toMap()
     }
 
     enum class CogState(active: Boolean?) : StringIdentifiable {

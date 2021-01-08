@@ -4,6 +4,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -37,5 +38,8 @@ interface LCCExtendedBlock {
 
     @JvmDefault
     fun lcc_spawnAfter(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, yaw: Float, spawnPointSet: Boolean, alive: Boolean) = Unit
+
+    @JvmDefault
+    fun lcc_overrideBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): Boolean? = null
 
 }

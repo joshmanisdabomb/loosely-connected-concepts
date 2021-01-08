@@ -5,7 +5,8 @@
   "client": [
     "BackgroundRendererMixin",
     "WorldRendererAccessor",
-    "ClientPlayerInteractionAccessor"
+    "ClientPlayerInteractionAccessor",
+    "ImplClientInteractionManager"
   ],
   "injectors": {
     "defaultRequire": 1

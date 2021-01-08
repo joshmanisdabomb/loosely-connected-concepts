@@ -95,9 +95,9 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         }
         if (!world.isClient) {
             when (dir.axis) {
-                Direction.Axis.X -> entity.setVelocity(dir.offsetX.times(motions[setting]), 0.0, 0.0)
+                Direction.Axis.X -> entity.setVelocity(dir.offsetX.times(motions[setting]), 0.5, 0.0)
                 Direction.Axis.Y -> entity.setVelocity(0.0, dir.offsetY.times(motions[setting]), 0.0)
-                Direction.Axis.Z -> entity.setVelocity(0.0, 0.0, dir.offsetZ.times(motions[setting]))
+                Direction.Axis.Z -> entity.setVelocity(0.0, 0.5, dir.offsetZ.times(motions[setting]))
                 else -> return
             }
             entity.velocityModified = true

@@ -10,6 +10,14 @@ abstract class PacketDirectory : ThingDirectory<PacketConsumer, Unit>() {
 
     protected abstract fun id(path: String): Identifier
 
+    override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
+        loadAll(predicate)
+    }
+
+    fun register(predicate: (name: String, properties: Unit) -> Boolean = { s, p -> true }) {
+        registerAll(things(predicate), properties(predicate))
+    }
+
     override fun registerAll(things: Map<String, PacketConsumer>, properties: Map<String, Unit>) {
         for ((k, v) in things) {
             _registry.register(id(k), v)

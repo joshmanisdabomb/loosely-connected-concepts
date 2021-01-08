@@ -7,11 +7,11 @@ abstract class ThingDirectory<V, P> {
 
     private val delegates = mutableMapOf<String, ThingDelegate<out V, *>>()
 
-    fun things(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, V> {
+    protected fun things(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, V> {
         return delegates.filter { (k, v) -> v.getAllProperties(k).forEach { (k2, v2) -> if (predicate(k2, v2)) return@filter true }; false }.map { (k, v) -> val p = v.getAllProperties(k); v.getAll(k).filter { (k2, v2) -> predicate(k2, p[k2] ?: error("Property key map null error.")) } }.flatMap { it.toList() }.toMap()
     }
 
-    private fun properties(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, P> {
+    protected fun properties(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }): Map<String, P> {
         return delegates.map { (k, v) -> v.getAllProperties(k) }.flatMap { it.toList() }.toMap().filter { (k, v) -> predicate(k, v) }
     }
 
@@ -20,7 +20,7 @@ abstract class ThingDirectory<V, P> {
         registerAll(things(predicate), properties(predicate))
     }
 
-    private fun loadAll(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }) {
+    protected fun loadAll(predicate: (name: String, properties: P) -> Boolean = { s, p -> true }) {
         delegates.filter { (k, v) -> v.getAllProperties(k).forEach { (k2, v2) -> if (predicate(k2, v2)) return@filter true }; false }.forEach { (k, v) -> v.load() }
     }
 

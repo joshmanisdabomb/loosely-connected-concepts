@@ -30,7 +30,7 @@ public abstract class ImplServerInteractionManager {
     @Final
     private ServerPlayerEntity player;
 
-    @Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z", args = {"log=true"}), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "tryBreakBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;removeBlock(Lnet/minecraft/util/math/BlockPos;Z)Z"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     private void overrideBreak(BlockPos pos, CallbackInfoReturnable<Boolean> info, BlockState state, BlockEntity be, Block block) {
         if (block instanceof LCCExtendedBlock) {
             Boolean ret = ((LCCExtendedBlock)block).lcc_overrideBreak(this.world, pos, state, this.player);

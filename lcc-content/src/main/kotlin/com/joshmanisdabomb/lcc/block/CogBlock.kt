@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
 import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.CogNetwork
 import com.joshmanisdabomb.lcc.subblock.Subblock
 import com.joshmanisdabomb.lcc.subblock.SubblockSystem
@@ -66,11 +67,11 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
         if (placer != null) {
-            val subblock = getSubblockFromTrace(state, world, pos, placer) ?: return updateNetwork(state, world, pos, null)
+            val subblock = getSubblockFromTrace(state, world, pos, placer) ?: return updateNetwork(world, pos, null).let {}
             val face = getPartDirection(subblock)
-            updateNetwork(state, world, pos, face)
+            updateNetwork(world, pos, face)
         } else {
-            updateNetwork(state, world, pos, null)
+            updateNetwork(world, pos, null)
         }
         super.onPlaced(world, pos, state, placer, stack)
     }
@@ -79,14 +80,15 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         val subblock = breakSubblock(state, world, pos, player) { w, p, s, pl -> super.onBreak(w, p, s, pl) } ?: return
-        val state2 = state.with(cog_states[getPartDirection(subblock)], CogState.NONE)
+        val face = getPartDirection(subblock)
+        val state2 = state.with(cog_states[face], CogState.NONE)
         if (state2 != empty) {
             if (!world.isClient) world.setBlockState(pos, state2, 3)
-            afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
         } else {
             world.removeBlock(pos, false)
-            afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
         }
+        updateNeighbouringNetworks(state, world, pos, face)
+        if (!player.isCreative) afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
     }
 
     override fun lcc_overrideBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) = true
@@ -95,7 +97,7 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
         val vec = fromPos.subtract(pos)
         val side = Direction.fromVector(vec.x, vec.y, vec.z) ?: return
         if (!state[cog_states[side]!!].exists) return
-        updateNetwork(state, world, pos, side)
+        updateNetwork(world, pos, side)
         super.neighborUpdate(state, world, pos, block, fromPos, notify)
     }
 
@@ -127,22 +129,57 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
         return false
     }
 
-    protected fun updateNetwork(state: BlockState, world: World, pos: BlockPos, side: Direction?) {
+    protected fun updateNetwork(world: World, pos: BlockPos, side: Direction?): BlockNetwork<Pair<BlockPos, Direction?>>.NetworkResult {
         val result = network.discover(world, pos to side)
         val nodes = result.nodes
         if (nodes["powered"]?.size ?: 0 > 0) {
             result.traversablesAssoc.forEach { (k, v) ->
                 val state2 = world.getBlockState(k)
                 var state3 = state2
-                v.forEach { state3 = state3.with(cog_states[it.second], if (nodes["ccw"]?.contains(it) == true) CogState.CCW else CogState.CW) }
+                v.forEach cont@{ if (it.second == null) return@cont; state3 = state3.with(cog_states[it.second], if (nodes["ccw"]?.contains(it) == true) CogState.CCW else CogState.CW) }
                 if (state3 != state2) world.setBlockState(k, state3)
             }
         } else {
             result.traversablesAssoc.forEach { (k, v) ->
                 val state2 = world.getBlockState(k)
                 var state3 = state2
-                v.forEach { state3 = state3.with(cog_states[it.second], CogState.INACTIVE) }
+                v.forEach cont@{ if (it.second == null) return@cont; state3 = state3.with(cog_states[it.second], CogState.INACTIVE) }
                 if (state3 != state2) world.setBlockState(k, state3)
+            }
+        }
+        return result
+    }
+
+    protected fun updateNeighbouringNetworks(state: BlockState, world: World, pos: BlockPos, face: Direction) {
+        val positions = mutableSetOf<Pair<BlockPos, Direction?>>()
+        val excludes = mutableSetOf<Pair<BlockPos, Direction?>>()
+        for (d2 in face.perpendiculars) {
+            if (state[cog_states[d2]].exists) {
+                val pair = pos to d2
+                positions.add(pair)
+            }
+
+            val p1 = pos.offset(d2)
+            val c1 = world.getBlockState(p1)
+            if (c1.block is CogBlock && c1[cog_states[face]].exists) {
+                val pair = p1 to face
+                positions.add(pair)
+            }
+
+            if (!c1.isSideSolid(world, pos.offset(d2), face.opposite, SideShapeType.FULL)) {
+                val p2 = pos.offset(d2).offset(face)
+                val c2 = world.getBlockState(p2)
+                if (c2.block is CogBlock && c2[cog_states[d2.opposite]].exists) {
+                    val pair = p2 to d2.opposite
+                    positions.add(pair)
+                }
+            }
+        }
+
+        for (p in positions) {
+            if (!excludes.contains(p)) {
+                val result = updateNetwork(world, p.first, p.second)
+                excludes.addAll(result.traversables)
             }
         }
     }

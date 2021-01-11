@@ -25,6 +25,9 @@
     "minecraft": "1.17.x",
     "lcc-base": [">=0.1.0", "${version}"]
   },
+  "suggests": {
+    "lcc-mod": "*"
+  },
   "custom": {
     "modmenu:api": true,
     "modmenu:parent": "lcc-mod"

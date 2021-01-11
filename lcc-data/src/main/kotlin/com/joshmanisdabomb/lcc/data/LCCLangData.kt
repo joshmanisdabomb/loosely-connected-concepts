@@ -18,6 +18,10 @@ object LCCLangData {
         lang["en_us"]!!["biome.lcc.wasteland"] = "Wasteland"
 
         lang["en_us"]!!["container.lcc.spawner_table"] = "Arcane Table"
+        lang["en_us"]!!["container.lcc.refiner"] = "Refiner"
+        lang["en_us"]!!["container.lcc.composite_manufactory"] = "Composite Manufactory"
+
+        lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
 
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

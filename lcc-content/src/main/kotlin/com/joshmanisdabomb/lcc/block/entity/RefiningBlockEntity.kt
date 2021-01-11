@@ -81,8 +81,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = dir == Direction.DOWN
 
     private var energy: Int
-        get() = (rawEnergy ?: 0f).times(1000).toInt()
-        set(value) { rawEnergy = value.div(1000).toFloat() }
+        get() = (rawEnergy ?: 0f).times(1000f).toInt()
+        set(value) { rawEnergy = value.div(1000f) }
 
     override var rawEnergy: Float? = 0f
     override val rawEnergyBounds by lazy { 0f..(refiningBlock?.maxEnergy ?: 800f) }

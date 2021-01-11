@@ -9,7 +9,7 @@ import net.minecraft.world.BlockView
 
 class PowerCableBlock(settings: Settings) : CableBlock(settings, { world, state, pos, side, state2, pos2 -> state2.block is PowerCableBlock || EnergyHandler.getHandlerAt(world, pos2) != null }), EnergyHandler {
 
-    val network = FullBlockNetwork({ world, pos, state, side -> state.block is PowerCableBlock || EnergyHandler.getHandlerAt(world, pos) != null }, { world, pos, state, side -> if (EnergyHandler.getHandlerAt(world, pos) != null && state.block !is PowerCableBlock) arrayOf("all", side.toString()) else emptyArray() }, 64)
+    val network = FullBlockNetwork({ world, pos, state, side -> state.block is PowerCableBlock }, { world, pos, state, side -> if (EnergyHandler.getHandlerAt(world, pos) != null && state.block !is PowerCableBlock) arrayOf("all", side.toString()) else emptyArray() }, 64)
 
     override fun addEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
         return energy(world, home, away, amount, unit, EnergyHandler::addEnergy)

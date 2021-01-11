@@ -19,6 +19,8 @@ rootProject.name = "lcc"
 
 include 'lcc-base'
 
-include 'lcc-content', 'lcc-creative-ex', 'lcc-ct', 'lcc-energy', 'lcc-network', 'lcc-subblock'
+include 'lcc-creative-ex', 'lcc-ct', 'lcc-energy', 'lcc-network', 'lcc-subblock'
+
+include 'lcc-content'
 
 include 'lcc-data'

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import com.joshmanisdabomb.lcc.inventory.container.RefinerScreenHandler
 import net.minecraft.entity.player.PlayerEntity
@@ -11,7 +12,7 @@ class RefinerBlock(settings: Settings) : RefiningBlock(settings) {
 
     override val availableProcesses get() = arrayOf(RefiningProcess.MIXING, RefiningProcess.ENRICHING)
 
-    override val maxEnergy = 800f
+    override val maxEnergy = LooseEnergy.toStandard(4000f)
 
     override val defaultDisplayName = TranslatableText("container.lcc.refiner")
 

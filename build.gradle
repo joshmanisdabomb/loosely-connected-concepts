@@ -11,17 +11,11 @@ group = project.maven_group
 project(':lcc-base') {
     version = project.base_version
 }
-project(':lcc-content') {
-    version = rootProject.version
-}
 project(':lcc-ct') {
     version = project.ct_version
 }
 project(':lcc-creative-ex') {
     version = project.creative_ex_version
-}
-project(':lcc-data') {
-    version = rootProject.version
 }
 project(':lcc-energy') {
     version = project.energy_version
@@ -31,6 +25,12 @@ project(':lcc-network') {
 }
 project(':lcc-subblock') {
     version = project.subblock_version
+}
+project(':lcc-content') {
+    version = rootProject.version
+}
+project(':lcc-data') {
+    version = rootProject.version
 }
 
 allprojects {

@@ -50,6 +50,9 @@
     "lcc-network": [">=2.0.0", "${version}"],
     "lcc-subblock": [">=1.0.1", "${version}"]
   },
+  "recommends": {
+    "lcc-mod": "*"
+  },
   "custom": {
     "modmenu:api": true,
     "modmenu:parent": "lcc-mod"

@@ -6,14 +6,18 @@ import com.joshmanisdabomb.lcc.energy.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.EnergyStorage
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
+import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.text.Text
@@ -30,8 +34,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     val inventory by lazy { object : DefaultInventory(refiningBlock?.slotCount ?: 15) {
 
         override fun isValid(slot: Int, stack: ItemStack): Boolean {
-            if (slot >= refiningBlock?.slotCount?.minus(refiningBlock!!.fuelSlotCount) ?: 12) return stack.item == Items.REDSTONE
-            if (slot >= refiningBlock?.slotCount?.minus(refiningBlock!!.fuelSlotCount)?.minus(refiningBlock!!.outputSlotCount) ?: 6) return false
+            if (slot >= refiningBlock?.run { slotCount.minus(fuelSlotCount) } ?: 12) return isValidFuel(stack)
+            if (slot >= refiningBlock?.run { slotCount.minus(fuelSlotCount).minus(outputSlotCount) } ?: 6) return false
             return true
         }
 
@@ -39,13 +43,13 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     val propertyDelegate = object : PropertyDelegate {
         override fun get(index: Int) = when (index) {
-            0 -> this@RefiningBlockEntity.energy
+            0 -> this@RefiningBlockEntity.energyDisplay
             1 -> this@RefiningBlockEntity.cookTime
             else -> 0
         }
 
         override fun set(index: Int, value: Int) = when (index) {
-            0 -> this@RefiningBlockEntity.energy = value
+            0 -> this@RefiningBlockEntity.energyDisplay = value
             1 -> this@RefiningBlockEntity.cookTime = value
             else -> Unit
         }
@@ -57,9 +61,33 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     var customName: Text? = null
 
+    protected val inputRange by lazy { (0 until (refiningBlock?.inputSlotCount ?: 6)).toList().toIntArray() }
+    protected val outputRange by lazy { (refiningBlock?.run { inputSlotCount until outputSlotCount.plus(inputSlotCount) } ?: 6 until 12).toList().toIntArray() }
+    protected val fuelRange by lazy { (refiningBlock?.run { inputSlotCount+outputSlotCount until fuelSlotCount.plus(outputSlotCount).plus(inputSlotCount) } ?: 6 until 12).toList().toIntArray() }
+
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = refiningBlock?.createMenu(syncId, inv, inventory, player, propertyDelegate)
 
     override fun getDisplayName() = customName ?: refiningBlock?.defaultDisplayName ?: TranslatableText("container.lcc.refiner")
+
+    override fun fromTag(tag: CompoundTag) {
+        super.fromTag(tag)
+
+        if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
+        if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
+
+        inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
+    }
+
+    override fun toTag(tag: CompoundTag): CompoundTag {
+        super.toTag(tag)
+
+        rawEnergy?.apply { tag.putFloat("Energy", this) }
+        if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
+
+        Inventories.toTag(tag, inventory.inventory)
+
+        return tag
+    }
 
     override fun clear() = inventory.clear()
     override fun size() = inventory.size()
@@ -80,7 +108,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = isValid(slot, stack)
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = dir == Direction.DOWN
 
-    private var energy: Int
+    private var energyDisplay: Int
         get() = (rawEnergy ?: 0f).times(1000f).toInt()
         set(value) { rawEnergy = value.div(1000f) }
 
@@ -90,16 +118,13 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = 0f
 
     companion object {
-        val inputRange = (0 until 9).toList().toIntArray()
-        val outputRange = (9 until 18).toList().toIntArray()
-        val fuelRange = (18 until 21).toList().toIntArray()
-
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: RefiningBlockEntity) {
-            println(entity.getEnergy(LooseEnergy, null))
             Direction.values().forEach {
                 EnergyHandler.worldExtract(entity, world, pos, state, it, 50f, LooseEnergy)
             }
         }
+
+        fun isValidFuel(stack: ItemStack) = stack.isOf(Items.REDSTONE)
     }
 
 }

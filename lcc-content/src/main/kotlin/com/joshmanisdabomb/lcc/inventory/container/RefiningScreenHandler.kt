@@ -22,7 +22,7 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
 
     abstract val block: RefinerBlock
 
-    val listener = InventoryChangedListener(this::onContentChanged)
+    val listener = InventoryChangedListener(::onContentChanged)
 
     init {
         checkSize(inventory, block.slotCount)

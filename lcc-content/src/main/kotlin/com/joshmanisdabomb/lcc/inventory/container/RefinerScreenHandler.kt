@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
+import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
 import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.ArrayPropertyDelegate
 import net.minecraft.screen.PropertyDelegate
@@ -17,8 +19,8 @@ class RefinerScreenHandler(syncId: Int, playerInventory: PlayerInventory, invent
 
     init {
         addSlots(inventory, 17, 17, 3, 2, ::addSlot, start = 0)
-        addSlots(inventory, 107, 17, 3, 2, ::addSlot, start = 6)
-        addSlots(inventory, 35, 57, 3, 1, ::addSlot, start = 12)
+        addSlots(inventory, 107, 17, 3, 2, ::addSlot, start = 6, ::PredicatedSlot)
+        addSlots(inventory, 35, 57, 3, 1, ::addSlot, start = 12) { inv, index, x, y -> PredicatedSlot(inv, index, x, y, RefiningBlockEntity::isValidFuel) }
 
         addPlayerSlots(playerInventory, 8, 90, ::addSlot)
     }

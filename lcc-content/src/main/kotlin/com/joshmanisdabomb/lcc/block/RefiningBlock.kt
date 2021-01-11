@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
 import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import net.minecraft.block.Block
@@ -18,7 +19,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
-import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
@@ -36,7 +37,7 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract val maxEnergy: Float
 
-    abstract val defaultDisplayName: Text
+    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
 
     open val inputSlotCount = 6
     open val outputSlotCount = 6

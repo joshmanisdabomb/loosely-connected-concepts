@@ -19,7 +19,7 @@ object LCCLangData {
 
         lang["en_us"]!!["container.lcc.spawner_table"] = "Arcane Table"
         lang["en_us"]!!["container.lcc.refiner"] = "Refiner"
-        lang["en_us"]!!["container.lcc.composite_manufactory"] = "Composite Manufactory"
+        lang["en_us"]!!["container.lcc.composite_processor"] = "Composite Processor"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
 

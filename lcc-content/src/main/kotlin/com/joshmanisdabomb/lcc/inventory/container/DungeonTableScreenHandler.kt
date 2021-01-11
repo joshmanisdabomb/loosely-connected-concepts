@@ -24,7 +24,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, DefaultInventory(48))
 
     val result = CraftingResultInventory()
-    val listener = InventoryChangedListener(this::onContentChanged)
+    val listener = InventoryChangedListener(::onContentChanged)
 
     init {
         checkSize(inventory, 48)

@@ -10,6 +10,8 @@ import net.minecraft.world.World
 
 class QuiverItem(size: Int, settings: Settings) : BagItem(size, settings, { it.isIn(ItemTags.ARROWS) }), LCCExtendedItem {
 
+    //TODO 0.3.0 should pick up arrows automatically
+
     override fun lcc_getArrow(stack: ItemStack) = if (getBundleOccupancy(stack) > 0) stack else null
 
     override fun lcc_createArrow(world: World, stack: ItemStack, shooter: LivingEntity): PersistentProjectileEntity? {

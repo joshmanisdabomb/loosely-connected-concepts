@@ -20,6 +20,9 @@ object ModelTemplates : ThingDirectory<Model, Pair<String, String>>() {
     val template_bounce_pad_item by createWithNameProperties("item" to template_bounce_pad_item_json, model(LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5))
     val template_spawner_table by createWithNameProperties("block" to template_spawner_table_json, model(TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE))
     val template_cog by createWithNameProperties("block" to template_cog_json, model(TextureKey.FRONT, TextureKey.BACK, TextureKey.PARTICLE))
+    val template_cable4_center by createWithNameProperties("block" to template_cable4_center_json, model(TextureKey.END, TextureKey.PARTICLE))
+    val template_cable4_connection by createWithNameProperties("block" to template_cable4_connection_json, model(TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE))
+    val template_cable4_item by createWithNameProperties("block" to template_cable4_item_json, model(TextureKey.SIDE, TextureKey.END))
 
     override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String, String>>) {
         things.forEach { (k, v) -> LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${properties[k]!!.first}/$k")) { DataUtils.parser.parse(properties[k]!!.second) } }
@@ -612,4 +615,109 @@ private const val template_cog_json =
 			}
 		}
 	]
+}"""
+
+private const val template_cable4_center_json =
+"""{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"elements": [
+		{
+			"from": [6, 6, 6],
+			"to": [10, 10, 10],
+			"faces": {
+				"north": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"east": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"south": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"west": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#end"}
+			}
+		}
+	]
+}"""
+
+private const val template_cable4_connection_json =
+"""{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"elements": [
+		{
+			"from": [6, 10, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"east": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"south": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"west": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#end", "cullface": "up"}
+			}
+		}
+	]
+}"""
+
+private const val template_cable4_item_json =
+"""{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"from": [0, 4, 4],
+			"to": [10, 8, 8],
+			"faces": {
+				"north": {"uv": [6, 6, 16, 10], "texture": "#side"},
+				"east": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"south": {"uv": [0, 6, 10, 10], "texture": "#side"},
+				"west": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"up": {"uv": [0, 6, 10, 10], "texture": "#side"},
+				"down": {"uv": [0, 6, 10, 10], "texture": "#side"}
+			}
+		},
+		{
+			"from": [6, 4, 8],
+			"to": [16, 8, 12],
+			"faces": {
+				"north": {"uv": [0, 6, 10, 10], "texture": "#side"},
+				"east": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"south": {"uv": [6, 6, 16, 10], "texture": "#side"},
+				"west": {"uv": [6, 6, 10, 10], "texture": "#end"},
+				"up": {"uv": [6, 6, 16, 10], "texture": "#side"},
+				"down": {"uv": [6, 6, 16, 10], "texture": "#side"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 32.75, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, -32.75, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [5, 0, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [5, -180, 0],
+			"translation": [0, 1.5, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, 1, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"rotation": [90, 0, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }"""

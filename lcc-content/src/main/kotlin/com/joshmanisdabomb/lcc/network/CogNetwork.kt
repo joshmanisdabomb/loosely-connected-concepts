@@ -7,16 +7,16 @@ import com.joshmanisdabomb.lcc.extensions.perpendiculars
 import net.minecraft.block.SideShapeType
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
+import net.minecraft.world.BlockView
 
 class CogNetwork(distance: Int = 64) : BlockNetwork<Pair<BlockPos, Direction?>>(distance) {
 
-    override fun traverse(world: World, current: Pair<BlockPos, Direction?>, nodes: MutableMap<String, MutableSet<Pair<BlockPos, Direction?>>>): Set<Pair<BlockPos, Direction?>> {
+    override fun traverse(world: BlockView, current: Pair<BlockPos, Direction?>, nodes: MutableMap<String, MutableSet<Pair<BlockPos, Direction?>>>): Set<Pair<BlockPos, Direction?>> {
         val pos = toPosition(current)
         val state = world.getBlockState(pos)
         val d = current.second
         if (state.block !is CogBlock) return emptySet()
-        if (d == null) return Direction.values().mapNotNull { if (state.get(cog_states[it]).exists) pos to it else null }.toSet()
+        if (d == null) return directions.mapNotNull { if (state.get(cog_states[it]).exists) pos to it else null }.toSet()
 
         val me = pos to d
         var toClockwise = false

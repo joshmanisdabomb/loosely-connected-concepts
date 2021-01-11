@@ -80,8 +80,15 @@ object LCCBlocks : BlockDirectory() {
 
     //Crafters
     val spawner_table by create(BlockExtraSettings().creativeEx(CRAFTERS)) { DungeonTableBlock(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE).strength(20.0F, 50.0F).luminance(7).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
-    //IDEA uranium refiner, oil refiner -> (fuel, asphalt, plastic), rainbow refiner (saturator?), universal refiner
     //IDEA Kiln for faster smelting of non smokable or blastables
+    val refiner by create(BlockExtraSettings().creativeEx(CRAFTERS)) { RefinerBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(3.0F, 10.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+    val composite_manufactory by create(BlockExtraSettings().creativeEx(CRAFTERS)) { CompositeManufactoryBlock(FabricBlockSettings.of(Material.METAL, MapColor.BLACK).strength(10.0F, 10.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+
+    //IDEA rainbow refiner (saturator?)
+
+    //Power
+    val power_cable by create(BlockExtraSettings().creativeEx(POWER)) { PowerCableBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(1.1F, 2.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+    val power_source by create(BlockExtraSettings().creativeEx(POWER)) { PowerSourceBlock(FabricBlockSettings.of(Material.METAL, MapColor.CYAN).strength(-1.0F, 3600000f).dropsNothing().sounds(BlockSoundGroup.COPPER)) }
 
     //Nostalgia
     val time_rift by create(BlockExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-1)).dynamicItemRender { ::TimeRiftBlockEntityRenderer }) { TimeRiftBlock(Settings.of(Material.SOIL, MapColor.BLACK).strength(2.0F, 0.0F).sounds(BlockSoundGroup.WEEPING_VINES).noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never)) }

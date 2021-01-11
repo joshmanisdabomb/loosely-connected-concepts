@@ -8,9 +8,21 @@ import net.minecraft.util.shape.VoxelShapes
 import kotlin.math.max
 import kotlin.math.min
 
-class RotatableShape(original: VoxelShape) {
+class RotatableShape(original: VoxelShape, x: BlockRotation, y: BlockRotation, z: BlockRotation) {
 
-    private val bakedShapes = arrayOfNulls<VoxelShape>(64).apply { this[0] = original }
+    constructor(original: VoxelShape, default: Direction = Direction.UP) : this(original, when (default) {
+        Direction.UP -> BlockRotation.CLOCKWISE_180
+        Direction.DOWN -> BlockRotation.NONE
+        else -> BlockRotation.COUNTERCLOCKWISE_90
+    },
+    when (default) {
+        Direction.EAST -> BlockRotation.CLOCKWISE_90
+        Direction.SOUTH -> BlockRotation.CLOCKWISE_180
+        Direction.WEST -> BlockRotation.COUNTERCLOCKWISE_90
+        else -> BlockRotation.NONE
+    }, BlockRotation.NONE)
+
+    private val bakedShapes = arrayOfNulls<VoxelShape>(64).apply { this[0] = calculate(x, y, z, original) }
 
     val original get() = this[BlockRotation.NONE, BlockRotation.NONE, BlockRotation.NONE]
 
@@ -28,17 +40,17 @@ class RotatableShape(original: VoxelShape) {
     }
 
     operator fun get(direction: Direction) = when (direction) {
-        Direction.DOWN -> get(BlockRotation.CLOCKWISE_90, BlockRotation.NONE, BlockRotation.NONE)
-        Direction.UP -> get(BlockRotation.COUNTERCLOCKWISE_90, BlockRotation.NONE, BlockRotation.NONE)
-        Direction.SOUTH -> get(BlockRotation.NONE, BlockRotation.CLOCKWISE_180, BlockRotation.NONE)
-        Direction.WEST -> get(BlockRotation.NONE, BlockRotation.CLOCKWISE_90, BlockRotation.NONE)
-        Direction.EAST -> get(BlockRotation.NONE, BlockRotation.COUNTERCLOCKWISE_90, BlockRotation.NONE)
-        Direction.NORTH -> get(BlockRotation.NONE, BlockRotation.NONE, BlockRotation.NONE)
+        Direction.UP -> get(BlockRotation.NONE, BlockRotation.NONE, BlockRotation.NONE)
+        Direction.DOWN -> get(BlockRotation.NONE, BlockRotation.CLOCKWISE_180, BlockRotation.NONE)
+        Direction.NORTH -> get(BlockRotation.CLOCKWISE_90, BlockRotation.NONE, BlockRotation.NONE)
+        Direction.EAST -> get(BlockRotation.CLOCKWISE_90, BlockRotation.COUNTERCLOCKWISE_90, BlockRotation.NONE)
+        Direction.SOUTH -> get(BlockRotation.CLOCKWISE_90, BlockRotation.CLOCKWISE_180, BlockRotation.NONE)
+        Direction.WEST -> get(BlockRotation.CLOCKWISE_90, BlockRotation.CLOCKWISE_90, BlockRotation.NONE)
     }
 
-    private fun calculate(x: BlockRotation, y: BlockRotation, z: BlockRotation): VoxelShape {
+    private fun calculate(x: BlockRotation, y: BlockRotation, z: BlockRotation, shape: VoxelShape = original): VoxelShape {
         var ret = VoxelShapes.empty()
-        for (box in original.boundingBoxes) {
+        for (box in shape.boundingBoxes) {
             var minX = box.minX
             var minY = box.minY
             var minZ = box.minZ
@@ -91,6 +103,8 @@ class RotatableShape(original: VoxelShape) {
         }
 
         val VoxelShape.rotatable get() = RotatableShape(this)
+        fun VoxelShape.rotatable(direction: Direction) = RotatableShape(this, direction)
+        fun VoxelShape.rotatable(x: BlockRotation, y: BlockRotation, z: BlockRotation) = RotatableShape(this, x, y, z)
     }
 
 }

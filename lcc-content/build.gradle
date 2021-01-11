@@ -4,6 +4,7 @@ dependencies {
     compile project(':lcc-base')
     compile project(':lcc-creative-ex')
     compile project(':lcc-ct')
+    compile project(':lcc-energy')
     compile project(':lcc-network')
     compile project(':lcc-subblock')
 }

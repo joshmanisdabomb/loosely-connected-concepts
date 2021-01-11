@@ -1,5 +1,1 @@
 archivesBaseName = "lcc-network"
-
-dependencies {
-    compile project(':lcc-base')
-}

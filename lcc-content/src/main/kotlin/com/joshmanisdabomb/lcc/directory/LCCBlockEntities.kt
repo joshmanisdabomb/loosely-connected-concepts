@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.block.entity.*
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
@@ -24,6 +25,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     val classic_chest by create { BlockEntityType.Builder.create(::ClassicChestBlockEntity, LCCBlocks.classic_chest).build(null) }
     val nether_reactor by create { BlockEntityType.Builder.create(::NetherReactorBlockEntity, LCCBlocks.nether_reactor).build(null) }
     val classic_crying_obsidian by create { BlockEntityType.Builder.create(::ClassicCryingObsidianBlockEntity, LCCBlocks.classic_crying_obsidian).build(null) }
+    val refining by create { BlockEntityType.Builder.create(::RefiningBlockEntity, *LCCBlocks.all.values.filterIsInstance<RefiningBlock>().toTypedArray()).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

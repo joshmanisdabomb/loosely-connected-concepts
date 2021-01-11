@@ -129,6 +129,9 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val light_gray_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.LIGHT_GRAY_WOOL)) }
     val white_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.WHITE_WOOL)) }
 
+    val refiner by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(RefiningBlockAssetFactory) }
+    val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory) }
+
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)
         all.forEach { (k, v) -> v.init(k, LCCBlocks[k]) }

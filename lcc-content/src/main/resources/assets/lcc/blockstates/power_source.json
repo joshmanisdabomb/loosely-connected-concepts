@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "lcc:block/power_source"
+    }
+  }
+}

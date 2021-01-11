@@ -1,11 +1,14 @@
 package com.joshmanisdabomb.lcc.network
 
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
 
 abstract class BlockNetwork<T>(val distance: Int) {
 
-    fun discover(world: World, start: T): NetworkResult {
+    protected val directions = Direction.values()
+
+    fun discover(world: BlockView, start: T): NetworkResult {
         val traversables = mutableListOf(start)
         val nodes = mutableMapOf<String, MutableSet<T>>()
         val startPos = toPosition(start)
@@ -24,7 +27,7 @@ abstract class BlockNetwork<T>(val distance: Int) {
         return result(traversables.distinct().toSet(), nodes)
     }
 
-    protected abstract fun traverse(world: World, current: T, nodes: MutableMap<String, MutableSet<T>>): Set<T>
+    protected abstract fun traverse(world: BlockView, current: T, nodes: MutableMap<String, MutableSet<T>>): Set<T>
 
     protected abstract fun toPosition(traversable: T): BlockPos
 

@@ -23,6 +23,9 @@ project(':lcc-creative-ex') {
 project(':lcc-data') {
     version = rootProject.version
 }
+project(':lcc-energy') {
+    version = project.energy_version
+}
 project(':lcc-network') {
     version = project.network_version
 }

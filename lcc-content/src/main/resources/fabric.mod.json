@@ -42,6 +42,16 @@
     "fabricloader": ">=0.10.8",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
-    "minecraft": "1.17.x"
+    "minecraft": "1.17.x",
+    "lcc-base": [">=0.4.0", "${version}"],
+    "lcc-creative-ex": [">=0.1.1", "${version}"],
+    "lcc-ct": [">=1.0.1", "${version}"],
+    "lcc-energy": [">=1.0.0", "${version}"],
+    "lcc-network": [">=2.0.0", "${version}"],
+    "lcc-subblock": [">=1.0.1", "${version}"]
+  },
+  "custom": {
+    "modmenu:api": true,
+    "modmenu:parent": "lcc-mod"
   }
 }

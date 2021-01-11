@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
+import com.joshmanisdabomb.lcc.extensions.setThrough
 import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.CogNetwork
@@ -29,8 +30,10 @@ import net.minecraft.world.World
 
 class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, SubblockSystem {
 
+    //FIXME 0.3.0 doesnt check if valid on side of block
+
     init {
-        defaultState = stateManager.defaultState.apply { cog_states.values.forEach { with(it, CogState.NONE) } }.with(cog_states[Direction.DOWN], CogState.INACTIVE)
+        defaultState = stateManager.defaultState.run { cog_states.values.setThrough(this) { with(it, CogState.NONE) } }.with(cog_states[Direction.DOWN], CogState.INACTIVE)
     }
 
     val empty = defaultState.with(cog_states[Direction.DOWN], CogState.NONE)
@@ -123,9 +126,9 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
         return world.getBlockState(from).isSideSolid(world, from, d, SideShapeType.FULL)
     }
 
-    fun isPowered(state: BlockState, world: World, pos: BlockPos, side: Direction): Boolean? {
+    fun isPowered(state: BlockState, world: BlockView, pos: BlockPos, side: Direction): Boolean? {
         if (!state[cog_states[side]!!].exists) return null
-        if (world.getStrongRedstonePower(pos.offset(side, 2), side) > 0) return true
+        if ((world as? World)?.getStrongRedstonePower(pos.offset(side, 2), side) ?: 0 > 0) return true
         return false
     }
 
@@ -185,7 +188,7 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
     }
 
     companion object {
-        val shape = createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 1.0).rotatable
+        val shape = createCuboidShape(0.0, 15.0, 0.0, 16.0, 16.0, 16.0).rotatable
 
         val cog_states = Direction.values().map { it to EnumProperty.of(it.asString().toLowerCase(), CogState::class.java) }.toMap()
     }

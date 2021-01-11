@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.subblock
 
-import com.joshmanisdabomb.lcc.extensions.to
 import net.minecraft.block.BlockState
 import net.minecraft.block.EntityShapeContext
 import net.minecraft.block.ShapeContext
@@ -38,7 +37,7 @@ interface SubblockSystem {
     }
 
     fun getSubblocksFromTrace(state: BlockState, world: BlockView, pos: BlockPos, entity: Entity, subblocks: List<Subblock> = getSubblocks(state, world, pos)): List<Subblock> {
-        val result = entityRaycast(entity, ((entity as? PlayerEntity)?.isCreative ?: false).to(5.0, 4.5), 1.0f, false)
+        val result = entityRaycast(entity, if ((entity as? PlayerEntity)?.isCreative == true) 5.0 else 4.5, 1.0f, false)
         return getSubblocksFromTrace(state, world, pos, result.pos, subblocks)
     }
 

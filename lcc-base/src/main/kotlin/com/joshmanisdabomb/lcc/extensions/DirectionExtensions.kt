@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.extensions
 
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
 
@@ -13,7 +14,18 @@ private val perps = mapOf(
     Direction.WEST to listOf(Direction.UP, Direction.SOUTH, Direction.DOWN, Direction.NORTH)
 )
 
+private val properties = mapOf(
+    Direction.UP to Properties.UP,
+    Direction.DOWN to Properties.DOWN,
+    Direction.NORTH to Properties.NORTH,
+    Direction.EAST to Properties.EAST,
+    Direction.SOUTH to Properties.SOUTH,
+    Direction.WEST to Properties.WEST
+)
+
 val Direction.perpendiculars get() = perps[this]!!
+
+val Direction.booleanProperty get() = properties[this]!!
 
 val Direction.isHorizontal get() = this.horizontal != -1
 

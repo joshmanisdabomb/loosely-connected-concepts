@@ -69,6 +69,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     private var boost = 0f
     private var maxProgress = 0
     private var maxBoost = 0f
+    private var working = false
 
     private var boostDisplay: Int
         get() = boost.times(1000f).toInt()
@@ -93,6 +94,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
         if (tag.contains("CurrentRecipe", NBT_STRING)) setWorkingRecipe(world?.recipeManager?.get(Identifier.tryParse(tag.getString("CurrentRecipe")))?.orElse(null) as? RefiningRecipe) { 0f }
+        working = tag.getBoolean("Working")
         progress = tag.getInt("Progress")
         boost = tag.getFloat("Boost")
         maxProgress = calculateMaxProgress(currentRecipe)
@@ -106,6 +108,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         rawEnergy?.apply { tag.putFloat("Energy", this) }
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
         currentRecipe?.apply { tag.putString("CurrentRecipe", this.id.toString()) }
+        tag.putBoolean("Working", working)
         tag.putInt("Progress", progress)
         tag.putFloat("Boost", boost)
 
@@ -215,18 +218,27 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: RefiningBlockEntity) {
+            val working = entity.working
             val recipe = world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, entity.inventory, world).orElse(null)
             if (recipe == null) { //cool down and possibly forget current recipe
+                entity.working = false
                 entity.currentRecipe?.also { entity.regress(it) }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
                 val energy = entity.getEnergy(LooseEnergy, null)
                 if (energy >= recipe.energy && entity.hasSpace(recipe)) {
+                    entity.working = true
                     entity.progress(recipe, energy)
                 } else {
+                    entity.working = false
                     entity.regress(recipe, false)
                 }
             } else { //changing current recipe
+                entity.working = true
                 entity.setWorkingRecipe(recipe) { it.times(0.5f) }
+            }
+            if (working != entity.working) {
+                if (working) world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, recipe?.state ?: RefiningBlock.RefiningProcess.NONE), 3)
+                else world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, RefiningBlock.RefiningProcess.NONE), 3)
             }
 
             Direction.values().forEach {

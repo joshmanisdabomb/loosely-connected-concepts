@@ -28,8 +28,8 @@
   "lang": "container.lcc.refining.recipe.asphalt_mixing",
   "icon": 0,
   "state": "mixing",
-  "energy": 25.0,
-  "ticks": 2400,
-  "gain": 0.01,
-  "maxGain": 200.0
+  "energy": 4.0,
+  "ticks": 6000,
+  "gain": 0.05,
+  "maxGain": 400.0
 }

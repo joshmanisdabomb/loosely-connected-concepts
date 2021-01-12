@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.energy
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.extensions.formatted
+import com.joshmanisdabomb.lcc.extensions.decimalFormat
 
 object LooseEnergy : EnergyUnit {
 
@@ -12,6 +12,6 @@ object LooseEnergy : EnergyUnit {
 
     override val multiplier = 5f
 
-    override fun display(amount: Float) = amount.formatted
+    override fun display(amount: Float) = amount.decimalFormat()
 
 }

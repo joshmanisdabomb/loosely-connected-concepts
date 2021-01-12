@@ -30,6 +30,22 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
         return false
     }
 
+    override fun input(inv: RefiningInventory): Boolean {
+        for (i in 0..inv.width - width) {
+            for (j in 0..inv.height - height) {
+                if (match(inv, i, j, true)) {
+                    receive(inv, i, j, true)
+                    return true
+                }
+                if (match(inv, i, j, false)) {
+                    receive(inv, i, j, false)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
     private fun match(inv: RefiningInventory, x: Int, y: Int, flip: Boolean): Boolean {
         val indexes = mutableSetOf<Int>()
         for (i in 0 until width) {
@@ -45,6 +61,17 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
             if (!indexes.contains(i) && !inv.getStack(i).isEmpty) return false
         }
         return true
+    }
+
+    private fun receive(inv: RefiningInventory, x: Int, y: Int, flip: Boolean) {
+        for (i in 0 until width) {
+            for (j in 0 until height) {
+                val index = (x + (if (flip) width.minus(1).minus(i) else i)) + (y + j).times(width)
+                val stack = inv.getStack(index)
+                val ingredient = ingredients[i + (j * width)]
+                stack.decrement(ingredient.second)
+            }
+        }
     }
 
     override fun fits(width: Int, height: Int) = width >= this.width && height >= this.height

@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.registry.Registry
+import java.util.*
 import kotlin.properties.Delegates
 
 abstract class RefiningRecipe(protected val _id: Identifier, protected val _group: String, protected val ingredients: DefaultedList<Pair<Ingredient, Int>>, protected val _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, val blocks: Array<Block>, val lang: String, val icon: Int, val state: RefiningBlock.RefiningProcess, val energy: Float, val ticks: Int, val gain: Float, val maxGain: Float) : Recipe<RefiningInventory> {
@@ -34,9 +35,19 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
     override fun getOutput() = _output.map { it.first }.firstOrNull() ?: ItemStack.EMPTY
 
-    override fun craft(inv: RefiningInventory) = (_output.map { it.first }.firstOrNull() ?: ItemStack.EMPTY).copy()
+    override fun craft(inv: RefiningInventory) = output.copy()
+
+    abstract fun input(inv: RefiningInventory): Boolean
+
+    fun generate(random: Random) = _output.map { var stack = it.first.copy(); it.second?.run { stack = apply(stack, random) }; stack }
+
+    val maximum by lazy { _output.map { var stack = it.first.copy(); it.second?.run { stack = applyMaximum(stack) }; stack } }
 
     sealed class OutputFunction(val identifier: Identifier) {
+
+        abstract fun apply(stack: ItemStack, random: Random): ItemStack?
+
+        abstract fun applyMaximum(stack: ItemStack): ItemStack?
 
         abstract fun read(json: JsonObject): OutputFunction?
 
@@ -62,6 +73,10 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
             private var c by Delegates.notNull<Float>()
             val chance get() = c
+
+            override fun apply(stack: ItemStack, random: Random) = stack.run { if (random.nextFloat() < c) this else null }
+
+            override fun applyMaximum(stack: ItemStack) = stack
 
             override fun read(json: JsonObject): ChanceOutputFunction? {
                 c = try {
@@ -94,6 +109,10 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
             private var m by Delegates.notNull<Int>()
             val max get() = m
+
+            override fun apply(stack: ItemStack, random: Random) = stack.apply { increment(random.nextInt(max.minus(count).plus(1))) }
+
+            override fun applyMaximum(stack: ItemStack) = stack.apply { increment(max.minus(count)) }
 
             override fun read(json: JsonObject): RangeOutputFunction? {
                 m = try {

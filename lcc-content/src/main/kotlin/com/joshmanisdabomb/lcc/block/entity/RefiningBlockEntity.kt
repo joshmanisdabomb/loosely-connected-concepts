@@ -93,6 +93,9 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
         if (tag.contains("CurrentRecipe", NBT_STRING)) setWorkingRecipe(world?.recipeManager?.get(Identifier.tryParse(tag.getString("CurrentRecipe")))?.orElse(null) as? RefiningRecipe) { 0f }
+        progress = tag.getInt("Progress")
+        boost = tag.getFloat("Boost")
+        maxProgress = calculateMaxProgress(currentRecipe)
 
         inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
     }
@@ -101,8 +104,10 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         super.toTag(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }
-        if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
-        if (currentRecipe != null) tag.putString("CurrentRecipe", currentRecipe!!.id.toString())
+        customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
+        currentRecipe?.apply { tag.putString("CurrentRecipe", this.id.toString()) }
+        tag.putInt("Progress", progress)
+        tag.putFloat("Boost", boost)
 
         Inventories.toTag(tag, inventory.inventory)
 
@@ -137,49 +142,95 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = 0f
 
-    private fun setWorkingRecipe(recipe: RefiningRecipe?, boost: (boost: Float) -> Float) {
+    protected fun setWorkingRecipe(recipe: RefiningRecipe?, boost: (boost: Float) -> Float) {
         currentRecipe = recipe
         icon = recipe?.icon ?: -1
         progress = 0
         this.boost = min(boost(this.boost), recipe?.maxGain ?: 0f)
-        maxProgress = recipe?.ticks?.div(this.boost.plus(1))?.toInt() ?: 0
+        maxProgress = calculateMaxProgress(recipe)
         maxBoost = recipe?.maxGain ?: 0f
+    }
+
+    protected fun regress(recipe: RefiningRecipe, forget: Boolean = true) {
+        progress = progress.minus(10).coerceAtLeast(0)
+        boost = boost.times(0.96f).minus(0.005f).coerceAtLeast(0f)
+        maxProgress = calculateMaxProgress(recipe)
+        if (forget && progress <= 0 && boost <= 0f) {
+            setWorkingRecipe(null) { 0f }
+        }
+    }
+
+    protected fun progress(recipe: RefiningRecipe, energy: Float = getEnergy(LooseEnergy, null)) {
+        progress += 1
+        boost = boost.plus(recipe.gain).coerceAtMost(recipe.maxGain)
+        maxProgress = calculateMaxProgress(recipe)
+        while (progress >= maxProgress) {
+            progress -= maxProgress
+            maxProgress = calculateMaxProgress(recipe)
+            generate(recipe)
+        }
+        setEnergy(energy - recipe.energy, LooseEnergy, null, world, pos, null, null)
+    }
+
+    private fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.ticks?.div(boost.div(100f).plus(1))?.toInt() ?: 0
+
+    protected fun generate(recipe: RefiningRecipe) {
+        recipe.input(inventory)
+
+        val stacks = recipe.generate(world?.random ?: return)
+        next@for (s in stacks) {
+            val stack = s.copy()
+            for (i in outputRange) {
+                val s2 = inventory.getStack(i)
+                if (s2.isEmpty) {
+                    inventory.setStack(i, stack.copy().apply { count = stack.count.coerceAtMost(stack.maxCount) })
+                    stack.decrement(stack.maxCount)
+                } else if (ItemStack.canCombine(stack, s2)) {
+                    val remaining = s2.maxCount - s2.count
+                    s2.count = (s2.count + remaining).coerceAtMost(stack.maxCount)
+                    stack.decrement(remaining)
+                }
+                if (stack.isEmpty || stack.count <= 0) continue@next
+            }
+        }
+    }
+
+    protected fun hasSpace(recipe: RefiningRecipe): Boolean {
+        val required = recipe.maximum
+        next@for (s in required) {
+            val stack = s.copy()
+            for (i in outputRange) {
+                val s2 = inventory.getStack(i)
+                if (s2.isEmpty) {
+                    stack.decrement(stack.maxCount)
+                } else if (ItemStack.canCombine(stack, s2)) {
+                    stack.decrement(s2.maxCount - s2.count)
+                }
+                if (stack.isEmpty || stack.count <= 0) continue@next
+            }
+            return false
+        }
+        return true
     }
 
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: RefiningBlockEntity) {
-            Direction.values().forEach {
-                EnergyHandler.worldExtract(entity, world, pos, state, it, 50f, LooseEnergy)
-            }
-
             val recipe = world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, entity.inventory, world).orElse(null)
             if (recipe == null) { //cool down and possibly forget current recipe
-                entity.currentRecipe?.also {
-                    entity.progress = entity.progress.minus(10).coerceAtLeast(0)
-                    entity.boost = entity.boost.times(0.96f).minus(0.005f).coerceAtLeast(0f)
-                    entity.maxProgress = it.ticks.div(entity.boost.div(100f).plus(1)).toInt()
-                    if (entity.progress <= 0 && entity.boost <= 0f) {
-                        entity.setWorkingRecipe(null) { 0f }
-                    }
-                }
+                entity.currentRecipe?.also { entity.regress(it) }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
                 val energy = entity.getEnergy(LooseEnergy, null)
-                if (energy >= recipe.energy) {
-                    entity.setEnergy(energy - recipe.energy, LooseEnergy, null, world, pos, null, null)
-                    entity.progress += 1
-                    entity.boost = entity.boost.plus(recipe.gain).coerceAtMost(recipe.maxGain)
-                    entity.maxProgress = recipe.ticks.div(entity.boost.div(100f).plus(1)).toInt()
-                    while (entity.progress >= entity.maxProgress) {
-                        entity.progress -= entity.maxProgress
-                        entity.maxProgress = recipe.ticks.div(entity.boost.div(100f).plus(1)).toInt()
-                    }
+                if (energy >= recipe.energy && entity.hasSpace(recipe)) {
+                    entity.progress(recipe, energy)
                 } else {
-                    entity.progress = entity.progress.minus(10).coerceAtLeast(0)
-                    entity.boost = entity.boost.times(0.96f).minus(0.005f).coerceAtLeast(0f)
-                    entity.maxProgress = recipe.ticks.div(entity.boost.div(100f).plus(1)).toInt()
+                    entity.regress(recipe, false)
                 }
             } else { //changing current recipe
                 entity.setWorkingRecipe(recipe) { it.times(0.5f) }
+            }
+
+            Direction.values().forEach {
+                EnergyHandler.worldExtract(entity, world, pos, state, it, 50f, LooseEnergy)
             }
         }
 

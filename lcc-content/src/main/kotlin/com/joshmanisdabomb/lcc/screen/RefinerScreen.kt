@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.screen
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
-import com.joshmanisdabomb.lcc.extensions.formatted
+import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.inventory.container.RefiningScreenHandler
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import com.mojang.blaze3d.systems.RenderSystem
@@ -12,6 +12,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import kotlin.math.ceil
 
 
 class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<RefiningScreenHandler>(handler, inventory, title) {
@@ -47,7 +48,7 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
         this.drawTexture(matrices, x + 18, y + 58 + (13.minus(h)), backgroundWidth, 13.minus(h), 11, h)
 
         handler.iconIndex()?.also {
-            val w = 23.times(handler.progressAmount().toFloat().div(handler.maxProgressAmount())).toInt()
+            val w = ceil(23.times(handler.progressAmount().toFloat().div(handler.maxProgressAmount()))).toInt()
             this.drawTexture(matrices, x + 77, y + 34, backgroundWidth.plus(1), 14, w, 17)
 
             this.drawTexture(matrices, x + 81, y + 18, backgroundWidth, 31 + it.times(14), 14, 14)
@@ -56,7 +57,7 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
             if (eff >= 1f && ticks % 8 >= 4) {
                 this.drawTexture(matrices, x + 81, y + 18, backgroundWidth.plus(28), 31 + it.times(14), 14, 14)
             } else {
-                val h2 = 13.times(eff).toInt()
+                val h2 = ceil(13.times(eff)).toInt()
                 this.drawTexture(matrices, x + 81, y + 18 + (13.minus(h2)), backgroundWidth.plus(14), 31 + it.times(14) + 13.minus(h2), 14, h2)
             }
         }
@@ -90,7 +91,7 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
         handler.iconIndex().also {
             val prefix = if (it != null) ".recipe" else ""
             if (mouseX in x + 81..x + 94 && mouseY in y + 18..y + 32) {
-                renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.refining.efficiency".plus(prefix), handler.efficiencyAmount().plus(100).formatted, handler.maxEfficiencyAmount().plus(100).formatted), Int.MAX_VALUE), mouseX, mouseY)
+                renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.refining.efficiency".plus(prefix), handler.efficiencyAmount().plus(100).decimalFormat(force = true), handler.maxEfficiencyAmount().plus(100).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
             }
 
             if (mouseX in x + 76..x + 100 && mouseY in y + 34..y + 51 && it != null) {

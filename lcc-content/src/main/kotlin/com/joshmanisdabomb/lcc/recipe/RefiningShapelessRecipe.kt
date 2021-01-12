@@ -24,7 +24,7 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
         var i = 0
 
         val stackMap = mutableListOf<ItemStack>()
-        for (j in 0 until inv.size()) {
+        for (j in 0 until inv.width*inv.height) {
             val stack = inv.getStack(j)
             if (!stack.isEmpty) {
                 val stack2 = stackMap.firstOrNull { ItemStack.canCombine(it, stack) }
@@ -47,6 +47,23 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
             return true
         }
         return false
+    }
+
+    override fun input(inv: RefiningInventory): Boolean {
+        next@for (ing in ingredients) {
+            var debt = ing.second
+            for (j in 0 until inv.width*inv.height) {
+                val stack = inv.getStack(j)
+                if (!stack.isEmpty && ing.first.test(stack)) {
+                    val difference = stack.count.coerceAtMost(debt)
+                    stack.decrement(difference)
+                    debt -= difference
+                }
+                if (debt <= 0) continue@next
+            }
+            return false
+        }
+        return true
     }
 
     override fun fits(width: Int, height: Int) = width * height >= ingredients.size

@@ -17,6 +17,19 @@ fun RecipeSerializer<*>.getShapedKeys(key: JsonObject): Map<String, Ingredient> 
     }.toMap()
 }
 
+fun RecipeSerializer<*>.getShapedKeysWithCount(key: JsonObject): Map<String, Pair<Ingredient, Int>> {
+    return key.entrySet().map {
+        if (it.key.length != 1) throw JsonSyntaxException("Invalid key entry: '${it.key}' is an invalid symbol (must be 1 character only).")
+        if (it.key == " ") throw JsonSyntaxException("Invalid key entry: ' ' is a reserved symbol.")
+        val count = try {
+            JsonHelper.getInt(it.value.asJsonObject, "count")
+        } catch (ex: Exception) {
+            1
+        }
+        it.key to (Ingredient.fromJson(it.value) to count)
+    }.toMap()
+}
+
 fun RecipeSerializer<*>.getShapedPattern(pattern: JsonArray, maxWidth: Int, maxHeight: Int, minWidth: Int = 1, minHeight: Int = 1): Array<String> {
     if (pattern.size() > maxHeight) throw JsonSyntaxException("Invalid pattern: row amount greater than maximum recipe height of $maxHeight.")
     if (pattern.size() < minHeight) throw JsonSyntaxException("Invalid pattern: row amount lesser than minimum recipe height of $minHeight.")
@@ -33,12 +46,27 @@ fun RecipeSerializer<*>.getShapedIngredients(keys: Map<String, Ingredient>, patt
     return DefaultedList.copyOf(Ingredient.EMPTY, *pattern.flatMapIndexed { k, v -> v.map { if (it == ' ') Ingredient.EMPTY else keys[it.toString()] ?: throw JsonSyntaxException("Pattern references symbol '$it' but it's not defined in the key") } }.toTypedArray())
 }
 
+fun RecipeSerializer<*>.getShapedIngredientsWithCount(keys: Map<String, Pair<Ingredient, Int>>, pattern: Array<String>, w: Int, h: Int): DefaultedList<Pair<Ingredient, Int>> {
+    return DefaultedList.copyOf(Ingredient.EMPTY to 0, *pattern.flatMapIndexed { k, v -> v.map { if (it == ' ') Ingredient.EMPTY to 0 else keys[it.toString()] ?: throw JsonSyntaxException("Pattern references symbol '$it' but it's not defined in the key") } }.toTypedArray())
+}
+
 fun RecipeSerializer<*>.getShapelessIngredients(ingredients: JsonArray): DefaultedList<Ingredient> {
     val defaultedList = DefaultedList.of<Ingredient>()
 
     for (i in 0 until ingredients.size()) {
         val ingredient = Ingredient.fromJson(ingredients[i])
         if (!ingredient.isEmpty) defaultedList += ingredient
+    }
+
+    return defaultedList
+}
+
+fun RecipeSerializer<*>.getShapelessIngredientsWithCount(ingredients: JsonArray): DefaultedList<Pair<Ingredient, Int>> {
+    val defaultedList = DefaultedList.of<Pair<Ingredient, Int>>()
+
+    for (i in 0 until ingredients.size()) {
+        val ingredient = Ingredient.fromJson(ingredients[i])
+        if (!ingredient.isEmpty) defaultedList += ingredient to JsonHelper.getInt(ingredients[i].asJsonObject, "count")
     }
 
     return defaultedList

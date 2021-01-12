@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -39,7 +39,9 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
 
-    open val inputSlotCount = 6
+    open val inputWidth = 3
+    open val inputHeight = 2
+    val inputSlotCount get() = inputWidth * inputHeight
     open val outputSlotCount = 6
     open val fuelSlotCount = 3
 
@@ -69,12 +71,17 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.refining, RefiningBlockEntity::serverTick) else null
 
-    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler?
+    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: RefiningInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler?
+
+    companion object {
+        fun brightness(state: BlockState) = state.properties.filter { it is EnumProperty<*> && it.values.first() is RefiningProcess }.firstOrNull()?.run { state.get(this as EnumProperty<RefiningProcess>).light } ?: 0
+    }
 
     enum class RefiningProcess(val light: Int) : StringIdentifiable {
         NONE(0),
         MIXING(0),
-        ENRICHING(0);
+        ENRICHING(0),
+        TREATING(12);
 
         override fun asString() = name.toLowerCase()
 
@@ -82,6 +89,8 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
         companion object {
             val all = values().drop(1).toTypedArray()
+
+            fun find(name: String): RefiningProcess? = all.find { it.asString().equals(name, ignoreCase = true) }
         }
     }
 

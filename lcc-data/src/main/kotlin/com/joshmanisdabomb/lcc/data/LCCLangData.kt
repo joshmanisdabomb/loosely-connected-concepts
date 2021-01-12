@@ -22,6 +22,12 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.composite_processor"] = "Composite Processor"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
+        lang["en_us"]!!["container.lcc.refining.efficiency"] = "Efficiency: %1\$s%"
+        lang["en_us"]!!["container.lcc.refining.time"] = "%1\$s/%2\$s sec"
+        lang["en_us"]!!["container.lcc.refining.recipe.asphalt_mixing"] = "Bituminous Mixing"
+        lang["en_us"]!!["container.lcc.refining.recipe.concrete_mixing"] = "Concrete Mixing"
+        lang["en_us"]!!["container.lcc.refining.recipe.uranium"] = "Centrifugal Separation"
+        lang["en_us"]!!["container.lcc.refining.recipe.treating"] = "Thermal Disinfection"
 
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

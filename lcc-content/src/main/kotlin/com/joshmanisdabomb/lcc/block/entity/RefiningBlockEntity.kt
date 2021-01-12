@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -31,15 +31,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     val refiningBlock get() = cachedState.block as? RefiningBlock
 
-    val inventory by lazy { object : DefaultInventory(refiningBlock?.slotCount ?: 15) {
-
-        override fun isValid(slot: Int, stack: ItemStack): Boolean {
-            if (slot >= refiningBlock?.run { slotCount.minus(fuelSlotCount) } ?: 12) return isValidFuel(stack)
-            if (slot >= refiningBlock?.run { slotCount.minus(fuelSlotCount).minus(outputSlotCount) } ?: 6) return false
-            return true
-        }
-
-    }.apply { addListener { this@RefiningBlockEntity.markDirty() } } }
+    val inventory by lazy { RefiningInventory(refiningBlock!!).apply { addListener { this@RefiningBlockEntity.markDirty() } } }
 
     val propertyDelegate = object : PropertyDelegate {
         override fun get(index: Int) = when (index) {

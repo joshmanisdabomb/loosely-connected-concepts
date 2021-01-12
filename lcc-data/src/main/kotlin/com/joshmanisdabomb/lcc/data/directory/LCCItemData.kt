@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
+import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.container.ItemDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.item.DynamicItemAssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.item.GeneratedItemAssetFactory
@@ -14,6 +15,7 @@ import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.TransformTranslationFactory
+import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
@@ -105,6 +107,20 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .input('a', Blocks.AMETHYST_BLOCK)
             .apply { hasCriterionShaped(this, Items.NETHER_STAR) }
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
+    }) }
+
+    val asphalt_bucket by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.oil_bucket)
+            .addInput(Blocks.GRAVEL, 8)
+            .addInput(Blocks.SAND, 8)
+            .addOutput(i)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.asphalt_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
+            .energyPerTick(25f)
+            .speed(1800, 0.1f, 1.0f)
+            .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
+            .apply { offerInterface(this, d) }
     }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {

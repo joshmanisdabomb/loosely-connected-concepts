@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.recipe.DungeonTableRecipe
+import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
@@ -15,6 +16,7 @@ object LCCRecipeTypes : RegistryDirectory<RecipeType<*>, Unit>() {
 
     val spawner_table by createWithName<RecipeType<DungeonTableRecipe>>(this@LCCRecipeTypes::default)
     val time_rift by createWithName<RecipeType<TimeRiftRecipe>>(this@LCCRecipeTypes::default)
+    val refining by createWithName<RecipeType<RefiningRecipe>>(this@LCCRecipeTypes::default)
 
     private fun <T : Recipe<*>> default(name: String) = object : RecipeType<T> { override fun toString() = name }
 

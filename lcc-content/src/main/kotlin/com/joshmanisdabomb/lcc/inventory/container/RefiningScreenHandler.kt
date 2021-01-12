@@ -1,8 +1,9 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
 import com.joshmanisdabomb.lcc.block.RefinerBlock
+import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
@@ -12,13 +13,12 @@ import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeFinder
-import net.minecraft.recipe.book.RecipeBookCategory
 import net.minecraft.screen.AbstractRecipeScreenHandler
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 
-abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>, syncId: Int, protected val playerInventory: PlayerInventory, val inventory: DefaultInventory, val properties: PropertyDelegate) : AbstractRecipeScreenHandler<Inventory>(type, syncId) {
+abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>, syncId: Int, protected val playerInventory: PlayerInventory, val inventory: RefiningInventory, val properties: PropertyDelegate) : AbstractRecipeScreenHandler<RefiningInventory>(type, syncId) {
 
     abstract val block: RefinerBlock
 
@@ -38,6 +38,10 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
         super.close(player)
         inventory.onClose(player)
         inventory.removeListener(listener)
+    }
+
+    override fun onContentChanged(inventory: Inventory) {
+        super.onContentChanged(inventory)
     }
 
     override fun canUse(player: PlayerEntity) = inventory.canPlayerUse(player)
@@ -74,40 +78,32 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
     @Environment(EnvType.CLIENT)
     fun powerString() = LooseEnergy.displayWithUnits(LooseEnergy.fromStandard(powerAmount()))
 
-    override fun populateRecipeFinder(finder: RecipeFinder?) {
-        TODO("Not yet implemented")
+    val currentRecipe get() = playerInventory.player.world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, inventory, playerInventory.player.world)
+
+    override fun populateRecipeFinder(finder: RecipeFinder) {
+        for (i in 0 until inventory.width * inventory.height) {
+            finder.addNormalItem(inventory.getStack(i))
+        }
     }
 
     override fun clearCraftingSlots() {
-        TODO("Not yet implemented")
+        for (i in 0 until inventory.width * inventory.height) {
+            inventory.setStack(i, ItemStack.EMPTY)
+        }
     }
 
-    override fun matches(recipe: Recipe<in Inventory>?): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun matches(recipe: Recipe<in RefiningInventory>) = recipe.matches(inventory, playerInventory.player.world)
 
-    override fun getCraftingResultSlotIndex(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCraftingResultSlotIndex() = -1
 
-    override fun getCraftingWidth(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCraftingWidth() = inventory.width
 
-    override fun getCraftingHeight(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCraftingHeight() = inventory.height
 
-    override fun getCraftingSlotCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCraftingSlotCount() = inventory.size()
 
-    override fun getCategory(): RecipeBookCategory {
-        TODO("Not yet implemented")
-    }
+    override fun getCategory() = null
 
-    override fun method_32339(i: Int): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun method_32339(i: Int) = i < inventory.width * inventory.height
 
 }

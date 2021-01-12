@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.BlockDataFactory
 import com.joshmanisdabomb.lcc.data.factory.ItemDataFactory
+import com.joshmanisdabomb.lcc.data.json.recipe.JsonFactoryAccess
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.*
@@ -20,6 +21,20 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         apply(data, entry.asItem())
+    }
+
+    fun offerInterface(recipe: JsonFactoryAccess, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
+        if (override != null) {
+            var provider: RecipeJsonProvider? = null
+            if (name != null) recipe.offerTo({ provider = it }, name) else recipe.offerTo { provider = it }
+            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
+        } else {
+            if (name != null) recipe.offerTo(data.recipes, name) else recipe.offerTo(data.recipes)
+        }
+    }
+
+    fun hasCriterionInterface(recipe: JsonFactoryAccess, item: ItemConvertible) {
+        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
     }
 
     fun offerShaped(recipe: ShapedRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {

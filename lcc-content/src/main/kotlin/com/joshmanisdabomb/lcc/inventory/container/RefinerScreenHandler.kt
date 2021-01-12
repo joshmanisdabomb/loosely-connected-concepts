@@ -5,15 +5,15 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
+import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.ArrayPropertyDelegate
 import net.minecraft.screen.PropertyDelegate
 
-class RefinerScreenHandler(syncId: Int, playerInventory: PlayerInventory, inventory: DefaultInventory, properties: PropertyDelegate) : RefiningScreenHandler(LCCScreenHandlers.refiner, syncId, playerInventory, inventory, properties) {
+class RefinerScreenHandler(syncId: Int, playerInventory: PlayerInventory, inventory: RefiningInventory, properties: PropertyDelegate) : RefiningScreenHandler(LCCScreenHandlers.refiner, syncId, playerInventory, inventory, properties) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, DefaultInventory(LCCBlocks.refiner.slotCount), ArrayPropertyDelegate(LCCBlocks.refiner.propertyCount))
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, RefiningInventory(LCCBlocks.refiner), ArrayPropertyDelegate(LCCBlocks.refiner.propertyCount))
 
     override val block get() = LCCBlocks.refiner
 

@@ -30,7 +30,7 @@ class TimeRiftRecipe(id: Identifier, group: String, input: Ingredient, output: I
             } else {
                 Ingredient.fromJson(JsonHelper.getObject(json, "ingredient"))
             }
-            val output = ItemStack(Registry.ITEM.get(Identifier(JsonHelper.getString(json, "result"))), JsonHelper.getInt(json, "count"))
+            val output = ItemStack(Registry.ITEM[Identifier(JsonHelper.getString(json, "result"))], JsonHelper.getInt(json, "count"))
             return TimeRiftRecipe(id, group, input, output)
         }
 

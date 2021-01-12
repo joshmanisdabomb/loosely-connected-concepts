@@ -1,11 +1,9 @@
 package com.joshmanisdabomb.lcc.energy
 
 import com.joshmanisdabomb.lcc.LCC
-import java.text.DecimalFormat
+import com.joshmanisdabomb.lcc.extensions.formatted
 
 object LooseEnergy : EnergyUnit {
-
-    private val decimal = DecimalFormat("#.##")
 
     override val id = LCC.id("energy")
     override val name = "Loose Energy"
@@ -14,6 +12,6 @@ object LooseEnergy : EnergyUnit {
 
     override val multiplier = 5f
 
-    override fun display(amount: Float) = decimal.format(amount)
+    override fun display(amount: Float) = amount.formatted
 
 }

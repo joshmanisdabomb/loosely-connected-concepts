@@ -22,8 +22,10 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.composite_processor"] = "Composite Processor"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
-        lang["en_us"]!!["container.lcc.refining.efficiency"] = "Efficiency: %1\$s%"
-        lang["en_us"]!!["container.lcc.refining.time"] = "%1\$s/%2\$s sec"
+        lang["en_us"]!!["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"
+        lang["en_us"]!!["container.lcc.refining.efficiency"] = "Efficiency: %1\$s%%"
+        lang["en_us"]!!["container.lcc.refining.efficiency.recipe"] = "Efficiency: %1\$s%%\nMaximum Efficiency: %2\$s%%"
+        lang["en_us"]!!["container.lcc.refining.time"] = "%1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.refining.recipe.asphalt_mixing"] = "Bituminous Mixing"
         lang["en_us"]!!["container.lcc.refining.recipe.concrete_mixing"] = "Concrete Mixing"
         lang["en_us"]!!["container.lcc.refining.recipe.uranium"] = "Centrifugal Separation"

@@ -118,7 +118,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.asphalt_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
             .energyPerTick(25f)
-            .speed(1800, 0.1f, 1.0f)
+            .speed(2400, 0.01f, 200f)
             .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
             .apply { offerInterface(this, d) }
     }) }

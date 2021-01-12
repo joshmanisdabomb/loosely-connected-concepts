@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.inventory.container
 
 import com.joshmanisdabomb.lcc.block.RefinerBlock
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
-import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -73,10 +72,19 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
     fun powerAmount() = properties.get(0).div(1000f)
 
     @Environment(EnvType.CLIENT)
-    fun powerFill() = powerAmount().div(block.maxEnergy)
+    fun progressAmount() = properties.get(1)
 
     @Environment(EnvType.CLIENT)
-    fun powerString() = LooseEnergy.displayWithUnits(LooseEnergy.fromStandard(powerAmount()))
+    fun efficiencyAmount() = properties.get(2).div(1000f)
+
+    @Environment(EnvType.CLIENT)
+    fun maxProgressAmount() = properties.get(3)
+
+    @Environment(EnvType.CLIENT)
+    fun maxEfficiencyAmount() = properties.get(4).div(1000f)
+
+    @Environment(EnvType.CLIENT)
+    fun iconIndex() = properties.get(5).run { if (this < 0) null else this }
 
     val currentRecipe get() = playerInventory.player.world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, inventory, playerInventory.player.world)
 

@@ -38,6 +38,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     val inventory by lazy { RefiningInventory(refiningBlock!!).apply { addListener { this@RefiningBlockEntity.markDirty() } } }
 
     var currentRecipe: RefiningRecipe? = null
+    var currentRecipeDelegate: Identifier? = null
 
     val propertyDelegate = object : PropertyDelegate {
         override fun get(index: Int) = when (index) {
@@ -93,11 +94,10 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
-        if (tag.contains("CurrentRecipe", NBT_STRING)) setWorkingRecipe(world?.recipeManager?.get(Identifier.tryParse(tag.getString("CurrentRecipe")))?.orElse(null) as? RefiningRecipe) { 0f }
+        if (tag.contains("CurrentRecipe", NBT_STRING)) currentRecipeDelegate = Identifier.tryParse(tag.getString("CurrentRecipe"))
         working = tag.getBoolean("Working")
         progress = tag.getInt("Progress")
         boost = tag.getFloat("Boost")
-        maxProgress = calculateMaxProgress(currentRecipe)
 
         inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
     }
@@ -152,13 +152,16 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         this.boost = min(boost(this.boost), recipe?.maxGain ?: 0f)
         maxProgress = calculateMaxProgress(recipe)
         maxBoost = recipe?.maxGain ?: 0f
+        markDirty()
     }
 
     protected fun regress(recipe: RefiningRecipe, forget: Boolean = true) {
         progress = progress.minus(10).coerceAtLeast(0)
         boost = boost.times(0.96f).minus(0.005f).coerceAtLeast(0f)
         maxProgress = calculateMaxProgress(recipe)
-        if (forget && progress <= 0 && boost <= 0f) {
+        if (progress > 0 || boost > 0f) {
+            markDirty()
+        } else if (forget) {
             setWorkingRecipe(null) { 0f }
         }
     }
@@ -173,6 +176,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
             generate(recipe)
         }
         setEnergy(energy - recipe.energy, LooseEnergy, null, world, pos, null, null)
+        markDirty()
     }
 
     private fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.ticks?.div(boost.div(100f).plus(1))?.toInt() ?: 0
@@ -218,11 +222,23 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: RefiningBlockEntity) {
+            entity.currentRecipeDelegate?.also {
+                val recipe = world.recipeManager[it].orElse(null) as? RefiningRecipe
+                recipe.apply {
+                    val boost = entity.boost
+                    entity.setWorkingRecipe(recipe) { boost }
+                    entity.maxProgress = entity.calculateMaxProgress(recipe)
+                }
+                entity.currentRecipeDelegate = null
+            }
+
             val working = entity.working
             val recipe = world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, entity.inventory, world).orElse(null)
             if (recipe == null) { //cool down and possibly forget current recipe
                 entity.working = false
-                entity.currentRecipe?.also { entity.regress(it) }
+                entity.currentRecipe?.also {
+                    entity.regress(it)
+                }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
                 val energy = entity.getEnergy(LooseEnergy, null)
                 if (energy >= recipe.energy && entity.hasSpace(recipe)) {
@@ -233,11 +249,11 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                     entity.regress(recipe, false)
                 }
             } else { //changing current recipe
-                entity.working = true
+                entity.working = false
                 entity.setWorkingRecipe(recipe) { it.times(0.5f) }
             }
             if (working != entity.working) {
-                if (working) world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, recipe?.state ?: RefiningBlock.RefiningProcess.NONE), 3)
+                if (entity.working) world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, recipe?.state ?: RefiningBlock.RefiningProcess.NONE), 3)
                 else world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, RefiningBlock.RefiningProcess.NONE), 3)
             }
 

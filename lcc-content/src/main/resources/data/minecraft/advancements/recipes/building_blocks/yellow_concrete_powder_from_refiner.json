@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:yellow_concrete_powder_from_refiner"
+    ]
+  },
+  "criteria": {
+    "has_refiner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:refiner"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:yellow_concrete_powder_from_refiner"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_refiner",
+      "has_the_recipe"
+    ]
+  ]
+}

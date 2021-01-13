@@ -49,12 +49,8 @@
   },
   "requirements": [
     [
-      "enriched_uranium"
-    ],
-    [
-      "enriched_uranium_nugget"
-    ],
-    [
+      "enriched_uranium",
+      "enriched_uranium_nugget",
       "enriched_uranium_block"
     ]
   ]

@@ -2,22 +2,26 @@
   "type": "lcc:refining_shapeless",
   "ingredients": [
     {
-      "item": "lcc:oil_bucket",
+      "item": "minecraft:lime_dye",
       "count": 1
     },
     {
-      "item": "minecraft:gravel",
-      "count": 8
+      "item": "minecraft:sand",
+      "count": 4
     },
     {
-      "item": "minecraft:sand",
-      "count": 8
+      "item": "minecraft:gravel",
+      "count": 4
+    },
+    {
+      "item": "lcc:pumice",
+      "count": 4
     }
   ],
   "results": [
     {
-      "item": "lcc:asphalt_bucket",
-      "count": 1,
+      "item": "minecraft:lime_concrete_powder",
+      "count": 16,
       "function": "minecraft:empty"
     }
   ],
@@ -25,11 +29,11 @@
     "lcc:refiner",
     "lcc:composite_processor"
   ],
-  "lang": "container.lcc.refining.recipe.asphalt_mixing",
+  "lang": "container.lcc.refining.recipe.pozzolanic_mixing",
   "icon": 0,
   "state": "mixing",
-  "energy": 5.0,
-  "ticks": 6000,
-  "gain": 0.03,
+  "energy": 10.0,
+  "ticks": 1200,
+  "gain": 0.08,
   "maxGain": 400.0
 }

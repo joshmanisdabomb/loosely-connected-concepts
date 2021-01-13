@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
+import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.block.*
 import com.joshmanisdabomb.lcc.data.factory.asset.item.*
@@ -10,10 +11,14 @@ import com.joshmanisdabomb.lcc.data.factory.recipe.*
 import com.joshmanisdabomb.lcc.data.factory.tag.BlockTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.*
+import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.directory.ThingDirectory
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
@@ -36,6 +41,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val sapphire_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
     val uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)) }
     val enriched_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)) }
+    val heavy_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)) }
 
     val cracked_mud by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)) }
 
@@ -129,7 +135,28 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val light_gray_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.LIGHT_GRAY_WOOL)) }
     val white_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.WHITE_WOOL)) }
 
-    val refiner by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(RefiningBlockAssetFactory) }
+    val refiner by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(RefiningBlockAssetFactory).add(ConcreteRefiningRecipeFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("ccc")
+            .pattern("cpc")
+            .pattern("iii")
+            .input('c', Items.COPPER_INGOT)
+            .input('p', Blocks.PISTON)
+            .input('i', Items.IRON_INGOT)
+            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }).add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(Items.ROTTEN_FLESH)
+            .addOutput(Items.LEATHER, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.3f))
+            .addOutput(Items.IRON_NUGGET, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.03f))
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.treating", 2, RefiningBlock.RefiningProcess.TREATING)
+            .energyPerTick(LooseEnergy.fromCoals(0.25f).div(40f))
+            .speed(40, 0.04f, 100f)
+            .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
+            .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier, "from_refiner")) }
+    }) }
     val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {

@@ -43,9 +43,6 @@ object LCCBlocks : BlockDirectory() {
     val ruby_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), IntRange.between(3, 7)) }
     val ruby_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LAVA).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
     val sapphire_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::sapphire))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
-    val uranium_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
-    val uranium_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
-    val enriched_uranium_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::enriched_uranium))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
     val topaz_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard))) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).strength(1.5f).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
     val budding_topaz by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101))) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
@@ -69,6 +66,12 @@ object LCCBlocks : BlockDirectory() {
     val oil by create(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE)) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
     //IDEA deadwood, rarely spawns naturally or dries out wood
     //IDEA rusted iron blocks, first tier of wasteland tools
+
+    //Nuclear
+    val uranium_ore by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0))) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
+    val uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val enriched_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(21))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val heavy_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
 
     //TODO atomic bomb
 

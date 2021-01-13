@@ -136,7 +136,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
                 val obj = JsonObject()
                 obj.addProperty("item", Registry.ITEM.getId(s.item).toString())
                 obj.addProperty("count", s.count)
-                obj.addProperty("function", outputFunctions[i]?.identifier.toString())
+                obj.addProperty("function", outputFunctions[i]?.identifier?.toString() ?: "minecraft:empty")
                 outputFunctions[i]?.write(obj)
                 jsonOutputs.add(obj)
             }

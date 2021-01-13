@@ -1,0 +1,39 @@
+{
+  "type": "lcc:refining_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:magenta_dye",
+      "count": 1
+    },
+    {
+      "item": "minecraft:sand",
+      "count": 4
+    },
+    {
+      "item": "minecraft:gravel",
+      "count": 4
+    },
+    {
+      "item": "lcc:pumice",
+      "count": 4
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:magenta_concrete_powder",
+      "count": 16,
+      "function": "minecraft:empty"
+    }
+  ],
+  "blocks": [
+    "lcc:refiner",
+    "lcc:composite_processor"
+  ],
+  "lang": "container.lcc.refining.recipe.pozzolanic_mixing",
+  "icon": 0,
+  "state": "mixing",
+  "energy": 10.0,
+  "ticks": 1200,
+  "gain": 0.08,
+  "maxGain": 400.0
+}

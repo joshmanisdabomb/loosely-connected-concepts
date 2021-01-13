@@ -17,6 +17,8 @@ import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactor
 import com.joshmanisdabomb.lcc.data.factory.translation.TransformTranslationFactory
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
@@ -34,7 +36,19 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
     val sapphire by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
     val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.BLASTING, time = 100)) }
     val uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
-    val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)) }
+    val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)).add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.uranium)
+            .addOutput(i, 1, RefiningRecipe.OutputFunction.RangeOutputFunction(8))
+            .addOutput(LCCItems.heavy_uranium, 1)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.uranium", 1, RefiningBlock.RefiningProcess.ENRICHING)
+            .energyPerTick(75f)
+            .speed(300, 0.01f, 100f)
+            .apply { hasCriterionInterface(this, LCCItems.uranium) }
+            .apply { offerInterface(this, d, suffix(i.identifier, "from_refiner")) }
+    }) }
+    val heavy_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.heavy_uranium)) }
 
     val ruby_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("ruby_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)).add(ToolItemTagFactory) }
     val topaz_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("topaz_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.topaz_shard)).add(ToolItemTagFactory) }
@@ -117,7 +131,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .addOutput(i)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.asphalt_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
-            .energyPerTick(4f)
+            .energyPerTick(5f)
             .speed(6000, 0.03f, 400f)
             .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
             .apply { offerInterface(this, d) }

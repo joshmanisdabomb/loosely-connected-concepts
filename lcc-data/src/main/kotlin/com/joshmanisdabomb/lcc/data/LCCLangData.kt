@@ -27,7 +27,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.refining.efficiency.recipe"] = "Efficiency: %1\$s%%\nMaximum Efficiency: %2\$s%%"
         lang["en_us"]!!["container.lcc.refining.time"] = "%1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.refining.recipe.asphalt_mixing"] = "Bituminous Mixing"
-        lang["en_us"]!!["container.lcc.refining.recipe.concrete_mixing"] = "Concrete Mixing"
+        lang["en_us"]!!["container.lcc.refining.recipe.pozzolanic_mixing"] = "Pozzolanic Mixing"
         lang["en_us"]!!["container.lcc.refining.recipe.uranium"] = "Centrifugal Separation"
         lang["en_us"]!!["container.lcc.refining.recipe.treating"] = "Thermal Disinfection"
 

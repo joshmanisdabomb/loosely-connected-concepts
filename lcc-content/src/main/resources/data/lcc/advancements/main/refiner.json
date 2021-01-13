@@ -2,7 +2,7 @@
   "parent": "lcc:main/root",
   "display": {
     "icon": {
-      "item": "minecraft:air"
+      "item": "lcc:refiner"
     },
     "title": {
       "translate": "advancements.lcc.main.refiner.title"
@@ -16,13 +16,20 @@
     "hidden": false
   },
   "criteria": {
-    "nope": {
-      "trigger": "minecraft:impossible"
+    "refiner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:refiner"
+          }
+        ]
+      }
     }
   },
   "requirements": [
     [
-      "nope"
+      "refiner"
     ]
   ]
 }

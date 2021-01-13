@@ -29,10 +29,6 @@ object LCCItems : ItemDirectory() {
     val ruby by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(0))) { Item(Item.Settings().defaults()) }
     val topaz_shard by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(100))) { Item(Item.Settings().defaults()) }
     val sapphire by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(200))) { Item(Item.Settings().defaults()) } //TODO from dungeon, temple, etc chests
-    val uranium by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(300))) { Item(Item.Settings().defaults()) }
-    val uranium_nugget by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueFrom(::uranium))) { Item(Item.Settings().defaults()) }
-    val enriched_uranium by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(400))) { Item(Item.Settings().defaults()) }
-    val enriched_uranium_nugget by create(ItemExtraSettings().creativeEx(RESOURCES, sortValueFrom(::enriched_uranium))) { Item(Item.Settings().defaults()) }
 
     //Gizmos
     val asphalt_bucket by create(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(99))) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
@@ -86,6 +82,14 @@ object LCCItems : ItemDirectory() {
 
     //Special
     val gauntlet by create(ItemExtraSettings().creativeEx(SPECIAL)) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }
+
+    //Nuclear
+    val uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(10))) { Item(Item.Settings().defaults()) }
+    val uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(9))) { Item(Item.Settings().defaults()) }
+    val enriched_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(20))) { Item(Item.Settings().defaults()) }
+    val enriched_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(19))) { Item(Item.Settings().defaults()) }
+    val heavy_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(30))) { Item(Item.Settings().defaults()) }
+    val heavy_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(29))) { Item(Item.Settings().defaults()) }
 
     //Health
     val heart_half by createMap(*HeartType.values(), propertySupplier = { ItemExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }) { key, name, properties -> HeartItem(key, 1.0F, Item.Settings().defaults()) }

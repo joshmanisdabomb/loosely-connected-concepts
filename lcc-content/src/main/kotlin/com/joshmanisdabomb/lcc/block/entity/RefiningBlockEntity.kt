@@ -194,8 +194,9 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                     stack.decrement(stack.maxCount)
                 } else if (ItemStack.canCombine(stack, s2)) {
                     val remaining = s2.maxCount - s2.count
-                    s2.count = (s2.count + remaining).coerceAtMost(stack.maxCount)
-                    stack.decrement(remaining)
+                    val moving = stack.count.coerceAtMost(remaining)
+                    s2.count += moving
+                    stack.decrement(moving)
                 }
                 if (stack.isEmpty || stack.count <= 0) continue@next
             }

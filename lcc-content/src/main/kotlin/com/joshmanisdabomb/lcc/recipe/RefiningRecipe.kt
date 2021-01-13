@@ -43,11 +43,13 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
     val maximum by lazy { _output.map { var stack = it.first.copy(); it.second?.run { stack = applyMaximum(stack) }; stack } }
 
-    sealed class OutputFunction(val identifier: Identifier) {
+    sealed class OutputFunction() {
 
-        abstract fun apply(stack: ItemStack, random: Random): ItemStack?
+        abstract val identifier: Identifier
 
-        abstract fun applyMaximum(stack: ItemStack): ItemStack?
+        abstract fun apply(stack: ItemStack, random: Random): ItemStack
+
+        abstract fun applyMaximum(stack: ItemStack): ItemStack
 
         abstract fun read(json: JsonObject): OutputFunction?
 
@@ -59,22 +61,24 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
         companion object {
             fun get(id: Identifier) = when (id) {
-                LCC.id("chance") -> ChanceOutputFunction(id)
-                LCC.id("range") -> RangeOutputFunction(id)
+                ChanceOutputFunction.identifier -> ChanceOutputFunction()
+                RangeOutputFunction.identifier -> RangeOutputFunction()
                 else -> null
             }
         }
 
-        class ChanceOutputFunction(id: Identifier) : OutputFunction(id) {
+        class ChanceOutputFunction internal constructor() : OutputFunction() {
 
-            constructor(id: Identifier, chance: Float) : this(id) {
+            constructor(chance: Float) : this() {
                 c = chance
             }
 
             private var c by Delegates.notNull<Float>()
             val chance get() = c
 
-            override fun apply(stack: ItemStack, random: Random) = stack.run { if (random.nextFloat() < c) this else null }
+            override val identifier = Companion.identifier
+
+            override fun apply(stack: ItemStack, random: Random) = stack.run { if (random.nextFloat() < c) this else ItemStack.EMPTY }
 
             override fun applyMaximum(stack: ItemStack) = stack
 
@@ -99,16 +103,22 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
                 buf.writeFloat(c)
             }
 
+            companion object {
+                val identifier = LCC.id("chance")
+            }
+
         }
 
-        class RangeOutputFunction(id: Identifier) : OutputFunction(id) {
+        class RangeOutputFunction internal constructor() : OutputFunction() {
 
-            constructor(id: Identifier, max: Int) : this(id) {
+            constructor(max: Int) : this() {
                 m = max
             }
 
             private var m by Delegates.notNull<Int>()
             val max get() = m
+
+            override val identifier = Companion.identifier
 
             override fun apply(stack: ItemStack, random: Random) = stack.apply { increment(random.nextInt(max.minus(count).plus(1))) }
 
@@ -133,6 +143,10 @@ abstract class RefiningRecipe(protected val _id: Identifier, protected val _grou
 
             override fun write(buf: PacketByteBuf) {
                 buf.writeInt(m)
+            }
+
+            companion object {
+                val identifier = LCC.id("range")
             }
 
         }

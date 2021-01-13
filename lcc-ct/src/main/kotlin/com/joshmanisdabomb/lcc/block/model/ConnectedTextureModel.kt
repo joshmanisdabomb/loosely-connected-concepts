@@ -31,8 +31,13 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         Direction.values().forEach {
-            faceConnections.reload(it, renderView, state, pos)
-            emitConnectedFace(it, renderContext)
+            println(map.excludes)
+            if (!map.excludes.contains(it)) {
+                faceConnections.reload(it, renderView, state, pos)
+                emitConnectedFace(it, renderContext)
+            } else {
+                emitFace(it, renderContext, bakedSprites[it.asString()] ?: error("Excluded face without an alternative texture."), pos1, pos2)
+            }
         }
     }
 
@@ -131,6 +136,9 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
         private val particles = mutableListOf<Identifier>()
         private val particlePredicates = mutableListOf<(Int) -> Boolean>()
 
+        internal val excludes = mutableSetOf<Direction>()
+        internal val includes = mutableMapOf<String, Identifier>()
+
         private val keyCache = mutableMapOf<Pair<Direction?, Int>, Identifier>()
 
         fun set(prefix: Identifier, vararg faces: Direction?, on: (index: Int) -> Boolean = { true }): ConnectedTextureMap {
@@ -151,6 +159,17 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
         fun all(prefix: Identifier, particle: Boolean = false, on: (index: Int) -> Boolean = { true }) = set(prefix, null, *Direction.values(), on = on)
 
         fun particle(texture: Identifier, on: (index: Int) -> Boolean = { true }) = this.also { particles.add(texture); particlePredicates.add(on) }
+
+        fun exclude(vararg faces: Direction, replacement: Identifier? = null): ConnectedTextureMap {
+            faces.forEach { excludes.add(it) }
+            replacement?.apply { faces.forEach { includes[it.asString()] = this } }
+            return this
+        }
+
+        fun include(key: String, texture: Identifier): ConnectedTextureMap {
+            includes[key] = texture
+            return this
+        }
 
         fun getKey(face: Direction?, segment: String? = if (face == null) null else "base", index: Int = 0): String {
             val key = keyCache.getOrPut(face to index, when (face) {
@@ -174,7 +193,7 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
         fun getParticle(index: Int = 0) = get(null, null, index)
 
         val map by lazy {
-            sets.distinct().flatMap { s -> segments.map { "${s}_$it" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier(s.namespace, "block/${s.path}_$it")) } }.toMap().plus(particles.distinct().map { it.toString() to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier(it.namespace, "block/${it.path}")) })
+            sets.distinct().flatMap { s -> segments.map { "${s}_$it" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier(s.namespace, "block/${s.path}_$it")) } }.toMap().plus(particles.distinct().map { it.toString() to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, Identifier(it.namespace, "block/${it.path}")) }).plus(includes.mapValues { SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, it.value) })
         }
 
     }

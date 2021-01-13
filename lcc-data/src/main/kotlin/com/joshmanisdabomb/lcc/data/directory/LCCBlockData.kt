@@ -20,6 +20,8 @@ import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.block.Blocks
+import net.minecraft.data.client.model.Texture
+import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
 import net.minecraft.item.Items
@@ -160,6 +162,19 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 3)
             .pattern("ccc")
+            .input('c', Items.COPPER_INGOT)
+            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }) }
+
+    val solar_panel by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("qqq")
+            .pattern("lll")
+            .pattern("ici")
+            .input('q', Items.QUARTZ)
+            .input('l', Items.LAPIS_LAZULI)
+            .input('i', Items.IRON_INGOT)
             .input('c', Items.COPPER_INGOT)
             .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
             .apply { offerShaped(this, d) }

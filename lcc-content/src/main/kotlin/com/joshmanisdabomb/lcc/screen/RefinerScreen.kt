@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.screen
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
+import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.inventory.container.RefiningScreenHandler
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import com.mojang.blaze3d.systems.RenderSystem
@@ -66,9 +67,10 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
     override fun drawForeground(matrices: MatrixStack, mouseX: Int, mouseY: Int) {
         super.drawForeground(matrices, mouseX, mouseY)
         currentRecipe?.also {
-            val text = TranslatableText(it.lang)
-            val w = textRenderer.getWidth(text)
-            textRenderer.draw(matrices, text, backgroundWidth.minus(6f).minus(w), titleY.toFloat(), 4210752)
+            val lines = textRenderer.wrapLines(TranslatableText(it.lang), 76)
+            lines.forEachIndexed { k, v ->
+                textRenderer.draw(matrices, v, 93f, 62f.minus((lines.size > 1).toInt(6)).plus(k.times(10)), 4210752)
+            }
         }
     }
 

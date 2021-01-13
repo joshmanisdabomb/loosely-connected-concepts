@@ -157,7 +157,13 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier, "from_refiner")) }
     }) }
-    val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory) }
+    val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 3)
+            .pattern("ccc")
+            .input('c', Items.COPPER_INGOT)
+            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

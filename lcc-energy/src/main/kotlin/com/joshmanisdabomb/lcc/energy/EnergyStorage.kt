@@ -10,26 +10,58 @@ interface EnergyStorage : EnergyHandler {
 
     var rawEnergy: Float?
     val rawEnergyMultiplier get() = 1f
-    val rawEnergyBounds: ClosedRange<Float>?
+    val rawEnergyMinimum get() = 0f
+    val rawEnergyMaximum: Float?
+    val rawEnergyBounds: ClosedRange<Float>? get() {
+        return rawEnergyMinimum.rangeTo(rawEnergyMaximum ?: return null)
+    }
 
-    fun getEnergy(unit: EnergyUnit, side: Direction?) = (rawEnergy!! / rawEnergyMultiplier) * unit.multiplier
+    fun getEnergy(unit: EnergyUnit, side: Direction?): Float? {
+        rawEnergy?.also {
+            return (it / rawEnergyMultiplier) * unit.multiplier
+        }
+        return null
+    }
 
-    fun setEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
-        val before = rawEnergy!!
-        rawEnergy = ((amount / unit.multiplier) * rawEnergyMultiplier)
-        rawEnergyBounds?.apply { rawEnergy = rawEnergy!!.coerceIn(this) }
-        return if (rawEnergy == before || onEnergyChanged(side, before)) (rawEnergy!! / rawEnergyMultiplier) * unit.multiplier else before
+    override fun getMinimumEnergy(unit: EnergyUnit) = rawEnergyMinimum.div(rawEnergyMultiplier).times(unit.multiplier)
+
+    override fun getMaximumEnergy(unit: EnergyUnit) = rawEnergyMaximum?.div(rawEnergyMultiplier)?.times(unit.multiplier)
+
+    override fun getEnergyBounds(unit: EnergyUnit): ClosedRange<Float>? {
+        return getMinimumEnergy(unit)..(getMaximumEnergy(unit) ?: return null)
+    }
+
+    override fun getEnergySpace(unit: EnergyUnit, side: Direction?): Float? {
+        return getMaximumEnergy(unit)?.minus(getEnergy(unit, side) ?: return null)
+    }
+
+    fun setEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float? {
+        rawEnergy?.also {
+            val before = it
+            var after = ((amount / unit.multiplier) * rawEnergyMultiplier)
+            rawEnergyBounds?.apply { after = after.coerceIn(this) }
+            if (after == before || onEnergyChanged(side, before)) {
+                rawEnergy = after
+                return (after / rawEnergyMultiplier) * unit.multiplier
+            }
+            return before
+        }
+        return null
     }
 
     override fun addEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
-        val get = getEnergy(unit, side)
-        val set = setEnergy(get + amount, unit, target, world, home, away, side)
+        val space = getEnergySpace(unit, side)
+        space?.also { if (it <= 0f) return 0f }
+        val get = getEnergy(unit, side) ?: return 0f
+        val set = setEnergy(get.plus(amount.run { coerceAtMost(space ?: return@run this) }), unit, target, world, home, away, side) ?: return 0f
         return set - get
     }
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
-        val get = getEnergy(unit, side)
-        val set = setEnergy(get - amount, unit, from, world, home, away, side)
+    override fun removeEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
+        val available = amount - getMinimumEnergy(unit)
+        if (available <= 0f) return 0f
+        val get = getEnergy(unit, side) ?: return 0f
+        val set = setEnergy(get.minus(amount.run { coerceAtLeast(available) }), unit, target, world, home, away, side) ?: return 0f
         return get - set
     }
 

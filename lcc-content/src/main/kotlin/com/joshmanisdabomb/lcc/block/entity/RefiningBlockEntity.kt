@@ -137,13 +137,13 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = dir == Direction.DOWN
 
     override var rawEnergy: Float? = 0f
-    override val rawEnergyBounds by lazy { 0f..(refiningBlock?.maxEnergy ?: 800f) }
+    override val rawEnergyMaximum get() = refiningBlock?.maxEnergy
 
     private var energyDisplay: Int
         get() = (rawEnergy ?: 0f).times(1000f).toInt()
         set(value) { rawEnergy = value.div(1000f) }
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = 0f
+    override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = if (from != null) 0f else super.removeEnergy(amount, unit, from, world, home, away, side)
 
     protected fun setWorkingRecipe(recipe: RefiningRecipe?, boost: (boost: Float) -> Float) {
         currentRecipe = recipe
@@ -157,7 +157,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     protected fun regress(recipe: RefiningRecipe, forget: Boolean = true) {
         progress = progress.minus(10).coerceAtLeast(0)
-        boost = boost.times(0.96f).minus(0.005f).coerceAtLeast(0f)
+        boost = boost.times(0.99f).minus(0.012f).coerceAtLeast(0f)
         maxProgress = calculateMaxProgress(recipe)
         if (progress > 0 || boost > 0f) {
             markDirty()
@@ -166,7 +166,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         }
     }
 
-    protected fun progress(recipe: RefiningRecipe, energy: Float = getEnergy(LooseEnergy, null)) {
+    protected fun progress(recipe: RefiningRecipe) {
         progress += 1
         boost = boost.plus(recipe.gain).coerceAtMost(recipe.maxGain)
         maxProgress = calculateMaxProgress(recipe)
@@ -175,7 +175,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
             maxProgress = calculateMaxProgress(recipe)
             generate(recipe)
         }
-        setEnergy(energy - recipe.energy, LooseEnergy, null, world, pos, null, null)
+        removeEnergy(recipe.energy, LooseEnergy, null, world, pos, null, null)
         markDirty()
     }
 
@@ -241,10 +241,10 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                     entity.regress(it)
                 }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
-                val energy = entity.getEnergy(LooseEnergy, null)
+                val energy = entity.getEnergy(LooseEnergy, null) ?: 0f
                 if (energy >= recipe.energy && entity.hasSpace(recipe)) {
                     entity.working = true
-                    entity.progress(recipe, energy)
+                    entity.progress(recipe)
                 } else {
                     entity.working = false
                     entity.regress(recipe, false)
@@ -258,9 +258,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                 else world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, RefiningBlock.RefiningProcess.NONE), 3)
             }
 
-            Direction.values().forEach {
-                EnergyHandler.worldExtract(entity, world, pos, state, it, 50f, LooseEnergy)
-            }
+            EnergyHandler.request(entity, world, pos, state, 100f, LooseEnergy, *Direction.values())
         }
 
         fun isValidFuel(stack: ItemStack) = stack.isOf(Items.REDSTONE)

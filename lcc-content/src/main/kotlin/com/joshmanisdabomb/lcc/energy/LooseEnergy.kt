@@ -12,6 +12,6 @@ object LooseEnergy : EnergyUnit {
 
     override val multiplier = 5f
 
-    override fun display(amount: Float) = amount.decimalFormat()
+    override fun display(amount: Float) = amount.decimalFormat(force = true)
 
 }

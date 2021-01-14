@@ -31,7 +31,6 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         Direction.values().forEach {
-            println(map.excludes)
             if (!map.excludes.contains(it)) {
                 faceConnections.reload(it, renderView, state, pos)
                 emitConnectedFace(it, renderContext)

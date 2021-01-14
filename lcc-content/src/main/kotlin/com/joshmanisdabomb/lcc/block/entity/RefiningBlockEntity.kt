@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -42,26 +43,32 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     val propertyDelegate = object : PropertyDelegate {
         override fun get(index: Int) = when (index) {
-            0 -> this@RefiningBlockEntity.energyDisplay
-            1 -> this@RefiningBlockEntity.progress
-            2 -> this@RefiningBlockEntity.boostDisplay
-            3 -> this@RefiningBlockEntity.maxProgress
-            4 -> this@RefiningBlockEntity.maxBoostDisplay
-            5 -> this@RefiningBlockEntity.icon
+            0 -> this@RefiningBlockEntity.energyDisplay.first
+            1 -> this@RefiningBlockEntity.energyDisplay.second
+            2 -> this@RefiningBlockEntity.progress
+            3 -> this@RefiningBlockEntity.boostDisplay.first
+            4 -> this@RefiningBlockEntity.boostDisplay.second
+            5 -> this@RefiningBlockEntity.maxProgress
+            6 -> this@RefiningBlockEntity.maxBoostDisplay.first
+            7 -> this@RefiningBlockEntity.maxBoostDisplay.second
+            8 -> this@RefiningBlockEntity.icon
             else -> 0
         }
 
         override fun set(index: Int, value: Int) = when (index) {
-            0 -> this@RefiningBlockEntity.energyDisplay = value
-            1 -> this@RefiningBlockEntity.progress = value
-            2 -> this@RefiningBlockEntity.boostDisplay = value
-            3 -> this@RefiningBlockEntity.maxProgress = value
-            4 -> this@RefiningBlockEntity.maxBoostDisplay = value
-            5 -> this@RefiningBlockEntity.icon = value
+            0 -> this@RefiningBlockEntity.energyDisplay.first = value
+            1 -> this@RefiningBlockEntity.energyDisplay.second = value
+            2 -> this@RefiningBlockEntity.progress = value
+            3 -> this@RefiningBlockEntity.boostDisplay.first = value
+            4 -> this@RefiningBlockEntity.boostDisplay.second = value
+            5 -> this@RefiningBlockEntity.maxProgress = value
+            6 -> this@RefiningBlockEntity.maxBoostDisplay.first = value
+            7 -> this@RefiningBlockEntity.maxBoostDisplay.second = value
+            8 -> this@RefiningBlockEntity.icon = value
             else -> Unit
         }
 
-        override fun size() = 6
+        override fun size() = 9
     }
 
     var customName: Text? = null
@@ -72,12 +79,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     private var maxBoost = 0f
     private var working = false
 
-    private var boostDisplay: Int
-        get() = boost.times(1000f).toInt()
-        set(value) { boost = value.div(1000f) }
-    private var maxBoostDisplay: Int
-        get() = maxBoost.times(1000f).toInt()
-        set(value) { maxBoost = value.div(1000f) }
+    private var boostDisplay = DecimalTransport(::boost)
+    private var maxBoostDisplay = DecimalTransport(::maxBoost)
 
     private var icon = -1
 
@@ -138,10 +141,11 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     override var rawEnergy: Float? = 0f
     override val rawEnergyMaximum get() = refiningBlock?.maxEnergy
+    private var energy: Float
+        get() = rawEnergy ?: 0f
+        set(value) { rawEnergy = value }
 
-    private var energyDisplay: Int
-        get() = (rawEnergy ?: 0f).times(1000f).toInt()
-        set(value) { rawEnergy = value.div(1000f) }
+    private var energyDisplay = DecimalTransport(::energy)
 
     override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = if (from != null) 0f else super.removeEnergy(amount, unit, from, world, home, away, side)
 
@@ -179,7 +183,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         markDirty()
     }
 
-    private fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.ticks?.div(boost.div(100f).plus(1))?.toInt() ?: 0
+    protected fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.ticks?.div(boost.div(100f).plus(1))?.toInt() ?: 0
 
     protected fun generate(recipe: RefiningRecipe) {
         recipe.input(inventory)

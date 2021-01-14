@@ -48,7 +48,7 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
     open val outputSlotCount = 6
     open val fuelSlotCount = 3
 
-    open val propertyCount = 6
+    open val propertyCount = 9
 
     val slotCount get() = inputSlotCount + outputSlotCount + fuelSlotCount
 

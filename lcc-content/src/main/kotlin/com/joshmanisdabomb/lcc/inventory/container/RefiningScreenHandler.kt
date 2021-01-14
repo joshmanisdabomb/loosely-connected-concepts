@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.inventory.container
 import com.joshmanisdabomb.lcc.block.RefinerBlock
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
+import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
@@ -69,22 +70,22 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
     }
 
     @Environment(EnvType.CLIENT)
-    fun powerAmount() = properties.get(0).div(1000f)
+    fun powerAmount() = DecimalTransport.from(properties.get(0), properties.get(1))
 
     @Environment(EnvType.CLIENT)
-    fun progressAmount() = properties.get(1)
+    fun progressAmount() = properties.get(2)
 
     @Environment(EnvType.CLIENT)
-    fun efficiencyAmount() = properties.get(2).div(1000f)
+    fun efficiencyAmount() = DecimalTransport.from(properties.get(3), properties.get(4))
 
     @Environment(EnvType.CLIENT)
-    fun maxProgressAmount() = properties.get(3)
+    fun maxProgressAmount() = properties.get(5)
 
     @Environment(EnvType.CLIENT)
-    fun maxEfficiencyAmount() = properties.get(4).div(1000f)
+    fun maxEfficiencyAmount() = DecimalTransport.from(properties.get(6), properties.get(7))
 
     @Environment(EnvType.CLIENT)
-    fun iconIndex() = properties.get(5).run { if (this < 0) null else this }
+    fun iconIndex() = properties.get(8).run { if (this < 0) null else this }
 
     val currentRecipe get() = playerInventory.player.world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, inventory, playerInventory.player.world)
 

@@ -137,7 +137,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val light_gray_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.LIGHT_GRAY_WOOL)) }
     val white_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.WHITE_WOOL)) }
 
-    val refiner by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().add(RefiningBlockAssetFactory).add(ConcreteRefiningRecipeFactory).add(CustomRecipeFactory { d, i ->
+    val refiner by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RefiningBlockAssetFactory).add(ConcreteRefiningRecipeFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("ccc")
             .pattern("cpc")
@@ -159,7 +159,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier, "from_refiner")) }
     }) }
-    val power_cable by createWithName { BlockDataContainer().defaultLang().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+    val power_cable by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 3)
             .pattern("ccc")
             .input('c', Items.COPPER_INGOT)

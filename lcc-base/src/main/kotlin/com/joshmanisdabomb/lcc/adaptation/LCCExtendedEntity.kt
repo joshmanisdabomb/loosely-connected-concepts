@@ -16,7 +16,7 @@ interface LCCExtendedEntity {
         val buf = PacketByteBuf(Unpooled.buffer())
         val me = this as Entity
         buf.writeIdentifier(Registry.ENTITY_TYPE.getId(me.type))
-        buf.writeInt(me.entityId)
+        buf.writeInt(me.id)
         buf.writeUuid(me.uuid)
         buf.writeDouble(me.x)
         buf.writeDouble(me.y)

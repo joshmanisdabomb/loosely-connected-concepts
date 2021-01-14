@@ -11,7 +11,8 @@
     "HeartsPlayerMixin",
     "ItemEntityAccessor",
     "SpongeFlowableFluidMixin",
-    "StonecutterHandlerMixin"
+    "StonecutterHandlerMixin",
+    "BundleBagMixin"
   ],
   "injectors": {
     "defaultRequire": 1

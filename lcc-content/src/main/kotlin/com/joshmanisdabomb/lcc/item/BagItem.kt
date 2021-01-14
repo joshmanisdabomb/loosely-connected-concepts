@@ -32,6 +32,7 @@ interface BagItem {
 
     fun canBagStore(stack: ItemStack): Boolean
 
+    @JvmDefault
     fun onStackClickedWithBag(stack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         if (clickType != ClickType.RIGHT) return false
         val its = slot.stack
@@ -45,6 +46,7 @@ interface BagItem {
         return true
     }
 
+    @JvmDefault
     fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         return if (clickType == ClickType.RIGHT && slot.method_32754(playerInventory.player)) {
             if (otherStack.isEmpty) {
@@ -59,48 +61,59 @@ interface BagItem {
         }
     }
 
+    @JvmDefault
     fun useBag(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
         return if (dropFromBag(itemStack, user)) TypedActionResult.success(itemStack, world.isClient()) else TypedActionResult.fail(itemStack)
     }
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun isBagBarVisible(stack: ItemStack) = getBagTotalOccupancy(stack) > 0
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun getBagBarStep(stack: ItemStack) = min(1 + 12 * getBagTotalOccupancy(stack) / size, 13)
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun appendBagTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         tooltip.add(TranslatableText("item.minecraft.bundle.fullness", getBagTotalOccupancy(stack), size).formatted(Formatting.GRAY))
     }
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun getBagPredicate() = ModelPredicateProvider { stack, _, _, _ -> getBagFillPercent(stack) }
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun getBagFillPercent(stack: ItemStack) = getBagTotalOccupancy(stack).toFloat().div(size)
 
     @Environment(EnvType.CLIENT)
+    @JvmDefault
     fun getBagTooltipData(stack: ItemStack): Optional<TooltipData> {
         val defaultedList = DefaultedList.of<ItemStack>()
         getBaggedStacks(stack).forEach { defaultedList.add(it) }
         return Optional.of(BundleTooltipData(defaultedList, getBagTotalOccupancy(stack).minus(size).plus(64)))
     }
 
+    @JvmDefault
     fun getBagTotalOccupancy(stack: ItemStack) = getBaggedStacks(stack).mapToInt { getBagItemOccupancy(it) * it.count }.sum()
 
+    @JvmDefault
     fun getBaggedStacks(stack: ItemStack): Stream<ItemStack> {
         val compoundTag = stack.tag ?: return Stream.empty()
         val listTag = compoundTag.getList("Items", 10)
         return listTag.stream().map { obj -> CompoundTag::class.java.cast(obj) }.map { tag -> ItemStackUtils.fromTagIntCount(tag) }
     }
 
+    @JvmDefault
     fun getBagItemOccupancy(stack: ItemStack): Int {
         if (stack.item is BagItem) return (4 + getBagTotalOccupancy(stack))
         return 64 / stack.maxCount
     }
 
+    @JvmDefault
     fun dropFromBag(stack: ItemStack, player: PlayerEntity): Boolean {
         val compoundTag = stack.orCreateTag
         if (!compoundTag.contains("Items")) return false
@@ -119,6 +132,7 @@ interface BagItem {
         return true
     }
 
+    @JvmDefault
     fun bagCombineCheck(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
         return if (stack.item is BagItem) {
             Optional.empty()
@@ -127,6 +141,7 @@ interface BagItem {
         }
     }
 
+    @JvmDefault
     fun retrieveBagStack(stack: ItemStack): Optional<ItemStack> {
         val compoundTag = stack.orCreateTag
         return if (!compoundTag.contains("Items")) {
@@ -143,6 +158,7 @@ interface BagItem {
         }
     }
 
+    @JvmDefault
     fun transferBagStack(bundle: ItemStack, stack: ItemStack): Int {
         return if (!stack.isEmpty && stack.item.hasStoredInventory()) {
             val compoundTag = bundle.orCreateTag

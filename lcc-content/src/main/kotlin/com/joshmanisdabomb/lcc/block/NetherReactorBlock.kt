@@ -99,7 +99,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
         val reactor_state = EnumProperty.of("state", NetherReactorState::class.java)
 
         fun getMapColor(state: BlockState) = when (state.get(reactor_state)) {
-            NetherReactorState.ACTIVE -> MapColor.LAVA;
+            NetherReactorState.ACTIVE -> MapColor.BRIGHT_RED;
             NetherReactorState.USED -> MapColor.BLACK;
             else -> MapColor.CYAN;
         }

@@ -25,14 +25,14 @@ object LCCBasePacketsToClient : PacketDirectory() {
             val world = MinecraftClient.getInstance().world ?: return@execute
             val e = entity.create(world) ?: return@execute
 
-            e.entityId = id
+            e.setEntityId(id)
             e.uuid = uuid
             e.updatePosition(x, y, z)
             e.updateTrackedPosition(x, y, z)
             e.pitch = pitch
             e.yaw = yaw
 
-            world.addEntity(e.entityId, e)
+            world.addEntity(e.id, e)
 
             (e as? LCCExtendedEntity)?.lcc_handleSpawnPacket(data)
         }

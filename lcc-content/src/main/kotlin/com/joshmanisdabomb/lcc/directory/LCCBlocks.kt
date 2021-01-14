@@ -41,28 +41,28 @@ object LCCBlocks : BlockDirectory() {
 
     //Resources
     val ruby_ore by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), IntRange.between(3, 7)) }
-    val ruby_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LAVA).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val ruby_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
     val sapphire_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::sapphire))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
 
-    val topaz_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard))) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).strength(1.5f).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
-    val budding_topaz by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101))) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
-    val topaz_cluster by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).cutout()) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.WHITE_TERRACOTTA).breakByTool(PICKAXES, 2).ticksRandomly().nonOpaque().strength(1.5f).luminance {it.get(Properties.LIT).toInt(5)}.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
+    val topaz_block by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard))) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).strength(1.5f).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
+    val budding_topaz by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101))) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
+    val topaz_cluster by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).cutout()) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES, 2).ticksRandomly().nonOpaque().strength(1.5f).luminance {it.get(Properties.LIT).toInt(5)}.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
     val large_topaz_bud by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(104)).cutout()) { AmethystClusterBlock(5, 3, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(4)}.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
     val medium_topaz_bud by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(103)).cutout()) { AmethystClusterBlock(4, 3, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(2)}.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
     val small_topaz_bud by create(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).cutout()) { AmethystClusterBlock(3, 4, FabricBlockSettings.copy(topaz_cluster).luminance {it.get(Properties.LIT).toInt(1)}.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
 
     //Building
-    val pumice by create(BlockExtraSettings().creativeEx(BUILDING)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY_TERRACOTTA).sounds(BlockSoundGroup.POINTED_DRIPSTONE).breakByTool(PICKAXES).requiresTool().strength(0.4f, 4.0f)) }
+    val pumice by create(BlockExtraSettings().creativeEx(BUILDING)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_LIGHT_GRAY).sounds(BlockSoundGroup.POINTED_DRIPSTONE).breakByTool(PICKAXES).requiresTool().strength(0.4f, 4.0f)) }
     val rhyolite by create(BlockExtraSettings().creativeEx(BUILDING)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY).sounds(BlockSoundGroup.STONE).breakByTool(PICKAXES).requiresTool().strength(1.0f, 10.0f)) }
 
     //Gizmos
     val asphalt by create(BlockExtraSettings()) { AsphaltBlock(LCCFluids.asphalt_still, Settings.copy(Blocks.WATER).strength(100.0F).ticksRandomly()) }
     val road by create(BlockExtraSettings()) { RoadBlock(Settings.of(Material.STONE, DyeColor.GRAY).strength(2.0F, 8.0F).sounds(BlockSoundGroup.TUFF)) }
-    val soaking_soul_sand by create(BlockExtraSettings().creativeEx(GIZMOS)) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.BROWN_TERRACOTTA).breakByTool(SHOVELS).strength(0.75F, 2.5F).sounds(LCCSounds.soaking_soul_sand)) }
+    val soaking_soul_sand by create(BlockExtraSettings().creativeEx(GIZMOS)) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.TERRACOTTA_BROWN).breakByTool(SHOVELS).strength(0.75F, 2.5F).sounds(LCCSounds.soaking_soul_sand)) }
     val bounce_pad by create(BlockExtraSettings().creativeEx(GIZMOS)) { BouncePadBlock(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).strength(5.0F, 6.0F).sounds(BlockSoundGroup.COPPER), doubleArrayOf(1.0, 1.4, 1.8, 2.2, 2.6)) }
 
     //Wasteland
-    val cracked_mud by create(BlockExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.WHITE_TERRACOTTA).strength(2.0F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val cracked_mud by create(BlockExtraSettings().creativeEx(WASTELAND)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val oil by create(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE)) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
     //IDEA deadwood, rarely spawns naturally or dries out wood
     //IDEA rusted iron blocks, first tier of wasteland tools
@@ -99,12 +99,12 @@ object LCCBlocks : BlockDirectory() {
     //IDEA time weaver, crafting table made of time rift, ruby blocks and something else - to allow taking blocks and items through time
 
     val classic_grass_block by create(BlockExtraSettings().creativeEx(NOSTALGIA, sortValueInt(0, 1))) { ClassicGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(0.6f).breakByTool(SHOVELS).ticksRandomly().sounds(BlockSoundGroup.GRASS)) }
-    val classic_cobblestone by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val classic_cobblestone by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_planks by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.WOOD).strength(2.0f, 5.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
     val classic_leaves by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutoutMipped()) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2f).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isOf(Blocks.OAK_LOG) } }
     val classic_sapling by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { ClassicSaplingBlock(FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
     val potted_classic_sapling by create(BlockExtraSettings().cutout()) { FlowerPotBlock(classic_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
-    val classic_gravel by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.STONE).breakByTool(SHOVELS).strength(0.6f).sounds(BlockSoundGroup.GRAVEL)) {
+    val classic_gravel by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.STONE_GRAY).breakByTool(SHOVELS).strength(0.6f).sounds(BlockSoundGroup.GRAVEL)) {
         override fun getColor(state: BlockState, world: BlockView, pos: BlockPos) = 0x9C9193
     } }
     val classic_sponge by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicSpongeBlock(FabricBlockSettings.of(Material.SPONGE).breakByTool(HOES).strength(0.6f).sounds(BlockSoundGroup.GRASS)) }
@@ -114,21 +114,21 @@ object LCCBlocks : BlockDirectory() {
     val potted_classic_rose by create(BlockExtraSettings().cutout()) { FlowerPotBlock(classic_rose, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
     val cyan_flower by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { FlowerBlock(StatusEffects.LEVITATION, 5, Settings.of(Material.PLANT).noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
     val potted_cyan_flower by create(BlockExtraSettings().cutout()) { FlowerPotBlock(cyan_flower, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
-    val classic_iron_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.IRON).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
+    val classic_iron_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
     val alpha_iron_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.copy(classic_iron_block)) }
     val classic_gold_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).requiresTool().strength(3.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
     val alpha_gold_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.copy(classic_gold_block)) }
-    val classic_diamond_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.DIAMOND).breakByTool(PICKAXES, 2).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
+    val classic_diamond_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.METAL, MapColor.DIAMOND_BLUE).breakByTool(PICKAXES, 2).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
     val alpha_diamond_block by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.copy(classic_diamond_block)) }
     val classic_bricks by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).strength(2.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_tnt by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { FunctionalTNTBlock(::ClassicTNTEntity, FabricBlockSettings.of(Material.TNT).breakInstantly().sounds(BlockSoundGroup.GRASS), unstable = true) }
-    val classic_mossy_cobblestone by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val classic_mossy_cobblestone by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
     val classic_chest by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicChestBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(AXES).strength(2.5f).sounds(BlockSoundGroup.WOOD)) }
     val nether_reactor by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { NetherReactorBlock(FabricBlockSettings.copyOf(Settings.of(Material.STONE, NetherReactorBlock::getMapColor)).breakByTool(PICKAXES).requiresTool().strength(4.0f, 5.0f).sounds(BlockSoundGroup.STONE)) }
     val classic_crying_obsidian by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicCryingObsidianBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(50.0f, 1200.0f).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
-    val glowing_obsidian by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.NETHER).strength(50.0f, 1200.0f).luminance(12).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
-    val pocket_stonecutter by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicStonecutterBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE).breakByTool(PICKAXES).requiresTool().strength(2.0f, 6.0f).sounds(BlockSoundGroup.STONE)) }
-    val cog by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { CogBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON).breakInstantly().noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never).sounds(BlockSoundGroup.METAL)) }
+    val glowing_obsidian by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { Block(FabricBlockSettings.of(Material.STONE, MapColor.DARK_RED).strength(50.0f, 1200.0f).luminance(12).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val pocket_stonecutter by create(BlockExtraSettings().creativeEx(NOSTALGIA)) { ClassicStonecutterBlock(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).breakByTool(PICKAXES).requiresTool().strength(2.0f, 6.0f).sounds(BlockSoundGroup.STONE)) }
+    val cog by create(BlockExtraSettings().creativeEx(NOSTALGIA).cutout()) { CogBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON_GRAY).breakInstantly().noCollision().nonOpaque().solidBlock(::never).allowsSpawning(::never).sounds(BlockSoundGroup.METAL)) }
     //IDEA locked chest, only found in parallel classic dimensions
 
     //TODO pill printer

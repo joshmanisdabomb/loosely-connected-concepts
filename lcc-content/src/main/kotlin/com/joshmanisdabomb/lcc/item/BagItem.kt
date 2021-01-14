@@ -9,7 +9,6 @@ import net.minecraft.client.item.TooltipContext
 import net.minecraft.client.item.TooltipData
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.BundleItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
@@ -27,28 +26,32 @@ import java.util.*
 import java.util.stream.Stream
 import kotlin.math.min
 
-open class BagItem(val size: Int, settings: Settings, val predicate: (stack: ItemStack) -> Boolean = { true }) : BundleItem(settings) {
+interface BagItem {
 
-    override fun onStackClicked(stack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
+    val size: Int
+
+    fun canBagStore(stack: ItemStack): Boolean
+
+    fun onStackClickedWithBag(stack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         if (clickType != ClickType.RIGHT) return false
         val its = slot.stack
         if (its.isEmpty) {
-            retrieve(stack).ifPresent { transfer(stack, slot.method_32756(it)) }
+            retrieveBagStack(stack).ifPresent { transferBagStack(stack, slot.method_32756(it)) }
         } else if (its.item.hasStoredInventory()) {
-            if (!predicate(its)) return false
-            val i = (size - getBundleOccupancy(stack)) / getItemOccupancy(its)
-            transfer(stack, slot.method_32753(its.count, i, playerInventory.player))
+            if (!canBagStore(its)) return false
+            val i = (size - getBagTotalOccupancy(stack)) / getBagItemOccupancy(its)
+            transferBagStack(stack, slot.method_32753(its.count, i, playerInventory.player))
         }
         return true
     }
 
-    override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
+    fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
         return if (clickType == ClickType.RIGHT && slot.method_32754(playerInventory.player)) {
             if (otherStack.isEmpty) {
-                retrieve(stack).ifPresent { playerInventory.cursorStack = it }
+                retrieveBagStack(stack).ifPresent { playerInventory.cursorStack = it }
             } else {
-                if (!predicate(otherStack)) return false
-                otherStack.decrement(transfer(stack, otherStack))
+                if (!canBagStore(otherStack)) return false
+                otherStack.decrement(transferBagStack(stack, otherStack))
             }
             true
         } else {
@@ -56,42 +59,49 @@ open class BagItem(val size: Int, settings: Settings, val predicate: (stack: Ite
         }
     }
 
-    override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
+    fun useBag(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val itemStack = user.getStackInHand(hand)
-        return if (dropAll(itemStack, user)) TypedActionResult.success(itemStack, world.isClient()) else TypedActionResult.fail(itemStack)
+        return if (dropFromBag(itemStack, user)) TypedActionResult.success(itemStack, world.isClient()) else TypedActionResult.fail(itemStack)
     }
 
     @Environment(EnvType.CLIENT)
-    override fun isItemBarVisible(stack: ItemStack) = getBundleOccupancy(stack) > 0
+    fun isBagBarVisible(stack: ItemStack) = getBagTotalOccupancy(stack) > 0
 
     @Environment(EnvType.CLIENT)
-    override fun getItemBarStep(stack: ItemStack) = min(1 + 12 * getBundleOccupancy(stack) / size, 13)
+    fun getBagBarStep(stack: ItemStack) = min(1 + 12 * getBagTotalOccupancy(stack) / size, 13)
 
     @Environment(EnvType.CLIENT)
-    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText("item.minecraft.bundle.fullness", getBundleOccupancy(stack), size).formatted(Formatting.GRAY))
+    fun appendBagTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        tooltip.add(TranslatableText("item.minecraft.bundle.fullness", getBagTotalOccupancy(stack), size).formatted(Formatting.GRAY))
     }
 
     @Environment(EnvType.CLIENT)
-    fun predicate() = ModelPredicateProvider { stack, _, _, _ -> getFillPercent(stack) }
+    fun getBagPredicate() = ModelPredicateProvider { stack, _, _, _ -> getBagFillPercent(stack) }
 
     @Environment(EnvType.CLIENT)
-    fun getFillPercent(stack: ItemStack) = getBundleOccupancy(stack).toFloat().div(size)
+    fun getBagFillPercent(stack: ItemStack) = getBagTotalOccupancy(stack).toFloat().div(size)
 
-    fun getBundleOccupancy(stack: ItemStack) = getBundledStacks(stack).mapToInt { getItemOccupancy(it) * it.count }.sum()
+    @Environment(EnvType.CLIENT)
+    fun getBagTooltipData(stack: ItemStack): Optional<TooltipData> {
+        val defaultedList = DefaultedList.of<ItemStack>()
+        getBaggedStacks(stack).forEach { defaultedList.add(it) }
+        return Optional.of(BundleTooltipData(defaultedList, getBagTotalOccupancy(stack).minus(size).plus(64)))
+    }
 
-    fun getBundledStacks(stack: ItemStack): Stream<ItemStack> {
+    fun getBagTotalOccupancy(stack: ItemStack) = getBaggedStacks(stack).mapToInt { getBagItemOccupancy(it) * it.count }.sum()
+
+    fun getBaggedStacks(stack: ItemStack): Stream<ItemStack> {
         val compoundTag = stack.tag ?: return Stream.empty()
         val listTag = compoundTag.getList("Items", 10)
         return listTag.stream().map { obj -> CompoundTag::class.java.cast(obj) }.map { tag -> ItemStackUtils.fromTagIntCount(tag) }
     }
 
-    fun getItemOccupancy(stack: ItemStack): Int {
-        if (stack.item is BagItem) return (4 + getBundleOccupancy(stack))
+    fun getBagItemOccupancy(stack: ItemStack): Int {
+        if (stack.item is BagItem) return (4 + getBagTotalOccupancy(stack))
         return 64 / stack.maxCount
     }
 
-    fun dropAll(stack: ItemStack, player: PlayerEntity): Boolean {
+    fun dropFromBag(stack: ItemStack, player: PlayerEntity): Boolean {
         val compoundTag = stack.orCreateTag
         if (!compoundTag.contains("Items")) return false
 
@@ -109,7 +119,7 @@ open class BagItem(val size: Int, settings: Settings, val predicate: (stack: Ite
         return true
     }
 
-    protected fun combineCheck(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
+    fun bagCombineCheck(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
         return if (stack.item is BagItem) {
             Optional.empty()
         } else {
@@ -117,7 +127,7 @@ open class BagItem(val size: Int, settings: Settings, val predicate: (stack: Ite
         }
     }
 
-    protected fun retrieve(stack: ItemStack): Optional<ItemStack> {
+    fun retrieveBagStack(stack: ItemStack): Optional<ItemStack> {
         val compoundTag = stack.orCreateTag
         return if (!compoundTag.contains("Items")) {
             Optional.empty()
@@ -133,20 +143,20 @@ open class BagItem(val size: Int, settings: Settings, val predicate: (stack: Ite
         }
     }
 
-    protected fun transfer(bundle: ItemStack, stack: ItemStack): Int {
+    fun transferBagStack(bundle: ItemStack, stack: ItemStack): Int {
         return if (!stack.isEmpty && stack.item.hasStoredInventory()) {
             val compoundTag = bundle.orCreateTag
             if (!compoundTag.contains("Items")) {
                 compoundTag.put("Items", ListTag())
             }
-            val i = getBundleOccupancy(bundle)
-            val j = getItemOccupancy(stack)
+            val i = getBagTotalOccupancy(bundle)
+            val j = getBagItemOccupancy(stack)
             val k = min(stack.count, (size - i) / j)
             if (k == 0) {
                 0
             } else {
                 val listTag = compoundTag.getList("Items", 10)
-                val optional = combineCheck(stack, listTag)
+                val optional = bagCombineCheck(stack, listTag)
                 if (optional.isPresent) {
                     val compoundTag2 = optional.get()
                     val itemStack = ItemStackUtils.fromTagIntCount(compoundTag2)
@@ -166,13 +176,6 @@ open class BagItem(val size: Int, settings: Settings, val predicate: (stack: Ite
         } else {
             0
         }
-    }
-
-    @Environment(EnvType.CLIENT)
-    override fun getTooltipData(stack: ItemStack): Optional<TooltipData> {
-        val defaultedList = DefaultedList.of<ItemStack>()
-        getBundledStacks(stack).forEach { defaultedList.add(it) }
-        return Optional.of(BundleTooltipData(defaultedList, getBundleOccupancy(stack).minus(size).plus(64)))
     }
 
 }

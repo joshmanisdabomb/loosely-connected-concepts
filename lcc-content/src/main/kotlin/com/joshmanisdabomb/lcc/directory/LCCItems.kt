@@ -116,7 +116,7 @@ object LCCItems : ItemDirectory() {
     val classic_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponents.APPLE)) }
     val classic_golden_apple by create(ItemExtraSettings().creativeEx(NOSTALGIA)) { ClassicFoodItem(Item.Settings().defaults().maxCount(1).food(FoodComponent.Builder().hunger(20).saturationModifier(1.2F).build())) }
 
-    val quiver by create(ItemExtraSettings().creativeEx(NOSTALGIA).modelPredicate(LCC.id("filled")) { (it as BagItem)::predicate }) { QuiverItem(192, Item.Settings().defaults().maxCount(1)) }
+    val quiver by create(ItemExtraSettings().creativeEx(NOSTALGIA).modelPredicate(LCC.id("filled")) { (it as BagItem)::getBagPredicate }) { QuiverItem(192, Item.Settings().defaults().maxCount(1)) }
 
     //TODO pills
 

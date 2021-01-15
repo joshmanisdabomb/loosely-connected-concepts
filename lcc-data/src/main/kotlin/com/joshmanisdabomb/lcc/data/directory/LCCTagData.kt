@@ -9,6 +9,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.item.Items
+import net.minecraft.tag.ItemTags
 import net.minecraft.tag.Tag
 
 object LCCTagData : ThingDirectory<TagData.TagBuilder<*>.() -> Unit, TagData.(Tag<*>) -> TagData.TagBuilder<*>>() {
@@ -24,6 +25,8 @@ object LCCTagData : ThingDirectory<TagData.TagBuilder<*>.() -> Unit, TagData.(Ta
     val nether_reactor_shell by createWithName(block) { { this.castBlock().append(Blocks.COBBLESTONE) } }
 
     val gold_blocks by createWithName(item) { { this.castItem().append(Items.GOLD_BLOCK) } }
+
+    val furnace_generator_x2 by createWithName(item) { { this.castItem().appendTag(ItemTags.COALS).append(Items.COAL_BLOCK) } }
 
     val oil by createWithName(fluid) { { this.castFluid() } }
     val asphalt by createWithName(fluid) { { this.castFluid() } }

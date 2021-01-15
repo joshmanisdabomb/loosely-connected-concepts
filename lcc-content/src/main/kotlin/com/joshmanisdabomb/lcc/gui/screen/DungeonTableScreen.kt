@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.screen
+package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler

@@ -90,7 +90,7 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.refining, RefiningBlockEntity::serverTick) else null
 
-    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: RefiningInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler?
+    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: RefiningInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler
 
     companion object {
         fun brightness(state: BlockState) = state.properties.filter { it is EnumProperty<*> && it.values.first() is RefiningProcess }.firstOrNull()?.run { state.get(this as EnumProperty<RefiningProcess>).light } ?: 0

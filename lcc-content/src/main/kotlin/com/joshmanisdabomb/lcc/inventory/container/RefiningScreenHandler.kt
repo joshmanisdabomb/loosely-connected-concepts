@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
-import com.joshmanisdabomb.lcc.block.RefinerBlock
+import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
@@ -20,7 +20,7 @@ import net.minecraft.screen.ScreenHandlerType
 
 abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>, syncId: Int, protected val playerInventory: PlayerInventory, val inventory: RefiningInventory, val properties: PropertyDelegate) : AbstractRecipeScreenHandler<RefiningInventory>(type, syncId) {
 
-    abstract val block: RefinerBlock
+    abstract val block: RefiningBlock
 
     val listener = InventoryChangedListener(::onContentChanged)
 

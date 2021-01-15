@@ -29,11 +29,11 @@
     "lcc-data.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.10.8",
+    "fabricloader": ">=0.11.0",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc": ["0.3.0", "${version}"]
+    "lcc": ["0.3.2", "${version}"]
   },
   "custom": {
     "modmenu:api": true,

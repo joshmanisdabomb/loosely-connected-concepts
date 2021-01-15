@@ -18,6 +18,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.context.LootContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.StringIdentifiable
@@ -27,10 +28,10 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
+import net.minecraft.world.event.GameEvent
 
 class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, SubblockSystem {
-
-    //FIXME 0.3.0 doesnt check if valid on side of block
 
     init {
         defaultState = stateManager.defaultState.run { cog_states.values.setThrough(this) { with(it, CogState.NONE) } }.with(cog_states[Direction.DOWN], CogState.INACTIVE)
@@ -68,6 +69,22 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
         return if (!this.valid(face.opposite, context.world, pos)) null else newState.with(cog_states[face.opposite], CogState.INACTIVE)
     }
 
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, state2: BlockState, world: WorldAccess, pos: BlockPos, pos2: BlockPos): BlockState {
+        if (state[cog_states[direction]].exists && !valid(direction, world, state2, pos2)) {
+            if (Direction.values().count { state[cog_states[it]].exists } <= 1) {
+                world.breakBlock(pos, true)
+                return state.fluidState.blockState
+            } else {
+                val cog = empty.with(cog_states[direction], CogState.INACTIVE)
+                world.syncWorldEvent(2001, pos, getRawIdFromState(cog))
+                if (world is World) dropStacks(cog, world, pos, null, null, ItemStack.EMPTY)
+                world.emitGameEvent(null, GameEvent.BLOCK_DESTROY, pos)
+                return state.with(cog_states[direction], CogState.NONE)
+            }
+        }
+        return state
+    }
+
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
         if (placer != null) {
             val subblock = getSubblockFromTrace(state, world, pos, placer) ?: return updateNetwork(world, pos, null).let {}
@@ -92,6 +109,10 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
         }
         updateNeighbouringNetworks(state, world, pos, face)
         if (!player.isCreative) afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
+    }
+
+    override fun getDroppedStacks(state: BlockState, builder: LootContext.Builder): MutableList<ItemStack> {
+        return Direction.values().filter { state[cog_states[it]].exists }.flatMap { super.getDroppedStacks(state, builder) }.toMutableList()
     }
 
     override fun lcc_overrideBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) = true
@@ -123,8 +144,10 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
 
     protected fun valid(d: Direction, world: BlockView, pos: BlockPos): Boolean {
         val from = pos.offset(d)
-        return world.getBlockState(from).isSideSolid(world, from, d, SideShapeType.FULL)
+        return valid(d, world, world.getBlockState(from), from)
     }
+
+    protected fun valid(d: Direction, world: BlockView, from: BlockState, fromPos: BlockPos) = from.isSideSolid(world, fromPos, d, SideShapeType.FULL)
 
     fun isPowered(state: BlockState, world: BlockView, pos: BlockPos, side: Direction): Boolean? {
         if (!state[cog_states[side]!!].exists) return null

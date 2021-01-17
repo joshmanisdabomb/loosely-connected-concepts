@@ -45,6 +45,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
             3 -> this@FiredGeneratorBlockEntity.outputDisplay.second
             4 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.first
             5 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.second
+            6 -> this@FiredGeneratorBlockEntity.waterLevel
             else -> 0
         }
 
@@ -55,16 +56,18 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
             3 -> this@FiredGeneratorBlockEntity.outputDisplay.second = value
             4 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.first = value
             5 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.second = value
+            6 -> this@FiredGeneratorBlockEntity.waterLevel = value
             else -> Unit
         }
 
-        override fun size() = 6
+        override fun size() = 7
     }
 
     private var burn = 0
     private var maxBurn = 0
     private var output = 0f
     private var outputCeil = 0f
+    private var waterLevel = 0
 
     private var working = false
 
@@ -127,10 +130,12 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: FiredGeneratorBlockEntity) {
             val working = entity.working
+            entity.waterLevel = entity.generatorBlock!!.getWaterLevel(world, pos, state)
 
             if (entity.burn > 0) {
                 entity.working = true
-                entity.output = entity.output.minus(entity.outputCeil).times(0.995f).plus(entity.outputCeil).plus(0.005f).coerceAtMost(entity.outputCeil)
+                val ceiling = entity.outputCeil * entity.waterLevel.div(3f)
+                entity.output = entity.output.minus(ceiling).times(0.987f).plus(ceiling).plus(0.005f).coerceAtMost(ceiling)
                 entity.burn--
             } else {
                 entity.working = false
@@ -146,13 +151,12 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
                     entity.working = true
                     break
                 }
-                entity.output = entity.output.times(0.99f).minus(0.12f).coerceAtLeast(0f)
+                entity.output = entity.output.times(0.99f).minus(0.06f).coerceAtLeast(0f)
             }
 
             if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
 
-            val water = entity.generatorBlock!!.getWaterLevel(world, pos, state)
-            if (entity.working && water > 0) {
+            if (entity.working && entity.waterLevel > 0) {
                 world.getEntitiesByClass(LivingEntity::class.java, Box(pos).offset(0.0, 1.0, 0.0).contract(0.125), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and { !it.isFireImmune }).forEach {
                     it.damage(LCCDamage.boiled, 3.0F)
                 }

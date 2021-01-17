@@ -32,13 +32,11 @@ class OilFiredGeneratorScreen(handler: FiredGeneratorScreenHandler, inventory: P
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(matrices, mouseX, mouseY, delta)
 
-        /*renderPowerTooltip(matrices, handler.powerAmount(), currentRecipe?.energy, mouseX, mouseY, x + 18..x + 29, y + 58..y + 72)
+        if (handler.burnAmount() > 0 || handler.outputAmount() > 0) {
+            renderBurnTooltip(matrices, handler.burnAmount(), handler.maxBurnAmount(), mouseX, mouseY, x + 102..x + 116, y + 30..y + 44)
 
-        handler.iconIndex().also {
-            renderActionTooltip(matrices, handler.efficiencyAmount(), it?.let { handler.maxEfficiencyAmount() }, mouseX, mouseY, x + 81..x + 94, y + 18..y + 32)
-
-            if (it != null) renderProgressTooltip(matrices, handler.progressAmount(), handler.maxProgressAmount(), mouseX, mouseY, x + 76..x + 100, y + 34..y + 51)
-        }*/
+            renderSteamTooltip(matrices, handler.outputAmount(), handler.outputCeilingAmount(), handler.waterAmount(), mouseX, mouseY, x + 122..x + 136, y + 30..y + 44)
+        }
     }
 
 }

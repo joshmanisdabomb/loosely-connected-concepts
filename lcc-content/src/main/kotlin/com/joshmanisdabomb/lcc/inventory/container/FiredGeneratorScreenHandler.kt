@@ -22,7 +22,7 @@ abstract class FiredGeneratorScreenHandler(type: ScreenHandlerType<out ScreenHan
 
     init {
         checkSize(inventory, block.slots)
-        checkDataCount(properties, 6)
+        checkDataCount(properties, 7)
 
         inventory.addListener(listener)
         inventory.onOpen(playerInventory.player)
@@ -76,5 +76,8 @@ abstract class FiredGeneratorScreenHandler(type: ScreenHandlerType<out ScreenHan
 
     @Environment(EnvType.CLIENT)
     fun outputCeilingAmount() = DecimalTransport.from(properties.get(4), properties.get(5))
+
+    @Environment(EnvType.CLIENT)
+    fun waterAmount() = properties.get(6)
 
 }

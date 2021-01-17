@@ -53,9 +53,9 @@ interface PowerScreenUtils {
         }
     }
 
-    fun renderProgressTooltip(matrices: MatrixStack, ticks: Int, maxTicks: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
+    fun renderProgressTooltip(matrices: MatrixStack, progress: Int, maxProgress: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         if (mouseX in x && mouseY in y) {
-            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.refining.time", ceil(ticks.div(20f)).toInt(), ceil(maxTicks.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.refining.time", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
@@ -63,6 +63,18 @@ interface PowerScreenUtils {
         val prefix = if (maxEfficiency != null) ".recipe" else ""
         if (mouseX in x && mouseY in y) {
             renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.refining.efficiency".plus(prefix), efficiency.plus(100).decimalFormat(force = true), (maxEfficiency ?: 0f).plus(100).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+        }
+    }
+
+    fun renderBurnTooltip(matrices: MatrixStack, progress: Int, maxProgress: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
+        if (mouseX in x && mouseY in y) {
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.generator.burn", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
+        }
+    }
+
+    fun renderSteamTooltip(matrices: MatrixStack, output: Float, outputCeil: Float, water: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
+        if (mouseX in x && mouseY in y) {
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.generator.output", LooseEnergy.displayWithUnits(output), LooseEnergy.displayWithUnits(outputCeil), water.div(3f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 

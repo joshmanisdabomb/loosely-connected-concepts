@@ -78,15 +78,17 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
-        val level = getWaterLevel(world, pos, state)
-        if (level > 0) {
-            world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
-            world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
-            world.addParticle(ParticleTypes.UNDERWATER, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + 0.17 + random.nextDouble().times(0.07), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
-            world.addParticle(ParticleTypes.SPLASH, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, 0.0, 0.0)
-            world.addParticle(ParticleTypes.SPLASH, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, 0.0, 0.0)
+        if (state[LIT]) {
+            val level = getWaterLevel(world, pos, state)
+            if (level > 0) {
+                world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
+                world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
+                world.addParticle(ParticleTypes.UNDERWATER, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + 0.17 + random.nextDouble().times(0.07), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
+                world.addParticle(ParticleTypes.SPLASH, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, 0.0, 0.0)
+                world.addParticle(ParticleTypes.SPLASH, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, 0.0, 0.0)
+            }
+            super.randomDisplayTick(state, world, pos, random)
         }
-        super.randomDisplayTick(state, world, pos, random)
     }
 
     override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {

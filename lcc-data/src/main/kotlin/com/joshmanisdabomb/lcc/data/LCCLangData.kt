@@ -20,6 +20,8 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.spawner_table"] = "Arcane Table"
         lang["en_us"]!!["container.lcc.refiner"] = "Refiner"
         lang["en_us"]!!["container.lcc.composite_processor"] = "Composite Processor"
+        lang["en_us"]!!["container.lcc.coal_generator"] = "Furnace Generator"
+        lang["en_us"]!!["container.lcc.oil_generator"] = "Combustion Generator"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
         lang["en_us"]!!["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"
@@ -30,6 +32,8 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.refining.recipe.pozzolanic_mixing"] = "Pozzolanic Mixing"
         lang["en_us"]!!["container.lcc.refining.recipe.uranium"] = "Centrifugal Separation"
         lang["en_us"]!!["container.lcc.refining.recipe.treating"] = "Thermal Disinfection"
+
+        lang["en_us"]!!["container.lcc.generator.steam"] = "Steam Produced: %1\$s%%"
 
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

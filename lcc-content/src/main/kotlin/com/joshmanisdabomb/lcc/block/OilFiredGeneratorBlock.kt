@@ -1,17 +1,17 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.inventory.RefiningInventory
+import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.container.OilFiredGeneratorScreenHandler
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.PropertyDelegate
-import net.minecraft.screen.ScreenHandler
 
 class OilFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings) {
 
     override val slots = 6
-    override val maxMultiplier = 2f
+    override val maxOutput = 6f
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null
@@ -23,8 +23,6 @@ class OilFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings)
 
     override fun getSteam(stack: ItemStack) = 6f
 
-    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: RefiningInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler {
-        TODO("Not yet implemented")
-    }
+    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = OilFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
 }

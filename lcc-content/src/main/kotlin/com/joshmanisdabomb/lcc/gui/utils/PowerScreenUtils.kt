@@ -16,6 +16,7 @@ interface PowerScreenUtils {
     val textRenderer: TextRenderer
 
     val powerU get() = 0
+    val burnU get() = 0
     val progressU get() = 14
     val actionU get() = 31
 
@@ -24,8 +25,13 @@ interface PowerScreenUtils {
         drawTexture(matrices, x, y + 13.minus(h), offset, powerU + 13.minus(h), 11, h)
     }
 
-    fun renderProgress(matrices: MatrixStack, ticks: Int, maxProgress: Int, x: Int, y: Int) {
-        val w = ceil(23.times(ticks.toFloat().div(maxProgress))).toInt()
+    fun renderBurn(matrices: MatrixStack, power: Int, maxBurn: Int, x: Int, y: Int) {
+        val h = ceil(13.times(power.toFloat().div(maxBurn))).toInt()
+        drawTexture(matrices, x, y + 13.minus(h), offset, burnU + 13.minus(h), 14, h)
+    }
+
+    fun renderProgress(matrices: MatrixStack, progress: Int, maxProgress: Int, x: Int, y: Int) {
+        val w = ceil(23.times(progress.toFloat().div(maxProgress))).toInt()
         this.drawTexture(matrices, x, y, offset.plus(1), progressU, w, 17)
     }
 

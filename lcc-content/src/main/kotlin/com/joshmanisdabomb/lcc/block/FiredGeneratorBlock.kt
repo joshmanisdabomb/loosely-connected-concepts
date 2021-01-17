@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
-import com.joshmanisdabomb.lcc.inventory.RefiningInventory
+import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -34,12 +34,12 @@ import java.util.*
 abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract val slots: Int
-    abstract val maxMultiplier: Float
+    abstract val maxOutput: Float
 
     open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
 
     init {
-        defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, true)
+        defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, false)
     }
 
     abstract fun getBurnTime(stack: ItemStack): Int?
@@ -102,6 +102,6 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.generator, FiredGeneratorBlockEntity::serverTick) else null
 
-    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: RefiningInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler
+    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler
 
 }

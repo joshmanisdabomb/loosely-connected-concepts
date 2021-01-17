@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.screen.NamedScreenHandlerFactory
+import net.minecraft.screen.PropertyDelegate
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
@@ -36,18 +37,43 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     }.apply { addListener { this@FiredGeneratorBlockEntity.markDirty() } } }
 
+    val propertyDelegate = object : PropertyDelegate {
+        override fun get(index: Int) = when (index) {
+            0 -> this@FiredGeneratorBlockEntity.burn
+            1 -> this@FiredGeneratorBlockEntity.maxBurn
+            2 -> this@FiredGeneratorBlockEntity.outputDisplay.first
+            3 -> this@FiredGeneratorBlockEntity.outputDisplay.second
+            4 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.first
+            5 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.second
+            else -> 0
+        }
+
+        override fun set(index: Int, value: Int) = when (index) {
+            0 -> this@FiredGeneratorBlockEntity.burn = value
+            1 -> this@FiredGeneratorBlockEntity.maxBurn = value
+            2 -> this@FiredGeneratorBlockEntity.outputDisplay.first = value
+            3 -> this@FiredGeneratorBlockEntity.outputDisplay.second = value
+            4 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.first = value
+            5 -> this@FiredGeneratorBlockEntity.outputCeilDisplay.second = value
+            else -> Unit
+        }
+
+        override fun size() = 6
+    }
+
     private var burn = 0
+    private var maxBurn = 0
     private var output = 0f
-    private var boost = 0f
+    private var outputCeil = 0f
 
     private var working = false
 
     var customName: Text? = null
 
-    private var boostDisplay = DecimalTransport(::boost)
     private var outputDisplay = DecimalTransport(::output)
+    private var outputCeilDisplay = DecimalTransport(::outputCeil)
 
-    override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = TODO()
+    override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = generatorBlock!!.createMenu(syncId, inv, inventory, player, propertyDelegate)
 
     override fun getDisplayName() = customName ?: generatorBlock?.defaultDisplayName
 
@@ -57,8 +83,9 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
         burn = tag.getInt("Burn")
-        boost = tag.getFloat("Boost")
+        maxBurn = tag.getInt("MaxBurn")
         output = tag.getFloat("Output")
+        outputCeil = tag.getFloat("OutputCeiling")
 
         working = tag.getBoolean("Working")
 
@@ -71,8 +98,9 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
 
         tag.putInt("Burn", burn)
-        tag.putFloat("Boost", boost)
+        tag.putInt("MaxBurn", burn)
         tag.putFloat("Output", output)
+        tag.putFloat("OutputCeiling", outputCeil)
 
         tag.putBoolean("Working", working)
 
@@ -102,19 +130,23 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
             if (entity.burn > 0) {
                 entity.working = true
+                entity.output = entity.output.minus(entity.outputCeil).times(0.995f).plus(entity.outputCeil).plus(0.005f).coerceAtMost(entity.outputCeil)
                 entity.burn--
             } else {
                 entity.working = false
                 for ((k, v) in entity.inventory.inventory.withIndex()) {
                     if (v.isEmpty) continue;
+                    val stack = v.copy()
                     val burn = entity.generatorBlock!!.getBurnTime(v) ?: continue
                     v.decrement(1)
-                    if (v.isEmpty) entity.inventory.setStack(k, v.item?.recipeRemainder?.defaultStack ?: ItemStack.EMPTY)
-                    entity.burn += burn
-                    entity.output = entity.generatorBlock!!.getSteam(v)
+                    if (v.isEmpty) entity.inventory.setStack(k, stack.item?.recipeRemainder?.defaultStack ?: ItemStack.EMPTY)
+                    entity.maxBurn = burn
+                    entity.burn += entity.maxBurn
+                    entity.outputCeil = entity.generatorBlock!!.getSteam(stack)
                     entity.working = true
                     break
                 }
+                entity.output = entity.output.times(0.99f).minus(0.12f).coerceAtLeast(0f)
             }
 
             if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)

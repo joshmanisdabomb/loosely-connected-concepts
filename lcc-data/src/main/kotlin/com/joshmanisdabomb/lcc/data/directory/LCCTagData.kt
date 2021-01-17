@@ -26,7 +26,7 @@ object LCCTagData : ThingDirectory<TagData.TagBuilder<*>.() -> Unit, TagData.(Ta
 
     val gold_blocks by createWithName(item) { { this.castItem().append(Items.GOLD_BLOCK) } }
 
-    val furnace_generator_x2 by createWithName(item) { { this.castItem().appendTag(ItemTags.COALS).append(Items.COAL_BLOCK) } }
+    val furnace_generator_double by createWithName(item) { { this.castItem().appendTag(ItemTags.COALS).append(Items.COAL_BLOCK) } }
 
     val oil by createWithName(fluid) { { this.castFluid() } }
     val asphalt by createWithName(fluid) { { this.castFluid() } }

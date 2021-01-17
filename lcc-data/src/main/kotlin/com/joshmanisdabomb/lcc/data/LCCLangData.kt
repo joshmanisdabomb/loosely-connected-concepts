@@ -38,6 +38,9 @@ object LCCLangData {
         lang["en_us"]!!["death.attack.lcc.gauntlet_uppercut"] = "%1\$s was struck by %2\$s using Uppercut"
         lang["en_us"]!!["death.attack.lcc.gauntlet_uppercut.item"] = "%1\$s was struck by %2\$s using Uppercut of %3\$s"
 
+        lang["en_us"]!!["death.attack.lcc.heated"] = "%1\$s was steamed like a vegetable"
+        lang["en_us"]!!["death.attack.lcc.boiled"] = "%1\$s was boiled alive"
+
         lang["en_us"]!!["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.set"] = "Bounce Pad set"

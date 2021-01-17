@@ -2,21 +2,25 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.DefaultInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
@@ -114,6 +118,13 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
             }
 
             if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
+
+            val water = entity.generatorBlock!!.getWaterLevel(world, pos, state)
+            if (entity.working && water > 0) {
+                world.getEntitiesByClass(LivingEntity::class.java, Box(pos).offset(0.0, 1.0, 0.0).contract(0.125), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.and { !it.isFireImmune }).forEach {
+                    it.damage(LCCDamage.boiled, 3.0F)
+                }
+            }
         }
     }
 

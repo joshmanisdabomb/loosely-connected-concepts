@@ -14,6 +14,9 @@ object LCCDamage : ThingDirectory<DamageSource, Unit>() {
 
     fun gauntletPunch(player: PlayerEntity) = EntityDamageSource(id("gauntlet_punch"), player)
 
+    val heated by createWithName { LCCDamageSource(id(it), fire = true) }
+    val boiled by createWithName { LCCDamageSource(id(it), fire = true) }
+
     private fun id(name: String) = "${LCC.modid}.$name"
 
 }

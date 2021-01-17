@@ -213,6 +213,8 @@
   "death.attack.lcc.gauntlet_punch_wall.player": "%1$s was launched into the wall by %2$s using Punch",
   "death.attack.lcc.gauntlet_uppercut": "%1$s was struck by %2$s using Uppercut",
   "death.attack.lcc.gauntlet_uppercut.item": "%1$s was struck by %2$s using Uppercut of %3$s",
+  "death.attack.lcc.heated": "%1$s was steamed like a vegetable",
+  "death.attack.lcc.boiled": "%1$s was boiled alive",
   "subtitles.lcc.block.soaking_soul_sand.jump": "Soaking Soul Sand squelches",
   "subtitles.lcc.block.bounce_pad.jump": "Bounce Pad protracts",
   "subtitles.lcc.block.bounce_pad.set": "Bounce Pad set",

@@ -28,6 +28,7 @@ import net.minecraft.util.ItemScatterer
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.*
 
@@ -45,6 +46,8 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
     abstract fun getBurnTime(stack: ItemStack): Int?
 
     abstract fun getSteam(stack: ItemStack): Float
+
+    fun getSteam(world: BlockView, pos: BlockPos, state: BlockState) = (world.getBlockEntity(pos) as? FiredGeneratorBlockEntity)?.steam ?: 0f
 
     fun getWaterLevel(world: World, pos: BlockPos, state: BlockState): Int {
         val state2 = world.getBlockState(pos.up())

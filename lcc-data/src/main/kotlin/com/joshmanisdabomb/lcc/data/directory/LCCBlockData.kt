@@ -33,7 +33,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val test_block_2 by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(HorizontalBlockAssetFactory) }
     val test_block_3 by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(DirectionalBlockAssetFactory) }
     val test_block_4 by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(ColumnBlockAssetFactory) }
-    val test_block_5 by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block")) }) }
+    val test_block_5 by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block")) }) }
 
     val ruby_ore by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_ORE)) }
     val ruby_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.ruby)).add(RiftFromItemRecipeFactory(Blocks.EMERALD_BLOCK)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
@@ -123,7 +123,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val pocket_stonecutter by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(StonecutterBlockAssetFactory).add(RiftFromItemRecipeFactory(Blocks.STONECUTTER)) }
     val classic_chest by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(ClassicChestBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelOrientable(d, i, texture = loc(i, folder = "block")) }).add(RiftFromItemRecipeFactory(Blocks.CHEST)) }
     val nether_reactor by createWithName { BlockDataContainer().defaultLang().add(NetherReactorBlockAssetFactory).add(ParentBlockItemAssetFactory(LCC.id("block/nether_reactor_ready"))).add(NetherReactorBlockLootFactory).add(RiftFromItemRecipeFactory(Items.NETHER_STAR)) }
-    val classic_crying_obsidian by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block") { it.plus("_static") }) }).add(RiftFromItemRecipeFactory(Blocks.CRYING_OBSIDIAN)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
+    val classic_crying_obsidian by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> modelCubeAll(d, i, texture = loc(i, folder = "block") { it.plus("_static") }) }).add(RiftFromItemRecipeFactory(Blocks.CRYING_OBSIDIAN)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
     val cog by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(GeneratedBlockItemAssetFactory).add(CogBlockAssetFactory).add(RiftFromItemRecipeFactory(Items.REDSTONE)) }
 
     val red_classic_cloth by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.RED_WOOL)) }
@@ -170,7 +170,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val coal_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Furnace Generator", "en_us")).add(FiredGeneratorBlockAssetFactory) }
     val oil_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Combustion Generator", "en_us")).add(FiredGeneratorBlockAssetFactory) }
 
-    val solar_panel by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(CustomModelBlockAssetFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val solar_panel by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("qqq")
             .pattern("lll")
@@ -182,6 +182,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
             .apply { offerShaped(this, d) }
     }) }
+
+    val turbine by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

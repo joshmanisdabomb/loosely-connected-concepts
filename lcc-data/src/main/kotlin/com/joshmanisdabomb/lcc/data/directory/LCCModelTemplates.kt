@@ -24,6 +24,7 @@ object ModelTemplates : ThingDirectory<Model, Pair<String, String>>() {
     val template_cable4_connection by createWithNameProperties("block" to template_cable4_connection_json, model(TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE))
     val template_cable4_item by createWithNameProperties("block" to template_cable4_item_json, model(TextureKey.SIDE, TextureKey.END))
     val template_solar_panel by createWithNameProperties("item" to template_solar_panel_json, model(TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM))
+    val template_turbine by createWithNameProperties("block" to template_turbine_json, model(TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE))
 
     override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String, String>>) {
         things.forEach { (k, v) -> LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${properties[k]!!.first}/$k")) { DataUtils.parser.parse(properties[k]!!.second) } }
@@ -736,6 +737,50 @@ private const val template_solar_panel_json =
       "to": [
         16,
         5,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#bottom",
+          "cullface": "down"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "north": {
+          "texture": "#side",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#side",
+          "cullface": "south"
+        },
+        "west": {
+          "texture": "#side",
+          "cullface": "west"
+        },
+        "east": {
+          "texture": "#side",
+          "cullface": "east"
+        }
+      }
+    }
+  ]
+}"""
+
+private const val template_turbine_json =
+    """{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "from": [
+        0,
+        11,
+        0
+      ],
+      "to": [
+        16,
+        16,
         16
       ],
       "faces": {

@@ -93,6 +93,7 @@ object LCCBlocks : BlockDirectory() {
     val power_cable by create(BlockExtraSettings().creativeEx(POWER)) { PowerCableBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(1.1F, 1.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
     val coal_generator by create(BlockExtraSettings().creativeEx(POWER)) { CoalFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
     val oil_generator by create(BlockExtraSettings().creativeEx(POWER)) { OilFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+    val turbine by create(BlockExtraSettings().creativeEx(POWER)) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
     val solar_panel by create(BlockExtraSettings().creativeEx(POWER)) { SolarPanelBlock(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(1.1F, 2.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
     val power_source by create(BlockExtraSettings().creativeEx(POWER)) { PowerSourceBlock(FabricBlockSettings.of(Material.METAL, MapColor.CYAN).strength(-1.0F, 3600000f).dropsNothing().sounds(BlockSoundGroup.COPPER)) }
 

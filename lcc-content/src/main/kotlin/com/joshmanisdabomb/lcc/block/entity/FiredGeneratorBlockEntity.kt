@@ -71,6 +71,8 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     private var working = false
 
+    val steam get() = output
+
     var customName: Text? = null
 
     private var outputDisplay = DecimalTransport(::output)

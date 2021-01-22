@@ -14,5 +14,6 @@ object LCCParticles : RegistryDirectory<ParticleType<*>, Unit>() {
 
     val soaking_soul_sand_bubble by create { FabricParticleTypes.simple(false) }
     val soaking_soul_sand_jump by create { FabricParticleTypes.complex(true, SoakingSoulSandJumpParticleEffect.factory) }
+    val steam by create { FabricParticleTypes.simple(false) }
 
 }

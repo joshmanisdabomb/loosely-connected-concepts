@@ -21,6 +21,7 @@ import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.util.collection.DefaultedList
+import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import java.util.*
 import java.util.stream.Stream
@@ -29,6 +30,10 @@ import kotlin.math.min
 interface BagItem {
 
     val size: Int
+
+    companion object {
+        val barColor = MathHelper.packRgb(0.4f, 0.4f, 1.0f)
+    }
 
     fun canBagStore(stack: ItemStack): Boolean
 

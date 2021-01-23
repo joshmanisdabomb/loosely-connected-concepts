@@ -74,6 +74,8 @@ class QuiverItem(override val size: Int, settings: Settings) : Item(settings), L
 
     override fun getItemBarStep(stack: ItemStack) = getBagBarStep(stack)
 
+    override fun getItemBarColor(stack: ItemStack) = BagItem.barColor
+
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) = appendBagTooltip(stack, world, tooltip, context)
 
     override fun getTooltipData(stack: ItemStack) = getBagTooltipData(stack)

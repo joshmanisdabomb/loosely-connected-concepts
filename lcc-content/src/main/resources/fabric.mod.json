@@ -46,7 +46,7 @@
     "lcc-base": [">=0.4.0", "${version}"],
     "lcc-creative-ex": [">=0.1.1", "${version}"],
     "lcc-ct": [">=1.1.0", "${version}"],
-    "lcc-energy": [">=1.0.0", "${version}"],
+    "lcc-energy": [">=2.0.0", "${version}"],
     "lcc-network": [">=2.0.0", "${version}"],
     "lcc-subblock": [">=1.0.1", "${version}"]
   },

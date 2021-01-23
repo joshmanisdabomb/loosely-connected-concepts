@@ -1,16 +1,14 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.energy.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyHandler
 import net.minecraft.block.Block
-import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
-import net.minecraft.world.BlockView
 
-class PowerSourceBlock(settings: Settings) : Block(settings), EnergyHandler {
+class PowerSourceBlock(settings: Settings) : Block(settings), WorldEnergyHandler {
 
-    override fun addEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = 0f
+    override fun addEnergyDirect(amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = amount
+    override fun removeEnergyDirect(amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = amount
 
 }

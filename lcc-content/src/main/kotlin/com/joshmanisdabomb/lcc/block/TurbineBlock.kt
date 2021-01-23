@@ -1,8 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCParticles
-import com.joshmanisdabomb.lcc.energy.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
+import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
 import net.minecraft.block.Block
@@ -33,9 +34,9 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
 
     override fun getEnergy(world: BlockView, pos: BlockPos) = getEnergyAndPosition(world, pos)?.second ?: 0f
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
-        if (side != null && side != Direction.UP) return 0f
-        return super.removeEnergy(amount, unit, target, world, home, away, side)
+    override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
+        if (context.side != null && context.side != Direction.UP) return 0f
+        return super.removeEnergy(target, amount, unit, context)
     }
 
     override fun extractEnergy(world: ModifiableWorld, pos: BlockPos, state: BlockState) {
@@ -81,9 +82,10 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
                 val state3 = world.getBlockState(pos3)
                 val block = state3.block
                 if (block !is FiredGeneratorBlock || !state3[Properties.LIT]) return
-                for (i in 1..20) {
+                for (j in 1..20) {
                     world.addParticle(LCCParticles.steam, false, pos2.x.plus(0.4).plus(random.nextDouble().times(0.2)), pos2.y.plus(0.7), pos2.z.plus(0.4).plus(random.nextDouble().times(0.2)), 0.0, random.nextDouble().times(0.1), 0.0)
                 }
+                return
             }
             if (!state.getCollisionShape(world, pos).isEmpty) return
         }

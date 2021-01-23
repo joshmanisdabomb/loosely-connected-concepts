@@ -1,7 +1,8 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.energy.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
+import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
 import net.minecraft.block.Block
@@ -28,9 +29,9 @@ class SolarPanelBlock(settings: Settings, val energy: Float = 3f) : SimpleEnergy
 
     override fun getEnergy(world: BlockView, pos: BlockPos) = energy
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, target: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?): Float {
-        if (side != null && side != Direction.DOWN) return 0f
-        return super.removeEnergy(amount, unit, target, world, home, away, side)
+    override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
+        if (context.side != null && context.side != Direction.DOWN) return 0f
+        return super.removeEnergy(target, amount, unit, context)
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {

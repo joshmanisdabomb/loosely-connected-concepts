@@ -3,10 +3,11 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
-import com.joshmanisdabomb.lcc.energy.EnergyHandler
-import com.joshmanisdabomb.lcc.energy.EnergyStorage
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
+import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
@@ -28,11 +29,10 @@ import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import kotlin.math.min
 
-class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.refining, pos, state), NamedScreenHandlerFactory, SidedInventory, EnergyStorage {
+class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.refining, pos, state), NamedScreenHandlerFactory, SidedInventory, WorldEnergyStorage {
 
     val refiningBlock get() = cachedState.block as? RefiningBlock
 
@@ -147,7 +147,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     private var energyDisplay = DecimalTransport(::energy)
 
-    override fun removeEnergy(amount: Float, unit: EnergyUnit, from: EnergyHandler?, world: BlockView?, home: BlockPos?, away: BlockPos?, side: Direction?) = if (from != null) 0f else super.removeEnergy(amount, unit, from, world, home, away, side)
+    override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 
     protected fun setWorkingRecipe(recipe: RefiningRecipe?, boost: (boost: Float) -> Float) {
         currentRecipe = recipe
@@ -179,7 +179,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
             maxProgress = calculateMaxProgress(recipe)
             generate(recipe)
         }
-        removeEnergy(recipe.energy, LooseEnergy, null, world, pos, null, null)
+        removeEnergyDirect(recipe.energy, LooseEnergy, WorldEnergyContext(world, pos, null, null))
         markDirty()
     }
 
@@ -245,7 +245,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                     entity.regress(it)
                 }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
-                val energy = entity.getEnergy(LooseEnergy, null) ?: 0f
+                val energy = entity.getEnergy(LooseEnergy, WorldEnergyContext(world, pos, null, null)) ?: 0f
                 if (energy >= recipe.energy && entity.hasSpace(recipe)) {
                     entity.working = true
                     entity.progress(recipe)
@@ -262,7 +262,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                 else world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, RefiningBlock.RefiningProcess.NONE), 3)
             }
 
-            EnergyHandler.request(entity, world, pos, state, 100f, LooseEnergy, *Direction.values())
+            entity.requestEnergy(WorldEnergyContext(world, pos, null, null), 100f, LooseEnergy, *Direction.values())
         }
 
         fun isValidFuel(stack: ItemStack) = stack.isOf(Items.REDSTONE)

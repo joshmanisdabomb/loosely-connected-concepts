@@ -11,17 +11,17 @@ import net.minecraft.screen.PropertyDelegate
 class OilFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings) {
 
     override val slots = 6
-    override val maxOutput = 6f
+    override val maxOutput = 4f
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null
         return when (stack.item) {
-            LCCItems.oil_bucket -> 8000
+            LCCItems.oil_bucket -> 12000
             else -> null
         }
     }
 
-    override fun getSteam(stack: ItemStack) = 6f
+    override fun getSteam(stack: ItemStack) = 4f
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = OilFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 

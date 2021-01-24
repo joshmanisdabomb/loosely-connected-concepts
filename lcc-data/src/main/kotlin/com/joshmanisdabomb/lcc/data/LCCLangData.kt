@@ -24,6 +24,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.composite_processor"] = "Composite Processor"
         lang["en_us"]!!["container.lcc.coal_generator"] = "Furnace Generator"
         lang["en_us"]!!["container.lcc.oil_generator"] = "Combustion Generator"
+        lang["en_us"]!!["container.lcc.energy_bank"] = "Energy Bank"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
         lang["en_us"]!!["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"
@@ -37,6 +38,8 @@ object LCCLangData {
 
         lang["en_us"]!!["container.lcc.generator.burn"] = "Remaining Time: %1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.generator.output"] = "Steam Produced: %1\$s/t\nBase Steam from Fuel: %2\$s/t\nSteam Multiplier from Water: %3\$s%%"
+
+        lang["en_us"]!!["container.lcc.battery.power"] = "Power: %1\$s"
 
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

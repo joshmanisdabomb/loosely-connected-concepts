@@ -43,6 +43,8 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
         defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, false)
     }
 
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(HORIZONTAL_FACING, LIT).let {}
+
     abstract fun getBurnTime(stack: ItemStack): Int?
 
     abstract fun getSteam(stack: ItemStack): Float
@@ -54,8 +56,6 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
         if (!state2.isOf(Blocks.WATER_CAULDRON)) return 0
         return state2[LEVEL_3]
     }
-
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(HORIZONTAL_FACING, LIT).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = horizontalPlacement(context)
 

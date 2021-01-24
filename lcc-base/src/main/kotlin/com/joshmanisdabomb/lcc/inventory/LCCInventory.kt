@@ -13,6 +13,8 @@ open class LCCInventory(size: Int) : Inventory, Iterable<ItemStack> {
     private val listeners = mutableListOf<InventoryChangedListener>()
     private val segments = mutableMapOf<String, IntArray>()
 
+    val slotInts by lazy { (0 until size()).toList().toIntArray() }
+
     override fun clear() = list.clear()
 
     override fun size() = list.size
@@ -51,6 +53,8 @@ open class LCCInventory(size: Int) : Inventory, Iterable<ItemStack> {
 
     fun getSegmentSlots(key: String) = segments[key]
     fun getSegmentRange(key: String) = getSegmentSlots(key)?.run { sort(); firstOrNull()?.rangeTo(lastOrNull() ?: return null) }
+    fun getSegmentStart(key: String) = getSegmentRange(key)?.start
+    fun getSegmentEnd(key: String) = getSegmentRange(key)?.endInclusive
 
     fun slotsIn(segment: String): List<ItemStack>? {
         val s = segments[segment] ?: return null

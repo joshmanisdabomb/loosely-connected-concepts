@@ -17,7 +17,7 @@ class OilFiredGeneratorScreenHandler(syncId: Int, playerInventory: PlayerInvento
     override val block get() = LCCBlocks.oil_generator
 
     init {
-        addSlots(inventory, 42, 20, 3, 2, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { LCCBlocks.oil_generator.getBurnTime(it) != null } }
+        addSlots(inventory, 42, 20, 3, 2, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { block.getBurnTime(it) != null } }
 
         addPlayerSlots(playerInventory, 8, 69, ::addSlot)
     }

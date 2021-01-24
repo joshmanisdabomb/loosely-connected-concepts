@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.inventory
 
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
@@ -26,7 +27,7 @@ class RefiningInventory(private val block: RefiningBlock) : LCCInventory(block.s
     }
 
     override fun isValid(slot: Int, stack: ItemStack): Boolean {
-        if (slot >= block.run { slotCount.minus(fuelSlotCount) }) return RefiningBlockEntity.isValidFuel(stack)
+        if (slot >= block.run { slotCount.minus(fuelSlotCount) }) return StackEnergyHandler.containsPower(stack)
         if (slot >= block.run { slotCount.minus(fuelSlotCount).minus(outputSlotCount) }) return false
         return true
     }

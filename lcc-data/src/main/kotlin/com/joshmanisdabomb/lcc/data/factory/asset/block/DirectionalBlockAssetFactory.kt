@@ -9,7 +9,7 @@ import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 
-open class DirectionalBlockAssetFactory(val model: DirectionalBlockAssetFactory.(data: DataAccessor, entry: Block) -> Identifier = { d, b -> modelOrientableVertical(d, b) }, val default: Direction = Direction.UP) : BlockAssetFactory {
+open class DirectionalBlockAssetFactory(val default: Direction = Direction.UP, val model: DirectionalBlockAssetFactory.(data: DataAccessor, entry: Block) -> Identifier = { d, b -> modelOrientableVertical(d, b) }) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         stateVariantModel(data, entry, { model(data, entry) }) { coordinate(BlockStateVariantMap.create(Properties.FACING).register {

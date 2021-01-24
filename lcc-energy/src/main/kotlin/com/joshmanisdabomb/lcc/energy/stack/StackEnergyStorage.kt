@@ -1,9 +1,6 @@
 package com.joshmanisdabomb.lcc.energy.stack
 
-import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.base.EnergyStorage
-
-interface StackEnergyHandler : EnergyHandler<StackEnergyContext>
 
 interface StackEnergyStorage : StackEnergyHandler, EnergyStorage<StackEnergyContext> {
 

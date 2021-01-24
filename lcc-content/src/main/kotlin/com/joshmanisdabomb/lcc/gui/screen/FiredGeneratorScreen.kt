@@ -17,9 +17,12 @@ abstract class FiredGeneratorScreen(handler: FiredGeneratorScreenHandler, invent
     private var _ticks = 0
     override val ticks get() = _ticks
 
+    override val translationKey = "container.lcc.generator"
+
     var currentRecipe: RefiningRecipe? = null
 
-    override val offset get() = backgroundWidth
+    override val offsetX get() = backgroundWidth
+    override val offsetY get() = backgroundHeight
     override val textRenderer get() = textRenderer
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {

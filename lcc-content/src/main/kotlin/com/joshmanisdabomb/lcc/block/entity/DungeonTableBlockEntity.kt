@@ -54,7 +54,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
     override fun setStack(slot: Int, stack: ItemStack) = inventory.setStack(slot, stack)
     override fun canPlayerUse(player: PlayerEntity) = inventory.canPlayerUse(player)
 
-    override fun getAvailableSlots(side: Direction) = (0 until size()).toList().toIntArray()
+    override fun getAvailableSlots(side: Direction) = inventory.slotInts
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = true
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = true
 

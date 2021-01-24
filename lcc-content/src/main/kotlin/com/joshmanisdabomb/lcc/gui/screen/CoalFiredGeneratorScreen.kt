@@ -11,7 +11,7 @@ class CoalFiredGeneratorScreen(handler: FiredGeneratorScreenHandler, inventory: 
 
     override val texture = LCC.id("textures/gui/container/coal_generator.png")
 
-    override val actionU = 14
+    override val action_v = 14
 
     override fun init() {
         backgroundWidth = 176

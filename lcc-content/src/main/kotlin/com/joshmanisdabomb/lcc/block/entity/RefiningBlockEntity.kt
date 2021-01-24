@@ -269,11 +269,6 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                 .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values()) }
                 .run(100f)
         }
-
-        fun isValidFuel(stack: ItemStack): Boolean {
-            println((stack.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(stack)))
-            return (stack.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(stack)) ?: false
-        }
     }
 
 }

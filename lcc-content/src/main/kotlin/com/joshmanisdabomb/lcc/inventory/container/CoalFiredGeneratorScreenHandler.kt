@@ -17,7 +17,7 @@ class CoalFiredGeneratorScreenHandler(syncId: Int, playerInventory: PlayerInvent
     override val block get() = LCCBlocks.coal_generator
 
     init {
-        addSlots(inventory, 42, 20, 3, 1, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { LCCBlocks.coal_generator.getBurnTime(it) != null } }
+        addSlots(inventory, 42, 20, 3, 1, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { block.getBurnTime(it) != null } }
 
         addPlayerSlots(playerInventory, 8, 51, ::addSlot)
     }

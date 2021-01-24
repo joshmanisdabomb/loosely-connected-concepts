@@ -185,6 +185,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
 
     val turbine by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory) }
 
+    val energy_bank by createWithName { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, b -> modelOrientableBottom(d, b, texture = loc(LCC.id("refiner")), textureTop = loc(b), textureFront = loc(LCC.id("refiner_side"))) }) }
+
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)
         all.forEach { (k, v) -> v.init(k, LCCBlocks[k]) }

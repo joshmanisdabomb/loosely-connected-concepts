@@ -16,4 +16,6 @@ object LCCScreenHandlers : ThingDirectory<ScreenHandlerType<out ScreenHandler>, 
     val coal_generator by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::CoalFiredGeneratorScreenHandler) }
     val oil_generator by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::OilFiredGeneratorScreenHandler) }
 
+    val energy_bank by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::EnergyBankScreenHandler) }
+
 }

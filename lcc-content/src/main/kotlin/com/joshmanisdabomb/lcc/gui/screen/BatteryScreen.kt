@@ -1,19 +1,21 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
-import com.joshmanisdabomb.lcc.inventory.container.RefiningScreenHandler
-import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.inventory.container.BatteryScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
-abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<RefiningScreenHandler>(handler, inventory, title), PowerScreenUtils {
+abstract class BatteryScreen(handler: BatteryScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<BatteryScreenHandler>(handler, inventory, title), PowerScreenUtils {
 
     abstract val texture: Identifier
 
@@ -22,17 +24,18 @@ abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerI
     private var _ticks = 0
     override val ticks get() = _ticks
 
-    var currentRecipe: RefiningRecipe? = null
-
     override val offsetX get() = backgroundWidth
     override val offsetY get() = backgroundHeight
     override val textRenderer get() = textRenderer
 
-    override val translationKey = "container.lcc.refining"
+    override val translationKey = "container.lcc.battery"
 
-    override fun init() {
-        super.init()
+    private var input = false
+    val inputting get() = input
+    private var output = false
+    val outputting get() = output
 
+    init {
         handler.inventory.addListener(listener)
         onChanged(handler.inventory)
     }
@@ -48,28 +51,24 @@ abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerI
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
     }
 
-    fun onChanged(inventory: Inventory) {
-        currentRecipe = handler.currentRecipe?.orElse(null)
-    }
-
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         renderBackground(matrices)
         super.render(matrices, mouseX, mouseY, delta)
         drawMouseoverTooltip(matrices, mouseX, mouseY)
     }
 
-    fun renderRecipe(matrices: MatrixStack, x: Float, y: Float, w: Int) {
-        currentRecipe?.also {
-            val lines = textRenderer.wrapLines(TranslatableText(it.lang), w)
-            lines.forEachIndexed { k, v ->
-                textRenderer.draw(matrices, v, x, y.minus((lines.size > 1).toInt(6)).plus(k.times(10)), 4210752)
-            }
-        }
-    }
-
     override fun tick() {
         super.tick()
         _ticks += 1;
+    }
+
+    fun renderArrow(matrices: MatrixStack, x: Int, y: Int) {
+        drawTexture(matrices, x + sin(ticks.div(2.0)).times(1.4).roundToInt(), y, backgroundWidth, 14, 8, 8)
+    }
+
+    fun onChanged(inventory: Inventory) {
+        input = handler.inventory.slotsIn("input")?.any { (it.item as? StackEnergyStorage)?.getEnergy(LooseEnergy, StackEnergyContext(it)) ?: 0f > 0f } ?: false
+        output = handler.inventory.slotsIn("output")?.any { (it.item as? StackEnergyStorage)?.run { (getEnergy(LooseEnergy, StackEnergyContext(it)) ?: 0f) < (getMaximumEnergy(LooseEnergy, StackEnergyContext(it)) ?: return@any false) } ?: false } ?: false
     }
 
 }

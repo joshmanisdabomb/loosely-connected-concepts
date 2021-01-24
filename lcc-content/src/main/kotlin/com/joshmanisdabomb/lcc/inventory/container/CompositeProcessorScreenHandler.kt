@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.inventory.container
 import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
 import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
@@ -20,7 +21,7 @@ class CompositeProcessorScreenHandler(syncId: Int, playerInventory: PlayerInvent
     init {
         addSlots(inventory, 17, 17, 3, 3, ::addSlot, start = 0)
         addSlots(inventory, 107, 17, 3, 3, ::addSlot, start = 9, ::PredicatedSlot)
-        addSlots(inventory, 35, 75, 3, 1, ::addSlot, start = 18) { inv, index, x, y -> PredicatedSlot(inv, index, x, y, RefiningBlockEntity::isValidFuel) }
+        addSlots(inventory, 35, 75, 3, 1, ::addSlot, start = 18) { inv, index, x, y -> PredicatedSlot(inv, index, x, y, StackEnergyHandler::containsPower) }
 
         addPlayerSlots(playerInventory, 8, 108, ::addSlot)
     }

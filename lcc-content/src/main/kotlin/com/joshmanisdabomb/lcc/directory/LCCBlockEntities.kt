@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.block.BatteryBlock
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.block.entity.*
@@ -28,6 +29,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     val classic_crying_obsidian by create { BlockEntityType.Builder.create(::ClassicCryingObsidianBlockEntity, LCCBlocks.classic_crying_obsidian).build(null) }
     val refining by create { BlockEntityType.Builder.create(::RefiningBlockEntity, *LCCBlocks.all.values.filterIsInstance<RefiningBlock>().toTypedArray()).build(null) }
     val generator by create { BlockEntityType.Builder.create(::FiredGeneratorBlockEntity, *LCCBlocks.all.values.filterIsInstance<FiredGeneratorBlock>().toTypedArray()).build(null) }
+    val battery by create { BlockEntityType.Builder.create(::BatteryBlockEntity, *LCCBlocks.all.values.filterIsInstance<BatteryBlock>().toTypedArray()).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

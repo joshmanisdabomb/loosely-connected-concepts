@@ -125,7 +125,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     override fun isValid(slot: Int, stack: ItemStack) = inventory.isValid(slot, stack)
 
-    override fun getAvailableSlots(side: Direction) = (0 until size()).toList().toIntArray()
+    override fun getAvailableSlots(side: Direction) = inventory.slotInts
     override fun canInsert(slot: Int, stack: ItemStack, dir: Direction?) = true
     override fun canExtract(slot: Int, stack: ItemStack, dir: Direction) = !isValid(slot, getStack(slot))
 

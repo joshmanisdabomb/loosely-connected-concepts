@@ -18,6 +18,7 @@ interface EnergyHandler<C : EnergyContext> {
         val extracted = this.removeEnergy(target, amount, unit, context)
         if (extracted == 0f) return 0f
         val added = target.addEnergy(this, extracted, unit, context.otherContext())
+        if (extracted - added > 0f) this.addEnergyDirect(extracted - added, unit, context)
         return added
     }
 
@@ -28,6 +29,7 @@ interface EnergyHandler<C : EnergyContext> {
         val extracted = target.removeEnergy(this, amount.run { coerceAtMost(space ?: return@run this) }, unit, context.otherContext())
         if (extracted == 0f) return 0f
         val added = this.addEnergy(target, extracted, unit, context)
+        if (extracted - added > 0f) target.addEnergyDirect(extracted - added, unit, context.otherContext())
         return added
     }
 

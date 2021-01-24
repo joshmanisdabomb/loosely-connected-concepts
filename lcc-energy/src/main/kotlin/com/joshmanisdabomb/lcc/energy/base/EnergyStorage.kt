@@ -61,17 +61,13 @@ interface EnergyStorage<C : EnergyContext> : EnergyHandler<C> {
         return set - get
     }
 
-    override fun addEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: C): Float = addEnergyDirect(amount, unit, context)
-
     override fun removeEnergyDirect(amount: Float, unit: EnergyUnit, context: C): Float {
-        val available = amount - getMinimumEnergy(unit, context)
+        val available = getEnergy(unit, context) ?: 0f - getMinimumEnergy(unit, context)
         if (available <= 0f) return 0f
         val get = getEnergy(unit, context) ?: return 0f
-        val set = setEnergyDirect(get.minus(amount.run { coerceAtLeast(available) }), unit, context) ?: return 0f
+        val set = setEnergyDirect(get.minus(amount.run { coerceAtMost(available) }), unit, context) ?: return 0f
         return get - set
     }
-
-    override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: C): Float = removeEnergyDirect(amount, unit, context)
 
     fun onEnergyChanged(context: C, before: Float) = true
 

@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.block.BatteryBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
+import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
@@ -70,6 +72,16 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
         set(value) { rawEnergy = value }
 
     private var energyDisplay = DecimalTransport(::energy)
+
+    override fun addEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
+        if (context.side != null && context.side == context.state?.get(Properties.FACING)) return 0f
+        return addEnergyDirect(amount, unit, context)
+    }
+
+    override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
+        if (context.side != null && context.side != context.state?.get(Properties.FACING)) return 0f
+        return removeEnergyDirect(amount, unit, context)
+    }
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = batteryBlock!!.createMenu(syncId, inv, inventory, player, propertyDelegate)
 

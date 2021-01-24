@@ -6,6 +6,8 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 object LCCLangData {
 
     operator fun invoke(lang: Map<String, LangData>) {
+        lang["en_us"]!!["item.lcc.redstone_battery.energy"] = "Energy: %1\$s / %2\$s%3\$s"
+
         lang["en_us"]!!["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["en_us"]!!["itemGroup.lcc.group.set.amount"] = "%s item"
         lang["en_us"]!!["itemGroup.lcc.group.set.amount.s"] = "s"

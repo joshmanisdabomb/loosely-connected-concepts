@@ -1,13 +1,19 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Formatting
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.world.World
 
 class BatteryItem(val max: Float, settings: Settings) : Item(settings), StackEnergyStorage {
 
@@ -28,6 +34,12 @@ class BatteryItem(val max: Float, settings: Settings) : Item(settings), StackEne
         if (isIn(group)) {
             stacks.add(ItemStack(this))
             stacks.add(ItemStack(this).also { setRawEnergy(StackEnergyContext(it), max); })
+        }
+    }
+
+    override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
+        with (StackEnergyContext(stack)) {
+            tooltip.add(TranslatableText(translationKey.plus(".energy"), LooseEnergy.display(getEnergy(LooseEnergy, this) ?: 0f), LooseEnergy.display(getMaximumEnergy(LooseEnergy, this) ?: 0f), " ".plus(LooseEnergy.units)).formatted(Formatting.GOLD))
         }
     }
 

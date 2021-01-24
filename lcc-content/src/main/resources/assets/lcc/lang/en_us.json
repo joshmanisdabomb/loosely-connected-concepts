@@ -190,6 +190,7 @@
   "advancements.lcc.wasteland.asphalt.description": "Refine oil and gravel into paving mixture",
   "advancements.lcc.wasteland.sapphire.title": "Beauty Amongst the Unsightly",
   "advancements.lcc.wasteland.sapphire.description": "Find a sapphire",
+  "item.lcc.redstone_battery.energy": "Energy: %1$s / %2$s%3$s",
   "itemGroup.lcc.group": "Loosely Connected Concepts",
   "itemGroup.lcc.group.set.amount": "%s item",
   "itemGroup.lcc.group.set.amount.s": "s",

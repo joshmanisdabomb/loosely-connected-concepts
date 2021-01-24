@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCItems.defaults
+import com.joshmanisdabomb.lcc.item.block.PowerSourceBlockItem
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.util.registry.Registry
@@ -13,6 +14,8 @@ object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
     val oil by create { Replacement() }
     val asphalt by create { Replacement() }
     val road by create { Replacement() }
+
+    val power_source by create { Replacement(PowerSourceBlockItem(LCCBlocks.power_source, Item.Settings().defaults())) }
 
     val potted_classic_sapling by create { Replacement() }
     val potted_classic_rose by create { Replacement() }

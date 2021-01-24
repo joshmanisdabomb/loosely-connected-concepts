@@ -38,7 +38,7 @@ class CreativeExExtraSetting(val category: CreativeExCategory, val sortValue: (s
 
         fun sortValueInt(value: Int, next: Int? = null) = { sort: CreativeExSortValue, category: CreativeExCategory -> if (next != null) sort[category] = value + next; value }
 
-        fun sortValueFrom(item: () -> ItemConvertible, next: Int? = null) = { sort: CreativeExSortValue, category: CreativeExCategory -> val value = sortValues[item().asItem()]!!; if (next != null) sort[category] = value + next; value }
+        fun sortValueFrom(item: () -> ItemConvertible, next: Int? = null) = { sort: CreativeExSortValue, category: CreativeExCategory -> val value = sortValues[item().asItem()] ?: error("Sort value has not been defined yet."); if (next != null) sort[category] = value + next; value }
 
         fun <T : ItemExtraSettings> T.creativeEx(category: CreativeExCategory, sortValue: (sort: CreativeExSortValue, category: CreativeExCategory) -> Int = sortValueDefault(), set: String? = null, setKey: ((stack: ItemStack) -> CreativeExSetKey)? = null) = this.add(CreativeExExtraSetting(category, sortValue, set, setKey)).let { this }
 

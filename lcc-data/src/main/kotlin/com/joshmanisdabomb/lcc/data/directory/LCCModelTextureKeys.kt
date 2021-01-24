@@ -12,4 +12,6 @@ object LCCModelTextureKeys : ThingDirectory<TextureKey, Unit>() {
     val t4 by createWithName { TextureKey.of("4", null) }
     val t5 by createWithName { TextureKey.of("5", null) }
 
+    val layer1 by createWithName { TextureKey.of(it, null) }
+
 }

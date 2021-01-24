@@ -1,11 +1,8 @@
 package com.joshmanisdabomb.lcc.energy.world
 
-import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.base.EnergyStorage
 
-interface WorldEnergyStorage : AbstractWorldEnergyHandler, EnergyStorage<WorldEnergyContext> {
-
-    override val handler: EnergyHandler<WorldEnergyContext> get() = this
+interface WorldEnergyStorage : WorldEnergyHandler, EnergyStorage<WorldEnergyContext> {
 
     var rawEnergy: Float?
     val rawEnergyMinimum: Float get() = 0f

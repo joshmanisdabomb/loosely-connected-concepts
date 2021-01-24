@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.energy.base.EnergyStorage
 
 interface StackEnergyHandler : EnergyHandler<StackEnergyContext>
 
-interface StackEnergyStorage : EnergyStorage<StackEnergyContext> {
+interface StackEnergyStorage : StackEnergyHandler, EnergyStorage<StackEnergyContext> {
 
     override fun getRawEnergy(context: StackEnergyContext) = context.stack.getSubTag("lcc-energy")?.getFloat("amount")
 

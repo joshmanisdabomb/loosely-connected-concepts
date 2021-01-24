@@ -56,7 +56,7 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
                 if (!insertItem(originalStack, inventory.size(), slots.size, true)) {
                     return ItemStack.EMPTY
                 }
-            } else if (!insertItem(originalStack, 0, inventory.size(), false)) {
+            } else if (!insertItem(originalStack, inventory.width + inventory.height + inventory.outputs, inventory.size(), false) && !insertItem(originalStack, 0, inventory.width + inventory.height + inventory.outputs, false)) {
                 return ItemStack.EMPTY
             }
 

@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.OilFiredGeneratorScreenHandler
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -23,6 +23,6 @@ class OilFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings)
 
     override fun getSteam(stack: ItemStack) = 4f
 
-    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = OilFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
+    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: LCCInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = OilFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
 }

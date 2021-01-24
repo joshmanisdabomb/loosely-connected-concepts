@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.to
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.CoalFiredGeneratorScreenHandler
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.entity.player.PlayerEntity
@@ -18,11 +18,11 @@ class CoalFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null
-        return ceil(FuelRegistry.INSTANCE.get(stack.item).div(1.5))
+        return FuelRegistry.INSTANCE.get(stack.item)?.div(1.5)?.let { ceil(it) }
     }
 
     override fun getSteam(stack: ItemStack) = stack.isIn(LCCTags.furnace_generator_double).to(9f, 7.5f)
 
-    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = CoalFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
+    override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: LCCInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = CoalFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
 }

@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.CraftingResultInventory
@@ -19,9 +19,9 @@ import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 import kotlin.math.min
 
-class DungeonTableScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: DefaultInventory) : AbstractRecipeScreenHandler<Inventory>(LCCScreenHandlers.spawner_table, syncId) {
+class DungeonTableScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: LCCInventory) : AbstractRecipeScreenHandler<Inventory>(LCCScreenHandlers.spawner_table, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, DefaultInventory(48))
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, LCCInventory(48))
 
     val result = CraftingResultInventory()
     val listener = InventoryChangedListener(::onContentChanged)

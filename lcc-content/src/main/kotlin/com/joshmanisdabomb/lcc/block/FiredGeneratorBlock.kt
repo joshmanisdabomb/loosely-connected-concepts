@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -107,6 +107,6 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.generator, FiredGeneratorBlockEntity::serverTick) else null
 
-    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: DefaultInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler
+    abstract fun createMenu(syncId: Int, inv: PlayerInventory, inventory: LCCInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate): ScreenHandler
 
 }

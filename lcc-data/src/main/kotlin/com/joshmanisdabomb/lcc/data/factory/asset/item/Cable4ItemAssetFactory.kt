@@ -10,7 +10,7 @@ object Cable4ItemAssetFactory : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
         val id = loc(entry, folder = "block")
-        ModelTemplates.template_cable4_item.upload(loc(entry), Texture().put(TextureKey.SIDE, id).put(TextureKey.END, suffix(id, "end")), data.modelStates::addModel)
+        ModelTemplates.cable4_item.upload(loc(entry), Texture().put(TextureKey.SIDE, id).put(TextureKey.END, suffix(id, "end")), data.modelStates::addModel)
     }
 
 }

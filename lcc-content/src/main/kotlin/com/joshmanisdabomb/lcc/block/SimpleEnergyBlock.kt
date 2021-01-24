@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
@@ -37,12 +38,10 @@ abstract class SimpleEnergyBlock(settings: Settings) : Block(settings), WorldEne
             return removeEnergyDirect(amount, unit, context)
         }
 
-        var total = 0f
-        network.discover(world, home).nodes.get("powered")?.forEach {
-            if (total >= amount) return total
-            total += this.removeEnergy(this, getEnergy(world, it), unit, context.copy(home = it, away = home, side = null))
+        network.discover(world, home).nodes.get("powered")?.also {
+            return EnergyTransaction().includeAll(it.map { p -> { this.removeEnergy(this, getEnergy(world, p), unit, context.copy(home = p, away = home, side = null)) } }).run(amount)
         }
-        return total
+        return 0f
     }
 
     abstract fun getEnergy(world: BlockView, pos: BlockPos): Float

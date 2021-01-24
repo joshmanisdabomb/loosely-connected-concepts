@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -14,7 +14,7 @@ import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 
-abstract class FiredGeneratorScreenHandler(type: ScreenHandlerType<out ScreenHandler>, syncId: Int, protected val playerInventory: PlayerInventory, val inventory: DefaultInventory, val properties: PropertyDelegate) : ScreenHandler(type, syncId) {
+abstract class FiredGeneratorScreenHandler(type: ScreenHandlerType<out ScreenHandler>, syncId: Int, protected val playerInventory: PlayerInventory, val inventory: LCCInventory, val properties: PropertyDelegate) : ScreenHandler(type, syncId) {
 
     abstract val block: FiredGeneratorBlock
 

@@ -9,12 +9,21 @@ import net.minecraft.recipe.RecipeFinder
 import net.minecraft.recipe.RecipeInputProvider
 import net.minecraft.recipe.RecipeUnlocker
 
-class RefiningInventory(private val block: RefiningBlock) : DefaultInventory(block.inputWidth.times(block.inputHeight) + block.outputSlotCount + block.fuelSlotCount), RecipeInputProvider, RecipeUnlocker {
+class RefiningInventory(private val block: RefiningBlock) : LCCInventory(block.slotCount), RecipeInputProvider, RecipeUnlocker {
 
     val width get() = block.inputWidth
     val height get() = block.inputHeight
+    val inputs get() = block.inputSlotCount
     val outputs get() = block.outputSlotCount
     val fuels get() = block.fuelSlotCount
+
+    init {
+        addSegment("width", width)
+        addSegment("height", height)
+        addSegment("input", 0 until inputs)
+        addSegment("output", outputs)
+        addSegment("fuels", fuels)
+    }
 
     override fun isValid(slot: Int, stack: ItemStack): Boolean {
         if (slot >= block.run { slotCount.minus(fuelSlotCount) }) return RefiningBlockEntity.isValidFuel(stack)
@@ -29,9 +38,7 @@ class RefiningInventory(private val block: RefiningBlock) : DefaultInventory(blo
     override fun unlockLastRecipe(player: PlayerEntity) = Unit
 
     override fun provideRecipeInputs(finder: RecipeFinder) {
-        for (i in 0..width*height) {
-            finder.addItem(inventory[i])
-        }
+        slotsIn("input")?.forEach { finder.addItem(it) }
     }
 
 }

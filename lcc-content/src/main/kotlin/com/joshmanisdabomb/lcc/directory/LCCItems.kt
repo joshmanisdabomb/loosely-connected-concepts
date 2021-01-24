@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import com.joshmanisdabomb.lcc.item.*
 import com.joshmanisdabomb.lcc.item.AxeItem
@@ -12,6 +13,7 @@ import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortVal
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
+import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.*
 import net.minecraft.util.Rarity
@@ -82,6 +84,10 @@ object LCCItems : ItemDirectory() {
 
     //Special
     val gauntlet by create(ItemExtraSettings().creativeEx(SPECIAL)) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }
+
+    //Power
+    val turbine_blades by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(3))) { Item(Item.Settings().defaults()) }
+    val redstone_battery by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor)) { BatteryItem(LooseEnergy.fromCoals(6f), Item.Settings().maxCount(1).defaults()) }
 
     //Nuclear
     val uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(10))) { Item(Item.Settings().defaults()) }

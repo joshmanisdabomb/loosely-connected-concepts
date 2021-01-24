@@ -11,8 +11,8 @@ object Cable4BlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val id = loc(entry)
-        val center = ModelTemplates.template_cable4_center.upload(id, Texture().put(TextureKey.END, suffix(id, "end")).put(TextureKey.PARTICLE, id), data.modelStates::addModel)
-        val connection = ModelTemplates.template_cable4_connection.upload(suffix(id, "connection"), Texture().put(TextureKey.SIDE, id).put(TextureKey.END, suffix(id, "end")).put(TextureKey.PARTICLE, id), data.modelStates::addModel)
+        val center = ModelTemplates.cable4_center.upload(id, Texture().put(TextureKey.END, suffix(id, "end")).put(TextureKey.PARTICLE, id), data.modelStates::addModel)
+        val connection = ModelTemplates.cable4_connection.upload(suffix(id, "connection"), Texture().put(TextureKey.SIDE, id).put(TextureKey.END, suffix(id, "end")).put(TextureKey.PARTICLE, id), data.modelStates::addModel)
 
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, center))

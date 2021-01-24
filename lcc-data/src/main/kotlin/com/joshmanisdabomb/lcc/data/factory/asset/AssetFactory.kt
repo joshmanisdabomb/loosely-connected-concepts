@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.data.factory.asset
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
+import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
+import com.joshmanisdabomb.lcc.data.directory.ModelTemplates
 import net.minecraft.data.client.model.Models
 import net.minecraft.data.client.model.SimpleModelSupplier
 import net.minecraft.data.client.model.Texture
@@ -50,6 +52,8 @@ interface AssetFactory<T> {
     fun modelPottedCross(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.FLOWER_POT_CROSS.upload(model, Texture.plant(texture), data.modelStates::addModel)
 
     fun modelGenerated(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.GENERATED.upload(model, Texture.layer0(texture), data.modelStates::addModel)
+
+    fun modelGenerated1(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry), texture1: Identifier = texture) = ModelTemplates.generated1.upload(model, Texture().put(TextureKey.LAYER0, texture).put(LCCModelTextureKeys.layer1, texture1), data.modelStates::addModel)
 
     fun modelHandheld(data: DataAccessor, entry: T, model: Identifier = loc(entry), texture: Identifier = loc(entry)) = Models.HANDHELD.upload(model, Texture.layer0(texture), data.modelStates::addModel)
 

@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.energy.EnergyUnit
 
 interface EnergyStorage<C : EnergyContext> : EnergyHandler<C> {
 
-    fun isEnergyUsable(context: C) = getRawEnergy(context) == null
+    override fun isEnergyUsable(context: C) = getRawEnergy(context) != null
 
     fun getRawEnergy(context: C): Float?
     fun setRawEnergy(context: C, amount: Float)
@@ -31,6 +31,10 @@ interface EnergyStorage<C : EnergyContext> : EnergyHandler<C> {
 
     override fun getEnergySpace(unit: EnergyUnit, context: C): Float? {
         return getMaximumEnergy(unit, context)?.minus(getEnergy(unit, context) ?: return null)
+    }
+
+    fun getEnergyFill(context: C): Float? {
+        return getRawEnergy(context)?.div(getRawEnergyMaximum(context) ?: return null)
     }
 
     fun setEnergyDirect(amount: Float, unit: EnergyUnit, context: C): Float? {

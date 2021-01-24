@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:block/template_cable4_center",
+  "parent": "lcc:block/cable4_center",
   "textures": {
     "end": "lcc:block/power_cable_end",
     "particle": "lcc:block/power_cable"

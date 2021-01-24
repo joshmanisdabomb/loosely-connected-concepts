@@ -3,9 +3,12 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
+import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
+import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
@@ -20,7 +23,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
@@ -102,7 +104,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         progress = tag.getInt("Progress")
         boost = tag.getFloat("Boost")
 
-        inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
+        inventory.apply { clear(); Inventories.fromTag(tag, list) }
     }
 
     override fun toTag(tag: CompoundTag): CompoundTag {
@@ -115,7 +117,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         tag.putInt("Progress", progress)
         tag.putFloat("Boost", boost)
 
-        Inventories.toTag(tag, inventory.inventory)
+        Inventories.toTag(tag, inventory.list)
 
         return tag
     }
@@ -262,10 +264,16 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                 else world.setBlockState(pos, state.with(entity.refiningBlock!!.processes, RefiningBlock.RefiningProcess.NONE), 3)
             }
 
-            entity.requestEnergy(WorldEnergyContext(world, pos, null, null), 100f, LooseEnergy, *Direction.values())
+            EnergyTransaction()
+                .apply { entity.inventory.slotsIn("fuels")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
+                .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values()) }
+                .run(100f)
         }
 
-        fun isValidFuel(stack: ItemStack) = stack.isOf(Items.REDSTONE)
+        fun isValidFuel(stack: ItemStack): Boolean {
+            println((stack.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(stack)))
+            return (stack.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(stack)) ?: false
+        }
     }
 
 }

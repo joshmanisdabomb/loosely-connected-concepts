@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -29,7 +29,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     val generatorBlock get() = cachedState.block as? FiredGeneratorBlock
 
-    val inventory by lazy { object : DefaultInventory(generatorBlock!!.slots) {
+    val inventory by lazy { object : LCCInventory(generatorBlock!!.slots) {
 
         override fun isValid(slot: Int, stack: ItemStack): Boolean {
             return generatorBlock!!.getBurnTime(stack) != null
@@ -94,7 +94,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
         working = tag.getBoolean("Working")
 
-        inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
+        inventory.apply { clear(); Inventories.fromTag(tag, list) }
     }
 
     override fun toTag(tag: CompoundTag): CompoundTag {
@@ -109,7 +109,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
         tag.putBoolean("Working", working)
 
-        Inventories.toTag(tag, inventory.inventory)
+        Inventories.toTag(tag, inventory.list)
 
         return tag
     }
@@ -141,7 +141,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
                 entity.burn--
             } else {
                 entity.working = false
-                for ((k, v) in entity.inventory.inventory.withIndex()) {
+                for ((k, v) in entity.inventory.withIndex()) {
                     if (v.isEmpty) continue;
                     val stack = v.copy()
                     val burn = entity.generatorBlock!!.getBurnTime(v) ?: continue

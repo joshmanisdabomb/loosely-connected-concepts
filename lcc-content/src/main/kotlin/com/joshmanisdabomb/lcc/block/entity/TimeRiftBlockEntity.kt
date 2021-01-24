@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.mixin.content.common.ItemEntityAccessor
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import net.minecraft.block.BlockState
@@ -25,7 +25,7 @@ class TimeRiftBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     lateinit var invStack: ItemStack
 
-    val riftInv = object : DefaultInventory(1) {
+    val riftInv = object : LCCInventory(1) {
         override fun getStack(slot: Int): ItemStack {
             return invStack
         }

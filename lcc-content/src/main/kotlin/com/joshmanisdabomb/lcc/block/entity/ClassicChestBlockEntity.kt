@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.enums.ChestType
@@ -32,7 +32,7 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
     }
     val double get() = other != null
 
-    val inventory = DefaultInventory(27).apply { addListener { this@ClassicChestBlockEntity.markDirty() } }
+    val inventory = LCCInventory(27).apply { addListener { this@ClassicChestBlockEntity.markDirty() } }
     val otherInventory get() = other?.inventory
     val leftInventory get() = when (cachedState.get(CHEST_TYPE)) {
         ChestType.LEFT -> otherInventory
@@ -70,7 +70,7 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
         if (tag.contains("CustomName", 8)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
-        inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
+        inventory.apply { clear(); Inventories.fromTag(tag, list) }
     }
 
     override fun toTag(tag: CompoundTag): CompoundTag {
@@ -78,7 +78,7 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
-        Inventories.toTag(tag, inventory.inventory)
+        Inventories.toTag(tag, inventory.list)
 
         return tag
     }

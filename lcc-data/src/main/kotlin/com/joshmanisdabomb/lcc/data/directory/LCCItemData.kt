@@ -4,10 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.container.ItemDataContainer
-import com.joshmanisdabomb.lcc.data.factory.asset.item.DynamicItemAssetFactory
-import com.joshmanisdabomb.lcc.data.factory.asset.item.GeneratedItemAssetFactory
-import com.joshmanisdabomb.lcc.data.factory.asset.item.HandheldItemAssetFactory
-import com.joshmanisdabomb.lcc.data.factory.asset.item.QuiverItemAssetFactory
+import com.joshmanisdabomb.lcc.data.factory.asset.item.*
 import com.joshmanisdabomb.lcc.data.factory.recipe.*
 import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ToolItemTagFactory
@@ -136,6 +133,8 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
             .apply { offerInterface(this, d) }
     }) }
+
+    val redstone_battery by createWithName { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

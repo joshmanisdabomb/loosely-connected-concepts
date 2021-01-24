@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.inventory.DefaultInventory
+import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -20,7 +20,7 @@ import net.minecraft.util.math.Direction
 
 class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.spawner_table, pos, state), NamedScreenHandlerFactory, SidedInventory {
 
-    val inventory = DefaultInventory(48).apply { addListener { this@DungeonTableBlockEntity.markDirty() } }
+    val inventory = LCCInventory(48).apply { addListener { this@DungeonTableBlockEntity.markDirty() } }
     var customName: Text? = null
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = DungeonTableScreenHandler(syncId, inv, inventory)
@@ -32,7 +32,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
-        inventory.apply { clear(); Inventories.fromTag(tag, inventory) }
+        inventory.apply { clear(); Inventories.fromTag(tag, list) }
     }
 
     override fun toTag(tag: CompoundTag): CompoundTag {
@@ -40,7 +40,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
-        Inventories.toTag(tag, inventory.inventory)
+        Inventories.toTag(tag, inventory.list)
 
         return tag
     }

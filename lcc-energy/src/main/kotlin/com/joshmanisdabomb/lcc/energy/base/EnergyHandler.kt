@@ -4,6 +4,8 @@ import com.joshmanisdabomb.lcc.energy.EnergyUnit
 
 interface EnergyHandler<C : EnergyContext> {
 
+    fun isEnergyUsable(context: C) = true
+
     fun addEnergyDirect(amount: Float, unit: EnergyUnit, context: C): Float
 
     fun removeEnergyDirect(amount: Float, unit: EnergyUnit, context: C): Float
@@ -35,8 +37,5 @@ interface EnergyHandler<C : EnergyContext> {
         return getMinimumEnergy(unit, context)?.rangeTo((getMaximumEnergy(unit, context) ?: return null))
     }
     fun getEnergySpace(unit: EnergyUnit, context: C): Float? = null
-
-    companion object {
-    }
 
 }

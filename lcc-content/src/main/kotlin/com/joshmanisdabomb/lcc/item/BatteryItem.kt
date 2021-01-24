@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.item
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
 import net.minecraft.item.Item
+import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.ceil
 
@@ -21,6 +23,13 @@ class BatteryItem(val max: Float, settings: Settings) : Item(settings), StackEne
     }
 
     override fun getRawEnergyMaximum(context: StackEnergyContext) = max
+
+    override fun appendStacks(group: ItemGroup, stacks: DefaultedList<ItemStack>) {
+        if (isIn(group)) {
+            stacks.add(ItemStack(this))
+            stacks.add(ItemStack(this).also { setRawEnergy(StackEnergyContext(it), max); })
+        }
+    }
 
     companion object {
         fun getTintColor(stack: ItemStack, tint: Int): Int {

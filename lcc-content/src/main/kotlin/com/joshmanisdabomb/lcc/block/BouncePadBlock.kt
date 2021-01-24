@@ -15,6 +15,7 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.Entity
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.network.PacketByteBuf
@@ -45,12 +46,12 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BouncePadBlockEntity(pos, state)
 
     override fun onLandedUpon(world: World, pos: BlockPos, entity: Entity, distance: Float) {
-        entity.handleFallDamage(distance, 0.0f)
+        entity.handleFallDamage(distance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
     }
 
     override fun onEntityLand(world: BlockView, entity: Entity) {
-        entity.handleFallDamage(entity.fallDistance, 0.0f)
+        entity.handleFallDamage(entity.fallDistance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
     }
 
@@ -61,7 +62,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     }
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
-        entity.handleFallDamage(entity.fallDistance, 0.0f)
+        entity.handleFallDamage(entity.fallDistance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
     }
 
@@ -84,7 +85,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     }
 
     private fun bounce(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
-        entity.handleFallDamage(entity.fallDistance, 0.0f)
+        entity.handleFallDamage(entity.fallDistance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
         entity.isOnGround = false
         val dir = state.get(FACING)

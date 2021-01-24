@@ -25,7 +25,7 @@ class DungeonTableShapelessRecipe(private val _id: Identifier, private val _grou
             val stack = inv.getStack(j)
             if (!stack.isEmpty) {
                 ++i
-                recipeFinder.method_20478(stack, 1)
+                recipeFinder.addItem(stack, 1)
             }
         }
 

@@ -36,7 +36,7 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
         stackMap.forEach {
             if (!it.isEmpty) {
                 ++i
-                recipeFinder.method_20478(it.copy(), it.count)
+                recipeFinder.addItem(it.copy(), it.count)
             }
         }
 

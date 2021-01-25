@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.mixin.data.common;
 
-import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.data.client.model.When;

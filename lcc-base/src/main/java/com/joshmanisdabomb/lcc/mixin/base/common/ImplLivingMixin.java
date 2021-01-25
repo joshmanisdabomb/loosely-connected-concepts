@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.mixin.base.common;
 
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock;
-import com.joshmanisdabomb.lcc.event.DamageEntityCallback;
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem;
+import com.joshmanisdabomb.lcc.event.DamageEntityCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;

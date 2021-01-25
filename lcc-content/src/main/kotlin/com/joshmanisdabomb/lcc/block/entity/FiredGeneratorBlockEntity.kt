@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import kotlin.math.roundToInt
 
 class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.generator, pos, state), NamedScreenHandlerFactory, SidedInventory {
 
@@ -132,7 +133,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: FiredGeneratorBlockEntity) {
             val working = entity.working
-            entity.waterLevel = entity.generatorBlock!!.getWaterLevel(world, pos, state)
+            entity.waterLevel = entity.generatorBlock!!.getWaterMultiplier(world, pos, state).times(3f).roundToInt()
 
             if (entity.burn > 0) {
                 entity.working = true

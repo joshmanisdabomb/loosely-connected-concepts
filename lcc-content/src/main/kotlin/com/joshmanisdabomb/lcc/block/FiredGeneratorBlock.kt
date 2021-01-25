@@ -36,6 +36,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.*
+import kotlin.math.roundToInt
 
 abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(settings) {
 
@@ -87,8 +88,8 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
         if (state[LIT]) {
-            val level = getWaterMultiplier(world, pos, state)
-            if (level > 0f) {
+            val level = getWaterMultiplier(world, pos, state).times(3).roundToInt()
+            if (level > 0) {
                 world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
                 world.addParticle(ParticleTypes.BUBBLE_POP, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + random.nextDouble().times(0.05), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)
                 world.addParticle(ParticleTypes.UNDERWATER, pos.x + 0.125 + random.nextDouble().times(0.75), pos.y + 1.35 + level.times(0.1875) + 0.17 + random.nextDouble().times(0.07), pos.z + 0.125 + random.nextDouble().times(0.75), 0.0, random.nextDouble().times(0.04), 0.0)

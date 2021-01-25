@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.adaptation;
 
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
+import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -26,7 +27,7 @@ interface LCCExtendedBlockContent {
             val block = below.block
             return when (block) {
                 is FiredGeneratorBlock -> block.getSteam(world, pos2, below).run { if (this <= 0f) null else this }
-                else -> null
+                else -> { TurbineBlock.getGeothermalLevel(world, pos2, below, block) }
             }
         }
         return null
@@ -41,6 +42,14 @@ interface LCCExtendedBlockContent {
                 is FiredGeneratorBlock -> {
                     if (below[Properties.LIT]) {
                         for (j in 0..(lcc_content_getSteamMultiplier(world, provider, pos, below, pos2) ?: 0f).times(3).roundToInt()) {
+                            world.addParticle(LCCParticles.steam, pos.x.plus(0.4).plus(random.nextDouble().times(0.2)), pos.y.plus(0.7), pos.z.plus(0.4).plus(random.nextDouble().times(0.2)), 0.0, random.nextDouble().times(0.1), 0.0)
+                        }
+                    }
+                }
+                else -> {
+                    val steam = TurbineBlock.getGeothermalLevel(world, pos2, below, block) ?: return
+                    for (j in 0..steam.div(3f).toInt()) {
+                        if (random.nextFloat() <= steam.div(3f).rem(1f)) {
                             world.addParticle(LCCParticles.steam, pos.x.plus(0.4).plus(random.nextDouble().times(0.2)), pos.y.plus(0.7), pos.z.plus(0.4).plus(random.nextDouble().times(0.2)), 0.0, random.nextDouble().times(0.1), 0.0)
                         }
                     }

@@ -1,21 +1,29 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
+import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
+import com.joshmanisdabomb.lcc.extensions.to
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.ShapeContext
+import net.minecraft.block.*
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.mob.SlimeEntity
+import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
+import net.minecraft.state.property.Properties
+import net.minecraft.tag.Tag
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
+import net.minecraft.world.EntityView
 import net.minecraft.world.ModifiableWorld
 import net.minecraft.world.World
 import java.util.*
@@ -73,6 +81,49 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
     companion object {
         val turbine_state = EnumProperty.of("turbine", TurbineState::class.java)
         val shape = createCuboidShape(0.0, 11.0, 0.0, 16.0, 16.0, 16.0)
+
+        val geothermals_block by lazy { mapOf<Tag<Block>, Float>(
+            LCCTags.geothermal_warm to 0.001f,
+            LCCTags.geothermal_hot to 0.03f,
+            LCCTags.geothermal_heated to 0.1f,
+            LCCTags.geothermal_soul_heated to 0.15f,
+            LCCTags.geothermal_burning to 0.2f,
+            LCCTags.geothermal_soul_burning to 0.25f,
+            LCCTags.geothermal_flaming to 0.25f,
+            LCCTags.geothermal_soul_flaming to 0.3f,
+            LCCTags.geothermal_full to 0.5f
+        ) }
+        val geothermals_entity by lazy { mapOf<Tag<EntityType<*>>, Float>(
+            LCCTags.geothermal_magma to 6f,
+            LCCTags.geothermal_blaze to 40f
+        ) }
+
+        fun getGeothermalLevel(world: BlockView, pos: BlockPos, source: BlockState, block: Block): Float? {
+            geothermals_block.forEach { (t, f) ->
+                if (!source.isIn(t)) return@forEach
+                return when (block) {
+                    is CandleBlock -> if (!source[Properties.LIT]) null else f * source[Properties.CANDLES]
+                    is CandleCakeBlock -> if (!source[Properties.LIT]) null else f
+                    is CampfireBlock -> if (!source[Properties.LIT]) null else f + source[Properties.SIGNAL_FIRE].to(0.1f, 0f)
+                    is FluidBlock -> f * block.getFluidState(source).let { if (it.isStill) 1f else if (it[Properties.FALLING]) return null else it[Properties.LEVEL_1_8].times(0.1f) }
+                    else -> f
+                }
+            }
+            if (world is EntityView) {
+                val steam = world.getEntitiesByClass(Entity::class.java, Box(pos), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR).maxOfOrNull { e ->
+                    val pos2 = e.blockPos
+                    if (pos2.x != pos.x || pos2.z != pos.z) return@maxOfOrNull 0f
+                    geothermals_entity.maxOfOrNull { (k, v) -> if (k.contains(e.type)) v else 0f } ?: 0f.let {
+                        when (e) {
+                            is SlimeEntity -> return it.times(e.size)
+                            else -> return it
+                        }
+                    }
+                }
+                return steam?.let { if (it <= 0f) null else it }
+            }
+            return null
+        }
     }
 
     enum class TurbineState : StringIdentifiable {

@@ -14,6 +14,7 @@ object LCCTags : ThingDirectory<Tag<*>, Unit>() {
 
     val gold_blocks by createWithName { TagRegistry.item(LCC.id(it)) }
 
+    val generators by createWithName { TagRegistry.item(LCC.id(it)) }
     val furnace_generator_double by createWithName { TagRegistry.item(LCC.id(it)) }
 
     val oil by createWithName { TagRegistry.fluid(LCC.id(it)) }

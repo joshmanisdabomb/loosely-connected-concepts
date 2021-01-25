@@ -157,7 +157,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .energyPerTick(LooseEnergy.fromCoals(0.25f).div(40f))
             .speed(40, 0.04f, 100f)
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
-            .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier, "from_refiner")) }
+            .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier.run { LCC.id(path) }, "from_refiner")) }
     }) }
     val power_cable by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 3)
@@ -167,25 +167,66 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    val coal_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Furnace Generator", "en_us")).add(FiredGeneratorBlockAssetFactory) }
-    val oil_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Combustion Generator", "en_us")).add(FiredGeneratorBlockAssetFactory) }
+    val coal_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Furnace Generator", "en_us")).add(FiredGeneratorBlockAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("cec")
+            .pattern("cfc")
+            .pattern("iii")
+            .input('c', Items.COPPER_INGOT)
+            .input('e', Items.IRON_BARS)
+            .input('f', Blocks.FURNACE)
+            .input('i', Items.IRON_INGOT)
+            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }).add(ItemTagFactory(LCCTags.generators)) }
+    val oil_generator by createWithName { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Combustion Generator", "en_us")).add(FiredGeneratorBlockAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("cec")
+            .pattern("cfc")
+            .pattern("iii")
+            .input('c', Items.COPPER_INGOT)
+            .input('e', Items.IRON_BARS)
+            .input('f', Items.FLINT_AND_STEEL)
+            .input('i', Items.IRON_INGOT)
+            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }).add(ItemTagFactory(LCCTags.generators)) }
 
     val solar_panel by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
-            .pattern("qqq")
+            .pattern("sss")
             .pattern("lll")
             .pattern("ici")
-            .input('q', Items.QUARTZ)
+            .input('s', LCCItems.silicon)
             .input('l', Items.LAPIS_LAZULI)
             .input('i', Items.IRON_INGOT)
             .input('c', Items.COPPER_INGOT)
-            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { hasCriterionShaped(this, LCCItems.silicon) }
             .apply { offerShaped(this, d) }
     }) }
 
-    val turbine by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory) }
+    val turbine by createWithName { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern(" t ")
+            .pattern("ici")
+            .input('t', LCCItems.turbine_blades)
+            .input('i', Items.IRON_INGOT)
+            .input('c', Items.COPPER_INGOT)
+            .apply { hasCriterionShaped(this, LCCItems.turbine_blades) }
+            .apply { offerShaped(this, d) }
+    }) }
 
-    val energy_bank by createWithName { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, b -> modelOrientableBottom(d, b, texture = loc(LCC.id("refiner")), textureTop = loc(b), textureFront = loc(LCC.id("refiner_side"))) }) }
+    val energy_bank by createWithName { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, b -> modelOrientableBottom(d, b, texture = loc(LCC.id("refiner")), textureTop = loc(b), textureFront = loc(LCC.id("refiner_side"))) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("cec")
+            .pattern("bbb")
+            .pattern("bbb")
+            .input('c', Items.COPPER_INGOT)
+            .input('e', Items.IRON_BLOCK)
+            .input('b', LCCItems.redstone_battery)
+            .apply { hasCriterionShaped(this, LCCItems.redstone_battery) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

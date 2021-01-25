@@ -1,5 +1,9 @@
 {
   "variants": {
+    "facing=east,process=arc_smelting": {
+      "model": "lcc:block/refiner_arc_smelting",
+      "y": 90
+    },
     "facing=east,process=enriching": {
       "model": "lcc:block/refiner_enriching",
       "y": 90
@@ -16,6 +20,9 @@
       "model": "lcc:block/refiner_treating",
       "y": 90
     },
+    "facing=north,process=arc_smelting": {
+      "model": "lcc:block/refiner_arc_smelting"
+    },
     "facing=north,process=enriching": {
       "model": "lcc:block/refiner_enriching"
     },
@@ -27,6 +34,10 @@
     },
     "facing=north,process=treating": {
       "model": "lcc:block/refiner_treating"
+    },
+    "facing=south,process=arc_smelting": {
+      "model": "lcc:block/refiner_arc_smelting",
+      "y": 180
     },
     "facing=south,process=enriching": {
       "model": "lcc:block/refiner_enriching",
@@ -43,6 +54,10 @@
     "facing=south,process=treating": {
       "model": "lcc:block/refiner_treating",
       "y": 180
+    },
+    "facing=west,process=arc_smelting": {
+      "model": "lcc:block/refiner_arc_smelting",
+      "y": 270
     },
     "facing=west,process=enriching": {
       "model": "lcc:block/refiner_enriching",

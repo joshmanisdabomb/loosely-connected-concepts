@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:purple_concrete_powder_from_refiner"
+      "lcc:yellow_concrete_powder_from_refiner"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:purple_concrete_powder_from_refiner"
+        "recipe": "lcc:yellow_concrete_powder_from_refiner"
       }
     }
   },

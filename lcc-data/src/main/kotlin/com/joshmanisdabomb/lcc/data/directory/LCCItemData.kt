@@ -16,6 +16,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
@@ -23,6 +24,7 @@ import net.minecraft.data.server.recipe.SmithingRecipeJsonFactory
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
+import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
@@ -43,7 +45,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .energyPerTick(75f)
             .speed(300, 0.01f, 100f)
             .apply { hasCriterionInterface(this, LCCItems.uranium) }
-            .apply { offerInterface(this, d, suffix(i.identifier, "from_refiner")) }
+            .apply { offerInterface(this, d, suffix(i.identifier.run { LCC.id(path) }, "from_refiner")) }
     }) }
     val heavy_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.heavy_uranium)) }
 
@@ -134,7 +136,52 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offerInterface(this, d) }
     }) }
 
-    val redstone_battery by createWithName { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }) }
+    val redstone_battery by createWithName { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("iei")
+            .pattern("crc")
+            .pattern("crc")
+            .input('c', Items.COPPER_INGOT)
+            .input('i', Items.IRON_INGOT)
+            .input('e', Items.IRON_NUGGET)
+            .input('r', Blocks.REDSTONE_BLOCK)
+            .criterion("has_generator", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.generators).build()))
+            .apply { offerShaped(this, d) }
+    }) }
+
+    val silicon by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(Blocks.SAND)
+            .addInput(Items.COAL)
+            .addOutput(i)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
+            .energyPerTick(20f)
+            .speed(300, 0.09f, 100f)
+            .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
+            .apply { offerInterface(this, d) }
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(Blocks.RED_SAND)
+            .addInput(Items.COAL)
+            .addOutput(i)
+            .addOutput(i, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.2f))
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
+            .energyPerTick(17.5f)
+            .speed(400, 0.03f, 100f)
+            .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
+            .apply { offerInterface(this, d, suffix(loc(i), "from_red_sand")) }
+    }) }
+    val turbine_blades by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("b b")
+            .pattern(" c ")
+            .pattern("b b")
+            .input('b', Items.IRON_INGOT)
+            .input('c', Items.IRON_NUGGET)
+            .criterion("has_generator", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.generators).build()))
+            .apply { offerShaped(this, d) }
+    }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

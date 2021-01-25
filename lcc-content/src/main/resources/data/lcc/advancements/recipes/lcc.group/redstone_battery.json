@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:orange_concrete_powder_from_refiner"
+      "lcc:redstone_battery"
     ]
   },
   "criteria": {
-    "has_refiner": {
+    "has_generator": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:refiner"
+            "tag": "lcc:generators"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:orange_concrete_powder_from_refiner"
+        "recipe": "lcc:redstone_battery"
       }
     }
   },
   "requirements": [
     [
-      "has_refiner",
+      "has_generator",
       "has_the_recipe"
     ]
   ]

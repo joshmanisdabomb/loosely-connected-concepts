@@ -9,7 +9,7 @@ import net.minecraft.screen.PropertyDelegate
 
 class RefinerBlock(settings: Settings) : RefiningBlock(settings) {
 
-    override val availableProcesses get() = arrayOf(RefiningProcess.MIXING, RefiningProcess.ENRICHING, RefiningProcess.TREATING)
+    override val availableProcesses get() = arrayOf(RefiningProcess.MIXING, RefiningProcess.ENRICHING, RefiningProcess.TREATING, RefiningProcess.ARC_SMELTING)
 
     override val maxEnergy = LooseEnergy.toStandard(4000f)
 

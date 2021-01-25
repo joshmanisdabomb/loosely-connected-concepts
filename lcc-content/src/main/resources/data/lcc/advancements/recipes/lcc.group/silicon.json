@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:black_concrete_powder_from_refiner"
+      "lcc:silicon"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:black_concrete_powder_from_refiner"
+        "recipe": "lcc:silicon"
       }
     }
   },

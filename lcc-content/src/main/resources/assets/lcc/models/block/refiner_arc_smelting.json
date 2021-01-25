@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "lcc:block/refiner_top_arc_smelting",
+    "bottom": "lcc:block/refiner_bottom",
+    "side": "lcc:block/refiner_side",
+    "front": "lcc:block/refiner_front_arc_smelting"
+  }
+}

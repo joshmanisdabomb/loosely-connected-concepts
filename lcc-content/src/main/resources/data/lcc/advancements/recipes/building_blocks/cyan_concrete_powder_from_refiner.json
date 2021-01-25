@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:lime_concrete_powder_from_refiner"
+      "lcc:cyan_concrete_powder_from_refiner"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:lime_concrete_powder_from_refiner"
+        "recipe": "lcc:cyan_concrete_powder_from_refiner"
       }
     }
   },

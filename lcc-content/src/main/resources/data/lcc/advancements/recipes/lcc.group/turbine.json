@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:gray_concrete_powder_from_refiner"
+      "lcc:turbine"
     ]
   },
   "criteria": {
-    "has_refiner": {
+    "has_turbine_blades": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:refiner"
+            "item": "lcc:turbine_blades"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:gray_concrete_powder_from_refiner"
+        "recipe": "lcc:turbine"
       }
     }
   },
   "requirements": [
     [
-      "has_refiner",
+      "has_turbine_blades",
       "has_the_recipe"
     ]
   ]

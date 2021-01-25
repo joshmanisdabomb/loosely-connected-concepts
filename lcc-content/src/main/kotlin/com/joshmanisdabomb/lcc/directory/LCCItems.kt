@@ -35,6 +35,9 @@ object LCCItems : ItemDirectory() {
     //Gizmos
     val asphalt_bucket by create(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(99))) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
 
+    //Materials
+    val silicon by create(ItemExtraSettings().creativeEx(MATERIALS)) { Item(Item.Settings().defaults()) }
+
     //Tools
     val ruby_sword by create(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { SwordItem(LCCToolMaterials.RUBY, Item.Settings().defaults()) }
     val ruby_pickaxe by create(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::ruby))) { PickaxeItem(LCCToolMaterials.RUBY, Item.Settings().defaults()) }
@@ -87,7 +90,7 @@ object LCCItems : ItemDirectory() {
 
     //Power
     val turbine_blades by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(3))) { Item(Item.Settings().defaults()) }
-    val redstone_battery by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor)) { BatteryItem(LooseEnergy.fromCoals(6f), Item.Settings().maxCount(1).defaults()) }
+    val redstone_battery by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor)) { BatteryItem(LooseEnergy.fromCoals(4f), Item.Settings().maxCount(1).defaults()) }
 
     //Nuclear
     val uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(10))) { Item(Item.Settings().defaults()) }

@@ -1,16 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "sss",
-    "lll",
+    " t ",
     "ici"
   ],
   "key": {
-    "s": {
-      "item": "lcc:silicon"
-    },
-    "l": {
-      "item": "minecraft:lapis_lazuli"
+    "t": {
+      "item": "lcc:turbine_blades"
     },
     "i": {
       "item": "minecraft:iron_ingot"
@@ -20,6 +16,6 @@
     }
   },
   "result": {
-    "item": "lcc:solar_panel"
+    "item": "lcc:turbine"
   }
 }

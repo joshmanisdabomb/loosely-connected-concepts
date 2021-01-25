@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cec",
+    "bbb",
+    "bbb"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "e": {
+      "item": "minecraft:iron_block"
+    },
+    "b": {
+      "item": "lcc:redstone_battery"
+    }
+  },
+  "result": {
+    "item": "lcc:energy_bank"
+  }
+}

@@ -141,11 +141,11 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
             val from = EnergyTransaction()
                 .apply { entity.inventory.slotsIn("input")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
                 .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values().filter { it != state[Properties.FACING] }.toTypedArray()) }
-                .run(300f)
+                .run(800f)
 
             val to = EnergyTransaction()
                 .apply { entity.inventory.slotsIn("output")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.insertEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
-                .run(300f)
+                .run(800f)
 
             if (entity.energy > 0f && from <= 0f && to <= 0f) {
                 entity.energy = entity.batteryBlock?.alterEnergy(entity.energy) ?: entity.energy

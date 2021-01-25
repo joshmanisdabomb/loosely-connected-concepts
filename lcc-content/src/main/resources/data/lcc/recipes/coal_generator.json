@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "cec",
+    "cfc",
+    "iii"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "e": {
+      "item": "minecraft:iron_bars"
+    },
+    "f": {
+      "item": "minecraft:furnace"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:coal_generator"
+  }
+}

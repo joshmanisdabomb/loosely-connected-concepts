@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:solar_panel"
+      "lcc:green_concrete_powder_from_refiner"
     ]
   },
   "criteria": {
-    "has_silicon": {
+    "has_refiner": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:silicon"
+            "item": "lcc:refiner"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:solar_panel"
+        "recipe": "lcc:green_concrete_powder_from_refiner"
       }
     }
   },
   "requirements": [
     [
-      "has_silicon",
+      "has_refiner",
       "has_the_recipe"
     ]
   ]

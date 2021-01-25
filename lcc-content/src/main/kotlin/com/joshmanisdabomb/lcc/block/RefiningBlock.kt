@@ -100,7 +100,8 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
         NONE(0),
         MIXING(0),
         ENRICHING(0),
-        TREATING(12);
+        TREATING(12),
+        ARC_SMELTING(15);
 
         override fun asString() = name.toLowerCase()
 

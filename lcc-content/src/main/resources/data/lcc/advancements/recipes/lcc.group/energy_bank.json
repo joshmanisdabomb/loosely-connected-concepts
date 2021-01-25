@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "minecraft:brown_concrete_powder_from_refiner"
+      "lcc:energy_bank"
     ]
   },
   "criteria": {
-    "has_refiner": {
+    "has_redstone_battery": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:refiner"
+            "item": "lcc:redstone_battery"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "minecraft:brown_concrete_powder_from_refiner"
+        "recipe": "lcc:energy_bank"
       }
     }
   },
   "requirements": [
     [
-      "has_refiner",
+      "has_redstone_battery",
       "has_the_recipe"
     ]
   ]

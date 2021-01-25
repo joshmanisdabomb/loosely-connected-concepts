@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.recipe
 
+import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
@@ -30,7 +31,7 @@ object ConcreteRefiningRecipeFactory : RecipeFactory {
                 .energyPerTick(LooseEnergy.fromCoals(1.5f).div(1200f))
                 .speed(1200, 0.08f, 400f)
                 .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
-                .apply { offerInterface(this, data, suffix(concrete.identifier, "from_refiner")) }
+                .apply { offerInterface(this, data, suffix(concrete.identifier.run { LCC.id(path) }, "from_refiner")) }
         }
         //TODO alternate colour concretes
     }

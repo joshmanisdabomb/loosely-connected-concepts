@@ -14,7 +14,7 @@ import net.minecraft.util.math.MathHelper.ceil
 class CoalFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings) {
 
     override val slots = 3
-    override val maxOutput = 10f
+    override val maxOutput = 9f
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null

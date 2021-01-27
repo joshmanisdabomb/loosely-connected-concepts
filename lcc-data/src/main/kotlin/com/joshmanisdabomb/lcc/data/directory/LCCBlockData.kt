@@ -228,6 +228,8 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
+    val nuclear_fire by createWithName { BlockDataContainer().defaultLang().add(StaticFireBlockAssetFactory) }
+
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)
         all.forEach { (k, v) -> v.init(k, LCCBlocks[k]) }

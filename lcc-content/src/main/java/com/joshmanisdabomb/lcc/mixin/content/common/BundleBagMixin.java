@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BundleItem.class)
-public class BundleBagMixin extends Item implements BagItem {
+public abstract class BundleBagMixin extends Item implements BagItem {
 
     public BundleBagMixin(Settings settings) {
         super(settings);

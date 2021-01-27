@@ -21,6 +21,8 @@ object LCCBlockItems : ThingDirectory<LCCBlockItems.Replacement, Unit>() {
     val potted_classic_rose by create { Replacement() }
     val potted_cyan_flower by create { Replacement() }
 
+    val nuclear_fire by create { Replacement() }
+
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)
         LCCBlocks.all.forEach { (k, v) ->

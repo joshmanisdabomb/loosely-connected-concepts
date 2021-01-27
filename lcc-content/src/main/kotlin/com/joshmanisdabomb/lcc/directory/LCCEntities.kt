@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
+import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import com.joshmanisdabomb.lcc.entity.render.StateBasedTNTEntityRenderer
@@ -23,6 +24,8 @@ object LCCEntities : RegistryDirectory<EntityType<out Entity>, () -> DefaultAttr
     val pocket_zombie_pigman by create(PocketZombiePigmanEntity::createAttributes) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::PocketZombiePigmanEntity).dimensions(EntityDimensions.fixed(0.6f, 1.95f)).fireImmune().trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).build() }
 
     val classic_tnt by create { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ClassicTNTEntity).dimensions(EntityDimensions.fixed(0.98f, 0.98f)).fireImmune().trackRangeChunks(10).trackedUpdateRate(10).forceTrackedVelocityUpdates(true).build() }
+
+    val nuclear_explosion by create { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::NuclearExplosionEntity).dimensions(EntityDimensions.fixed(0.1f, 0.1f)).fireImmune().trackRangeChunks(100).trackedUpdateRate(1).forceTrackedVelocityUpdates(false).build() }
 
     override fun getDefaultProperty(): (() -> DefaultAttributeContainer.Builder?) = { null }
 

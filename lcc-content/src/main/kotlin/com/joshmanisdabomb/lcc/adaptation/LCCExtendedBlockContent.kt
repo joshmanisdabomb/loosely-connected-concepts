@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.block.FireBlock
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.LEVEL_3
 import net.minecraft.util.math.BlockPos
@@ -57,5 +58,8 @@ interface LCCExtendedBlockContent {
             }
         }
     }
+
+    @JvmDefault
+    fun lcc_content_nukeIgnore() = false
 
 }

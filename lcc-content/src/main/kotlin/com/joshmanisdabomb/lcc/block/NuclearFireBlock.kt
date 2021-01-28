@@ -53,12 +53,13 @@ class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), 
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         with (BlockPos.Mutable()) {
-            for (i in -2..2) {
-                for (j in -2..2) {
-                    for (k in -2..2) {
+            for (i in -3..3) {
+                for (j in -1..1) {
+                    for (k in -3..3) {
+                        this.set(pos).move(i, j, k)
                         if (i != 0 || j != 0 || k != 0) {
                             val state2 = world.getBlockState(this)
-                            if (random.nextInt(8) == 0 && (state2.isAir || state2.getHardness(world, this) >= 0f)) {
+                            if (random.nextInt(40) == 0 && (state2.isAir || state2.getHardness(world, this) >= 0f)) {
                                 world.setBlockState(this, state_waste)
                                 if (random.nextInt(2) == 0 && world.getBlockState(this.move(0, 1, 0)).isAir) {
                                     world.setBlockState(this, state.with(AGE_25, state[AGE_25].plus(random.nextInt(3)).coerceAtMost(25)))

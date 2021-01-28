@@ -3,22 +3,28 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCDamage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.FluidBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import java.util.*
 
 class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCExtendedEntity {
+
+    var causedBy: LivingEntity? = null
 
     private var ticks = 0
     private var lifetime = 0
@@ -36,6 +42,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     private val x_range by lazy { -radius..radius }
     private val y_range by lazy { -radius..radius }
     private val z_range by lazy { -radius..radius }
+    private val step by lazy { 1.0.div(3) }
 
     override fun tick() {
         if (lifetime < 1 || radius < 1) return this.discard()
@@ -50,8 +57,28 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
                         bp.set(pos).move(i, j, k)
                         val squaredDistance = bp.getSquaredDistance(pos)
                         if (squaredDistance <= outerSqDistance && squaredDistance > innerSqDistance) {
-                            raycast(world, vec, toVec(bp), squaredDistance)
+                            this.raycast(world, vec, toVec(bp), squaredDistance, ::alterBlocks)
                         }
+                    }
+                }
+            }
+            val harmRadius = outerSqDistance.times(1.3)
+            val list = world.getOtherEntities(this, Box(pos).expand(radius.times(1.3)), EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR)
+            for (e in list) {
+                if (!e.isAlive) continue
+                val sqdist = e.squaredDistanceTo(this)
+                val h = e.height.times(0.5)
+                for (i in 0..2) {
+                    if (!this.raycast(world, vec, e.pos.add(0.0, h.times(i), 0.0), sqdist, ::checkBlocks)) {
+                        if (sqdist <= outerSqDistance) {
+                            e.damage(LCCDamage.nuke(causedBy), sqradius_d.minus(sqdist).times(0.18).toFloat())
+                            e.fireTicks = Short.MAX_VALUE - 4
+                        } else if (sqdist <= harmRadius) {
+                            e.damage(LCCDamage.nuke(causedBy), 1f)
+                        }
+                        (e as? LivingEntity)?.hurtTime = 0
+                        e.timeUntilRegen = 0
+                        break
                     }
                 }
             }
@@ -65,7 +92,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
 
     private fun toVec(pos: BlockPos) = Vec3d(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5)
 
-    private fun raycast(world: World, start: Vec3d, end: Vec3d, sqDist: Double, step: Double = 1.0.div(3)) {
+    private fun raycast(world: World, start: Vec3d, end: Vec3d, sqDist: Double, func: (world: World, target: BlockPos, state: BlockState, block: Block, above: BlockPos, mod: Double, mod2: Double, mod_waste: Double, mod_fire: Double) -> Boolean, step: Double = this.step): Boolean {
         val dir = end.subtract(start)
         val norm = dir.normalize()
         val step = norm.multiply(step)
@@ -92,34 +119,43 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
 
             val state = world.getBlockState(bp2)
             val block = state.block
+
             if (state.isAir || (block as? LCCExtendedBlockContent)?.lcc_content_nukeIgnore() == true) {
                 current = current.add(step)
                 continue
             }
 
-            val resistance = (block.blastResistance*block.blastResistance*block.blastResistance).div(240.0).coerceIn(0.01, 0.9).times(mod)
-
-            if (block is FluidBlock) {
-                world.setBlockState(bp2, state_air, flags, depth)
-            } else if (block.blastResistance > 2000 || fast_rand.nextDouble() <= mod2.plus(resistance)) {
-                return
-            } else {
-                alter(world, bp2, state, block, mod_waste, mod_fire, bp3)
-            }
+            if (func(world, bp2, state, block, bp3, mod, mod2, mod_waste, mod_fire)) return true
 
             current = current.add(step)
         }
+        return false
     }
 
-    private fun alter(world: World, pos: BlockPos, state: BlockState, block: Block, mod_waste: Double, mod_fire: Double, above: BlockPos) {
-        if (fast_rand.nextDouble() > mod_waste) {
-            world.setBlockState(pos, state_air, flags, depth)
+    private fun alterBlocks(world: World, target: BlockPos, state: BlockState, block: Block, above: BlockPos, mod: Double, mod2: Double, mod_waste: Double, mod_fire: Double): Boolean {
+        val resistance = (block.blastResistance * block.blastResistance * block.blastResistance).div(240.0).coerceIn(0.01, 0.9).times(mod)
+
+        if (block is FluidBlock) {
+            world.setBlockState(target, state_air, flags, depth)
+            return false
+        } else if (block.blastResistance > 2000 || fast_rand.nextDouble() <= mod2.plus(resistance)) {
+            return true
         } else {
-            world.setBlockState(pos, state_waste, flags, depth)
-            if (fast_rand.nextDouble() < mod_fire && world.getBlockState(above).isAir) {
-                world.setBlockState(above, state_fire, flags, depth)
+            if (fast_rand.nextDouble() > mod_waste) {
+                world.setBlockState(target, state_air, flags, depth)
+                return false
+            } else {
+                world.setBlockState(target, state_waste, flags, depth)
+                if (fast_rand.nextDouble() < mod_fire && world.getBlockState(above).isAir) {
+                    world.setBlockState(above, state_fire, flags, depth)
+                }
+                return false
             }
         }
+    }
+
+    private fun checkBlocks(world: World, target: BlockPos, state: BlockState, block: Block, above: BlockPos, mod: Double, mod2: Double, mod_waste: Double, mod_fire: Double): Boolean {
+        return block !is FluidBlock
     }
 
     override fun initDataTracker() {

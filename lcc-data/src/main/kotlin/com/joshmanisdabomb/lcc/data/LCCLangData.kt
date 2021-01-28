@@ -52,6 +52,9 @@ object LCCLangData {
         lang["en_us"]!!["death.attack.lcc.heated"] = "%1\$s was steamed like a vegetable"
         lang["en_us"]!!["death.attack.lcc.boiled"] = "%1\$s was boiled alive"
 
+        lang["en_us"]!!["death.attack.lcc.nuke"] = "%1\$s was nuked"
+        lang["en_us"]!!["death.attack.lcc.nuke.player"] = "%1\$s was nuked by %2\$s"
+
         lang["en_us"]!!["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.set"] = "Bounce Pad set"

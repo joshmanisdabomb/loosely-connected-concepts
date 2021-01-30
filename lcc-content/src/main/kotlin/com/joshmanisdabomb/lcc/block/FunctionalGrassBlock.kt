@@ -17,7 +17,7 @@ open class FunctionalGrassBlock(val change: (world: World, source: BlockState?, 
     open fun survives(state: BlockState, world: WorldAccess, pos: BlockPos, water: Boolean): Boolean {
         val pos2 = pos.up()
         val state2 = world.getBlockState(pos2)
-        return if (state2.block == Blocks.SNOW && state2.get(SnowBlock.LAYERS) == 1) {
+        return if (state2.block == Blocks.SNOW && state2[SnowBlock.LAYERS] == 1) {
             true
         } else if (water && state2.fluidState.level == 8) {
             false

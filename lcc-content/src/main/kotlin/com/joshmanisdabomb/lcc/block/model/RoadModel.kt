@@ -20,10 +20,10 @@ class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, heig
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         Direction.values().forEach {
-            if (state.get(SHAPE) == RoadBlock.Companion.RoadShape.FULL) {
+            if (state[SHAPE] == RoadBlock.Companion.RoadShape.FULL) {
                 val pos2 = pos.up()
                 val state2 = renderView.getBlockState(pos2)
-                if (state2.isOf(LCCBlocks.road) && state2.get(SHAPE) == RoadBlock.Companion.RoadShape.HALF) {
+                if (state2.isOf(LCCBlocks.road) && state2[SHAPE] == RoadBlock.Companion.RoadShape.HALF) {
                     faceConnections.reload(it, renderView, renderView.getBlockState(pos2), pos2)
                 } else {
                     faceConnections.reload(it, renderView, state, pos)
@@ -32,7 +32,7 @@ class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, heig
                 faceConnections.reload(it, renderView, state, pos)
             }
 
-            if (!state.get(INNER) && it.isHorizontal && faceConnections.front) {
+            if (!state[INNER] && it.isHorizontal && faceConnections.front) {
                 emitFace(it, renderContext, map.getSide(it, faceConnections.frontLeft && faceConnections.left, true, 1), pos1, pos2) {
                     it[2] = it[2].coerceAtMost(it[0] + 0.25f)
                 }

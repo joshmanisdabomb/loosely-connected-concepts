@@ -35,7 +35,7 @@ class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
     override fun isStill(state: FluidState) = source
 
-    override fun getLevel(state: FluidState) = if (source) 8 else state.get(LEVEL)
+    override fun getLevel(state: FluidState) = if (source) 8 else state[LEVEL]
 
     override fun appendProperties(builder: StateManager.Builder<Fluid, FluidState>) = super.appendProperties(builder).also { if (!source) builder.add(LEVEL) }
 
@@ -67,7 +67,7 @@ class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
                 } else {
                     if (!state.isAir) beforeBreakingBlock(world, pos, state)
                     val stateFrom = world.getBlockState(pos.offset(direction, -1))
-                    world.setBlockState(pos, fluidState.blockState.with(AGE_7, if (stateFrom.isOf(LCCBlocks.asphalt)) stateFrom.get(AGE_7).coerceAtMost(5) else 0), 3)
+                    world.setBlockState(pos, fluidState.blockState.with(AGE_7, if (stateFrom.isOf(LCCBlocks.asphalt)) stateFrom[AGE_7].coerceAtMost(5) else 0), 3)
                 }
             }
         }

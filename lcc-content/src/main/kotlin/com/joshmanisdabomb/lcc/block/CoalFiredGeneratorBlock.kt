@@ -18,7 +18,7 @@ class CoalFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null
-        return FuelRegistry.INSTANCE.get(stack.item)?.div(1.5)?.let { ceil(it) }
+        return FuelRegistry.INSTANCE[stack.item]?.div(1.5)?.let { ceil(it) }
     }
 
     override fun getSteam(stack: ItemStack) = stack.isIn(LCCTags.furnace_generator_double).to(9f, 7.5f)

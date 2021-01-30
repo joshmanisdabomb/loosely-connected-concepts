@@ -27,7 +27,7 @@ class BouncePadBlockEntityRenderer(context: BlockEntityRendererFactory.Context) 
     }
 
     override fun render(entity: BouncePadBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
-        val direction = entity.cachedState.get(Properties.FACING) ?: return
+        val direction = entity.cachedState[Properties.FACING] ?: return
         val extension = MathHelper.lerp(tickDelta, entity.lastExtension, entity.extension).times(9)
         val extensionWhole = MathHelper.ceil(extension)
         val extensionRem = extension.minus(extensionWhole)

@@ -41,7 +41,7 @@ class FunctionalTNTBlock(val factory: (world: World, x: Double, y: Double, z: Do
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (!world.isClient() && !player.isCreative && state.get(UNSTABLE)) {
+        if (!world.isClient() && !player.isCreative && state[UNSTABLE]) {
             ignite(world, pos, null)
         }
         super.onBreak(world, pos, state.with(UNSTABLE, false), player)

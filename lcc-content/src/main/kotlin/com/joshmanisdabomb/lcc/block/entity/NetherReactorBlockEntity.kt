@@ -40,7 +40,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
 
     private var activeTicks = -1
     private val reactionVariance = FloatArray(10)
-    val active get() = activeTicks in 0..860 && cachedState.get(reactor_state) === NetherReactorBlock.NetherReactorState.ACTIVE || activeTicks in 861..900 && cachedState.get(reactor_state) === NetherReactorBlock.NetherReactorState.USED
+    val active get() = activeTicks in 0..860 && cachedState[reactor_state] === NetherReactorBlock.NetherReactorState.ACTIVE || activeTicks in 861..900 && cachedState[reactor_state] === NetherReactorBlock.NetherReactorState.USED
 
     var customName: Text? = null
     val name get() = customName ?: TranslatableText(LCCBlocks.nether_reactor.translationKey)

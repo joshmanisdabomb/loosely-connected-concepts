@@ -44,18 +44,18 @@ class ClassicChestBlock(settings: Settings) : BlockWithEntity(settings) {
 
     fun getDirectionToAttached(state: BlockState): Direction {
         val direction = state[HORIZONTAL_FACING]
-        return if (state.get(CHEST_TYPE) === ChestType.LEFT) direction.rotateYClockwise() else direction.rotateYCounterclockwise()
+        return if (state[CHEST_TYPE] === ChestType.LEFT) direction.rotateYClockwise() else direction.rotateYCounterclockwise()
     }
 
     fun getDirectionToAttach(context: ItemPlacementContext, side: Direction): Direction? {
         val blockstate = context.world.getBlockState(context.blockPos.offset(side))
-        return if (blockstate.block === this && blockstate.get(CHEST_TYPE) === ChestType.SINGLE) blockstate[HORIZONTAL_FACING] else null
+        return if (blockstate.block === this && blockstate[CHEST_TYPE] === ChestType.SINGLE) blockstate[HORIZONTAL_FACING] else null
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, stateFrom: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         if (stateFrom.block === this && direction.axis.isHorizontal) {
-            val chesttype = stateFrom.get(CHEST_TYPE)
-            if (state.get(CHEST_TYPE) === ChestType.SINGLE && chesttype !== ChestType.SINGLE && state.get(HORIZONTAL_FACING) === stateFrom.get(HORIZONTAL_FACING) && this.getDirectionToAttached(stateFrom) === direction.opposite) {
+            val chesttype = stateFrom[CHEST_TYPE]
+            if (state[CHEST_TYPE] === ChestType.SINGLE && chesttype !== ChestType.SINGLE && state[HORIZONTAL_FACING] === stateFrom[HORIZONTAL_FACING] && this.getDirectionToAttached(stateFrom) === direction.opposite) {
                 return state.with(CHEST_TYPE, chesttype.opposite)
             }
         } else if (this.getDirectionToAttached(state) === direction) {
@@ -97,7 +97,7 @@ class ClassicChestBlock(settings: Settings) : BlockWithEntity(settings) {
         if (!state.isOf(newState.block)) {
             ItemScatterer.spawn(world, pos, (world.getBlockEntity(pos) as? ClassicChestBlockEntity)?.inventory ?: return super.onStateReplaced(state, world, pos, newState, moved))
             world.updateComparators(pos, this)
-            if (state.get(CHEST_TYPE) != ChestType.SINGLE) {
+            if (state[CHEST_TYPE] != ChestType.SINGLE) {
                 val other = getDirectionToAttached(state)
                 if (world.getBlockState(pos.offset(other)).isOf(this)) world.updateComparators(pos.offset(other), this)
             }

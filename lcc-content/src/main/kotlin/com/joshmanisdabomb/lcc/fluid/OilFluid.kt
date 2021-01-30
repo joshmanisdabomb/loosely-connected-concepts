@@ -33,7 +33,7 @@ class OilFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
     override fun isStill(state: FluidState) = source
 
-    override fun getLevel(state: FluidState) = if (source) 8 else state.get(LEVEL)
+    override fun getLevel(state: FluidState) = if (source) 8 else state[LEVEL]
 
     override fun appendProperties(builder: StateManager.Builder<Fluid, FluidState>) = super.appendProperties(builder).also { if (!source) builder.add(LEVEL) }
 

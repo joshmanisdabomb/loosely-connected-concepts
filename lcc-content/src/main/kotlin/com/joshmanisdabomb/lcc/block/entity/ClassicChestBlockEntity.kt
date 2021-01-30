@@ -24,7 +24,7 @@ import net.minecraft.util.math.Direction
 class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.classic_chest, pos, state), NamedScreenHandlerFactory, SidedInventory {
 
     val other: ClassicChestBlockEntity? get() {
-        if (cachedState.get(CHEST_TYPE) != ChestType.SINGLE) {
+        if (cachedState[CHEST_TYPE] != ChestType.SINGLE) {
             return world?.getBlockEntity(pos.offset(LCCBlocks.classic_chest.getDirectionToAttached(cachedState))) as? ClassicChestBlockEntity
         } else {
             return null
@@ -34,11 +34,11 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
     val inventory = LCCInventory(27).apply { addListener { this@ClassicChestBlockEntity.markDirty() } }
     val otherInventory get() = other?.inventory
-    val leftInventory get() = when (cachedState.get(CHEST_TYPE)) {
+    val leftInventory get() = when (cachedState[CHEST_TYPE]) {
         ChestType.LEFT -> otherInventory
         else -> inventory
     }
-    val rightInventory get() = when (cachedState.get(CHEST_TYPE)) {
+    val rightInventory get() = when (cachedState[CHEST_TYPE]) {
         ChestType.LEFT -> inventory
         else -> otherInventory
     }
@@ -46,7 +46,7 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
     var customName: Text? = null
     val otherName get() = other?.customName
-    val doubleName get() = when (cachedState.get(CHEST_TYPE)) {
+    val doubleName get() = when (cachedState[CHEST_TYPE]) {
         ChestType.LEFT -> otherName ?: customName
         else -> customName ?: otherName
     }

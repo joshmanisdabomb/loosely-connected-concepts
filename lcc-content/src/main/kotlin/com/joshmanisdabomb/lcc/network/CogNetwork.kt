@@ -16,7 +16,7 @@ class CogNetwork(distance: Int = 64) : BlockNetwork<Pair<BlockPos, Direction?>>(
         val state = world.getBlockState(pos)
         val d = current.second
         if (state.block !is CogBlock) return emptySet()
-        if (d == null) return directions.mapNotNull { if (state.get(cog_states[it]).exists) pos to it else null }.toSet()
+        if (d == null) return directions.mapNotNull { if (state[cog_states[it]].exists) pos to it else null }.toSet()
 
         val me = pos to d
         var toClockwise = false

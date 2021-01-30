@@ -35,37 +35,37 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state.get(AGE_7).times(2).plus(1)))
+        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         if (world.getBlockState(posFrom).isOf(LCCBlocks.road)) return state
         if (state.fluidState.isStill || newState.fluidState.isStill) {
-            world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state.get(AGE_7).times(2).plus(1)))
+            world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
         }
         return state
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         if (world.getBlockState(fromPos).isOf(LCCBlocks.road)) return
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state.get(AGE_7).times(2).plus(1)))
+        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun hasRandomTicks(state: BlockState) = true
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (state.get(AGE_7) == 7) {
+        if (state[AGE_7] == 7) {
             if (world.getBlockState(pos.down()).isOf(this)) return
 
             val level = state.level
-            val surrounding = Direction.values().filter(Direction::isHorizontal).mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState.get(FALLING)) return@mapNotNull null }.level }.toIntArray().min()
+            val surrounding = Direction.values().filter(Direction::isHorizontal).mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState[FALLING]) return@mapNotNull null }.level }.toIntArray().min()
 
             if (surrounding == null || surrounding >= level) {
                 world.setBlockState(pos, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH), pos))
                 LCCBlocks.road.updateRoads(world, pos)
                 val posU = pos.up()
                 val stateU = world.getBlockState(posU)
-                if (stateU.isOf(this) && stateU.level != 8 && !stateU.fluidState.get(FALLING)) {
+                if (stateU.isOf(this) && stateU.level != 8 && !stateU.fluidState[FALLING]) {
                     world.setBlockState(posU, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.HALF), posU))
                     LCCBlocks.road.updateRoads(world, posU)
                 }
@@ -73,11 +73,11 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
         } else {
             if (random.nextInt(4) != 0) return
             world.setBlockState(pos, state.cycle(AGE_7), 2)
-            val age = state.get(AGE_7)
+            val age = state[AGE_7]
             Direction.values().forEach {
                 val pos2 = pos.offset(it)
                 val state2 = world.getBlockState(pos2).apply { if (!this.isOf(this@AsphaltBlock)) return@forEach }
-                val age2 = state2.get(AGE_7)
+                val age2 = state2[AGE_7]
                 if (age2 < age) world.setBlockState(pos2, state2.with(AGE_7, age2.plus(random.nextInt(3)).coerceAtMost(age)), 2)
             }
         }
@@ -85,6 +85,6 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
 
 
 
-    private val BlockState.level get() = if (this.fluidState.isStill) 8 else this.fluidState.get(FLUID_LEVEL)
+    private val BlockState.level get() = if (this.fluidState.isStill) 8 else this.fluidState[FLUID_LEVEL]
 
 }

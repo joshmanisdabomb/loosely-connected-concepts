@@ -66,21 +66,21 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         entity.fallDistance = 0.0f
     }
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state.get(FACING)]
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state[FACING]]
 
     override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
-        val direction = state.get(FACING)
+        val direction = state[FACING]
         return if (direction == Direction.UP) COLLISION_UP else COLLISION[direction]
     }
 
-    override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = SHAPE[state.get(FACING)]
+    override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = SHAPE[state[FACING]]
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state.get(FACING)]
+    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state[FACING]]
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand?, hit: BlockHitResult): ActionResult {
-        val cycle = state.with(SETTING, MathHelper.floorMod(state.get(SETTING).plus(if (player.isSneaking) -1 else 1), 5))
+        val cycle = state.with(SETTING, MathHelper.floorMod(state[SETTING].plus(if (player.isSneaking) -1 else 1), 5))
         world.setBlockState(pos, cycle)
-        if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.bounce_pad_set, SoundCategory.BLOCKS, 0.4F, 0.8F + (cycle.get(SETTING).times(0.1F)))
+        if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.bounce_pad_set, SoundCategory.BLOCKS, 0.4F, 0.8F + (cycle[SETTING].times(0.1F)))
         return ActionResult.SUCCESS
     }
 
@@ -88,8 +88,8 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         entity.handleFallDamage(entity.fallDistance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
         entity.isOnGround = false
-        val dir = state.get(FACING)
-        val setting = state.get(SETTING)
+        val dir = state[FACING]
+        val setting = state[SETTING]
 
         if (dir == Direction.UP) {
             entity.updatePosition(pos.x + 0.5 + dir.offsetX.times(0.49), pos.y + 0.5 + dir.offsetY.times(0.49), pos.z + 0.5 + dir.offsetZ.times(0.49))

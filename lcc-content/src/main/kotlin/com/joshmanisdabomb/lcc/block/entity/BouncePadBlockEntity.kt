@@ -19,8 +19,8 @@ class BouncePadBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
     var extension = 0f
     var lastExtension = extension
 
-    val setting get() = cachedState.get(SETTING)
-    val facing get() = cachedState.get(FACING)
+    val setting get() = cachedState[SETTING]
+    val facing get() = cachedState[FACING]
 
     fun extend() {
         extension = setting.plus(1).div(5f)

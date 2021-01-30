@@ -22,9 +22,9 @@ class ClassicSaplingBlock(settings: Settings) : SaplingBlock(ClassicSaplingBlock
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         if (world.getLightLevel(pos.up()) >= 9 && random.nextInt(5) == 0) {
-            if (state.get(AGE_7) < 7) {
+            if (state[AGE_7] < 7) {
                 world.setBlockState(pos, state.cycle(AGE_7), 3)
-            } else if (state.get(STAGE) < 1) {
+            } else if (state[STAGE] < 1) {
                 world.setBlockState(pos, state.with(AGE_7, 0).cycle(STAGE), 3)
             } else {
                 grow(world, random, pos, state)

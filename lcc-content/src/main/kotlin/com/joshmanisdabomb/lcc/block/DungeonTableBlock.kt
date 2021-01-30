@@ -35,15 +35,15 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(BOTTOM, ENTITY).let {}
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) BOTTOM_OUTLINE else TOP_OUTLINE
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) BOTTOM_OUTLINE else TOP_OUTLINE
 
-    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) VoxelShapes.fullCube() else SHAPE
+    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
 
-    override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = if (state.get(BOTTOM)) VoxelShapes.fullCube() else SHAPE
+    override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state.get(BOTTOM)) VoxelShapes.fullCube() else SHAPE
+    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = if (state.get(BOTTOM)) DungeonTableBlockEntity(pos, state) else null
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = if (state[BOTTOM]) DungeonTableBlockEntity(pos, state) else null
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
@@ -51,7 +51,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         if (item is SpawnEggItem) {
             val entity = DungeonTableEntity.from(item.getEntityType(stack.tag)) ?: return ActionResult.FAIL
             world.setBlockState(pos, state.with(ENTITY, entity), 18)
-            if (state.get(BOTTOM)) {
+            if (state[BOTTOM]) {
                 world.setBlockState(pos.up(), state.with(BOTTOM, false).with(ENTITY, entity), 18)
             } else {
                 world.setBlockState(pos.down(), state.with(BOTTOM, true).with(ENTITY, entity), 18)
@@ -59,7 +59,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             if (!player.isCreative) stack.decrement(1)
             return ActionResult.CONSUME
         } else if (!world.isClient) {
-            if (state.get(BOTTOM)) {
+            if (state[BOTTOM]) {
                 player.openHandledScreen(state.createScreenHandlerFactory(world, pos) ?: return ActionResult.SUCCESS)
             } else {
                 val down = pos.down()
@@ -74,12 +74,12 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         val down = ctx.blockPos.down()
         val state2 = ctx.world.getBlockState(down)
         if (state2.isOf(this)) {
-            return defaultState.with(BOTTOM, false).with(ENTITY, state2.get(ENTITY))
+            return defaultState.with(BOTTOM, false).with(ENTITY, state2[ENTITY])
         } else if (state2.isOf(Blocks.SPAWNER)) {
             val be = ctx.world.getBlockEntity(down) as? MobSpawnerBlockEntity ?: return null
             val tag = be.logic.toTag(ctx.world, down, CompoundTag()).getCompound("SpawnData")
             return try {
-                val entity = DungeonTableEntity.fromOr(Registry.ENTITY_TYPE.get(Identifier(tag.getString("id"))))
+                val entity = DungeonTableEntity.fromOr(Registry.ENTITY_TYPE[Identifier(tag.getString("id"))])
                 defaultState.with(BOTTOM, false).with(ENTITY, entity)
             } catch (e: InvalidIdentifierException) {
                 null
@@ -95,7 +95,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
-        if (state.get(BOTTOM)) {
+        if (state[BOTTOM]) {
             val up = pos.up()
             world.setBlockState(up, state.with(BOTTOM, false))
             if (itemStack.hasCustomName()) (world.getBlockEntity(pos) as? DungeonTableBlockEntity)?.customName = itemStack.name
@@ -110,9 +110,9 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, fromState: BlockState, world: WorldAccess, pos: BlockPos, fromPos: BlockPos): BlockState {
-        return if (state.get(BOTTOM) && direction == Direction.UP && fromState != state.with(BOTTOM, false)) {
+        return if (state[BOTTOM] && direction == Direction.UP && fromState != state.with(BOTTOM, false)) {
             Blocks.AIR.defaultState
-        } else if (!state.get(BOTTOM) && direction == Direction.DOWN && fromState != state.with(BOTTOM, true)) {
+        } else if (!state[BOTTOM] && direction == Direction.DOWN && fromState != state.with(BOTTOM, true)) {
             Blocks.AIR.defaultState
         } else {
             state
@@ -127,10 +127,10 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    override fun hasComparatorOutput(state: BlockState) = state.get(BOTTOM)
+    override fun hasComparatorOutput(state: BlockState) = state[BOTTOM]
 
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
-        if (!state.get(BOTTOM)) return 0
+        if (!state[BOTTOM]) return 0
         return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
     }
 

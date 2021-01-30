@@ -24,7 +24,7 @@ class BuddingCrystalBlock(val crystals: Array<AmethystClusterBlock>, settings: S
                 block = crystals.first()
             } else {
                 for (i in 1 until crystals.size) {
-                    if (state2.isOf(crystals[i-1]) && state2.get(FACING) == direction) {
+                    if (state2.isOf(crystals[i-1]) && state2[FACING] == direction) {
                         block = crystals[i]
                         break
                     }

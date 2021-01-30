@@ -34,9 +34,9 @@ class RoadBlock(settings: Settings) : Block(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = super.appendProperties(builder).also { builder.add(SHAPE, MARKINGS, INNER) }
 
-    override fun hasSidedTransparency(state: BlockState)= state.get(SHAPE) != RoadShape.FULL
+    override fun hasSidedTransparency(state: BlockState)= state[SHAPE] != RoadShape.FULL
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = when (state.get(SHAPE)) {
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = when (state[SHAPE]) {
         RoadShape.HALF -> HALF_SHAPE
         RoadShape.PATH, null -> PATH_SHAPE
         RoadShape.FULL -> VoxelShapes.fullCube()
@@ -49,26 +49,26 @@ class RoadBlock(settings: Settings) : Block(settings) {
     }
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        if (state.get(SHAPE) == RoadShape.FULL) return ActionResult.PASS
+        if (state[SHAPE] == RoadShape.FULL) return ActionResult.PASS
         val stack = player.getStackInHand(hand)
         val item = stack?.item ?: ActionResult.PASS
-        if (state.get(MARKINGS) != RoadMarkings.NONE && item is AxeItem) {
+        if (state[MARKINGS] != RoadMarkings.NONE && item is AxeItem) {
             //TODO horrible custom scrape sound effect
             world.setBlockState(pos, state.with(MARKINGS, RoadMarkings.NONE))
             updateRoads(world, pos)
             stack.damage(1, player, { it.sendToolBreakStatus(hand) })
             return ActionResult.SUCCESS
         }
-        return RoadMarkings.values().firstOrNull { state.get(MARKINGS) != it && item == it.color?.lcc_dye }?.run { world.setBlockState(pos, state.with(MARKINGS, this)); updateRoads(world, pos); ActionResult.SUCCESS } ?: ActionResult.PASS
+        return RoadMarkings.values().firstOrNull { state[MARKINGS] != it && item == it.color?.lcc_dye }?.run { world.setBlockState(pos, state.with(MARKINGS, this)); updateRoads(world, pos); ActionResult.SUCCESS } ?: ActionResult.PASS
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         var state2 = super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom)
-        if (state.get(SHAPE) != RoadShape.HALF && direction == Direction.UP) {
+        if (state[SHAPE] != RoadShape.HALF && direction == Direction.UP) {
             val stateUp = world.getBlockState(posFrom)
             state2 = state2.with(SHAPE, if (stateUp.isSideSolid(world, posFrom, Direction.DOWN, SideShapeType.FULL)) RoadShape.FULL else RoadShape.PATH)
-            if (stateUp.isOf(this) && stateUp.get(SHAPE) == RoadShape.HALF && stateUp.get(MARKINGS) != state.get(MARKINGS)) {
-                state2 = state2.with(MARKINGS, stateUp.get(MARKINGS))
+            if (stateUp.isOf(this) && stateUp[SHAPE] == RoadShape.HALF && stateUp[MARKINGS] != state[MARKINGS]) {
+                state2 = state2.with(MARKINGS, stateUp[MARKINGS])
             }
         }
         state2 = state2.with(INNER, isInner(world, state, pos))
@@ -80,22 +80,22 @@ class RoadBlock(settings: Settings) : Block(settings) {
     }
 
     fun connector(world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>, inner: Boolean? = null): Boolean {
-        if (state.get(SHAPE) == RoadShape.FULL) return false
-        if (!other.isOf(this) || other.get(SHAPE) == RoadShape.FULL) {
-            if (state.get(SHAPE) == RoadShape.HALF) {
+        if (state[SHAPE] == RoadShape.FULL) return false
+        if (!other.isOf(this) || other[SHAPE] == RoadShape.FULL) {
+            if (state[SHAPE] == RoadShape.HALF) {
                 val other2 = world.getBlockState(otherPos.down())
                 if (!other2.isOf(this)) return false
-                val m = other2.get(MARKINGS)
-                return other2.get(SHAPE) == RoadShape.PATH && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other2.get(INNER) == this } ?: true)
+                val m = other2[MARKINGS]
+                return other2[SHAPE] == RoadShape.PATH && (m == state[MARKINGS] || m == RoadMarkings.NONE) && (inner?.run { other2[INNER] == this } ?: true)
             } else {
                 val other2 = world.getBlockState(otherPos.up())
                 if (!other2.isOf(this)) return false
-                val m = other2.get(MARKINGS)
-                return other2.get(SHAPE) == RoadShape.HALF && (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other2.get(INNER) == this } ?: true)
+                val m = other2[MARKINGS]
+                return other2[SHAPE] == RoadShape.HALF && (m == state[MARKINGS] || m == RoadMarkings.NONE) && (inner?.run { other2[INNER] == this } ?: true)
             }
         } else {
-            val m = other.get(MARKINGS)
-            return (m == state.get(MARKINGS) || m == RoadMarkings.NONE) && (inner?.run { other.get(INNER) == this } ?: true)
+            val m = other[MARKINGS]
+            return (m == state[MARKINGS] || m == RoadMarkings.NONE) && (inner?.run { other[INNER] == this } ?: true)
         }
     }
 

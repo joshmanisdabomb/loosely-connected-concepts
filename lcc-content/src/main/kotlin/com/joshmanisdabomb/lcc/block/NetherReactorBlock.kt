@@ -33,7 +33,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = NetherReactorBlockEntity(pos, state)
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        if (state.get(reactor_state) === NetherReactorState.READY) {
+        if (state[reactor_state] === NetherReactorState.READY) {
             if (!world.isClient) {
                 if (pos.y < world.sectionCount + 4 || pos.y >= world.topHeightLimit - 35) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.y"), true)
@@ -98,7 +98,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
 
         val reactor_state = EnumProperty.of("state", NetherReactorState::class.java)
 
-        fun getMapColor(state: BlockState) = when (state.get(reactor_state)) {
+        fun getMapColor(state: BlockState) = when (state[reactor_state]) {
             NetherReactorState.ACTIVE -> MapColor.BRIGHT_RED;
             NetherReactorState.USED -> MapColor.BLACK;
             else -> MapColor.CYAN;

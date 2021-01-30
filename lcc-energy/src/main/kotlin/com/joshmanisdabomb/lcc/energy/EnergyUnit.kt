@@ -23,7 +23,7 @@ interface EnergyUnit {
 
     fun displayWithUnits(amount: Float) = "${display(amount)} $units"
 
-    fun fromFuel(item: ItemConvertible) = fromStandard(FuelRegistry.INSTANCE.get(item).toFloat())
+    fun fromFuel(item: ItemConvertible) = fromStandard(FuelRegistry.INSTANCE[item].toFloat())
 
     fun fromCoal() = fromCoals(1f)
 

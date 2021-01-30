@@ -96,7 +96,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
         addPlayerSlots(playerInventory, 48, 140, ::addSlot)
     }
 
-    override fun close(player: PlayerEntity?) {
+    override fun close(player: PlayerEntity) {
         super.close(player)
         inventory.onClose(player)
         inventory.removeListener(listener)

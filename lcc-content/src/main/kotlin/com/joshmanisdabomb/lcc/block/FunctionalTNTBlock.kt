@@ -65,7 +65,7 @@ class FunctionalTNTBlock(val factory: (world: World, x: Double, y: Double, z: Do
             world.setBlockState(pos, Blocks.AIR.defaultState, 11)
             if (!player.isCreative) {
                 if (stack.isOf(Items.FLINT_AND_STEEL)) {
-                    stack.damage(1, player) { entity -> entity.sendToolBreakStatus(hand) }
+                    stack.damage(1, player) { it.sendToolBreakStatus(hand) }
                 } else {
                     stack.decrement(1)
                 }

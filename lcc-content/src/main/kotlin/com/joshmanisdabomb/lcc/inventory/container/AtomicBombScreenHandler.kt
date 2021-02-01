@@ -13,11 +13,18 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.util.math.BlockPos
 
 class AtomicBombScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: AtomicBombInventory) : ScreenHandler(LCCScreenHandlers.atomic_bomb, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, AtomicBombInventory())
+    private var _pos: BlockPos? = null
+    val pos get() = _pos
+
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, AtomicBombInventory()) {
+        _pos = buf.readBlockPos()
+    }
 
     val listener = InventoryChangedListener(::onContentChanged)
 

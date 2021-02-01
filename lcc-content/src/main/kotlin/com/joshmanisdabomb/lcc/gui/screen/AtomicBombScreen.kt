@@ -1,15 +1,20 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
 import com.joshmanisdabomb.lcc.inventory.container.AtomicBombScreenHandler
 import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import io.netty.buffer.Unpooled
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.MathHelper
@@ -19,6 +24,11 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
 
     val listener = ::onChanged
     val detonate: FunctionalButtonWidget by lazy { DetonateButton(x + 77, y + 47) {
+        run {
+            val world = MinecraftClient.getInstance().world?.registryKey ?: return@run
+            val pos = handler.pos ?: return@run
+            ClientSidePacketRegistry.INSTANCE.sendToServer(LCCPacketsToServer.id { atomic_bomb_detonate }, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos) })
+        }
         this.onClose()
         return@DetonateButton null
     } }
@@ -58,6 +68,10 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         renderBackground(matrices)
         super.render(matrices, mouseX, mouseY, delta)
         drawMouseoverTooltip(matrices, mouseX, mouseY)
+        for (widget in buttons) {
+            if (widget.isHovered) widget.renderToolTip(matrices, mouseX, mouseY)
+            break
+        }
     }
 
     fun onChanged(inventory: Inventory) {

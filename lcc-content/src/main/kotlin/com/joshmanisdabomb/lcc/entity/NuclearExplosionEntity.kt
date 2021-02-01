@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
+import com.joshmanisdabomb.lcc.directory.LCCEntities
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -24,11 +25,19 @@ import java.util.*
 
 class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCExtendedEntity {
 
+    constructor(world: World, x: Double, y: Double, z: Double, by: LivingEntity?) : this(LCCEntities.nuclear_explosion, world) {
+        updatePosition(x, y, z)
+        prevX = x
+        prevY = y
+        prevZ = z
+        causedBy = by
+    }
+
     var causedBy: LivingEntity? = null
 
     private var ticks = 0
-    private var lifetime = 0
-    private var radius = 0
+    var lifetime = 0
+    var radius = 0
 
     private val radius_d by lazy { radius.toDouble() }
     private val sqradius_d by lazy { radius_d*radius_d }

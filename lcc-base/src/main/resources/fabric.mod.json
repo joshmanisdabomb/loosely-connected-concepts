@@ -18,6 +18,12 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCBase"
+      }
+    ],
     "client": [
       {
         "adapter": "kotlin",

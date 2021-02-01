@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.block.NetherReactorBlock.Companion.reactor_state
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
+import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
@@ -111,7 +112,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
     override fun fromTag(tag: CompoundTag) {
         activeTicks = tag.getInt("activeTicks")
 
-        if (tag.contains("CustomName", 8)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
+        if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
         boss.name = name
 
         super.fromTag(tag)

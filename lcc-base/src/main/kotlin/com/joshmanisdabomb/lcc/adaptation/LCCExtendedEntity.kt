@@ -12,7 +12,7 @@ import net.minecraft.util.registry.Registry
 interface LCCExtendedEntity {
 
     @JvmDefault
-    fun lcc_createSpawnPacket(extra: (buf: PacketByteBuf) -> Unit = {}): Packet<*> {
+    fun lcc_createSpawnPacket(): Packet<*> {
         val buf = PacketByteBuf(Unpooled.buffer())
         val me = this as Entity
         buf.writeIdentifier(Registry.ENTITY_TYPE.getId(me.type))
@@ -27,7 +27,7 @@ interface LCCExtendedEntity {
     }
 
     @JvmDefault
-    fun lcc_handleSpawnPacket(data: PacketByteBuf) {
+    fun lcc_readSpawnPacket(data: PacketByteBuf) {
 
     }
 

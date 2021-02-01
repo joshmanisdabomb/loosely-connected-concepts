@@ -1,9 +1,12 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.entity.AtomicBombEntity
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.entity.PocketZombiePigmanEntity
+import com.joshmanisdabomb.lcc.entity.render.AtomicBombEntityRenderer
+import com.joshmanisdabomb.lcc.entity.render.NuclearExplosionEntityRenderer
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import com.joshmanisdabomb.lcc.entity.render.StateBasedTNTEntityRenderer
 import net.fabricmc.api.EnvType
@@ -25,6 +28,7 @@ object LCCEntities : RegistryDirectory<EntityType<out Entity>, () -> DefaultAttr
 
     val classic_tnt by create { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ClassicTNTEntity).dimensions(EntityDimensions.fixed(0.98f, 0.98f)).fireImmune().trackRangeChunks(10).trackedUpdateRate(10).forceTrackedVelocityUpdates(true).build() }
 
+    val atomic_bomb by create { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::AtomicBombEntity).dimensions(EntityDimensions.fixed(0.98f, 0.98f)).fireImmune().trackRangeChunks(100).trackedUpdateRate(2).forceTrackedVelocityUpdates(true).build() }
     val nuclear_explosion by create { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::NuclearExplosionEntity).dimensions(EntityDimensions.fixed(0.1f, 0.1f)).fireImmune().trackRangeChunks(100).trackedUpdateRate(1).forceTrackedVelocityUpdates(false).build() }
 
     override fun getDefaultProperty(): (() -> DefaultAttributeContainer.Builder?) = { null }
@@ -38,6 +42,8 @@ object LCCEntities : RegistryDirectory<EntityType<out Entity>, () -> DefaultAttr
     fun initRenderers() {
         EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
         EntityRendererRegistry.INSTANCE.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
     }
 
 }

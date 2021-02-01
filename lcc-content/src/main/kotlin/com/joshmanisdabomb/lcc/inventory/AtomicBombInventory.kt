@@ -10,7 +10,7 @@ class AtomicBombInventory : LCCInventory(7) {
 
     val uraniumCount get() = map { when (it.item) {
         LCCItems.enriched_uranium -> 1
-        LCCBlocks.enriched_uranium_block.asItem() -> 9
+        LCCBlocks.enriched_uranium_block.asItem() -> 4
         else -> 0
     }.times(it.count) }.sum()
     val canDetonate get() = this[0].count > 0 && this[0].item == Blocks.TNT.asItem() && this[1].count > 0 && this[1].item == LCCItems.enriched_uranium_nugget && uraniumCount > 0

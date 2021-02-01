@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.entity.AtomicBombEntity
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -102,20 +103,24 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         if (world.isClient) return
-        fall(state, world, pos.offset(state[HORIZONTAL_FACING], -state[segment].offset))
+        if (world.isReceivingRedstonePower(pos)) {
+            (world.getBlockEntity(pos.offset(state[HORIZONTAL_FACING], -state[segment].offset)) as? AtomicBombBlockEntity)?.detonate(null)
+        } else {
+            fall(state, world, pos.offset(state[HORIZONTAL_FACING], -state[segment].offset))
+        }
     }
 
     protected fun fall(state: BlockState, world: World, pos: BlockPos) {
         val facing = state[HORIZONTAL_FACING]
-        if (canFall(world, pos) && canFall(world, pos.offset(facing)) && canFall(world, pos.offset(facing.opposite)) && pos.y >= 0) return
         if (world.isClient) return
+        if (pos.y < world.sectionCount || !canFall(world, pos) || !canFall(world, pos.offset(facing)) || !canFall(world, pos.offset(facing.opposite))) return
         (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.also {
-            /*val e = AtomicBombEntity(world, (pos.x.toFloat() + 0.5f).toDouble(), pos.y.toDouble(), (pos.z.toFloat() + 0.5f).toDouble(), facing, it)
-            world.spawnEntity(e)
+            AtomicBombEntity(world, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, facing, it).also(world::spawnEntity)
             world.removeBlockEntity(pos)
+
             world.setBlockState(pos.offset(facing), Blocks.AIR.defaultState, 18)
             world.setBlockState(pos.offset(facing.opposite), Blocks.AIR.defaultState, 18)
-            world.setBlockState(pos, Blocks.AIR.defaultState, 18)*/
+            world.setBlockState(pos, Blocks.AIR.defaultState, 18)
         }
     }
 

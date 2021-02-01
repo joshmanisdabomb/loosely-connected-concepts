@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -68,7 +69,7 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
     override fun fromTag(tag: CompoundTag) {
         super.fromTag(tag)
 
-        if (tag.contains("CustomName", 8)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
+        if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
         inventory.apply { clear(); Inventories.fromTag(tag, list) }
     }

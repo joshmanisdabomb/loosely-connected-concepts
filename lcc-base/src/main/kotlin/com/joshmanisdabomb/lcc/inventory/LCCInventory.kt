@@ -63,4 +63,7 @@ open class LCCInventory(size: Int) : Inventory, Iterable<ItemStack> {
 
     override fun iterator() = list.iterator()
 
+    operator fun get(slot: Int) = getStack(slot)
+    operator fun set(slot: Int, stack: ItemStack) = setStack(slot, stack)
+
 }

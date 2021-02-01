@@ -30,6 +30,7 @@ object LCCBlockEntities : RegistryDirectory<BlockEntityType<*>, Unit>() {
     val refining by create { BlockEntityType.Builder.create(::RefiningBlockEntity, *LCCBlocks.all.values.filterIsInstance<RefiningBlock>().toTypedArray()).build(null) }
     val generator by create { BlockEntityType.Builder.create(::FiredGeneratorBlockEntity, *LCCBlocks.all.values.filterIsInstance<FiredGeneratorBlock>().toTypedArray()).build(null) }
     val battery by create { BlockEntityType.Builder.create(::BatteryBlockEntity, *LCCBlocks.all.values.filterIsInstance<BatteryBlock>().toTypedArray()).build(null) }
+    val atomic_bomb by create { BlockEntityType.Builder.create(::AtomicBombBlockEntity, LCCBlocks.atomic_bomb).build(null) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {

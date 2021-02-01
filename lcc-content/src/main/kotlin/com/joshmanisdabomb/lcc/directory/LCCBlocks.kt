@@ -66,6 +66,9 @@ object LCCBlocks : BlockDirectory() {
     val oil by create(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE)) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
     //IDEA deadwood, rarely spawns naturally or dries out wood
     //IDEA rusted iron blocks, first tier of wasteland tools
+    //TODO minesweep blocks
+    //TODO fortstone
+    //TODO reinforced stone or similar for nuke protection
 
     //Nuclear
     val uranium_ore by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0))) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
@@ -74,8 +77,7 @@ object LCCBlocks : BlockDirectory() {
     val heavy_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
     val nuclear_waste by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(40, 1))) { NuclearWasteBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_CYAN).strength(-1f, 3600000f).sounds(BlockSoundGroup.CORAL)) }
     val nuclear_fire by create(BlockExtraSettings().cutout()) { NuclearFireBlock(FabricBlockSettings.of(Material.FIRE, MapColor.LIME).noCollision().breakInstantly().luminance { 15 }.ticksRandomly().sounds(BlockSoundGroup.WOOL)) }
-
-    //TODO atomic bomb
+    val atomic_bomb by create(BlockExtraSettings().creativeEx(NUCLEAR)) { AtomicBombBlock(FabricBlockSettings.of(Material.REPAIR_STATION, MapColor.IRON_GRAY).strength(9.0F, 1200.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.ANVIL)) }
 
     //TODO spreaders
 

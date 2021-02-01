@@ -129,6 +129,8 @@ object LCCItems : ItemDirectory() {
 
     //TODO pills
 
+    //IDEA calendar that can be put on item frame
+
     fun Item.Settings.defaults(): Item.Settings = this.group(LCCGroups.group)
 
 }

@@ -18,4 +18,6 @@ object LCCScreenHandlers : ThingDirectory<ScreenHandlerType<out ScreenHandler>, 
 
     val energy_bank by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::EnergyBankScreenHandler) }
 
+    val atomic_bomb by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::AtomicBombScreenHandler) }
+
 }

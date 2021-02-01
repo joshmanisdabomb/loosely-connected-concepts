@@ -17,6 +17,8 @@ object LCCScreens : ThingDirectory<ScreenRegistry.Factory<*, *>, ScreenHandlerTy
 
     val energy_bank by create(LCCScreenHandlers.energy_bank) { ScreenRegistry.Factory(::EnergyBankScreen) }
 
+    val atomic_bomb by create(LCCScreenHandlers.atomic_bomb) { ScreenRegistry.Factory(::AtomicBombScreen) }
+
     override fun registerAll(things: Map<String, ScreenRegistry.Factory<*, *>>, properties: Map<String, ScreenHandlerType<*>>) {
         things.forEach { (k, v) -> typedRegister(properties[k]!!, v) }
     }

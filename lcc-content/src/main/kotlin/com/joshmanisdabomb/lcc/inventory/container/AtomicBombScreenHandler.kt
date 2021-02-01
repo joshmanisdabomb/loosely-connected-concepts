@@ -6,9 +6,8 @@ import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
 import com.joshmanisdabomb.lcc.extensions.insertItemWithInventoryMaxStack
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.inventory.AtomicBombInventory
 import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
-import net.minecraft.block.Blocks
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.InventoryChangedListener
@@ -16,11 +15,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.screen.ScreenHandler
 
-class AtomicBombScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: LCCInventory) : ScreenHandler(LCCScreenHandlers.atomic_bomb, syncId) {
+class AtomicBombScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: AtomicBombInventory) : ScreenHandler(LCCScreenHandlers.atomic_bomb, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, object : LCCInventory(7) {
-        override fun getMaxCountPerStack() = 1
-    })
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, AtomicBombInventory())
 
     val listener = InventoryChangedListener(::onContentChanged)
 
@@ -36,13 +33,6 @@ class AtomicBombScreenHandler(syncId: Int, private val playerInventory: PlayerIn
 
         addPlayerSlots(playerInventory, 8, 89, ::addSlot)
     }
-
-    val uraniumCount get() = inventory.map { when (it.item) {
-        LCCItems.enriched_uranium -> 1
-        LCCBlocks.enriched_uranium_block.asItem() -> 9
-        else -> 0
-    }.times(it.count) }.sum()
-    val canDetonate get() = inventory[0].count > 0 && inventory[0].item == Blocks.TNT.asItem() && inventory[1].count > 0 && inventory[1].item == LCCItems.enriched_uranium_nugget && uraniumCount > 0
 
     override fun close(player: PlayerEntity) {
         super.close(player)

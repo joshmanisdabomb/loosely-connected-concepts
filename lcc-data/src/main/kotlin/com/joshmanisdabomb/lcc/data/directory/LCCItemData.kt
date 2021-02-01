@@ -34,6 +34,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
     val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.BLASTING, time = 100)).add(RiftFromItemRecipeFactory(Items.EMERALD)).add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
     val sapphire by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
     val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.BLASTING, time = 100)) }
+    val enriched_uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enriched_uranium)) }
     val uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
     val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)).add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
@@ -46,7 +47,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .speed(300, 0.01f, 100f)
             .apply { hasCriterionInterface(this, LCCItems.uranium) }
             .apply { offerInterface(this, d, suffix(i.identifier.run { LCC.id(path) }, "from_refiner")) }
-    }) }
+    }).add(ItemTagFactory(LCCTags.enriched_uranium)) }
     val heavy_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.heavy_uranium)) }
 
     val ruby_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("ruby_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)).add(ToolItemTagFactory) }

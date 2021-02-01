@@ -30,6 +30,8 @@ object LCCTags : ThingDirectory<Tag<*>, Unit>() {
     val geothermal_magma by createWithName { TagRegistry.entityType(LCC.id(it)) }
     val geothermal_blaze by createWithName { TagRegistry.entityType(LCC.id(it)) }
 
+    val enriched_uranium by createWithName { TagRegistry.item(LCC.id(it)) }
+
     val oil by createWithName { TagRegistry.fluid(LCC.id(it)) }
     val asphalt by createWithName { TagRegistry.fluid(LCC.id(it)) }
 

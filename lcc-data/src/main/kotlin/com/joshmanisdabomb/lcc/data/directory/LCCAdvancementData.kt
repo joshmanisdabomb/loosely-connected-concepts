@@ -4,10 +4,7 @@ import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
 import com.joshmanisdabomb.lcc.data.DataUtils
-import com.joshmanisdabomb.lcc.directory.LCCBiomes
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.ThingDirectory
+import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.CriterionMerger
@@ -17,9 +14,12 @@ import net.minecraft.advancement.criterion.LocationArrivalCriterion
 import net.minecraft.advancement.criterion.PlacedBlockCriterion
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
+import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
 import net.minecraft.predicate.entity.LocationPredicate
+import net.minecraft.predicate.item.ItemPredicate
+import net.minecraft.tag.Tag
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -37,7 +37,7 @@ object LCCAdvancementData : ThingDirectory<Advancement, Pair<String, String?>>()
         val topaz by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCItems.topaz_shard, p.first, n).has(LCCItems.topaz_shard).translation("Reskinned Amethyst", "Collect topaz from a volcanic geode near a lava lake", "en_us", p.first, p.second ?: n).build(n, p) }
 
         val refiner by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCBlocks.refiner, p.first, n).has(LCCBlocks.refiner).translation("A Refined Palate", "The industrial revolution and its consequences have been a disaster for the human race", "en_us", p.first, p.second ?: n).build(n, p) }
-            val uranium by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCItems.enriched_uranium, p.first, n).has(LCCItems.enriched_uranium).has(LCCItems.enriched_uranium_nugget).has(LCCBlocks.enriched_uranium_block).criteriaMerger(CriterionMerger.OR).translation("Enrichment Activities", "Refine the uranium into a different shade of green", "en_us", p.first, p.second ?: n).build(n, p) }
+            val uranium by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCItems.enriched_uranium, p.first, n).has(LCCTags.enriched_uranium, "has_enriched_uranium").criteriaMerger(CriterionMerger.OR).translation("Enrichment Activities", "Refine the uranium into a different shade of green", "en_us", p.first, p.second ?: n).build(n, p) }
                 val nuke by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(uranium, n, p) } //when all else fails
                     val nuke_first by createWithNameProperties("main" to null/*hidden*/) { n, p -> emptyAdvancement(nuke, n, p) } //nuclear arms race, be the first on a multiplayer server to detonate a nuclear device
                     val winter_survive by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(nuke, n, p) } //the struggle was real, return to winter level 0 after being at winter level 5
@@ -57,6 +57,7 @@ object LCCAdvancementData : ThingDirectory<Advancement, Pair<String, String?>>()
     }
 
     private fun Advancement.Task.has(item: ItemConvertible) = this.criterion(Registry.ITEM.getId(item.asItem()).path, InventoryChangedCriterion.Conditions.items(item))
+    private fun Advancement.Task.has(tag: Tag<Item>, name: String = "has_"+Registry.ITEM.getId(tag.values().first()).path) = this.criterion(name, InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag).build()))
 
     private fun Advancement.Task.build(path: String, properties: Pair<String, String?>) = build(LCC.id("${properties.first}/${properties.second ?: path}"))
 

@@ -16,32 +16,12 @@
     "hidden": false
   },
   "criteria": {
-    "enriched_uranium": {
+    "has_enriched_uranium": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:enriched_uranium"
-          }
-        ]
-      }
-    },
-    "enriched_uranium_nugget": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "lcc:enriched_uranium_nugget"
-          }
-        ]
-      }
-    },
-    "enriched_uranium_block": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "lcc:enriched_uranium_block"
+            "tag": "lcc:enriched_uranium"
           }
         ]
       }
@@ -49,9 +29,7 @@
   },
   "requirements": [
     [
-      "enriched_uranium",
-      "enriched_uranium_nugget",
-      "enriched_uranium_block"
+      "has_enriched_uranium"
     ]
   ]
 }

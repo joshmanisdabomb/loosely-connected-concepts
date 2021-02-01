@@ -19,12 +19,14 @@ import com.joshmanisdabomb.lcc.directory.ThingDirectory
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.client.model.Texture
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
 import net.minecraft.item.Items
+import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 
@@ -42,7 +44,7 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     val topaz_clusters by createWithName { BlockDataContainer().affects(LCCBlocks.budding_topaz.crystals.toList()).defaultLang().add(ClusterBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(ClusterBlockLootFactory(LCCItems.topaz_shard)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
     val sapphire_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
     val uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)) }
-    val enriched_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)) }
+    val enriched_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)).add(ItemTagFactory(LCCTags.enriched_uranium)) }
     val heavy_uranium_block by createWithName { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)) }
 
     val cracked_mud by createWithName { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)) }
@@ -229,6 +231,17 @@ object LCCBlockData : ThingDirectory<BlockDataContainer, Unit>() {
     }) }
 
     val nuclear_fire by createWithName { BlockDataContainer().defaultLang().add(StaticFireBlockAssetFactory) }
+    val atomic_bomb by createWithName { BlockDataContainer().defaultLang().add(AtomicBombBlockAssetFactory).add(AtomicBombBlockLootFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_atomic_bomb_item.upload(loc(i), Texture().put(LCCModelTextureKeys.t1, loc(i, folder = "block") { it.plus("_tail_side") }).put(LCCModelTextureKeys.t2, loc(i, folder = "block") { it.plus("_tail") }).put(LCCModelTextureKeys.t3, loc(i, folder = "block") { it.plus("_fin") }).put(LCCModelTextureKeys.t4, loc(i, folder = "block") { it.plus("_core") }).put(LCCModelTextureKeys.t5, loc(i, folder = "block") { it.plus("_head") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("ccc")
+            .pattern("bdc")
+            .pattern("ccc")
+            .input('c', Blocks.IRON_BLOCK)
+            .input('b', ItemTags.BUTTONS)
+            .input('d', Blocks.DISPENSER)
+            .criterion("has_enriched_uranium", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.enriched_uranium).build()))
+            .apply { offerShaped(this, d) }
+    }) }
 
     override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
         super.init(predicate)

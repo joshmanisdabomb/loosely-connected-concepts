@@ -8,12 +8,14 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.screen.ScreenHandler
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.ItemScatterer
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -72,6 +74,10 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state.isOf(newState.block)) {
+            ItemScatterer.spawn(world, pos, (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.inventory ?: return super.onStateReplaced(state, world, pos, newState, moved))
+            world.updateComparators(pos, this);
+        }
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
@@ -95,9 +101,8 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (!world.isClient) {
-            fall(state, world, pos.offset(state[HORIZONTAL_FACING], -state[segment].offset))
-        }
+        if (world.isClient) return
+        fall(state, world, pos.offset(state[HORIZONTAL_FACING], -state[segment].offset))
     }
 
     protected fun fall(state: BlockState, world: World, pos: BlockPos) {
@@ -121,15 +126,16 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
+        if (world.isReceivingRedstonePower(pos)) {
+            (world.getBlockEntity(pos.offset(state[HORIZONTAL_FACING], -state[segment].offset)) as? AtomicBombBlockEntity)?.detonate(null)
+        }
         super.neighborUpdate(state, world, pos, block, fromPos, notify)
     }
 
-    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
-        return super.getComparatorOutput(state, world, pos)
-    }
+    override fun hasComparatorOutput(state: BlockState) = true
 
-    override fun hasComparatorOutput(state: BlockState): Boolean {
-        return super.hasComparatorOutput(state)
+    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int {
+        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos.offset(state[HORIZONTAL_FACING], -state[segment].offset)))
     }
 
     companion object {

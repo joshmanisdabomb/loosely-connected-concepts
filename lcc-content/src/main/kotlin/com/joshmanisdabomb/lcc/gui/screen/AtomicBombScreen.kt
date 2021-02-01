@@ -61,14 +61,14 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
     }
 
     fun onChanged(inventory: Inventory) {
-        detonate.active = handler.canDetonate
+        detonate.active = handler.inventory.canDetonate
     }
 
     companion object {
         val texture = LCC.id("textures/gui/container/atomic_bomb.png")
     }
 
-    private inner class DetonateButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.atomic_bomb.detonate"), { matrices, x, y -> this@AtomicBombScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate"), Int.MAX_VALUE) + textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate.power", handler.uraniumCount), Int.MAX_VALUE), x, y) }, pressed) {
+    private inner class DetonateButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.atomic_bomb.detonate"), { matrices, x, y -> this@AtomicBombScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate"), Int.MAX_VALUE) + textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate.power", handler.inventory.uraniumCount), Int.MAX_VALUE), x, y) }, pressed) {
 
         init {
             texture = Companion.texture

@@ -1,10 +1,10 @@
-package com.joshmanisdabomb.lcc.data.directory
+package com.joshmanisdabomb.lcc.data.factory.asset.block
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.block.TurbineBlock.Companion.turbine_state
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.factory.asset.block.BlockAssetFactory
+import com.joshmanisdabomb.lcc.data.directory.ModelTemplates
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 

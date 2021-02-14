@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
@@ -57,6 +58,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         if (lifetime < 1 || radius < 1) return this.discard()
         super.tick()
         if (!world.isClient) {
+            if (ticks == 0) NuclearUtil.strike(world, this)
             val percent = ticks.toFloat().div(lifetime)
             val innerSqDistance = sqradius_d.times(percent)
             val outerSqDistance = innerSqDistance.plus(tickCoverage)

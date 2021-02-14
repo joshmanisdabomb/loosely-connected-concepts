@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
@@ -32,7 +33,6 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.GameRules
 import net.minecraft.world.World
@@ -210,8 +210,8 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
 
     private fun explode(uranium: Int) {
         NuclearExplosionEntity(world, x, y.plus(0.5), z, placedBy).also {
-            it.radius = getRadius(uranium)
-            it.lifetime = getLifetime(uranium)
+            it.radius = NuclearUtil.getExplosionRadiusFromUranium(uranium)
+            it.lifetime = NuclearUtil.getExplosionLifetimeFromUranium(uranium)
             world.spawnEntity(it)
         }
         discard()
@@ -227,7 +227,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
 
     override fun collides() = isAlive
 
-    override fun canClimb() = false
+    override fun isPushable() = false
 
     override fun getName(): Text {
         customName?.apply { return this }
@@ -241,9 +241,6 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         val active_data = DataTracker.registerData(AtomicBombEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         val fuse_data = DataTracker.registerData(AtomicBombEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val facing_data = DataTracker.registerData(AtomicBombEntity::class.java, TrackedDataHandlerRegistry.FACING)
-
-        fun getRadius(uranium: Int) = (uranium*6)+20
-        fun getLifetime(uranium: Int) = ceil(uranium.div(1.5))+5
     }
 
 }

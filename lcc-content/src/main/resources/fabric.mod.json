@@ -29,7 +29,10 @@
         "adapter": "kotlin",
         "value": "com.joshmanisdabomb.lcc.LCCClient"
       }
-    ]
+    ],
+    "cardinal-components-world": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }],
+    "cardinal-components-level": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }],
+    "cardinal-components-entity": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }]
   },
   "mixins": [
     "lcc.mixins.json",
@@ -48,13 +51,20 @@
     "lcc-ct": [">=1.1.0", "${version}"],
     "lcc-energy": [">=2.0.0", "${version}"],
     "lcc-network": [">=2.0.0", "${version}"],
-    "lcc-subblock": [">=1.0.1", "${version}"]
+    "lcc-subblock": [">=1.0.1", "${version}"],
+    "cardinal-components-base": "*",
+    "cardinal-components-world": "*",
+    "cardinal-components-level": "*"
   },
   "recommends": {
     "lcc-mod": "*"
   },
   "custom": {
     "modmenu:api": true,
-    "modmenu:parent": "lcc-mod"
+    "modmenu:parent": "lcc-mod",
+    "cardinal-components": [
+      "lcc:nuclear",
+      "lcc:radiation"
+    ]
   }
 }

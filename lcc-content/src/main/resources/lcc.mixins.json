@@ -13,7 +13,8 @@
     "ItemEntityAccessor",
     "SpongeFlowableFluidMixin",
     "StonecutterHandlerMixin",
-    "BundleBagMixin"
+    "BundleBagMixin",
+    "NuclearSkylightProviderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

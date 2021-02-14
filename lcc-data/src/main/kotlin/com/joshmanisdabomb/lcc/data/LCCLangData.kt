@@ -16,6 +16,7 @@ object LCCLangData {
         lang["en_us"]!!["effect.lcc.stun"] = "Stun"
         lang["en_us"]!!["effect.lcc.vulnerable"] = "Vulnerable"
         lang["en_us"]!!["effect.lcc.flammable"] = "Flammable"
+        lang["en_us"]!!["effect.lcc.radiation"] = "Radiation"
 
         lang["en_us"]!!["biome.lcc.wasteland"] = "Wasteland"
 
@@ -54,10 +55,16 @@ object LCCLangData {
         lang["en_us"]!!["death.attack.lcc.gauntlet_uppercut.item"] = "%1\$s was struck by %2\$s using Uppercut of %3\$s"
 
         lang["en_us"]!!["death.attack.lcc.heated"] = "%1\$s was steamed like a vegetable"
+        lang["en_us"]!!["death.attack.lcc.heated.player"] = "%1\$s stepped on a generator whilst trying to escape %2\$s"
         lang["en_us"]!!["death.attack.lcc.boiled"] = "%1\$s was boiled alive"
+        lang["en_us"]!!["death.attack.lcc.boiled.player"] = "%1\$s ended up boiled alive whilst trying to escape %2\$s"
 
         lang["en_us"]!!["death.attack.lcc.nuke"] = "%1\$s was nuked"
         lang["en_us"]!!["death.attack.lcc.nuke.player"] = "%1\$s was nuked by %2\$s"
+        lang["en_us"]!!["death.attack.lcc.radiation"] = "%1\$s was exposed to ionizing radiation"
+        lang["en_us"]!!["death.attack.lcc.radiation.player"] = "%1\$s was exposed to ionizing radiation whilst trying to escape %2\$s"
+        lang["en_gb"]!!["death.attack.lcc.radiation"] = "%1\$s was exposed to ionising radiation"
+        lang["en_gb"]!!["death.attack.lcc.radiation.player"] = "%1\$s was exposed to ionising radiation whilst trying to escape %2\$s"
 
         lang["en_us"]!!["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"

@@ -1,5 +1,12 @@
 archivesBaseName = "lcc-content"
 
+repositories {
+    maven {
+        name = "Ladysnake Libs"
+        url = "https://dl.bintray.com/ladysnake/libs"
+    }
+}
+
 dependencies {
     compile project(':lcc-base')
     compile project(':lcc-creative-ex')
@@ -7,4 +14,13 @@ dependencies {
     compile project(':lcc-energy')
     compile project(':lcc-network')
     compile project(':lcc-subblock')
+
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.20w48a"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.20w48a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.20w48a"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.20w48a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.20w48a"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.20w48a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.20w48a"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.20w48a"
 }

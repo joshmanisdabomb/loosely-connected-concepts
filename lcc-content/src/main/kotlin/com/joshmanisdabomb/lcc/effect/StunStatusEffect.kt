@@ -13,7 +13,7 @@ class StunStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(type, 
         this.addAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, "2ea94220-39e7-11e9-b210-50fabd873d93", -1.0, MULTIPLY_TOTAL)
     }
 
-    override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
+    override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = false
 
     override fun applyUpdateEffect(entity: LivingEntity, amplifier: Int) = Unit
 

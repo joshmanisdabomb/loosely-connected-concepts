@@ -20,6 +20,7 @@ object LCCDamage : ThingDirectory<DamageSource, Unit>() {
 
     val heated by createWithName { LCCDamageSource(id(it), fire = true) }
     val boiled by createWithName { LCCDamageSource(id(it), fire = true) }
+    val radiation by createWithName { LCCDamageSource(id(it), bypassArmor = true, unblockable = true) }
 
     private fun id(name: String) = "${LCC.modid}.$name"
 

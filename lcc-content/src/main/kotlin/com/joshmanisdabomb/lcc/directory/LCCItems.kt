@@ -93,12 +93,12 @@ object LCCItems : ItemDirectory() {
     val redstone_battery by create(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor)) { BatteryItem(LooseEnergy.fromCoals(4f), Item.Settings().maxCount(1).defaults()) }
 
     //Nuclear
-    val uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(10))) { Item(Item.Settings().defaults()) }
-    val uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(9))) { Item(Item.Settings().defaults()) }
-    val enriched_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(20))) { Item(Item.Settings().defaults()) }
-    val enriched_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(19))) { Item(Item.Settings().defaults()) }
-    val heavy_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(30))) { Item(Item.Settings().defaults()) }
-    val heavy_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(29))) { Item(Item.Settings().defaults()) }
+    val uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(10))) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
+    val uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(9))) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
+    val enriched_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(20))) { RadioactiveItem(1, 1, Item.Settings().defaults()) }
+    val enriched_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(19))) { RadioactiveItem(1, 1, Item.Settings().defaults()) }
+    val heavy_uranium by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(30))) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
+    val heavy_uranium_nugget by create(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(29))) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
 
     //Health
     val heart_half by createMap(*HeartType.values(), propertySupplier = { ItemExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }) { key, name, properties -> HeartItem(key, 1.0F, Item.Settings().defaults()) }

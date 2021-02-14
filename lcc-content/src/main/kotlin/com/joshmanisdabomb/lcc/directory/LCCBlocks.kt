@@ -71,10 +71,10 @@ object LCCBlocks : BlockDirectory() {
     //TODO reinforced stone or similar for nuke protection
 
     //Nuclear
-    val uranium_ore by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0))) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
-    val uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
-    val enriched_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(21))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
-    val heavy_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31))) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val uranium_ore by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0))) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
+    val uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11))) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val enriched_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(21))) { RadioactiveBlock(3, 1, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val heavy_uranium_block by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31))) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
     val nuclear_waste by create(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(40, 1))) { NuclearWasteBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_CYAN).strength(-1f, 3600000f).sounds(BlockSoundGroup.CORAL)) }
     val nuclear_fire by create(BlockExtraSettings().cutout()) { NuclearFireBlock(FabricBlockSettings.of(Material.FIRE, MapColor.LIME).noCollision().breakInstantly().luminance { 15 }.ticksRandomly().sounds(BlockSoundGroup.WOOL)) }
     val atomic_bomb by create(BlockExtraSettings().creativeEx(NUCLEAR)) { AtomicBombBlock(FabricBlockSettings.of(Material.REPAIR_STATION, MapColor.IRON_GRAY).strength(9.0F, 1200.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.ANVIL)) }

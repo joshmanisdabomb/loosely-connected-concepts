@@ -42,4 +42,7 @@ interface LCCExtendedBlock {
     @JvmDefault
     fun lcc_overrideBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity): Boolean? = null
 
+    @JvmDefault
+    fun lcc_onEntityNearby(world: World, state: BlockState, pos: BlockPos, entity: Entity, distSq: Double) = Unit
+
 }

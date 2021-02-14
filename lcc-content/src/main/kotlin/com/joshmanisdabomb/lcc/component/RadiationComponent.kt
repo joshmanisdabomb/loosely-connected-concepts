@@ -54,14 +54,11 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     }
 
     override fun serverTick() {
-        if (entity is PlayerEntity) {
-            println(exposure)
-            println(healthMod)
-        }
+        if ((entity as? PlayerEntity)?.isCreative == true) return
         val lastHealth = healthMod
         entity.statusEffects.filter { it.effectType is RadiationStatusEffect }.let {
             if (it.isEmpty()) {
-                _exposure = _exposure.minus(0.00019f).coerceAtLeast(0f)
+                _exposure = _exposure.minus(0.00009f).coerceAtLeast(0f)
                 return@let null
             }
             return@let it

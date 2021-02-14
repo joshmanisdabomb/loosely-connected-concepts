@@ -110,8 +110,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
     override fun createSpawnPacket() = lcc_createSpawnPacket()// { it.writeByte(_facing.horizontal) }
 
     override fun lcc_readSpawnPacket(data: PacketByteBuf) {
-        _facing = Direction.fromHorizontal(data.readByte().toInt())
-        calculateDimensions()
+
     }
 
     override fun tick() {

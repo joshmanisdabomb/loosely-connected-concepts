@@ -10,6 +10,6 @@ class RadiationStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(t
 
     override fun applyUpdateEffect(entity: LivingEntity, amplifier: Int) = Unit
 
-    fun modifyExposure(exposure: Float, entity: LivingEntity, amplifier: Int) = exposure.plus(amplifier.plus(1).let { it.times(it) }.times(0.0027f))
+    fun modifyExposure(exposure: Float, entity: LivingEntity, amplifier: Int) = exposure.plus(amplifier.plus(1).let { it.times(it) }.times(0.00027f))
 
 }

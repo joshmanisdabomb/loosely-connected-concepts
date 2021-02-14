@@ -1,12 +1,16 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
+import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCDamage
 import net.minecraft.block.AbstractFireBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.AGE_25
@@ -17,7 +21,7 @@ import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import java.util.*
 
-class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), LCCExtendedBlockContent {
+class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), LCCExtendedBlock, LCCExtendedBlockContent {
 
     init {
         defaultState = stateManager.defaultState.with(AGE_25, 0)
@@ -40,7 +44,11 @@ class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), 
     }
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
-
+        NuclearUtil.addRadiation(entity as? LivingEntity ?: return, 12, 3)
+        if (!entity.isFireImmune()) {
+            entity.setFireTicks(Short.MAX_VALUE - 4)
+        }
+        entity.damage(LCCDamage.radiation, 3.0f)
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
@@ -75,6 +83,10 @@ class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), 
         } else {
             world.setBlockState(pos, state.cycle(AGE_25))
         }
+    }
+
+    override fun lcc_onEntityNearby(world: World, state: BlockState, pos: BlockPos, entity: Entity, distSq: Double) {
+        NuclearUtil.addRadiation(entity as? LivingEntity ?: return, 2, 2)
     }
 
     companion object {

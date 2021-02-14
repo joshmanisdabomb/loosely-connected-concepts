@@ -2,12 +2,14 @@ package com.joshmanisdabomb.lcc.mixin.base.common;
 
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.crash.CrashException;
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -49,6 +51,27 @@ public abstract class ImplEntityMixin {
                 } catch (Throwable var12) {
                     CrashReport crashReport = CrashReport.create(var12, "LCC: Single colliding entity with blocks");
                     throw new CrashException(crashReport);
+                }
+            }
+        }
+    }
+
+    @Inject(method = "Lnet/minecraft/entity/Entity;baseTick()V", at = @At("TAIL"))
+    public void nearbyBlockTicks(CallbackInfo info) {
+        BlockPos.Mutable bp = new BlockPos.Mutable();
+        BlockPos pos = ((Entity)(Object)this).getBlockPos();
+        if (this.world.isRegionLoaded(pos, pos)) {
+            for(int i = pos.getX() - 5; i <= pos.getX() + 5; ++i) {
+                for (int j = pos.getY() - 5; j <= pos.getY() + 5; ++j) {
+                    for (int k = pos.getZ() - 5; k <= pos.getZ() + 5; ++k) {
+                        bp.set(i, j, k);
+                        BlockState state = world.getBlockState(bp);
+                        Block block = state.getBlock();
+                        if (block instanceof LCCExtendedBlock) {
+                            Vec3d vec = ((Entity)(Object)this).getPos();
+                            ((LCCExtendedBlock)block).lcc_onEntityNearby(world, state, bp.toImmutable(), (Entity)(Object)this, bp.getSquaredDistance(vec.x, vec.y, vec.z, true));
+                        }
+                    }
                 }
             }
         }

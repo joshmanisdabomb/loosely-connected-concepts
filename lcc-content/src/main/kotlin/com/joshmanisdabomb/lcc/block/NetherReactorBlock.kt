@@ -36,7 +36,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
         if (state[reactor_state] === NetherReactorState.READY) {
             if (!world.isClient) {
                 if (pos.y < world.bottomY + 4 || pos.y >= world.topY - 35) {
-                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.y"), true)
+                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.y", world.bottomY + 4, world.topY - 35), true)
                 } else if (!this.checkStructure(world, pos)) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.incorrect"), true)
                 } else if (!player.isCreative && !this.checkForPlayers(world, pos)) {

@@ -77,7 +77,7 @@ object LCCLangData {
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".players"] = "All players need to be close to the reactor."
-        lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".y"] = "The reactor must be placed between y=4 and y=221"
+        lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".y"] = "The reactor must be placed between y=%1\$s and y=%2\$s"
     }
 
 }

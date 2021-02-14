@@ -85,8 +85,10 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
                         if (sqdist <= outerSqDistance) {
                             e.damage(LCCDamage.nuke(causedBy), sqradius_d.minus(sqdist).times(0.18).toFloat())
                             e.fireTicks = Short.MAX_VALUE - 4
+                            (e as? LivingEntity)?.also { NuclearUtil.addRadiation(it, 200, 4) }
                         } else if (sqdist <= harmRadius) {
                             e.damage(LCCDamage.nuke(causedBy), 1f)
+                            (e as? LivingEntity)?.also { NuclearUtil.addRadiation(it, 100, 0) }
                         }
                         (e as? LivingEntity)?.hurtTime = 0
                         e.timeUntilRegen = 0

@@ -111,5 +111,13 @@
       "minecraft:block/respawn_anchor/set_spawn3"
     ],
     "subtitle": "subtitles.lcc.block.classic_crying_obsidian.set_spawn"
+  },
+  "entity.lcc.nuclear_explosion.explode": {
+    "subtitle": "subtitles.lcc.entity.nuclear_explosion.explode",
+    "sounds": [ "lcc:random/nuclear_explode" ]
+  },
+  "entity.lcc.atomic_bomb.fuse": {
+    "subtitle": "subtitles.lcc.entity.atomic_bomb.fuse",
+    "sounds": [ "lcc:random/nuclear_fuse" ]
   }
 }

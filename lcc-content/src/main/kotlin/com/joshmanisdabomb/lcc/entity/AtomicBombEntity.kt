@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.block.AtomicBombBlock
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.getValue
@@ -27,6 +28,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -128,6 +130,9 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                 if (!world.isClient) inventory?.also { explode(it.uraniumCount) }
             } else {
                 this.updateWaterState()
+                if (fuse % 20 == 0) {
+                    if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.atomic_bomb_fuse, SoundCategory.BLOCKS, 5.0F, 1.0F)
+                }
             }
         } else {
             if (!world.isClient) {

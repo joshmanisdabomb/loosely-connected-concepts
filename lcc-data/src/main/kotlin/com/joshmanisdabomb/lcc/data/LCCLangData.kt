@@ -73,6 +73,8 @@ object LCCLangData {
         lang["en_us"]!!["subtitles.lcc.entity.pocket_zombie_pigman.hurt"] = "Pocket Zombie Pigman hurts"
         lang["en_us"]!!["subtitles.lcc.entity.pocket_zombie_pigman.death"] = "Pocket Zombie Pigman dies"
         lang["en_us"]!!["subtitles.lcc.block.classic_crying_obsidian.set_spawn"] = "Classic Crying Obsidian sets spawn"
+        lang["en_us"]!!["subtitles.lcc.entity.atomic_bomb.fuse"] = "Atomic Bomb ticks"
+        lang["en_us"]!!["subtitles.lcc.entity.nuclear_explosion.explode"] = "Nuclear explosion"
 
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"

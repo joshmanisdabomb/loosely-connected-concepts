@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -18,6 +19,7 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -58,7 +60,10 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         if (lifetime < 1 || radius < 1) return this.discard()
         super.tick()
         if (!world.isClient) {
-            if (ticks == 0) NuclearUtil.strike(world, this)
+            if (ticks == 0) {
+                NuclearUtil.strike(world, this)
+                if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 64.0F, 1.0F)
+            }
             val percent = ticks.toFloat().div(lifetime)
             val innerSqDistance = sqradius_d.times(percent)
             val outerSqDistance = innerSqDistance.plus(tickCoverage)

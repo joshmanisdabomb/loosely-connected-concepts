@@ -47,7 +47,7 @@ class OilFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
     override fun getBlastResistance() = 2f
 
-    override fun toBlockState(state: FluidState) = LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, method_15741(state));
+    override fun toBlockState(state: FluidState) = LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state));
 
     override fun isInfinite() = false
 

@@ -113,7 +113,7 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
     protected fun fall(state: BlockState, world: World, pos: BlockPos) {
         val facing = state[HORIZONTAL_FACING]
         if (world.isClient) return
-        if (pos.y < world.sectionCount || !canFall(world, pos) || !canFall(world, pos.offset(facing)) || !canFall(world, pos.offset(facing.opposite))) return
+        if (pos.y <= world.bottomY || !canFall(world, pos) || !canFall(world, pos.offset(facing)) || !canFall(world, pos.offset(facing.opposite))) return
         (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.also {
             AtomicBombEntity(world, pos.x + 0.5, pos.y.toDouble(), pos.z + 0.5, facing, it).also(world::spawnEntity)
             world.removeBlockEntity(pos)

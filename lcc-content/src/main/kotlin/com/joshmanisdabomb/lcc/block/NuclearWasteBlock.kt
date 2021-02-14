@@ -33,7 +33,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlockC
         val fire = world.getBlockState(bp).isOf(LCCBlocks.nuclear_fire)
         bp.move(0, -1, 0)
         var flag = false
-        while (FallingBlock.canFallThrough(world.getBlockState(bp.move(0, -1, 0))) && bp.y >= world.sectionCount) {
+        while (FallingBlock.canFallThrough(world.getBlockState(bp.move(0, -1, 0))) && bp.y >= world.bottomY) {
             flag = true
         }
         if (flag) {

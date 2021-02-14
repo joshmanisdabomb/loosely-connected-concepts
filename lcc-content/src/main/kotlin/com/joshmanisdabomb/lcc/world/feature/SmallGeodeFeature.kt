@@ -11,36 +11,37 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.Heightmap
-import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.WorldAccess
-import net.minecraft.world.gen.chunk.ChunkGenerator
 import net.minecraft.world.gen.feature.Feature
+import net.minecraft.world.gen.feature.util.FeatureContext
 import java.util.*
 import kotlin.math.max
 import kotlin.random.asKotlinRandom
 
 class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<SmallGeodeFeatureConfig>(configCodec) {
 
-    override fun generate(structureWorldAccess: StructureWorldAccess, chunkGenerator: ChunkGenerator?, random: Random, blockPos: BlockPos, config: SmallGeodeFeatureConfig): Boolean {
-        val f = random.nextFloat() * 3.1415927f
-        val g = config.size.toFloat() / 8.0f
-        val i = MathHelper.ceil((config.size.toFloat() / 16.0f * 2.0f + 1.0f) / 2.0f)
-        val d = blockPos.x.toDouble() + Math.sin(f.toDouble()) * g.toDouble()
-        val e = blockPos.x.toDouble() - Math.sin(f.toDouble()) * g.toDouble()
-        val h = blockPos.z.toDouble() + Math.cos(f.toDouble()) * g.toDouble()
-        val j = blockPos.z.toDouble() - Math.cos(f.toDouble()) * g.toDouble()
-        val k = 1
-        val l = (blockPos.y + random.nextInt(3) - 2).toDouble()
-        val m = (blockPos.y + random.nextInt(3) - 2).toDouble()
-        val n = blockPos.x - MathHelper.ceil(g) - i
-        val o = blockPos.y - 2 - i
-        val p = blockPos.z - MathHelper.ceil(g) - i
-        val q = 2 * (MathHelper.ceil(g) + i)
-        val r = 2 * (2 + i)
-        for (s in n..n + q) {
-            for (t in p..p + q) {
-                if (o <= structureWorldAccess.getTopY(Heightmap.Type.OCEAN_FLOOR_WG, s, t)) {
-                    return generateVeinPart(structureWorldAccess, random, config, d, e, h, j, l, m, n, o, p, q, r)
+    override fun generate(context: FeatureContext<SmallGeodeFeatureConfig>): Boolean {
+        with (context) {
+            val f = random.nextFloat() * 3.1415927f
+            val g = config.size.toFloat() / 8.0f
+            val i = MathHelper.ceil((config.size.toFloat() / 16.0f * 2.0f + 1.0f) / 2.0f)
+            val d = pos.x.toDouble() + Math.sin(f.toDouble()) * g.toDouble()
+            val e = pos.x.toDouble() - Math.sin(f.toDouble()) * g.toDouble()
+            val h = pos.z.toDouble() + Math.cos(f.toDouble()) * g.toDouble()
+            val j = pos.z.toDouble() - Math.cos(f.toDouble()) * g.toDouble()
+            val k = 1
+            val l = (pos.y + random.nextInt(3) - 2).toDouble()
+            val m = (pos.y + random.nextInt(3) - 2).toDouble()
+            val n = pos.x - MathHelper.ceil(g) - i
+            val o = pos.y - 2 - i
+            val p = pos.z - MathHelper.ceil(g) - i
+            val q = 2 * (MathHelper.ceil(g) + i)
+            val r = 2 * (2 + i)
+            for (s in n..n + q) {
+                for (t in p..p + q) {
+                    if (o <= world.getTopY(Heightmap.Type.OCEAN_FLOOR_WG, s, t)) {
+                        return generateVeinPart(world, random, config, d, e, h, j, l, m, n, o, p, q, r)
+                    }
                 }
             }
         }

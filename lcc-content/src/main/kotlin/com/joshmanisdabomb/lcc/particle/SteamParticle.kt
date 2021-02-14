@@ -8,7 +8,7 @@ import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.util.math.Vec3d
 
-class SteamParticle(world: ClientWorld, x: Double, y: Double, z: Double, dx: Double, dy: Double, dz: Double, private val sp: SpriteProvider) : AscendingParticle(world, x, y, z, 0.05f, 0.05f, 0.05f, dx, dy, dz, 4f, sp, 1.0f, 6, 0.003, true) {
+class SteamParticle(world: ClientWorld, x: Double, y: Double, z: Double, dx: Double, dy: Double, dz: Double, private val sp: SpriteProvider) : AscendingParticle(world, x, y, z, 0.05f, 0.05f, 0.05f, dx, dy, dz, 4f, sp, 1.0f, 6, 0.003f, true) {
 
     override fun getType() = ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT
 

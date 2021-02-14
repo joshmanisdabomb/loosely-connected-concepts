@@ -49,7 +49,7 @@ class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
     override fun getBlastResistance() = 100.0f
 
-    override fun toBlockState(state: FluidState) = LCCBlocks.asphalt.defaultState.with(FluidBlock.LEVEL, method_15741(state));
+    override fun toBlockState(state: FluidState) = LCCBlocks.asphalt.defaultState.with(FluidBlock.LEVEL, getBlockStateLevel(state));
 
     override fun isInfinite() = false
 

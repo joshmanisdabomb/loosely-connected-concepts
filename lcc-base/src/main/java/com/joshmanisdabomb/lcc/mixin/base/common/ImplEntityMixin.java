@@ -28,7 +28,8 @@ public abstract class ImplEntityMixin {
     private World world;
 
     @Inject(method = "Lnet/minecraft/entity/Entity;checkBlockCollision()V", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
-    public void singleBlockCollisions(CallbackInfo info, Box box, BlockPos pos1, BlockPos pos2, BlockPos.Mutable bp) {
+    public void singleBlockCollisions(CallbackInfo info, Box box, BlockPos pos1, BlockPos pos2) {
+        BlockPos.Mutable bp = new BlockPos.Mutable();
         if (this.world.isRegionLoaded(pos1, pos2)) {
             lcc_onEntitySingleCollision_positions.clear();
             for(int i = pos1.getX(); i <= pos2.getX(); ++i) {

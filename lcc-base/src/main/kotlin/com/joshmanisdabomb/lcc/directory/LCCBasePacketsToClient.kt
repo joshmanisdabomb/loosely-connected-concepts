@@ -34,7 +34,7 @@ object LCCBasePacketsToClient : PacketDirectory() {
 
             world.addEntity(e.id, e)
 
-            (e as? LCCExtendedEntity)?.lcc_handleSpawnPacket(data)
+            (e as? LCCExtendedEntity)?.lcc_readSpawnPacket(data)
         }
     } }
 

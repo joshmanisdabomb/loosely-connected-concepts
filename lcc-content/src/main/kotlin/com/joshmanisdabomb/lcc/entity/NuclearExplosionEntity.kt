@@ -60,8 +60,9 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
             val percent = ticks.toFloat().div(lifetime)
             val innerSqDistance = sqradius_d.times(percent)
             val outerSqDistance = innerSqDistance.plus(tickCoverage)
-            for (i in x_range) {
-                for (j in y_range) {
+            for (j in y_range) {
+                if (world.isOutOfHeightLimit(pos.y + j)) continue
+                for (i in x_range) {
                     for (k in z_range) {
                         bp.set(pos).move(i, j, k)
                         val squaredDistance = bp.getSquaredDistance(pos)

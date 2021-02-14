@@ -35,7 +35,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         if (state[reactor_state] === NetherReactorState.READY) {
             if (!world.isClient) {
-                if (pos.y < world.sectionCount + 4 || pos.y >= world.topHeightLimit - 35) {
+                if (pos.y < world.bottomY + 4 || pos.y >= world.topY - 35) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.y"), true)
                 } else if (!this.checkStructure(world, pos)) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.incorrect"), true)

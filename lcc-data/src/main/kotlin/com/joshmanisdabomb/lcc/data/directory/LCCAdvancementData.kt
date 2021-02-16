@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.directory
 import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
+import com.joshmanisdabomb.lcc.advancement.NuclearExplosionCriterion
 import com.joshmanisdabomb.lcc.data.DataUtils
 import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.advancement.Advancement
@@ -17,6 +18,7 @@ import net.minecraft.data.DataProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
+import net.minecraft.predicate.NumberRange
 import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.Tag
@@ -38,7 +40,7 @@ object LCCAdvancementData : ThingDirectory<Advancement, Pair<String, String?>>()
 
         val refiner by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(main_root).display(LCCBlocks.refiner, p.first, n).has(LCCBlocks.refiner).translation("A Refined Palate", "The industrial revolution and its consequences have been a disaster for the human race", "en_us", p.first, p.second ?: n).build(n, p) }
             val uranium by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCItems.enriched_uranium, p.first, n).has(LCCTags.enriched_uranium, "has_enriched_uranium").criteriaMerger(CriterionMerger.OR).translation("Enrichment Activities", "Refine the uranium into a different shade of green", "en_us", p.first, p.second ?: n).build(n, p) }
-                val nuke by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(uranium, n, p) } //when all else fails
+                val nuke by createWithNameProperties("main" to null) { n, p -> Advancement.Task.create().parent(refiner).display(LCCBlocks.atomic_bomb, p.first, n).criterion("detonate", NuclearExplosionCriterion.Conditions.uranium(NumberRange.IntRange.ANY)).criteriaMerger(CriterionMerger.OR).translation("The World is the Problem", "Detonate an atomic bomb", "en_us", p.first, p.second ?: n).build(n, p) }
                     val nuke_first by createWithNameProperties("main" to null/*hidden*/) { n, p -> emptyAdvancement(nuke, n, p) } //nuclear arms race, be the first on a multiplayer server to detonate a nuclear device
                     val winter_survive by createWithNameProperties("main" to null) { n, p -> emptyAdvancement(nuke, n, p) } //the struggle was real, return to winter level 0 after being at winter level 5
 

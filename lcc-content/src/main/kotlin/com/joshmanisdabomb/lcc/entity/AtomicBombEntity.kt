@@ -257,7 +257,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
     }
 
     override fun remove(reason: RemovalReason) {
-        (world as ServerWorld).chunkManager.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
+        if (world.isClient) (world as? ServerWorld)?.chunkManager?.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
         super.remove(reason)
     }
 

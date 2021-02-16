@@ -220,7 +220,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     override fun createSpawnPacket() = lcc_createSpawnPacket()
 
     override fun remove(reason: RemovalReason) {
-        (world as ServerWorld).chunkManager.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
+        if (world.isClient) (world as? ServerWorld)?.chunkManager?.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
         super.remove(reason)
     }
 

@@ -15,11 +15,11 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Roads using connected textures.
  * Bounce Pads
  * Dimensional rift to access classic and pocket edition items.
+ * Atomic Bomb
  
 ## Port In Progress ##
  * Spreaders and Spreader Interface
  * Basic Rainbow Dimension and Wasteland biome.
- * Atomic Bomb
 
 ## Plans ##
  * Missiles with good ballistic movement.
@@ -38,6 +38,8 @@ You can read more about the predecessors Aimless Agglomeration by clicking [here
  * Take rockets to different planets (other solar systems procedurally generated, similar to 20winfinity but more coherent and I thought of it first god dammit)
  
 ## Downloads ##
+* [0.4.1](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.4.1.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.4.1-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.4.1/) for 21w06a on 16 February 2021
+* [0.4.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.4.0.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.4.0-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.4.0/) for 21w06a on 15 February 2021
 * [0.3.2](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.2.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.2-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.3.2/) for 21w03a on 25 January 2021
 * [0.3.1](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.1.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.1-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.3.1/) for 20w51a on 14 January 2021
 * [0.3.0](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.0.jar) [(source)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/downloads/LooselyConnectedConcepts-20w51a-0.3.0-sources.jar) [(commit)](https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric-0.3.0/) for 20w51a on 13 January 2021

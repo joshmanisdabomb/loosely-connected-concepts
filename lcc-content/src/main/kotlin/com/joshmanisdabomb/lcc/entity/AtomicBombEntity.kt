@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCChunkTickets
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
@@ -28,12 +29,15 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Unit
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.GameRules
@@ -124,14 +128,24 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         velocity = velocity.multiply(0.98)
         if (onGround) velocity = velocity.multiply(0.12, -0.5, 0.12)
         if (_active) {
+            if (!world.isClient) {
+                for (i in -1..1) {
+                    for (k in -1..1) {
+                        if (i != 0 && k != 0) {
+                            (world as ServerWorld).chunkManager.removeTicket(LCCChunkTickets.nuclear, ChunkPos(chunkPos.x + i, chunkPos.z + k), 17, Unit.INSTANCE)
+                        }
+                    }
+                }
+                (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
+            }
             --fuse
             if (fuse <= 0) {
                 discard()
                 if (!world.isClient) inventory?.also { explode(it.uraniumCount) }
             } else {
                 this.updateWaterState()
-                if (fuse % 20 == 0) {
-                    if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.atomic_bomb_fuse, SoundCategory.BLOCKS, 5.0F, 1.0F)
+                if (fuse % 20 == 19) {
+                    if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.atomic_bomb_fuse, SoundCategory.BLOCKS, 5.0F, 1.2F - fuse.div(1200f).times(0.2f))
                 }
             }
         } else {
@@ -192,7 +206,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                 if (!world.isClient) explode(inventory?.uraniumCount ?: return ActionResult.PASS)
                 return ActionResult.SUCCESS
             } else if (stack.isIn(FabricToolTags.SHEARS)) {
-                //custom cut sound
+                //TODO custom cut sound
                 player.swingHand(hand)
                 if (!world.isClient) {
                     spawnDrops()
@@ -219,6 +233,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
             world.spawnEntity(it)
         }
         discard()
+        (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
     }
 
     override fun method_33332() = expandBoundingBox(super.method_33332())
@@ -239,6 +254,11 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
             if (it.contains("CustomName", NBT_STRING)) return Text.Serializer.fromJson(it.getString("CustomName")) as Text
         }
         return super.getName()
+    }
+
+    override fun remove(reason: RemovalReason) {
+        (world as ServerWorld).chunkManager.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
+        super.remove(reason)
     }
 
     companion object {

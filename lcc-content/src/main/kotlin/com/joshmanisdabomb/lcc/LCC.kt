@@ -31,6 +31,7 @@ object LCC : ModInitializer {
         LCCWorldgen.init()
         LCCBiomes.init()
         LCCTags.init()
+        LCCChunkTickets.init()
     }
 
     fun id(path: String): Identifier = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))

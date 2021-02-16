@@ -3,10 +3,7 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCDamage
-import com.joshmanisdabomb.lcc.directory.LCCEntities
-import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -21,6 +18,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
+import net.minecraft.util.Unit
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
@@ -67,7 +65,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
             if (ticks == 0) {
                 NuclearUtil.strike(world, this)
                 LOGGER.info("A nuclear explosion occurred at $blockPos of radius $radius.")
-                world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 64.0F, 1.0F)
+                world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 20.0F, 1.0F)
                 //Change spawn if too close to blast.
                 (world as? ServerWorld)?.also {
                     val spawn = it.spawnPos
@@ -78,6 +76,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
                     }
                 }
             }
+            (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
             val percent = ticks.toFloat().div(lifetime)
             val innerSqDistance = sqradius_d.times(percent)
             val outerSqDistance = innerSqDistance.plus(tickCoverage)
@@ -219,6 +218,11 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     }
 
     override fun createSpawnPacket() = lcc_createSpawnPacket()
+
+    override fun remove(reason: RemovalReason) {
+        (world as ServerWorld).chunkManager.removeTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
+        super.remove(reason)
+    }
 
     companion object {
         private val fast_rand = SplittableRandom()

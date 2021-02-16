@@ -19,10 +19,12 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.Heightmap
 import net.minecraft.world.World
 import java.util.*
 
@@ -41,8 +43,6 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     var ticks = 0
     var lifetime = 0
     var radius = 0
-
-    var lastRenderTick = 0
 
     private val radius_d by lazy { radius.toDouble() }
     private val sqradius_d by lazy { radius_d*radius_d }
@@ -66,7 +66,17 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         if (!world.isClient) {
             if (ticks == 0) {
                 NuclearUtil.strike(world, this)
-                if (!world.isClient) world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 64.0F, 1.0F)
+                LOGGER.info("A nuclear explosion occurred at $blockPos of radius $radius.")
+                world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 64.0F, 1.0F)
+                //Change spawn if too close to blast.
+                (world as? ServerWorld)?.also {
+                    val spawn = it.spawnPos
+                    if (blockPos.isWithinDistance(spawn, radius+25.0)) {
+                        val new = it.getTopPosition(Heightmap.Type.MOTION_BLOCKING, BlockPos(Vec3d(random.nextDouble() - 0.5, 0.0, random.nextDouble() - 0.5).normalize().multiply(radius+25.0).add(spawn.x.toDouble(), 0.0, spawn.z.toDouble())))
+                        it.setSpawnPos(new, it.spawnAngle)
+                        LOGGER.info("The world spawnpoint was moved from $spawn to $new due to being too close to the nuclear explosion.")
+                    }
+                }
             }
             val percent = ticks.toFloat().div(lifetime)
             val innerSqDistance = sqradius_d.times(percent)

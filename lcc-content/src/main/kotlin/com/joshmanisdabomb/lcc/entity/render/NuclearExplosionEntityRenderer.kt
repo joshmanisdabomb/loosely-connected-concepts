@@ -66,9 +66,6 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
                 MinecraftClient.getInstance().world?.addParticle(LCCParticles.nuclear, true, vec2.x, vec2.y, vec2.z, vec.x, -0.3, vec.z)
             }
         }
-        if (entity.ticks >= entity.lastRenderTick) {
-            entity.lastRenderTick = entity.ticks + 1
-        }
     }
     
     override fun getTexture(entity: NuclearExplosionEntity) = SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE

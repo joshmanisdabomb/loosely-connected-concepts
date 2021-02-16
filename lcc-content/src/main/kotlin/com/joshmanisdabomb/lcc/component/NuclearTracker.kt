@@ -19,17 +19,13 @@ import net.minecraft.world.World
 
 class NuclearTracker(private val world: World) : ComponentV3, ServerTickingComponent, ClientTickingComponent, AutoSyncedComponent {
 
-    private val radius: MutableList<Short> = mutableListOf()
-    private val time: MutableList<Long> = mutableListOf()
-    private val position: MutableList<BlockPos> = mutableListOf()
+    val strikes = mutableListOf<NuclearStrike>()
 
     private var _winter = 0.0f
     val winter get() = _winter
 
     fun strike(radius: Short, time: Long, pos: BlockPos) {
-        this.radius.add(radius)
-        this.time.add(time)
-        this.position.add(pos)
+        this.strikes += NuclearStrike(pos, radius, time)
         _winter = _winter.plus(NuclearUtil.getWinterIncreaseFromRadius(radius.toInt())).coerceIn(0f, 6f)
         LCCComponents.nuclear.sync(world)
     }
@@ -40,9 +36,7 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
         _winter = tag.getFloat("WinterLevel")
         tag.getList("Strikes", NBT_COMPOUND).forEach {
             (it as? CompoundTag)?.also {
-                this.radius.add(it.getShort("Radius"))
-                this.time.add(it.getLong("Time"))
-                this.position.add(NbtHelper.toBlockPos(it.getCompound("Position")))
+                this.strikes += NuclearStrike(NbtHelper.toBlockPos(it.getCompound("Position")), it.getShort("Radius"), it.getLong("Time"))
             }
         }
     }
@@ -50,11 +44,11 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
     override fun writeToNbt(tag: CompoundTag) {
         tag.putFloat("WinterLevel", _winter)
         tag.put("Strikes", ListTag().also {
-            this.radius.indices.forEach { i ->
+            strikes.forEach { (p, r, t) ->
                 it.add(CompoundTag().also {
-                    it.putShort("Radius", this.radius[i])
-                    it.putLong("Time", this.time[i])
-                    it.put("Position", NbtHelper.fromBlockPos(this.position[i]))
+                    it.putShort("Radius", r)
+                    it.putLong("Time", t)
+                    it.put("Position", NbtHelper.fromBlockPos(p))
                 })
             }
         })
@@ -76,5 +70,7 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
             LCCComponents.nuclear.sync(world)
         }
     }
+
+    data class NuclearStrike(val pos: BlockPos, val radius: Short, val time: Long)
 
 }

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.component
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.effect.RadiationStatusEffect
@@ -15,22 +16,24 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper
 import java.util.*
+import kotlin.math.max
+import kotlin.math.sqrt
 
 class RadiationComponent(private val entity: LivingEntity) : ComponentV3, ServerTickingComponent, AutoSyncedComponent {
 
-    private var _exposure = 0f
-    val exposure get() = _exposure
+    var exposure = 0f
 
+    private var lastHealthMod = 0
     val healthMod get() = MathHelper.floor(exposure.div(2f)).times(2)
 
     val uuid by lazy { UUID.fromString("e322834e-028f-481c-bc3e-53f0065bb8ec") }
 
     override fun readFromNbt(tag: CompoundTag) {
-        _exposure = tag.getFloat("Exposure")
+        exposure = tag.getFloat("Exposure")
     }
 
     override fun writeToNbt(tag: CompoundTag) {
-        tag.putFloat("Exposure", _exposure)
+        tag.putFloat("Exposure", exposure)
     }
 
     override fun writeSyncPacket(buf: PacketByteBuf, player: ServerPlayerEntity) {
@@ -46,7 +49,7 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
         super.applySyncPacket(buf)
         if (buf.readBoolean() || entity.maxHealth > 6f) {
             entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
-                val new = EntityAttributeModifier(uuid, "LCC Radiation Exposure", -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
+                val new = EntityAttributeModifier(uuid, modifierName, -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
                 it.removeModifier(uuid)
                 it.addPersistentModifier(new)
             }
@@ -55,20 +58,25 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
 
     override fun serverTick() {
         if ((entity as? PlayerEntity)?.isCreative == true) return
-        val lastHealth = healthMod
-        entity.statusEffects.filter { it.effectType is RadiationStatusEffect }.let {
-            if (it.isEmpty()) {
-                _exposure = _exposure.minus(0.00009f).coerceAtLeast(0f)
-                return@let null
+        LCCComponents.nuclear.maybeGet(entity.world).orElse(null)?.also {
+            var amp = -1
+            var time = 1
+            for ((p, r, t) in it.strikes) {
+                if (p.isWithinDistance(entity.pos, r+20.0)) {
+                    val distance = sqrt(p.getSquaredDistance(entity.pos, false))
+                    amp = max(amp, 1.minus(distance / r.plus(20.0)).times(5).toInt())
+                    time += 4.minus((time - t).div(1000000)).coerceIn(0, 4).toInt()
+                }
             }
-            return@let it
-        }?.forEach {
-            _exposure = (it.effectType as RadiationStatusEffect).modifyExposure(_exposure, entity, it.amplifier)
+            if (amp > -1 && time > 1) NuclearUtil.addRadiation(entity, time, amp)
         }
-        if (lastHealth != healthMod) {
-            if (healthMod < lastHealth || entity.maxHealth > 6f) {
+        if (entity.statusEffects.none { it.effectType is RadiationStatusEffect }) {
+            exposure = exposure.minus(0.00009f).coerceAtLeast(0f)
+        }
+        if (lastHealthMod != healthMod) {
+            if (healthMod < lastHealthMod || entity.maxHealth > 6f) {
                 entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
-                    val new = EntityAttributeModifier(uuid, "LCC Radiation Exposure", -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
+                    val new = EntityAttributeModifier(uuid, modifierName, -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
                     it.removeModifier(uuid)
                     it.addPersistentModifier(new)
                     if (entity.health > entity.maxHealth) {
@@ -79,8 +87,13 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
                     }
                 }
             }
-            LCCComponents.radiation.sync(entity) { buf, player -> writeSyncPacketExtra(buf, player, healthMod < lastHealth) }
+            LCCComponents.radiation.sync(entity) { buf, player -> writeSyncPacketExtra(buf, player, healthMod < lastHealthMod) }
         }
+        lastHealthMod = healthMod
+    }
+
+    companion object {
+        const val modifierName = "LCC Radiation Exposure"
     }
 
 }

@@ -24,7 +24,7 @@ public abstract class NuclearSkylightProviderMixin extends ChunkLightProvider {
     public int getLightLevel(BlockPos pos) {
         int light = super.getLightLevel(pos);
         BlockView world = chunkProvider.getWorld();
-        return MathHelper.floor(light * NuclearUtil.INSTANCE.getLightModifierFromWinter(LCCComponents.INSTANCE.getNuclear().maybeGet(world).map(NuclearTracker::getWinter).orElse(1f)));
+        return MathHelper.floor(light * NuclearUtil.INSTANCE.getLightModifierFromWinter(LCCComponents.INSTANCE.getNuclear().maybeGet(world).map(NuclearTracker::getWinter).map(NuclearUtil.INSTANCE::getWinterLevel).orElse(1)));
     }
 
 }

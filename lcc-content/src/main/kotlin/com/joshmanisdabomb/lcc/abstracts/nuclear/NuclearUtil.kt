@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.world.World
 import kotlin.math.max
+import kotlin.math.pow
 
 object NuclearUtil {
 
@@ -23,10 +24,17 @@ object NuclearUtil {
 
     fun getExplosionLifetimeFromUranium(amount: Int) = ceil(amount.div(2.5)) + 5
 
-    fun getWinterIncreaseFromUranium(amount: Int) = amount.toFloat().div(maxUranium).let { it.times(it) }.times(2.9f).plus(0.1f)
+    fun getWinterIncreaseFromUranium(amount: Int) = 0.5f + amount.toFloat().div(maxUranium).pow(1.5f).times(2.9f).plus(0.1f)
     fun getWinterIncreaseFromRadius(radius: Int) = getWinterIncreaseFromUranium(getUraniumFromExplosionRadius(radius).toInt())
 
-    fun getLightModifierFromWinter(winter: Float) = 1f.minus(winter.minus(4f).coerceAtLeast(0f).times(0.6f))
+    fun getWinterLevel(winter: Float) = winter.toInt().coerceIn(0, 5)
+
+    fun getLightModifierFromWinter(winterLevel: Int) = when (winterLevel) {
+        5 -> 0.4
+        4 -> 0.6
+        3 -> 0.85
+        else -> 1.0
+    }
 
     fun strike(world: World, entity: NuclearExplosionEntity) {
         LCCComponents.nuclear.maybeGet(world).orElse(null)?.strike(entity)

@@ -8,9 +8,11 @@ import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent
+import net.minecraft.client.MinecraftClient
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -28,7 +30,7 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
         this.radius.add(radius)
         this.time.add(time)
         this.position.add(pos)
-        _winter = _winter.plus(NuclearUtil.getWinterIncreaseFromRadius(radius.toInt())).coerceIn(0f, 5f)
+        _winter = _winter.plus(NuclearUtil.getWinterIncreaseFromRadius(radius.toInt())).coerceIn(0f, 6f)
         LCCComponents.nuclear.sync(world)
     }
 
@@ -60,10 +62,19 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
 
     override fun shouldSyncWith(player: ServerPlayerEntity) = player.world == this.world
 
+    override fun applySyncPacket(buf: PacketByteBuf) {
+        super.applySyncPacket(buf)
+        MinecraftClient.getInstance().worldRenderer.reload()
+    }
+
     override fun clientTick() = serverTick()
 
     override fun serverTick() {
-        _winter = _winter.minus(0.000001f.times(5f.minus(_winter).plus(1f))).coerceIn(0f, 5f)
+        val winter = NuclearUtil.getWinterLevel(_winter)
+        _winter = _winter.minus(0.000001f.times(6f.minus(_winter).plus(1f))).coerceIn(0f, 6f)
+        if (NuclearUtil.getLightModifierFromWinter(winter) != NuclearUtil.getLightModifierFromWinter(NuclearUtil.getWinterLevel(_winter))) {
+            LCCComponents.nuclear.sync(world)
+        }
     }
 
 }

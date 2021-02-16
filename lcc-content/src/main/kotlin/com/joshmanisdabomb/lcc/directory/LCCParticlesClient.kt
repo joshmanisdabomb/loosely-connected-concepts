@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.particle.NuclearExplosionParticle
 import com.joshmanisdabomb.lcc.particle.SoakingSoulSandBubbleParticle
 import com.joshmanisdabomb.lcc.particle.SoakingSoulSandJumpParticle
 import com.joshmanisdabomb.lcc.particle.SteamParticle
@@ -18,6 +19,7 @@ object LCCParticlesClient : ThingDirectory<(FabricSpriteProvider) -> ParticleFac
     val soaking_soul_sand_bubble by create(LCCParticles.soaking_soul_sand_bubble) { { sp -> factory(it, sp, ::SoakingSoulSandBubbleParticle) } }
     val soaking_soul_sand_jump by create(LCCParticles.soaking_soul_sand_jump) { { sp -> factory(it, { p, w, x, y, z, dx, dy, dz -> SoakingSoulSandJumpParticle(p as SoakingSoulSandJumpParticleEffect, w, x, y, z, dx, dy, dz) }) } }
     val steam by create(LCCParticles.steam) { { sp -> factory(it, sp, ::SteamParticle) } }
+    val nuclear by create(LCCParticles.nuclear) { { sp -> factory(it, sp, ::NuclearExplosionParticle) } }
 
     override fun registerAll(things: Map<String, (FabricSpriteProvider) -> ParticleFactory<*>>, properties: Map<String, ParticleType<*>>) {
         things.forEach { (k, v) -> typedRegister(properties[k]!!, v) }

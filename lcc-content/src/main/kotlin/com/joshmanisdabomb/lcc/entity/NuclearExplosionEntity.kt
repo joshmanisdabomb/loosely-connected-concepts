@@ -38,9 +38,11 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
 
     var causedBy: LivingEntity? = null
 
-    private var ticks = 0
+    var ticks = 0
     var lifetime = 0
     var radius = 0
+
+    var lastRenderTick = 0
 
     private val radius_d by lazy { radius.toDouble() }
     private val sqradius_d by lazy { radius_d*radius_d }
@@ -56,8 +58,10 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     private val z_range by lazy { -radius..radius }
     private val step by lazy { 1.0.div(3) }
 
+    override fun isAttackable() = false
+
     override fun tick() {
-        if (lifetime < 1 || radius < 1) return this.discard()
+        if (lifetime < 1 || radius < 1) return
         super.tick()
         if (!world.isClient) {
             if (ticks == 0) {
@@ -106,6 +110,8 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
                 return
             }
             dataTracker.set(tick_data, ticks)
+            dataTracker.set(radius_data, radius)
+            dataTracker.set(lifetime_data, lifetime)
         }
     }
 
@@ -178,9 +184,9 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     }
 
     override fun initDataTracker() {
-        dataTracker.startTracking(tick_data, 0)
-        dataTracker.startTracking(lifetime_data, 0)
-        dataTracker.startTracking(radius_data, 0)
+        dataTracker.startTracking(tick_data, ticks)
+        dataTracker.startTracking(lifetime_data, lifetime)
+        dataTracker.startTracking(radius_data, radius)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {

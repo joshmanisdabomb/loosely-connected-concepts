@@ -43,7 +43,8 @@ object NuclearUtil {
     fun addRadiation(entity: LivingEntity, duration: Int, amplifier: Int) {
         if ((entity as? PlayerEntity)?.isCreative == true) return
         val previous = entity.getStatusEffect(LCCEffects.radiation)
-        entity.applyStatusEffect(StatusEffectInstance(LCCEffects.radiation, duration.plus(previous?.duration ?: 0), max(amplifier, previous?.amplifier ?: -1)))
+        entity.removeStatusEffect(LCCEffects.radiation)
+        entity.addStatusEffect(StatusEffectInstance(LCCEffects.radiation, duration.plus(previous?.duration ?: 0), max(amplifier, previous?.amplifier ?: -1)))
     }
 
 }

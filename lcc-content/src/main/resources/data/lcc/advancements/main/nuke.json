@@ -2,7 +2,7 @@
   "parent": "lcc:main/uranium",
   "display": {
     "icon": {
-      "item": "minecraft:air"
+      "item": "lcc:atomic_bomb"
     },
     "title": {
       "translate": "advancements.lcc.main.nuke.title"
@@ -16,13 +16,14 @@
     "hidden": false
   },
   "criteria": {
-    "nope": {
-      "trigger": "minecraft:impossible"
+    "detonate": {
+      "trigger": "lcc:nuke",
+      "conditions": {}
     }
   },
   "requirements": [
     [
-      "nope"
+      "detonate"
     ]
   ]
 }

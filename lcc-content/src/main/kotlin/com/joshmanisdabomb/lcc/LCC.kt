@@ -33,6 +33,8 @@ object LCC : ModInitializer {
         LCCTags.init()
         LCCChunkTickets.init()
         LCCCriteria.init()
+
+        TestDirectory.init()
     }
 
     fun id(path: String): Identifier = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))

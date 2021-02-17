@@ -206,7 +206,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                 if (!world.isClient) explode(inventory?.uraniumCount ?: return ActionResult.PASS)
                 return ActionResult.SUCCESS
             } else if (stack.isIn(FabricToolTags.SHEARS)) {
-                //TODO custom cut sound
+                world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.atomic_bomb_defuse, SoundCategory.BLOCKS, 1.0F, 1.0F)
                 player.swingHand(hand)
                 if (!world.isClient) {
                     spawnDrops()

@@ -114,10 +114,20 @@
   },
   "entity.lcc.nuclear_explosion.explode": {
     "subtitle": "subtitles.lcc.entity.nuclear_explosion.explode",
-    "sounds": [ "lcc:random/nuclear_explode" ]
+    "sounds": [ "lcc:entity/nuclearexplosion/explode" ]
   },
   "entity.lcc.atomic_bomb.fuse": {
     "subtitle": "subtitles.lcc.entity.atomic_bomb.fuse",
-    "sounds": [ "lcc:random/nuclear_fuse" ]
+    "sounds": [ "lcc:entity/atomicbomb/fuse" ]
+  },
+  "entity.lcc.atomic_bomb.defuse": {
+    "subtitle": "subtitles.lcc.entity.atomic_bomb.defuse",
+    "sounds": [
+      "lcc:entity/atomicbomb/cut1",
+      "lcc:entity/atomicbomb/cut2",
+      "lcc:entity/atomicbomb/cut3",
+      "lcc:entity/atomicbomb/cut4",
+      "lcc:entity/atomicbomb/cut5"
+    ]
   }
 }

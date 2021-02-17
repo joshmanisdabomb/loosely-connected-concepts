@@ -28,6 +28,7 @@ object LCCSounds : RegistryDirectory<SoundEvent, Unit>() {
     val classic_crying_obsidian_set_spawn by create { SoundEvent(LCC.id("block.lcc.classic_crying_obsidian.set_spawn")) }
 
     val atomic_bomb_fuse by create { SoundEvent(LCC.id("entity.lcc.atomic_bomb.fuse")) }
+    val atomic_bomb_defuse by create { SoundEvent(LCC.id("entity.lcc.atomic_bomb.defuse")) }
     val nuclear_explosion_explode by create { SoundEvent(LCC.id("entity.lcc.nuclear_explosion.explode")) }
 
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }

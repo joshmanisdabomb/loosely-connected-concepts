@@ -34,6 +34,7 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
 
     override fun readFromNbt(tag: CompoundTag) {
         _winter = tag.getFloat("WinterLevel")
+        strikes.clear()
         tag.getList("Strikes", NBT_COMPOUND).forEach {
             (it as? CompoundTag)?.also {
                 this.strikes += NuclearStrike(NbtHelper.toBlockPos(it.getCompound("Position")), it.getShort("Radius"), it.getLong("Time"))

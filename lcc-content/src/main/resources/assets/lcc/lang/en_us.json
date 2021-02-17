@@ -191,6 +191,8 @@
   "advancements.lcc.main.uranium.description": "Refine the uranium into a different shade of green",
   "advancements.lcc.main.nuke.title": "The World is the Problem",
   "advancements.lcc.main.nuke.description": "Detonate an atomic bomb",
+  "advancements.lcc.main.nuke_first.title": "Nuclear Arms Race",
+  "advancements.lcc.main.nuke_first.description": "Be the first person on the server to detonate an atomic bomb",
   "advancements.lcc.wasteland.root.title": "LCC: Wasteland",
   "advancements.lcc.wasteland.root.description": "Perambulate into the haze of the wasteland",
   "advancements.lcc.wasteland.oil.title": "Another Mod With Oil",

@@ -14,7 +14,8 @@
     "SpongeFlowableFluidMixin",
     "StonecutterHandlerMixin",
     "BundleBagMixin",
-    "NuclearSkylightProviderMixin"
+    "NuclearSkylightProviderMixin",
+    "AdvancementTrackerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

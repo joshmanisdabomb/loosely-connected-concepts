@@ -2,7 +2,7 @@
   "parent": "lcc:main/nuke",
   "display": {
     "icon": {
-      "item": "minecraft:air"
+      "item": "lcc:atomic_bomb"
     },
     "title": {
       "translate": "advancements.lcc.main.nuke_first.title"
@@ -10,19 +10,25 @@
     "description": {
       "translate": "advancements.lcc.main.nuke_first.description"
     },
-    "frame": "task",
+    "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 500
   },
   "criteria": {
-    "nope": {
-      "trigger": "minecraft:impossible"
+    "race": {
+      "trigger": "lcc:race",
+      "conditions": {
+        "advancement": "lcc:main/nuke"
+      }
     }
   },
   "requirements": [
     [
-      "nope"
+      "race"
     ]
   ]
 }

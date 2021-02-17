@@ -16,9 +16,8 @@ const val NBT_INT_ARRAY = 11
 const val NBT_LONG_ARRAY = 12
 const val NBT_NUMERIC = 99
 
-fun CompoundTag.build(key: String, modify: CompoundTag.() -> Unit): CompoundTag {
-    val tag = this.getCompound(key)
-    modify(tag)
-    this.put(key, tag)
-    return tag
+fun CompoundTag.build(key: String, ref: CompoundTag = this.getCompound(key), modify: CompoundTag.() -> Unit): CompoundTag {
+    modify(ref)
+    this.put(key, ref)
+    return ref
 }

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.component.AdvancementRaceTracker
 import com.joshmanisdabomb.lcc.component.NuclearTracker
 import com.joshmanisdabomb.lcc.component.RadiationComponent
 import dev.onyxstudios.cca.api.v3.component.ComponentKey
@@ -19,12 +20,14 @@ object LCCComponents : ThingDirectory<ComponentKey<out ComponentV3>, Unit>(), Wo
     val nuclear by createWithName { ComponentRegistryV3.INSTANCE.getOrCreate(LCC.id(it), NuclearTracker::class.java) }
     val radiation by createWithName { ComponentRegistryV3.INSTANCE.getOrCreate(LCC.id(it), RadiationComponent::class.java) }
 
+    val advancement_race by createWithName { ComponentRegistryV3.INSTANCE.getOrCreate(LCC.id(it), AdvancementRaceTracker::class.java) }
+
     override fun registerWorldComponentFactories(registry: WorldComponentFactoryRegistry) {
         registry.register(nuclear, ::NuclearTracker)
     }
 
     override fun registerLevelComponentFactories(registry: LevelComponentFactoryRegistry) {
-
+        registry.register(advancement_race, ::AdvancementRaceTracker)
     }
 
     override fun registerEntityComponentFactories(registry: EntityComponentFactoryRegistry) {

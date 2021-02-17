@@ -64,7 +64,8 @@
     "modmenu:parent": "lcc-mod",
     "cardinal-components": [
       "lcc:nuclear",
-      "lcc:radiation"
+      "lcc:radiation",
+      "lcc:advancement_race"
     ]
   }
 }

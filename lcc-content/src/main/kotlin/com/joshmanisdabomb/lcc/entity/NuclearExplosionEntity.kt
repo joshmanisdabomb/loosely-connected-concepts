@@ -65,7 +65,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         if (!world.isClient) {
             if (ticks == 0) {
                 NuclearUtil.strike(world, this)
-                LOGGER.info("A nuclear explosion occurred at $blockPos of radius $radius, detonated by $causedBy.")
+                LOGGER.info("A nuclear explosion occurred at $blockPos of radius $radius, detonated by ${causedBy?.name?.asString()}.")
                 world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 20.0F, 1.0F)
                 (world as? ServerWorld)?.also {
                     //Change spawn if too close to blast.

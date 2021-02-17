@@ -40,7 +40,7 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract val maxEnergy: Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
+    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
 
     open val inputWidth = 3
     open val inputHeight = 2

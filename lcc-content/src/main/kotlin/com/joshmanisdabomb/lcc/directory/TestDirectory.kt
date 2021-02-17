@@ -23,8 +23,8 @@ object TestDirectory : BasicDirectory<Block, BlockExtraSettings>() {
         .setProperties(BlockExtraSettings().add(CreativeExExtraSetting(LCCGroup.LCCGroupCategory.TESTING)).add(FlammableExtraSetting(1,1)))
         .addTags("b", "c")
 
-    private fun <B : Block> initialiser(input: B, name: String, context: DirectoryContext<BlockExtraSettings, Unit>): B {
-        Registry.register(Registry.BLOCK, LCC.id(name), input)
+    private fun <B : Block> initialiser(input: B, context: DirectoryContext<BlockExtraSettings, Unit>): B {
+        Registry.register(Registry.BLOCK, LCC.id(context.name), input)
         return input
     }
 

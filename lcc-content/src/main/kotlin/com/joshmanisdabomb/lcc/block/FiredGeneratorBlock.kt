@@ -43,7 +43,7 @@ abstract class FiredGeneratorBlock(settings: Settings) : BlockWithEntity(setting
     abstract val slots: Int
     abstract val maxOutput: Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
+    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
 
     init {
         defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, false)

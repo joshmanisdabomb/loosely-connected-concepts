@@ -38,7 +38,7 @@ abstract class BatteryBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract fun alterEnergy(current: Float): Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this]}") }
+    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
 
     init {
         defaultState = stateManager.defaultState.with(FACING, Direction.UP)

@@ -46,7 +46,7 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc-base": [">=0.6.0", "${version}"],
+    "lcc-base": [">=0.7.0", "${version}"],
     "lcc-creative-ex": [">=0.1.2", "${version}"],
     "lcc-ct": [">=1.1.0", "${version}"],
     "lcc-energy": [">=2.0.0", "${version}"],
@@ -65,7 +65,10 @@
     "cardinal-components": [
       "lcc:nuclear",
       "lcc:radiation",
-      "lcc:advancement_race"
+      "lcc:advancement_race",
+      "lcc:gauntlet_actor",
+      "lcc:gauntlet_target",
+      "lcc:hearts"
     ]
   }
 }

@@ -26,8 +26,6 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     private var lastHealthMod = 0
     val healthMod get() = MathHelper.floor(exposure.div(2f)).times(2)
 
-    val uuid by lazy { UUID.fromString("e322834e-028f-481c-bc3e-53f0065bb8ec") }
-
     override fun readFromNbt(tag: CompoundTag) {
         exposure = tag.getFloat("Exposure")
     }
@@ -41,12 +39,12 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     }
 
     private fun writeSyncPacketExtra(buf: PacketByteBuf, player: ServerPlayerEntity, extra: Boolean) {
-        super.writeSyncPacket(buf, player)
+        buf.writeFloat(exposure)
         buf.writeBoolean(extra)
     }
 
     override fun applySyncPacket(buf: PacketByteBuf) {
-        super.applySyncPacket(buf)
+        exposure = buf.readFloat()
         if (buf.readBoolean() || entity.maxHealth > 6f) {
             entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
                 val new = EntityAttributeModifier(uuid, modifierName, -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
@@ -93,6 +91,7 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     }
 
     companion object {
+        val uuid by lazy { UUID.fromString("e322834e-028f-481c-bc3e-53f0065bb8ec") }
         const val modifierName = "LCC Radiation Exposure"
     }
 

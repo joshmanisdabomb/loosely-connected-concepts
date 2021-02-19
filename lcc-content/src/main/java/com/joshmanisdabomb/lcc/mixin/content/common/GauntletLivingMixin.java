@@ -1,18 +1,12 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
-import com.joshmanisdabomb.lcc.abstracts.EntityDataManagersKt;
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
-import com.joshmanisdabomb.lcc.directory.LCCTrackers;
-import kotlin.Unit;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
@@ -22,29 +16,9 @@ public abstract class GauntletLivingMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(at = @At("TAIL"), method = "<clinit>")
-    private static void initTrackers(CallbackInfo callback) {
-        LCCTrackers.INSTANCE.init(Unit.INSTANCE, c -> c.getName().startsWith("gauntlet") && c.getProperties() == LivingEntity.class);
-    }
-
-    @Inject(at = @At("TAIL"), method = "readCustomDataFromTag")
-    public void read(CompoundTag tag, CallbackInfo callback) {
-        EntityDataManagersKt.getGauntletFallHandler().read(this, tag);
-    }
-
-    @Inject(at = @At("TAIL"), method = "writeCustomDataToTag")
-    public void write(CompoundTag tag, CallbackInfo callback) {
-        EntityDataManagersKt.getGauntletFallHandler().write(this, tag);
-    }
-
-    @Inject(at = @At("TAIL"), method = "initDataTracker")
-    public void addTrackers(CallbackInfo callback) {
-        EntityDataManagersKt.getGauntletFallHandler().startTracker(this);
-    }
-
     @Inject(at = @At("HEAD"), method = "computeFallDamage", cancellable = true)
     public void fallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> callback) {
-        Byte fh = EntityDataManagersKt.getGauntletFallHandler().fromTracker(this);
+        /*Byte fh = EntityDataManagersKt.getGauntletFallHandler().fromTracker(this);
         if (fh > 0) {
             Integer fallRet = GauntletAction.handleFall((LivingEntity)(Object)this, fallDistance, damageMultiplier, fh);
             if (fallRet != null) {
@@ -52,7 +26,7 @@ public abstract class GauntletLivingMixin extends Entity {
                 callback.setReturnValue(fallRet);
                 callback.cancel();
             }
-        }
+        }*/
     }
 
 }

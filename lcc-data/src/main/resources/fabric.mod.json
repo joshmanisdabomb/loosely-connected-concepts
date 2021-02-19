@@ -33,7 +33,7 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc": ["0.3.2", "${version}"]
+    "lcc": ["0.4.2", "${version}"]
   },
   "custom": {
     "modmenu:api": true,

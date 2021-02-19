@@ -3,8 +3,6 @@ package com.joshmanisdabomb.lcc.abstracts.gauntlet
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
-import com.joshmanisdabomb.lcc.directory.LCCTrackers
-import com.joshmanisdabomb.lcc.entity.data.EntityDataManager
 import com.joshmanisdabomb.lcc.extensions.NBT_BYTE
 import com.joshmanisdabomb.lcc.extensions.NBT_INT
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
@@ -28,9 +26,9 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.pow
 
-enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val targetManager: EntityDataManager<CompoundTag>? = null) : StringIdentifiable {
+enum class GauntletAction : StringIdentifiable {
 
-    UPPERCUT(EntityDataManager("gauntlet_uppercut", LCCTrackers.gauntletUppercut), EntityDataManager("gauntlet_uppercut_target", LCCTrackers.gauntletUppercutTarget)) { //rising stone?
+    UPPERCUT { //rising stone?
         val actorSpeedV = 1.2
         val actorSpeedH = 0.5
         val targetSpeedV = 1.9
@@ -108,7 +106,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
             confirmVelocity(entity)
         }
     },
-    PUNCH(EntityDataManager("gauntlet_punch", LCCTrackers.gauntletPunch), EntityDataManager("gauntlet_punch_target", LCCTrackers.gauntletPunchTarget)) {
+    PUNCH {
         val actorSpeedH = 1.7
         val targetSpeedH = 2.2
         val damageRange = 3f..16f
@@ -237,8 +235,8 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
     /*STOMP(2), //tremor stone?
     BEAM(2)*/; //beam stone
 
-    abstract fun getActorCooldown(player: PlayerEntity, tag: CompoundTag = actorManager.fromTracker(player)): Int
-    abstract fun getActorCast(player: PlayerEntity, tag: CompoundTag = actorManager.fromTracker(player)): Int?
+    abstract fun getActorCooldown(player: PlayerEntity, tag: CompoundTag = CompoundTag()/*actorManager.fromTracker(player)*/): Int
+    abstract fun getActorCast(player: PlayerEntity, tag: CompoundTag = CompoundTag()/*actorManager.fromTracker(player)*/): Int?
     open val actorFallBreak: Double? = null
     open fun getTargetTimer(entity: Entity, tag: CompoundTag): Int? = null
     open val targetFallBreak: Double? = null
@@ -251,28 +249,28 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
     override fun asString() = name.toLowerCase()
 
     @JvmOverloads
-    fun isActing(player: PlayerEntity, tick: Int = actorManager.fromTracker(player).duration) = tick > -1
+    fun isActing(player: PlayerEntity, tick: Int = 0/*actorManager.fromTracker(player).duration*/) = tick > -1
 
     fun act(player: PlayerEntity, remaining: Int = 0, only: Boolean = !isActing(player)): Boolean {
         if (only) {
             val tag = CompoundTag().also { it.duration = 0; it.remaining = remaining }
             this.castInitial(player, tag)
-            actorManager.toTracker(player, tag)
+            //actorManager.toTracker(player, tag)
             return true
         }
         return false
     }
 
-    fun isTarget(entity: Entity) = targetManager?.fromTracker(entity)?.keys?.any() ?: false
+    fun isTarget(entity: Entity) = false//targetManager?.fromTracker(entity)?.keys?.any() ?: false
 
-    fun isTarget(entity: Entity, player: PlayerEntity) = targetManager?.fromTracker(entity)?.keys?.any { it == player.uuidAsString } ?: false
+    fun isTarget(entity: Entity, player: PlayerEntity) = false//targetManager?.fromTracker(entity)?.keys?.any { it == player.uuidAsString } ?: false
 
-    fun canTarget(): Boolean = targetManager != null
+    fun canTarget(): Boolean = false//targetManager != null
 
     fun target(entity: Entity, player: PlayerEntity, tag: CompoundTag = CompoundTag()): Boolean {
         val new = tag.copy().also { it.duration = 0; it.putUuid("by", player.uuid) }
         this.targetInitial(entity, player, new)
-        targetManager?.modifyTracker(entity) { it.copy().also { it.put(player.uuidAsString, new) } }
+        //targetManager?.modifyTracker(entity) { it.copy().also { it.put(player.uuidAsString, new) } }
         //if (entity is ServerPlayerEntity && entity.deathTime <= 0) entity.networkHandler.sendPacket(EntityTrackerUpdateS2CPacket(entity.entityId, entity.dataTracker, true))
         return true
     }
@@ -288,7 +286,7 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
     open fun targetTick(entity: Entity, tag: CompoundTag) = Unit
 
     fun cooldown(player: PlayerEntity): Int {
-        if (actorManager.fromTracker(player).getBoolean("cancelled")) return if (!player.isCreative) ceil(getActorCooldown(player).times(chargeCancelCooldown)) else cooldownCreative(player, true)
+        //if (actorManager.fromTracker(player).getBoolean("cancelled")) return if (!player.isCreative) ceil(getActorCooldown(player).times(chargeCancelCooldown)) else cooldownCreative(player, true)
         return if (!player.isCreative) getActorCooldown(player) else max(getActorCast(player) ?: -1, cooldownCreative(player, false))
     }
 
@@ -302,9 +300,9 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         return percent
     }
 
-    fun castPercentage(player: PlayerEntity, offset: Int = 0) = castPercent(player, actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
+    fun castPercentage(player: PlayerEntity, offset: Int = 0) = 0.0//castPercent(player, actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
 
-    fun isCasting(player: PlayerEntity, tick: Int = actorManager.fromTracker(player).duration) = castPercent(player, tick) != null
+    fun isCasting(player: PlayerEntity, tick: Int = 0/*actorManager.fromTracker(player).duration*/) = castPercent(player, tick) != null
 
     protected fun cooldownPercent(player: PlayerEntity, tick: Int): Double? {
         val effectiveCooldown = this.cooldown(player) - (this.getActorCast(player) ?: 0)
@@ -314,9 +312,9 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
         return percent
     }
 
-    fun cooldownPercentage(player: PlayerEntity, offset: Int = 0) = cooldownPercent(player, actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
+    fun cooldownPercentage(player: PlayerEntity, offset: Int = 0) = 0.0//cooldownPercent(player, actorManager.fromTracker(player).duration.plus(offset).coerceAtLeast(0))
 
-    fun isCooldown(player: PlayerEntity, tick: Int = actorManager.fromTracker(player).duration) = cooldownPercent(player, tick) != null
+    fun isCooldown(player: PlayerEntity, tick: Int = 0/*actorManager.fromTracker(player).duration*/) = cooldownPercent(player, tick) != null
 
     fun isChargeable() = chargeMaxTime > 0
 
@@ -357,9 +355,9 @@ enum class GauntletAction(val actorManager: EntityDataManager<CompoundTag>, val 
 
     open fun handleTargetFall(entity: LivingEntity, fallDistance: Float, damageMultiplier: Float, actor: Boolean): Int? = if (targetFallBreak == null) null else ceil((fallDistance - 3 - targetFallBreak!! - (entity.getStatusEffect(StatusEffects.JUMP_BOOST)?.amplifier?.plus(1) ?: 0)) * damageMultiplier)
 
-    fun markFallHandler(entity: LivingEntity, actor: Boolean) = entity.dataTracker.set(LCCTrackers.gauntletFallHandler, (ordinal + 1 + actor.toInt()).toByte())
+    fun markFallHandler(entity: LivingEntity, actor: Boolean) = Unit//entity.dataTracker.set(LCCTrackers.gauntletFallHandler, (ordinal + 1 + actor.toInt()).toByte())
 
-    fun cancel(player: PlayerEntity) = actorManager.toTracker(player, CompoundTag().also { it.duration = (getActorCast(player) ?: 0) + 1; it.putBoolean("cancelled", true) })
+    fun cancel(player: PlayerEntity) = Unit//actorManager.toTracker(player, CompoundTag().also { it.duration = (getActorCast(player) ?: 0) + 1; it.putBoolean("cancelled", true) })
 
     open fun forceStep(player: PlayerEntity, tag: CompoundTag) = false
 

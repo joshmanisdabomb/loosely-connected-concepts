@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
+import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.toInt
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -73,7 +74,7 @@ object HeartsOverlay : DrawableHelper() {
         }
         type.lastHealthValue = health
 
-        val regen = ceil(type.getHealth(player) + HeartType.crystalRegen.fromTracker(player).getFloat("amount"))
+        val regen = ceil(type.getHealth(player) + LCCComponents.hearts.maybeGet(player).map { it.crystalRegenAmount }.orElse(0f))
 
         val xPos = sw.div(2).minus(91)
 

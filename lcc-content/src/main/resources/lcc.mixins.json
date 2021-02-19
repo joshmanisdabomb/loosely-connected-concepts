@@ -5,7 +5,6 @@
   "mixins": [
     "ExtendedBlockMixin",
     "ExtendedDyeColorMixin",
-    "GauntletPlayerMixin",
     "GauntletLivingMixin",
     "GauntletEntityMixin",
     "HeartsLivingMixin",

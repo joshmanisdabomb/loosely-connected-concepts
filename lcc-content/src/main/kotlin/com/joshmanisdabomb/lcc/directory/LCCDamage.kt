@@ -7,21 +7,25 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.EntityDamageSource
 import net.minecraft.entity.player.PlayerEntity
 
-object LCCDamage : ThingDirectory<DamageSource, Unit>() {
+object LCCDamage : BasicDirectory<DamageSource, String>() {
 
-    fun gauntletUppercut(player: PlayerEntity) = EntityDamageSource(id("gauntlet_uppercut"), player)
-    fun gauntletPunch(player: PlayerEntity) = EntityDamageSource(id("gauntlet_punch"), player)
+    val gauntlet_punch_wall by entry(::initialiser) { LCCDamageSource(properties, bypassArmor = true, unblockable = true) }
 
-    val gauntlet_punch_wall by createWithName { LCCDamageSource(id(it), bypassArmor = true, unblockable = true) }
+    val heated by entry(::initialiser) { LCCDamageSource(properties, fire = true) }
+    val boiled by entry(::initialiser) { LCCDamageSource(properties, fire = true) }
+    val radiation by entry(::initialiser) { LCCDamageSource(properties, bypassArmor = true, unblockable = true) }
+
+    fun <D : DamageSource> initialiser(input: D, context: DirectoryContext<String>, parameters: Unit) = input
+
+    fun gauntletUppercut(player: PlayerEntity) = EntityDamageSource(name("gauntlet_uppercut"), player)
+
+    fun gauntletPunch(player: PlayerEntity) = EntityDamageSource(name("gauntlet_punch"), player)
 
     fun nuke(attacker: LivingEntity?): DamageSource {
-        return if (attacker != null) EntityDamageSource(id("nuke.player"), attacker).setExplosive() else LCCDamageSource(id("nuke")).setExplosive()
+        return if (attacker != null) EntityDamageSource(name("nuke.player"), attacker).setExplosive() else LCCDamageSource(name("nuke")).setExplosive()
     }
 
-    val heated by createWithName { LCCDamageSource(id(it), fire = true) }
-    val boiled by createWithName { LCCDamageSource(id(it), fire = true) }
-    val radiation by createWithName { LCCDamageSource(id(it), bypassArmor = true, unblockable = true) }
-
-    private fun id(name: String) = "${LCC.modid}.$name"
+    override fun defaultProperties(name: String) = name(name)
+    fun name(name: String) = "${LCC.modid}.$name"
 
 }

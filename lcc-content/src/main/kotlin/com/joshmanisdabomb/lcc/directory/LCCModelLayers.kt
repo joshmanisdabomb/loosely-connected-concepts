@@ -8,15 +8,24 @@ import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 
-object LCCModelLayers : ThingDirectory<EntityModelLayer, () -> TexturedModelData>() {
+object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData>() {
 
-    val pocket_zombie_pigman by create(PocketZombiePigmanEntityRenderer::data) { EntityModelLayer(LCC.id("pocket_zombie_pigman"), "main") }
+    val pocket_zombie_pigman by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(PocketZombiePigmanEntityRenderer::data)
 
-    val bounce_pad by create(BouncePadBlockEntityRenderer::data) { EntityModelLayer(LCC.id("bounce_pad"), "main") }
-    val time_rift by create(TimeRiftBlockEntityRenderer::data) { EntityModelLayer(LCC.id("time_rift"), "main") }
+    val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(BouncePadBlockEntityRenderer::data)
+    val time_rift by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(TimeRiftBlockEntityRenderer::data)
+
+    private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 
     fun build(builder: ImmutableMap.Builder<EntityModelLayer, TexturedModelData>) {
-        all.forEach { (k, v) -> builder.put(v, allProperties[k]!!()) }
+        entries.forEach { (k, v) -> builder.put(v.entry, v.properties()) }
     }
+
+    override fun id(name: String) = LCC.id(name)
+
+    override fun defaultProperties(name: String): () -> TexturedModelData = error("No default properties available for this directory.")
 
 }

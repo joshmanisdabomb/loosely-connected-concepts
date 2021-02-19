@@ -8,11 +8,9 @@ import net.minecraft.particle.DefaultParticleType
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-object LCCBasePacketsToClient : PacketDirectory() {
+object LCCBasePacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
 
-    override val _registry = ClientSidePacketRegistry.INSTANCE
-
-    val spawn_packet by create { PacketConsumer { context, data ->
+    val spawn_packet by entry(::initialiser) { PacketConsumer { context, data ->
         val entity = Registry.ENTITY_TYPE[data.readIdentifier()]
         val id = data.readInt()
         val uuid = data.readUuid()
@@ -38,7 +36,7 @@ object LCCBasePacketsToClient : PacketDirectory() {
         }
     } }
 
-    val basic_particle by create { PacketConsumer { context, data ->
+    val basic_particle by entry(::initialiser) { PacketConsumer { context, data ->
         val particle = Registry.PARTICLE_TYPE[data.readIdentifier()] as? DefaultParticleType ?: return@PacketConsumer
         val always = data.readBoolean()
         val x = data.readDouble()
@@ -52,6 +50,10 @@ object LCCBasePacketsToClient : PacketDirectory() {
         }
     } }
 
-    override fun id(path: String): Identifier = Identifier("lcc-base", path)
+    fun initialiser(input: PacketConsumer, context: DirectoryContext<Unit>, parameters: Unit) = input.also { ClientSidePacketRegistry.INSTANCE.register(context.id, input) }
+
+    override fun id(name: String) = Identifier("lcc-base", name)
+
+    override fun defaultProperties(name: String) = Unit
 
 }

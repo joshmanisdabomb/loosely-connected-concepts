@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.sound.BiomeMoodSound
 import net.minecraft.util.registry.BuiltinRegistries
-import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.biome.BiomeEffects
 import net.minecraft.world.biome.GenerationSettings
@@ -16,13 +15,13 @@ import net.minecraft.world.biome.SpawnSettings.SpawnEntry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures
 
-object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>() {
+object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), RegistryDirectory<Biome, Unit, Unit> {
 
-    override val _registry by lazy { BuiltinRegistries.BIOME }
+    override val registry by lazy { BuiltinRegistries.BIOME }
 
-    override fun id(path: String) = LCC.id(path)
+    override fun regId(name: String) = LCC.id(name)
 
-    val wasteland by create({ OverworldBiomes.addContinentalBiome(it, OverworldClimate.DRY, 0.3); OverworldBiomes.setRiverBiome(it, it) }) {
+    val wasteland by entry(::biomeInitialiser) {
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
@@ -60,9 +59,14 @@ object LCCBiomes : RegistryDirectory<Biome, Function1<RegistryKey<Biome>, Unit>>
                     DefaultBiomeFeatures.addDefaultDisks(this)
                     DefaultBiomeFeatures.addInfestedStone(this)
                     DefaultBiomeFeatures.addFossils(this)
-                }.build()).build()
+                }.build())
+    }.addInitListener { context, params -> val key = registry.getKey(context.entry).get(); OverworldBiomes.addContinentalBiome(key, OverworldClimate.DRY, 0.3); OverworldBiomes.setRiverBiome(key, key) }
+
+    fun biomeInitialiser(input: Biome.Builder, context: DirectoryContext<Unit>, parameters: Unit): Biome {
+        return initialiser(input.build(), context, parameters)
     }
 
-    override fun register(key: String, thing: Biome, properties: (RegistryKey<Biome>) -> Unit) = super.register(key, thing, properties).apply { properties(this) }
+    override fun defaultProperties(name: String) = Unit
+    override fun defaultContext() = Unit
 
 }

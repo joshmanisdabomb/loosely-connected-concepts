@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
-import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer.id
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
 import io.netty.buffer.Unpooled
@@ -104,7 +103,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
             entity.velocityModified = true
             entity.velocityDirty = true
 
-            PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient.id { bounce_pad_extension }, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
+            PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient[LCCPacketsToClient::bounce_pad_extension].first().id, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
         }
     }
 

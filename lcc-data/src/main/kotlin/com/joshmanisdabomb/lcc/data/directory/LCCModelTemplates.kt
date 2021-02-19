@@ -2,43 +2,43 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCCData
 import com.joshmanisdabomb.lcc.data.DataUtils
-import com.joshmanisdabomb.lcc.directory.ThingDirectory
+import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import net.minecraft.data.client.model.Model
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.util.Identifier
 import java.util.*
 
-object ModelTemplates : ThingDirectory<Model, Pair<String?, String?>>() {
+object ModelTemplates : BasicDirectory<Model, Unit>() {
 
-    val aligned_cross by createFromTemplate("block", aligned_cross_json, TextureKey.CROSS)
-    val generated1 by createFromReference(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
+    val aligned_cross by templateEntry("block", aligned_cross_json, TextureKey.CROSS)
+    val generated1 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
 
-    val cable4_center by createFromTemplate("block", cable4_center_json, TextureKey.END, TextureKey.PARTICLE)
-    val cable4_connection by createFromTemplate("block", cable4_connection_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
-    val cable4_item by createFromTemplate("block", cable4_item_json, TextureKey.SIDE, TextureKey.END)
+    val cable4_center by templateEntry("block", cable4_center_json, TextureKey.END, TextureKey.PARTICLE)
+    val cable4_connection by templateEntry("block", cable4_connection_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
+    val cable4_item by templateEntry("block", cable4_item_json, TextureKey.SIDE, TextureKey.END)
 
-    val template_bounce_pad by createFromTemplate("block", template_bounce_pad_block_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_0 by createFromTemplate("block", template_bounce_pad_0_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_1 by createFromTemplate("block", template_bounce_pad_1_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_2 by createFromTemplate("block", template_bounce_pad_2_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_3 by createFromTemplate("block", template_bounce_pad_3_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_4 by createFromTemplate("block", template_bounce_pad_4_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
-    val template_bounce_pad_item by createFromTemplate("item", template_bounce_pad_item_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
-    val template_spawner_table by createFromTemplate("block", template_spawner_table_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE)
-    val template_cog by createFromTemplate("block", template_cog_json, TextureKey.FRONT, TextureKey.BACK, TextureKey.PARTICLE)
-    val template_solar_panel by createFromTemplate("item", template_solar_panel_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM)
-    val template_turbine by createFromTemplate("block", template_turbine_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE)
-    val template_atomic_bomb_head by createFromTemplate("block", template_atomic_bomb_head_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
-    val template_atomic_bomb_middle by createFromTemplate("block", template_atomic_bomb_middle_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
-    val template_atomic_bomb_tail by createFromTemplate("block", template_atomic_bomb_tail_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, TextureKey.PARTICLE)
-    val template_atomic_bomb_item by createFromTemplate("item", template_atomic_bomb_item_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
+    val template_bounce_pad by templateEntry("block", template_bounce_pad_block_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_0 by templateEntry("block", template_bounce_pad_0_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_1 by templateEntry("block", template_bounce_pad_1_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_2 by templateEntry("block", template_bounce_pad_2_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_3 by templateEntry("block", template_bounce_pad_3_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_4 by templateEntry("block", template_bounce_pad_4_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_bounce_pad_item by templateEntry("item", template_bounce_pad_item_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
+    val template_spawner_table by templateEntry("block", template_spawner_table_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE)
+    val template_cog by templateEntry("block", template_cog_json, TextureKey.FRONT, TextureKey.BACK, TextureKey.PARTICLE)
+    val template_solar_panel by templateEntry("item", template_solar_panel_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM)
+    val template_turbine by templateEntry("block", template_turbine_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.BOTTOM, TextureKey.PARTICLE)
+    val template_atomic_bomb_head by templateEntry("block", template_atomic_bomb_head_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
+    val template_atomic_bomb_middle by templateEntry("block", template_atomic_bomb_middle_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
+    val template_atomic_bomb_tail by templateEntry("block", template_atomic_bomb_tail_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, TextureKey.PARTICLE)
+    val template_atomic_bomb_item by templateEntry("item", template_atomic_bomb_item_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
 
-    override fun registerAll(things: Map<String, Model>, properties: Map<String, Pair<String?, String?>>) {
-        things.forEach { (k, v) -> if (properties[k]!!.first != null && properties[k]!!.second != null) LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${properties[k]!!.first}/$k")) { DataUtils.parser.parse(properties[k]!!.second) } }
-    }
+    fun initialiser(input: Model, context: DirectoryContext<Unit>, parameters: Unit) = input.also { if (context.tags.size >= 2) LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${context.tags[0]}/$context.name")) { DataUtils.parser.parse(context.tags[1]) } }
 
-    fun createFromReference(parent: Identifier, vararg keys: TextureKey) = createWithNameProperties(Pair(null, null)) { n: String, p: Pair<String?, String?> -> Model(Optional.of(parent), Optional.empty(), *keys) }
-    fun createFromTemplate(folder: String, json: String, vararg keys: TextureKey) = createWithNameProperties(Pair(folder, json)) { n: String, p: Pair<String?, String?> -> Model(Optional.of(Identifier(LCCData.accessor.modid, "${p.first}/$n")), Optional.empty(), *keys) }
+    fun referenceEntry(parent: Identifier, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(parent), Optional.empty(), *keys) }
+    fun templateEntry(folder: String, json: String, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(Identifier(LCCData.accessor.modid, "${tags[0]}/$name")), Optional.empty(), *keys) }
+
+    override fun defaultProperties(name: String) = Unit
 
 }
 

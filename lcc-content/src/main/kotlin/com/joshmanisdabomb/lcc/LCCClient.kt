@@ -10,13 +10,12 @@ object LCCClient : ClientModInitializer {
         LCCBlocks.initClient()
         LCCItems.initClient()
         LCCBlockItems.initClient()
-        LCCGroups.init()
         LCCModels.init()
         LCCEntities.initRenderers()
         LCCBlockEntities.initRenderers()
         LCCFluids.initRenderers()
         LCCScreens.init()
-        LCCPacketsToClient.register()
+        LCCPacketsToClient.init()
         LCCParticlesClient.init()
     }
 

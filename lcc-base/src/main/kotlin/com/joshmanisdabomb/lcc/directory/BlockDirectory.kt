@@ -8,21 +8,20 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 
-abstract class BlockDirectory : BasicDirectory<Block, BlockExtraSettings>(), RegistryDirectory2<Block, BlockExtraSettings, Unit> {
+abstract class BlockDirectory : BasicDirectory<Block, BlockExtraSettings>(), RegistryDirectory<Block, BlockExtraSettings, Unit> {
 
     override val registry by lazy { Registry.BLOCK }
 
-    fun initClient() = initClient { true }
-    fun initClient(filter: (context: DirectoryContext<BlockExtraSettings, Unit>) -> Boolean) {
+    fun initClient(parameters: Unit = defaultContext(), filter: (context: DirectoryContext<BlockExtraSettings>) -> Boolean = { true }) {
         val entries = entries.values.filter { filter(it.context) }
-        entries.forEach { afterInitClient(it.entry, it) }
+        entries.forEach { afterInitClient(it.entry, it, parameters) }
     }
 
-    override fun <V : Block> afterInit(initialised: V, entry: DirectoryEntry<out Block, out V>) {
+    override fun <V : Block> afterInit(initialised: V, entry: DirectoryEntry<out Block, out V>, parameters: Unit) {
         entry.properties.initBlock(initialised)
     }
 
-    fun <V : Block> afterInitClient(initialised: V, entry: DirectoryEntry<out Block, out V>) {
+    fun <V : Block> afterInitClient(initialised: V, entry: DirectoryEntry<out Block, out V>, parameters: Unit) {
         entry.properties.initBlockClient(initialised)
     }
 

@@ -6,7 +6,7 @@ import net.fabricmc.api.ClientModInitializer
 object LCCBaseClient : ClientModInitializer {
 
     override fun onInitializeClient() {
-        LCCBasePacketsToClient.register()
+        LCCBasePacketsToClient.init()
     }
 
 }

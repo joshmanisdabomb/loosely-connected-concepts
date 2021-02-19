@@ -10,22 +10,24 @@ import net.fabricmc.api.Environment
 import net.minecraft.fluid.Fluid
 import net.minecraft.util.registry.Registry
 
-object LCCFluids : RegistryDirectory<Fluid, Unit>() {
+object LCCFluids : BasicDirectory<Fluid, Unit>(), RegistryDirectory<Fluid, Unit, Unit> {
 
-    override val _registry by lazy { Registry.FLUID }
+    override val registry by lazy { Registry.FLUID }
 
-    override fun id(path: String) = LCC.id(path)
+    override fun regId(name: String) = LCC.id(name)
 
-    val oil_still by create { OilFluid(true) }
-    val oil_flowing by create { OilFluid(false) }
+    val oil_still by entry(::initialiser) { OilFluid(true) }
+    val oil_flowing by entry(::initialiser) { OilFluid(false) }
 
-    val asphalt_still by create { AsphaltFluid(true) }
-    val asphalt_flowing by create { AsphaltFluid(false) }
+    val asphalt_still by entry(::initialiser) { AsphaltFluid(true) }
+    val asphalt_flowing by entry(::initialiser) { AsphaltFluid(false) }
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
         OilRenderer().register()
         AsphaltRenderer().register()
     }
+
+    override fun defaultProperties(name: String) = Unit
 
 }

@@ -29,14 +29,14 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
 
-object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
+object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
 
-    val ruby by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.BLASTING, time = 100)).add(RiftFromItemRecipeFactory(Items.EMERALD)).add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
-    val sapphire by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
-    val uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.BLASTING, time = 100)) }
-    val enriched_uranium by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enriched_uranium)) }
-    val uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
-    val enriched_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)).add(CustomRecipeFactory { d, i ->
+    val ruby by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.ruby_ore, RecipeSerializer.BLASTING, time = 100)).add(RiftFromItemRecipeFactory(Items.EMERALD)).add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
+    val sapphire by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(ItemTags.BEACON_PAYMENT_ITEMS)) }
+    val uranium by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.SMELTING)).add(SmeltFromItemRecipeFactory(LCCBlocks.uranium_ore, RecipeSerializer.BLASTING, time = 100)) }
+    val enriched_uranium by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enriched_uranium)) }
+    val uranium_nugget by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.uranium)) }
+    val enriched_uranium_nugget by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)).add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(LCCItems.uranium)
             .addOutput(i, 1, RefiningRecipe.OutputFunction.RangeOutputFunction(8))
@@ -48,20 +48,20 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCItems.uranium) }
             .apply { offerInterface(this, d, suffix(i.identifier.run { LCC.id(path) }, "from_refiner")) }
     }).add(ItemTagFactory(LCCTags.enriched_uranium)) }
-    val heavy_uranium_nugget by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.heavy_uranium)) }
+    val heavy_uranium_nugget by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.heavy_uranium)) }
 
-    val ruby_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("ruby_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)).add(ToolItemTagFactory) }
-    val topaz_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("topaz_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.topaz_shard)).add(ToolItemTagFactory) }
-    val emerald_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("emerald_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.EMERALD)).add(ToolItemTagFactory) }
-    val sapphire_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("sapphire_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.sapphire)).add(ToolItemTagFactory) }
-    val amethyst_equipment by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("amethyst_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.AMETHYST_SHARD)).add(ToolItemTagFactory) }
-    val ruby_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("ruby_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.ruby)) }
-    val topaz_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("topaz_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.topaz_shard)) }
-    val emerald_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("emerald_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(Items.EMERALD)) }
-    val sapphire_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("sapphire_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.sapphire)) }
-    val amethyst_armor by createWithName { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("amethyst_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(Items.AMETHYST_SHARD)) }
+    val ruby_equipment by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("ruby_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.ruby)).add(ToolItemTagFactory) }
+    val topaz_equipment by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("topaz_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.topaz_shard)).add(ToolItemTagFactory) }
+    val emerald_equipment by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("emerald_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.EMERALD)).add(ToolItemTagFactory) }
+    val sapphire_equipment by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("sapphire_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.sapphire)).add(ToolItemTagFactory) }
+    val amethyst_equipment by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("amethyst_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(Items.AMETHYST_SHARD)).add(ToolItemTagFactory) }
+    val ruby_armor by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("ruby_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.ruby)) }
+    val topaz_armor by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("topaz_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.topaz_shard)) }
+    val emerald_armor by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("emerald_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(Items.EMERALD)) }
+    val sapphire_armor by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("sapphire_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.sapphire)) }
+    val amethyst_armor by entry(::initialiser) { ItemDataContainer().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("amethyst_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(Items.AMETHYST_SHARD)) }
 
-    val simulation_fabric by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val simulation_fabric by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapelessRecipeJsonFactory.create(i)
             .input(Blocks.STONE).input(Blocks.ANDESITE).input(Blocks.GRANITE).input(Blocks.DIORITE).input(Blocks.COBBLESTONE).input(Blocks.MOSSY_COBBLESTONE).input(Blocks.STONE_BRICKS).input(Blocks.BRICKS)
             .input(Blocks.DIRT).input(Blocks.GRASS_BLOCK).input(Blocks.SAND).input(Blocks.GRAVEL).input(Blocks.CLAY)
@@ -75,20 +75,20 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionShapeless(this, LCCItems.simulation_fabric) }
             .apply { offerShapeless(this, d, override = LCCRecipeSerializers.spawner_table_shapeless) }
     }) }
-    val classic_leather_helmet by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_HELMET)) }
-    val classic_leather_chestplate by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_CHESTPLATE)) }
-    val classic_leather_leggings by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_LEGGINGS)) }
-    val classic_leather_boots by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_BOOTS)) }
-    val classic_studded_leather_helmet by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_helmet), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCC.id(LCCItems[i]!!)) } }) }
-    val classic_studded_leather_chestplate by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_chestplate), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCC.id(LCCItems[i]!!)) } }) }
-    val classic_studded_leather_leggings by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_leggings), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCC.id(LCCItems[i]!!)) } }) }
-    val classic_studded_leather_boots by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_boots), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCC.id(LCCItems[i]!!)) } }) }
-    val classic_raw_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.PORKCHOP)) }
-    val classic_cooked_porkchop by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_PORKCHOP)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMELTING, experience = 0.35f)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMOKING, experience = 0.35f, time = 100)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.CAMPFIRE_COOKING, experience = 0.35f, time = 600)) }
-    val classic_raw_fish by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COD)) }
-    val classic_cooked_fish by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_COD)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.SMELTING, experience = 0.35f)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.SMOKING, experience = 0.35f, time = 100)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.CAMPFIRE_COOKING, experience = 0.35f, time = 600)) }
-    val classic_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.APPLE)) }
-    val classic_golden_apple by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.ENCHANTED_GOLDEN_APPLE)).add(CustomRecipeFactory { d, i ->
+    val classic_leather_helmet by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_HELMET)) }
+    val classic_leather_chestplate by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_CHESTPLATE)) }
+    val classic_leather_leggings by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_LEGGINGS)) }
+    val classic_leather_boots by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.LEATHER_BOOTS)) }
+    val classic_studded_leather_helmet by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_helmet), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCCItems[i].id) } }) }
+    val classic_studded_leather_chestplate by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_chestplate), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCCItems[i].id) } }) }
+    val classic_studded_leather_leggings by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_leggings), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCCItems[i].id) } }) }
+    val classic_studded_leather_boots by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i -> SmithingRecipeJsonFactory.create(Ingredient.ofItems(LCCItems.classic_leather_boots), Ingredient.ofItems(Items.IRON_INGOT), i).apply { hasCriterionSmithing(this, LCCItems.classic_leather_helmet) }.apply { offerSmithing(this, d, LCCItems[i].id) } }) }
+    val classic_raw_porkchop by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.PORKCHOP)) }
+    val classic_cooked_porkchop by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_PORKCHOP)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMELTING, experience = 0.35f)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.SMOKING, experience = 0.35f, time = 100)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_porkchop, RecipeSerializer.CAMPFIRE_COOKING, experience = 0.35f, time = 600)) }
+    val classic_raw_fish by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COD)) }
+    val classic_cooked_fish by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.COOKED_COD)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.SMELTING, experience = 0.35f)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.SMOKING, experience = 0.35f, time = 100)).add(SmeltFromItemRecipeFactory(LCCItems.classic_raw_fish, RecipeSerializer.CAMPFIRE_COOKING, experience = 0.35f, time = 600)) }
+    val classic_apple by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.APPLE)) }
+    val classic_golden_apple by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(RiftFromItemRecipeFactory(Items.ENCHANTED_GOLDEN_APPLE)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ggg")
             .pattern("gag")
@@ -98,11 +98,11 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, LCCItems.classic_apple) }
             .apply { offerShaped(this, d) }
     }) }
-    val quiver by createWithName { ItemDataContainer().defaultLang().add(QuiverItemAssetFactory).add(RiftFromItemRecipeFactory(Items.BUNDLE)) }
+    val quiver by entry(::initialiser) { ItemDataContainer().defaultLang().add(QuiverItemAssetFactory).add(RiftFromItemRecipeFactory(Items.BUNDLE)) }
 
-    val full_hearts by createWithName { ItemDataContainer().affects(LCCItems.heart_full.values.toList()).defaultLang().defaultItemAsset().add(TransformTranslationFactory(*LCCData.accessor.locales.toTypedArray()) { it.replace(" Full", "") }) }
+    val full_hearts by entry(::initialiser) { ItemDataContainer().affects(LCCItems.heart_full.values.toList()).defaultLang().defaultItemAsset().add(TransformTranslationFactory(*LCCData.accessor.locales.toTypedArray()) { it.replace(" Full", "") }) }
 
-    val gauntlet by createWithName { ItemDataContainer().add(DynamicItemAssetFactory).add(LiteralTranslationFactory("Doom Gauntlet")).add(CustomRecipeFactory { d, i ->
+    val gauntlet by entry(::initialiser) { ItemDataContainer().add(DynamicItemAssetFactory).add(LiteralTranslationFactory("Doom Gauntlet")).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("       br ")
             .pattern("biiiggggbt")
@@ -123,7 +123,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
 
-    val asphalt_bucket by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val asphalt_bucket by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(LCCItems.oil_bucket)
             .addInput(Blocks.GRAVEL, 8)
@@ -137,7 +137,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offerInterface(this, d) }
     }) }
 
-    val redstone_battery by createWithName { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(CustomRecipeFactory { d, i ->
+    val redstone_battery by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("iei")
             .pattern("crc")
@@ -150,7 +150,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    val silicon by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val silicon by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(Blocks.SAND)
             .addInput(Items.COAL)
@@ -173,7 +173,7 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(loc(i), "from_red_sand")) }
     }) }
-    val turbine_blades by createWithName { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val turbine_blades by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("b b")
             .pattern(" c ")
@@ -184,12 +184,15 @@ object LCCItemData : ThingDirectory<ItemDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    override fun init(predicate: (name: String, properties: Unit) -> Boolean) {
-        super.init(predicate)
+    fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
+
+    override fun defaultProperties(name: String) = Unit
+
+    override fun afterInitAll(initialised: List<DirectoryEntry<out ItemDataContainer, out ItemDataContainer>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
         all.forEach { (k, v) -> v.init(k, LCCItems[k]) }
 
         val missing = LCCItems.all.values.minus(all.values.flatMap { it.affects })
-        missing.forEach { val key = LCCItems[it]!!; defaults().init(key, it) }
+        missing.forEach { val key = LCCItems[it].name; defaults().init(key, it) }
     }
 
     fun defaults() = ItemDataContainer().defaultLang().defaultItemAsset()

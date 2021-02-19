@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockRenderView
 
 @Environment(EnvType.CLIENT)
-open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val still_texture: Identifier = LCC.id("block/${LCCFluids[still]}"), val flowing_texture: Identifier = LCC.id("block/${LCCFluids[flowing]}"), val color: Int = 0xFFFFFF) : FluidRenderHandler, SimpleSynchronousResourceReloadListener, ClientSpriteRegistryCallback {
+open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, val still_texture: Identifier = LCC.id("block/${LCCFluids[still].name}"), val flowing_texture: Identifier = LCC.id("block/${LCCFluids[flowing].name}"), val color: Int = 0xFFFFFF) : FluidRenderHandler, SimpleSynchronousResourceReloadListener, ClientSpriteRegistryCallback {
 
     val sprites = arrayOfNulls<Sprite>(2)
 
@@ -39,7 +39,7 @@ open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, v
         registry.register(flowing_texture)
     }
 
-    override fun getFabricId() = Identifier(LCC.modid, "${LCCFluids[still]}_reload_listener")
+    override fun getFabricId() = Identifier(LCC.modid, "${LCCFluids[still].name}_reload_listener")
 
     override fun apply(resourceManager: ResourceManager) {
         with(MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.directory.LCCTrackers;
+import kotlin.Unit;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +22,7 @@ public abstract class GauntletPlayerMixin extends LivingEntity {
 
     @Inject(at = @At("TAIL"), method = "<clinit>")
     private static void initTrackers(CallbackInfo callback) {
-        LCCTrackers.INSTANCE.init((s, p) -> s.startsWith("gauntlet") && p == PlayerEntity.class);
+        LCCTrackers.INSTANCE.init(Unit.INSTANCE, c -> c.getName().startsWith("gauntlet") && c.getProperties() == PlayerEntity.class);
     }
 
     @Inject(at = @At("TAIL"), method = "readCustomDataFromTag")

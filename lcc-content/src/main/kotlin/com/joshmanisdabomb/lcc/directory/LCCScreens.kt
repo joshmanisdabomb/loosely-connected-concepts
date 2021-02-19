@@ -2,29 +2,30 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.gui.screen.*
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
+import net.minecraft.text.Text
 
-object LCCScreens : ThingDirectory<ScreenRegistry.Factory<*, *>, ScreenHandlerType<*>>() {
+object LCCScreens : AdvancedDirectory<Any, ScreenRegistry.Factory<out ScreenHandler, *>, ScreenHandlerType<out ScreenHandler>, Unit>() {
 
-    val spawner_table by create(LCCScreenHandlers.spawner_table) { ScreenRegistry.Factory(::DungeonTableScreen) }
+    val spawner_table by entry(::initialiser) { ::DungeonTableScreen }
 
-    val refiner by create(LCCScreenHandlers.refiner) { ScreenRegistry.Factory(::RefinerScreen) }
-    val composite_processor by create(LCCScreenHandlers.composite_processor) { ScreenRegistry.Factory(::CompositeProcessorScreen) }
+    val refiner by entry(::initialiser) { ::RefinerScreen }
+    val composite_processor by entry(::initialiser) {::CompositeProcessorScreen }
 
-    val coal_generator by create(LCCScreenHandlers.coal_generator) { ScreenRegistry.Factory(::CoalFiredGeneratorScreen) }
-    val oil_generator by create(LCCScreenHandlers.oil_generator) { ScreenRegistry.Factory(::OilFiredGeneratorScreen) }
+    val coal_generator by entry(::initialiser) { ::CoalFiredGeneratorScreen }
+    val oil_generator by entry(::initialiser) { ::OilFiredGeneratorScreen }
 
-    val energy_bank by create(LCCScreenHandlers.energy_bank) { ScreenRegistry.Factory(::EnergyBankScreen) }
+    val energy_bank by entry(::initialiser) { ::EnergyBankScreen }
 
-    val atomic_bomb by create(LCCScreenHandlers.atomic_bomb) { ScreenRegistry.Factory(::AtomicBombScreen) }
+    val atomic_bomb by entry(::initialiser) { ::AtomicBombScreen }
 
-    override fun registerAll(things: Map<String, ScreenRegistry.Factory<*, *>>, properties: Map<String, ScreenHandlerType<*>>) {
-        things.forEach { (k, v) -> typedRegister(properties[k]!!, v) }
-    }
+    fun <S, H : ScreenHandler> initialiser(input: (H, PlayerInventory, Text) -> S, context: DirectoryContext<ScreenHandlerType<out ScreenHandler>>, parameters: Unit) where S : Screen, S : ScreenHandlerProvider<H> = ScreenRegistry.Factory(input).also { ScreenRegistry.register(context.properties as ScreenHandlerType<H>, input) }
 
-    private fun <T : ScreenHandler> typedRegister(type: ScreenHandlerType<T>, v: ScreenRegistry.Factory<*, *>) {
-        ScreenRegistry.register(type, v as ScreenRegistry.Factory<T, *>)
-    }
+    override fun defaultProperties(name: String) = LCCScreenHandlers[name]
+    override fun defaultContext() = Unit
 
 }

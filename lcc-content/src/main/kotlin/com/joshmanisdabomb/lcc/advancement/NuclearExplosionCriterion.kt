@@ -37,7 +37,7 @@ class NuclearExplosionCriterion : AbstractCriterion<NuclearExplosionCriterion.Co
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.nuke] ?: error("Could not determine ID.")) }
+        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.nuke].name) }
 
         fun create(uranium: NumberRange.IntRange): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, uranium)

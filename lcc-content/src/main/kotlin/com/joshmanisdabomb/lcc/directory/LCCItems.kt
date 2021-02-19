@@ -22,7 +22,7 @@ object LCCItems : ItemDirectory() {
 
     //TODO dispenser behaviours
 
-    override fun id(path: String) = LCC.id(path)
+    override fun regId(name: String) = LCC.id(name)
 
     //Test Itens
     val test_item by entry(::initialiser) { Item(Item.Settings().defaults()) }

@@ -7,20 +7,37 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.player.PlayerEntity
 
-object LCCTrackers : ThingDirectory<TrackedData<*>, Class<out Entity>>() {
+//TODO replace with cardinal components
+object LCCTrackers : BasicDirectory<TrackedData<*>, Class<out Entity>>() {
 
-    val heartsLastType by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.BYTE) }
-    val heartsIron by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
-    val heartsIronMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
-    val heartsCrystal by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
-    val heartsCrystalRegen by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
-    val heartsCrystalMax by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
-    val heartsTemporary by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.FLOAT) }
+    val heartsLastType by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.BYTE) }
+        .setProperties(LivingEntity::class.java)
+    val heartsIron by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.FLOAT) }
+        .setProperties(LivingEntity::class.java)
+    val heartsIronMax by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.FLOAT) }
+        .setProperties(LivingEntity::class.java)
+    val heartsCrystal by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.FLOAT) }
+        .setProperties(LivingEntity::class.java)
+    val heartsCrystalRegen by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+        .setProperties(LivingEntity::class.java)
+    val heartsCrystalMax by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.FLOAT) }
+        .setProperties(LivingEntity::class.java)
+    val heartsTemporary by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.FLOAT) }
+        .setProperties(LivingEntity::class.java)
 
-    val gauntletFallHandler by create(LivingEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.BYTE) }
-    val gauntletUppercut by create(PlayerEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
-    val gauntletUppercutTarget by create(Entity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
-    val gauntletPunch by create(PlayerEntity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
-    val gauntletPunchTarget by create(Entity::class.java) { DataTracker.registerData(it, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+    val gauntletFallHandler by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.BYTE) }
+        .setProperties(LivingEntity::class.java)
+    val gauntletUppercut by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+        .setProperties(PlayerEntity::class.java)
+    val gauntletUppercutTarget by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+        .setProperties(Entity::class.java)
+    val gauntletPunch by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+        .setProperties(PlayerEntity::class.java)
+    val gauntletPunchTarget by entry(::initialiser) { DataTracker.registerData(properties, TrackedDataHandlerRegistry.TAG_COMPOUND) }
+        .setProperties(Entity::class.java)
+
+    fun <T> initialiser(input: TrackedData<T>, context: DirectoryContext<Class<out Entity>>, parameters: Unit) = input
+
+    override fun defaultProperties(name: String) = error("No default properties available for this directory.")
 
 }

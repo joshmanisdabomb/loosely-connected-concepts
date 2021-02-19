@@ -31,7 +31,7 @@ import net.minecraft.world.BlockView
 
 object LCCBlocks : BlockDirectory() {
 
-    override fun id(path: String) = LCC.id(path)
+    override fun regId(name: String) = LCC.id(name)
 
     override fun defaultProperties(name: String) = BlockExtraSettings()
 

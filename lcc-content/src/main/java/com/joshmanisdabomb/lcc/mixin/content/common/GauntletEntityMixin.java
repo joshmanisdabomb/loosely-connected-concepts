@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.directory.LCCTrackers;
+import kotlin.Unit;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +18,7 @@ public abstract class GauntletEntityMixin {
 
     @Inject(at = @At("TAIL"), method = "<clinit>")
     private static void initTrackers(CallbackInfo callback) {
-        LCCTrackers.INSTANCE.init((s, p) -> s.startsWith("gauntlet") && p == Entity.class);
+        LCCTrackers.INSTANCE.init(Unit.INSTANCE, c -> c.getName().startsWith("gauntlet") && c.getProperties() == Entity.class);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;readCustomDataFromTag(Lnet/minecraft/nbt/CompoundTag;)V"), method = "fromTag")

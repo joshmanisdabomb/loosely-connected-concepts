@@ -9,13 +9,9 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
 
-object LCCPacketsToServer : PacketDirectory() {
+object LCCPacketsToServer : BasicDirectory<PacketConsumer, Unit>() {
 
-    override val _registry = ServerSidePacketRegistry.INSTANCE
-
-    override fun id(path: String) = LCC.id(path)
-
-    val gauntlet_switch by create { PacketConsumer { context, data ->
+    val gauntlet_switch by entry(::initialiser) { PacketConsumer { context, data ->
         val ability = data.readByte().coerceIn(0, GauntletAction.values().size.toByte())
         context.taskQueue.execute {
             if (context.player?.mainHandStack?.item == LCCItems.gauntlet) {
@@ -24,7 +20,7 @@ object LCCPacketsToServer : PacketDirectory() {
         }
     } }
 
-    val atomic_bomb_detonate by create { PacketConsumer { context, data ->
+    val atomic_bomb_detonate by entry(::initialiser) { PacketConsumer { context, data ->
         val dim = data.readIdentifier()
         val pos = data.readBlockPos()
         context.taskQueue.execute {
@@ -36,5 +32,11 @@ object LCCPacketsToServer : PacketDirectory() {
             (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.detonate(player)
         }
     } }
+
+    fun initialiser(input: PacketConsumer, context: DirectoryContext<Unit>, parameters: Unit) = input.also { ServerSidePacketRegistry.INSTANCE.register(context.id, input) }
+
+    override fun id(name: String) = LCC.id(name)
+
+    override fun defaultProperties(name: String) = Unit
 
 }

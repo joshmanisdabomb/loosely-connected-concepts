@@ -40,7 +40,7 @@ class RaceCriterion : AbstractCriterion<RaceCriterion.Conditions>() {
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.race] ?: error("Could not determine ID.")) }
+        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.race].name) }
 
         fun create(advancement: Identifier): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, advancement)

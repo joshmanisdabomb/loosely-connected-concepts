@@ -31,7 +31,7 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
 
     val nuclear_fire by entry(::initialiser) { Replacement() }
 
-    override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block, Unit>) -> Boolean) {
+    override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block>) -> Boolean) {
         LCCBlocks.all.forEach { (k, v) ->
             val blockItem = (initialised.firstOrNull { it.name == k }?.input ?: Replacement(BlockItem(v, Item.Settings().defaults()))).bi ?: return@forEach
             Registry.register(Registry.ITEM, LCC.id(k), blockItem)
@@ -40,10 +40,10 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
         }
     }
 
-    fun initialiser(input: Replacement, context: DirectoryContext<Block, Unit>) = input.bi
+    fun initialiser(input: Replacement, context: DirectoryContext<Block>, parameters: Unit) = input.bi
 
     override fun defaultProperties(name: String) = LCCBlocks[name]
-    override fun defaultContext(name: String) = Unit
+    override fun defaultContext() = Unit
 
     fun initClient() {
         _map.forEach { (k, v) ->  LCCBlocks[v.block].properties.initItemClient(v) }

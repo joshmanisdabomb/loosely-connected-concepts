@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.mixin.content.common;
 import com.joshmanisdabomb.lcc.abstracts.EntityDataManagersKt;
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.directory.LCCTrackers;
+import kotlin.Unit;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,7 +24,7 @@ public abstract class GauntletLivingMixin extends Entity {
 
     @Inject(at = @At("TAIL"), method = "<clinit>")
     private static void initTrackers(CallbackInfo callback) {
-        LCCTrackers.INSTANCE.init((s, p) -> s.startsWith("gauntlet") && p == LivingEntity.class);
+        LCCTrackers.INSTANCE.init(Unit.INSTANCE, c -> c.getName().startsWith("gauntlet") && c.getProperties() == LivingEntity.class);
     }
 
     @Inject(at = @At("TAIL"), method = "readCustomDataFromTag")

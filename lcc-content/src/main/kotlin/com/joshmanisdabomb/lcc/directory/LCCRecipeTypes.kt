@@ -7,17 +7,21 @@ import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
 import net.minecraft.util.registry.Registry
+import kotlin.reflect.KClass
 
-object LCCRecipeTypes : RegistryDirectory<RecipeType<*>, Unit>() {
+object LCCRecipeTypes : AdvancedDirectory<KClass<out Recipe<*>>, RecipeType<out Recipe<*>>, Unit, Unit>(), RegistryDirectory<RecipeType<out Recipe<*>>, Unit, Unit> {
 
-    override val _registry by lazy { Registry.RECIPE_TYPE }
+    override val registry by lazy { Registry.RECIPE_TYPE }
 
-    override fun id(path: String) = LCC.id(path)
+    override fun regId(name: String) = LCC.id(name)
 
-    val spawner_table by createWithName<RecipeType<DungeonTableRecipe>>(this@LCCRecipeTypes::default)
-    val time_rift by createWithName<RecipeType<TimeRiftRecipe>>(this@LCCRecipeTypes::default)
-    val refining by createWithName<RecipeType<RefiningRecipe>>(this@LCCRecipeTypes::default)
+    val spawner_table by entry(::recipeInitialiser) { DungeonTableRecipe::class }
+    val time_rift by entry(::recipeInitialiser) { TimeRiftRecipe::class }
+    val refining by entry(::recipeInitialiser) { RefiningRecipe::class }
 
-    private fun <T : Recipe<*>> default(name: String) = object : RecipeType<T> { override fun toString() = name }
+    fun <T : Recipe<*>> recipeInitialiser(input: KClass<T>, context: DirectoryContext<Unit>, parameters: Unit) = this.initialiser(object : RecipeType<T> { override fun toString() = context.name }, context, parameters)
+
+    override fun defaultProperties(name: String) = Unit
+    override fun defaultContext() = Unit
 
 }

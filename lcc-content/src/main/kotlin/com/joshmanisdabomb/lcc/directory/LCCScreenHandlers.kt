@@ -3,21 +3,36 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.inventory.container.*
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry
+import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.screen.ScreenHandlerType
 
-object LCCScreenHandlers : ThingDirectory<ScreenHandlerType<out ScreenHandler>, Unit>() {
+object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHandler>, Unit, Unit>() {
 
-    val spawner_table by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::DungeonTableScreenHandler) }
+    val spawner_table by entry(::simpleInitialiser) { ::DungeonTableScreenHandler }
 
-    val refiner by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::RefinerScreenHandler) }
-    val composite_processor by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::CompositeProcessorScreenHandler) }
+    val refiner by entry(::simpleInitialiser) { ::RefinerScreenHandler }
+    val composite_processor by entry(::simpleInitialiser) { ::CompositeProcessorScreenHandler }
 
-    val coal_generator by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::CoalFiredGeneratorScreenHandler) }
-    val oil_generator by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::OilFiredGeneratorScreenHandler) }
+    val coal_generator by entry(::simpleInitialiser) { ::CoalFiredGeneratorScreenHandler }
+    val oil_generator by entry(::simpleInitialiser) { ::OilFiredGeneratorScreenHandler }
 
-    val energy_bank by createWithName { ScreenHandlerRegistry.registerSimple(LCC.id(it), ::EnergyBankScreenHandler) }
+    val energy_bank by entry(::simpleInitialiser) { ::EnergyBankScreenHandler }
 
-    val atomic_bomb by createWithName { ScreenHandlerRegistry.registerExtended(LCC.id(it), ::AtomicBombScreenHandler) }
+    val atomic_bomb by entry(::extendedInitialiser) { ::AtomicBombScreenHandler }
+
+    override fun id(name: String) = LCC.id(name)
+
+    fun <S : ScreenHandler> simpleInitialiser(input: (Int, PlayerInventory) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {
+        return ScreenHandlerRegistry.registerSimple(context.id, input)
+    }
+
+    fun <S : ScreenHandler> extendedInitialiser(input: (Int, PlayerInventory, PacketByteBuf) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {
+        return ScreenHandlerRegistry.registerExtended(context.id, input)
+    }
+
+    override fun defaultProperties(name: String) = Unit
+    override fun defaultContext() = Unit
 
 }

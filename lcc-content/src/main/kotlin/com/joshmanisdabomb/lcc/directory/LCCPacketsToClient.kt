@@ -11,13 +11,9 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 
-object LCCPacketsToClient : PacketDirectory() {
+object LCCPacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
 
-    override val _registry = ClientSidePacketRegistry.INSTANCE
-
-    override fun id(path: String) = LCC.id(path)
-
-    val soul_sand_jump_particle by create { PacketConsumer { context, data ->
+    val soul_sand_jump_particle by entry(::initialiser) { PacketConsumer { context, data ->
         val always = data.readBoolean()
         val x = data.readDouble()
         val y = data.readDouble()
@@ -34,7 +30,7 @@ object LCCPacketsToClient : PacketDirectory() {
         }
     } }
 
-    val bounce_pad_extension by create { PacketConsumer { context, data ->
+    val bounce_pad_extension by entry(::initialiser) { PacketConsumer { context, data ->
         val pos = data.readBlockPos()
         context.taskQueue.execute {
             val world = MinecraftClient.getInstance()?.world ?: return@execute
@@ -45,7 +41,7 @@ object LCCPacketsToClient : PacketDirectory() {
         }
     } }
 
-    val classic_crying_obsidian_update by create { PacketConsumer { context, data ->
+    val classic_crying_obsidian_update by entry(::initialiser) { PacketConsumer { context, data ->
         val pos = data.readBlockPos()
         val activate = data.readBoolean()
         context.taskQueue.execute {
@@ -57,5 +53,11 @@ object LCCPacketsToClient : PacketDirectory() {
             world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.defaultState, LCCBlocks.classic_crying_obsidian.defaultState)
         }
     } }
+
+    fun initialiser(input: PacketConsumer, context: DirectoryContext<Unit>, parameters: Unit) = input.also { ClientSidePacketRegistry.INSTANCE.register(context.id, input) }
+
+    override fun id(name: String) = LCC.id(name)
+
+    override fun defaultProperties(name: String) = Unit
 
 }

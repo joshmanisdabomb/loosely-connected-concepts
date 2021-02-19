@@ -1,17 +1,22 @@
 package com.joshmanisdabomb.lcc.data.directory
 
-import com.joshmanisdabomb.lcc.directory.ThingDirectory
+import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
 import net.minecraft.data.client.model.TextureKey
 
-object LCCModelTextureKeys : ThingDirectory<TextureKey, Unit>() {
+object LCCModelTextureKeys : AdvancedDirectory<String, TextureKey, Unit, Unit>() {
 
-    val t0 by createWithName { TextureKey.of("0", null) }
-    val t1 by createWithName { TextureKey.of("1", null) }
-    val t2 by createWithName { TextureKey.of("2", null) }
-    val t3 by createWithName { TextureKey.of("3", null) }
-    val t4 by createWithName { TextureKey.of("4", null) }
-    val t5 by createWithName { TextureKey.of("5", null) }
+    val t0 by entry(::initialiser) { "0" }
+    val t1 by entry(::initialiser) { "1" }
+    val t2 by entry(::initialiser) { "2" }
+    val t3 by entry(::initialiser) { "3" }
+    val t4 by entry(::initialiser) { "4" }
+    val t5 by entry(::initialiser) { "5" }
 
-    val layer1 by createWithName { TextureKey.of(it, null) }
+    val layer1 by entry(::initialiser) { name }
+
+    fun initialiser(input: String, context: DirectoryContext<Unit>, parameters: Unit) = TextureKey.of(input, null)
+
+    override fun defaultProperties(name: String) = Unit
+    override fun defaultContext() = Unit
 
 }

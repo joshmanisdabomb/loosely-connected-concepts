@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
-import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient.id
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
@@ -66,13 +65,13 @@ class ClassicCryingObsidianBlock(settings: Settings) : BlockWithEntity(settings)
     override fun lcc_spawnSet(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, oldWorld: ServerWorld?, oldState: BlockState?, oldPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
         (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.register(player, player.pos)
         val p = PlayerStream.watching(world, pos).filter { it == player }.findFirst().orElse(null) ?: return
-        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient.id { classic_crying_obsidian_update }, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(true) })
+        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient[LCCPacketsToClient::classic_crying_obsidian_update].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(true) })
     }
 
     override fun lcc_spawnRemoved(player: ServerPlayerEntity, world: ServerWorld, state: BlockState, pos: BlockPos, newWorld: ServerWorld?, newState: BlockState?, newPos: BlockPos?, yaw: Float, spawnPointSet: Boolean, alive: Boolean) {
         (world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity)?.deregister(player)
         val p = PlayerStream.watching(world, pos).filter { it == player }.findFirst().orElse(null) ?: return
-        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient.id { classic_crying_obsidian_update }, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(false) })
+        ServerSidePacketRegistry.INSTANCE.sendToPlayer(p, LCCPacketsToClient[LCCPacketsToClient::classic_crying_obsidian_update].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeBlockPos(pos); writeBoolean(false) })
     }
 
 }

@@ -2,23 +2,21 @@ package com.joshmanisdabomb.lcc.directory
 
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import net.minecraft.util.registry.RegistryKey
 
-abstract class RegistryDirectory<V, P> : ThingDirectory<V, P>() {
+interface RegistryDirectory<T, P, C> {
 
-    protected abstract val _registry: Registry<V>
+    val registry: Registry<T>
 
-    protected abstract fun id(path: String): Identifier
+    fun regId(name: String): Identifier
 
-    override fun registerAll(things: Map<String, V>, properties: Map<String, P>) {
-        things.forEach { (k, v) -> register(k, v, properties[k] ?: error("No property to go along with registering $k.")) }
+    fun <R : T> initialiser(input: R, context: AdvancedDirectory<*, *, *, *>.DirectoryContext<P>, parameters: C): R {
+        Registry.register(registry, context.id, input)
+        return input
     }
 
-    protected open fun register(key: String, thing: V, properties: P): RegistryKey<V> {
-        Registry.register(_registry, id(key), thing)
-        return _registry.getKey(thing).orElseThrow(::RuntimeException)
-    }
+    private fun cast() = this as AdvancedDirectory<*, T, P, C>
 
-    fun getRegistryKey(thing: V): RegistryKey<V>? = _registry.getKey(thing).orElse(null)
+    fun getRegistryKey(entry: T) = registry.getKey(entry).orElseGet { error("Could not find the given entry in the registry.") }
+    fun <V : T> getRegistryKey(entry: AdvancedDirectory<*, T, P, C>.DirectoryEntry<*, V>) = registry.getKey(entry.entry ?: error("This entry is null.")).orElseGet { error("Could not find the given entry in the registry.") }
 
 }

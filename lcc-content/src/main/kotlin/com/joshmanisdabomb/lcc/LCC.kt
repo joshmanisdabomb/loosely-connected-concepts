@@ -10,31 +10,27 @@ object LCC : ModInitializer {
     const val modid = "lcc"
 
     override fun onInitialize() {
+        LCCGroups.init()
         LCCSounds.init()
-        LCCBlocks.init()
         LCCFluids.init()
+        LCCBlocks.init()
         LCCItems.init()
         LCCEntities.init()
         LCCBlockItems.init()
         LCCBlockEntities.init()
         LCCEvents.init()
         LCCScreenHandlers.init()
-        LCCPacketsToClient.init()
         LCCPacketsToServer.init()
-        LCCPacketsToServer.register()
         LCCParticles.init()
         LCCRecipeTypes.init()
         LCCRecipeSerializers.init()
         LCCDamage.init()
         LCCEffects.init()
-        LCCCommands.init()
         LCCWorldgen.init()
         LCCBiomes.init()
         LCCTags.init()
         LCCChunkTickets.init()
         LCCCriteria.init()
-
-        TestDirectory.init()
     }
 
     fun id(path: String): Identifier = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))

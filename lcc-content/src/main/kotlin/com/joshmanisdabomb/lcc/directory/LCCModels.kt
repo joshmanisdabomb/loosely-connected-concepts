@@ -14,33 +14,42 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
 
-object LCCModels : ThingDirectory<LCCModel, (String) -> String>(), ModelResourceProvider {
+object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
 
-    val test_block_5 by create { ConnectedTextureModel(LCC.id("test_block_5")) }
-    
-    val road_full by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 1f) }
-    val road_path by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.9375f) }
-    val road_half by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_half${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, false, 0.4375f) }
-    val road_full_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_full_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 1f) }
-    val road_path_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_path_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.9375f) }
-    val road_half_inner by createMap(*RoadBlock.Companion.RoadMarkings.values(), propertySupplier = { rm -> { "block/road_half_inner${rm.suffix()}" } }) { rm, name, properties -> RoadModel(rm, true, 0.4375f) }
+    val test_block_5 by entry(::initialiser) { ConnectedTextureModel(id) }
 
-    val solar_panel by create { ConnectedTextureModel(LCC.id("solar_panel"), { _, state, _, other, _, _ -> other.isOf(state.block) }, 2, pos2 = Vec3f(1f, 5/16f, 1f)) { this.exclude(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, replacement = LCC.id("block/solar_panel_side")).exclude(Direction.DOWN, replacement = LCC.id("block/solar_panel_bottom")) } }
+    val road_full by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, false, 1f) }
+        .setInstanceNameSupplier { name, key -> "road_full${key.suffix()}" }
+    val road_path by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, false, 0.9375f) }
+        .setInstanceNameSupplier { name, key -> "road_path${key.suffix()}" }
+    val road_half by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, false, 0.4375f) }
+        .setInstanceNameSupplier { name, key -> "road_half${key.suffix()}" }
+    val road_full_inner by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, true, 1f) }
+        .setInstanceNameSupplier { name, key -> "road_full_inner${key.suffix()}" }
+    val road_path_inner by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, true, 0.9375f) }
+        .setInstanceNameSupplier { name, key -> "road_path_inner${key.suffix()}" }
+    val road_half_inner by entryMap(::initialiser, *RoadBlock.Companion.RoadMarkings.values()) { RoadModel(it, true, 0.4375f) }
+        .setInstanceNameSupplier { name, key -> "road_half_inner${key.suffix()}" }
 
-    val classic_crying_obsidian by create { ClassicCryingObsidianModel() }
+    val solar_panel by entry(::initialiser) { ConnectedTextureModel(LCC.id("solar_panel"), { _, state, _, other, _, _ -> other.isOf(state.block) }, 2, pos2 = Vec3f(1f, 5/16f, 1f)) { this.exclude(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, replacement = LCC.id("block/solar_panel_side")).exclude(Direction.DOWN, replacement = LCC.id("block/solar_panel_bottom")) } }
 
-    val models by lazy { all.mapKeys { (k, _) -> allProperties[k]!!(k) } }
+    val classic_crying_obsidian by entry(::initialiser) { ClassicCryingObsidianModel() }
 
-    override fun init(predicate: (name: String, properties: (String) -> String) -> Boolean) {
-        super.init(predicate)
+    private val models by lazy { entries.map { (k, v) -> Identifier(v.context.id.namespace, "${v.tags.firstOrNull() ?: "block"}/${v.context.id.path}") to v.entry }.toMap() }
+
+    private fun <M : LCCModel> initialiser(input: M, context: DirectoryContext<Unit>, parameters: Unit) = input
+
+    override fun id(name: String) = LCC.id(name)
+
+    override fun defaultProperties(name: String) = Unit
+
+    override fun afterInitAll(initialised: List<DirectoryEntry<out LCCModel, out LCCModel>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
         ModelLoadingRegistry.INSTANCE.registerResourceProvider { LCCModels }
     }
 
-    override fun getDefaultProperty() = { path: String -> "block/$path" }
-
     override fun loadModelResource(id: Identifier, context: ModelProviderContext): UnbakedModel? {
-        if (id.namespace == LCC.modid && models.containsKey(id.path)) {
-            return models[id.path]!!
+        if (models.containsKey(id)) {
+            return models[id]!!
         }
         return null
     }

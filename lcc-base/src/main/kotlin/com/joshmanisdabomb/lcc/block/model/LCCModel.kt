@@ -23,7 +23,6 @@ import java.util.*
 import java.util.function.Function
 import java.util.function.Supplier
 
-
 abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifier>) : UnbakedModel, BakedModel, FabricBakedModel {
 
     open val folder = "block"

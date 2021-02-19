@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.adaptation
 
-import com.joshmanisdabomb.lcc.directory.LCCBasePacketsToClient
+import com.joshmanisdabomb.lcc.directory.LCCBasePacketsForClient
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.minecraft.entity.Entity
@@ -22,7 +22,7 @@ interface LCCExtendedEntity {
         buf.writeDouble(me.z)
         buf.writeFloat(me.pitch)
         buf.writeFloat(me.yaw)
-        return ServerSidePacketRegistry.INSTANCE.toPacket(LCCBasePacketsToClient[LCCBasePacketsToClient::spawn_packet].first().id, buf)
+        return ServerSidePacketRegistry.INSTANCE.toPacket(LCCBasePacketsForClient[LCCBasePacketsForClient::spawn_packet].first().id, buf)
     }
 
     @JvmDefault

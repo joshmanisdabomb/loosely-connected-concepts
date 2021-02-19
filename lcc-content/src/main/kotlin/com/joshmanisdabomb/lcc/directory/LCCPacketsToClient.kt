@@ -4,16 +4,14 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
 import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
-import net.fabricmc.fabric.api.network.PacketConsumer
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.block.Blocks
-import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 
-object LCCPacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
+object LCCPacketsToClient : PacketForClientDirectory() {
 
-    val soul_sand_jump_particle by entry(::initialiser) { PacketConsumer { context, data ->
+    val soul_sand_jump_particle by entry(::initialiser) { ClientPlayNetworking.PlayChannelHandler { client, handler, data, sender ->
         val always = data.readBoolean()
         val x = data.readDouble()
         val y = data.readDouble()
@@ -25,15 +23,15 @@ object LCCPacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
         val area = data.readFloat()
         val height = data.readFloat()
         val ring = data.readFloat()
-        context.taskQueue.execute {
-            MinecraftClient.getInstance()?.world?.addParticle(SoakingSoulSandJumpParticleEffect(direction, area, height, ring), always, x, y, z, dx, dy, dz)
+        client.execute {
+            client.world?.addParticle(SoakingSoulSandJumpParticleEffect(direction, area, height, ring), always, x, y, z, dx, dy, dz)
         }
     } }
 
-    val bounce_pad_extension by entry(::initialiser) { PacketConsumer { context, data ->
+    val bounce_pad_extension by entry(::initialiser) { ClientPlayNetworking.PlayChannelHandler { client, handler, data, sender ->
         val pos = data.readBlockPos()
-        context.taskQueue.execute {
-            val world = MinecraftClient.getInstance()?.world ?: return@execute
+        client.execute {
+            val world = client.world ?: return@execute
             if (!world.isRegionLoaded(pos, pos)) return@execute
             val be = world.getBlockEntity(pos) as? BouncePadBlockEntity ?: return@execute
             be.extend()
@@ -41,12 +39,12 @@ object LCCPacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
         }
     } }
 
-    val classic_crying_obsidian_update by entry(::initialiser) { PacketConsumer { context, data ->
+    val classic_crying_obsidian_update by entry(::initialiser) { ClientPlayNetworking.PlayChannelHandler { client, handler, data, sender ->
         val pos = data.readBlockPos()
         val activate = data.readBoolean()
-        context.taskQueue.execute {
-            val world = MinecraftClient.getInstance()?.world ?: return@execute
-            val player = MinecraftClient.getInstance()?.player ?: return@execute
+        client.execute {
+            val world = client.world ?: return@execute
+            val player = client.player ?: return@execute
             if (!world.isRegionLoaded(pos, pos)) return@execute
             val be = world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity ?: return@execute
             if (activate) be.register(player, Vec3d.ZERO) else be.deregister(player)
@@ -54,10 +52,6 @@ object LCCPacketsToClient : BasicDirectory<PacketConsumer, Unit>() {
         }
     } }
 
-    fun initialiser(input: PacketConsumer, context: DirectoryContext<Unit>, parameters: Unit) = input.also { ClientSidePacketRegistry.INSTANCE.register(context.id, input) }
-
     override fun id(name: String) = LCC.id(name)
-
-    override fun defaultProperties(name: String) = Unit
 
 }

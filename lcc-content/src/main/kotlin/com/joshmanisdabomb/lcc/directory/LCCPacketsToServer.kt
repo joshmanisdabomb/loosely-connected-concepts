@@ -1,7 +1,8 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.util.registry.Registry
@@ -10,10 +11,10 @@ import net.minecraft.util.registry.RegistryKey
 object LCCPacketsToServer : PacketForServerDirectory() {
 
     val gauntlet_switch by entry(::initialiser) { ServerPlayNetworking.PlayChannelHandler { server, player, handler, data, sender ->
-        val ability = data.readByte().coerceIn(0, GauntletAction.values().size.toByte())
+        val ability = GauntletDirectory.getOrNull(data.readString()) ?: return@PlayChannelHandler
         server.execute {
             if (player?.mainHandStack?.item == LCCItems.gauntlet) {
-                player.mainHandStack.orCreateTag.putByte("lcc_gauntlet_ability", ability)
+                GauntletAction2.putInTag(ability, player.mainHandStack.orCreateTag)
             }
         }
     } }

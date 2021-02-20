@@ -26,7 +26,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.pow
 
-enum class GauntletAction : StringIdentifiable {
+private enum class GauntletAction : StringIdentifiable {
 
     UPPERCUT { //rising stone?
         val actorSpeedV = 1.2

@@ -26,12 +26,12 @@ object LCCComponents : AdvancedDirectory<Class<out ComponentV3>, ComponentKey<ou
     val hearts by entry({ i, c, p -> entityInitialiser(i, c, p, ::HeartsComponent, null) }) { HeartsComponent::class.java }
         .addTags("entity")
 
-    val nuclear by entry({ i, c, p -> worldInitialiser(i, c, p, ::NuclearTracker) }) { NuclearTracker::class.java }
+    val nuclear by entry({ i, c, p -> worldInitialiser(i, c, p, ::NuclearComponent) }) { NuclearComponent::class.java }
         .addTags("world")
     val radiation by entry({ i, c, p -> entityInitialiser(i, c, p, ::RadiationComponent) }) { RadiationComponent::class.java }
         .addTags("entity")
 
-    val advancement_race by entry({ i, c, p -> levelInitialiser(i, c, p, ::AdvancementRaceTracker) }) { AdvancementRaceTracker::class.java }
+    val advancement_race by entry({ i, c, p -> levelInitialiser(i, c, p, ::AdvancementRaceComponent) }) { AdvancementRaceComponent::class.java }
         .addTags("level")
 
     fun <C : ComponentV3> worldInitialiser(input: Class<C>, context: DirectoryContext<Unit>, parameters: Any, factory: ComponentFactory<World, C>): ComponentKey<C> {

@@ -17,7 +17,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class NuclearTracker(private val world: World) : ComponentV3, ServerTickingComponent, ClientTickingComponent, AutoSyncedComponent {
+class NuclearComponent(private val world: World) : ComponentV3, ServerTickingComponent, ClientTickingComponent, AutoSyncedComponent {
 
     val strikes = mutableListOf<NuclearStrike>()
 
@@ -58,8 +58,11 @@ class NuclearTracker(private val world: World) : ComponentV3, ServerTickingCompo
     override fun shouldSyncWith(player: ServerPlayerEntity) = player.world == this.world
 
     override fun applySyncPacket(buf: PacketByteBuf) {
+        val winter = NuclearUtil.getWinterLevel(_winter)
         super.applySyncPacket(buf)
-        MinecraftClient.getInstance().worldRenderer.reload()
+        if (NuclearUtil.getLightModifierFromWinter(winter) != NuclearUtil.getLightModifierFromWinter(NuclearUtil.getWinterLevel(_winter))) {
+            MinecraftClient.getInstance().worldRenderer.reload()
+        }
     }
 
     override fun clientTick() = serverTick()

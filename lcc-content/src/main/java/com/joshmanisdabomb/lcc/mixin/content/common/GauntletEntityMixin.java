@@ -17,7 +17,7 @@ public abstract class GauntletEntityMixin {
             }
         }
         return flag;*/
-        return false;
+        return flag;
     }
 
 }

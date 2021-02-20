@@ -26,7 +26,6 @@ enum class HeartType : StringIdentifiable {
         }
 
         override fun update(entity: LivingEntity, amount: Float, maxAmount: Float) {
-            println("hello")
             val modifier = createModifier(maxAmount.toDouble())
             entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.apply {
                 removeModifier(modifier.id)
@@ -44,7 +43,7 @@ enum class HeartType : StringIdentifiable {
         override val v = 0
         override val hurtColor = 0xB288889E.toInt()
         override val sortOrder = 20
-
+        
         override val rememberMax = true
 
         override fun calculateDamage(entity: LivingEntity, damage: Float): Float {

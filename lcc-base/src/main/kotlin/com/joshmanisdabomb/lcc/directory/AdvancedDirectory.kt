@@ -34,6 +34,9 @@ abstract class AdvancedDirectory<I, O, P, C> {
     operator fun get(name: String) = all[name] ?: error("There is no entry with this name initialised in this directory.")
     operator fun <V : O> get(property: KProperty<V>) = entries.values.filter { it.delegateName == property.name }
 
+    fun getOrNull(value: O) = entries[keyMap[value]]
+    fun getOrNull(name: String) = all[name]
+
     protected fun <J : I, V : O> entry(initialiser: (input: J, context: DirectoryContext<P>, parameters: C) -> V, input: DirectoryContext<P>.() -> J) = InstanceDirectoryDelegate(initialiser, input)
 
     protected fun <K, J : I, V : O> entryMap(initialiser: (input: J, context: DirectoryContext<P>, parameters: C) -> V, vararg keys: K, inputSupplier: DirectoryContext<P>.(key: K) -> J) = MapDirectoryDelegate(initialiser, *keys, inputSupplier = inputSupplier)

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc
 
 import com.google.common.base.CaseFormat
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
@@ -31,6 +32,8 @@ object LCC : ModInitializer {
         LCCTags.init()
         LCCChunkTickets.init()
         LCCCriteria.init()
+
+        GauntletDirectory.init()
     }
 
     fun id(path: String): Identifier = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))

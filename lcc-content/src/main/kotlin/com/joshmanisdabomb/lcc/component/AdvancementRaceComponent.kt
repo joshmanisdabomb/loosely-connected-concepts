@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.world.WorldProperties
 import java.util.*
 
-class AdvancementRaceTracker(private val properties: WorldProperties) : ComponentV3 {
+class AdvancementRaceComponent(private val properties: WorldProperties) : ComponentV3 {
 
     val map = mutableMapOf<Identifier, UUID>()
 

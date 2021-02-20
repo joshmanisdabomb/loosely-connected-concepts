@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil;
-import com.joshmanisdabomb.lcc.component.NuclearTracker;
+import com.joshmanisdabomb.lcc.component.NuclearComponent;
 import com.joshmanisdabomb.lcc.directory.LCCComponents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -24,7 +24,7 @@ public abstract class NuclearSkylightProviderMixin extends ChunkLightProvider {
     public int getLightLevel(BlockPos pos) {
         int light = super.getLightLevel(pos);
         BlockView world = chunkProvider.getWorld();
-        return MathHelper.floor(light * NuclearUtil.INSTANCE.getLightModifierFromWinter(LCCComponents.INSTANCE.getNuclear().maybeGet(world).map(NuclearTracker::getWinter).map(NuclearUtil.INSTANCE::getWinterLevel).orElse(1)));
+        return MathHelper.floor(light * NuclearUtil.INSTANCE.getLightModifierFromWinter(LCCComponents.INSTANCE.getNuclear().maybeGet(world).map(NuclearComponent::getWinter).map(NuclearUtil.INSTANCE::getWinterLevel).orElse(1)));
     }
 
 }

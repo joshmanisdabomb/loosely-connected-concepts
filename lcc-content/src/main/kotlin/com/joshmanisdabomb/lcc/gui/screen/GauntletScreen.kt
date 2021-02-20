@@ -1,14 +1,15 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction.Companion.ability
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
 import io.netty.buffer.Unpooled
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
@@ -47,33 +48,33 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
         if (!client!!.options.keyAttack.isPressed) {
             if (hovered != null) {
-                camera.mainHandStack.orCreateTag.ability = hovered
-                ClientSidePacketRegistry.INSTANCE.sendToServer(LCCPacketsToServer[LCCPacketsToServer::gauntlet_switch].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeByte(hovered.ordinal.plus(1)) })
+                GauntletAction2.putInTag(hovered, camera.mainHandStack.orCreateTag)
+                ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::gauntlet_switch].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeString(GauntletDirectory[hovered].name) })
             }
             client!!.openScreen(null)
         }
 
-        val current = camera.mainHandStack.orCreateTag.ability
+        val current = GauntletAction2.getFromTag(camera.mainHandStack.tag)
         val alpha = (0x10.times(ticks) + lerp(client!!.tickDelta, 0x00.toFloat(), 0x10.toFloat())).toInt().coerceAtMost(0x90) shl 24
         this.fillGradient(matrix, 0, 0, width, height, 0x00101010 + alpha, 0x10101010 + alpha)
 
         when (hovered) {
-            GauntletAction.UPPERCUT -> this.fillGradient(matrix, 0, 0, width.div(2), height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
-            GauntletAction.PUNCH -> this.fillGradient(matrix, width.div(2), 0, width, height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
+            UppercutGauntletAction -> this.fillGradient(matrix, 0, 0, width.div(2), height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
+            else -> this.fillGradient(matrix, width.div(2), 0, width, height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
         }
 
         client!!.textureManager.bindTexture(texture)
-        renderAttack(matrix, camera, GauntletAction.UPPERCUT, current, ticks, delta, 0f)
-        renderAttack(matrix, camera, GauntletAction.PUNCH, current, ticks, delta, 90f)
-        renderAttack(matrix, camera, GauntletAction.UPPERCUT, current, ticks, delta, 180f)
-        renderAttack(matrix, camera, GauntletAction.UPPERCUT, current, ticks, delta, 270f)
+        renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
+        renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 90f)
+        renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 180f)
+        renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 270f)
         client!!.textureManager.bindTexture(GUI_ICONS_TEXTURE)
 
         super.render(matrix, mouseX, mouseY, delta)
     }
 
-    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction, current: GauntletAction?, ticks: Int, delta: Float, angle: Float) {
-        val u = action.isActing(camera).toInt(1)
+    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction2<*>, current: GauntletAction2<*>?, ticks: Int, delta: Float, angle: Float) {
+        val u = action.hasInfo(camera).toInt()
         val v = (current == action).not().toInt()
 
         matrix.push()
@@ -82,9 +83,10 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(angle))
 
         this.drawTexture(matrix, loc, loc, u.times(size), v.times(size), size, size)
-        if (action.isCooldown(camera)) {
-            renderProgress(matrix, camera, action::cooldownPercentage, false, 2, v, angle, delta)
-            renderLine(matrix, camera, action::cooldownPercentage, false, 3, v, angle, delta)
+        val info = action.getInfo(camera)
+        if (info?.isCooldown == true) {
+            renderProgress(matrix, camera, info.cooldownPercent, false, 2, v, angle, delta)
+            renderLine(matrix, camera, info.cooldownPercent, false, 3, v, angle, delta)
         }
 
         matrix.pop()
@@ -92,17 +94,17 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
     override fun isPauseScreen() = false
 
-    fun hovered(mouseX: Int, mouseY: Int): GauntletAction? {
+    fun hovered(mouseX: Int, mouseY: Int): GauntletAction2<*>? {
         if (mouseX in sw.div(2).minus(7)..sw.div(2).plus(7) && mouseY in sh.div(2).minus(7)..sh.div(2).plus(7)) {
             return null
         } else if (mouseX < sw.div(2) && mouseY < sh.div(2)) {
-            return GauntletAction.UPPERCUT
+            return UppercutGauntletAction
         } else if (mouseX >= sw.div(2) && mouseY < sh.div(2)) {
-            return GauntletAction.PUNCH
+            return UppercutGauntletAction
         } else if (mouseX < sw.div(2) && mouseY >= sh.div(2)) {
-            return GauntletAction.UPPERCUT
+            return UppercutGauntletAction
         } else if (mouseX >= sw.div(2) && mouseY >= sh.div(2)) {
-            return GauntletAction.UPPERCUT
+            return UppercutGauntletAction
         } else {
             return null
         }

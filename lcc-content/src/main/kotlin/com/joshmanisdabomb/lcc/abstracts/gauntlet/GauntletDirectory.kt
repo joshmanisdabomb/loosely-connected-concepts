@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.directory.BasicDirectory
 object GauntletDirectory : BasicDirectory<GauntletAction2<out GauntletActorInstance>, Unit>() {
 
     val uppercut by entry(::initialiser) { UppercutGauntletAction }
-    //val punch by entry(::initialiser) { PunchGauntletAction }
+    val punch by entry(::initialiser) { PunchGauntletAction }
     //leap/stomp
     //falcon punch, three explosion in a line, long cast time
 

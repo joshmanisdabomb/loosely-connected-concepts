@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.gui.screen
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
@@ -60,12 +61,12 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
         when (hovered) {
             UppercutGauntletAction -> this.fillGradient(matrix, 0, 0, width.div(2), height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
-            else -> this.fillGradient(matrix, width.div(2), 0, width, height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
+            PunchGauntletAction -> this.fillGradient(matrix, width.div(2), 0, width, height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
         }
 
         client!!.textureManager.bindTexture(texture)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
-        renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 90f)
+        renderAttack(matrix, camera, PunchGauntletAction, current, ticks, delta, 90f)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 180f)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 270f)
         client!!.textureManager.bindTexture(GUI_ICONS_TEXTURE)
@@ -100,11 +101,11 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         } else if (mouseX < sw.div(2) && mouseY < sh.div(2)) {
             return UppercutGauntletAction
         } else if (mouseX >= sw.div(2) && mouseY < sh.div(2)) {
-            return UppercutGauntletAction
+            return PunchGauntletAction
         } else if (mouseX < sw.div(2) && mouseY >= sh.div(2)) {
-            return UppercutGauntletAction
+            return null
         } else if (mouseX >= sw.div(2) && mouseY >= sh.div(2)) {
-            return UppercutGauntletAction
+            return null
         } else {
             return null
         }

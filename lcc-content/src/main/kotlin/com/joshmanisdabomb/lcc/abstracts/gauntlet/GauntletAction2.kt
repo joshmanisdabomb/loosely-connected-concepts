@@ -47,7 +47,7 @@ abstract class GauntletAction2<A : GauntletActorInstance> {
     }
 
     open val maxChargeTime = 0
-    open val chargeBiteTime = 0
+    open val biteChargeTime = 0
     open val chargeAction = UseAction.BOW
     val canCharge get() = maxChargeTime > 0
 
@@ -67,6 +67,8 @@ abstract class GauntletAction2<A : GauntletActorInstance> {
     }
 
     protected fun cappedDamage(entity: Entity, modifier: Float, range: ClosedFloatingPointRange<Float>) = (entity as? LivingEntity)?.maxHealth?.times(modifier)?.coerceIn(range) ?: range.start
+
+    fun chargePercent(remaining: Int) = (maxChargeTime - remaining).toDouble().div(biteChargeTime).coerceAtMost(1.0)
 
     open fun chargeTick(player: PlayerEntity, remaining: Int) = Unit
 

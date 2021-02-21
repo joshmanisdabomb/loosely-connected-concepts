@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.gui.overlay
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.toInt
@@ -50,7 +51,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         RenderSystem.enableBlend()
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
-        if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 90f)
+        if (gauntlet || PunchGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, PunchGauntletAction, current, ticks, delta, 90f)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 180f)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 270f)
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F)
@@ -78,8 +79,8 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         } else if (action.isCooldown(camera)) {
             renderProgress(matrix, camera, info?.cooldownPercent ?: 0.0, false, 6, selected, angle, delta)
         } else if (charging) {
-            renderProgress(matrix, camera, info?.chargePercent ?: 0.0, false, 3, 1.plus(selected), angle, delta, 1)
-            if (camera.itemUseTime > action.chargeBiteTime && ticks % 2 == 0) {
+            renderProgress(matrix, camera, action.chargePercent(camera.itemUseTimeLeft), false, 3, 1.plus(selected), angle, delta, 1)
+            if (camera.itemUseTime > action.biteChargeTime && ticks % 2 == 0) {
                 this.drawTexture(matrix, loc, loc, 4.times(size), 1.plus(selected).times(size), size, size)
             }
         }

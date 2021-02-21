@@ -33,8 +33,9 @@ object UppercutGauntletAction : GauntletAction2<UppercutGauntletAction.UppercutG
         val speedH = 0.5
         val speedV = 1.2
         val damageRange = 3f..16f
+        val damageMultiplier = 0.8f
         val hitbox = Vec3d(1.34, 3.5, 1.34)
-        val health = TemporaryHealthCalculator(1/2.3)
+        val health = TemporaryHealthCalculator(1/1.8)
 
         var sin by Delegates.notNull<Float>()
         var cos by Delegates.notNull<Float>()
@@ -70,7 +71,7 @@ object UppercutGauntletAction : GauntletAction2<UppercutGauntletAction.UppercutG
 
                     for (entity in entities) {
                         damageReady(entity)
-                        entity.damage(LCCDamage.gauntletUppercut(actor), cappedDamage(entity, 0.8f, damageRange))
+                        entity.damage(LCCDamage.gauntletUppercut(actor), cappedDamage(entity, damageMultiplier, damageRange))
                         (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.stun, 12, 0, false, false, true))
                         target(entity, actor, this)
                     }

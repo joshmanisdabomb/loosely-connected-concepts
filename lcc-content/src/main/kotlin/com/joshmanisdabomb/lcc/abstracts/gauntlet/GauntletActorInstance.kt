@@ -16,9 +16,9 @@ abstract class GauntletActorInstance(val actor: PlayerEntity) {
     var cast = 0
 
     fun init(remaining: Int, cancelled: Boolean) {
+        this.remaining = remaining
         maxCooldown = getMaxCooldownTime(cancelled)
         maxCast = getMaxCastTime(cancelled)
-        this.remaining = remaining
     }
 
     abstract fun getMaxCooldownTime(cancelled: Boolean): Int
@@ -44,7 +44,7 @@ abstract class GauntletActorInstance(val actor: PlayerEntity) {
     val isCooldown get() = !isCasting && cooldown <= maxCooldown
     val cooldownPercent get() = cooldown.toDouble().div(maxCooldown)
     val castPercent get() = cast.toDouble().div(maxCast)
-    val chargePercent get() = charge.toDouble().div(action.chargeBiteTime)
+    val chargePercent get() = action.chargePercent(remaining)
 
     fun read(tag: CompoundTag) {
         cooldown = tag.getInt("Cooldown")

@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -14,7 +14,7 @@ object LCCPacketsToServer : PacketForServerDirectory() {
         val ability = GauntletDirectory.getOrNull(data.readString()) ?: return@PlayChannelHandler
         server.execute {
             if (player?.mainHandStack?.item == LCCItems.gauntlet) {
-                GauntletAction2.putInTag(ability, player.mainHandStack.orCreateTag)
+                GauntletAction.putInTag(ability, player.mainHandStack.orCreateTag)
             }
         }
     } }

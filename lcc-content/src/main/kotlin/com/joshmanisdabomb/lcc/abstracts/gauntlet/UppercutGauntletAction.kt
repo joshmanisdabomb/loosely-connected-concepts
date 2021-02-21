@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d
 import kotlin.math.pow
 import kotlin.properties.Delegates
 
-object UppercutGauntletAction : GauntletAction2<UppercutGauntletAction.UppercutGauntletActorInstance>(), TargetableGauntletAction<UppercutGauntletAction.UppercutGauntletActorInstance, UppercutGauntletAction.UppercutGauntletTargetInstance> {
+object UppercutGauntletAction : GauntletAction<UppercutGauntletAction.UppercutGauntletActorInstance>(), TargetableGauntletAction<UppercutGauntletAction.UppercutGauntletActorInstance, UppercutGauntletAction.UppercutGauntletTargetInstance> {
 
     override fun newActorInstance(actor: PlayerEntity) = UppercutGauntletActorInstance(actor)
     override fun initActorInstance(instance: UppercutGauntletActorInstance) = Unit
@@ -28,7 +28,7 @@ object UppercutGauntletAction : GauntletAction2<UppercutGauntletAction.UppercutG
 
     class UppercutGauntletActorInstance(actor: PlayerEntity) : GauntletActorInstance(actor) {
 
-        override val action: GauntletAction2<*> = UppercutGauntletAction
+        override val action: GauntletAction<*> = UppercutGauntletAction
 
         val speedH = 0.5
         val speedV = 1.2

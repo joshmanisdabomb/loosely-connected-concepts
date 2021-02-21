@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
@@ -49,13 +49,13 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
         if (!client!!.options.keyAttack.isPressed) {
             if (hovered != null) {
-                GauntletAction2.putInTag(hovered, camera.mainHandStack.orCreateTag)
+                GauntletAction.putInTag(hovered, camera.mainHandStack.orCreateTag)
                 ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::gauntlet_switch].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeString(GauntletDirectory[hovered].name) })
             }
             client!!.openScreen(null)
         }
 
-        val current = GauntletAction2.getFromTag(camera.mainHandStack.tag)
+        val current = GauntletAction.getFromTag(camera.mainHandStack.tag)
         val alpha = (0x10.times(ticks) + lerp(client!!.tickDelta, 0x00.toFloat(), 0x10.toFloat())).toInt().coerceAtMost(0x90) shl 24
         this.fillGradient(matrix, 0, 0, width, height, 0x00101010 + alpha, 0x10101010 + alpha)
 
@@ -74,7 +74,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         super.render(matrix, mouseX, mouseY, delta)
     }
 
-    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction2<*>, current: GauntletAction2<*>?, ticks: Int, delta: Float, angle: Float) {
+    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction<*>, current: GauntletAction<*>?, ticks: Int, delta: Float, angle: Float) {
         val u = action.hasInfo(camera).toInt()
         val v = (current == action).not().toInt()
 
@@ -95,7 +95,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
     override fun isPauseScreen() = false
 
-    fun hovered(mouseX: Int, mouseY: Int): GauntletAction2<*>? {
+    fun hovered(mouseX: Int, mouseY: Int): GauntletAction<*>? {
         if (mouseX in sw.div(2).minus(7)..sw.div(2).plus(7) && mouseY in sh.div(2).minus(7)..sh.div(2).plus(7)) {
             return null
         } else if (mouseX < sw.div(2) && mouseY < sh.div(2)) {

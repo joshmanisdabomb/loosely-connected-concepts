@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
 import net.minecraft.block.BlockState
@@ -21,13 +21,13 @@ class GauntletItem(settings: Settings) : Item(settings), LCCExtendedItem {
 
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState): Float = Float.MAX_VALUE
 
-    override fun getMaxUseTime(stack: ItemStack) = GauntletAction2.getFromTag(stack.orCreateTag).maxChargeTime
+    override fun getMaxUseTime(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateTag).maxChargeTime
 
-    override fun getUseAction(stack: ItemStack) = GauntletAction2.getFromTag(stack.orCreateTag).chargeAction
+    override fun getUseAction(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateTag).chargeAction
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand) ?: return TypedActionResult.fail(ItemStack.EMPTY)
-        val ability = GauntletAction2.getFromTag(stack.orCreateTag)
+        val ability = GauntletAction.getFromTag(stack.orCreateTag)
         if (ability.canCharge) {
             if (!ability.hasInfo(user)) {
                 user.setCurrentHand(hand)
@@ -43,14 +43,14 @@ class GauntletItem(settings: Settings) : Item(settings), LCCExtendedItem {
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         if (user.isSneaking) {
             user.clearActiveItem()
-            GauntletAction2.getFromTag(stack.orCreateTag).cancel(user as? PlayerEntity ?: return, remainingUseTicks)
+            GauntletAction.getFromTag(stack.orCreateTag).cancel(user as? PlayerEntity ?: return, remainingUseTicks)
         } else {
-            GauntletAction2.getFromTag(stack.orCreateTag).chargeTick(user as? PlayerEntity ?: return, remainingUseTicks)
+            GauntletAction.getFromTag(stack.orCreateTag).chargeTick(user as? PlayerEntity ?: return, remainingUseTicks)
         }
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val ability = GauntletAction2.getFromTag(stack.orCreateTag)
+        val ability = GauntletAction.getFromTag(stack.orCreateTag)
         if (user is PlayerEntity && ability.canCharge) {
             if (ability.act(user, remainingUseTicks)) {
                 user.incrementStat(Stats.USED.getOrCreateStat(this))

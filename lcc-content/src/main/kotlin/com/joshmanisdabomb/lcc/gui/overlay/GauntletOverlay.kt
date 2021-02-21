@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
@@ -30,7 +30,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
     private val sw get() = MinecraftClient.getInstance().window.scaledWidth
     private val sh get() = MinecraftClient.getInstance().window.scaledHeight
 
-    private val actionLastUnlocked = mutableMapOf<GauntletAction2<*>, Int>()
+    private val actionLastUnlocked = mutableMapOf<GauntletAction<*>, Int>()
 
     fun render(matrix: MatrixStack, camera: PlayerEntity, ticks: Int, delta: Float) {
         val client = MinecraftClient.getInstance()
@@ -47,7 +47,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         }
 
         val gauntlet = camera.mainHandStack.item == LCCItems.gauntlet || camera.offHandStack.item == LCCItems.gauntlet
-        val current = camera.mainHandStack?.tag?.let { GauntletAction2.getFromTag(it) } ?: camera.offHandStack?.tag?.let { GauntletAction2.getFromTag(it) }
+        val current = camera.mainHandStack?.tag?.let { GauntletAction.getFromTag(it) } ?: camera.offHandStack?.tag?.let { GauntletAction.getFromTag(it) }
         RenderSystem.enableBlend()
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
@@ -59,7 +59,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         client.textureManager.bindTexture(GUI_ICONS_TEXTURE)
     }
 
-    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction2<*>, current: GauntletAction2<*>?, ticks: Int, delta: Float, angle: Float) {
+    fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction<*>, current: GauntletAction<*>?, ticks: Int, delta: Float, angle: Float) {
         val shine = ticks.minus(actionLastUnlocked[action] ?: ticks)
         val selected = (current == action).toInt(2)
         val charging = current == action && action.canCharge && camera.activeItem.item == LCCItems.gauntlet

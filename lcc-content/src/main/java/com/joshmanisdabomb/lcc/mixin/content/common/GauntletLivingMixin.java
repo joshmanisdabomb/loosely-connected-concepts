@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2;
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.component.GauntletActorComponent;
 import com.joshmanisdabomb.lcc.component.GauntletTargetComponent;
 import com.joshmanisdabomb.lcc.directory.LCCComponents;
@@ -23,8 +23,8 @@ public abstract class GauntletLivingMixin extends Entity {
 
     @Inject(at = @At("HEAD"), method = "computeFallDamage", cancellable = true)
     public void fallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> callback) {
-        GauntletAction2<?> fh1 = null;
-        GauntletAction2<?> fh2 = null;
+        GauntletAction<?> fh1 = null;
+        GauntletAction<?> fh2 = null;
         GauntletActorComponent c1 = null;
         if ((Object)this instanceof PlayerEntity) {
             c1 = LCCComponents.INSTANCE.getGauntlet_actor().maybeGet((PlayerEntity)(Object)this).orElse(null);

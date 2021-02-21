@@ -10,7 +10,7 @@ abstract class GauntletTargetInstance<A : GauntletActorInstance>(val entity: Ent
     var ticks = 0
     var maxTicks by Delegates.notNull<Int>()
 
-    abstract val action: GauntletAction2<A>
+    abstract val action: GauntletAction<A>
     var actor: PlayerEntity? = null
 
     fun init(actor: PlayerEntity, info: A) {

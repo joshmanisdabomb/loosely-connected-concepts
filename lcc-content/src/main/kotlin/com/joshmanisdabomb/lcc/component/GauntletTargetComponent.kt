@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletTargetInstance
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.TargetableGauntletAction
@@ -16,7 +16,7 @@ class GauntletTargetComponent(private val entity: Entity) : ComponentV3, AutoSyn
 
     protected val _instances = mutableListOf<GauntletTargetInstance<*>>()
     val instances get() = _instances.toList()
-    var fallHandler: GauntletAction2<*>? = null
+    var fallHandler: GauntletAction<*>? = null
 
     override fun readFromNbt(tag: CompoundTag) {
         _instances.clear()

@@ -18,7 +18,7 @@ import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.properties.Delegates
 
-object PunchGauntletAction : GauntletAction2<PunchGauntletAction.PunchGauntletActorInstance>(), TargetableGauntletAction<PunchGauntletAction.PunchGauntletActorInstance, PunchGauntletAction.PunchGauntletTargetInstance> {
+object PunchGauntletAction : GauntletAction<PunchGauntletAction.PunchGauntletActorInstance>(), TargetableGauntletAction<PunchGauntletAction.PunchGauntletActorInstance, PunchGauntletAction.PunchGauntletTargetInstance> {
 
     override fun newActorInstance(actor: PlayerEntity) = PunchGauntletActorInstance(actor)
     override fun initActorInstance(instance: PunchGauntletActorInstance) = Unit
@@ -48,7 +48,7 @@ object PunchGauntletAction : GauntletAction2<PunchGauntletAction.PunchGauntletAc
 
     class PunchGauntletActorInstance(actor: PlayerEntity) : GauntletActorInstance(actor) {
 
-        override val action: GauntletAction2<*> = PunchGauntletAction
+        override val action: GauntletAction<*> = PunchGauntletAction
 
         val speedH = 2.6
         val damageRange = 3f..10f

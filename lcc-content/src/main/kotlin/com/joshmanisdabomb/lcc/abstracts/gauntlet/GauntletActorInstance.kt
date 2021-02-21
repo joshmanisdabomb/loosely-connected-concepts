@@ -6,7 +6,7 @@ import kotlin.properties.Delegates
 
 abstract class GauntletActorInstance(val actor: PlayerEntity) {
 
-    abstract val action: GauntletAction2<*>
+    abstract val action: GauntletAction<*>
 
     var maxCooldown by Delegates.notNull<Int>()
     var maxCast by Delegates.notNull<Int>()

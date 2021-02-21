@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction2
+import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletActorInstance
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.extensions.build
@@ -12,8 +12,8 @@ import net.minecraft.nbt.CompoundTag
 
 class GauntletActorComponent(val entity: PlayerEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent {
 
-    protected val _instances = mutableMapOf<GauntletAction2<*>, GauntletActorInstance>()
-    var fallHandler: GauntletAction2<*>? = null
+    protected val _instances = mutableMapOf<GauntletAction<*>, GauntletActorInstance>()
+    var fallHandler: GauntletAction<*>? = null
 
     override fun readFromNbt(tag: CompoundTag) {
         _instances.clear()
@@ -41,7 +41,7 @@ class GauntletActorComponent(val entity: PlayerEntity) : ComponentV3, AutoSynced
         keys.forEach { _instances.remove(it) }
     }
 
-    operator fun <A : GauntletActorInstance> get(action: GauntletAction2<A>) = _instances.get(action) as? A
-    operator fun <A : GauntletActorInstance> set(action: GauntletAction2<A>, info: A) = _instances.put(action, info)
+    operator fun <A : GauntletActorInstance> get(action: GauntletAction<A>) = _instances.get(action) as? A
+    operator fun <A : GauntletActorInstance> set(action: GauntletAction<A>, info: A) = _instances.put(action, info)
 
 }

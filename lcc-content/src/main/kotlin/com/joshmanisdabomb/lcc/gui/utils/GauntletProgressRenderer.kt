@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.gui.utils
 
+import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper.lerp
@@ -25,7 +26,7 @@ interface GauntletProgressRenderer {
             val fill2a = u.times(size).plus(1.minus(fill).times(size).roundToInt())
             val fill2b = v.times(size).plus(1.minus(fill).times(size).roundToInt())
             val fill3 = size.times(fill).roundToInt()
-            this.drawTexture(matrix, if (quarter) fill1 else loc, if (!quarter) fill1 else loc, if (quarter) fill2a else u.times(size), if (!quarter) fill2b else v.times(size), if (quarter) fill3 else size, if (!quarter) fill3 else size)
+            this.draw(matrix, if (quarter) fill1 else loc, if (!quarter) fill1 else loc, if (quarter) fill2a else u.times(size), if (!quarter) fill2b else v.times(size), if (quarter) fill3 else size, if (!quarter) fill3 else size)
         }
     }
 
@@ -44,10 +45,11 @@ interface GauntletProgressRenderer {
             val fill2a = u.times(size).plus(1.minus(fill).times(size).roundToInt())
             val fill2b = v.times(size).plus(1.minus(fill).times(size).roundToInt())
             val fill3 = 1
-            this.drawTexture(matrix, if (quarter) fill1 else loc, if (!quarter) fill1 else loc, if (quarter) fill2a else u.times(size), if (!quarter) fill2b else v.times(size), if (quarter) fill3 else size, if (!quarter) fill3 else size)
+            this.draw(matrix, if (quarter) fill1 else loc, if (!quarter) fill1 else loc, if (quarter) fill2a else u.times(size), if (!quarter) fill2b else v.times(size), if (quarter) fill3 else size, if (!quarter) fill3 else size)
         }
     }
 
-    fun drawTexture(matrix: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int)
+    @JvmDefault
+    fun draw(matrix: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int) = (this as DrawableHelper).drawTexture(matrix, x, y, u, v, width, height)
 
 }

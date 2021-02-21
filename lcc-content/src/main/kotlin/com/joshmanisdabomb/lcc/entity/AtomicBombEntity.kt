@@ -52,7 +52,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         facing.also { _facing = it; this.facing = it }
         updatePosition(x, y, z)
         velocity = Vec3d.ZERO
-        this.be = be?.toTag(CompoundTag())
+        this.be = be?.writeNbt(CompoundTag())
         prevX = x
         prevY = y
         prevZ = z
@@ -80,7 +80,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
 
     private var fallTime = 0
 
-    val inventory get() = be?.let { AtomicBombInventory().apply { Inventories.fromTag(it, list) } }
+    val inventory get() = be?.let { AtomicBombInventory().apply { Inventories.readNbt(it, list) } }
 
     override fun initDataTracker() {
         dataTracker.startTracking(active_data, false)
@@ -97,7 +97,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         }
     }
 
-    override fun readCustomDataFromTag(tag: CompoundTag) {
+    override fun readCustomDataFromNbt(tag: CompoundTag) {
         tag.getBoolean("Active").apply { _active = this; active = this }
         tag.getShort("Fuse").run { if (this > 0) this else 1200 }.toInt().apply { _fuse = this; fuse = this }
         tag.getByte("Facing").run { Direction.fromHorizontal(this.toInt()) }.apply { _facing = this; facing = this }
@@ -105,7 +105,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         if (tag.contains("TileEntityData", NBT_COMPOUND)) tag.getCompound("TileEntityData").apply { be = this }
     }
 
-    override fun writeCustomDataToTag(tag: CompoundTag) {
+    override fun writeCustomDataToNbt(tag: CompoundTag) {
         tag.putBoolean("Active", _active)
         tag.putShort("Fuse", _fuse.toShort())
         tag.putByte("Facing", _facing.horizontal.toByte())
@@ -170,11 +170,11 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                             if (setBlockState) {
                                 be?.also {
                                     (world.getBlockEntity(bp) as? AtomicBombBlockEntity)?.apply {
-                                        val data = this.toTag(CompoundTag()).copyFrom(it)
+                                        val data = this.writeNbt(CompoundTag()).copyFrom(it)
                                         data.putInt("x", bp.x)
                                         data.putInt("y", bp.y)
                                         data.putInt("z", bp.z)
-                                        this.fromTag(data)
+                                        this.readNbt(data)
                                         this.markDirty()
                                     }
                                 }

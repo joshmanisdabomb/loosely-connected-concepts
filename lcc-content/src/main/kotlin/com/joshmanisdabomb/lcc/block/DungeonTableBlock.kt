@@ -77,7 +77,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             return defaultState.with(BOTTOM, false).with(ENTITY, state2[ENTITY])
         } else if (state2.isOf(Blocks.SPAWNER)) {
             val be = ctx.world.getBlockEntity(down) as? MobSpawnerBlockEntity ?: return null
-            val tag = be.logic.toTag(ctx.world, down, CompoundTag()).getCompound("SpawnData")
+            val tag = be.logic.writeNbt(ctx.world, down, CompoundTag()).getCompound("SpawnData")
             return try {
                 val entity = DungeonTableEntity.fromOr(Registry.ENTITY_TYPE[Identifier(tag.getString("id"))])
                 defaultState.with(BOTTOM, false).with(ENTITY, entity)

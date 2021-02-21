@@ -26,13 +26,13 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
         markDirty()
     }
 
-    override fun fromTag(tag: CompoundTag) {
+    override fun readNbt(tag: CompoundTag) {
         fromClientTag(tag)
-        super.fromTag(tag)
+        super.readNbt(tag)
     }
 
-    override fun toTag(tag: CompoundTag): CompoundTag {
-        return super.toTag(toClientTag(tag))
+    override fun writeNbt(tag: CompoundTag): CompoundTag {
+        return super.writeNbt(toClientTag(tag))
     }
 
     fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]

@@ -109,21 +109,21 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
         }
     }
 
-    override fun fromTag(tag: CompoundTag) {
+    override fun readNbt(tag: CompoundTag) {
         activeTicks = tag.getInt("activeTicks")
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
         boss.name = name
 
-        super.fromTag(tag)
+        super.readNbt(tag)
     }
 
-    override fun toTag(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: CompoundTag): CompoundTag {
         tag.putInt("activeTicks", activeTicks)
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
-        return super.toTag(tag)
+        return super.writeNbt(tag)
     }
 
     override fun markRemoved() {

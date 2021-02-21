@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.gui.utils
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import net.minecraft.client.font.TextRenderer
+import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.OrderedText
@@ -88,7 +89,7 @@ interface PowerScreenUtils {
     }
 
     @JvmDefault
-    private fun draw(matrices: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int) = (this as Screen).drawTexture(matrices, x, y, u, v, width, height)
+    private fun draw(matrices: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int) = (this as DrawableHelper).drawTexture(matrices, x, y, u, v, width, height)
 
     private fun tooltip(matrices: MatrixStack, wrapLines: List<OrderedText>, mouseX: Int, mouseY: Int) = (this as Screen).renderOrderedTooltip(matrices, wrapLines, mouseX, mouseY)
 

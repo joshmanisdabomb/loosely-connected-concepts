@@ -16,10 +16,14 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.UniformIntDistribution
+import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.Carver
 import net.minecraft.world.gen.carver.CarverConfig
 import net.minecraft.world.gen.carver.ConfiguredCarver
-import net.minecraft.world.gen.decorator.*
+import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
+import net.minecraft.world.gen.decorator.Decorator
+import net.minecraft.world.gen.decorator.DecoratorConfig
+import net.minecraft.world.gen.decorator.NopeDecoratorConfig
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
@@ -68,15 +72,15 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COAL_ORE.defaultState, 14)).rangeOf(-64, 128).spreadHorizontally().repeat(26) }
-    val abundant_iron by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.IRON_ORE.defaultState, 11)).rangeOf(-64, 128).spreadHorizontally().repeat(26) }
-    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COPPER_ORE.defaultState, 14)).rangeOf(-64, 128).spreadHorizontally().repeat(15) }
+    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COAL_ORE.defaultState, 14)).averageDepth(YOffset.fixed(64), 64).spreadHorizontally().repeat(15) }
+    val abundant_iron by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.IRON_ORE.defaultState, 11)).averageDepth(YOffset.fixed(48), 64).spreadHorizontally().repeat(15) }
+    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COPPER_ORE.defaultState, 14)).averageDepth(YOffset.fixed(48), 30).spreadHorizontally().repeat(15) }
 
     val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.01f, 1))) }
-    val oil_hidden by entry(::initialiser) { Feature.NO_SURFACE_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 6)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(59, 59, 67))).spreadHorizontally().applyChance(4) }
+    val oil_hidden by entry(::initialiser) { Feature.NO_SURFACE_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 6)).averageDepth(YOffset.fixed(63), 3).spreadHorizontally().applyChance(4) }
 
-    val uranium by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2) }
-    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).decorate(Decorator.RANGE.configure(RangeDecoratorConfig(3, 12, 128))).spreadHorizontally().applyChance(2).repeat(3) }
+    val uranium by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
+    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).rangeOf(YOffset.fixed(0), YOffset.fixed(64)).spreadHorizontally().repeat(3).applyChance(2) }
 
     val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 

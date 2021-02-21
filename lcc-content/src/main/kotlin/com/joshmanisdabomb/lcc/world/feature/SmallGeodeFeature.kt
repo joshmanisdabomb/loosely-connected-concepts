@@ -25,16 +25,16 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
             val f = random.nextFloat() * 3.1415927f
             val g = config.size.toFloat() / 8.0f
             val i = MathHelper.ceil((config.size.toFloat() / 16.0f * 2.0f + 1.0f) / 2.0f)
-            val d = pos.x.toDouble() + Math.sin(f.toDouble()) * g.toDouble()
-            val e = pos.x.toDouble() - Math.sin(f.toDouble()) * g.toDouble()
-            val h = pos.z.toDouble() + Math.cos(f.toDouble()) * g.toDouble()
-            val j = pos.z.toDouble() - Math.cos(f.toDouble()) * g.toDouble()
+            val d = context.origin.x.toDouble() + Math.sin(f.toDouble()) * g.toDouble()
+            val e = context.origin.x.toDouble() - Math.sin(f.toDouble()) * g.toDouble()
+            val h = context.origin.z.toDouble() + Math.cos(f.toDouble()) * g.toDouble()
+            val j = context.origin.z.toDouble() - Math.cos(f.toDouble()) * g.toDouble()
             val k = 1
-            val l = (pos.y + random.nextInt(3) - 2).toDouble()
-            val m = (pos.y + random.nextInt(3) - 2).toDouble()
-            val n = pos.x - MathHelper.ceil(g) - i
-            val o = pos.y - 2 - i
-            val p = pos.z - MathHelper.ceil(g) - i
+            val l = (context.origin.y + random.nextInt(3) - 2).toDouble()
+            val m = (context.origin.y + random.nextInt(3) - 2).toDouble()
+            val n = context.origin.x - MathHelper.ceil(g) - i
+            val o = context.origin.y - 2 - i
+            val p = context.origin.z - MathHelper.ceil(g) - i
             val q = 2 * (MathHelper.ceil(g) + i)
             val r = 2 * (2 + i)
             for (s in n..n + q) {

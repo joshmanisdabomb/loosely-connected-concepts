@@ -83,7 +83,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         matrix.translate(0.0, sh.div(2).toDouble(), 0.0)
         matrix.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(angle))
 
-        this.drawTexture(matrix, loc, loc, u.times(size), v.times(size), size, size)
+        this.draw(matrix, loc, loc, u.times(size), v.times(size), size, size)
         val info = action.getInfo(camera)
         if (info?.isCooldown == true) {
             renderProgress(matrix, camera, info.cooldownPercent, false, 2, v, angle, delta)

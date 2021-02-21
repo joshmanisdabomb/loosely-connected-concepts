@@ -208,13 +208,13 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         super.onTrackedDataSet(data)
     }
 
-    override fun readCustomDataFromTag(tag: CompoundTag) {
+    override fun readCustomDataFromNbt(tag: CompoundTag) {
         tag.getShort("Age").toInt().apply { ticks = this; dataTracker.set(tick_data, ticks) }
         tag.getShort("Lifetime").run { if (this > 0) this else 30 }.toInt().apply { lifetime = this; dataTracker.set(lifetime_data, lifetime) }
         tag.getShort("Radius").run { if (this > 0) this else 20 }.toInt().apply { radius = this; dataTracker.set(radius_data, radius) }
     }
 
-    override fun writeCustomDataToTag(tag: CompoundTag) {
+    override fun writeCustomDataToNbt(tag: CompoundTag) {
         tag.putShort("Age", ticks.toShort())
         tag.putShort("Lifetime", lifetime.toShort())
         tag.putShort("Radius", radius.toShort())

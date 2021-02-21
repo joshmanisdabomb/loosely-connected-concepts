@@ -66,20 +66,20 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
         return customName ?: TranslatableText("container.chest")
     }
 
-    override fun fromTag(tag: CompoundTag) {
-        super.fromTag(tag)
+    override fun readNbt(tag: CompoundTag) {
+        super.readNbt(tag)
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
-        inventory.apply { clear(); Inventories.fromTag(tag, list) }
+        inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun toTag(tag: CompoundTag): CompoundTag {
-        super.toTag(tag)
+    override fun writeNbt(tag: CompoundTag): CompoundTag {
+        super.writeNbt(tag)
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
-        Inventories.toTag(tag, inventory.list)
+        Inventories.writeNbt(tag, inventory.list)
 
         return tag
     }

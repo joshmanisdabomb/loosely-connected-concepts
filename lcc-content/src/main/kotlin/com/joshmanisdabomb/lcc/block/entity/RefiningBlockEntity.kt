@@ -94,8 +94,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     override fun getDisplayName() = customName ?: refiningBlock?.defaultDisplayName ?: TranslatableText("container.lcc.refiner")
 
-    override fun fromTag(tag: CompoundTag) {
-        super.fromTag(tag)
+    override fun readNbt(tag: CompoundTag) {
+        super.readNbt(tag)
 
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
@@ -104,11 +104,11 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         progress = tag.getInt("Progress")
         boost = tag.getFloat("Boost")
 
-        inventory.apply { clear(); Inventories.fromTag(tag, list) }
+        inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun toTag(tag: CompoundTag): CompoundTag {
-        super.toTag(tag)
+    override fun writeNbt(tag: CompoundTag): CompoundTag {
+        super.writeNbt(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
@@ -117,7 +117,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         tag.putInt("Progress", progress)
         tag.putFloat("Boost", boost)
 
-        Inventories.toTag(tag, inventory.list)
+        Inventories.writeNbt(tag, inventory.list)
 
         return tag
     }

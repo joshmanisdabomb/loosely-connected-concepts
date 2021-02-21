@@ -16,15 +16,15 @@ class NearLavaLakeDecorator(codec: Codec<NopeDecoratorConfig>) : Decorator<NopeD
     override fun getPositions(context: DecoratorContext, random: Random, config: NopeDecoratorConfig, pos: BlockPos): Stream<BlockPos> {
         val pos2 = BlockPos.Mutable(pos.x, context.getTopY(Heightmap.Type.WORLD_SURFACE_WG, pos.x, pos.z), pos.z)
 
-        if (!GenUtils.areaMatches(context, pos2.x, pos2.y, pos2.z, expand = 5, test = GenUtils::any) {
-            pos2.set(it)
+        if (!GenUtils.areaMatches(context::getBlockState, pos2.x, pos2.y, pos2.z, expand = 5, test = GenUtils::any) { state, pos ->
+            pos2.set(pos)
             for (i in -1..1) {
                 for (k in -1..1) {
-                    pos2.set(it).move(i, 0, k)
+                    pos2.set(pos).move(i, 0, k)
                     if (!context.getBlockState(pos2).fluidState.isIn(FluidTags.LAVA)) return@areaMatches false
                 }
             }
-            pos2.set(it)
+            pos2.set(pos)
             true
         }) {
             return Stream.empty()

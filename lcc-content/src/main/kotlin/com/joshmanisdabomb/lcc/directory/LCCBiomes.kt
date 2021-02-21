@@ -13,6 +13,7 @@ import net.minecraft.world.biome.GenerationSettings
 import net.minecraft.world.biome.SpawnSettings
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry
 import net.minecraft.world.gen.GenerationStep
+import net.minecraft.world.gen.feature.ConfiguredFeatures
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures
 
 object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), RegistryDirectory<Biome, Unit, Unit> {
@@ -48,9 +49,15 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_LOWER)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_LOWER)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_copper)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_wasteland)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.oil_hidden)

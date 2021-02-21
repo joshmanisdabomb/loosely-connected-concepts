@@ -12,7 +12,10 @@ import com.joshmanisdabomb.lcc.data.factory.tag.BlockTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.*
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
-import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.BasicDirectory
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
@@ -245,9 +248,9 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     override fun defaultProperties(name: String) = Unit
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out BlockDataContainer, out BlockDataContainer>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
-        all.forEach { (k, v) -> v.init(k, LCCBlocks[k]) }
+        initialised.forEach { it.entry.init(it.name, LCCBlocks.getOrNull(it.name)) }
 
-        val missing = LCCBlocks.all.values.minus(all.values.flatMap { it.affects })
+        val missing = LCCBlocks.all.values.minus(initialised.flatMap { it.entry.affects })
         missing.forEach { val key = LCCBlocks[it].name; defaults().init(key, it) }
     }
 

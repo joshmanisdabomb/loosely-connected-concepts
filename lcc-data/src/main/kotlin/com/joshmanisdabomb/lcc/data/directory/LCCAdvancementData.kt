@@ -43,7 +43,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
         val spawner_table by entry(::initialiser) {
             Advancement.Task.create()
                 .parent(main_root)
-                .display(LCCBlocks.test_block, this)
+                .display(LCCBlocks.spawner_table, this)
                 .criterion("place", PlacedBlockCriterion.Conditions.block(LCCBlocks.spawner_table))
                 .criteriaMerger(CriterionMerger.OR)
                 .translation("Next Level Crafting", "Convert a mob spawner into a crafting station", "en_us", this)
@@ -136,7 +136,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     private fun Advancement.Task.display(item: ItemConvertible, context: DirectoryContext<Unit>, frame: AdvancementFrame = AdvancementFrame.TASK, toast: Boolean = true, chat: Boolean = true, hidden: Boolean = false): Advancement.Task {
         val name = context.tags.getOrNull(1) ?: context.name
-        return this.display(item, TranslatableText("advancements.lcc.${context.tags[0]}.$name.title"), TranslatableText("advancements.lcc.${context.tags[0]}.$name.description"), if (context.tags.size > 1) null else LCC.id("textures/gui/advancements/backgrounds/${context.tags[0]}.png"), frame, toast, chat, hidden)
+        return this.display(item, TranslatableText("advancements.lcc.${context.tags[0]}.$name.title"), TranslatableText("advancements.lcc.${context.tags[0]}.$name.description"), if (context.tags.size < 2) null else LCC.id("textures/gui/advancements/backgrounds/${context.tags[0]}.png"), frame, toast, chat, hidden)
     }
 
     private fun Advancement.Task.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Task {
@@ -170,7 +170,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
             }
         }
         entries.forEach { (k, v) ->
-            v.entry.createTask().apply { findParent { if (it.namespace == "lcc") LCCAdvancementData.all.toList().firstOrNull { (k2, v2) -> it.path == "${v.tags[0]}/${v.tags.getOrNull(1) ?: v.name}" }?.second else null } }.build(consumer, LCC.id("${v.tags[0]}/${v.tags.getOrNull(1) ?: v.name}").toString())
+            v.entry.createTask().apply { findParent { if (it.namespace == "lcc") entries.toList().firstOrNull { (k2, v2) -> it.path == "${v2.tags[0]}/${v2.tags.getOrNull(1) ?: v2.name}" }?.second?.entry else null } }.build(consumer, LCC.id("${v.tags[0]}/${v.tags.getOrNull(1) ?: v.name}").toString())
         }
     }
 

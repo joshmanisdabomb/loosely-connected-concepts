@@ -17,9 +17,9 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
     override fun defaultProperties(name: String) = Unit
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out EntityDataContainer, out EntityDataContainer>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
-        all.forEach { (k, v) -> v.init(k, LCCEntities[k]) }
+        initialised.forEach { it.entry.init(it.name, LCCEntities.getOrNull(it.name)) }
 
-        val missing = LCCEntities.all.values.minus(all.values.flatMap { it.affects })
+        val missing = LCCEntities.all.values.minus(initialised.flatMap { it.entry.affects })
         missing.forEach { val key = LCCEntities[it].name; defaults().init(key, it) }
     }
 

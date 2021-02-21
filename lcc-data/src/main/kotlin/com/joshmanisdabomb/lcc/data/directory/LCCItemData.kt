@@ -189,9 +189,9 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
     override fun defaultProperties(name: String) = Unit
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out ItemDataContainer, out ItemDataContainer>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
-        all.forEach { (k, v) -> v.init(k, LCCItems[k]) }
+        initialised.forEach { it.entry.init(it.name, LCCItems.getOrNull(it.name)) }
 
-        val missing = LCCItems.all.values.minus(all.values.flatMap { it.affects })
+        val missing = LCCItems.all.values.minus(initialised.flatMap { it.entry.affects })
         missing.forEach { val key = LCCItems[it].name; defaults().init(key, it) }
     }
 

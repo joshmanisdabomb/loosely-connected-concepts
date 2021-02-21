@@ -33,10 +33,10 @@ object ModelTemplates : BasicDirectory<Model, Unit>() {
     val template_atomic_bomb_tail by templateEntry("block", template_atomic_bomb_tail_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, TextureKey.PARTICLE)
     val template_atomic_bomb_item by templateEntry("item", template_atomic_bomb_item_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
 
-    fun initialiser(input: Model, context: DirectoryContext<Unit>, parameters: Unit) = input.also { if (context.tags.size >= 2) LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${context.tags[0]}/$context.name")) { DataUtils.parser.parse(context.tags[1]) } }
+    fun initialiser(input: Model, context: DirectoryContext<Unit>, parameters: Unit) = input.also { if (context.tags.size >= 2) LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${context.tags[0]}/${context.name}")) { DataUtils.parser.parse(context.tags[1]) } }
 
     fun referenceEntry(parent: Identifier, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(parent), Optional.empty(), *keys) }
-    fun templateEntry(folder: String, json: String, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(Identifier(LCCData.accessor.modid, "${tags[0]}/$name")), Optional.empty(), *keys) }
+    fun templateEntry(folder: String, json: String, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(Identifier(LCCData.accessor.modid, "${tags[0]}/$name")), Optional.empty(), *keys) }.addTags(folder, json)
 
     override fun defaultProperties(name: String) = Unit
 

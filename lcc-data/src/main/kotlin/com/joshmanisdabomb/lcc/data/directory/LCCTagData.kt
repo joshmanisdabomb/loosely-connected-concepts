@@ -22,15 +22,15 @@ object LCCTagData : AdvancedDirectory<Unit, TagData.TagBuilder<*>, Unit, Unit>()
     val gold_blocks by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Items.GOLD_BLOCK) }
     val furnace_generator_double by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.appendTag(ItemTags.COALS).append(Items.COAL_BLOCK) }
 
-    val geothermal_warm by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.appendTag(BlockTags.CANDLES).appendTag(BlockTags.CANDLE_CAKES) }
-    val geothermal_hot by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.MAGMA_BLOCK) }
-    val geothermal_heated by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.TORCH) }
-    val geothermal_soul_heated by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_TORCH) }
-    val geothermal_burning by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.FIRE) }
-    val geothermal_soul_burning by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_FIRE) }
-    val geothermal_flaming by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.CAMPFIRE) }
-    val geothermal_soul_flaming by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_CAMPFIRE) }
-    val geothermal_full by entry(::itemInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.LAVA) }
+    val geothermal_warm by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.appendTag(BlockTags.CANDLES).appendTag(BlockTags.CANDLE_CAKES) }
+    val geothermal_hot by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.MAGMA_BLOCK) }
+    val geothermal_heated by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.TORCH) }
+    val geothermal_soul_heated by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_TORCH) }
+    val geothermal_burning by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.FIRE) }
+    val geothermal_soul_burning by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_FIRE) }
+    val geothermal_flaming by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.CAMPFIRE) }
+    val geothermal_soul_flaming by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.SOUL_CAMPFIRE) }
+    val geothermal_full by entry(::blockInitialiser) {}.addInitListener { context, params -> context.entry.append(Blocks.LAVA) }
 
     val geothermal_magma by entry(::entityInitialiser) {}.addInitListener { context, params -> context.entry.append(EntityType.MAGMA_CUBE) }
     val geothermal_blaze by entry(::entityInitialiser) {}.addInitListener { context, params -> context.entry.append(EntityType.BLAZE) }

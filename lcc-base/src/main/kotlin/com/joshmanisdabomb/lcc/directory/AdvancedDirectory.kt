@@ -12,7 +12,7 @@ abstract class AdvancedDirectory<I, O, P, C> {
     val entries by lazy { _entries.toMap() }
     private var entryNumber = 0
 
-    private val keyMap by lazy { entries.mapNotNull { (it.value.entryOrNull ?: return@mapNotNull null) to it.key }.toMap() }
+    private val keyMap by lazy { entries.mapNotNull { (k, v) -> (v.entryOrNull ?: return@mapNotNull null) to k }.toMap() }
     val all by lazy { keyMap.map { it.value to it.key }.toMap() }
 
     abstract fun defaultProperties(name: String): P

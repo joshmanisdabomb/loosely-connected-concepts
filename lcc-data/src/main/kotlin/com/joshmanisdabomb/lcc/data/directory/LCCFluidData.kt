@@ -13,10 +13,10 @@ object LCCFluidData : BasicDirectory<FluidDataContainer, Unit>() {
 
     override fun defaultProperties(name: String) = Unit
 
-    override fun <V : FluidDataContainer> afterInit(initialised: V, entry: DirectoryEntry<out FluidDataContainer, out V>, parameters: Unit) {
-        all.forEach { (k, v) -> v.init(k, LCCFluids[k]) }
+    override fun afterInitAll(initialised: List<DirectoryEntry<out FluidDataContainer, out FluidDataContainer>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
+        initialised.forEach { it.entry.init(it.name, LCCFluids.getOrNull(it.name)) }
 
-        val missing = LCCFluids.all.values.minus(all.values.flatMap { it.affects })
+        val missing = LCCFluids.all.values.minus(initialised.flatMap { it.entry.affects })
         missing.forEach { val key = LCCFluids[it].name; defaults().init(key, it) }
     }
 

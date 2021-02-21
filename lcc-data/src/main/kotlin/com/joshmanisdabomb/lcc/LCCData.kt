@@ -17,12 +17,14 @@ object LCCData : PreLaunchEntrypoint {
     override fun onPreLaunch() {
         LCC.onInitialize()
 
+        LCCModelTextureKeys.init()
+        ModelTemplates.init()
+
         LCCTagData.init()
         LCCBlockData.init()
         LCCItemData.init()
         LCCEntityData.init()
 
-        ModelTemplates.init()
         LCCAdvancementData.init()
         LCCLangData(accessor.lang)
 

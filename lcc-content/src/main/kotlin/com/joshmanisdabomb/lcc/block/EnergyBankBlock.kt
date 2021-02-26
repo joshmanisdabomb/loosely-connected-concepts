@@ -9,7 +9,7 @@ import net.minecraft.screen.PropertyDelegate
 
 class EnergyBankBlock(settings: Settings) : BatteryBlock(settings) {
 
-    override val max = LooseEnergy.fromCoals(64f)
+    override val max = LooseEnergy.fromCoals(32f)
     override val inputs = 3
     override val outputs = 3
 

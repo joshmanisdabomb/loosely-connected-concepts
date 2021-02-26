@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "lcc:rubber_sapling",
     "lcc:classic_sapling"
   ]
 }

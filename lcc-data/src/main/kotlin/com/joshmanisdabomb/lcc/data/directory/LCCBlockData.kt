@@ -21,6 +21,7 @@ import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
+import net.minecraft.data.client.model.Models
 import net.minecraft.data.client.model.Texture
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
@@ -242,6 +243,20 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .criterion("has_enriched_uranium", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.enriched_uranium).build()))
             .apply { offerShaped(this, d) }
     }) }
+
+    val rubber_wood by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(CustomBlockAssetFactory { d, b -> modelCubeAll(d, b, texture = loc(LCC.id("rubber_log"))) }) }
+    val stripped_rubber_wood by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(CustomBlockAssetFactory { d, b -> modelCubeAll(d, b, texture = loc(LCC.id("stripped_rubber_log"))) }) }
+    val rubber_sapling by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(BlockTagFactory(BlockTags.SAPLINGS)) }
+    val potted_rubber_sapling by entry(::initialiser) { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
+    val rubber_leaves by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(LeavesBlockLootFactory(LCCBlocks.rubber_sapling)).add(BlockTagFactory(BlockTags.LEAVES)) }
+    val rubber_stairs by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultItemAsset().add(StairsBlockAssetFactory(LCC.id("block/rubber_planks"))) }
+    val rubber_slab by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultItemAsset().add(SlabBlockAssetFactory(LCC.id("block/rubber_planks")) { d, b -> loc(LCCBlocks.rubber_planks) }) }
+    val rubber_door by entry(::initialiser) { BlockDataContainer().defaultLang().add(DoorBlockAssetFactory).add(GeneratedItemAssetFactory).add(DoorBlockLootFactory) }
+    val rubber_pressure_plate by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(PressurePlateBlockAssetFactory(LCC.id("block/rubber_planks"))) }
+    val rubber_button by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(CustomItemAssetFactory { d, i -> Models.BUTTON_INVENTORY.upload(loc(i), Texture.texture(loc(LCCBlocks.rubber_planks.asItem(), folder = "block")), d.modelStates::addModel) }).add(ButtonBlockAssetFactory(LCC.id("block/rubber_planks"))) }
+    val rubber_fence by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(CustomItemAssetFactory { d, i -> Models.FENCE_INVENTORY.upload(loc(i), Texture.texture(loc(LCCBlocks.rubber_planks.asItem(), folder = "block")), d.modelStates::addModel) }).add(FenceBlockAssetFactory(LCC.id("block/rubber_planks"))) }
+    val rubber_fence_gate by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(FenceGateBlockAssetFactory(LCC.id("block/rubber_planks"))) }
+    val rubber_trapdoor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(TrapdoorBlockAssetFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

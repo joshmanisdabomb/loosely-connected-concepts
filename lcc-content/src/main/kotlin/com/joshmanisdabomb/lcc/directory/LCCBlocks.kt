@@ -3,6 +3,12 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.block.*
+import com.joshmanisdabomb.lcc.block.DoorBlock
+import com.joshmanisdabomb.lcc.block.PressurePlateBlock
+import com.joshmanisdabomb.lcc.block.SaplingBlock
+import com.joshmanisdabomb.lcc.block.StairsBlock
+import com.joshmanisdabomb.lcc.block.TrapdoorBlock
+import com.joshmanisdabomb.lcc.block.WoodenButtonBlock
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.extensions.toInt
@@ -20,6 +26,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags.*
 import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
+import net.minecraft.block.PressurePlateBlock.ActivationRule
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.property.Properties
@@ -71,6 +78,43 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101)))
 
     //Building
+    val rubber_log by entry(::initialiser) { FunctionalLogBlock(FabricBlockSettings.copyOf(Settings.of(Material.WOOD, pillarMapColorProvider(MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_GREEN))).strength(2.0f).sounds(BlockSoundGroup.WOOD)) { stripped_rubber_log.defaultState } }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_wood by entry(::initialiser) { StrippableBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_GREEN).strength(2.0f).sounds(BlockSoundGroup.WOOD)) { stripped_rubber_wood.defaultState } }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0f, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_sapling by entry(::initialiser) { SaplingBlock(ClassicSaplingBlock, FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING).cutout())
+    val potted_rubber_sapling by entry(::initialiser) { FlowerPotBlock(rubber_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().cutout())
+    val rubber_leaves by entry(::initialiser) { Block(FabricBlockSettings.of(Material.LEAVES).strength(0.2F).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING).cutoutMipped())
+    val stripped_rubber_log by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val stripped_rubber_wood by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_stairs by entry(::initialiser) { StairsBlock(rubber_planks.defaultState, FabricBlockSettings.copy(rubber_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rubber_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    /*val rubber_sign by entry(::initialiser) { SignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_wall_sign by entry(::initialiser) { WallSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))*/
+    val rubber_door by entry(::initialiser) { DoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING).cutout())
+    val rubber_pressure_plate by entry(::initialiser) { PressurePlateBlock(ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(0.5F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_button by entry(::initialiser) { WoodenButtonBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_fence by entry(::initialiser) { FenceBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_fence_gate by entry(::initialiser) { FenceGateBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rubber_trapdoor by entry(::initialiser) { TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(::never)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING).cutout())
+
     val pumice by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_LIGHT_GRAY).sounds(BlockSoundGroup.POINTED_DRIPSTONE).breakByTool(PICKAXES).requiresTool().strength(0.4f, 4.0f)) }
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
     val rhyolite by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY).sounds(BlockSoundGroup.STONE).breakByTool(PICKAXES).requiresTool().strength(1.0f, 10.0f)) }

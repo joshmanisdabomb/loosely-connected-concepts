@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "lcc:block/stripped_rubber_log"
+    "end": "lcc:block/stripped_rubber_log_top",
+    "side": "lcc:block/stripped_rubber_log"
   }
 }

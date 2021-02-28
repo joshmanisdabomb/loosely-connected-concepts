@@ -34,6 +34,8 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val nuclear_fire by entry(::initialiser) { Replacement() }
 
     val rubber_door by entry(::initialiser) { Replacement(TallBlockItem(properties, Item.Settings().defaults())) }
+    val treetap_bowl by entry(::initialiser) { Replacement() }
+    val dried_treetap by entry(::initialiser) { Replacement() }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block>) -> Boolean) {
         LCCBlocks.all.forEach { (k, v) ->

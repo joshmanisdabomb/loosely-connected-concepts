@@ -43,6 +43,7 @@ class LCCGroup : CreativeExGroup(LCC.id("group")) {
         BUILDING(0xFFD8D5C0),
         CRAFTERS(0xFFB97A57),
         MATERIALS(0xFFBA8900),
+        SAP_PRODUCTION(0xFF111111),
         POWER(0xFFC7B330),
         GIZMOS(0xFFFF00FF),
         RAINBOW(0xFFAD72AD),

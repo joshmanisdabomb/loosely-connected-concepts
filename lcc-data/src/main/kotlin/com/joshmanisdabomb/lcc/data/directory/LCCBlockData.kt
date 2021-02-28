@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
+import com.joshmanisdabomb.lcc.block.AbstractTreetapBlock
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.block.*
@@ -195,7 +196,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.generators)) }
 
-    val solar_panel by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val solar_panel by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("sss")
             .pattern("lll")
@@ -208,7 +209,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    val turbine by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory).add(CustomRecipeFactory { d, i ->
+    val turbine by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(LiteralTranslationFactory("Steam Turbine", "en_us")).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(LCC.id("solar_panel"), folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(TurbineBlockAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern(" t ")
             .pattern("ici")
@@ -232,7 +233,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     }) }
 
     val nuclear_fire by entry(::initialiser) { BlockDataContainer().defaultLang().add(StaticFireBlockAssetFactory) }
-    val atomic_bomb by entry(::initialiser) { BlockDataContainer().defaultLang().add(AtomicBombBlockAssetFactory).add(AtomicBombBlockLootFactory).add(CustomItemAssetFactory { d, i -> ModelTemplates.template_atomic_bomb_item.upload(loc(i), Texture().put(LCCModelTextureKeys.t1, loc(i, folder = "block") { it.plus("_tail_side") }).put(LCCModelTextureKeys.t2, loc(i, folder = "block") { it.plus("_tail") }).put(LCCModelTextureKeys.t3, loc(i, folder = "block") { it.plus("_fin") }).put(LCCModelTextureKeys.t4, loc(i, folder = "block") { it.plus("_core") }).put(LCCModelTextureKeys.t5, loc(i, folder = "block") { it.plus("_head") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val atomic_bomb by entry(::initialiser) { BlockDataContainer().defaultLang().add(AtomicBombBlockAssetFactory).add(AtomicBombBlockLootFactory).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_atomic_bomb_item.upload(loc(i), Texture().put(LCCModelTextureKeys.t1, loc(i, folder = "block") { it.plus("_tail_side") }).put(LCCModelTextureKeys.t2, loc(i, folder = "block") { it.plus("_tail") }).put(LCCModelTextureKeys.t3, loc(i, folder = "block") { it.plus("_fin") }).put(LCCModelTextureKeys.t4, loc(i, folder = "block") { it.plus("_core") }).put(LCCModelTextureKeys.t5, loc(i, folder = "block") { it.plus("_head") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("ccc")
             .pattern("bdc")
@@ -244,11 +245,15 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
+    val natural_rubber_log by entry(::initialiser) { BlockDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> val texture = loc(LCCBlocks.rubber_log.asItem(), folder = "block"); modelOrientableBottom(d, i, texture = texture, textureFront = suffix(texture, "tapped"), textureSide = texture, textureBottom = suffix(texture, "top")) }).add(BooleanHorizontalSideBlockAssetFactory(LCC.id("block/rubber_log_tapped"), LCC.id("block/rubber_log"), LCC.id("block/rubber_log_top"))).add(SimpleBlockLootFactory(LCCBlocks.rubber_log)) }
+    val rubber_log by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(ColumnBlockAssetFactory(textureSide = LCC.id("block/rubber_log"), textureEnd = LCC.id("block/rubber_log_top"))) }
     val rubber_wood by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(CustomBlockAssetFactory { d, b -> modelCubeAll(d, b, texture = loc(LCC.id("rubber_log"))) }) }
+    val sappy_stripped_rubber_log by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(SapBurstBlockAssetFactory(texture = LCC.id("block/stripped_rubber_log"))).add(SimpleBlockLootFactory(LCCBlocks.stripped_rubber_log)) }
+    val stripped_rubber_log by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(ColumnBlockAssetFactory(textureSide = LCC.id("block/stripped_rubber_log"), textureEnd = LCC.id("block/stripped_rubber_log_top"))) }
     val stripped_rubber_wood by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(CustomBlockAssetFactory { d, b -> modelCubeAll(d, b, texture = loc(LCC.id("stripped_rubber_log"))) }) }
     val rubber_sapling by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(BlockTagFactory(BlockTags.SAPLINGS)) }
     val potted_rubber_sapling by entry(::initialiser) { BlockDataContainer().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
-    val rubber_leaves by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(LeavesBlockLootFactory(LCCBlocks.rubber_sapling)).add(BlockTagFactory(BlockTags.LEAVES)) }
+    val rubber_leaves by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(LeavesBlockLootFactory(LCCBlocks.rubber_sapling)).add(BlockTagFactory(BlockTags.LEAVES)).add(TintBlockAssetFactory) }
     val rubber_stairs by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultItemAsset().add(StairsBlockAssetFactory(LCC.id("block/rubber_planks"))) }
     val rubber_slab by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultItemAsset().add(SlabBlockAssetFactory(LCC.id("block/rubber_planks")) { d, b -> loc(LCCBlocks.rubber_planks) }) }
     val rubber_door by entry(::initialiser) { BlockDataContainer().defaultLang().add(DoorBlockAssetFactory).add(GeneratedItemAssetFactory).add(DoorBlockLootFactory) }
@@ -257,6 +262,9 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val rubber_fence by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(CustomItemAssetFactory { d, i -> Models.FENCE_INVENTORY.upload(loc(i), Texture.texture(loc(LCCBlocks.rubber_planks.asItem(), folder = "block")), d.modelStates::addModel) }).add(FenceBlockAssetFactory(LCC.id("block/rubber_planks"))) }
     val rubber_fence_gate by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(FenceGateBlockAssetFactory(LCC.id("block/rubber_planks"))) }
     val rubber_trapdoor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(TrapdoorBlockAssetFactory) }
+    val treetap_bowl by entry(::initialiser) { BlockDataContainer().defaultLang().add(TreetapStorageBlockAssetFactory(AbstractTreetapBlock.TreetapContainer.BOWL, LCCModelTemplates.template_treetap_bowl_1, LCCModelTemplates.template_treetap_bowl_2, LCCModelTemplates.template_treetap_bowl_3, LCCModelTemplates.template_treetap_bowl_dried) { d, b -> LCCModelTemplates.template_treetap_bowl.upload(loc(b), Texture().put(LCCModelTextureKeys.t0, loc(LCCBlocks.treetap)).put(LCCModelTextureKeys.t1, loc(b)), d.modelStates::addModel) }) }
+    val treetap by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(TreetapBlockAssetFactory) }
+    val dried_treetap by entry(::initialiser) { BlockDataContainer().defaultLang().add(TreetapDriedBlockAssetFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

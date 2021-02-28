@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.block.TurbineBlock.Companion.turbine_state
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.directory.ModelTemplates
+import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 
@@ -14,7 +14,7 @@ object TurbineBlockAssetFactory : BlockAssetFactory {
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(turbine_state).register { p ->
                 val id = loc(entry) { if (p != TurbineBlock.TurbineState.UNPOWERED) it.plus("_on") else it }
-                BlockStateVariant.create().put(VariantSettings.MODEL, ModelTemplates.template_turbine.upload(id, Texture().put(TextureKey.TOP, loc(LCC.id("solar_panel")) { it.plus("_bottom") }).put(TextureKey.SIDE, loc(LCC.id("solar_panel")) { it.plus("_side") }).put(TextureKey.BOTTOM, id).put(TextureKey.PARTICLE, loc(entry)), data.modelStates::addModel))
+                BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_turbine.upload(id, Texture().put(TextureKey.TOP, loc(LCC.id("solar_panel")) { it.plus("_bottom") }).put(TextureKey.SIDE, loc(LCC.id("solar_panel")) { it.plus("_side") }).put(TextureKey.BOTTOM, id).put(TextureKey.PARTICLE, loc(entry)), data.modelStates::addModel))
             })
         }
     }

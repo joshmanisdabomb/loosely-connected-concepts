@@ -18,7 +18,7 @@ object LCCData : PreLaunchEntrypoint {
         LCC.onInitialize()
 
         LCCModelTextureKeys.init()
-        ModelTemplates.init()
+        LCCModelTemplates.init()
 
         LCCTagData.init()
         LCCBlockData.init()

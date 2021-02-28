@@ -29,6 +29,8 @@ val Direction.booleanProperty get() = properties[this]!!
 
 val Direction.isHorizontal get() = this.horizontal != -1
 
+val horizontalDirections = arrayOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)
+
 fun Direction.blockEntityTransform(matrices: MatrixStack) {
     when (this) {
         Direction.DOWN -> {

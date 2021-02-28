@@ -43,6 +43,12 @@ object LCCItems : ItemDirectory() {
     //Materials
     val silicon by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val latex_bottle by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val flexible_rubber by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val heavy_duty_rubber by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
 
     //Tools
     val ruby_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.RUBY, Item.Settings().defaults()) }

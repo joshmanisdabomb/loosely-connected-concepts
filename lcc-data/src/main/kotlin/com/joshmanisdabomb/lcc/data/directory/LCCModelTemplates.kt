@@ -8,7 +8,7 @@ import net.minecraft.data.client.model.TextureKey
 import net.minecraft.util.Identifier
 import java.util.*
 
-object ModelTemplates : BasicDirectory<Model, Unit>() {
+object LCCModelTemplates : BasicDirectory<Model, Unit>() {
 
     val aligned_cross by templateEntry("block", aligned_cross_json, TextureKey.CROSS)
     val generated1 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
@@ -32,6 +32,18 @@ object ModelTemplates : BasicDirectory<Model, Unit>() {
     val template_atomic_bomb_middle by templateEntry("block", template_atomic_bomb_middle_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
     val template_atomic_bomb_tail by templateEntry("block", template_atomic_bomb_tail_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, TextureKey.PARTICLE)
     val template_atomic_bomb_item by templateEntry("item", template_atomic_bomb_item_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
+    val template_face_up_down by templateEntry("block", template_face_up_down_json, TextureKey.TEXTURE)
+    val template_face_north by templateEntry("block", template_face_north_json, TextureKey.TEXTURE)
+    val template_face_east by templateEntry("block", template_face_east_json, TextureKey.TEXTURE)
+    val template_face_south by templateEntry("block", template_face_south_json, TextureKey.TEXTURE)
+    val template_face_west by templateEntry("block", template_face_west_json, TextureKey.TEXTURE)
+    val template_treetap by templateEntry("block", template_treetap_json, LCCModelTextureKeys.t0)
+    val template_treetap_overflow by templateEntry("block", template_treetap_overflow_json, LCCModelTextureKeys.t2)
+    val template_treetap_bowl by templateEntry("block", template_treetap_bowl_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1)
+    val template_treetap_bowl_1 by templateEntry("block", template_treetap_bowl_1_json, LCCModelTextureKeys.t2)
+    val template_treetap_bowl_2 by templateEntry("block", template_treetap_bowl_2_json, LCCModelTextureKeys.t2)
+    val template_treetap_bowl_3 by templateEntry("block", template_treetap_bowl_3_json, LCCModelTextureKeys.t2)
+    val template_treetap_bowl_dried by templateEntry("block", template_treetap_bowl_dried_json, LCCModelTextureKeys.t2)
 
     fun initialiser(input: Model, context: DirectoryContext<Unit>, parameters: Unit) = input.also { if (context.tags.size >= 2) LCCData.accessor.handler.modelStates.addModel(Identifier(LCCData.accessor.modid, "${context.tags[0]}/${context.name}")) { DataUtils.parser.parse(context.tags[1]) } }
 
@@ -1529,6 +1541,598 @@ private const val template_atomic_bomb_item_json =
 			"name": "octagon",
 			"origin": [8, 8, 8],
 			"children": [20, 21, 22, 23]
+		}
+	]
+}"""
+
+private const val template_face_up_down_json =
+"""{
+    "parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "texture": "#texture", "cullface": "down" },
+                "up":    { "texture": "#texture", "cullface": "up" }
+            }
+        }
+    ]
+}"""
+
+private const val template_face_north_json =
+"""{
+    "parent": "block/block",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "north": { "texture": "#texture", "cullface": "north" }
+            }
+        }
+    ]
+}"""
+
+private const val template_face_east_json =
+"""{
+    "parent": "block/block",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "east":  { "texture": "#texture", "cullface": "east" }
+            }
+        }
+    ]
+}"""
+
+private const val template_face_south_json =
+"""{
+    "parent": "block/block",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "south": { "texture": "#texture", "cullface": "south" }
+            }
+        }
+    ]
+}"""
+
+private const val template_face_west_json =
+"""{
+    "parent": "block/block",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "west":  { "texture": "#texture", "cullface": "west" }
+            }
+        }
+    ]
+}"""
+
+private const val template_treetap_json =
+"""{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "#0"
+	},
+	"elements": [
+		{
+			"name": "tap1",
+			"from": [7, 14, 10],
+			"to": [9, 15, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 22, 20]},
+			"faces": {
+				"north": {"uv": [7, 1, 9, 2], "texture": "#0"},
+				"east": {"uv": [0, 1, 6, 2], "texture": "#0"},
+				"west": {"uv": [10, 1, 16, 2], "texture": "#0"},
+				"up": {"uv": [7, 10, 9, 16], "texture": "#0"},
+				"down": {"uv": [7, 0, 9, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap2",
+			"from": [6, 15, 10],
+			"to": [7, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 20]},
+			"faces": {
+				"north": {"uv": [9, 0, 10, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
+				"up": {"uv": [6, 12, 7, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [6, 0, 7, 4], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap3",
+			"from": [9, 15, 10],
+			"to": [10, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 23, 20]},
+			"faces": {
+				"north": {"uv": [6, 0, 7, 1], "texture": "#0"},
+				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
+				"up": {"uv": [9, 12, 10, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [9, 0, 10, 4], "texture": "#0"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_overflow_json =
+"""{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "overflow",
+			"from": [7, 15, 10],
+			"to": [9, 15.5, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 23, 18]},
+			"faces": {
+				"north": {"uv": [7, 0.5, 9, 1], "texture": "#2"},
+				"up": {"uv": [7, 10, 9, 16], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_bowl_json =
+"""{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "#0"
+	},
+	"elements": [
+		{
+			"name": "tap1",
+			"from": [7, 14, 10],
+			"to": [9, 15, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 22, 20]},
+			"faces": {
+				"north": {"uv": [7, 1, 9, 2], "texture": "#0"},
+				"east": {"uv": [0, 1, 6, 2], "texture": "#0"},
+				"west": {"uv": [10, 1, 16, 2], "texture": "#0"},
+				"up": {"uv": [7, 10, 9, 16], "texture": "#0"},
+				"down": {"uv": [7, 0, 9, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap2",
+			"from": [6, 15, 12],
+			"to": [7, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 20]},
+			"faces": {
+				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
+				"up": {"uv": [6, 12, 7, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [6, 0, 7, 4], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap3",
+			"from": [9, 15, 12],
+			"to": [10, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 23, 20]},
+			"faces": {
+				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
+				"up": {"uv": [9, 12, 10, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [9, 0, 10, 4], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap4",
+			"from": [6, 15, 11],
+			"to": [7, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 19]},
+			"faces": {
+				"east": {"uv": [4, 0, 5, 1], "texture": "#0"},
+				"west": {"uv": [11, 0, 12, 1], "texture": "#0"},
+				"down": {"uv": [6, 4, 7, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap5",
+			"from": [9, 15, 11],
+			"to": [10, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 23, 19]},
+			"faces": {
+				"east": {"uv": [4, 0, 5, 1], "texture": "#0"},
+				"west": {"uv": [11, 0, 12, 1], "texture": "#0"},
+				"down": {"uv": [9, 4, 10, 5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap6",
+			"from": [6, 15, 10],
+			"to": [7, 16, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 16]},
+			"faces": {
+				"north": {"uv": [9, 0, 10, 1], "texture": "#0"},
+				"east": {"uv": [5, 0, 6, 1], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 1], "texture": "#0"},
+				"up": {"uv": [6, 10, 7, 11], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [6, 5, 7, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "tap7",
+			"from": [9, 15, 10],
+			"to": [10, 16, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 23, 16]},
+			"faces": {
+				"north": {"uv": [6, 0, 7, 1], "texture": "#0"},
+				"east": {"uv": [5, 0, 6, 1], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 1], "texture": "#0"},
+				"up": {"uv": [9, 10, 10, 11], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [9, 5, 10, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "chain1",
+			"from": [6, 16, 11],
+			"to": [10, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 23, 19]},
+			"faces": {
+				"up": {"uv": [11, 8, 15, 9], "texture": "#1", "cullface": "up"},
+				"down": {"uv": [9, 7, 13, 8], "texture": "#1", "cullface": "up"}
+			}
+		},
+		{
+			"name": "chain2",
+			"from": [6, 11, 11],
+			"to": [6, 16, 12],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [6.1, 16, 11]},
+			"faces": {
+				"east": {"uv": [9, 4, 10, 9], "texture": "#1"},
+				"west": {"uv": [9, 0, 10, 5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "chain3",
+			"from": [10, 11, 11],
+			"to": [10, 16, 12],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [10, 16, 11]},
+			"faces": {
+				"east": {"uv": [9, 3, 10, 8], "texture": "#1"},
+				"west": {"uv": [9, 1, 10, 6], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl1",
+			"from": [5.5, 10, 15],
+			"to": [10.5, 12, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18.5, 19, 23]},
+			"faces": {
+				"north": {"uv": [2, 1, 7, 3], "texture": "#1"},
+				"east": {"uv": [7, 9, 8, 11], "texture": "#1"},
+				"west": {"uv": [1, 9, 2, 11], "texture": "#1"},
+				"up": {"uv": [2, 8, 7, 9], "texture": "#1"},
+				"down": {"uv": [2, 8, 7, 9], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl2",
+			"from": [4.5, 10, 14],
+			"to": [5.5, 12, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12.5, 19, 22]},
+			"faces": {
+				"north": {"uv": [2, 2, 3, 4], "texture": "#1"},
+				"east": {"uv": [1, 4, 2, 6], "texture": "#1"},
+				"south": {"uv": [3, 9, 4, 11], "texture": "#1"},
+				"west": {"uv": [5, 9, 6, 11], "texture": "#1"},
+				"up": {"uv": [7, 7, 8, 8], "texture": "#1"},
+				"down": {"uv": [1, 1, 2, 2], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl3",
+			"from": [10.5, 10, 14],
+			"to": [11.5, 12, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18.5, 19, 22]},
+			"faces": {
+				"north": {"uv": [3, 6, 4, 8], "texture": "#1"},
+				"east": {"uv": [5, 9, 6, 11], "texture": "#1"},
+				"south": {"uv": [3, 9, 4, 11], "texture": "#1"},
+				"west": {"uv": [7, 5, 8, 7], "texture": "#1"},
+				"up": {"uv": [7, 1, 8, 2], "texture": "#1"},
+				"down": {"uv": [7, 1, 8, 2], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl4",
+			"from": [3.5, 10, 9],
+			"to": [4.5, 12, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [11.5, 19, 21]},
+			"faces": {
+				"north": {"uv": [8, 3, 9, 5], "texture": "#1"},
+				"east": {"uv": [3, 5, 8, 7], "texture": "#1"},
+				"south": {"uv": [2, 0, 3, 2], "texture": "#1"},
+				"west": {"uv": [2, 9, 7, 11], "texture": "#1"},
+				"up": {"uv": [0, 2, 1, 7], "texture": "#1"},
+				"down": {"uv": [0, 2, 1, 7], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl5",
+			"from": [11.5, 10, 9],
+			"to": [12.5, 12, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [19.5, 19, 21]},
+			"faces": {
+				"north": {"uv": [3, 9, 4, 11], "texture": "#1"},
+				"east": {"uv": [2, 9, 7, 11], "texture": "#1"},
+				"south": {"uv": [8, 3, 9, 5], "texture": "#1"},
+				"west": {"uv": [1, 2, 6, 4], "texture": "#1"},
+				"up": {"uv": [8, 2, 9, 7], "texture": "#1"},
+				"down": {"uv": [8, 2, 9, 7], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl6",
+			"from": [4.5, 10, 8],
+			"to": [5.5, 12, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12.5, 19, 16]},
+			"faces": {
+				"north": {"uv": [3, 9, 4, 11], "texture": "#1"},
+				"east": {"uv": [6, 5, 7, 7], "texture": "#1"},
+				"south": {"uv": [6, 2, 7, 4], "texture": "#1"},
+				"west": {"uv": [5, 9, 6, 11], "texture": "#1"},
+				"up": {"uv": [7, 7, 8, 8], "texture": "#1"},
+				"down": {"uv": [7, 7, 8, 8], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl7",
+			"from": [10.5, 10, 8],
+			"to": [11.5, 12, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18.5, 19, 16]},
+			"faces": {
+				"north": {"uv": [5, 9, 6, 11], "texture": "#1"},
+				"east": {"uv": [3, 9, 4, 11], "texture": "#1"},
+				"south": {"uv": [3, 5, 4, 7], "texture": "#1"},
+				"west": {"uv": [5, 6, 6, 8], "texture": "#1"},
+				"up": {"uv": [1, 7, 2, 8], "texture": "#1"},
+				"down": {"uv": [1, 1, 2, 2], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl8",
+			"from": [5.5, 10, 7],
+			"to": [10.5, 12, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [18.5, 19, 15]},
+			"faces": {
+				"north": {"uv": [2, 9, 7, 11], "texture": "#1"},
+				"east": {"uv": [1, 9, 2, 11], "texture": "#1"},
+				"south": {"uv": [2, 6, 7, 8], "texture": "#1"},
+				"west": {"uv": [7, 9, 8, 11], "texture": "#1"},
+				"up": {"uv": [2, 0, 7, 1], "texture": "#1"},
+				"down": {"uv": [2, 0, 7, 1], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl9",
+			"from": [4.5, 9, 9],
+			"to": [5.5, 10, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12.5, 17, 17]},
+			"faces": {
+				"north": {"uv": [8, 9, 9, 10], "texture": "#1"},
+				"east": {"uv": [2, 6, 7, 7], "texture": "#1"},
+				"south": {"uv": [3, 9, 4, 10], "texture": "#1"},
+				"west": {"uv": [4, 9, 9, 10], "texture": "#1"},
+				"up": {"uv": [4, 2, 5, 7], "texture": "#1"},
+				"down": {"uv": [15, 0, 16, 5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl10",
+			"from": [5.5, 9, 8],
+			"to": [10.5, 10, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12.5, 17, 16]},
+			"faces": {
+				"north": {"uv": [2, 0, 7, 1], "texture": "#1"},
+				"east": {"uv": [7, 6, 8, 7], "texture": "#1"},
+				"south": {"uv": [1, 3, 6, 4], "texture": "#1"},
+				"west": {"uv": [8, 6, 9, 7], "texture": "#1"},
+				"up": {"uv": [3, 3, 8, 4], "texture": "#1"},
+				"down": {"uv": [2, 0, 7, 1], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl11",
+			"from": [5.5, 9, 14],
+			"to": [10.5, 10, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12.5, 17, 22]},
+			"faces": {
+				"north": {"uv": [1, 6, 6, 7], "texture": "#1"},
+				"east": {"uv": [1, 6, 2, 7], "texture": "#1"},
+				"south": {"uv": [11, 2, 16, 3], "texture": "#1"},
+				"west": {"uv": [8, 9, 9, 10], "texture": "#1"},
+				"up": {"uv": [3, 3, 8, 4], "texture": "#1"},
+				"down": {"uv": [2, 0, 7, 1], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl12",
+			"from": [10.5, 9, 9],
+			"to": [11.5, 10, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 17, 21]},
+			"faces": {
+				"north": {"uv": [8, 6, 9, 7], "texture": "#1"},
+				"east": {"uv": [2, 0, 7, 1], "texture": "#1"},
+				"south": {"uv": [3, 0, 4, 1], "texture": "#1"},
+				"west": {"uv": [2, 2, 7, 3], "texture": "#1"},
+				"up": {"uv": [3, 2, 4, 7], "texture": "#1"},
+				"down": {"uv": [0, 2, 1, 7], "texture": "#1"}
+			}
+		},
+		{
+			"name": "bowl13",
+			"from": [5.5, 8, 9],
+			"to": [10.5, 9, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 16, 17]},
+			"faces": {
+				"north": {"uv": [2, 9, 7, 10], "texture": "#1"},
+				"east": {"uv": [11, 3, 16, 4], "texture": "#1"},
+				"south": {"uv": [0, 9, 5, 10], "texture": "#1"},
+				"west": {"uv": [2, 0, 7, 1], "texture": "#1"},
+				"up": {"uv": [2, 2, 7, 7], "texture": "#1"},
+				"down": {"uv": [11, 0, 16, 5], "texture": "#1"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_bowl_1_json =
+"""{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "bowl_fill",
+			"from": [5.5, 9, 9],
+			"to": [10.5, 9.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 17, 17]},
+			"faces": {
+				"up": {"uv": [0, 0, 1, 1], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_bowl_2_json =
+"""{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "bowl_fill1",
+			"from": [5.5, 10, 8],
+			"to": [10.5, 10.7, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 18, 17]},
+			"faces": {
+				"up": {"uv": [5.5, 8, 10.5, 15], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill2",
+			"from": [10.5, 10, 9],
+			"to": [11.5, 10.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 18, 16]},
+			"faces": {
+				"up": {"uv": [10.5, 9, 11.5, 14], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill3",
+			"from": [4.5, 10, 9],
+			"to": [5.5, 10.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 18, 16]},
+			"faces": {
+				"up": {"uv": [4.5, 9, 5.5, 14], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_bowl_3_json =
+"""{
+	"credit": "Made with Blockbench",
+	"elements": [
+		{
+			"name": "bowl_fill1",
+			"from": [5.5, 11, 8],
+			"to": [10.5, 11.7, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 19, 17]},
+			"faces": {
+				"up": {"uv": [5.5, 8, 10.5, 15], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill2",
+			"from": [10.5, 11, 9],
+			"to": [11.5, 11.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 19, 16]},
+			"faces": {
+				"up": {"uv": [10.5, 9, 11.5, 14], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill3",
+			"from": [4.5, 11, 9],
+			"to": [5.5, 11.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 19, 16]},
+			"faces": {
+				"up": {"uv": [4.5, 9, 5.5, 14], "texture": "#2"}
+			}
+		}
+	]
+}"""
+
+private const val template_treetap_bowl_dried_json =
+"""{
+	"credit": "Made with Blockbench",
+    "elements": [
+		{
+			"name": "bowl_fill1",
+			"from": [5.5, 11, 8],
+			"to": [10.5, 11.7, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 19, 17]},
+			"faces": {
+				"up": {"uv": [5.5, 8, 10.5, 15], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill2",
+			"from": [10.5, 11, 9],
+			"to": [11.5, 11.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13.5, 19, 16]},
+			"faces": {
+				"up": {"uv": [10.5, 9, 11.5, 14], "texture": "#2"}
+			}
+		},
+		{
+			"name": "bowl_fill3",
+			"from": [4.5, 11, 9],
+			"to": [5.5, 11.7, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 19, 16]},
+			"faces": {
+				"up": {"uv": [4.5, 9, 5.5, 14], "texture": "#2"}
+			}
+		},
+		{
+			"name": "overflow1",
+			"from": [8, 15, 15],
+			"to": [9, 15.5, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 23, 18]},
+			"faces": {
+				"north": {"uv": [7, 0.5, 8, 1], "texture": "#2"},
+				"up": {"uv": [8, 15, 9, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "overflow2",
+			"from": [7, 15, 14],
+			"to": [8, 15.5, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 18]},
+			"faces": {
+				"north": {"uv": [8, 0.5, 9, 1], "texture": "#2"},
+				"east": {"uv": [0, 0.5, 2, 1], "texture": "#2"},
+				"up": {"uv": [7, 14, 8, 16], "texture": "#2"}
+			}
+		},
+		{
+			"name": "overflow3",
+			"from": [7, 15, 12],
+			"to": [8, 15.5, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 23, 15]},
+			"faces": {
+				"north": {"uv": [8, 0.5, 9, 1], "texture": "#2"},
+				"east": {"uv": [0, 0.5, 2, 1], "texture": "#2"},
+				"south": {"uv": [7, 0.5, 8, 1], "texture": "#2"},
+				"up": {"uv": [7, 12, 8, 13], "texture": "#2"}
+			}
 		}
 	]
 }"""

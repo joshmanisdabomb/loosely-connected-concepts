@@ -12,7 +12,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class StrippableBlock(settings: Settings, val stripped: (state: BlockState) -> BlockState?) : Block(settings) {
+open class StrippableBlock(settings: Settings, val stripped: (state: BlockState) -> BlockState?) : Block(settings) {
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)

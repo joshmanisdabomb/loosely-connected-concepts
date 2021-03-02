@@ -15,7 +15,7 @@ import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 
-class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: ItemConvertible? = null, val stick: ItemConvertible? = null) : BlockDataFactory {
+class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: ItemConvertible? = null, val stick: ItemConvertible? = null, val saplingChance: FloatArray = floatArrayOf(0.05F, 0.0625F, 0.0833F, 0.1F), val stickChance: FloatArray = floatArrayOf(0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f), val appleChance: FloatArray = floatArrayOf(0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f)) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val builder = LootPool.builder().rolls(ConstantLootNumberProvider.create(1f))
@@ -24,7 +24,7 @@ class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: It
             .conditionally(DataUtils.silk_touch_or_shears)
             .alternatively(ItemEntry.builder(sapling)
                 .conditionally(SurvivesExplosionLootCondition.builder())
-                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.05F, 0.0625F, 0.0833F, 0.1F))
+                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, *saplingChance))
             )
         )
 
@@ -33,7 +33,7 @@ class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: It
             .alternatively(ItemEntry.builder(stick)
                 .conditionally(SurvivesExplosionLootCondition.builder())
                 .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 2.0f)))
-                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.02f, 0.022222223f, 0.025f, 0.033333335f, 0.1f))
+                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, *stickChance))
             )
         )
 
@@ -41,7 +41,7 @@ class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: It
             .conditionally(DataUtils.not_silk_touch_or_shears)
             .alternatively(ItemEntry.builder(apple)
                 .conditionally(SurvivesExplosionLootCondition.builder())
-                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.005f, 0.0055555557f, 0.00625f, 0.008333334f, 0.025f))
+                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, *appleChance))
             )
         )
 

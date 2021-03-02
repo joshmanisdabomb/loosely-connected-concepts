@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:rubber_planks"
+    }
+  ],
+  "result": {
+    "item": "lcc:rubber_button"
+  }
+}

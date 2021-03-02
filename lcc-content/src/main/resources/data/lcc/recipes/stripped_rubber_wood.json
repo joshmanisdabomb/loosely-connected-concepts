@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ww",
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:stripped_rubber_log"
+    }
+  },
+  "result": {
+    "item": "lcc:stripped_rubber_wood",
+    "count": 3
+  }
+}

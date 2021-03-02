@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sws",
+    "sws"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rubber_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_fence_gate"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rubber_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_pressure_plate"
+  }
+}

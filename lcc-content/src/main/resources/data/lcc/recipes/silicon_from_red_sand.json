@@ -32,6 +32,6 @@
   "state": "arc_smelting",
   "energy": 17.5,
   "ticks": 400,
-  "gain": 0.03,
-  "maxGain": 100.0
+  "gain": 0.02,
+  "maxGain": 200.0
 }

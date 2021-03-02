@@ -158,7 +158,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
             .energyPerTick(20f)
-            .speed(300, 0.09f, 100f)
+            .speed(300, 0.04f, 200f)
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d) }
         RefiningShapelessRecipeJsonFactory()
@@ -169,7 +169,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
             .energyPerTick(17.5f)
-            .speed(400, 0.03f, 100f)
+            .speed(400, 0.02f, 200f)
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(loc(i), "from_red_sand")) }
     }) }
@@ -183,6 +183,20 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .criterion("has_generator", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.generators).build()))
             .apply { offerShaped(this, d) }
     }) }
+
+    val flexible_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.latex_bottle, 4)
+            .addOutput(i)
+            .addOutput(Items.GLASS_BOTTLE, 4)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.dry", 4, RefiningBlock.RefiningProcess.DRYING)
+            .energyPerTick(5f)
+            .speed(1200, 0.01f, 400f)
+            .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
+            .apply { offerInterface(this, d) }
+    }) }
+    val heavy_duty_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCItems.flexible_rubber, RecipeSerializer.SMELTING, experience = 0.1f)) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

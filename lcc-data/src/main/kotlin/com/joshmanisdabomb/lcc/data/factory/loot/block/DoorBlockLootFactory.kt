@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.data.directory
+package com.joshmanisdabomb.lcc.data.factory.loot.block
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.BlockDataFactory

@@ -21,6 +21,16 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
 
     fun generateTree(context: FeatureContext<TreeFeatureConfig>, r: Int, branches: Map<Direction, IntRange>, blockPos2: BlockPos) {
         context.config.trunkPlacer.generate(context.world, context.random, r, blockPos2, Sets.newHashSet(), BlockBox.empty(), context.config)
+        horizontalDirections.forEach {
+            for (i in -1..0) {
+                val pos6 = blockPos2.add(0, r+i, 0).offset(it)
+                setBlockState(context.world, pos6, context.config.leavesProvider.getBlockState(context.random, pos6).with(Properties.DISTANCE_1_7, 1))
+            }
+        }
+        for (i in 1..2) {
+            val pos5 = blockPos2.up(r+i)
+            setBlockState(context.world, pos5, context.config.leavesProvider.getBlockState(context.random, pos5).with(Properties.DISTANCE_1_7, i))
+        }
         branches.forEach { (k, v) ->
             val pos = blockPos2.up(r).offset(k).offset(k.rotateYClockwise())
             for (i in v) {
@@ -28,7 +38,7 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
                 if (TreeFeature.canReplace(context.world, pos2)) setBlockState(context.world, pos2, context.config.trunkProvider.getBlockState(context.random, pos2))
                 val flag = context.random.nextInt(2) == 0
                 horizontalDirections.forEach {
-                    if (i >= 0 || (i == -1 && context.random.nextInt(2) == 0) || (flag && v.start > 0 && i == -2 && context.random.nextInt(2) == 0)) {
+                    if (i >= 0 || (i == -1 && context.random.nextInt(2) == 0) || (flag && v.first > 0 && i == -2 && context.random.nextInt(2) == 0)) {
                         val pos3 = pos2.offset(it)
                         if (TreeFeature.canReplace(context.world, pos3)) setBlockState(context.world, pos3, context.config.leavesProvider.getBlockState(context.random, pos3).with(Properties.DISTANCE_1_7, 1))
                     }
@@ -69,9 +79,9 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
                 false
             } else {
                 val optionalInt: OptionalInt = context.config.minimumSize.minClippedHeight
-                val branches = horizontalDirections.filter { context.random.nextInt(5) != 0 }.map { it to (-context.random.nextInt((i > 6).toInt(3, 2))..context.random.nextInt(3)) }.toMap()
+                val branches = horizontalDirections.filter { context.random.nextInt(12) != 0 }.map { it to (-context.random.nextInt((i > 6).toInt(3, 2))..context.random.nextInt(3)) }.toMap()
                 r = this.getTopPosition(context.world, i, branches, blockPos2, context.config)
-                if (r >= i + branches.maxOf { it.value.last } || (optionalInt.isPresent && r >= optionalInt.asInt)) {
+                if (r >= i + branches.maxHeight() || (optionalInt.isPresent && r >= optionalInt.asInt)) {
                     generateTree(context, i, branches, blockPos2)
                     true
                 } else {
@@ -85,7 +95,7 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
 
     private fun getTopPosition(world: TestableWorld, height: Int, branches: Map<Direction, IntRange>, pos: BlockPos, config: TreeFeatureConfig): Int {
         val mutable = BlockPos.Mutable()
-        for (i in 0..height + branches.maxOf { it.value.last } + 5) {
+        for (i in 0..height + branches.maxHeight() + 5) {
             val j = config.minimumSize.getRadius(height, i)
             for (k in -j..j) {
                 for (l in -j..j) {
@@ -96,7 +106,9 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
                 }
             }
         }
-        return height + branches.maxOf { it.value.last } + 5
+        return height + branches.maxHeight() + 5
     }
 
 }
+
+private fun Map<Direction, IntRange>.maxHeight() = this.maxOfOrNull { it.value.last } ?: 0

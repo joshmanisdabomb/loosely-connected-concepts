@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ww",
+    "ww",
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rubber_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_door",
+    "count": 3
+  }
+}

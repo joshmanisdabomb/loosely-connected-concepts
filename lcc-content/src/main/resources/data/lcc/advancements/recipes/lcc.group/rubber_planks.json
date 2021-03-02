@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:rubber_planks"
+    ]
+  },
+  "criteria": {
+    "has_rubber_logs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "lcc:rubber_logs_i"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:rubber_planks"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_rubber_logs",
+      "has_the_recipe"
+    ]
+  ]
+}

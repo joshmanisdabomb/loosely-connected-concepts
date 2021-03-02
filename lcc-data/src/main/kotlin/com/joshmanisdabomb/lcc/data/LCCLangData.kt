@@ -38,6 +38,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.refining.recipe.uranium"] = "Centrifugal Separation"
         lang["en_us"]!!["container.lcc.refining.recipe.treating"] = "Thermal Disinfection"
         lang["en_us"]!!["container.lcc.refining.recipe.arc"] = "Electric Arc Smelting"
+        lang["en_us"]!!["container.lcc.refining.recipe.dry"] = "Heated Drying"
 
         lang["en_us"]!!["container.lcc.generator.burn"] = "Remaining Time: %1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.generator.output"] = "Steam Produced: %1\$s/t\nBase Steam from Fuel: %2\$s/t\nSteam Multiplier from Water: %3\$s%%"

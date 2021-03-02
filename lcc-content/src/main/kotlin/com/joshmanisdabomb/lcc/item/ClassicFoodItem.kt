@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -14,7 +15,7 @@ class ClassicFoodItem(settings: Settings) : Item(settings) {
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand)
         if (this.isFood) {
-            if (!user.isCreative) stack.decrement(1)
+            if (user.isSurvival) stack.decrement(1)
             user.heal(foodComponent!!.hunger.toFloat())
             user.hungerManager.add(0, foodComponent!!.hunger.div(2f))
             return TypedActionResult.consume(stack)

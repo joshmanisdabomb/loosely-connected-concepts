@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.block.entity.NetherReactorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
@@ -39,7 +40,7 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.y", world.bottomY + 4, world.topY - 35), true)
                 } else if (!this.checkStructure(world, pos)) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.incorrect"), true)
-                } else if (!player.isCreative && !this.checkForPlayers(world, pos)) {
+                } else if (player.isSurvival && !this.checkForPlayers(world, pos)) {
                     player.sendMessage(TranslatableText("block.lcc.nether_reactor.players"), true)
                 } else {
                     (world.getBlockEntity(pos) as? NetherReactorBlockEntity)?.activate()

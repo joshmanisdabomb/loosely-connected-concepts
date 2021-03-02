@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
@@ -45,7 +46,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
         }
 
         if (!entity.isAlive) return
-        if ((entity as? PlayerEntity)?.isCreative != true) {
+        if ((entity as? PlayerEntity)?.isSurvival != false) {
             (entity as? LivingEntity)?.addStatusEffect(StatusEffectInstance(LCCEffects.flammable, 400, 0))
         }
     }

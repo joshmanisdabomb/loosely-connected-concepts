@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.DungeonTableBlockEntity
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.*
 import net.minecraft.block.entity.MobSpawnerBlockEntity
 import net.minecraft.entity.EntityType
@@ -56,7 +57,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             } else {
                 world.setBlockState(pos.down(), state.with(BOTTOM, true).with(ENTITY, entity), 18)
             }
-            if (!player.isCreative) stack.decrement(1)
+            if (player.isSurvival) stack.decrement(1)
             return ActionResult.CONSUME
         } else if (!world.isClient) {
             if (state[BOTTOM]) {
@@ -84,7 +85,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             } catch (e: InvalidIdentifierException) {
                 null
             }
-        } else if (ctx.player?.isCreative == true) {
+        } else if (ctx.player?.isSurvival == false) {
             val entity = DungeonTableEntity.values().random(ctx.world.random.asKotlinRandom())
             val up = ctx.blockPos.up()
             if (ctx.world.getBlockState(up).isAir) {

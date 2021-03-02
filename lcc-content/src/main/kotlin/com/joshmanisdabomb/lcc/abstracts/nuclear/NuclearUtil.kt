@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.abstracts.nuclear
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
@@ -41,7 +42,7 @@ object NuclearUtil {
     }
 
     fun addRadiation(entity: LivingEntity, duration: Int, amplifier: Int) {
-        if ((entity as? PlayerEntity)?.isCreative == true) return
+        if ((entity as? PlayerEntity)?.isSurvival == false) return
         val previous = entity.getStatusEffect(LCCEffects.radiation)
         entity.removeStatusEffect(LCCEffects.radiation)
         entity.addStatusEffect(StatusEffectInstance(LCCEffects.radiation, duration.plus(previous?.duration ?: 0), max(amplifier, previous?.amplifier ?: -1)))

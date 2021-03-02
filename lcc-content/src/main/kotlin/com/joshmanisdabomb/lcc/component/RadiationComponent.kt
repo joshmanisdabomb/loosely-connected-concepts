@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.effect.RadiationStatusEffect
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent
@@ -55,7 +56,7 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     }
 
     override fun serverTick() {
-        if ((entity as? PlayerEntity)?.isCreative == true) return
+        if ((entity as? PlayerEntity)?.isSurvival == false) return
         LCCComponents.nuclear.maybeGet(entity.world).orElse(null)?.also {
             var amp = -1
             var time = 1

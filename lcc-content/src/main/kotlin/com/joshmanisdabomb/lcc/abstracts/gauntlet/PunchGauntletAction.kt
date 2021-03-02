@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import com.joshmanisdabomb.lcc.extensions.to
 import com.joshmanisdabomb.lcc.extensions.toInt
@@ -120,7 +121,7 @@ object PunchGauntletAction : GauntletAction<PunchGauntletAction.PunchGauntletAct
             return false
         }
 
-        override fun getMaxCooldownTime(cancelled: Boolean) = cancelled.toInt(10, if (actor.isCreative) 0 else 184)
+        override fun getMaxCooldownTime(cancelled: Boolean) = cancelled.toInt(10, if (actor.isSurvival) 184 else 0)
 
         override fun getMaxCastTime(cancelled: Boolean) = cancelled.toInt(-1, MathHelper.ceil(chargePercent.times(7)) + 2)
 

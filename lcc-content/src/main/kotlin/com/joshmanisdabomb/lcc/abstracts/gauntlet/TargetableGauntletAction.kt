@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -31,7 +32,7 @@ interface TargetableGauntletAction<A : GauntletActorInstance, T : GauntletTarget
     fun hasTargetEffect(target: Entity, actor: PlayerEntity) = LCCComponents.gauntlet_target.maybeGet(target).map { it.instances.any { it.actor == actor } }.orElse(false)
 
     fun isTargettable(target: Entity, actor: PlayerEntity) = when (target) {
-        is LivingEntity -> target.deathTime <= 0 && (target !is PlayerEntity || (!target.isCreative && !actor.isSpectator))
+        is LivingEntity -> target.deathTime <= 0 && (target !is PlayerEntity || target.isSurvival)
         is BoatEntity -> true
         is MinecartEntity -> true
         else -> false

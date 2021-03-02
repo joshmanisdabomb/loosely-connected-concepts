@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity.ai
 
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.entity.mob.PathAwareEntity
@@ -34,7 +35,7 @@ class ClassicMeleeAttackGoal(entity: PathAwareEntity, private val speed: Double)
         } else if (!livingentity.isAlive) {
             false
         } else {
-            livingentity !is PlayerEntity || !livingentity.isSpectator() && !(livingentity).isCreative
+            livingentity !is PlayerEntity || livingentity.isSurvival
         }
     }
 

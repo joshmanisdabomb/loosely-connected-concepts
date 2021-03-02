@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -52,14 +53,16 @@ class TreetapBlock(settings: Settings) : AbstractTreetapBlock(settings) {
         val currentContainer = type.container
         val requestedState = TreetapState.values().firstOrNull { stack.item == it.container?.item ?: return@firstOrNull false }
         if (currentContainer == null && currentLiquid == null) {
+            //Try add container.
             if (requestedState != null) {
                 world.setBlockState(pos, state.with(tap, requestedState))
-                stack.decrement(1)
+                if (player.isSurvival) stack.decrement(1)
                 //sound effect
                 return ActionResult.SUCCESS
             }
             return ActionResult.PASS
         } else if (currentContainer != null && currentLiquid == null && hand == Hand.MAIN_HAND) {
+            //Try remove container.
             if (stack.isEmpty) {
                 player.setStackInHand(hand, currentContainer.item.defaultStack)
                 //maybe sound effect
@@ -74,10 +77,11 @@ class TreetapBlock(settings: Settings) : AbstractTreetapBlock(settings) {
             }
             return ActionResult.PASS
         } else {
+            //Try add container with liquid overflow.
             if (requestedState != null && currentLiquid != null) {
                 val block = requestedState.container?.storage ?: return ActionResult.PASS
                 world.setBlockState(pos, block.defaultState.with(HORIZONTAL_FACING, state[HORIZONTAL_FACING]).with(TreetapStorageBlock.liquid, currentLiquid).with(block.progress, 1))
-                stack.decrement(1)
+                if (player.isSurvival) stack.decrement(1)
                 //sound effect
                 return ActionResult.SUCCESS
             } else {

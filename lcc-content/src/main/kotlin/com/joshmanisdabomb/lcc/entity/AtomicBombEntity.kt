@@ -8,10 +8,7 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCChunkTickets
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
-import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
-import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.extensions.getValue
-import com.joshmanisdabomb.lcc.extensions.setValue
+import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.AtomicBombInventory
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Blocks
@@ -202,7 +199,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
     override fun interact(player: PlayerEntity, hand: Hand): ActionResult {
         if (this.active) {
             val stack = player.getStackInHand(hand)
-            if (player.isCreative && stack.isOf(Items.FLINT_AND_STEEL)) {
+            if (!player.isSurvival && stack.isOf(Items.FLINT_AND_STEEL)) {
                 if (!world.isClient) explode(inventory?.uraniumCount ?: return ActionResult.PASS)
                 return ActionResult.SUCCESS
             } else if (stack.isIn(FabricToolTags.SHEARS)) {

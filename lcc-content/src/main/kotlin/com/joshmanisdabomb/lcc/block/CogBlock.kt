@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
 import com.joshmanisdabomb.lcc.extensions.setThrough
 import com.joshmanisdabomb.lcc.extensions.toInt
@@ -108,7 +109,7 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
             world.removeBlock(pos, false)
         }
         updateNeighbouringNetworks(state, world, pos, face)
-        if (!player.isCreative) afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
+        if (player.isSurvival) afterBreak(world, player, pos, subblock.single, null, player.mainHandStack.copy())
     }
 
     override fun getDroppedStacks(state: BlockState, builder: LootContext.Builder): MutableList<ItemStack> {

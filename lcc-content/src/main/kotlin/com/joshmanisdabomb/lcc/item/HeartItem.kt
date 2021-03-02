@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -25,7 +26,7 @@ open class HeartItem(val heart: HeartType, val value: Float, settings: Settings)
         val ticks = getMaxUseTime(stack) - remainingUseTicks
         if (ticks >= 30 && ticks % 10 == 0) {
             useHeart(user)
-            if ((user as? PlayerEntity)?.isCreative != true) stack.decrement(1)
+            if ((user as? PlayerEntity)?.isSurvival != false) stack.decrement(1)
             if (stack.isEmpty || !canUseHeart(user)) user.clearActiveItem()
             //TODO custom sound
         }

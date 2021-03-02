@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -41,7 +42,7 @@ class FunctionalTNTBlock(val factory: (world: World, x: Double, y: Double, z: Do
     }
 
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (!world.isClient() && !player.isCreative && state[UNSTABLE]) {
+        if (!world.isClient() && player.isSurvival && state[UNSTABLE]) {
             ignite(world, pos, null)
         }
         super.onBreak(world, pos, state.with(UNSTABLE, false), player)
@@ -63,7 +64,7 @@ class FunctionalTNTBlock(val factory: (world: World, x: Double, y: Double, z: Do
         } else {
             ignite(world, pos, player)
             world.setBlockState(pos, Blocks.AIR.defaultState, 11)
-            if (!player.isCreative) {
+            if (player.isSurvival) {
                 if (stack.isOf(Items.FLINT_AND_STEEL)) {
                     stack.damage(1, player) { it.sendToolBreakStatus(hand) }
                 } else {

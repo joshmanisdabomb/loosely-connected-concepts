@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -80,7 +81,7 @@ object UppercutGauntletAction : GauntletAction<UppercutGauntletAction.UppercutGa
             return false
         }
 
-        override fun getMaxCooldownTime(cancelled: Boolean) = if (actor.isCreative) 0 else 130
+        override fun getMaxCooldownTime(cancelled: Boolean) = if (actor.isSurvival) 130 else 0
 
         override fun getMaxCastTime(cancelled: Boolean) = 13
 

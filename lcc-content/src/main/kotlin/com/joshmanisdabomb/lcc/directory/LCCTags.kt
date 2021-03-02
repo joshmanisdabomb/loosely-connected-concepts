@@ -17,6 +17,9 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val generators by entry(::itemInitialiser) {}
     val furnace_generator_double by entry(::itemInitialiser) {}
 
+    val rubber_logs by entry(::blockInitialiser) {}
+    val rubber_logs_i by entry(::itemInitialiser) {}
+
     val geothermal_warm by entry(::blockInitialiser) {}
     val geothermal_hot by entry(::blockInitialiser) {}
     val geothermal_heated by entry(::blockInitialiser) {}

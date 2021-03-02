@@ -32,7 +32,7 @@ object LCCModelTemplates : BasicDirectory<Model, Unit>() {
     val template_atomic_bomb_middle by templateEntry("block", template_atomic_bomb_middle_json, LCCModelTextureKeys.t2, LCCModelTextureKeys.t5, TextureKey.PARTICLE)
     val template_atomic_bomb_tail by templateEntry("block", template_atomic_bomb_tail_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, TextureKey.PARTICLE)
     val template_atomic_bomb_item by templateEntry("item", template_atomic_bomb_item_json, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4, LCCModelTextureKeys.t5)
-    val template_face_up_down by templateEntry("block", template_face_up_down_json, TextureKey.TEXTURE)
+    val template_face_up_down by templateEntry("block", template_face_up_down_json, TextureKey.TEXTURE, TextureKey.PARTICLE)
     val template_face_north by templateEntry("block", template_face_north_json, TextureKey.TEXTURE)
     val template_face_east by templateEntry("block", template_face_east_json, TextureKey.TEXTURE)
     val template_face_south by templateEntry("block", template_face_south_json, TextureKey.TEXTURE)
@@ -1548,9 +1548,6 @@ private const val template_atomic_bomb_item_json =
 private const val template_face_up_down_json =
 """{
     "parent": "block/block",
-    "textures": {
-        "particle": "#texture"
-    },
     "elements": [
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],
@@ -1629,6 +1626,7 @@ private const val template_treetap_json =
 			"faces": {
 				"north": {"uv": [7, 1, 9, 2], "texture": "#0"},
 				"east": {"uv": [0, 1, 6, 2], "texture": "#0"},
+				"south": {"uv": [7, 1, 9, 2], "texture": "#0", "cullface": "south"},
 				"west": {"uv": [10, 1, 16, 2], "texture": "#0"},
 				"up": {"uv": [7, 10, 9, 16], "texture": "#0"},
 				"down": {"uv": [7, 0, 9, 6], "texture": "#0"}
@@ -1642,6 +1640,7 @@ private const val template_treetap_json =
 			"faces": {
 				"north": {"uv": [9, 0, 10, 1], "texture": "#0"},
 				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"south": {"uv": [9, 0, 10, 1], "texture": "#0", "cullface": "south"},
 				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
 				"up": {"uv": [6, 12, 7, 16], "texture": "#0", "cullface": "up"},
 				"down": {"uv": [6, 0, 7, 4], "texture": "#0"}
@@ -1655,12 +1654,49 @@ private const val template_treetap_json =
 			"faces": {
 				"north": {"uv": [6, 0, 7, 1], "texture": "#0"},
 				"east": {"uv": [0, 0, 4, 1], "texture": "#0"},
+				"south": {"uv": [6, 0, 7, 1], "texture": "#0", "cullface": "south"},
 				"west": {"uv": [12, 0, 16, 1], "texture": "#0"},
 				"up": {"uv": [9, 12, 10, 16], "texture": "#0", "cullface": "up"},
 				"down": {"uv": [9, 0, 10, 4], "texture": "#0"}
 			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 0, 0],
+			"translation": [0, 2.25, -2.75],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 0, 0],
+			"translation": [0, 2.25, -2.75],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [10, -10, 5],
+			"translation": [0, -0.25, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_lefthand": {
+			"rotation": [10, -10, 5],
+			"translation": [0, -0.25, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [3.5, -8, 0]
+		},
+		"head": {
+			"translation": [0, -3.5, -14.25]
+		},
+		"fixed": {
+			"translation": [0, -7, -8]
+		}
+	}
 }"""
 
 private const val template_treetap_overflow_json =

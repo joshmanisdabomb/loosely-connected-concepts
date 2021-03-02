@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
 import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
+import com.joshmanisdabomb.lcc.world.feature.RubberTreeFeature
 import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
@@ -13,6 +14,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.UniformIntDistribution
@@ -47,8 +49,14 @@ object LCCWorldgen {
     }
 
     fun biomeModifications() {
+        //Ores
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biome != LCCBiomes.wasteland }, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.uranium));
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biome != LCCBiomes.wasteland }, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.topaz_geode));
+
+        //Rubber Tree
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.SAVANNA, Biome.Category.PLAINS -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_rare))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.MESA -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_uncommon))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.JUNGLE -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_common))
     }
 }
 
@@ -61,6 +69,8 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
     val topaz_geode by entry(::initialiser) { SmallGeodeFeature(SmallGeodeFeatureConfig.codec) }
 
     val oil_geyser by entry(::initialiser) { OilGeyserFeature(DefaultFeatureConfig.CODEC) }
+
+    val rubber_tree by entry(::initialiser) { RubberTreeFeature(TreeFeatureConfig.CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -85,6 +95,10 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 
     val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), StraightTrunkPlacer(4, 2, 0), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
+    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.natural_rubber_log.defaultState), SimpleBlockStateProvider(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(0), UniformIntDistribution.of(0), 0), StraightTrunkPlacer(4, 3, 1), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
+    val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.002F, 1))) }
+    val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.07F, 1))) }
+    val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
 
     override fun defaultProperties(name: String) = Unit
 

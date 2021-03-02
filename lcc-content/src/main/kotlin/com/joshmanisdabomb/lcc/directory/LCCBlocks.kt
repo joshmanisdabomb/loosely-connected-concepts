@@ -25,6 +25,7 @@ import com.joshmanisdabomb.lcc.settings.FlammableExtraSetting.Companion.flammabi
 import com.joshmanisdabomb.lcc.settings.RenderLayerExtraSetting.Companion.cutout
 import com.joshmanisdabomb.lcc.settings.RenderLayerExtraSetting.Companion.cutoutMipped
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
+import com.joshmanisdabomb.lcc.world.feature.tree.RubberSaplingGenerator
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags.*
 import net.minecraft.block.*
@@ -103,7 +104,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0f, 3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
-    val rubber_sapling by entry(::initialiser) { SaplingBlock(ClassicSaplingBlock, FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
+    val rubber_sapling by entry(::initialiser) { SaplingBlock(RubberSaplingGenerator(), FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutout())
     val potted_rubber_sapling by entry(::initialiser) { FlowerPotBlock(rubber_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().cutout())

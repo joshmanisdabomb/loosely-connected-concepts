@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.booleanProperty
+import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.horizontalFacePlacement
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -31,7 +32,19 @@ import java.util.*
 
 abstract class AbstractTreetapBlock(settings: Settings) : HorizontalBlock(settings) {
 
-    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos) = world.getBlockState(pos.offset(state[HORIZONTAL_FACING].opposite)).block is SapLogBlock
+    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+        for (i in -1..1 step 2) {
+            val state2 = world.getBlockState(pos.add(0, i, 0))
+            if (state2.block is AbstractTreetapBlock && state2[HORIZONTAL_FACING] == state[HORIZONTAL_FACING]) return false
+        }
+        val pos2 = pos.offset(state[HORIZONTAL_FACING].opposite)
+        if (world.getBlockState(pos2).block !is SapLogBlock) return false
+        horizontalDirections.filter { it != state[HORIZONTAL_FACING] }.forEach {
+            val state3 = world.getBlockState(pos2.offset(it))
+            if (state3.block is AbstractTreetapBlock && state3[HORIZONTAL_FACING] == it) return false
+        }
+        return true
+    }
 
     override fun getPlacementState(context: ItemPlacementContext) = horizontalFacePlacement(context)
 

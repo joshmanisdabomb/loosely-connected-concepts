@@ -48,7 +48,8 @@ enum class LCCArmorMaterials(durabilityMultiplier: Float, private val protection
     SAPPHIRE(ArmorMaterials.IRON, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
     AMETHYST(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) }),
     CLASSIC_LEATHER(ArmorMaterials.LEATHER, enchantability = 17, ingredientFactory = { Ingredient.ofItems(Items.LEATHER) }),
-    CLASSIC_STUDDED_LEATHER(ArmorMaterials.IRON, enchantability = 19, durabilityMultiplier = 20f, toughness = 0.2f, knockbackResistance = 0.1f, equipSound = ArmorMaterials.LEATHER.equipSound, ingredientFactory = { Ingredient.ofItems(Items.IRON_INGOT) });
+    CLASSIC_STUDDED_LEATHER(ArmorMaterials.IRON, enchantability = 19, durabilityMultiplier = 20f, toughness = 0.2f, knockbackResistance = 0.1f, equipSound = ArmorMaterials.LEATHER.equipSound, ingredientFactory = { Ingredient.ofItems(Items.IRON_INGOT) }),
+    HAZMAT(2.2f, intArrayOf(1, 1, 1, 1), 0, 0f, 0f, ArmorMaterials.TURTLE.equipSound, { Ingredient.ofItems(LCCItems.heavy_duty_rubber) });
 
     private val durabilities = intArrayOf(13, 15, 16, 11).map { it.times(durabilityMultiplier).toInt() }
     private val ingredient by lazy(ingredientFactory)

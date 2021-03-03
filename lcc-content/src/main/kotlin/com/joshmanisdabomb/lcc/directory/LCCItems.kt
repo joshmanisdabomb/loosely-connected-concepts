@@ -14,6 +14,7 @@ import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortVal
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
+import com.joshmanisdabomb.lcc.utils.DefaultedDyeableItem
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.*
 import net.minecraft.util.Rarity
@@ -141,6 +142,15 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::amethyst_sword)))
     val amethyst_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.AMETHYST, EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::amethyst_sword)))
+
+    val hazmat_helmet by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.HEAD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueInt(500)).stackColor(DefaultedDyeableItem::getTintColor))
+    val hazmat_chestplate by entry(::initialiser) { HazmatTankArmorItem(EquipmentSlot.CHEST, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedDyeableItem::getTintColor))
+    val hazmat_leggings by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.LEGS, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedDyeableItem::getTintColor))
+    val hazmat_boots by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.FEET, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedDyeableItem::getTintColor))
 
     //Special
     val gauntlet by entry(::initialiser) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }

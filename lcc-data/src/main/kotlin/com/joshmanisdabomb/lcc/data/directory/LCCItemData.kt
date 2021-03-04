@@ -16,6 +16,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import net.minecraft.advancement.criterion.EffectsChangedCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
@@ -24,6 +25,7 @@ import net.minecraft.data.server.recipe.SmithingRecipeJsonFactory
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
+import net.minecraft.predicate.entity.EntityEffectPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
@@ -198,6 +200,17 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
     }) }
     val heavy_duty_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCItems.flexible_rubber, RecipeSerializer.SMELTING, experience = 0.1f)) }
 
+    val oxygen_tank by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("nin")
+            .pattern("b b")
+            .pattern("b b")
+            .input('b', Items.GLASS_BOTTLE)
+            .input('i', Items.IRON_INGOT)
+            .input('n', Items.IRON_NUGGET)
+            .criterion("has_suit", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.airlocked_suits).build()))
+            .apply { offerShaped(this, d) }
+    }) }
     val hazmat_helmet by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")
@@ -205,9 +218,10 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .input('r', LCCItems.heavy_duty_rubber)
             .input('v', Blocks.GLASS_PANE)
             .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .criterion("has_radiation", EffectsChangedCriterion.Conditions.create(EntityEffectPredicate.create().withEffect(LCCEffects.radiation)))
             .apply { offerShaped(this, d) }
-    }) }
-    val hazmat_chestplate by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }) }
+    }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
+    val hazmat_chestplate by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(ComplexRecipeFactory(LCCRecipeSerializers.hazmat_chestplate)).add(ItemTagFactory(LCCTags.airlocked_suits)) }
     val hazmat_leggings by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")
@@ -215,16 +229,18 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .pattern("r r")
             .input('r', LCCItems.heavy_duty_rubber)
             .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .criterion("has_radiation", EffectsChangedCriterion.Conditions.create(EntityEffectPredicate.create().withEffect(LCCEffects.radiation)))
             .apply { offerShaped(this, d) }
-    }) }
+    }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
     val hazmat_boots by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("r r")
             .pattern("r r")
             .input('r', LCCItems.heavy_duty_rubber)
             .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .criterion("has_radiation", EffectsChangedCriterion.Conditions.create(EntityEffectPredicate.create().withEffect(LCCEffects.radiation)))
             .apply { offerShaped(this, d) }
-    }) }
+    }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

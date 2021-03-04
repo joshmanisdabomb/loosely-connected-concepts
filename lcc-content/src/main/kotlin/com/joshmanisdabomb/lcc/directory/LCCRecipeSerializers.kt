@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.recipe.*
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
+import net.minecraft.recipe.SpecialRecipeSerializer
 import net.minecraft.util.registry.Registry
 
 object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Unit>(), RegistryDirectory<RecipeSerializer<out Recipe<*>>, Unit, Unit> {
@@ -19,6 +20,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
     val refining_shapeless by entry(::initialiser) { RefiningShapelessRecipe.Serializer() }
 
     val time_rift by entry(::initialiser) { TimeRiftRecipe.Serializer() }
+
+    val hazmat_chestplate by entry(::initialiser) { SpecialRecipeSerializer(::HazmatChestplateRecipe) }
 
     override fun defaultProperties(name: String) = Unit
 

@@ -16,6 +16,14 @@
         ]
       }
     },
+    "has_radiation": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "lcc:radiation": {}
+        }
+      }
+    },
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
@@ -26,6 +34,7 @@
   "requirements": [
     [
       "has_heavy_duty_rubber",
+      "has_radiation",
       "has_the_recipe"
     ]
   ]

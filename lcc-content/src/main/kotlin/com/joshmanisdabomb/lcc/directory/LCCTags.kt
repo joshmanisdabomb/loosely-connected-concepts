@@ -19,6 +19,7 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
 
     val rubber_logs by entry(::blockInitialiser) {}
     val rubber_logs_i by entry(::itemInitialiser) {}
+    val rubber_tree by entry(::itemInitialiser) {}
 
     val geothermal_warm by entry(::blockInitialiser) {}
     val geothermal_hot by entry(::blockInitialiser) {}
@@ -34,6 +35,7 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val geothermal_blaze by entry(::entityTypeInitialiser) {}
 
     val enriched_uranium by entry(::itemInitialiser) {}
+    val airlocked_suits by entry(::itemInitialiser) {}
 
     val oil by entry(::fluidInitialiser) {}
     val asphalt by entry(::fluidInitialiser) {}

@@ -20,7 +20,7 @@ interface OxygenStorage {
 
     fun getOxygenBarColor(stack: ItemStack): Int {
         val fill = getOxygenFill(stack)
-        return MathHelper.hsvToRgb(1.0f - fill.times(0.35f), 0.3f, fill.times(0.2f).plus(0.8f))
+        return MathHelper.hsvToRgb(1.0f - fill.times(0.45f), 0.3f, fill.times(0.2f).plus(0.8f))
     }
 
 }

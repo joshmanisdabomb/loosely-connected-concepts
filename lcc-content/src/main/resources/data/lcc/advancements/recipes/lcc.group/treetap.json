@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_iron_ingot": {
+    "has_rubber_tree": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:iron_ingot"
+            "tag": "lcc:rubber_tree"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_iron_ingot",
+      "has_rubber_tree",
       "has_the_recipe"
     ]
   ]

@@ -71,7 +71,7 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
         get() = rawEnergy ?: 0f
         set(value) { rawEnergy = value }
 
-    private var energyDisplay = DecimalTransport(::energy)
+    private val energyDisplay = DecimalTransport(::energy)
 
     override fun addEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
         if (context.side != null && context.side == context.state?.get(Properties.FACING)) return 0f

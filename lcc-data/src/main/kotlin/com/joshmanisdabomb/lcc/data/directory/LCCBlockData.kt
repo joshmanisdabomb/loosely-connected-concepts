@@ -276,6 +276,18 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }).add(TreetapBlockLootFactory<TreetapBlock.TreetapState, TreetapBlock.TreetapState>(LCCBlocks.treetap, TreetapBlock.tap, { it.container?.item })) }
     val dried_treetap by entry(::initialiser) { BlockDataContainer().defaultLang().add(TreetapDriedBlockAssetFactory).add(TreetapBlockLootFactory(LCCBlocks.treetap, DriedTreetapBlock.container, AbstractTreetapBlock.TreetapContainer::item, DriedTreetapBlock.liquid, { it.dryProduct?.item })) }
+    val oxygen_extractor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(CustomBlockAssetFactory { d, b -> modelCubeBottomTop(d, b, textureBottom = loc(LCC.id("refiner_bottom"))) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("chc")
+            .pattern("cbc")
+            .pattern("iii")
+            .input('c', Items.COPPER_INGOT)
+            .input('h', Items.HOPPER)
+            .input('b', Items.BUCKET)
+            .input('i', Items.IRON_INGOT)
+            .apply { hasCriterionShaped(this, LCCItems.oxygen_tank) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

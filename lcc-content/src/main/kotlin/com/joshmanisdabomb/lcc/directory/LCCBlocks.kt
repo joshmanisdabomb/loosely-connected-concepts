@@ -204,6 +204,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val energy_bank by entry(::initialiser) { EnergyBankBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
+    val oxygen_extractor by entry(::initialiser) { OxygenExtractorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0f, 5.0f).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+        .setProperties(BlockExtraSettings().creativeEx(POWER))
     val power_source by entry(::initialiser) { PowerSourceBlock(FabricBlockSettings.of(Material.METAL, MapColor.CYAN).strength(-1.0F, 3600000f).dropsNothing().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER, sortValueInt(1000)))
 

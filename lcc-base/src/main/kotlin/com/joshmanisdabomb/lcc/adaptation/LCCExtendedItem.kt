@@ -36,4 +36,16 @@ interface LCCExtendedItem {
     @JvmDefault
     fun lcc_pickupProjectileListen(world: World, stack: ItemStack, slot: Int, acquired: ItemStack, player: PlayerEntity, entity: PersistentProjectileEntity): Boolean? = null
 
+    @JvmDefault
+    fun lcc_getAdditionalItemBarIndexes(stack: ItemStack) = intArrayOf()
+
+    @JvmDefault
+    fun lcc_getAdditionalItemBarOffset(stack: ItemStack, index: Int) = 0
+
+    @JvmDefault
+    fun lcc_getAdditionalItemBarStep(stack: ItemStack, index: Int) = 0
+
+    @JvmDefault
+    fun lcc_getAdditionalItemBarColor(stack: ItemStack, index: Int) = 0
+
 }

@@ -198,10 +198,33 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
     }) }
     val heavy_duty_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCItems.flexible_rubber, RecipeSerializer.SMELTING, experience = 0.1f)) }
 
-    val hazmat_helmet by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }) }
+    val hazmat_helmet by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("rrr")
+            .pattern("rvr")
+            .input('r', LCCItems.heavy_duty_rubber)
+            .input('v', Blocks.GLASS_PANE)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .apply { offerShaped(this, d) }
+    }) }
     val hazmat_chestplate by entry(::initialiser) { ItemDataContainer().defaultLang().add(CustomItemAssetFactory { d, i -> modelGenerated1(d, i, texture1 = loc(i) { it.plus("_overlay") }) }) }
-    val hazmat_leggings by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset() }
-    val hazmat_boots by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset() }
+    val hazmat_leggings by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("rrr")
+            .pattern("r r")
+            .pattern("r r")
+            .input('r', LCCItems.heavy_duty_rubber)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .apply { offerShaped(this, d) }
+    }) }
+    val hazmat_boots by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("r r")
+            .pattern("r r")
+            .input('r', LCCItems.heavy_duty_rubber)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

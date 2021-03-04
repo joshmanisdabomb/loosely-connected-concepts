@@ -1,11 +1,9 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.extensions.toInt
 import net.minecraft.client.item.TooltipContext
-import net.minecraft.entity.EquipmentSlot
+import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
@@ -14,9 +12,15 @@ import net.minecraft.util.Formatting
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 
-class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmorItem(slot, settings), LCCExtendedItem, OxygenStorage {
+class OxygenStorageItem(val max: Int, settings: Settings) : Item(settings), OxygenStorage {
 
-    override fun getMaxOxygen(stack: ItemStack) = LCCItems.oxygen_tank.max
+    override fun getMaxOxygen(stack: ItemStack) = max
+
+    override fun isItemBarVisible(stack: ItemStack) = true
+
+    override fun getItemBarStep(stack: ItemStack) = getOxygenBarStep(stack)
+
+    override fun getItemBarColor(stack: ItemStack) = getOxygenBarColor(stack)
 
     override fun appendStacks(group: ItemGroup, stacks: DefaultedList<ItemStack>) {
         if (isIn(group)) {
@@ -28,13 +32,5 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         tooltip.add(TranslatableText(translationKey.plus(".oxygen"), getOxygen(stack), getMaxOxygen(stack)).formatted(Formatting.BLUE))
     }
-
-    override fun lcc_getAdditionalItemBarIndexes(stack: ItemStack) = intArrayOf(0)
-
-    override fun lcc_getAdditionalItemBarOffset(stack: ItemStack, index: Int) = stack.isItemBarVisible.toInt(3, 0)
-
-    override fun lcc_getAdditionalItemBarStep(stack: ItemStack, index: Int) = getOxygenBarStep(stack)
-
-    override fun lcc_getAdditionalItemBarColor(stack: ItemStack, index: Int) = getOxygenBarColor(stack)
 
 }

@@ -23,6 +23,8 @@ object LCCScreens : AdvancedDirectory<Any, ScreenRegistry.Factory<out ScreenHand
 
     val atomic_bomb by entry(::initialiser) { ::AtomicBombScreen }
 
+    val oxygen_extractor by entry(::initialiser) { ::OxygenExtractorScreen }
+
     fun <S, H : ScreenHandler> initialiser(input: (H, PlayerInventory, Text) -> S, context: DirectoryContext<ScreenHandlerType<out ScreenHandler>>, parameters: Unit) where S : Screen, S : ScreenHandlerProvider<H> = ScreenRegistry.Factory(input).also { ScreenRegistry.register(context.properties as ScreenHandlerType<H>, input) }
 
     override fun defaultProperties(name: String) = LCCScreenHandlers[name]

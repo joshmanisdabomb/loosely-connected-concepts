@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "lcc:block/oxygen_extractor_top",
+    "bottom": "lcc:block/refiner_bottom",
+    "side": "lcc:block/oxygen_extractor_side"
+  }
+}

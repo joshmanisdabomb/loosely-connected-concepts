@@ -76,8 +76,8 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
 
     var customName: Text? = null
 
-    private var outputDisplay = DecimalTransport(::output)
-    private var outputCeilDisplay = DecimalTransport(::outputCeil)
+    private val outputDisplay = DecimalTransport(::output)
+    private val outputCeilDisplay = DecimalTransport(::outputCeil)
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = generatorBlock!!.createMenu(syncId, inv, inventory, player, propertyDelegate)
 

@@ -81,8 +81,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     private var maxBoost = 0f
     private var working = false
 
-    private var boostDisplay = DecimalTransport(::boost)
-    private var maxBoostDisplay = DecimalTransport(::maxBoost)
+    private val boostDisplay = DecimalTransport(::boost)
+    private val maxBoostDisplay = DecimalTransport(::maxBoost)
 
     private var icon = -1
 
@@ -147,7 +147,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         get() = rawEnergy ?: 0f
         set(value) { rawEnergy = value }
 
-    private var energyDisplay = DecimalTransport(::energy)
+    private val energyDisplay = DecimalTransport(::energy)
 
     override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 

@@ -7,6 +7,8 @@ object LCCLangData {
 
     operator fun invoke(lang: Map<String, LangData>) {
         lang["en_us"]!!["item.lcc.redstone_battery.energy"] = "Energy: %1\$s / %2\$s%3\$s"
+        lang["en_us"]!!["item.lcc.oxygen_tank.oxygen"] = "Oxygen: %1\$s / %2\$s"
+        lang["en_us"]!!["item.lcc.hazmat_chestplate.oxygen"] = "Oxygen: %1\$s / %2\$s"
 
         lang["en_us"]!!["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["en_us"]!!["itemGroup.lcc.group.set.amount"] = "%s item"
@@ -27,6 +29,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.oil_generator"] = "Combustion Generator"
         lang["en_us"]!!["container.lcc.energy_bank"] = "Energy Bank"
         lang["en_us"]!!["container.lcc.atomic_bomb"] = "Atomic Bomb"
+        lang["en_us"]!!["container.lcc.oxygen_extractor"] = "Oxygen Extractor"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
         lang["en_us"]!!["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"
@@ -44,6 +47,8 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.generator.output"] = "Steam Produced: %1\$s/t\nBase Steam from Fuel: %2\$s/t\nSteam Multiplier from Water: %3\$s%%"
 
         lang["en_us"]!!["container.lcc.battery.power"] = "Power: %1\$s"
+
+        lang["en_us"]!!["container.lcc.oxygen_extractor.power"] = "Power: %1\$s"
 
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"

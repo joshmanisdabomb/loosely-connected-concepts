@@ -16,7 +16,7 @@ class EnergyBankScreenHandler(syncId: Int, playerInventory: PlayerInventory, inv
     constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, LCCInventory(LCCBlocks.energy_bank.slotCount).apply {
         addSegment("input", LCCBlocks.energy_bank.inputs)
         addSegment("output", LCCBlocks.energy_bank.outputs)
-   }, ArrayPropertyDelegate(3))
+    }, ArrayPropertyDelegate(3))
 
     override val block get() = LCCBlocks.energy_bank
 

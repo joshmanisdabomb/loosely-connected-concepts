@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "chc",
+    "cbc",
+    "iii"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "b": {
+      "item": "minecraft:bucket"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:oxygen_extractor"
+  }
+}

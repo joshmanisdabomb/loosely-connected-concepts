@@ -32,6 +32,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val generator by entry(::beInitialiser) { BlockEntityType.Builder.create(::FiredGeneratorBlockEntity, *LCCBlocks.all.values.filterIsInstance<FiredGeneratorBlock>().toTypedArray()) }
     val battery by entry(::beInitialiser) { BlockEntityType.Builder.create(::BatteryBlockEntity, *LCCBlocks.all.values.filterIsInstance<BatteryBlock>().toTypedArray()) }
     val atomic_bomb by entry(::beInitialiser) { BlockEntityType.Builder.create(::AtomicBombBlockEntity, LCCBlocks.atomic_bomb) }
+    val oxygen_extractor by entry(::beInitialiser) { BlockEntityType.Builder.create(::OxygenExtractorBlockEntity, LCCBlocks.oxygen_extractor) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)

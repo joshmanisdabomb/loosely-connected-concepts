@@ -22,6 +22,8 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
 
     val atomic_bomb by entry(::extendedInitialiser) { ::AtomicBombScreenHandler }
 
+    val oxygen_extractor by entry(::simpleInitialiser) { ::OxygenExtractorScreenHandler }
+
     override fun id(name: String) = LCC.id(name)
 
     fun <S : ScreenHandler> simpleInitialiser(input: (Int, PlayerInventory) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {

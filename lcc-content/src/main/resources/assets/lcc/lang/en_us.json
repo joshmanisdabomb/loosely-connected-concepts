@@ -234,6 +234,7 @@
   "item.lcc.redstone_battery.energy": "Energy: %1$s / %2$s%3$s",
   "item.lcc.oxygen_tank.oxygen": "Oxygen: %1$s / %2$s",
   "item.lcc.hazmat_chestplate.oxygen": "Oxygen: %1$s / %2$s",
+  "item.lcc.hazmat_helmet.consume": "Your helmet is preventing you from using this item",
   "itemGroup.lcc.group": "Loosely Connected Concepts",
   "itemGroup.lcc.group.set.amount": "%s item",
   "itemGroup.lcc.group.set.amount.s": "s",

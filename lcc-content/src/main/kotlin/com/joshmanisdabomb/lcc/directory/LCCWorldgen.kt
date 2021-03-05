@@ -11,17 +11,16 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
+import net.minecraft.class_5865
+import net.minecraft.class_5866
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.ProbabilityConfig
 import net.minecraft.world.gen.UniformIntDistribution
 import net.minecraft.world.gen.YOffset
-import net.minecraft.world.gen.carver.Carver
-import net.minecraft.world.gen.carver.CarverConfig
-import net.minecraft.world.gen.carver.ConfiguredCarver
+import net.minecraft.world.gen.carver.*
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
 import net.minecraft.world.gen.decorator.Decorator
 import net.minecraft.world.gen.decorator.DecoratorConfig
@@ -86,8 +85,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val abundant_iron by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.IRON_ORE.defaultState, 11)).averageDepth(YOffset.fixed(48), 64).spreadHorizontally().repeat(15) }
     val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, Blocks.COPPER_ORE.defaultState, 14)).averageDepth(YOffset.fixed(48), 30).spreadHorizontally().repeat(15) }
 
-    val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.01f, 1))) }
-    val oil_hidden by entry(::initialiser) { Feature.NO_SURFACE_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 6)).averageDepth(YOffset.fixed(63), 3).spreadHorizontally().applyChance(4) }
+    val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.015f, 1))) }
+    val oil_hidden by entry(::initialiser) { Feature.SCATTERED_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 5)).averageDepth(YOffset.fixed(63), 3).spreadHorizontally().applyChance(4) }
 
     val uranium by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
     val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.BASE_STONE_OVERWORLD, LCCBlocks.uranium_ore.defaultState, 4)).rangeOf(YOffset.fixed(0), YOffset.fixed(64)).spreadHorizontally().repeat(3).applyChance(2) }
@@ -110,8 +109,8 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(ProbabilityConfig.CODEC, 256) }
-    val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(ProbabilityConfig.CODEC) }
+    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CarverConfig.CONFIG_CODEC) }
+    val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -123,8 +122,8 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(ProbabilityConfig(0.03F)) }
-    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(ProbabilityConfig(0.03F)) }
+    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CarverConfig(0.34F)) }
+    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), YOffset.fixed(10), YOffset.fixed(67), UniformIntDistribution.of(3), class_5866.method_33934(0.75f, 0.25f), class_5866.method_33934(-0.125f, 0.25f), class_5865.method_33926(0.0f, 6.0f, 2.0f), 3, class_5866.method_33934(0.75f, 0.25f), 1.0f, 0.0f)) }
 
     override fun defaultProperties(name: String) = Unit
 

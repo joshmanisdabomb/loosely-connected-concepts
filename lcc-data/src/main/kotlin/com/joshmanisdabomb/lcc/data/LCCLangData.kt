@@ -9,6 +9,7 @@ object LCCLangData {
         lang["en_us"]!!["item.lcc.redstone_battery.energy"] = "Energy: %1\$s / %2\$s%3\$s"
         lang["en_us"]!!["item.lcc.oxygen_tank.oxygen"] = "Oxygen: %1\$s / %2\$s"
         lang["en_us"]!!["item.lcc.hazmat_chestplate.oxygen"] = "Oxygen: %1\$s / %2\$s"
+        lang["en_us"]!!["item.lcc.hazmat_helmet.consume"] = "Your helmet is preventing you from using this item"
 
         lang["en_us"]!!["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["en_us"]!!["itemGroup.lcc.group.set.amount"] = "%s item"

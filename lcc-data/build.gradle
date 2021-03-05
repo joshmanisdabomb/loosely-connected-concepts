@@ -3,6 +3,10 @@ archivesBaseName = "lcc-data"
 dependencies {
     compile project(':lcc-content')
 
+    repositories {
+        jcenter { url = "https://jcenter.bintray.com/" }
+    }
+
     modApi "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
     include "me.shedaniel.cloth.api:cloth-datagen-api-v1:2.0.0"
 }

@@ -15,7 +15,9 @@
     "BundleBagMixin",
     "NuclearSkylightProviderMixin",
     "AdvancementTrackerMixin",
-    "OxygenLivingMixin"
+    "OxygenLivingMixin",
+    "OxygenPlayerMixin",
+    "OxygenItemUsageMixin"
   ],
   "injectors": {
     "defaultRequire": 1

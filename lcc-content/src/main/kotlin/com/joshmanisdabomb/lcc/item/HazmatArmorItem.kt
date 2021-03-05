@@ -7,12 +7,15 @@ import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.DyeableArmorItem
 import net.minecraft.item.ItemStack
 
 open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArmorItem(LCCArmorMaterials.HAZMAT, slot, settings), DefaultedDyeableItem, ContainedArmor {
 
     override fun defaultColor(stack: ItemStack) = 0x909090
+
+    override fun disableEating(entity: PlayerEntity, stack: ItemStack, pieces: Iterable<ItemStack>) = this.slot == EquipmentSlot.HEAD
 
     override fun blockStatusEffect(entity: LivingEntity, effect: StatusEffectInstance, stack: ItemStack, pieces: Iterable<ItemStack>): Boolean {
         if (pieces.any { it.item !is HazmatArmorItem } || pieces.maxOfOrNull { (it.item as? HazmatTankArmorItem)?.getOxygen(it) ?: 0 } ?: 0 <= 0) return false

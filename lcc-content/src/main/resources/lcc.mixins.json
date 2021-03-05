@@ -14,7 +14,8 @@
     "StonecutterHandlerMixin",
     "BundleBagMixin",
     "NuclearSkylightProviderMixin",
-    "AdvancementTrackerMixin"
+    "AdvancementTrackerMixin",
+    "OxygenLivingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

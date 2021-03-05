@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
+import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -77,18 +77,18 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
         return tag
     }
 
-    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it) }.times(when (this.registryKey) {
-        World.OVERWORLD -> 1.0
-        else -> 0.4
-    }).toInt() }
+    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it) }.div(when (this.registryKey) {
+        World.OVERWORLD -> 1
+        else -> 3
+    }) }
     fun getOxygenAmount(world: World, side: Direction): Int {
         val pos = pos.offset(side)
         val state = world.getBlockState(pos)
         if (!state.fluidState.isEmpty) return 0
         if (state.isSideSolidFullSquare(world, pos, side.opposite)) return 0
-        if (!state.getCollisionShape(world, pos).isEmpty) return 2
-        if (!state.isAir) return 4
-        return 5
+        if (!state.getCollisionShape(world, pos).isEmpty) return 1
+        if (!state.isAir) return 2
+        return 3
     }
 
     override fun clear() = inventory.clear()

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
-import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
+import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots

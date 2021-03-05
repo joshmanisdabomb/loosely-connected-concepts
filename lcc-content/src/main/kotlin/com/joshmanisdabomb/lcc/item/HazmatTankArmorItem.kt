@@ -1,10 +1,11 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
+import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.toInt
 import net.minecraft.client.item.TooltipContext
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
@@ -17,6 +18,12 @@ import net.minecraft.world.World
 class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmorItem(slot, settings), LCCExtendedItem, OxygenStorage {
 
     override fun getMaxOxygen(stack: ItemStack) = LCCItems.oxygen_tank.max
+
+    override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
+        if (entity.armorItems.any { it.item !is HazmatArmorItem }) return
+        if (entity.armorItems.indexOf(stack) <= -1) return
+        this.addOxygen(stack, -1)
+    }
 
     override fun appendStacks(group: ItemGroup, stacks: DefaultedList<ItemStack>) {
         if (isIn(group)) {

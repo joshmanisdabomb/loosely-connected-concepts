@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.recipe
 
-import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
+import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
 import com.joshmanisdabomb.lcc.item.OxygenStorageItem

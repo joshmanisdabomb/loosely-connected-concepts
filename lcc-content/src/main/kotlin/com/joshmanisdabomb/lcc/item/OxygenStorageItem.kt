@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.abstracts.OxygenStorage
+import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item

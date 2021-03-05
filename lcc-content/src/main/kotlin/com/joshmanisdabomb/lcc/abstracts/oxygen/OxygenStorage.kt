@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.abstracts
+package com.joshmanisdabomb.lcc.abstracts.oxygen
 
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.MathHelper

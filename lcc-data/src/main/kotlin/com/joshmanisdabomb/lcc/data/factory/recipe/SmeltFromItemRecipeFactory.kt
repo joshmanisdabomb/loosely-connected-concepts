@@ -7,10 +7,11 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.AbstractCookingRecipe
 import net.minecraft.recipe.CookingRecipeSerializer
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
-class SmeltFromItemRecipeFactory(val item: ItemConvertible, vararg val types: CookingRecipeSerializer<out AbstractCookingRecipe>, val experience: Float = 1f, val time: Int = 200, criterion: (CookingRecipeJsonFactory.(entry: Item) -> Unit)? = null, val name: Identifier? = null) : RecipeFactory {
+class SmeltFromItemRecipeFactory(val item: ItemConvertible, vararg val types: CookingRecipeSerializer<out AbstractCookingRecipe>, val experience: Float = 1f, val time: Int = getDefaultTime(types.first()), criterion: (CookingRecipeJsonFactory.(entry: Item) -> Unit)? = null, val name: Identifier? = null) : RecipeFactory {
 
     val ingredient = Ingredient.ofItems(item)
     val criterion = criterion ?: { hasCriterionCooking(this, it) }
@@ -18,6 +19,14 @@ class SmeltFromItemRecipeFactory(val item: ItemConvertible, vararg val types: Co
     override fun apply(data: DataAccessor, entry: Item) {
         val id = registry(entry)
         types.forEach { type -> CookingRecipeJsonFactory.create(ingredient, entry, experience, time, type).apply { this@SmeltFromItemRecipeFactory.criterion(this, entry) }.apply { offerCooking(this, data, name ?: loc(id) { "${it}_from_${Registry.RECIPE_SERIALIZER.getId(type)!!.path}" }) } }
+    }
+
+    companion object {
+        private fun getDefaultTime(type: CookingRecipeSerializer<out AbstractCookingRecipe>) = when (type) {
+            RecipeSerializer.SMELTING -> 200
+            RecipeSerializer.CAMPFIRE_COOKING -> 600
+            else -> 100
+        }
     }
 
 }

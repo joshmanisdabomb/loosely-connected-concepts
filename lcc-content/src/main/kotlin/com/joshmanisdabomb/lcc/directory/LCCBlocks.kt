@@ -161,6 +161,8 @@ object LCCBlocks : BlockDirectory() {
     //Nuclear
     val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0)))
+    val deepslate_uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.copy(uranium_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
+        .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(1)))
     val uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11)))
     val enriched_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 1, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }

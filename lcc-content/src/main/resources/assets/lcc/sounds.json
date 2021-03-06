@@ -1,16 +1,12 @@
 {
-  "block.lcc.soaking_soul_sand.jump": {
-    "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump",
-    "sounds": [ "lcc:block/soaking_soul_sand_jump" ]
-  },
   "block.lcc.soaking_soul_sand.break": {
     "sounds": [
       {
-        "name":  "lcc:dig/soaking_soul_sand1",
+        "name": "lcc:dig/soaking_soul_sand1",
         "volume": 0.8
       },
       {
-        "name":  "lcc:dig/soaking_soul_sand2",
+        "name": "lcc:dig/soaking_soul_sand2",
         "volume": 0.8
       },
       {
@@ -46,11 +42,11 @@
   "block.lcc.soaking_soul_sand.place": {
     "sounds": [
       {
-        "name":  "lcc:dig/soaking_soul_sand1",
+        "name": "lcc:dig/soaking_soul_sand1",
         "volume": 0.8
       },
       {
-        "name":  "lcc:dig/soaking_soul_sand2",
+        "name": "lcc:dig/soaking_soul_sand2",
         "volume": 0.8
       },
       {
@@ -74,13 +70,23 @@
     ],
     "subtitle": "subtitles.block.generic.footsteps"
   },
+  "block.lcc.soaking_soul_sand.jump": {
+    "sounds": [
+      "lcc:block/soaking_soul_sand_jump"
+    ],
+    "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump"
+  },
   "block.lcc.bounce_pad.jump": {
-    "subtitle": "subtitles.lcc.block.bounce_pad.jump",
-    "sounds": [ "lcc:block/bounce_pad_jump" ]
+    "sounds": [
+      "lcc:block/bounce_pad_jump"
+    ],
+    "subtitle": "subtitles.lcc.block.bounce_pad.jump"
   },
   "block.lcc.bounce_pad.set": {
-    "subtitle": "subtitles.lcc.block.bounce_pad.set",
-    "sounds": [ "minecraft:random/click" ]
+    "sounds": [
+      "minecraft:random/click"
+    ],
+    "subtitle": "subtitles.lcc.block.bounce_pad.set"
   },
   "entity.lcc.pocket_zombie_pigman.ambient": {
     "sounds": [
@@ -112,22 +118,26 @@
     ],
     "subtitle": "subtitles.lcc.block.classic_crying_obsidian.set_spawn"
   },
-  "entity.lcc.nuclear_explosion.explode": {
-    "subtitle": "subtitles.lcc.entity.nuclear_explosion.explode",
-    "sounds": [ "lcc:entity/nuclearexplosion/explode" ]
-  },
   "entity.lcc.atomic_bomb.fuse": {
-    "subtitle": "subtitles.lcc.entity.atomic_bomb.fuse",
-    "sounds": [ "lcc:entity/atomicbomb/fuse" ]
+    "sounds": [
+      "lcc:entity/atomicbomb/fuse"
+    ],
+    "subtitle": "subtitles.lcc.entity.atomic_bomb.fuse"
   },
   "entity.lcc.atomic_bomb.defuse": {
-    "subtitle": "subtitles.lcc.entity.atomic_bomb.defuse",
     "sounds": [
       "lcc:entity/atomicbomb/cut1",
       "lcc:entity/atomicbomb/cut2",
       "lcc:entity/atomicbomb/cut3",
       "lcc:entity/atomicbomb/cut4",
       "lcc:entity/atomicbomb/cut5"
-    ]
+    ],
+    "subtitle": "subtitles.lcc.entity.atomic_bomb.defuse"
+  },
+  "entity.lcc.nuclear_explosion.explode": {
+    "sounds": [
+      "lcc:entity/nuclearexplosion/explode"
+    ],
+    "subtitle": "subtitles.lcc.entity.nuclear_explosion.explode"
   }
 }

@@ -60,6 +60,8 @@ abstract class AbstractTreetapBlock(settings: Settings) : HorizontalBlock(settin
         if (!log[direction.booleanProperty]) return
         val liquid = getLiquidFromState(state)
         if (liquid != null && liquid != block.liquid) return
+        val progress = block.liquid.progress
+        if (progress > 1 && world.random.nextInt(progress) != 0) return
         incrementLiquidLevel(state, world, pos, block.liquid)?.also {
             world.setBlockState(pos, it)
         }
@@ -90,9 +92,9 @@ abstract class AbstractTreetapBlock(settings: Settings) : HorizontalBlock(settin
     abstract fun getLiquidFromState(state: BlockState): TreetapLiquid?
     abstract fun getContainerFromState(state: BlockState): TreetapContainer?
 
-    enum class TreetapLiquid(bottled: () -> ItemStack, bottle: () -> Item = { Items.GLASS_BOTTLE }, dryProduct: (() -> ItemStack)? = null, val dryAge: Int = 0) : StringIdentifiable {
-        LATEX({ LCCItems.latex_bottle.defaultStack }, dryProduct = { LCCItems.flexible_rubber.defaultStack }, dryAge = 3),
-        VIVID_SAP({ Items.AIR.defaultStack }, dryProduct = { Items.AIR.defaultStack }, dryAge = 0);
+    enum class TreetapLiquid(bottled: () -> ItemStack, val progress: Int, bottle: () -> Item = { Items.GLASS_BOTTLE }, dryProduct: (() -> ItemStack)? = null, val dryAge: Int = 0) : StringIdentifiable {
+        LATEX({ LCCItems.latex_bottle.defaultStack }, 6, dryProduct = { LCCItems.flexible_rubber.defaultStack }, dryAge = 3),
+        VIVID_SAP({ Items.AIR.defaultStack }, 10, dryProduct = { Items.AIR.defaultStack }, dryAge = 0);
 
         val bottle by lazy(bottle)
         val bottled by lazy(bottled)

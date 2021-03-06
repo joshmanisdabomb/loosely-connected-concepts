@@ -268,7 +268,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val rubber_trapdoor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(TrapdoorBlockAssetFactory).add(BlockTagFactory(BlockTags.WOODEN_TRAPDOORS)).add(ItemTagFactory(ItemTags.WOODEN_TRAPDOORS)).add(TrapdoorRecipeFactory(LCCBlocks.rubber_planks)) }
     val treetap_bowl by entry(::initialiser) { BlockDataContainer().defaultLang().add(TreetapStorageBlockAssetFactory(AbstractTreetapBlock.TreetapContainer.BOWL, LCCModelTemplates.template_treetap_bowl_1, LCCModelTemplates.template_treetap_bowl_2, LCCModelTemplates.template_treetap_bowl_3, LCCModelTemplates.template_treetap_bowl_dried) { d, b -> LCCModelTemplates.template_treetap_bowl.upload(loc(b), Texture().put(LCCModelTextureKeys.t0, loc(LCCBlocks.treetap)).put(LCCModelTextureKeys.t1, loc(b)), d.modelStates::addModel) }).add(TreetapContainerBlockLootFactory(LCCBlocks.treetap, Items.BOWL)) }
     val treetap by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(TreetapBlockAssetFactory).add(CustomRecipeFactory { d, i ->
-        ShapedRecipeJsonFactory(i, 1)
+        ShapedRecipeJsonFactory(i, 2)
             .pattern("i  ")
             .pattern("iii")
             .input('i', Items.IRON_INGOT)

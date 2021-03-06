@@ -48,6 +48,8 @@ abstract class TreetapStorageBlock(settings: Settings) : AbstractTreetapBlock(se
         val liquid = getLiquidFromState(state)
         if (state[progress] > container.amount) {
             if (!liquid.canDry) return
+            val lprogress = liquid.progress
+            if (lprogress > 1 && world.random.nextInt(lprogress) != 0) return
             world.setBlockState(pos, if (state[progress] >= container.amount.plus(1).plus(liquid.dryAge)) LCCBlocks.dried_treetap.defaultState.with(HORIZONTAL_FACING, state[HORIZONTAL_FACING]).with(DriedTreetapBlock.liquid, liquid) else state.cycle(progress))
         } else {
             super.randomTick(state, world, pos, random)

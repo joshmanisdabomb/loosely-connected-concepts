@@ -12,11 +12,14 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 
 class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent, CopyableComponent<HeartsComponent>, PlayerComponent<HeartsComponent> {
 
     protected val health = mutableMapOf<HeartType, Float>()
     protected val maxHealth = mutableMapOf<HeartType, Float>()
+
+    var damageLayer = HeartType.RED
 
     var crystalRegenAmount = 0f
     var crystalRegenTick = 0L
@@ -25,10 +28,24 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
     operator fun set(type: HeartType, amount: Float) = setHealth(type, amount)
 
     fun getHealth(type: HeartType) = health.getOrPut(type) { 0f }
-    fun setHealth(type: HeartType, amount: Float) { health[type] = amount }
+    fun setHealth(type: HeartType, amount: Float) {
+        health[type] = amount
+        calculateDamageLayer()
+    }
 
     fun getMaxHealth(type: HeartType) = maxHealth.getOrPut(type) { 0f }
-    fun setMaxHealth(type: HeartType, amount: Float) { maxHealth[type] = amount }
+    fun setMaxHealth(type: HeartType, amount: Float) {
+        maxHealth[type] = amount
+        calculateDamageLayer()
+    }
+
+    private fun calculateDamageLayer() {
+        damageLayer = try {
+            health.filterValues { it > 0f }.toSortedMap(Comparator.comparingInt { it.sortOrder }).firstKey()
+        } catch (e: NoSuchElementException) {
+            HeartType.RED
+        }
+    }
 
     override fun readFromNbt(tag: CompoundTag) {
         health.clear()
@@ -41,6 +58,7 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         }
         crystalRegenAmount = tag.getFloat("CrystalRegenAmount")
         crystalRegenTick = tag.getLong("CrystalRegenTick")
+        calculateDamageLayer()
     }
 
     override fun writeToNbt(tag: CompoundTag) {
@@ -54,13 +72,24 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         tag.putLong("CrystalRegenTick", crystalRegenTick)
     }
 
-    override fun applySyncPacket(buf: PacketByteBuf) {
-        super.applySyncPacket(buf)
-        HeartType.values().forEach { it.update(entity, health[it] ?: 0f, maxHealth[it] ?: 0f) }
+    override fun writeSyncPacket(buf: PacketByteBuf, recipient: ServerPlayerEntity) {
+        if (entity == recipient) {
+            buf.writeBoolean(true)
+            super.writeSyncPacket(buf, recipient)
+        } else {
+            buf.writeBoolean(false)
+            buf.writeByte(damageLayer.ordinal)
+        }
     }
 
-    override fun shouldSyncWith(player: ServerPlayerEntity): Boolean {
-        return entity == player
+    override fun applySyncPacket(buf: PacketByteBuf) {
+        if (buf.readBoolean()) {
+            super.applySyncPacket(buf)
+            calculateDamageLayer()
+            HeartType.values().forEach { it.update(entity, health[it] ?: 0f, maxHealth[it] ?: 0f) }
+        } else {
+            damageLayer = HeartType.values().getOrElse(buf.readByte().toInt()) { HeartType.RED }
+        }
     }
 
     override fun tick() {
@@ -68,7 +97,10 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         for (it in HeartType.values()) {
             sync = it.tick(entity) || sync
         }
-        if (sync && !entity.world.isClient) LCCComponents.hearts.sync(entity)
+        if (!entity.world.isClient && sync) {
+            calculateDamageLayer()
+            LCCComponents.hearts.sync(entity)
+        }
     }
 
     override fun shouldCopyForRespawn(lossless: Boolean, keepInventory: Boolean) = true

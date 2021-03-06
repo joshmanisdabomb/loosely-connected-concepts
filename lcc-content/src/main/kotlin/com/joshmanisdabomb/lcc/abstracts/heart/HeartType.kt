@@ -108,8 +108,10 @@ enum class HeartType : StringIdentifiable {
 
         override fun tick(entity: LivingEntity): Boolean {
             val before = getHealth(entity)
-            if (before > 0) addHealth(entity, -0.012F, sync = false)
-            if (before.toInt() != getHealth(entity).toInt()) return true
+            if (before <= 0f) return false
+            addHealth(entity, -0.012F, sync = false)
+            val after = getHealth(entity)
+            if (before.toInt() != after.toInt() || after <= 0f) return true
             return false
         }
     };
@@ -162,7 +164,7 @@ enum class HeartType : StringIdentifiable {
     open fun calculateDamage(entity: LivingEntity, damage: Float): Float {
         val before = getHealth(entity)
         val after = getHealth(entity).minus(damage).coerceAtLeast(0f)
-        setHealth(entity, after)
+        setHealth(entity, after, sync = false)
         val damage2 = before - after
         return damage - damage2
     }
@@ -180,16 +182,16 @@ enum class HeartType : StringIdentifiable {
             hearts.crystalRegenAmount = 0f
             hearts.crystalRegenTick = 0L
             if (damage <= 0F) {
-                //heartsLastType.toTracker(entity, RED.ordinal.toByte())
                 return 0f
             }
             var d = damage
             for (ht in values().filter { it.getHealth(entity) > 0 }.sortedBy { it.sortOrder }) {
-                //heartsLastType.toTracker(entity, ht.ordinal.toByte())
                 d = ht.calculateDamage(entity, d).coerceAtLeast(0f)
+                hearts.damageLayer = ht
                 if (d <= 0) break
             }
-            //if (d > 0) heartsLastType.toTracker(entity, RED.ordinal.toByte())
+            if (d > 0) hearts.damageLayer = RED
+            LCCComponents.hearts.sync(entity)
             return d
         }
     }

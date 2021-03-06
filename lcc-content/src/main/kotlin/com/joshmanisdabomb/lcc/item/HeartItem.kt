@@ -25,7 +25,7 @@ open class HeartItem(val heart: HeartType, val value: Float, settings: Settings)
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         val ticks = getMaxUseTime(stack) - remainingUseTicks
         if (ticks >= 30 && ticks % 10 == 0) {
-            useHeart(user)
+            if (!world.isClient) useHeart(user)
             if ((user as? PlayerEntity)?.isSurvival != false) stack.decrement(1)
             if (stack.isEmpty || !canUseHeart(user)) user.clearActiveItem()
             //TODO custom sound

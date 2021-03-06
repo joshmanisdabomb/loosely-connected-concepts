@@ -31,6 +31,10 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val atomic_bomb_defuse by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.atomic_bomb.defuse")) }
     val nuclear_explosion_explode by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.nuclear_explosion.explode")) }
 
+    val player_hurt_iron by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.player.hurt_iron")) }
+    val player_hurt_crystal by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.player.hurt_crystal")) }
+    val player_hurt_temporary by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.player.hurt_temporary")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

@@ -58,13 +58,17 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/nuclearexplosion/explode", stream = true)
     }) }
 
+    val player_hurt_temporary by entry(::initialiser) { SoundProperties("entity", LCC.modid, "player.hurt_temporary", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/player/temporary${it+1}")
+    }, "subtitles.entity.player.hurt") }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.sounds.add(it) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
         val a = LCCSoundData.all.keys.minus(LCCSounds.all.keys)
-        if (a.isNotEmpty()) println("LCCSoundData contains information not present in LCCSounds: $a")
+        if (a.isNotEmpty()) println("LCCSoundData contains information for sound definitions not present in LCCSounds: $a")
         val b = LCCSounds.all.keys.minus(LCCSoundData.all.keys)
-        if (b.isNotEmpty()) println("LCCSounds contains defined sounds not present in LCCSoundData. $b")
+        if (b.isNotEmpty()) println("LCCSounds contains sound definitions with no information in LCCSoundData. $b")
     }
 
     override fun defaultProperties(name: String) = Unit

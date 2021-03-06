@@ -1,11 +1,13 @@
 package com.joshmanisdabomb.lcc.abstracts.heart
 
 import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.sound.SoundEvent
 import net.minecraft.util.StringIdentifiable
 import java.util.*
 import kotlin.math.pow
@@ -46,6 +48,8 @@ enum class HeartType : StringIdentifiable {
         
         override val rememberMax = true
 
+        override val hurtSound by lazy { LCCSounds.player_hurt_iron }
+
         override fun calculateDamage(entity: LivingEntity, damage: Float): Float {
             //any damage after 2 hearts is halved
             val before = getHealth(entity)
@@ -64,6 +68,8 @@ enum class HeartType : StringIdentifiable {
         override val sortOrder = 10
 
         override val rememberMax = true
+
+        override val hurtSound by lazy { LCCSounds.player_hurt_crystal }
 
         override fun calculateDamage(entity: LivingEntity, damage: Float): Float {
             //any damage over 1 heart is exponential
@@ -100,6 +106,8 @@ enum class HeartType : StringIdentifiable {
         override val sortOrder = 0
         override val container = false
 
+        override val hurtSound by lazy { LCCSounds.player_hurt_temporary }
+
         override fun getMaxHealth(entity: LivingEntity) = getHealth(entity)
 
         override fun setMaxHealth(entity: LivingEntity, amount: Float, limit: Float, sync: Boolean) = Unit
@@ -124,6 +132,8 @@ enum class HeartType : StringIdentifiable {
 
     open val remember = false
     open val rememberMax = false
+
+    open val hurtSound: SoundEvent? = null
 
     //Render Caches
     @Environment(EnvType.CLIENT)

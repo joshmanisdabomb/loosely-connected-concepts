@@ -136,8 +136,19 @@
   },
   "entity.lcc.nuclear_explosion.explode": {
     "sounds": [
-      "lcc:entity/nuclearexplosion/explode"
+      {
+        "name": "lcc:entity/nuclearexplosion/explode",
+        "stream": true
+      }
     ],
     "subtitle": "subtitles.lcc.entity.nuclear_explosion.explode"
+  },
+  "entity.lcc.player.hurt_temporary": {
+    "sounds": [
+      "lcc:entity/player/temporary1",
+      "lcc:entity/player/temporary2",
+      "lcc:entity/player/temporary3"
+    ],
+    "subtitle": "subtitles.entity.player.hurt"
   }
 }

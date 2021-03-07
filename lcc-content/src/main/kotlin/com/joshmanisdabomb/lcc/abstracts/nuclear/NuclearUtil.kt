@@ -42,11 +42,12 @@ object NuclearUtil {
     }
 
     fun addRadiation(entity: LivingEntity, duration: Int, amplifier: Int) {
+        if (entity.world.isClient) return
         if ((entity as? PlayerEntity)?.isSurvival == false) return
         val previous = entity.getStatusEffect(LCCEffects.radiation)
         val effect = StatusEffectInstance(LCCEffects.radiation, duration.plus(previous?.duration ?: 0), max(amplifier, previous?.amplifier ?: -1))
         if (entity.canHaveStatusEffect(effect)) {
-            entity.removeStatusEffect(LCCEffects.radiation)
+            entity.removeStatusEffectInternal(LCCEffects.radiation)
             entity.addStatusEffect(effect)
         }
     }

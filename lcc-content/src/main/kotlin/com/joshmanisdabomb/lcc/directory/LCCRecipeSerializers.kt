@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.recipe.*
+import net.minecraft.recipe.CookingRecipeSerializer
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.recipe.SpecialRecipeSerializer
@@ -22,6 +23,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
     val time_rift by entry(::initialiser) { TimeRiftRecipe.Serializer() }
 
     val hazmat_chestplate by entry(::initialiser) { SpecialRecipeSerializer(::HazmatChestplateRecipe) }
+
+    val kiln by entry(::initialiser) { CookingRecipeSerializer(::KilnRecipe, 100) }
 
     override fun defaultProperties(name: String) = Unit
 

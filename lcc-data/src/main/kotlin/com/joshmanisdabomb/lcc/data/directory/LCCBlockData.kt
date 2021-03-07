@@ -289,6 +289,17 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
+    val kiln by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(FurnaceBlockAssetFactory(textureTop = LCC.id("block/kiln_side"), textureBottom = LCC.id("block/kiln_side"))).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("bbb")
+            .pattern("bfb")
+            .pattern("bbb")
+            .input('b', Blocks.BRICKS)
+            .input('f', Blocks.FURNACE)
+            .apply { hasCriterionShaped(this, Blocks.BRICKS) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

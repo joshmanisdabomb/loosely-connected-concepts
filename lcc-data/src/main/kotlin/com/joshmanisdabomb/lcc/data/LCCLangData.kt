@@ -31,6 +31,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.energy_bank"] = "Energy Bank"
         lang["en_us"]!!["container.lcc.atomic_bomb"] = "Atomic Bomb"
         lang["en_us"]!!["container.lcc.oxygen_extractor"] = "Oxygen Extractor"
+        lang["en_us"]!!["container.lcc.kiln"] = "Kiln"
 
         lang["en_us"]!!["container.lcc.refining.power"] = "Power: %1\$s"
         lang["en_us"]!!["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"

@@ -185,7 +185,8 @@ object LCCBlocks : BlockDirectory() {
     //Crafters
     val spawner_table by entry(::initialiser) { DungeonTableBlock(FabricBlockSettings.of(Material.STONE, MapColor.PURPLE).strength(20.0F, 50.0F).luminance(7).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(CRAFTERS))
-    //IDEA Kiln for faster smelting of non smokable or blastables
+    val kiln by entry(::initialiser) { KilnBlock(FabricBlockSettings.of(Material.STONE, MapColor.RED).strength(3.5F, 10.5F).breakByTool(PICKAXES).requiresTool()) }
+        .setProperties(BlockExtraSettings().creativeEx(CRAFTERS))
     val refiner by entry(::initialiser) { RefinerBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER).luminance(RefiningBlock.Companion::brightness)) }
         .setProperties(BlockExtraSettings().creativeEx(CRAFTERS))
     val composite_processor by entry(::initialiser) { CompositeProcessorBlock(FabricBlockSettings.of(Material.METAL, MapColor.BLACK).strength(10.0F, 10.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.COPPER).luminance(RefiningBlock.Companion::brightness)) }

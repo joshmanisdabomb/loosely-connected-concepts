@@ -90,7 +90,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
-    val treetap by entry(::initialiser) { TreetapBlock(FabricBlockSettings.of(Material.METAL).strength(1.5f, 0f).breakByTool(PICKAXES, 1).ticksRandomly().breakInstantly().nonOpaque().sounds(BlockSoundGroup.CHAIN)) }
+    val treetap by entry(::initialiser) { TreetapBlock(FabricBlockSettings.of(Material.DECORATION).strength(1.5f, 0f).breakByTool(PICKAXES, 1).requiresTool().ticksRandomly().nonOpaque().sounds(BlockSoundGroup.CHAIN)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val treetap_bowl by entry(::initialiser) { object : TreetapStorageBlock(FabricBlockSettings.copyOf(treetap)) {
         override val container get() = TreetapContainer.BOWL

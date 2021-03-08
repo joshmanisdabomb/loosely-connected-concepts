@@ -42,7 +42,7 @@ class HazmatChestplateRecipe(id: Identifier) : SpecialCraftingRecipe(id) {
         if (inv.width < 3 || inv.height < 3) return ItemStack.EMPTY
         for (i in 0..inv.width-2) {
             for (j in 0..inv.height-2) {
-                match(inv, i, j)?.also { tank -> return LCCItems.hazmat_chestplate.defaultStack.also { LCCItems.hazmat_chestplate.setOxygen(it, (tank.item as? OxygenStorage)?.getOxygen(tank) ?: 0) } }
+                match(inv, i, j)?.also { tank -> return LCCItems.hazmat_chestplate.defaultStack.also { LCCItems.hazmat_chestplate.setOxygen(it, (tank.item as? OxygenStorage)?.getOxygen(tank) ?: 0f) } }
             }
         }
         return ItemStack.EMPTY

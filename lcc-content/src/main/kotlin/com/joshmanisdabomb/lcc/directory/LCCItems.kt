@@ -40,7 +40,7 @@ object LCCItems : ItemDirectory() {
     //Gizmos
     val asphalt_bucket by entry(::initialiser) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(99)))
-    val oxygen_tank by entry(::initialiser) { OxygenStorageItem(16000, Item.Settings().maxCount(1).defaults()) }
+    val oxygen_tank by entry(::initialiser) { OxygenStorageItem(6000f, Item.Settings().maxCount(1).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
 
     //Materials

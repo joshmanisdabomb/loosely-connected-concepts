@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.item
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.toInt
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
@@ -22,7 +23,7 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
         if (entity.armorItems.any { it.item !is HazmatArmorItem }) return
         if (entity.armorItems.indexOf(stack) <= -1) return
-        this.addOxygen(stack, -1)
+        this.addOxygen(stack, -1f)
     }
 
     override fun appendStacks(group: ItemGroup, stacks: DefaultedList<ItemStack>) {
@@ -33,7 +34,7 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText(translationKey.plus(".oxygen"), getOxygen(stack), getMaxOxygen(stack)).formatted(Formatting.BLUE))
+        tooltip.add(TranslatableText(translationKey.plus(".oxygen"), getOxygen(stack).decimalFormat(force = true), getMaxOxygen(stack).decimalFormat(force = true)).formatted(Formatting.BLUE))
     }
 
     override fun lcc_getAdditionalItemBarIndexes(stack: ItemStack) = intArrayOf(0)

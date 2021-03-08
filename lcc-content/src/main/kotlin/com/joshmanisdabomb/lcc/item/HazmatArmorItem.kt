@@ -18,7 +18,7 @@ open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArm
     override fun disableEating(entity: PlayerEntity, stack: ItemStack, pieces: Iterable<ItemStack>) = this.slot == EquipmentSlot.HEAD
 
     override fun blockStatusEffect(entity: LivingEntity, effect: StatusEffectInstance, stack: ItemStack, pieces: Iterable<ItemStack>): Boolean {
-        if (pieces.any { it.item !is HazmatArmorItem } || pieces.maxOfOrNull { (it.item as? HazmatTankArmorItem)?.getOxygen(it) ?: 0 } ?: 0 <= 0) return false
+        if (pieces.any { it.item !is HazmatArmorItem } || pieces.maxOfOrNull { (it.item as? HazmatTankArmorItem)?.getOxygen(it) ?: 0f } ?: 0f <= 0f) return false
         return when (effect.effectType) {
             LCCEffects.stun, StatusEffects.BAD_OMEN, StatusEffects.CONDUIT_POWER, StatusEffects.DOLPHINS_GRACE, StatusEffects.HERO_OF_THE_VILLAGE, StatusEffects.MINING_FATIGUE -> false
             else -> true

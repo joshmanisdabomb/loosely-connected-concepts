@@ -21,8 +21,9 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val power_source by entry(::initialiser) { Replacement(PowerSourceBlockItem(properties, Item.Settings().defaults())) }
 
     val uranium_ore by entry(::initialiser) { Replacement(RadioactiveBlockItem(1, 0, properties, Item.Settings().defaults())) }
+    val deepslate_uranium_ore by entry(::initialiser) { Replacement(RadioactiveBlockItem(1, 0, properties, Item.Settings().defaults())) }
     val uranium_block by entry(::initialiser) { Replacement(RadioactiveBlockItem(4, 0, properties, Item.Settings().defaults())) }
-    val enriched_uranium_block by entry(::initialiser) { Replacement(RadioactiveBlockItem(4, 1,properties, Item.Settings().defaults())) }
+    val enriched_uranium_block by entry(::initialiser) { Replacement(RadioactiveBlockItem(4, 1, properties, Item.Settings().defaults())) }
     val heavy_uranium_block by entry(::initialiser) { Replacement(RadioactiveBlockItem(4, 0, properties, Item.Settings().defaults())) }
     val nuclear_waste by entry(::initialiser) { Replacement(RadioactiveBlockItem(16, 3, properties, Item.Settings().defaults())) }
 

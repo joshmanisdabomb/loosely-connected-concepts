@@ -77,18 +77,18 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
         return tag
     }
 
-    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it) }.div(when (this.registryKey) {
-        World.OVERWORLD -> 1
-        else -> 3
+    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it).toDouble() }.toFloat().times(when (this.registryKey) {
+        World.OVERWORLD -> 1f
+        else -> 0.25f
     }) }
-    fun getOxygenAmount(world: World, side: Direction): Int {
+    fun getOxygenAmount(world: World, side: Direction): Float {
         val pos = pos.offset(side)
         val state = world.getBlockState(pos)
-        if (!state.fluidState.isEmpty) return 0
-        if (state.isSideSolidFullSquare(world, pos, side.opposite)) return 0
-        if (!state.getCollisionShape(world, pos).isEmpty) return 1
-        if (!state.isAir) return 2
-        return 3
+        if (!state.fluidState.isEmpty) return 0f
+        if (state.isSideSolidFullSquare(world, pos, side.opposite)) return 0f
+        if (!state.getCollisionShape(world, pos).isEmpty) return 0.15f
+        if (!state.isAir) return 0.35f
+        return 1f
     }
 
     override fun clear() = inventory.clear()
@@ -124,7 +124,7 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
                 true
             }
             if (stacks.isNotEmpty() && energy >= stacks.size) {
-                entity.removeEnergyDirect(stacks.size.toFloat(), LooseEnergy, WorldEnergyContext(world, pos, null, null))
+                entity.removeEnergyDirect(stacks.size.toFloat().times(9f), LooseEnergy, WorldEnergyContext(world, pos, null, null))
                 val oxygen = entity.getOxygenAmount().div(stacks.size)
                 stacks.forEach { (it.item as? OxygenStorage)?.addOxygen(it, oxygen) }
             }

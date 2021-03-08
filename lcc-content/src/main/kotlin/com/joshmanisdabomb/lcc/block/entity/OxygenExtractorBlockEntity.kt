@@ -77,7 +77,7 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
         return tag
     }
 
-    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it).toDouble() }.toFloat().times(when (this.registryKey) {
+    fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it).times(if (it == Direction.UP) 1.0 else 0.25) }.toFloat().times(when (this.registryKey) {
         World.OVERWORLD -> 1f
         else -> 0.25f
     }) }

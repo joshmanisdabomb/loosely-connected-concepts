@@ -61,6 +61,12 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
     val player_hurt_temporary by entry(::initialiser) { SoundProperties("entity", LCC.modid, "player.hurt_temporary", Array(3) {
         SoundProperties.SoundEntry("${LCC.modid}:entity/player/temporary${it+1}")
     }, "subtitles.entity.player.hurt") }
+    val player_hurt_iron by entry(::initialiser) { SoundProperties("entity", LCC.modid, "player.hurt_iron", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/player/iron${it+1}")
+    }, "subtitles.entity.player.hurt") }
+    val player_hurt_crystal by entry(::initialiser) { SoundProperties("entity", LCC.modid, "player.hurt_crystal", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/player/crystal${it+1}")
+    }, "subtitles.entity.player.hurt") }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.sounds.add(it) }
 

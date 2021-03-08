@@ -150,5 +150,21 @@
       "lcc:entity/player/temporary3"
     ],
     "subtitle": "subtitles.entity.player.hurt"
+  },
+  "entity.lcc.player.hurt_iron": {
+    "sounds": [
+      "lcc:entity/player/iron1",
+      "lcc:entity/player/iron2",
+      "lcc:entity/player/iron3"
+    ],
+    "subtitle": "subtitles.entity.player.hurt"
+  },
+  "entity.lcc.player.hurt_crystal": {
+    "sounds": [
+      "lcc:entity/player/crystal1",
+      "lcc:entity/player/crystal2",
+      "lcc:entity/player/crystal3"
+    ],
+    "subtitle": "subtitles.entity.player.hurt"
   }
 }

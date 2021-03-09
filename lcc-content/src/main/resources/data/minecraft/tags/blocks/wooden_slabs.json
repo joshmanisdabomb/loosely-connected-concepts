@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_slab"
+    "lcc:rubber_slab",
+    "lcc:classic_wooden_slab"
   ]
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:classic_mossy_cobblestone"
+    }
+  },
+  "result": {
+    "item": "lcc:classic_mossy_cobblestone_stairs",
+    "count": 4
+  }
+}

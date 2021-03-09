@@ -88,6 +88,10 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
     val rhyolite by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY).sounds(BlockSoundGroup.STONE).breakByTool(PICKAXES).requiresTool().strength(1.0f, 10.0f)) }
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rhyolite_stairs by entry(::initialiser) { StairsBlock(rhyolite.defaultState, FabricBlockSettings.copy(rhyolite)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rhyolite_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rhyolite)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
     val treetap by entry(::initialiser) { TreetapBlock(FabricBlockSettings.of(Material.DECORATION).strength(1.5f, 0f).breakByTool(PICKAXES, 1).requiresTool().ticksRandomly().nonOpaque().sounds(BlockSoundGroup.CHAIN)) }
@@ -219,9 +223,19 @@ object LCCBlocks : BlockDirectory() {
 
     val classic_grass_block by entry(::initialiser) { ClassicGrassBlock(FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(0.6f).breakByTool(SHOVELS).ticksRandomly().sounds(BlockSoundGroup.GRASS)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA, sortValueInt(0, 1)))
+    val dirt_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(Blocks.DIRT).breakByTool(SHOVELS)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_cobblestone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_cobblestone.defaultState, FabricBlockSettings.copy(classic_cobblestone)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_cobblestone)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD).strength(2.0f, 5.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_wooden_stairs by entry(::initialiser) { StairsBlock(classic_planks.defaultState, FabricBlockSettings.copy(classic_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_wooden_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_leaves by entry(::initialiser) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2f).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isOf(Blocks.OAK_LOG) } }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA).cutoutMipped())
@@ -260,9 +274,17 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_bricks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).strength(2.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_brick_stairs by entry(::initialiser) { StairsBlock(classic_bricks.defaultState, FabricBlockSettings.copy(classic_bricks)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_bricks)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_tnt by entry(::initialiser) { FunctionalTNTBlock(::ClassicTNTEntity, FabricBlockSettings.of(Material.TNT).breakInstantly().sounds(BlockSoundGroup.GRASS), unstable = true) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_mossy_cobblestone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_mossy_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_mossy_cobblestone.defaultState, FabricBlockSettings.copy(classic_mossy_cobblestone)) }
+        .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
+    val classic_mossy_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_mossy_cobblestone)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_chest by entry(::initialiser) { ClassicChestBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(AXES).strength(2.5f).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))

@@ -18,7 +18,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "lcc:rubber_slab",
+                  "block": "lcc:classic_mossy_cobblestone_slab",
                   "properties": {
                     "type": "double"
                   }
@@ -28,7 +28,7 @@
               "add": false
             }
           ],
-          "name": "lcc:rubber_slab"
+          "name": "lcc:classic_mossy_cobblestone_slab"
         }
       ]
     }

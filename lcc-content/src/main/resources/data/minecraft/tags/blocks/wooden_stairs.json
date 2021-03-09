@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_stairs"
+    "lcc:rubber_stairs",
+    "lcc:classic_wooden_stairs"
   ]
 }

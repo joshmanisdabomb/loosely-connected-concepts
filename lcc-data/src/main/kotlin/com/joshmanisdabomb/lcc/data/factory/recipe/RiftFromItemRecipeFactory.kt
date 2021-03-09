@@ -9,14 +9,14 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
 
-class RiftFromItemRecipeFactory(val item: ItemConvertible, criterion: (SingleItemRecipeJsonFactory.(entry: Item) -> Unit)? = null, val name: Identifier? = null) : RecipeFactory {
+class RiftFromItemRecipeFactory(val item: ItemConvertible, val count: Int = 1, criterion: (SingleItemRecipeJsonFactory.(entry: Item) -> Unit)? = null, val name: Identifier? = null) : RecipeFactory {
 
     val ingredient = Ingredient.ofItems(item)
     val criterion = criterion ?: { hasCriterionSingle(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         val id = registry(entry)
-        SingleItemRecipeJsonFactory(LCCRecipeSerializers.time_rift, ingredient, entry, 1).apply { this@RiftFromItemRecipeFactory.criterion(this, LCCBlocks.time_rift.asItem()) }.apply { offerSingle(this, data, name ?: loc(id) { "${it}_from_rift" }) }
+        SingleItemRecipeJsonFactory(LCCRecipeSerializers.time_rift, ingredient, entry, count).apply { this@RiftFromItemRecipeFactory.criterion(this, LCCBlocks.time_rift.asItem()) }.apply { offerSingle(this, data, name ?: loc(id) { "${it}_from_rift" }) }
     }
 
 }

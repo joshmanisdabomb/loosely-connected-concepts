@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
@@ -39,7 +40,7 @@ class BatteryItem(val max: Float, settings: Settings) : Item(settings), StackEne
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         with (StackEnergyContext(stack)) {
-            tooltip.add(TranslatableText(translationKey.plus(".energy"), LooseEnergy.display(getEnergy(LooseEnergy, this) ?: 0f), LooseEnergy.display(getMaximumEnergy(LooseEnergy, this) ?: 0f), " ".plus(LooseEnergy.units)).formatted(Formatting.GOLD))
+            tooltip.add(TranslatableText(TooltipConstants.energy, LooseEnergy.display(getEnergy(LooseEnergy, this) ?: 0f), LooseEnergy.display(getMaximumEnergy(LooseEnergy, this) ?: 0f), " ".plus(LooseEnergy.units)).formatted(Formatting.GOLD))
         }
     }
 

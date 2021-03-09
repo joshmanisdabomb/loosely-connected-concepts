@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
+import com.joshmanisdabomb.lcc.abstracts.TooltipConstants;
 import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +32,7 @@ public abstract class OxygenItemUsageMixin {
             Item item = piece.getItem();
             if (item instanceof ContainedArmor) {
                 if (((ContainedArmor)item).disableEating(player, piece, pieces)) {
-                    player.sendMessage(new TranslatableText(item.getTranslationKey() + ".consume"), true);
+                    player.sendMessage(new TranslatableText(TooltipConstants.contained_armor_consume), true);
                     callback.setReturnValue(TypedActionResult.fail(stack));
                     callback.cancel();
                 }

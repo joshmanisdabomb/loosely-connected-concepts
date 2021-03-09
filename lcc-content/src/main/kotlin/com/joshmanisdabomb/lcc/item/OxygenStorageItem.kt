@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import net.minecraft.client.item.TooltipContext
@@ -30,7 +31,7 @@ class OxygenStorageItem(val max: Float, settings: Settings) : Item(settings), Ox
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText(translationKey.plus(".oxygen"), getOxygen(stack).decimalFormat(force = true), getMaxOxygen(stack).decimalFormat(force = true)).formatted(Formatting.BLUE))
+        tooltip.add(TranslatableText(TooltipConstants.oxygen, getOxygen(stack).decimalFormat(force = true), getMaxOxygen(stack).decimalFormat(force = true)).formatted(Formatting.BLUE))
     }
 
 }

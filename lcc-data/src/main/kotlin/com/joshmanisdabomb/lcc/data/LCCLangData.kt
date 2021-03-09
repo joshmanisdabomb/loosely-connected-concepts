@@ -6,10 +6,9 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 object LCCLangData {
 
     operator fun invoke(lang: Map<String, LangData>) {
-        lang["en_us"]!!["item.lcc.redstone_battery.energy"] = "Energy: %1\$s / %2\$s%3\$s"
-        lang["en_us"]!!["item.lcc.oxygen_tank.oxygen"] = "Oxygen: %1\$s / %2\$s"
-        lang["en_us"]!!["item.lcc.hazmat_chestplate.oxygen"] = "Oxygen: %1\$s / %2\$s"
-        lang["en_us"]!!["item.lcc.hazmat_helmet.consume"] = "Your helmet is preventing you from using this item"
+        lang["en_us"]!!["tooltip.lcc.energy"] = "Energy: %1\$s / %2\$s%3\$s"
+        lang["en_us"]!!["tooltip.lcc.oxygen"] = "Oxygen: %1\$s / %2\$s"
+        lang["en_us"]!!["tooltip.lcc.contained_armor.consume"] = "Your helmet is preventing you from using this item"
 
         lang["en_us"]!!["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["en_us"]!!["itemGroup.lcc.group.set.amount"] = "%s item"
@@ -51,6 +50,8 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.battery.power"] = "Power: %1\$s"
 
         lang["en_us"]!!["container.lcc.oxygen_extractor.power"] = "Power: %1\$s"
+        lang["en_us"]!!["container.lcc.oxygen_extractor.oxygen"] = "Oxygen Outflow: %1\$s/t\nHold SHIFT for details"
+        lang["en_us"]!!["container.lcc.oxygen_extractor.oxygen.advanced"] = "Total Oxygen Outflow: %1\$s/t\n • From Top: %2\$s/t\n • From North: %3\$s/t\n • From East: %4\$s/t\n • From South: %5\$s/t\n • From West: %6\$s/t\n • Dimension Modifier: %7\$s%%"
 
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
+import com.joshmanisdabomb.lcc.block.entity.OxygenExtractorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
@@ -17,16 +18,17 @@ import net.minecraft.item.ItemStack
 import net.minecraft.screen.ArrayPropertyDelegate
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.util.math.Direction
 
 class OxygenExtractorScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val inventory: LCCInventory, val properties: PropertyDelegate) : ScreenHandler(LCCScreenHandlers.oxygen_extractor, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, LCCInventory(4), ArrayPropertyDelegate(2))
+    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, LCCInventory(4), ArrayPropertyDelegate(10))
 
     val listener = InventoryChangedListener(::onContentChanged)
 
     init {
         checkSize(inventory, 4)
-        checkDataCount(properties, 2)
+        checkDataCount(properties, 10)
 
         addSlots(inventory, 40, 38, 3, 1, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { (it.item as? OxygenStorage)?.isFull(it) == false } }
         addSlot(PredicatedSlot(inventory, 3, 120, 38) { StackEnergyHandler.containsPower(it) })
@@ -71,5 +73,17 @@ class OxygenExtractorScreenHandler(syncId: Int, protected val playerInventory: P
 
     @Environment(EnvType.CLIENT)
     fun powerAmount() = DecimalTransport.from(properties.get(0), properties.get(1))
+
+    @Environment(EnvType.CLIENT)
+    fun oxygenAmount() = DecimalTransport.from(properties.get(2), properties.get(3))
+
+    @Environment(EnvType.CLIENT)
+    fun oxygenModifier() = properties.get(4)
+
+    @Environment(EnvType.CLIENT)
+    fun oxygenAmount(side: Direction) = OxygenExtractorBlockEntity.OxygenThroughput.values()[properties.get(when (side) {
+        Direction.UP -> 5
+        else -> 6+side.opposite.horizontal
+    })]
 
 }

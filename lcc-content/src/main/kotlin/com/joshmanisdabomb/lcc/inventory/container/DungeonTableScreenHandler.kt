@@ -59,7 +59,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                 this.amount = 0
             }
 
-            override fun onTakeItem(player: PlayerEntity, stack: ItemStack): ItemStack {
+            override fun onTakeItem(player: PlayerEntity, stack: ItemStack) {
                 this.onCrafted(stack)
                 val defaultedList = player.world.recipeManager.getRemainingStacks(LCCRecipeTypes.spawner_table, input, player.world)
                 for (i in defaultedList.indices) {
@@ -82,7 +82,6 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                     }
                 }
                 updateResult()
-                return stack
             }
         })
 
@@ -153,8 +152,8 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
 
             if (originalStack.count == newStack.count) return ItemStack.EMPTY
 
-            val dropStack = slot.onTakeItem(player, originalStack)
-            if (index == 0) player.dropItem(dropStack, false)
+            slot.onTakeItem(player, originalStack)
+            if (index == 0) player.dropItem(originalStack, false)
         }
 
         return newStack

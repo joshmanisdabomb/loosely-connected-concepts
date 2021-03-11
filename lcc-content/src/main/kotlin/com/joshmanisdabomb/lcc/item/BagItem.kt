@@ -8,7 +8,7 @@ import net.minecraft.client.item.ModelPredicateProvider
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.client.item.TooltipData
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.inventory.CommandItemSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
@@ -38,7 +38,7 @@ interface BagItem {
     fun canBagStore(stack: ItemStack): Boolean
 
     @JvmDefault
-    fun onStackClickedWithBag(stack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
+    fun onStackClickedWithBag(stack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity): Boolean {
         if (clickType != ClickType.RIGHT) return false
         val its = slot.stack
         if (its.isEmpty) {
@@ -46,16 +46,16 @@ interface BagItem {
         } else if (its.item.hasStoredInventory()) {
             if (!canBagStore(its)) return false
             val i = (size - getBagTotalOccupancy(stack)) / getBagItemOccupancy(its)
-            transferBagStack(stack, slot.method_32753(its.count, i, playerInventory.player))
+            transferBagStack(stack, slot.method_32753(its.count, i, player))
         }
         return true
     }
 
     @JvmDefault
-    fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, playerInventory: PlayerInventory): Boolean {
-        return if (clickType == ClickType.RIGHT && slot.method_32754(playerInventory.player)) {
+    fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, commandItemSlot: CommandItemSlot): Boolean {
+        return if (clickType == ClickType.RIGHT && slot.method_32754(player)) {
             if (otherStack.isEmpty) {
-                retrieveBagStack(stack).ifPresent { playerInventory.cursorStack = it }
+                retrieveBagStack(stack).ifPresent(commandItemSlot::set)
             } else {
                 if (!canBagStore(otherStack)) return false
                 otherStack.decrement(transferBagStack(stack, otherStack))

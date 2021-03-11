@@ -16,7 +16,7 @@ class FlammableStatusEffect(type: StatusEffectType, color: Int) : HurtResistance
         val fireTicks = entity.fireTicks
         val fireLength = (amplifier + 5) * 30
 
-        if (fireTicks < fireLength - 10 && entity.world.method_29556(entity.boundingBox.contract(0.001)).anyMatch { it.isIn(BlockTags.FIRE) || it.isOf(Blocks.LAVA) }) {
+        if (fireTicks < fireLength - 10 && entity.world.getStatesInBox(entity.boundingBox.contract(0.001)).anyMatch { it.isIn(BlockTags.FIRE) || it.isOf(Blocks.LAVA) }) {
             entity.fireTicks = fireLength
         }
         if (fireTicks % 20 != 0 && fireTicks % Math.max(20 / (amplifier + 2), 1) == 0) {

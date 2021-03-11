@@ -10,6 +10,7 @@ import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -58,8 +59,9 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        client!!.textureManager.bindTexture(texture)
+        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShaderTexture(0, texture)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
     }
 
@@ -96,7 +98,7 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
                 val red = (color shr 16 and 255).toFloat() / 255.0f
                 val green = (color shr 8 and 255).toFloat() / 255.0f
                 val blue = (color and 255).toFloat() / 255.0f
-                GlStateManager.color4f(red, green, blue, 1f)
+                RenderSystem.setShaderColor(red, green, blue, 1f)
             } else {
                 super.onRenderButton(matrices)
             }

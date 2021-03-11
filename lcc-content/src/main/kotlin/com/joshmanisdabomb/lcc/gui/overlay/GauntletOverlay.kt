@@ -14,6 +14,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.Vec3f
@@ -36,7 +37,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         val client = MinecraftClient.getInstance()
         if (client.currentScreen is GauntletScreen) return
 
-        client.textureManager.bindTexture(icons)
+        RenderSystem.setShaderTexture(0, icons)
 
         for (g in GauntletDirectory.all.values) {
             if (!actionLastUnlocked.containsKey(g) && !g.hasInfo(camera)) {
@@ -49,14 +50,15 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         val gauntlet = camera.mainHandStack.item == LCCItems.gauntlet || camera.offHandStack.item == LCCItems.gauntlet
         val current = camera.mainHandStack?.tag?.let { GauntletAction.getFromTag(it) } ?: camera.offHandStack?.tag?.let { GauntletAction.getFromTag(it) }
         RenderSystem.enableBlend()
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)
+        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
         if (gauntlet || PunchGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, PunchGauntletAction, current, ticks, delta, 90f)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 180f)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 270f)
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         RenderSystem.disableBlend()
-        client.textureManager.bindTexture(GUI_ICONS_TEXTURE)
+        RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE)
     }
 
     fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction<*>, current: GauntletAction<*>?, ticks: Int, delta: Float, angle: Float) {

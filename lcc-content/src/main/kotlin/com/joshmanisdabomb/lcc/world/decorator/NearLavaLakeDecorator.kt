@@ -30,7 +30,7 @@ class NearLavaLakeDecorator(codec: Codec<NopeDecoratorConfig>) : Decorator<NopeD
             return Stream.empty()
         }
 
-        return Stream.of(pos2.add(random.nextInt(2), random.nextInt(2), random.nextInt(2)))
+        return Stream.of(pos2.method_34592(random.nextInt(2), random.nextInt(2), random.nextInt(2)))
     }
 
 }

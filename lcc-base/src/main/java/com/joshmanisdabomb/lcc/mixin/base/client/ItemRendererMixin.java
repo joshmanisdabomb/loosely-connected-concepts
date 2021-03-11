@@ -36,7 +36,6 @@ public abstract class ItemRendererMixin {
             if (indexes.length <= 0) return;
             RenderSystem.disableDepthTest();
             RenderSystem.disableTexture();
-            RenderSystem.disableAlphaTest();
             RenderSystem.disableBlend();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -48,7 +47,6 @@ public abstract class ItemRendererMixin {
                 this.renderGuiQuad(bufferBuilder, x + 2, y + k, i, 1, j >> 16 & 255, j >> 8 & 255, j & 255, 255);
             }
             RenderSystem.enableBlend();
-            RenderSystem.enableAlphaTest();
             RenderSystem.enableTexture();
             RenderSystem.enableDepthTest();
         }

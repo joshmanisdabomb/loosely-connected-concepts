@@ -34,7 +34,7 @@ abstract class AbstractTreetapBlock(settings: Settings) : HorizontalBlock(settin
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         for (i in -1..1 step 2) {
-            val state2 = world.getBlockState(pos.add(0, i, 0))
+            val state2 = world.getBlockState(pos.method_34592(0, i, 0))
             if (state2.block is AbstractTreetapBlock && state2[HORIZONTAL_FACING] == state[HORIZONTAL_FACING]) return false
         }
         val pos2 = pos.offset(state[HORIZONTAL_FACING].opposite)

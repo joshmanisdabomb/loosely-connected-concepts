@@ -18,7 +18,7 @@ public abstract class GauntletHudMixin {
     @Shadow
     private int ticks;
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;color4f(FFFF)V", ordinal = 1))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 1))
     private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo info) {
         Entity camera = MinecraftClient.getInstance().getCameraEntity();
         if (camera instanceof PlayerEntity) GauntletOverlay.INSTANCE.render(matrixStack, (PlayerEntity)camera, ticks, tickDelta);

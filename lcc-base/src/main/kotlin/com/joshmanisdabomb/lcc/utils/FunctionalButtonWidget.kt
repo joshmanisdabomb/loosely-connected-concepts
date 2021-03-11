@@ -17,7 +17,7 @@ open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, priva
     var sy = 0
 
     override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        texture?.also { MinecraftClient.getInstance().textureManager.bindTexture(it) }
+        texture?.also { RenderSystem.setShaderTexture(0, it) }
         var j = 0
         if (!active) {
             j += width * 2
@@ -44,7 +44,7 @@ open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, priva
         tooltip(matrices, mouseX, mouseY)
     }
 
-    protected open fun onRenderButton(matrices: MatrixStack) = RenderSystem.color4f(1f, 1f, 1f, 1f)
-    protected open fun onRenderIcon(matrices: MatrixStack) = RenderSystem.color4f(1f, 1f, 1f, 1f)
+    protected open fun onRenderButton(matrices: MatrixStack) = RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
+    protected open fun onRenderIcon(matrices: MatrixStack) = RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f)
 
 }

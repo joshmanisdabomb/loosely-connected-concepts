@@ -11,6 +11,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
@@ -42,7 +43,7 @@ object RadiationOverlay : DrawableHelper() {
         val effect = player.getStatusEffect(LCCEffects.radiation)
         if (effect == null && exposure <= 0f) return
 
-        MinecraftClient.getInstance().textureManager.bindTexture(icons)
+        RenderSystem.setShaderTexture(0, icons)
         val ticksf = ticks.plus(if (!MinecraftClient.getInstance().isPaused) MinecraftClient.getInstance().tickDelta else 0f)
         val sw = MinecraftClient.getInstance().window.scaledWidth
         val y = MinecraftClient.getInstance().window.scaledHeight - 46
@@ -65,7 +66,8 @@ object RadiationOverlay : DrawableHelper() {
         renderWave(matrix, x, y, effect, ticks, 2, waveSpeed)
         renderWave(matrix, x, y, effect, ticks, 3, waveSpeed)
         renderWave(matrix, x, y, effect, ticks, 4, waveSpeed)
-        RenderSystem.color4f(1f, 1f, 1f, 1f)
+        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         RenderSystem.disableBlend()
 
         val shakeX: Int
@@ -87,7 +89,7 @@ object RadiationOverlay : DrawableHelper() {
                 renderHeart(matrix, x, shakeX, y, shakeY, exposure, ticks)
             }
         }
-        MinecraftClient.getInstance().textureManager.bindTexture(GUI_ICONS_TEXTURE)
+        RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE)
     }
 
     private fun renderHeart(matrix: MatrixStack, x: Int, shakeX: Int, y: Int, shakeY: Int, exposure: Float, ticks: Int) {
@@ -104,13 +106,13 @@ object RadiationOverlay : DrawableHelper() {
                     if (j == 5 && i !in 2..4) continue
                     if (j == 6 && i != 3) continue
                     val b = random.nextFloat()
-                    RenderSystem.color4f(b, b, b, b.times(2).minus(1).absoluteValue.times(noise).times(0.5f).plus(noise.times(0.5f)))
+                    RenderSystem.setShaderColor(b, b, b, b.times(2).minus(1).absoluteValue.times(noise).times(0.5f).plus(noise.times(0.5f)))
                     this.drawTexture(matrix, x + 8 + i + shakeX, y + 8 + j + shakeY, 31 + i, 31 + j, 1, 1)
                 }
             }
             RenderSystem.disableBlend()
         }
-        RenderSystem.color4f(1f, 1f, 1f, 1f)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
     }
 
     private fun renderWave(matrix: MatrixStack, x: Int, y: Int, effect: StatusEffectInstance?, ticks: Int, wave: Int, waveSpeed: Float) {
@@ -121,7 +123,7 @@ object RadiationOverlay : DrawableHelper() {
             else -> receivingColor
         }
         if (f.rem(2f).toInt() == 0) {
-            RenderSystem.color4f(color.first, color.second, color.third, sin(f.times(pi)).let { it*it*it }.absoluteValue)
+            RenderSystem.setShaderColor(color.first, color.second, color.third, sin(f.times(pi)).let { it*it*it }.absoluteValue)
             this.drawTexture(matrix, x, y, wave.times(23), 0, 23, 23)
         }
     }

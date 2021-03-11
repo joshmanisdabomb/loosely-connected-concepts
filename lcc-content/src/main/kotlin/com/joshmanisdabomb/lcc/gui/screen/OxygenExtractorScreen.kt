@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.inventory.container.OxygenExtractorScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
@@ -55,8 +56,9 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        client!!.textureManager.bindTexture(texture)
+        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShaderTexture(0, texture)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         drawTexture(matrices, x, y + 15, 0, 15, backgroundWidth, 22)
 
         for ((k, v) in oxygenPosition.withIndex()) {

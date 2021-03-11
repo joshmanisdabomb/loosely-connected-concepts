@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay
 import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.text.Text
@@ -20,8 +22,9 @@ class DungeonTableScreen(handler: DungeonTableScreenHandler, inventory: PlayerIn
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
-        RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f)
-        client!!.textureManager.bindTexture(texture)
+        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShaderTexture(0, texture)
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
     }
 

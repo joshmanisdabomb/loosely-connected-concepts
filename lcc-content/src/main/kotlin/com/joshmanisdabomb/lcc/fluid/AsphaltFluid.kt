@@ -4,8 +4,6 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedFluid
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
@@ -75,6 +73,6 @@ class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
 
     override fun lcc_fogColor() = colors
 
-    override fun lcc_fogDensity() = RenderSystem.fogMode(GlStateManager.FogMode.EXP2).let { 0.7f }
+    override fun lcc_fogDensity() = 0.7f//RenderSystem.fogMode(GlStateManager.FogMode.EXP2).let { 0.7f }
 
 }

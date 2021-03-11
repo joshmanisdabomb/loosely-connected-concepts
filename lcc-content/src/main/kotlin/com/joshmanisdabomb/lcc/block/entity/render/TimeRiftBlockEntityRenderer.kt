@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block.entity.render
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
+import com.joshmanisdabomb.lcc.directory.LCCRenderLayers
 import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.utils.RenderingUtils
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
@@ -10,7 +11,6 @@ import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -77,7 +77,7 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
         val z = MathHelper.lerp(tickDelta.toDouble(), lastPos[index].z, pos[index].z)
         color(colors[index], x, y, z)
         matrices.translate(x, y, z)
-        part.render(matrices, texture.getVertexConsumer(vertexConsumers, { RenderLayer.getEntityAlpha(it, 0.0f) }), light, overlay, red * colors[index].x.toFloat(), green * colors[index].y.toFloat(), blue * colors[index].z.toFloat(), 1.0f)
+        part.render(matrices, texture.getVertexConsumer(vertexConsumers, LCCRenderLayers.bright), light, overlay, red * colors[index].x.toFloat(), green * colors[index].y.toFloat(), blue * colors[index].z.toFloat(), 1.0f)
         matrices.pop()
     }
 

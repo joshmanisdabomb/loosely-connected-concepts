@@ -11,9 +11,9 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
-import net.minecraft.class_5865
-import net.minecraft.class_5866
 import net.minecraft.structure.rule.BlockMatchRuleTest
+import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
+import net.minecraft.util.math.floatprovider.UniformFloatProvider
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
@@ -84,25 +84,25 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29065, Blocks.COAL_ORE.defaultState, 14)).averageDepth(YOffset.fixed(64), 64).spreadHorizontally().repeat(15) }
-    val abundant_iron_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29065, Blocks.IRON_ORE.defaultState, 4)).averageDepth(YOffset.fixed(0), 64).spreadHorizontally().repeat(15) }
-    val abundant_iron_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29066, Blocks.DEEPSLATE_IRON_ORE.defaultState, 14)).averageDepth(YOffset.getBottom(), 64).spreadHorizontally().repeat(15) }
-    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29065, Blocks.COPPER_ORE.defaultState, 14)).averageDepth(YOffset.fixed(48), 30).spreadHorizontally().repeat(15) }
+    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, Blocks.COAL_ORE.defaultState, 14)).averageDepth(YOffset.fixed(64), 64).spreadHorizontally().repeat(15) }
+    val abundant_iron_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, Blocks.IRON_ORE.defaultState, 4)).averageDepth(YOffset.fixed(0), 64).spreadHorizontally().repeat(15) }
+    val abundant_iron_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, Blocks.DEEPSLATE_IRON_ORE.defaultState, 14)).averageDepth(YOffset.getBottom(), 64).spreadHorizontally().repeat(15) }
+    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, Blocks.COPPER_ORE.defaultState, 14)).averageDepth(YOffset.fixed(48), 30).spreadHorizontally().repeat(15) }
 
     val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.015f, 1))) }
     val oil_hidden by entry(::initialiser) { Feature.SCATTERED_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 5)).averageDepth(YOffset.fixed(63), 3).spreadHorizontally().applyChance(4) }
 
-    val uranium_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29065, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
-    val uranium_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29066, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
-    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.field_29066, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).rangeOf(YOffset.getBottom(), YOffset.fixed(64)).spreadHorizontally().repeat(3).applyChance(2) }
+    val uranium_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
+    val uranium_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
+    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).rangeOf(YOffset.getBottom(), YOffset.fixed(64)).spreadHorizontally().repeat(3).applyChance(2) }
 
     val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 
-    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), StraightTrunkPlacer(4, 2, 0), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
-    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.natural_rubber_log.defaultState), SimpleBlockStateProvider(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(0), UniformIntDistribution.of(0), 0), StraightTrunkPlacer(4, 3, 1), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
-    val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.007F, 1))) }
-    val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.07F, 1))) }
-    val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
+    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
+    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), SimpleBlockStateProvider(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(0), UniformIntDistribution.of(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
+    val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.field_29534).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.007F, 1))) }
+    val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.field_29534).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.07F, 1))) }
+    val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.field_29534).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -128,7 +128,7 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
     override fun regId(name: String) = LCC.id(name)
 
     val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CarverConfig(0.34F)) }
-    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), YOffset.fixed(10), YOffset.fixed(67), UniformIntDistribution.of(3), class_5866.method_33934(0.75f, 0.25f), class_5866.method_33934(-0.125f, 0.25f), class_5865.method_33926(0.0f, 6.0f, 2.0f), 3, class_5866.method_33934(0.75f, 0.25f), 1.0f, 0.0f)) }
+    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), YOffset.fixed(10), YOffset.fixed(67), UniformIntDistribution.of(3), UniformFloatProvider.create(0.75f, 0.25f), UniformFloatProvider.create(-0.125f, 0.25f), TrapezoidFloatProvider.create(0.0f, 6.0f, 2.0f), 3, UniformFloatProvider.create(0.75f, 0.25f), 1.0f, 0.0f)) }
 
     override fun defaultProperties(name: String) = Unit
 

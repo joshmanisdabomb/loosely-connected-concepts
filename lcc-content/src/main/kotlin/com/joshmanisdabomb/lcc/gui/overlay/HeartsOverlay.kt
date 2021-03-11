@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.toInt
+import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -25,13 +26,13 @@ object HeartsOverlay : DrawableHelper() {
     private val types = HeartType.values().filter { it.drawable }
 
     fun render(matrix: MatrixStack, player: PlayerEntity, armorPosition: Int, ticks: Int) {
-        MinecraftClient.getInstance().textureManager.bindTexture(icons)
+        RenderSystem.setShaderTexture(0, icons)
         var start = armorPosition + 9 + types.filter { it.getMaxHealth(player) > 0 }.count()
         for (type in types.filter { it.getMaxHealth(player) > 0 }.sortedBy { it.sortOrder }) {
             renderHealthBar(matrix, player, type, start, ticks)
             start += getTypeSpace(ceil(type.getMaxHealth(player)))
         }
-        MinecraftClient.getInstance().textureManager.bindTexture(GUI_ICONS_TEXTURE)
+        RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE)
     }
 
     fun getHeartRows(maxHealth: Int) = ceil(maxHealth.div(20.0))

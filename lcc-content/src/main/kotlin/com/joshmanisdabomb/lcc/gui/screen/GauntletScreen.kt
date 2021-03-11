@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.extensions.toInt
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
+import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
@@ -64,12 +65,12 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
             PunchGauntletAction -> this.fillGradient(matrix, width.div(2), 0, width, height.div(2), 0x901080A0.toInt(), 0xC01080A0.toInt())
         }
 
-        client!!.textureManager.bindTexture(texture)
+        RenderSystem.setShaderTexture(0, texture)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
         renderAttack(matrix, camera, PunchGauntletAction, current, ticks, delta, 90f)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 180f)
         renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 270f)
-        client!!.textureManager.bindTexture(GUI_ICONS_TEXTURE)
+        RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE)
 
         super.render(matrix, mouseX, mouseY, delta)
     }

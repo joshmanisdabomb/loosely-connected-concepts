@@ -17,7 +17,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.LightType
 import java.util.*
 
-class SolarPanelBlock(settings: Settings, val energy: Float = 3f) : SimpleEnergyBlock(settings) {
+class SolarPanelBlock(settings: Settings, val energy: Float = 0.6f) : SimpleEnergyBlock(settings) {
 
     override val network = FullBlockNetwork({ _, _, state, side -> if (side.isHorizontal) state.isOf(this) else false }, { _, _, state, side -> if (side?.isHorizontal != false && state.isOf(this) && state[Properties.POWERED]) arrayOf("powered") else emptyArray() }, 64)
 

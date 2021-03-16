@@ -1,26 +1,18 @@
 package com.joshmanisdabomb.lcc.mixin.base.client;
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock;
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {

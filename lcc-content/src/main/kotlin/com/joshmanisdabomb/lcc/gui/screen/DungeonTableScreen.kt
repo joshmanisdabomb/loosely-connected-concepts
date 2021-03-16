@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay
 import com.joshmanisdabomb.lcc.inventory.container.DungeonTableScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.ingame.HandledScreen

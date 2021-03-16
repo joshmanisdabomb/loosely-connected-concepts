@@ -40,7 +40,7 @@ object LCCItems : ItemDirectory() {
     //Gizmos
     val asphalt_bucket by entry(::initialiser) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(99)))
-    val oxygen_tank by entry(::initialiser) { OxygenStorageItem(6000f, Item.Settings().maxCount(1).defaults()) }
+    val oxygen_tank by entry(::initialiser) { OxygenStorageItem(12000f, Item.Settings().maxCount(1).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
 
     //Materials
@@ -161,6 +161,8 @@ object LCCItems : ItemDirectory() {
     //Power
     val turbine_blades by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(3)))
+    val nuclear_fuel by entry(::initialiser) { RadioactiveItem(2, 2, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(4)))
     val redstone_battery by entry(::initialiser) { BatteryItem(LooseEnergy.fromCoals(4f), Item.Settings().maxCount(1).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor))
 
@@ -189,6 +191,7 @@ object LCCItems : ItemDirectory() {
     //Wasteland
     val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100)))
+    //IDEA forget me not, forget villager trades and entity hostility
 
     //Nostalgia
     val simulation_fabric by entry(::initialiser) { Item(Item.Settings().defaults()) }

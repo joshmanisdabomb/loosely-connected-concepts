@@ -27,8 +27,8 @@
   "lang": "container.lcc.refining.recipe.treating",
   "icon": 2,
   "state": "treating",
-  "energy": 50.0,
-  "ticks": 40,
+  "energy": 40.0,
+  "ticks": 200,
   "gain": 0.04,
   "maxGain": 100.0
 }

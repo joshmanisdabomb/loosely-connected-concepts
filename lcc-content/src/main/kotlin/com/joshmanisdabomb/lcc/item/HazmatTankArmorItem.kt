@@ -9,6 +9,8 @@ import com.joshmanisdabomb.lcc.extensions.toInt
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
@@ -22,9 +24,13 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
     override fun getMaxOxygen(stack: ItemStack) = LCCItems.oxygen_tank.max
 
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
-        if (entity.armorItems.any { it.item !is HazmatArmorItem }) return
+        if (!hasFullSuit(stack, entity.armorItems)) return
         if (entity.armorItems.indexOf(stack) <= -1) return
         this.addOxygen(stack, -1f)
+        (entity as? PlayerEntity)?.also {
+            val effect = it.getStatusEffect(StatusEffects.HUNGER) ?: return@also
+            this.addOxygen(stack, 0.05F.times(effect.amplifier + 1))
+        }
     }
 
     override fun appendStacks(group: ItemGroup, stacks: DefaultedList<ItemStack>) {

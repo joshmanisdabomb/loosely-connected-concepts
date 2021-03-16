@@ -25,8 +25,8 @@
   "lang": "container.lcc.refining.recipe.dry",
   "icon": 4,
   "state": "drying",
-  "energy": 5.0,
+  "energy": 6.6666665,
   "ticks": 1200,
-  "gain": 0.01,
+  "gain": 0.008,
   "maxGain": 400.0
 }

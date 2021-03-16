@@ -7,10 +7,10 @@ import java.util.function.Consumer
 
 interface JsonFactoryAccess {
 
-    fun offerTo(exporter: Consumer<RecipeJsonProvider>)
+    fun offerTo(exporter: Consumer<RecipeJsonProvider>): JsonFactoryAccess
 
-    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier)
+    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier): JsonFactoryAccess
 
-    fun criterion(criterionName: String, conditions: CriterionConditions)
+    fun criterion(criterionName: String, conditions: CriterionConditions): JsonFactoryAccess
 
 }

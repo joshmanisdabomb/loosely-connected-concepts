@@ -14,6 +14,7 @@ import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactor
 import com.joshmanisdabomb.lcc.data.factory.translation.TransformTranslationFactory
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
@@ -45,8 +46,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .addOutput(LCCItems.heavy_uranium, 1)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.uranium", 1, RefiningBlock.RefiningProcess.ENRICHING)
-            .energyPerTick(75f)
-            .speed(300, 0.01f, 100f)
+            .speed(4000, 0.005f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(24f))
             .apply { hasCriterionInterface(this, LCCItems.uranium) }
             .apply { offerInterface(this, d, suffix(i.identifier.run { LCC.id(path) }, "from_refiner")) }
     }).add(ItemTagFactory(LCCTags.enriched_uranium)) }
@@ -133,8 +134,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .addOutput(i)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.asphalt_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
-            .energyPerTick(5f)
-            .speed(6000, 0.03f, 400f)
+            .speed(6000, 0.012f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(6f))
             .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
             .apply { offerInterface(this, d) }
     }) }
@@ -159,8 +160,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .addOutput(i)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
-            .energyPerTick(20f)
-            .speed(300, 0.04f, 200f)
+            .speed(600, 0.006f, 200f)
+            .energyPerOperation(LooseEnergy.fromCoals(3f))
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d) }
         RefiningShapelessRecipeJsonFactory()
@@ -170,8 +171,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .addOutput(i, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.2f))
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
-            .energyPerTick(17.5f)
-            .speed(400, 0.02f, 200f)
+            .speed(650, 0.006f, 200f)
+            .energyPerOperation(LooseEnergy.fromCoals(3.3f))
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(loc(i), "from_red_sand")) }
     }) }
@@ -185,6 +186,18 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .criterion("has_generator", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.generators).build()))
             .apply { offerShaped(this, d) }
     }) }
+    val nuclear_fuel by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.enriched_uranium_nugget)
+            .addInput(LCCItems.heavy_uranium_nugget, 2)
+            .addOutput(i, 2)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.pellet_compression", 5, RefiningBlock.RefiningProcess.PRESSING)
+            .speed(1200, 0.006f, 200f)
+            .energyPerOperation(LooseEnergy.fromCoals(10f))
+            .apply { hasCriterionInterface(this, LCCItems.heavy_uranium_nugget) }
+            .apply { offerInterface(this, d) }
+    }) }
 
     val flexible_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
@@ -193,9 +206,9 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .addOutput(Items.GLASS_BOTTLE, 4)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.dry", 4, RefiningBlock.RefiningProcess.DRYING)
-            .energyPerTick(5f)
-            .speed(1200, 0.01f, 400f)
-            .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
+            .speed(1200, 0.008f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(1f))
+            .apply { hasCriterionInterface(this, LCCItems.latex_bottle) }
             .apply { offerInterface(this, d) }
     }) }
     val heavy_duty_rubber by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(SmeltFromItemRecipeFactory(LCCItems.flexible_rubber, RecipeSerializer.SMELTING, experience = 0.1f)) }

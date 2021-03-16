@@ -32,8 +32,8 @@
   "lang": "container.lcc.refining.recipe.pozzolanic_mixing",
   "icon": 0,
   "state": "mixing",
-  "energy": 10.0,
-  "ticks": 1200,
-  "gain": 0.08,
+  "energy": 7.5,
+  "ticks": 1600,
+  "gain": 0.04,
   "maxGain": 400.0
 }

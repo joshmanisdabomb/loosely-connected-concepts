@@ -173,6 +173,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(21)))
     val heavy_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31)))
+    val heavy_uranium_shielding by entry(::initialiser) { RadioactiveShieldingBlock(6, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(10.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.FUNGUS)) }
+        .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(35)))
     val nuclear_waste by entry(::initialiser) { NuclearWasteBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_CYAN).strength(-1f, 3600000f).sounds(BlockSoundGroup.CORAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(40, 1)))
     val nuclear_fire by entry(::initialiser) { NuclearFireBlock(FabricBlockSettings.of(Material.FIRE, MapColor.LIME).noCollision().breakInstantly().luminance { 15 }.ticksRandomly().sounds(BlockSoundGroup.WOOL)) }
@@ -204,6 +206,8 @@ object LCCBlocks : BlockDirectory() {
     val coal_generator by entry(::initialiser) { CoalFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val oil_generator by entry(::initialiser) { OilFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+        .setProperties(BlockExtraSettings().creativeEx(POWER))
+    val nuclear_generator by entry(::initialiser) { OilFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val turbine by entry(::initialiser) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))

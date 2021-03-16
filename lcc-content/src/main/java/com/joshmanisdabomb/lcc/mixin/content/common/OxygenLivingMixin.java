@@ -1,27 +1,18 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
-import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor;
-import com.joshmanisdabomb.lcc.component.GauntletActorComponent;
-import com.joshmanisdabomb.lcc.component.GauntletTargetComponent;
-import com.joshmanisdabomb.lcc.directory.LCCComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Packet;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(LivingEntity.class)
 public abstract class OxygenLivingMixin extends Entity {

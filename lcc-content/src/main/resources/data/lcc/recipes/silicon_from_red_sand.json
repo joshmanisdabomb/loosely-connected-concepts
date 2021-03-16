@@ -30,8 +30,8 @@
   "lang": "container.lcc.refining.recipe.arc",
   "icon": 3,
   "state": "arc_smelting",
-  "energy": 17.5,
-  "ticks": 400,
-  "gain": 0.02,
+  "energy": 40.615383,
+  "ticks": 650,
+  "gain": 0.006,
   "maxGain": 200.0
 }

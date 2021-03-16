@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.utils
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AbstractPressableButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text

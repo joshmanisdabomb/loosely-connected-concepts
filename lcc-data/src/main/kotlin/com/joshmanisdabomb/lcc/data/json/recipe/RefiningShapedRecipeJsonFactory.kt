@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.json.recipe
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.block.RefiningBlock
+import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
@@ -11,7 +12,6 @@ import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.CriterionMerger
 import net.minecraft.advancement.criterion.CriterionConditions
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
-import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
@@ -31,7 +31,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
     private val builder = Advancement.Task.create()
     private var group: String? = null
 
-    private val blocks = mutableListOf<Block>()
+    private val blocks = mutableListOf<RefiningBlock>()
     private lateinit var lang: String
     private var icon by Delegates.notNull<Int>()
     private lateinit var state: RefiningBlock.RefiningProcess
@@ -69,8 +69,9 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
         }
     }
 
-    override fun criterion(criterionName: String, conditions: CriterionConditions) {
+    override fun criterion(criterionName: String, conditions: CriterionConditions): RefiningShapedRecipeJsonFactory {
         builder.criterion(criterionName, conditions)
+        return this
     }
 
     fun group(group: String): RefiningShapedRecipeJsonFactory {
@@ -92,6 +93,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
 
     fun energyPerTick(energy: Float): RefiningShapedRecipeJsonFactory {
         this.energy = energy
+
         return this
     }
 
@@ -102,24 +104,31 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>) {
+    fun energyPerOperation(energy: Float) = energyPerTick(energy.div(ticks))
+
+    override fun offerTo(exporter: Consumer<RecipeJsonProvider>): RefiningShapedRecipeJsonFactory {
         this.offerTo(exporter, Registry.ITEM.getId(outputs.first().item))
+        return this
     }
 
-    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeIdStr: String) {
+    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeIdStr: String): RefiningShapedRecipeJsonFactory {
         val identifier = Registry.ITEM.getId(outputs.first().item)
         check(Identifier(recipeIdStr) != identifier) { "Shaped Recipe $recipeIdStr should remove its 'save' argument" }
         this.offerTo(exporter, Identifier(recipeIdStr))
+        return this
     }
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier) {
+    override fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier): RefiningShapedRecipeJsonFactory {
         builder.parent(Identifier("recipes/root")).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR)
         exporter.accept(RefiningShapedRecipeJsonProvider(recipeId, group ?: "", pattern, inputs, builder, Identifier(recipeId.namespace, "recipes/" + outputs.first().item.group?.name + "/" + recipeId.path), outputs, outputFunctions, inputCounts, blocks, lang, icon, state, energy, ticks, gain, maxGain))
+        return this
     }
 
-    class RefiningShapedRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val pattern: List<String>, private val inputs: Map<Char, Ingredient>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningRecipe.OutputFunction?>, private val inputCounts: MutableMap<Char, Int>, private val blocks: MutableList<Block>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
+    class RefiningShapedRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val pattern: List<String>, private val inputs: Map<Char, Ingredient>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningRecipe.OutputFunction?>, private val inputCounts: MutableMap<Char, Int>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
 
         override fun serialize(json: JsonObject) {
+
+            check(energy <= RefiningBlockEntity.energyPerTick) { "Recipe $recipeId has energy requirement $energy which exceeds the energy per tick limit of ${RefiningBlockEntity.energyPerTick}." }
 
             if (group.isNotEmpty()) json.addProperty("group", group)
 

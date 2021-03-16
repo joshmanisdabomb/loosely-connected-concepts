@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.LCC
 import net.minecraft.entity.damage.DamageSource
 
 class LCCDamageSource(name: String, bypassArmor: Boolean = false, unblockable: Boolean = false, fire: Boolean = false) : DamageSource(name) {

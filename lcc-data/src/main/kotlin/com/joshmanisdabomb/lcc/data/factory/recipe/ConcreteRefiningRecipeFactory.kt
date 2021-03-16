@@ -28,8 +28,8 @@ object ConcreteRefiningRecipeFactory : RecipeFactory {
                 .addOutput(concrete, 16)
                 .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
                 .meta("container.lcc.refining.recipe.pozzolanic_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
-                .energyPerTick(LooseEnergy.fromCoals(1.5f).div(1200f))
-                .speed(1200, 0.08f, 400f)
+                .speed(1600, 0.04f, 400f)
+                .energyPerOperation(LooseEnergy.fromCoals(1.5f))
                 .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
                 .apply { offerInterface(this, data, suffix(concrete.identifier.run { LCC.id(path) }, "from_refiner")) }
         }

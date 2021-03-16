@@ -228,6 +228,8 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     }
 
     companion object {
+        const val energyPerTick = 100f
+
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: RefiningBlockEntity) {
             entity.currentRecipeDelegate?.also {
                 val recipe = world.recipeManager[it].orElse(null) as? RefiningRecipe
@@ -267,7 +269,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
             EnergyTransaction()
                 .apply { entity.inventory.slotsIn("fuels")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
                 .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values()) }
-                .run(100f)
+                .run(energyPerTick)
         }
     }
 

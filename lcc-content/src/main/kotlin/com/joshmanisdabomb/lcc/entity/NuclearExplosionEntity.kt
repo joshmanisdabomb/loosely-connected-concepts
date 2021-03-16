@@ -170,12 +170,13 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     }
 
     private fun alterBlocks(world: World, target: BlockPos, state: BlockState, block: Block, above: BlockPos, mod: Double, mod2: Double, mod_waste: Double, mod_fire: Double): Boolean {
-        val resistance = (block.blastResistance * block.blastResistance * block.blastResistance).div(240.0).coerceIn(0.01, 0.9).times(mod)
+        val resistance = (block as? LCCExtendedBlockContent)?.lcc_content_nukeResistance(state, target, fast_rand) ?: block.blastResistance
+        val r = resistance.times(resistance).times(resistance).div(240.0).coerceIn(0.01, 0.9).times(mod)
 
         if (block is FluidBlock) {
             world.setBlockState(target, state_air, flags, depth)
             return false
-        } else if (block.blastResistance > 2000 || fast_rand.nextDouble() <= mod2.plus(resistance)) {
+        } else if (resistance > 2000 || fast_rand.nextDouble() <= mod2.plus(r)) {
             return true
         } else {
             if (fast_rand.nextDouble() > mod_waste) {

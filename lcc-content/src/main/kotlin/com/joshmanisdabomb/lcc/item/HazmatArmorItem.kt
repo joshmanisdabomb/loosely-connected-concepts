@@ -15,6 +15,8 @@ open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArm
 
     override fun defaultColor(stack: ItemStack) = 0x909090
 
+    override fun hasFullSuit(piece: ItemStack, pieces: Iterable<ItemStack>) = pieces.all { it.item is HazmatArmorItem }
+
     override fun disableEating(entity: PlayerEntity, stack: ItemStack, pieces: Iterable<ItemStack>) = this.slot == EquipmentSlot.HEAD
 
     override fun blockStatusEffect(entity: LivingEntity, effect: StatusEffectInstance, stack: ItemStack, pieces: Iterable<ItemStack>): Boolean {

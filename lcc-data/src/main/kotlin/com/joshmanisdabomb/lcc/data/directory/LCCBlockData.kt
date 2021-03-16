@@ -64,13 +64,13 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
 
     val soaking_soul_sand by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().defaultBlockAsset().add(CustomRecipeFactory { d, i ->
         ShapelessRecipeJsonFactory.create(i, 8)
-            .input(Blocks.WET_SPONGE)
-            .input(Blocks.SOUL_SAND, 8)
+            .input(Blocks.WET_SPONGE, 4)
+            .input(Blocks.SOUL_SAND, 4)
             .apply { hasCriterionShapeless(this, Blocks.SPONGE) }
             .apply { offerShapeless(this, d) }
     }) }
     val bounce_pad by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(BouncePadBlockAssetFactory).add(BouncePadItemAssetFactory).add(CustomRecipeFactory { d, i ->
-        ShapedRecipeJsonFactory.create(i)
+        ShapedRecipeJsonFactory.create(i, 6)
             .pattern("rwr")
             .pattern("ipi")
             .pattern("sss")
@@ -162,8 +162,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .addOutput(Items.IRON_NUGGET, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.03f))
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.treating", 2, RefiningBlock.RefiningProcess.TREATING)
-            .energyPerTick(LooseEnergy.fromCoals(0.25f).div(40f))
-            .speed(40, 0.04f, 100f)
+            .speed(200, 0.04f, 100f)
+            .energyPerOperation(LooseEnergy.fromCoals(1f))
             .apply { hasCriterionInterface(this, LCCBlocks.refiner) }
             .apply { offerInterface(this, d, suffix(Items.LEATHER.identifier.run { LCC.id(path) }, "from_refiner")) }
     }) }
@@ -312,6 +312,19 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val classic_mossy_cobblestone_slab by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCC.id("block/classic_mossy_cobblestone")) { d, b -> loc(LCCBlocks.classic_mossy_cobblestone) }).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.classic_mossy_cobblestone)).add(RiftFromItemRecipeFactory(Blocks.MOSSY_COBBLESTONE_SLAB)).add(SlabLootFactory) }
     val rhyolite_stairs by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(StairsBlockAssetFactory(LCC.id("block/rhyolite"))).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.rhyolite)) }
     val rhyolite_slab by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCC.id("block/rhyolite")) { d, b -> loc(LCCBlocks.rhyolite) }).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.rhyolite)).add(SlabLootFactory) }
+
+    val heavy_uranium_shielding by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(Blocks.SAND, 4)
+            .addInput(LCCItems.heavy_uranium_nugget, 4)
+            .addOutput(i, 1)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.ducrete_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
+            .speed(2000, 0.04f, 100f)
+            .energyPerOperation(LooseEnergy.fromCoals(5f))
+            .apply { hasCriterionInterface(this, LCCItems.heavy_uranium_nugget) }
+            .apply { offerInterface(this, d) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

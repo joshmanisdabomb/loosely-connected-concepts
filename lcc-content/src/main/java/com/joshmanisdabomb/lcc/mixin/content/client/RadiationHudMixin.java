@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.mixin.content.client;
 
-import com.joshmanisdabomb.lcc.gui.overlay.HeartsOverlay;
 import com.joshmanisdabomb.lcc.gui.overlay.RadiationOverlay;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;

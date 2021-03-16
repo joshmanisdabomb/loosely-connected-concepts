@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_refiner": {
+    "has_latex_bottle": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:refiner"
+            "item": "lcc:latex_bottle"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_refiner",
+      "has_latex_bottle",
       "has_the_recipe"
     ]
   ]

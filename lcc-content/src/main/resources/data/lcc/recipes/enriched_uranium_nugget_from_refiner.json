@@ -26,8 +26,8 @@
   "lang": "container.lcc.refining.recipe.uranium",
   "icon": 1,
   "state": "enriching",
-  "energy": 75.0,
-  "ticks": 300,
-  "gain": 0.01,
-  "maxGain": 100.0
+  "energy": 48.0,
+  "ticks": 4000,
+  "gain": 0.005,
+  "maxGain": 400.0
 }

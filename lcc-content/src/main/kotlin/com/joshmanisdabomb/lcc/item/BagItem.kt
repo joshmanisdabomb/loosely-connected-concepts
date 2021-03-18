@@ -42,18 +42,18 @@ interface BagItem {
         if (clickType != ClickType.RIGHT) return false
         val its = slot.stack
         if (its.isEmpty) {
-            retrieveBagStack(stack).ifPresent { transferBagStack(stack, slot.method_32756(it)) }
-        } else if (its.item.hasStoredInventory()) {
+            retrieveBagStack(stack).ifPresent { transferBagStack(stack, slot.insertStack(it)) }
+        } else if (its.item.canBeNested()) {
             if (!canBagStore(its)) return false
             val i = (size - getBagTotalOccupancy(stack)) / getBagItemOccupancy(its)
-            transferBagStack(stack, slot.method_32753(its.count, i, player))
+            transferBagStack(stack, slot.takeStackRange(its.count, i, player))
         }
         return true
     }
 
     @JvmDefault
     fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, commandItemSlot: CommandItemSlot): Boolean {
-        return if (clickType == ClickType.RIGHT && slot.method_32754(player)) {
+        return if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {
             if (otherStack.isEmpty) {
                 retrieveBagStack(stack).ifPresent(commandItemSlot::set)
             } else {
@@ -165,7 +165,7 @@ interface BagItem {
 
     @JvmDefault
     fun transferBagStack(bundle: ItemStack, stack: ItemStack): Int {
-        return if (!stack.isEmpty && stack.item.hasStoredInventory()) {
+        return if (!stack.isEmpty && stack.item.canBeNested()) {
             val compoundTag = bundle.orCreateTag
             if (!compoundTag.contains("Items")) {
                 compoundTag.put("Items", ListTag())

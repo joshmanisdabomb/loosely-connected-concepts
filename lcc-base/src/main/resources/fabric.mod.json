@@ -50,5 +50,6 @@
   "custom": {
     "modmenu:api": true,
     "modmenu:parent": "lcc-mod"
-  }
+  },
+  "accessWidener": "lcc-base.accesswidener"
 }

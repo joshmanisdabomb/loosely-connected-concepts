@@ -49,7 +49,7 @@ class QuiverItem(override val size: Int, settings: Settings) : Item(settings), L
     }
 
     override fun lcc_pickupItemListen(world: World, stack: ItemStack, slot: Int, acquired: ItemStack, player: PlayerEntity, entity: ItemEntity): Boolean? {
-        if (!stack.isEmpty && !acquired.isEmpty && canBagStore(acquired) && acquired.item.hasStoredInventory()) {
+        if (!stack.isEmpty && !acquired.isEmpty && canBagStore(acquired) && acquired.item.canBeNested()) {
             acquired.decrement(transferBagStack(stack, acquired))
             return if (!acquired.isEmpty) null else true
         }
@@ -57,7 +57,7 @@ class QuiverItem(override val size: Int, settings: Settings) : Item(settings), L
     }
 
     override fun lcc_pickupProjectileListen(world: World, stack: ItemStack, slot: Int, acquired: ItemStack, player: PlayerEntity, entity: PersistentProjectileEntity): Boolean? {
-        if (!stack.isEmpty && !acquired.isEmpty && canBagStore(acquired) && acquired.item.hasStoredInventory()) {
+        if (!stack.isEmpty && !acquired.isEmpty && canBagStore(acquired) && acquired.item.canBeNested()) {
             acquired.decrement(transferBagStack(stack, acquired))
             return if (!acquired.isEmpty) null else true
         }

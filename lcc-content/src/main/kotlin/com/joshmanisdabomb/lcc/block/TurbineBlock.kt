@@ -60,7 +60,7 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shape
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
-        steamProviderRun(world, pos) { w, provider, p, below, pos2, distance -> lcc_content_createParticles(w, provider, p, below, pos2, distance, random) }
+        steamProviderRun(world, pos) { w, provider, p, below, pos2, distance -> lcc_content_steamProviderParticles(w, provider, p, below, pos2, distance, random) }
     }
 
     protected fun <T> steamProviderRun(world: BlockView, pos: BlockPos, callback: LCCExtendedBlockContent.(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos, turbineDist: Int) -> T): T? {

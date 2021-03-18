@@ -201,13 +201,17 @@ object LCCBlocks : BlockDirectory() {
     //IDEA rainbow refiner (saturator?)
 
     //Power
+    val machine_enclosure by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+        .setProperties(BlockExtraSettings().creativeEx(POWER))
     val power_cable by entry(::initialiser) { PowerCableBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(1.1F, 1.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val coal_generator by entry(::initialiser) { CoalFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val oil_generator by entry(::initialiser) { OilFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
-    val nuclear_generator by entry(::initialiser) { OilFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(4.0F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+    val nuclear_generator by entry(::initialiser) { NuclearFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(6.0F, 3.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+        .setProperties(BlockExtraSettings().creativeEx(POWER))
+    val exploding_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val turbine by entry(::initialiser) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))

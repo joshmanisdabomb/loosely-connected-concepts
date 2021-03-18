@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.utils.RenderingUtils
 import net.minecraft.client.render.*
 import net.minecraft.util.Identifier
 
@@ -28,8 +29,7 @@ object LCCRenderLayers : BasicDirectory<(Identifier) -> RenderLayer, Unit>() {
 
     fun initialiser(input: (Identifier) -> RenderLayer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
-    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = RenderLayer.of(name, vertexFormat, drawMode, expectedBuffer, parameters)
-    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, crumbling: Boolean, translucent: Boolean, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = RenderLayer.of(name, vertexFormat, drawMode, expectedBuffer, crumbling, translucent, parameters)
+    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, crumbling: Boolean, translucent: Boolean, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = RenderingUtils.renderLayer(name, vertexFormat, drawMode, expectedBuffer, crumbling, translucent, parameters)
 
     override fun defaultProperties(name: String) = Unit
 

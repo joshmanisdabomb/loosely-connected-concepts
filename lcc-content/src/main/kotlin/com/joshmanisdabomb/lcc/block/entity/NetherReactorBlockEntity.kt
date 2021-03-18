@@ -62,7 +62,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
             val netherSpire = world.structureManager.getStructure(nether_spire) ?: return
             val size = netherSpire.size
             bossInfoTracking(world)
-            netherSpire.place(world, pos.method_34592(-size.x / 2, -1, -size.z / 2), pos.method_34592(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(world.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_air).addProcessor(nether_spire_always_netherrack), world.random, 3)
+            netherSpire.place(world, pos.add(-size.x / 2, -1, -size.z / 2), pos.add(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(world.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_air).addProcessor(nether_spire_always_netherrack), world.random, 3)
             val bp = BlockPos.Mutable()
             for (i in -8..8) {
                 for (k in -8..8) {
@@ -158,7 +158,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                         entity.activeTicks = -1
                         val netherSpire = sworld?.structureManager?.getStructure(nether_spire) ?: return
                         val size = netherSpire.size
-                        netherSpire.place(sworld, pos.method_34592(-size.x / 2, -1, -size.z / 2), pos.method_34592(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(sworld.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_ignore).addProcessor(nether_spire_integrity).addProcessor(nether_spire_always_netherrack), sworld.random, 3)
+                        netherSpire.place(sworld, pos.add(-size.x / 2, -1, -size.z / 2), pos.add(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(sworld.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_ignore).addProcessor(nether_spire_integrity).addProcessor(nether_spire_always_netherrack), sworld.random, 3)
                         return
                     }
                 } else if (entity.activeTicks == 880) {

@@ -33,7 +33,7 @@ open class FunctionalGrassBlock(val change: (world: World, source: BlockState?, 
         } else {
             if (world.getLightLevel(pos.up()) >= lightRequired) {
                 for (i in 0..3) {
-                    val pos2 = pos.method_34592(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1)
+                    val pos2 = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1)
                     if (survives(state, world, pos2, true)) {
                         val param = world.getBlockState(pos2)
                         if (param.block != this) {

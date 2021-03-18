@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.mixin.base.common;
 
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(PersistentProjectileEntity.class)
@@ -26,8 +28,8 @@ public abstract class ImplProjectileEntityMixin extends Entity {
     @Shadow @Final
     protected abstract ItemStack asItemStack();
 
-    @Inject(method = "onPlayerCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-    public void onPlayerCollide(PlayerEntity player, CallbackInfo info, boolean allowed) {
+    @Inject(method = "method_34713", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"), cancellable = true)
+    public void onPlayerCollide(PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
         ItemStack stack = this.asItemStack();
         Item item = stack.getItem();
         if (item instanceof LCCExtendedItem) {

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.adaptation;
 
-import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
+import com.joshmanisdabomb.lcc.block.AbstractFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import net.minecraft.block.Block
@@ -27,7 +27,10 @@ interface LCCExtendedBlockContent {
         if (provider.isOf(Blocks.WATER_CAULDRON)) {
             val block = below.block
             return when (block) {
-                is FiredGeneratorBlock -> block.getSteam(world, pos2, below).run { if (this <= 0f) null else this }
+                is AbstractFiredGeneratorBlock ->
+                    if (below[Properties.LIT]) {
+                        block.getSteam(world, pos2, below).run { if (this <= 0f) null else this }
+                    } else 0f
                 else -> { TurbineBlock.getGeothermalLevel(world, pos2, below, block) }
             }
         }
@@ -35,12 +38,12 @@ interface LCCExtendedBlockContent {
     }
 
     @JvmDefault
-    fun lcc_content_createParticles(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos, turbineDist: Int, random: Random) {
+    fun lcc_content_steamProviderParticles(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos, turbineDist: Int, random: Random) {
         if (world !is WorldAccess) return
         if (provider.isOf(Blocks.WATER_CAULDRON)) {
             val block = below.block
             when (block) {
-                is FiredGeneratorBlock -> {
+                is AbstractFiredGeneratorBlock -> {
                     if (below[Properties.LIT]) {
                         for (j in 0..(lcc_content_getSteamMultiplier(world, provider, pos, below, pos2) ?: 0f).times(3).roundToInt()) {
                             world.addParticle(LCCParticles.steam, pos.x.plus(0.4).plus(random.nextDouble().times(0.2)), pos.y.plus(0.7), pos.z.plus(0.4).plus(random.nextDouble().times(0.2)), 0.0, random.nextDouble().times(0.1), 0.0)

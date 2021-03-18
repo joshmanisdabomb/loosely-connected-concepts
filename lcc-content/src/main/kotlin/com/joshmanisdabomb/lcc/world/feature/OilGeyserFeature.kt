@@ -30,10 +30,10 @@ class OilGeyserFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
                     world.setBlockState(bp.offset(direction), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, (i == height.minus(1)).toInt(7, (i == -1).toInt(0, 8))).with(GEYSER, i > -1), 18)
                     if (i == 0) {
                         world.setBlockState(bp.offset(direction, 2), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 7), 18)
-                        world.setBlockState(bp.method_34592(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 7), 18)
+                        world.setBlockState(bp.add(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 7), 18)
                     } else if (i == -1) {
                         if (random.nextInt(2) == 0) world.setBlockState(bp.offset(direction, 2), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
-                        if (random.nextInt(2) == 0) world.setBlockState(bp.method_34592(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
+                        if (random.nextInt(2) == 0) world.setBlockState(bp.add(if (j % 2 == 0) 1 else -1, 0, if (j / 2 == 0) 1 else -1), LCCBlocks.oil.defaultState.with(FluidBlock.LEVEL, 0), 18)
                     }
                 }
             }

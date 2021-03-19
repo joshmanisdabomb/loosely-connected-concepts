@@ -150,6 +150,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     val bounce_pad by entry(::initialiser) { BouncePadBlock(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).strength(5.0F, 6.0F).sounds(BlockSoundGroup.COPPER), doubleArrayOf(1.0, 1.4, 1.8, 2.2, 2.6)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
+    //TODO rope
 
     //Wasteland
     val cracked_mud by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
@@ -161,6 +162,7 @@ object LCCBlocks : BlockDirectory() {
     //TODO minesweep blocks
     //TODO fortstone
     //TODO reinforced stone or similar for nuke protection
+    //TODO sapphire altar
 
     //Nuclear
     val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }

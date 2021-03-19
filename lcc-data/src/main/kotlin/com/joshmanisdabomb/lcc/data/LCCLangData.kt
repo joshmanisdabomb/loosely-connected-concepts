@@ -49,6 +49,7 @@ object LCCLangData {
 
         lang["en_us"]!!["container.lcc.generator.burn"] = "Remaining Time: %1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.generator.output"] = "Steam Produced: %1\$s/t\nBase Steam from Fuel: %2\$s/t\nSteam Multiplier from Water: %3\$s%%"
+        lang["en_us"]!!["container.lcc.generator.power"] = "Power: %1\$s"
 
         lang["en_us"]!!["container.lcc.battery.power"] = "Power: %1\$s"
 
@@ -58,6 +59,9 @@ object LCCLangData {
 
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["en_us"]!!["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"
+        lang["en_us"]!!["gui.lcc.nuclear_generator.toggle"] = "Power Toggle"
+        lang["en_us"]!!["gui.lcc.nuclear_generator.activate"] = "Power On"
+        lang["en_us"]!!["gui.lcc.nuclear_generator.deactivate"] = "Power Off"
 
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["en_us"]!!["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

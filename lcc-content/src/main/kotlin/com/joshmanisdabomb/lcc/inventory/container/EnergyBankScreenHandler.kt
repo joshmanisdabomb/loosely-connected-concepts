@@ -21,8 +21,8 @@ class EnergyBankScreenHandler(syncId: Int, playerInventory: PlayerInventory, inv
     override val block get() = LCCBlocks.energy_bank
 
     init {
-        addSlots(inventory, 15, 37, 3, 1, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { StackEnergyHandler.containsPower(it) } }
-        addSlots(inventory, 108, 37, 3, 1, ::addSlot, start = 3) { inv, index, x, y -> PredicatedSlot(inv, index, x, y) { StackEnergyHandler.containsPower(it) } }
+        addSlots(inventory, 15, 37, 3, 1, ::addSlot, start = 0) { inv, index, x, y -> PredicatedSlot(inv, index, x, y, StackEnergyHandler.Companion::containsPower) }
+        addSlots(inventory, 108, 37, 3, 1, ::addSlot, start = 3) { inv, index, x, y -> PredicatedSlot(inv, index, x, y, StackEnergyHandler.Companion::containsPower) }
 
         addPlayerSlots(playerInventory, 8, 68, ::addSlot)
     }

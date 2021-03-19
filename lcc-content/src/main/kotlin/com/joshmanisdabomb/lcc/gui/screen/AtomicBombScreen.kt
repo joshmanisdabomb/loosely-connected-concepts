@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.inventory.container.AtomicBombScreenHandler
 import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
 import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.GameRenderer
@@ -26,7 +26,7 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         run {
             val world = MinecraftClient.getInstance().world?.registryKey ?: return@run
             val pos = handler.pos ?: return@run
-            ClientSidePacketRegistry.INSTANCE.sendToServer(LCCPacketsToServer[LCCPacketsToServer::atomic_bomb_detonate].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos) })
+            ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::atomic_bomb_detonate].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos) })
         }
         this.onClose()
         return@DetonateButton null

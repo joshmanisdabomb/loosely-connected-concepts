@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
@@ -27,6 +28,17 @@ object LCCPacketsToServer : PacketForServerDirectory() {
             if (!world.isChunkLoaded(pos)) return@execute
             if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
             (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.detonate(player)
+        }
+    } }
+
+    val nuclear_generator_toggle by entry(::initialiser) { ServerPlayNetworking.PlayChannelHandler { server, player, handler, data, sender ->
+        val dim = data.readIdentifier()
+        val pos = data.readBlockPos()
+        server.execute {
+            val world = server.getWorld(RegistryKey.of(Registry.DIMENSION, dim)) ?: return@execute
+            if (!world.isChunkLoaded(pos)) return@execute
+            if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
+            (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.toggle(player)
         }
     } }
 

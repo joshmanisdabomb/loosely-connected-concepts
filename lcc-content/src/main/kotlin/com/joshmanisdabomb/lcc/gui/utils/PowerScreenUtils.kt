@@ -25,19 +25,26 @@ interface PowerScreenUtils {
 
     val translationKey: String
 
+    fun renderBarX(matrices: MatrixStack, value: Float, max: Float, x: Int, y: Int, u: Int, v: Int, w: Int, h: Int) {
+        val w2 = ceil(w.times(value.div(max))).toInt()
+        draw(matrices, x, y, u, v, w2, h)
+    }
+
+    fun renderBarY(matrices: MatrixStack, value: Float, max: Float, x: Int, y: Int, u: Int, v: Int, w: Int, h: Int) {
+        val h2 = ceil(h.times(value.div(max))).toInt()
+        draw(matrices, x, y + h.minus(h2), u, v + h.minus(h2), w, h2)
+    }
+
     fun renderPower(matrices: MatrixStack, power: Float, maxPower: Float, x: Int, y: Int) {
-        val h = ceil(13.times(power.div(maxPower))).toInt()
-        draw(matrices, x, y + 13.minus(h), offsetX, power_v + 13.minus(h), 11, h)
+        renderBarY(matrices, power, maxPower, x, y, offsetX, power_v, 11, 13)
     }
 
-    fun renderBurn(matrices: MatrixStack, power: Int, maxBurn: Int, x: Int, y: Int) {
-        val h = ceil(13.times(power.toFloat().div(maxBurn))).toInt()
-        draw(matrices, x, y + 13.minus(h), offsetX, burn_v + 13.minus(h), 14, h)
+    fun renderBurn(matrices: MatrixStack, burn: Int, maxBurn: Int, x: Int, y: Int) {
+        renderBarY(matrices, burn.toFloat(), maxBurn.toFloat(), x, y, offsetX, burn_v, 14, 14)
     }
 
-    fun renderProgress(matrices: MatrixStack, progress: Int, maxProgress: Int, x: Int, y: Int) {
-        val w = ceil(23.times(progress.toFloat().div(maxProgress))).toInt()
-        this.draw(matrices, x, y, offsetX.plus(1), progress_v, w, 17)
+    fun renderArrow(matrices: MatrixStack, progress: Int, maxProgress: Int, x: Int, y: Int) {
+        renderBarX(matrices, progress.toFloat(), maxProgress.toFloat(), x, y, offsetX + 1, progress_v, 23, 17)
     }
 
     fun renderAction(matrices: MatrixStack, icon: Int, efficiency: Float, maxEfficiency: Float, x: Int, y: Int) {
@@ -46,14 +53,12 @@ interface PowerScreenUtils {
         if (eff >= 1f && ticks % 14 >= 7) {
             this.draw(matrices, x, y, offsetX.plus(28), action_v + icon.times(14), 14, 14)
         } else {
-            val h2 = ceil(13.times(eff)).toInt()
-            this.draw(matrices, x, y + 13.minus(h2), offsetX.plus(14), action_v + icon.times(14) + 13.minus(h2), 14, h2)
+            renderBarY(matrices, efficiency, maxEfficiency, x, y, offsetX.plus(14), action_v + icon.times(14), 14, 13)
         }
     }
 
     fun renderPowerBar(matrices: MatrixStack, power: Float, maxPower: Float, x: Int, y: Int, w: Int) {
-        val w2 = ceil(w.times(power.div(maxPower))).toInt()
-        draw(matrices, x, y, 0, offsetY, w2, 10)
+        renderBarX(matrices, power, maxPower, x, y, 0, offsetY, w, 10)
     }
 
     fun renderPowerTooltip(matrices: MatrixStack, power: Float, consumed: Float?, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
@@ -84,7 +89,7 @@ interface PowerScreenUtils {
 
     fun renderSteamTooltip(matrices: MatrixStack, output: Float, outputCeil: Float, water: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.output", LooseEnergy.displayWithUnits(output), LooseEnergy.displayWithUnits(outputCeil), water.div(3f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.output", LooseEnergy.displayWithUnits(output), LooseEnergy.displayWithUnits(outputCeil), water.div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 

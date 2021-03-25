@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.block.entity.FiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
@@ -36,7 +37,7 @@ class NuclearFiredGeneratorBlock(settings: Settings) : AbstractFiredGeneratorBlo
 
     override fun getPlacementState(context: ItemPlacementContext) = horizontalPlacement(context)
 
-    override fun getSteam(world: BlockView, pos: BlockPos, state: BlockState) = 30f
+    override fun getSteam(world: BlockView, pos: BlockPos, state: BlockState) = (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.steam ?: 0f
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = NuclearFiredGeneratorBlockEntity(pos, state)
 

@@ -1,3 +1,8 @@
 {
-  "parent": "lcc:block/nuclear_generator"
+  "parent": "lcc:item/template_solar_panel",
+  "textures": {
+    "top": "lcc:block/nuclear_generator",
+    "side": "lcc:block/nuclear_generator_side",
+    "bottom": "lcc:block/nuclear_generator_bottom"
+  }
 }

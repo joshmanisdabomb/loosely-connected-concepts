@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:coal_generator"
+      "lcc:machine_enclosure"
     ]
   },
   "criteria": {
-    "has_machine_enclosure": {
+    "has_copper_ingot": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:machine_enclosure"
+            "item": "minecraft:copper_ingot"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:coal_generator"
+        "recipe": "lcc:machine_enclosure"
       }
     }
   },
   "requirements": [
     [
-      "has_machine_enclosure",
+      "has_copper_ingot",
       "has_the_recipe"
     ]
   ]

@@ -25,7 +25,7 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
         renderPower(matrices, handler.powerAmount(), handler.block.maxEnergy, x + 18, y + 58)
 
         handler.iconIndex()?.also {
-            renderProgress(matrices, handler.progressAmount(), handler.maxProgressAmount(), x + 77, y + 34)
+            renderArrow(matrices, handler.progressAmount(), handler.maxProgressAmount(), x + 77, y + 34)
 
             renderAction(matrices, it, handler.efficiencyAmount(), handler.maxEfficiencyAmount(), x + 81, y + 18)
         }

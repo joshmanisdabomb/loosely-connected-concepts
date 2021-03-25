@@ -31,14 +31,14 @@ object LCCPacketsToServer : PacketForServerDirectory() {
         }
     } }
 
-    val nuclear_generator_toggle by entry(::initialiser) { ServerPlayNetworking.PlayChannelHandler { server, player, handler, data, sender ->
+    val nuclear_generator_activate by entry(::initialiser) { ServerPlayNetworking.PlayChannelHandler { server, player, handler, data, sender ->
         val dim = data.readIdentifier()
         val pos = data.readBlockPos()
         server.execute {
             val world = server.getWorld(RegistryKey.of(Registry.DIMENSION, dim)) ?: return@execute
             if (!world.isChunkLoaded(pos)) return@execute
             if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
-            (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.toggle(player)
+            (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.activate(player)
         }
     } }
 

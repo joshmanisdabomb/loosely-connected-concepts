@@ -1,22 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "cec",
-    "cfc",
-    "iii"
+    "e",
+    "m",
+    "f"
   ],
   "key": {
-    "c": {
-      "item": "minecraft:copper_ingot"
-    },
     "e": {
       "item": "minecraft:iron_bars"
     },
+    "m": {
+      "item": "lcc:machine_enclosure"
+    },
     "f": {
       "item": "minecraft:flint_and_steel"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
     }
   },
   "result": {

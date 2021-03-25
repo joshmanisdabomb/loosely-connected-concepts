@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "lcc:block/exploding_nuclear_generator"
+    "all": "lcc:block/failing_nuclear_generator"
   }
 }

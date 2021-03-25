@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "cec",
-    "bbb",
-    "bbb"
+    "bib",
+    "bmb",
+    "bib"
   ],
   "key": {
-    "c": {
-      "item": "minecraft:copper_ingot"
+    "m": {
+      "item": "lcc:machine_enclosure"
     },
-    "e": {
-      "item": "minecraft:iron_block"
+    "i": {
+      "item": "minecraft:iron_ingot"
     },
     "b": {
       "item": "lcc:redstone_battery"

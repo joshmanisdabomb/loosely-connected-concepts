@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:nuclear_waste"
+          "name": "lcc:failing_nuclear_generator"
         }
       ],
       "conditions": [

@@ -54,6 +54,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val heavy_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)) }
 
     val cracked_mud by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)) }
+    val nuclear_waste by entry(::initialiser) { BlockDataContainer().defaultLang ().defaultItemAsset().add(RotationBlockAssetFactory) }
 
     val oil by entry(::initialiser) { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/oil_still"))) }
     val asphalt by entry(::initialiser) { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/asphalt_still"))) }
@@ -145,15 +146,30 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val light_gray_classic_cloth by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.LIGHT_GRAY_WOOL)) }
     val white_classic_cloth by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(RiftFromItemRecipeFactory(Blocks.WHITE_WOOL)) }
 
-    val refiner by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RefiningBlockAssetFactory).add(ConcreteRefiningRecipeFactory).add(CustomRecipeFactory { d, i ->
+    val machine_enclosure by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(SideBottomTopBlockAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("ccc")
             .pattern("cpc")
             .pattern("iii")
             .input('c', Items.COPPER_INGOT)
-            .input('p', Blocks.PISTON)
+            .input('p', LCCBlocks.power_cable)
             .input('i', Items.IRON_INGOT)
             .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { offerShaped(this, d) }
+    }) }
+
+    val refiner by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RefiningBlockAssetFactory).add(ConcreteRefiningRecipeFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("rcr")
+            .pattern("smb")
+            .pattern("rpr")
+            .input('m', LCCBlocks.machine_enclosure)
+            .input('c', Blocks.CRAFTING_TABLE)
+            .input('s', Blocks.SMOKER)
+            .input('b', Blocks.BLAST_FURNACE)
+            .input('p', Blocks.PISTON)
+            .input('r', Items.REDSTONE)
+            .apply { hasCriterionShaped(this, LCCBlocks.machine_enclosure) }
             .apply { offerShaped(this, d) }
     }).add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
@@ -177,26 +193,24 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
 
     val coal_generator by entry(::initialiser) { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Furnace Generator", "en_us")).add(FiredGeneratorBlockAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
-            .pattern("cec")
-            .pattern("cfc")
-            .pattern("iii")
-            .input('c', Items.COPPER_INGOT)
+            .pattern("e")
+            .pattern("m")
+            .pattern("f")
             .input('e', Items.IRON_BARS)
+            .input('m', LCCBlocks.machine_enclosure)
             .input('f', Blocks.FURNACE)
-            .input('i', Items.IRON_INGOT)
-            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { hasCriterionShaped(this, LCCBlocks.machine_enclosure) }
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.generators)) }
     val oil_generator by entry(::initialiser) { BlockDataContainer().defaultLootTable().defaultItemAsset().add(LiteralTranslationFactory("Combustion Generator", "en_us")).add(FiredGeneratorBlockAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
-            .pattern("cec")
-            .pattern("cfc")
-            .pattern("iii")
-            .input('c', Items.COPPER_INGOT)
+            .pattern("e")
+            .pattern("m")
+            .pattern("f")
             .input('e', Items.IRON_BARS)
+            .input('m', LCCBlocks.machine_enclosure)
             .input('f', Items.FLINT_AND_STEEL)
-            .input('i', Items.IRON_INGOT)
-            .apply { hasCriterionShaped(this, Items.COPPER_INGOT) }
+            .apply { hasCriterionShaped(this, LCCBlocks.machine_enclosure) }
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.generators)) }
 
@@ -224,13 +238,13 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    val energy_bank by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, b -> modelOrientableBottom(d, b, texture = loc(LCC.id("refiner")), textureTop = loc(b), textureFront = loc(LCC.id("refiner_side"))) }).add(CustomRecipeFactory { d, i ->
+    val energy_bank by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, b -> modelOrientableBottom(d, b, texture = loc(LCC.id("machine_enclosure")), textureTop = loc(b), textureFront = loc(LCC.id("machine_enclosure_side"))) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
-            .pattern("cec")
-            .pattern("bbb")
-            .pattern("bbb")
-            .input('c', Items.COPPER_INGOT)
-            .input('e', Items.IRON_BLOCK)
+            .pattern("bib")
+            .pattern("bmb")
+            .pattern("bib")
+            .input('m', LCCBlocks.machine_enclosure)
+            .input('i', Items.IRON_INGOT)
             .input('b', LCCItems.redstone_battery)
             .apply { hasCriterionShaped(this, LCCItems.redstone_battery) }
             .apply { offerShaped(this, d) }
@@ -277,15 +291,14 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }).add(TreetapBlockLootFactory<TreetapBlock.TreetapState, TreetapBlock.TreetapState>(LCCBlocks.treetap, TreetapBlock.tap, { it.container?.item })) }
     val dried_treetap by entry(::initialiser) { BlockDataContainer().defaultLang().add(TreetapDriedBlockAssetFactory).add(TreetapBlockLootFactory(LCCBlocks.treetap, DriedTreetapBlock.container, AbstractTreetapBlock.TreetapContainer::item, DriedTreetapBlock.liquid, { it.dryProduct?.item })) }
-    val oxygen_extractor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(CustomBlockAssetFactory { d, b -> modelCubeBottomTop(d, b, textureBottom = loc(LCC.id("refiner_bottom"))) }).add(CustomRecipeFactory { d, i ->
+    val oxygen_extractor by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(CustomBlockAssetFactory { d, b -> modelCubeBottomTop(d, b, textureBottom = loc(LCC.id("machine_enclosure_bottom"))) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
-            .pattern("chc")
-            .pattern("cbc")
-            .pattern("iii")
-            .input('c', Items.COPPER_INGOT)
-            .input('h', Items.HOPPER)
-            .input('b', Items.BUCKET)
+            .pattern("i i")
+            .pattern("i i")
+            .pattern("bmb")
+            .input('m', LCCBlocks.machine_enclosure)
             .input('i', Items.IRON_INGOT)
+            .input('b', Items.BUCKET)
             .apply { hasCriterionShaped(this, LCCItems.oxygen_tank) }
             .apply { offerShaped(this, d) }
     }) }
@@ -324,6 +337,20 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .energyPerOperation(LooseEnergy.fromCoals(5f))
             .apply { hasCriterionInterface(this, LCCItems.heavy_uranium_nugget) }
             .apply { offerInterface(this, d) }
+    }) }
+    val nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(NuclearFiredGeneratorBlockAssetFactory).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("ses")
+            .pattern("bmr")
+            .pattern("sds")
+            .input('s', LCCBlocks.heavy_uranium_shielding)
+            .input('e', Items.IRON_BARS)
+            .input('m', LCCBlocks.machine_enclosure)
+            .input('d', Blocks.DISPENSER)
+            .input('b', ItemTags.BUTTONS)
+            .input('r', Items.REDSTONE)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_uranium_nugget) }
+            .apply { offerShaped(this, d) }
     }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
+import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
@@ -27,7 +28,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
     private var _pos: BlockPos? = null
     val pos get() = _pos
 
-    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(2)) {
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(9)) {
         _pos = buf.readBlockPos()
     }
 
@@ -35,7 +36,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
 
     init {
         checkSize(inventory, 5)
-        checkDataCount(properties, 1)
+        checkDataCount(properties, 9)
 
         addSlot(object : PredicatedSlot(inventory, 0, 24, 63, { it.isOf(Items.TNT) }) {
             override fun getMaxItemCount() = 1
@@ -44,7 +45,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
             override fun getMaxItemCount() = 1
         })
         addSlot(PredicatedSlot(inventory, 2, 84, 63) { it.isOf(LCCItems.nuclear_fuel) })
-        addSlot(PredicatedSlot(inventory, 3, 84, 38) { it.isOf(Items.ICE) })
+        addSlot(PredicatedSlot(inventory, 3, 84, 38) { NuclearFiredGeneratorBlockEntity.getCoolantValue(it) != null })
         addSlot(PredicatedSlot(inventory, 4, 54, 38, StackEnergyHandler.Companion::containsPower))
 
         addPlayerSlots(playerInventory, 18, 94, ::addSlot)
@@ -94,5 +95,17 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
 
     @Environment(EnvType.CLIENT)
     fun powerAmount() = DecimalTransport.from(properties.get(0), properties.get(1))
+
+    @Environment(EnvType.CLIENT)
+    fun outputAmount() = DecimalTransport.from(properties.get(2), properties.get(3))
+
+    @Environment(EnvType.CLIENT)
+    fun fuelAmount() = DecimalTransport.from(properties.get(4), properties.get(5))
+
+    @Environment(EnvType.CLIENT)
+    fun coolantAmount() = DecimalTransport.from(properties.get(6), properties.get(7))
+
+    @Environment(EnvType.CLIENT)
+    fun waterAmount() = properties.get(8)
 
 }

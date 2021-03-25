@@ -1,19 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "ccc",
-    "cpc",
-    "iii"
+    "rcr",
+    "smb",
+    "rpr"
   ],
   "key": {
+    "m": {
+      "item": "lcc:machine_enclosure"
+    },
     "c": {
-      "item": "minecraft:copper_ingot"
+      "item": "minecraft:crafting_table"
+    },
+    "s": {
+      "item": "minecraft:smoker"
+    },
+    "b": {
+      "item": "minecraft:blast_furnace"
     },
     "p": {
       "item": "minecraft:piston"
     },
-    "i": {
-      "item": "minecraft:iron_ingot"
+    "r": {
+      "item": "minecraft:redstone"
     }
   },
   "result": {

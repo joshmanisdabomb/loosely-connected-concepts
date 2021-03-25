@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_copper_ingot": {
+    "has_machine_enclosure": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:copper_ingot"
+            "item": "lcc:machine_enclosure"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_copper_ingot",
+      "has_machine_enclosure",
       "has_the_recipe"
     ]
   ]

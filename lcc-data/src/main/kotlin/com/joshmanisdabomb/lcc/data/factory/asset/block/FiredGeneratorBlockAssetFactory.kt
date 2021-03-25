@@ -14,13 +14,13 @@ object FiredGeneratorBlockAssetFactory : BlockAssetFactory {
     override fun apply(data: DataAccessor, entry: Block) {
         val id = loc(entry)
         val top = loc(LCC.id("generator"))
-        val refiner = loc(LCC.id("refiner"))
+        val machine = loc(LCC.id("machine_enclosure"))
 
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.LIT).register { d, l ->
                 val id2 = suffix(id, if (l) "on" else null)
                 val top2 = suffix(top, if (l) "on" else null)
-                BlockStateVariant.create().put(VariantSettings.MODEL, modelOrientableBottom(data, entry, id2, texture = refiner, textureFront = id2, textureTop = top2)).apply(HorizontalBlockAssetFactory.defaultDirections[Direction.NORTH]!![d]!!)
+                BlockStateVariant.create().put(VariantSettings.MODEL, modelOrientableBottom(data, entry, id2, texture = machine, textureFront = id2, textureTop = top2)).apply(HorizontalBlockAssetFactory.defaultDirections[Direction.NORTH]!![d]!!)
             })
         }
     }

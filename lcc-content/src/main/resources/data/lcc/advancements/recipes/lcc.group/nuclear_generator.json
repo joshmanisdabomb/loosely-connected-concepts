@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:coal_generator"
+      "lcc:nuclear_generator"
     ]
   },
   "criteria": {
-    "has_machine_enclosure": {
+    "has_heavy_uranium_nugget": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:machine_enclosure"
+            "item": "lcc:heavy_uranium_nugget"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:coal_generator"
+        "recipe": "lcc:nuclear_generator"
       }
     }
   },
   "requirements": [
     [
-      "has_machine_enclosure",
+      "has_heavy_uranium_nugget",
       "has_the_recipe"
     ]
   ]

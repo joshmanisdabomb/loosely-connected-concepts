@@ -25,7 +25,7 @@ class CompositeProcessorScreen(handler: RefiningScreenHandler, inventory: Player
         renderPower(matrices, handler.powerAmount(), handler.block.maxEnergy, x + 18, y + 76)
 
         handler.iconIndex()?.also {
-            renderProgress(matrices, handler.progressAmount(), handler.maxProgressAmount(), x + 77, y + 43)
+            renderArrow(matrices, handler.progressAmount(), handler.maxProgressAmount(), x + 77, y + 43)
 
             renderAction(matrices, it, handler.efficiencyAmount(), handler.maxEfficiencyAmount(), x + 81, y + 27)
         }

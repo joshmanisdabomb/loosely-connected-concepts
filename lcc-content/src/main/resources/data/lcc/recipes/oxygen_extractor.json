@@ -1,22 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "chc",
-    "cbc",
-    "iii"
+    "i i",
+    "i i",
+    "bmb"
   ],
   "key": {
-    "c": {
-      "item": "minecraft:copper_ingot"
-    },
-    "h": {
-      "item": "minecraft:hopper"
-    },
-    "b": {
-      "item": "minecraft:bucket"
+    "m": {
+      "item": "lcc:machine_enclosure"
     },
     "i": {
       "item": "minecraft:iron_ingot"
+    },
+    "b": {
+      "item": "minecraft:bucket"
     }
   },
   "result": {

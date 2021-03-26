@@ -274,7 +274,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         fun approxEquilibrium(fuel: Float, coolant: Float): Float {
             val x = 0.995f.pow(coolant.div(maxCoolant).let { it*it*it*it }.times(4).minus(3) + coolant.div(maxCoolant).times(coolantCoefficient))
             val f = fuel.times(fuelCoefficient)
-            return -f.times(100).plus(1).div(x.minus(1).times(100))
+            return -f.times(100).plus(1).div(x.minus(1.div(0.999f)).times(100))
         }
 
     }

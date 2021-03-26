@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.NuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
+import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
@@ -38,7 +39,7 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
     private var _ticks = 0
     override val ticks get() = _ticks
 
-    override val translationKey = "container.lcc.generator"
+    override val translationKey = "container.lcc.nuclear_generator"
 
     override val offsetX get() = backgroundWidth
     override val offsetY get() = backgroundHeight
@@ -119,6 +120,21 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         }
     }
 
+    override fun drawForeground(matrices: MatrixStack, mouseX: Int, mouseY: Int) {
+        super.drawForeground(matrices, mouseX, mouseY)
+        state?.also {
+            textRenderer.draw(matrices, LooseEnergy.displayWithUnits(handler.outputAmount()) + "/t", 107f, 18f, if (handler.outputAmount() > BlockEntity.maxSafeOutput) {
+                0xf01800
+            } else if (handler.outputAmount() > 175f) {
+                0xc98600
+            } else {
+                4210752
+            })
+            textRenderer.draw(matrices, handler.coolantAmount().decimalFormat(force = true), 123f, 43f, 4210752)
+            textRenderer.draw(matrices, handler.fuelAmount().decimalFormat(force = true), 123f, 68f, 4210752)
+        }
+    }
+
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         renderBackground(matrices)
         super.render(matrices, mouseX, mouseY, delta)
@@ -128,7 +144,10 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
 
         state?.also {
             if (it.block is NuclearFiredGeneratorBlock && it[Properties.LIT]) {
-                renderSteamTooltip(matrices, handler.outputAmount(), BlockEntity.maxSafeOutput, handler.waterAmount(), mouseX, mouseY, x + 85..x + 99, y + 18..y + 32)
+                val e = BlockEntity.approxEquilibrium(BlockEntity.maxFuel, handler.coolantAmount())
+                if (mouseX in x + 85..x + 99 && mouseY in y + 18..y + 32) {
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.output", LooseEnergy.displayWithUnits(handler.outputAmount().times(handler.waterAmount().div(3f))), LooseEnergy.displayWithUnits(handler.outputAmount()), LooseEnergy.displayWithUnits(BlockEntity.maxSafeOutput), if (e > 0f && e <= 10000f) LooseEnergy.displayWithUnits(e) else "∞ LE", handler.waterAmount().div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+                }
             }
         }
 

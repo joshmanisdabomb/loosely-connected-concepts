@@ -36,4 +36,34 @@ public abstract class OxygenLivingMixin extends Entity {
         }
     }
 
+    @Inject(at = @At("HEAD"), method = "getNextAirUnderwater", cancellable = true)
+    public void changeAirUnderwater(int air, CallbackInfoReturnable<Integer> callback) {
+        Iterable<ItemStack> pieces = getArmorItems();
+        for (ItemStack piece : pieces) {
+            Item item = piece.getItem();
+            if (item instanceof ContainedArmor) {
+                Integer newAir = ((ContainedArmor)item).setAirUnderwater((LivingEntity)(Object)this, air, piece, pieces);
+                if (newAir != null) {
+                    callback.setReturnValue(newAir);
+                    callback.cancel();
+                }
+            }
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "getNextAirOnLand", cancellable = true)
+    public void changeOnLand(int air, CallbackInfoReturnable<Integer> callback) {
+        Iterable<ItemStack> pieces = getArmorItems();
+        for (ItemStack piece : pieces) {
+            Item item = piece.getItem();
+            if (item instanceof ContainedArmor) {
+                Integer newAir = ((ContainedArmor)item).setAirOnLand((LivingEntity)(Object)this, air, piece, pieces);
+                if (newAir != null) {
+                    callback.setReturnValue(newAir);
+                    callback.cancel();
+                }
+            }
+        }
+    }
+
 }

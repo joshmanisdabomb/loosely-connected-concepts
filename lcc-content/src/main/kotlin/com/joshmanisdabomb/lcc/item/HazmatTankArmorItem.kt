@@ -24,8 +24,9 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
     override fun getMaxOxygen(stack: ItemStack) = LCCItems.oxygen_tank.max
 
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
-        if (!hasFullSuit(stack, entity.armorItems)) return
+        super.inventoryTick(stack, world, entity, slot, selected)
         if (entity.armorItems.indexOf(stack) <= -1) return
+        if (!hasFullSuit(stack, entity.armorItems)) return
         this.addOxygen(stack, -1f)
         (entity as? PlayerEntity)?.also {
             val effect = it.getStatusEffect(StatusEffects.HUNGER) ?: return@also

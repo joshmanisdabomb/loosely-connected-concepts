@@ -10,7 +10,8 @@
     "RadiationHudMixin",
     "StunPlayerMixin",
     "StunMouseMixin",
-    "EntityModelsMixin"
+    "EntityModelsMixin",
+    "ContainedHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

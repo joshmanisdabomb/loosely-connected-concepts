@@ -3,5 +3,7 @@
   "block.lcc.gray_classic_cloth": "Grey Classic Cloth",
   "block.lcc.light_gray_classic_cloth": "Light Grey Classic Cloth",
   "death.attack.lcc.radiation": "%1$s was exposed to ionising radiation",
-  "death.attack.lcc.radiation.player": "%1$s was exposed to ionising radiation whilst trying to escape %2$s"
+  "death.attack.lcc.radiation.player": "%1$s was exposed to ionising radiation whilst trying to escape %2$s",
+  "death.attack.lcc.hazmat_anoxia": "%1$s couldn't get their helmet off",
+  "death.attack.lcc.hazmat_anoxia.player": "%1$s couldn't get their helmet off whilst trying to escape %2$s"
 }

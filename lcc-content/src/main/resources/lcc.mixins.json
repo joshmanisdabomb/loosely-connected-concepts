@@ -18,7 +18,8 @@
     "OxygenLivingMixin",
     "OxygenPlayerMixin",
     "OxygenItemUsageMixin",
-    "KilnRecipeManagerMixin"
+    "KilnRecipeManagerMixin",
+    "LivingEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

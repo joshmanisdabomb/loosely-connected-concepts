@@ -287,7 +287,7 @@
   "container.lcc.generator.burn": "Remaining Time: %1$s/%2$s s",
   "container.lcc.generator.output": "Steam Produced: %1$s/t\nBase Steam from Fuel: %2$s/t\nSteam Multiplier from Water: %3$s%%",
   "container.lcc.nuclear_generator.power": "Power: %1$s",
-  "container.lcc.nuclear_generator.output": "Total Steam Produced: %1$s/t\nBase Steam Produced: %2$s/t\nMaximum Safe Output: %3$s/t\nApproximate Output with Maximum Fuel: %4$s/t\nSteam Multiplier from Water: %5$s%%",
+  "container.lcc.nuclear_generator.output": "Total Steam Produced: %1$s/t\nBase Steam Produced: %2$s/t\nMaximum Safe Output: %3$s/t\nMaximum Fuel Approaches: %4$s/t\nSteam Multiplier from Water: %5$s%%",
   "container.lcc.nuclear_generator.coolant": "Coolant Value: %1$s units\nDepletion Rate: %2$s units/t\nApproximate Time Left: %3$ss",
   "container.lcc.nuclear_generator.fuel": "Fuel Value: %1$s units\nFuel Value per Item: %2$s units\nDepletion Rate: %3$s units/t\nApproximate Time Left: %4$ss",
   "container.lcc.nuclear_generator.chance": "Meltdown Chance: %1$s%%",

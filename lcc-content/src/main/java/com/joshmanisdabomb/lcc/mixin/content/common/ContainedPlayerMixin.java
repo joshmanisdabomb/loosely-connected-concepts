@@ -20,9 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PlayerEntity.class)
-public abstract class OxygenPlayerMixin extends LivingEntity {
+public abstract class ContainedPlayerMixin extends LivingEntity {
 
-    protected OxygenPlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
+    protected ContainedPlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
@@ -39,7 +39,7 @@ public abstract class OxygenPlayerMixin extends LivingEntity {
         for (ItemStack piece : pieces) {
             Item item = piece.getItem();
             if (item instanceof ContainedArmor) {
-                if (((ContainedArmor)item).disableEating((PlayerEntity)(Object)this, piece, pieces)) {
+                if (((ContainedArmor)item).blockEating((PlayerEntity)(Object)this, piece, pieces)) {
                     ((PlayerEntity)(Object)this).sendMessage(new TranslatableText(TooltipConstants.contained_armor_consume), true);
                     info.setReturnValue(false);
                     info.cancel();

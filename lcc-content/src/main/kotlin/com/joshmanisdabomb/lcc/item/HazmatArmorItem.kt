@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.utils.DefaultedDyeableItem
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
@@ -23,13 +24,21 @@ open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArm
 
     override fun hasFullSuit(piece: ItemStack, pieces: Iterable<ItemStack>) = pieces.all { it.item is HazmatArmorItem }
 
-    override fun disableEating(entity: PlayerEntity, piece: ItemStack, pieces: Iterable<ItemStack>) = slot == EquipmentSlot.HEAD
+    override fun blockEating(entity: PlayerEntity, piece: ItemStack, pieces: Iterable<ItemStack>) = slot == EquipmentSlot.HEAD
 
     override fun blockStatusEffect(entity: LivingEntity, effect: StatusEffectInstance, piece: ItemStack, pieces: Iterable<ItemStack>): Boolean {
-        if (pieces.any { it.item !is HazmatArmorItem } || ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(pieces) <= 0f) return false
+        if (!hasFullSuit(piece, pieces) || ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(pieces) <= 0f) return false
         return when (effect.effectType) {
             LCCEffects.stun, StatusEffects.BAD_OMEN, StatusEffects.CONDUIT_POWER, StatusEffects.DOLPHINS_GRACE, StatusEffects.HERO_OF_THE_VILLAGE, StatusEffects.MINING_FATIGUE -> false
             else -> true
+        }
+    }
+
+    override fun blockDamage(entity: LivingEntity, damage: DamageSource, amount: Float, piece: ItemStack, pieces: Iterable<ItemStack>): Boolean {
+        if (!hasFullSuit(piece, pieces) || ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(pieces) <= 0f) return false
+        return when (damage) {
+            DamageSource.CACTUS, DamageSource.DRAGON_BREATH, DamageSource.FREEZE, DamageSource.HOT_FLOOR, DamageSource.SWEET_BERRY_BUSH -> true
+            else -> false
         }
     }
 
@@ -54,15 +63,15 @@ open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArm
     }
 
     override fun inventoryTick(stack: ItemStack, world: World, entity: Entity, slot: Int, selected: Boolean) {
-        if (entity is LivingEntity && entity.isSubmergedIn(FluidTags.WATER) && world.random.nextInt(80) == 0) {
+        if ((entity as? PlayerEntity)?.isSurvival == false) return
+        if (entity.armorItems.indexOf(stack) <= -1) return
+        if (entity is LivingEntity && entity.isSubmergedIn(FluidTags.WATER) && world.random.nextInt(160) == 0) {
             stack.damage(1, entity) {
                 it.sendEquipmentBreakStatus(this.slot)
             }
         }
 
-        if ((entity as? PlayerEntity)?.isSurvival == false) return
         if (this.slot != EquipmentSlot.HEAD) return
-        if (entity.armorItems.indexOf(stack) <= -1) return
         if (hasFullSuit(stack, entity.armorItems) && ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(entity.armorItems) > 0f) return
         entity.air -= 1
         if (entity.air <= -20) {

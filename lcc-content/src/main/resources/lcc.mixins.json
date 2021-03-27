@@ -15,9 +15,9 @@
     "BundleBagMixin",
     "NuclearSkylightProviderMixin",
     "AdvancementTrackerMixin",
-    "OxygenLivingMixin",
-    "OxygenPlayerMixin",
-    "OxygenItemUsageMixin",
+    "ContainedLivingMixin",
+    "ContainedPlayerMixin",
+    "ContainedItemUsageMixin",
     "KilnRecipeManagerMixin",
     "LivingEntityAccessor"
   ],

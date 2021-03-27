@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ItemUsage.class)
-public abstract class OxygenItemUsageMixin {
+public abstract class ContainedItemUsageMixin {
 
     @Inject(at = @At("HEAD"), method = "consumeHeldItem", cancellable = true)
     private static void blockEating(World world, PlayerEntity player, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> callback) {
@@ -28,7 +28,7 @@ public abstract class OxygenItemUsageMixin {
         for (ItemStack piece : pieces) {
             Item item = piece.getItem();
             if (item instanceof ContainedArmor) {
-                if (((ContainedArmor)item).disableEating(player, piece, pieces)) {
+                if (((ContainedArmor)item).blockEating(player, piece, pieces)) {
                     player.sendMessage(new TranslatableText(TooltipConstants.contained_armor_consume), true);
                     callback.setReturnValue(TypedActionResult.fail(stack));
                     callback.cancel();

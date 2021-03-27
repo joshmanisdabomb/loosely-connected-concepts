@@ -1,16 +1,20 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
+import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.item.HazmatArmorItem
+import com.joshmanisdabomb.lcc.item.HazmatTankArmorItem
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.FallingBlock
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
@@ -56,6 +60,12 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlock,
     }
 
     override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+        if (entity is LivingEntity) {
+            val stack = entity.getEquippedStack(EquipmentSlot.FEET)
+            if ((stack.item as? HazmatArmorItem)?.hasFullSuit(stack, entity.armorItems) == true && ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(entity.armorItems) > 0f) {
+                return
+            }
+        }
         entity.damage(LCCDamage.radiation, 0.5f)
     }
 

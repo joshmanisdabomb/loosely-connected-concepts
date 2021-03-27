@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class OxygenLivingMixin extends Entity {
+public abstract class ContainedLivingMixin extends Entity {
 
-    public OxygenLivingMixin(EntityType<?> type, World world) { super(type, world); }
+    public ContainedLivingMixin(EntityType<?> type, World world) { super(type, world); }
 
     @Shadow
     public abstract Iterable<ItemStack> getArmorItems();
@@ -60,6 +61,20 @@ public abstract class OxygenLivingMixin extends Entity {
                 Integer newAir = ((ContainedArmor)item).setAirOnLand((LivingEntity)(Object)this, air, piece, pieces);
                 if (newAir != null) {
                     callback.setReturnValue(newAir);
+                    callback.cancel();
+                }
+            }
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "damage", cancellable = true)
+    public void blockDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> callback) {
+        Iterable<ItemStack> pieces = getArmorItems();
+        for (ItemStack piece : pieces) {
+            Item item = piece.getItem();
+            if (item instanceof ContainedArmor) {
+                if (((ContainedArmor)item).blockDamage((LivingEntity) (Object) this, source, amount, piece, pieces)) {
+                    callback.setReturnValue(false);
                     callback.cancel();
                 }
             }

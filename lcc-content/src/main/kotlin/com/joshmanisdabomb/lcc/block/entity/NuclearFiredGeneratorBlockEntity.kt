@@ -17,6 +17,7 @@ import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -41,12 +42,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
-import kotlin.math.floor
-import kotlin.math.min
-import kotlin.math.pow
-import kotlin.math.roundToInt
+import kotlin.math.*
 
-class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.nuclear_generator, pos, state), ExtendedScreenHandlerFactory, SidedInventory, WorldEnergyStorage {
+class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.nuclear_generator, pos, state), ExtendedScreenHandlerFactory, SidedInventory, WorldEnergyStorage, BlockEntityClientSerializable {
 
     val inventory by lazy { object : LCCInventory(5) {
 
@@ -157,6 +155,17 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         return tag
     }
 
+    override fun fromClientTag(tag: CompoundTag) {
+        fuel = tag.getFloat("Fuel")
+        coolant = tag.getFloat("Coolant")
+    }
+
+    override fun toClientTag(tag: CompoundTag): CompoundTag {
+        tag.putFloat("Fuel", fuel)
+        tag.putFloat("Coolant", coolant)
+        return tag
+    }
+
     override fun clear() = inventory.clear()
     override fun size() = inventory.size()
     override fun isEmpty() = inventory.isEmpty
@@ -208,6 +217,8 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: NuclearFiredGeneratorBlockEntity) {
             val working = entity.working
+            val oldFuel = entity.fuel
+            val oldCoolant = entity.coolant
             entity.waterLevel = LCCBlocks.nuclear_generator.getWaterMultiplier(world, pos, state).times(3f).roundToInt()
             if (entity.working) {
                 if (!entity.inventory[2].isEmpty) {
@@ -252,6 +263,10 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             entity.coolant = entity.coolant.minus(0.01f).coerceAtLeast(0f)
 
             if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
+
+            if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
+                entity.sync()
+            }
 
             EnergyTransaction()
                 .apply { entity.inventory.slotsIn("power")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }

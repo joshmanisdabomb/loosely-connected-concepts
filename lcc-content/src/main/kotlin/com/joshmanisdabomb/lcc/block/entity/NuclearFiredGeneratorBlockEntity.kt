@@ -217,6 +217,11 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         return true
     }
 
+    fun explode(world: ServerWorld) {
+        inventory.clear()
+        Companion.explode(world, pos)
+    }
+
     override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 
     companion object {
@@ -242,14 +247,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             if (state.isOf(LCCBlocks.failing_nuclear_generator)) {
                 entity.meltdownTicks++
                 if (entity.meltdownTicks >= maxMeltdownTicks) {
-                    entity.inventory.clear()
-                    world.setBlockState(pos, Blocks.AIR.defaultState)
-                    NuclearExplosionEntity(world, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), null).also {
-                        it.radius = NuclearUtil.getExplosionRadiusFromUranium(2)
-                        it.lifetime = NuclearUtil.getExplosionLifetimeFromUranium(2)
-                        world.spawnEntity(it)
-                    }
-                    (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, ChunkPos(pos), 17, net.minecraft.util.Unit.INSTANCE)
+                    entity.explode(world as ServerWorld)
                 }
             } else {
                 val working = entity.working
@@ -350,6 +348,16 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                 }
             }
             return amount
+        }
+
+        fun explode(world: ServerWorld, pos: BlockPos) {
+            world.setBlockState(pos, Blocks.AIR.defaultState)
+            NuclearExplosionEntity(world, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), null).also {
+                it.radius = NuclearUtil.getExplosionRadiusFromUranium(2)
+                it.lifetime = NuclearUtil.getExplosionLifetimeFromUranium(2)
+                world.spawnEntity(it)
+            }
+            world.chunkManager.addTicket(LCCChunkTickets.nuclear, ChunkPos(pos), 17, net.minecraft.util.Unit.INSTANCE)
         }
 
     }

@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.util.ActionResult
@@ -26,6 +28,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.explosion.Explosion
 
 class ExplodingNuclearFiredGeneratorBlock(settings: Settings) : BlockWithEntity(settings) {
 
@@ -66,6 +69,20 @@ class ExplodingNuclearFiredGeneratorBlock(settings: Settings) : BlockWithEntity(
             world.updateComparators(pos, this);
         }
         super.onStateReplaced(state, world, pos, newState, moved)
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (!world.isClient && player.isSurvival) {
+            (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.explode(world as ServerWorld)
+        }
+        super.onBreak(world, pos, state, player)
+    }
+
+    override fun onDestroyedByExplosion(world: World, pos: BlockPos, explosion: Explosion) {
+        if (!world.isClient) {
+            NuclearFiredGeneratorBlockEntity.explode(world as ServerWorld, pos)
+        }
+        super.onDestroyedByExplosion(world, pos, explosion)
     }
 
     override fun hasComparatorOutput(state: BlockState) = true

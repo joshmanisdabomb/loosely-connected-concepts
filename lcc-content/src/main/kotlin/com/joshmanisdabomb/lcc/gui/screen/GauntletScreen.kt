@@ -7,7 +7,7 @@ import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
 import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
@@ -76,8 +76,8 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
     }
 
     fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction<*>, current: GauntletAction<*>?, ticks: Int, delta: Float, angle: Float) {
-        val u = action.hasInfo(camera).toInt()
-        val v = (current == action).not().toInt()
+        val u = action.hasInfo(camera).transformInt()
+        val v = (current == action).not().transformInt()
 
         matrix.push()
         matrix.translate(sw.div(2).toDouble(), 0.0, 0.0)

@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.block.entity.OxygenExtractorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.OxygenExtractorScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
@@ -64,7 +64,7 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
         for ((k, v) in oxygenPosition.withIndex()) {
             val stack = handler.inventory[k / 6]
             drawTexture(matrices, x + 39 + k.times(3), y + 17 + v.toInt(), 176, 14, 2, 5)
-            oxygenPosition[k] += oxygenSpeed[k].div(((stack.item as? OxygenStorage)?.isFull(stack)?.not() ?: false).toInt(4.times(handler.inventory.count { (it.item as? OxygenStorage)?.isFull(it)?.not() ?: false }.coerceAtLeast(1)), 100)).times(handler.oxygenAmount())
+            oxygenPosition[k] += oxygenSpeed[k].div(((stack.item as? OxygenStorage)?.isFull(stack)?.not() ?: false).transformInt(4.times(handler.inventory.count { (it.item as? OxygenStorage)?.isFull(it)?.not() ?: false }.coerceAtLeast(1)), 100)).times(handler.oxygenAmount())
             if (oxygenPosition[k] >= 28f) {
                 oxygenPosition[k] = -5f
                 oxygenSpeed[k] = random.nextFloat().times(0.15f).plus(0.85f)

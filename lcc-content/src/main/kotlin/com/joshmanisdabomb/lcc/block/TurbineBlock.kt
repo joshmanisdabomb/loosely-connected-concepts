@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
-import com.joshmanisdabomb.lcc.extensions.to
+import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
@@ -104,7 +104,7 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
                 return when (block) {
                     is CandleBlock -> if (!source[Properties.LIT]) null else f * source[Properties.CANDLES]
                     is CandleCakeBlock -> if (!source[Properties.LIT]) null else f
-                    is CampfireBlock -> if (!source[Properties.LIT]) null else f + source[Properties.SIGNAL_FIRE].to(0.1f, 0f)
+                    is CampfireBlock -> if (!source[Properties.LIT]) null else f + source[Properties.SIGNAL_FIRE].transform(0.1f, 0f)
                     is FluidBlock -> f * block.getFluidState(source).let { if (it.isStill) 1f else if (it[Properties.FALLING]) return null else it[Properties.LEVEL_1_8].times(0.1f) }
                     else -> f
                 }

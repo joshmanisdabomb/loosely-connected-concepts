@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
 import com.joshmanisdabomb.lcc.extensions.setThrough
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.CogNetwork
 import com.joshmanisdabomb.lcc.subblock.Subblock
@@ -130,7 +130,7 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
 
     override fun getStrongRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction) = 0
 
-    override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction) = direction.perpendiculars.any { state[cog_states[it]].active }.toInt(15)
+    override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction) = direction.perpendiculars.any { state[cog_states[it]].active }.transformInt(15)
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         if (Direction.values().none { state[cog_states[it]].exists }) return VoxelShapes.fullCube()

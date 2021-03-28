@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.block
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.extensions.to
+import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
 import net.minecraft.block.enums.BlockHalf
 import net.minecraft.block.enums.StairShape
@@ -27,7 +27,7 @@ open class StairsBlockAssetFactory(val texture: Identifier, val textureTop: Iden
                     StairShape.INNER_LEFT, StairShape.INNER_RIGHT -> innerStairs
                     StairShape.OUTER_LEFT, StairShape.OUTER_RIGHT -> outerStairs
                 })
-                .put(VariantSettings.X, (h == BlockHalf.TOP).to(VariantSettings.Rotation.R180, VariantSettings.Rotation.R0))
+                .put(VariantSettings.X, (h == BlockHalf.TOP).transform(VariantSettings.Rotation.R180, VariantSettings.Rotation.R0))
                 .put(VariantSettings.Y, VariantSettings.Rotation.values()[y.div(90)])
                 .put(VariantSettings.UVLOCK, y != 0 || h == BlockHalf.TOP)
         }) }

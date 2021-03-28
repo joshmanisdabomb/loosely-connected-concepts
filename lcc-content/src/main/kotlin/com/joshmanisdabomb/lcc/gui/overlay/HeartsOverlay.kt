@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.gui.overlay
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCComponents
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -92,22 +92,22 @@ object HeartsOverlay : DrawableHelper() {
             val inRowFlash = ceil(getHalfHeartsInRow(type.renderHealthValue, row).div(2f))
             val inRowMax = ceil(getHalfHeartsInRow(healthMax, row).div(2f))
             val inRowRegen = ceil(getHalfHeartsInRow(regen, row).div(2f))
-            val effect = if (player.hasStatusEffect(StatusEffects.POISON)) 36 else player.hasStatusEffect(StatusEffects.WITHER).toInt(72)
+            val effect = if (player.hasStatusEffect(StatusEffects.POISON)) 36 else player.hasStatusEffect(StatusEffects.WITHER).transformInt(72)
 
             for (heart in 0 until inRowMax) {
                 val xPosCurrent = xPos + heart * 8;
-                val yPosCurrent = yPos + this.random.nextInt(2).times(danger.toInt())
+                val yPosCurrent = yPos + this.random.nextInt(2).times(danger.transformInt())
 
                 val maxHeartHalf = row.times(20) + heart.times(2) >= healthMax - 1 && halfMax
-                this.drawTexture(matrix, xPosCurrent, yPosCurrent, maxHeartHalf.toInt(36) + maxHeartFlash.toInt(9), type.v + hardcore.toInt(9), 9, 9)
+                this.drawTexture(matrix, xPosCurrent, yPosCurrent, maxHeartHalf.transformInt(36) + maxHeartFlash.transformInt(9), type.v + hardcore.transformInt(9), 9, 9)
                 if (maxHeartFlash && heart < inRowFlash) {
-                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 90 + (maxHeartHalf || (row.times(20) + heart.times(2) >= type.renderHealthValue - 1 && halfFlash)).toInt(9) + effect,  type.v + hardcore.toInt(9), 9, 9)
+                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 90 + (maxHeartHalf || (row.times(20) + heart.times(2) >= type.renderHealthValue - 1 && halfFlash)).transformInt(9) + effect,  type.v + hardcore.transformInt(9), 9, 9)
                 }
                 if (type == HeartType.CRYSTAL && heart < inRowRegen) {
-                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= regen - 1 && halfRegen).toInt(9) + effect, type.v + 18, 9, 9)
+                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= regen - 1 && halfRegen).transformInt(9) + effect, type.v + 18, 9, 9)
                 }
                 if (heart < inRow) {
-                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= health - 1 && half).toInt(9) + effect, type.v + hardcore.toInt(9), 9, 9)
+                    this.drawTexture(matrix, xPosCurrent, yPosCurrent, 72 + (row.times(20) + heart.times(2) >= health - 1 && half).transformInt(9) + effect, type.v + hardcore.transformInt(9), 9, 9)
                 }
             }
         }

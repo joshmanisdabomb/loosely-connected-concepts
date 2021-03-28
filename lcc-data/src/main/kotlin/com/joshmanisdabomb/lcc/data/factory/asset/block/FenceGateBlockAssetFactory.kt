@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.block
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.extensions.to
+import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 import net.minecraft.state.property.Properties
@@ -18,8 +18,8 @@ class FenceGateBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFa
             coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.IN_WALL, Properties.OPEN).register { f, w, o ->
                 BlockStateVariant.create()
                     .put(VariantSettings.MODEL, when (w) {
-                        true -> o.to(gateWallOpen, gateWall)
-                        false -> o.to(gateOpen, gate)
+                        true -> o.transform(gateWallOpen, gateWall)
+                        false -> o.transform(gateOpen, gate)
                     })
                     .put(VariantSettings.Y, VariantSettings.Rotation.values()[f.asRotation().toInt().div(90)])
                     .put(VariantSettings.UVLOCK, true)

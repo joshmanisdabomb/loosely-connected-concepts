@@ -54,7 +54,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.nuclear_generator.coolant"] = "Coolant Value: %1\$s units\nDepletion Rate: %2\$s units/t"
         lang["en_us"]!!["container.lcc.nuclear_generator.fuel"] = "Fuel Value: %1\$s units\nFuel Value per Item: %2\$s units\nDepletion Rate: %3\$s units/t"
         lang["en_us"]!!["container.lcc.nuclear_generator.chance"] = "Meltdown Chance: %1\$s%%"
-        lang["en_us"]!!["container.lcc.nuclear_generator.meltdown"] = "Meltdown Imminent!!!"
+        lang["en_us"]!!["container.lcc.nuclear_generator.meltdown"] = "Meltdown in %1\$ss!!!"
 
         lang["en_us"]!!["container.lcc.battery.power"] = "Power: %1\$s"
 

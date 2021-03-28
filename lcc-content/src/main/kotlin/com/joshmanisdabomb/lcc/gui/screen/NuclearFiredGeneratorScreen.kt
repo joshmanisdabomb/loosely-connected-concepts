@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.block.ExplodingNuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.NuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
@@ -78,6 +80,8 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         activate.y = y + 35
     }
 
+    private val blink get() = System.currentTimeMillis().rem(600) < 300
+
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
         RenderSystem.setShader(GameRenderer::method_34542)
         RenderSystem.setShaderTexture(0, texture)
@@ -94,29 +98,33 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         state?.also {
             val e = BlockEntity.approxEquilibrium(BlockEntity.maxFuel, handler.coolantAmount())
             val w = ceil(e.div(barSize).times(78)).toInt()
-            if (it.block is NuclearFiredGeneratorBlock && !it[Properties.LIT]) {
-                if (w >= 0) {
-                    drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 34, 78, 3)
-                    renderBarX(matrices, e.coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 22, 78, 3)
-                    if (w < 77) {
-                        drawTexture(matrices, x + 105 + w, y + 26, backgroundWidth, 70, 5, 3)
+            if (it.block is NuclearFiredGeneratorBlock) {
+                if (!it[Properties.LIT]) {
+                    if (w >= 0) {
+                        drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 34, 78, 3)
+                        renderBarX(matrices, e.coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 22, 78, 3)
+                        if (w < 77) {
+                            drawTexture(matrices, x + 105 + w, y + 26, backgroundWidth, 70, 5, 3)
+                        }
+                    } else {
+                        drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 22, 78, 3)
                     }
                 } else {
-                    drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 22, 78, 3)
-                }
-            } else {
-                if (w >= 0) {
-                    renderBarX(matrices, e.coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 28, 78, 3)
-                    renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 31, 78, 3)
+                    if (w >= 0) {
+                        renderBarX(matrices, e.coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 28, 78, 3)
+                        renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 31, 78, 3)
 
-                    renderBarX(matrices, handler.outputAmount().coerceAtMost(e), e, x + 107, y + 30, 0, backgroundHeight + 25, w, 3)
-                    if (w < 78) {
-                        drawTexture(matrices, x + 105 + w, y + 26, backgroundWidth, 70, 5, 3)
+                        renderBarX(matrices, handler.outputAmount().coerceAtMost(e), e, x + 107, y + 30, 0, backgroundHeight + 25, w, 3)
+                        if (w < 78) {
+                            drawTexture(matrices, x + 105 + w, y + 26, backgroundWidth, 70, 5, 3)
+                        }
+                    } else {
+                        drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 28, 78, 3)
+                        renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 25, 78, 3)
                     }
-                } else {
-                    drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 28, 78, 3)
-                    renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, x + 107, y + 30, 0, backgroundHeight + 25, 78, 3)
                 }
+            } else if (it.block is ExplodingNuclearFiredGeneratorBlock) {
+                drawTexture(matrices, x + 107, y + 30, 0, backgroundHeight + 37 + blink.transformInt(3, 0), 78, 3)
             }
         }
     }
@@ -124,15 +132,19 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
     override fun drawForeground(matrices: MatrixStack, mouseX: Int, mouseY: Int) {
         super.drawForeground(matrices, mouseX, mouseY)
         state?.also {
-            textRenderer.draw(matrices, LooseEnergy.displayWithUnits(handler.outputAmount()) + "/t", 107f, 18f, if (handler.outputAmount() > BlockEntity.maxSafeOutput) {
-                0xf01800
-            } else if (handler.outputAmount() > 175f) {
-                0xc98600
-            } else {
-                4210752
-            })
-            textRenderer.draw(matrices, handler.coolantAmount().decimalFormat(force = true), 123f, 43f, 4210752)
-            textRenderer.draw(matrices, handler.fuelAmount().decimalFormat(force = true), 123f, 68f, 4210752)
+            if (it.block is NuclearFiredGeneratorBlock) {
+                textRenderer.draw(matrices, LooseEnergy.displayWithUnits(handler.outputAmount()) + "/t", 107f, 18f, if (handler.outputAmount() > BlockEntity.maxSafeOutput) {
+                    0xf01800
+                } else if (handler.outputAmount() > 175f) {
+                    0xc98600
+                } else {
+                    4210752
+                })
+                textRenderer.draw(matrices, handler.coolantAmount().decimalFormat(force = true), 123f, 43f, 4210752)
+                textRenderer.draw(matrices, handler.fuelAmount().decimalFormat(force = true), 123f, 68f, 4210752)
+            } else if (it.block is ExplodingNuclearFiredGeneratorBlock) {
+                textRenderer.draw(matrices, TranslatableText("container.lcc.nuclear_generator.meltdown", ceil(BlockEntity.maxMeltdownTicks.minus(handler.meltdownTicks()).div(20f)).toInt().coerceAtLeast(0)), 107f, 18f, blink.transformInt(0xf01800, 0xc98600))
+            }
         }
     }
 

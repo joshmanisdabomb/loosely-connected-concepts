@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.entity.render
 
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.option.ParticlesMode
 import net.minecraft.client.render.Frustum
@@ -30,7 +30,7 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
         val world = MinecraftClient.getInstance().world ?: return
         if (MinecraftClient.getInstance().isPaused) return
         if (MinecraftClient.getInstance().options.particles == ParticlesMode.MINIMAL) return
-        val particles = (MinecraftClient.getInstance().options.particles == ParticlesMode.DECREASED).toInt(5, 1)
+        val particles = (MinecraftClient.getInstance().options.particles == ParticlesMode.DECREASED).transformInt(5, 1)
         val lifetime = max(entity.lifetime, 1)
         val l = entity.radius / lifetime.toDouble()
         val f = (entity.ticks / lifetime.toDouble()).let { MathHelper.sqrt(it) }

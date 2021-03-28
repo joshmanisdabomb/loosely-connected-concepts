@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.block
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.extensions.to
+import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
 import net.minecraft.block.enums.DoorHinge
 import net.minecraft.block.enums.DoubleBlockHalf
@@ -26,7 +26,7 @@ object DoorBlockAssetFactory : BlockAssetFactory {
                             val rh = p2 == DoorHinge.RIGHT
                             if (p3) dir = dir.let { if (rh) dir.rotateYCounterclockwise() else dir.rotateYClockwise() }
                             c.register(p1, p2, p3, p4, BlockStateVariant.create()
-                                .put(VariantSettings.MODEL, if (p4 == DoubleBlockHalf.LOWER) rh.xor(p3).to(bottomHinge, bottom) else rh.xor(p3).to(topHinge, top))
+                                .put(VariantSettings.MODEL, if (p4 == DoubleBlockHalf.LOWER) rh.xor(p3).transform(bottomHinge, bottom) else rh.xor(p3).transform(topHinge, top))
                                 .put(VariantSettings.Y, VariantSettings.Rotation.values()[dir.asRotation().toInt().div(90)])
                             )
                         }

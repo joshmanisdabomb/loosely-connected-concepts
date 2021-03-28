@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.block.entity
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.block.ExplodingNuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.NuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCChunkTickets
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
@@ -13,6 +15,7 @@ import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
+import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
@@ -20,6 +23,7 @@ import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -34,11 +38,13 @@ import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
@@ -76,6 +82,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             6 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.first
             7 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.second
             8 -> this@NuclearFiredGeneratorBlockEntity.waterLevel
+            9 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks
             else -> 0
         }
 
@@ -89,10 +96,11 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             6 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.first = value
             7 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.second = value
             8 -> this@NuclearFiredGeneratorBlockEntity.waterLevel = value
+            9 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks = value
             else -> Unit
         }
 
-        override fun size() = 9
+        override fun size() = 10
     }
 
     var customName: Text? = null
@@ -101,6 +109,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
     var output = 0f
     var fuel = 0f
     var coolant = 0f
+    var meltdownTicks = 0
     private var waterLevel = 0
 
     private val outputDisplay = DecimalTransport(::output)
@@ -135,6 +144,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
         working = tag.getBoolean("Working")
+        meltdownTicks = tag.getInt("Meltdown")
 
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
@@ -149,6 +159,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
 
         tag.putBoolean("Working", working)
+        tag.putInt("Meltdown", meltdownTicks)
 
         Inventories.writeNbt(tag, inventory.list)
 
@@ -158,11 +169,13 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
     override fun fromClientTag(tag: CompoundTag) {
         fuel = tag.getFloat("Fuel")
         coolant = tag.getFloat("Coolant")
+        meltdownTicks = tag.getInt("Meltdown")
     }
 
     override fun toClientTag(tag: CompoundTag): CompoundTag {
         tag.putFloat("Fuel", fuel)
         tag.putFloat("Coolant", coolant)
+        tag.putInt("Meltdown", meltdownTicks)
         return tag
     }
 
@@ -198,6 +211,8 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         val world = world ?: return false
         if (world.isClient) return false
         if (!working) return false
+        coolant = coolant.coerceAtLeast(0f)
+        fuel = fuel.coerceAtLeast(0f)
         world.setBlockState(pos, LCCBlocks.failing_nuclear_generator.defaultState.with(HORIZONTAL_FACING, cachedState.get(HORIZONTAL_FACING)))
         return true
     }
@@ -215,63 +230,88 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         const val fuelCoefficient = 0.13f
         const val coolantCoefficient = 11.0f
 
+        const val maxMeltdownTicks = 1200
+
+        fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: NuclearFiredGeneratorBlockEntity) {
+            if (state.isOf(LCCBlocks.failing_nuclear_generator)) {
+                entity.meltdownTicks++
+            }
+        }
+
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: NuclearFiredGeneratorBlockEntity) {
-            val working = entity.working
-            val oldFuel = entity.fuel
-            val oldCoolant = entity.coolant
-            entity.waterLevel = LCCBlocks.nuclear_generator.getWaterMultiplier(world, pos, state).times(3f).roundToInt()
-            if (entity.working) {
-                if (!entity.inventory[2].isEmpty) {
-                    val fuel = getFuelValue(world, pos)
-                    val take = min(entity.inventory[2].count, floor(maxFuel.minus(entity.fuel).div(fuel)).toInt())
-                    if (take > 0) {
-                        entity.fuel = entity.fuel.coerceAtLeast(0f) + fuel.times(take)
-                        entity.inventory[2].decrement(take)
+            if (state.isOf(LCCBlocks.failing_nuclear_generator)) {
+                entity.meltdownTicks++
+                if (entity.meltdownTicks >= maxMeltdownTicks) {
+                    entity.inventory.clear()
+                    world.setBlockState(pos, Blocks.AIR.defaultState)
+                    NuclearExplosionEntity(world, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), null).also {
+                        it.radius = NuclearUtil.getExplosionRadiusFromUranium(2)
+                        it.lifetime = NuclearUtil.getExplosionLifetimeFromUranium(2)
+                        world.spawnEntity(it)
                     }
+                    (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, ChunkPos(pos), 17, net.minecraft.util.Unit.INSTANCE)
                 }
-                if (!entity.inventory[3].isEmpty) {
-                    val coolant = getCoolantValue(entity.inventory[3])
-                    if (coolant != null) {
-                        val take = min(entity.inventory[3].count, floor(maxCoolant.minus(entity.coolant).div(coolant)).toInt())
+            } else {
+                val working = entity.working
+                val oldFuel = entity.fuel
+                val oldCoolant = entity.coolant
+                entity.waterLevel = LCCBlocks.nuclear_generator.getWaterMultiplier(world, pos, state).times(3f).roundToInt()
+
+                if (entity.working) {
+                    if (!entity.inventory[2].isEmpty) {
+                        val fuel = getFuelValue(world, pos)
+                        val take = min(entity.inventory[2].count, floor(maxFuel.minus(entity.fuel).div(fuel)).toInt())
                         if (take > 0) {
-                            entity.coolant += coolant.times(take)
-                            entity.inventory[3].decrement(take)
-                            if (entity.inventory[3].isEmpty) entity.inventory[3].item.recipeRemainder?.stack(take) ?: ItemStack.EMPTY
+                            entity.fuel = entity.fuel.coerceAtLeast(0f) + fuel.times(take)
+                            entity.inventory[2].decrement(take)
                         }
                     }
-                }
-
-                if (entity.fuel <= 0f && entity.output <= 0f) {
-                    entity.working = false
-                } else {
-                    if (entity.fuel >= 0f) {
-                        entity.output += entity.fuel.times(fuelCoefficient)
-                        entity.fuel = entity.fuel.minus(0.005f).minus(MathHelper.sqrt(maxFuel - entity.fuel).times(0.0022f)).coerceAtLeast(0f)
+                    if (!entity.inventory[3].isEmpty) {
+                        val coolant = getCoolantValue(entity.inventory[3])
+                        if (coolant != null) {
+                            val take = min(entity.inventory[3].count, floor(maxCoolant.minus(entity.coolant).div(coolant)).toInt())
+                            if (take > 0) {
+                                entity.coolant += coolant.times(take)
+                                entity.inventory[3].decrement(take)
+                                if (entity.inventory[3].isEmpty) entity.inventory[3].item.recipeRemainder?.stack(take) ?: ItemStack.EMPTY
+                            }
+                        }
                     }
 
-                    entity.output = entity.output.times(0.995f.pow(entity.coolant.div(maxCoolant).let { it*it*it*it }.times(1f + getOutputBuildup(entity.fuel)).minus(getOutputBuildup(entity.fuel)) + entity.coolant.div(maxCoolant).times(coolantCoefficient))).minus(0.01f).coerceAtLeast(0f)
-                    entity.coolant -= entity.output.times(0.0003f)
+                    if (entity.fuel <= 0f && entity.output <= 0f) {
+                        entity.working = false
+                    } else {
+                        if (entity.fuel >= 0f) {
+                            entity.output += entity.fuel.times(fuelCoefficient)
+                            entity.fuel = entity.fuel.minus(0.005f).minus(MathHelper.sqrt(maxFuel - entity.fuel).times(0.0022f)).coerceAtLeast(0f)
+                        }
+
+                        entity.output = entity.output.times(0.995f.pow(entity.coolant.div(maxCoolant).let { it * it * it * it }.times(1f + getOutputBuildup(entity.fuel)).minus(getOutputBuildup(entity.fuel)) + entity.coolant.div(maxCoolant).times(coolantCoefficient))).minus(0.01f).coerceAtLeast(0f)
+                        entity.coolant -= entity.output.times(0.0003f)
+                    }
+
+                    if (entity.output > 400f) {
+                        entity.meltdown()
+                        return
+                    } else if (entity.output > maxSafeOutput && world.random.nextFloat() < entity.output.minus(maxSafeOutput).div(maxChanceOutput - maxSafeOutput).let { it * it * it }) {
+                        entity.meltdown()
+                        return
+                    }
                 }
 
-                if (entity.output > 400f) {
-                    entity.meltdown()
-                } else if (entity.output > maxSafeOutput && world.random.nextFloat() < entity.output.minus(maxSafeOutput).div(maxChanceOutput - maxSafeOutput).let { it*it*it }) {
-                    entity.meltdown()
+                entity.coolant = entity.coolant.minus(0.01f).coerceAtLeast(0f)
+
+                if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
+
+                if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
+                    entity.sync()
                 }
+
+                EnergyTransaction()
+                    .apply { entity.inventory.slotsIn("power")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
+                    .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values()) }
+                    .run(50f)
             }
-
-            entity.coolant = entity.coolant.minus(0.01f).coerceAtLeast(0f)
-
-            if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
-
-            if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
-                entity.sync()
-            }
-
-            EnergyTransaction()
-                .apply { entity.inventory.slotsIn("power")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { entity.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(world, pos, null, null)) { StackEnergyContext(stack) } } }) } }
-                .include { entity.requestEnergy(WorldEnergyContext(world, pos, null, null), it, LooseEnergy, *Direction.values()) }
-                .run(50f)
         }
 
         fun getCoolantValue(stack: ItemStack) = when (stack.item.asItem()) {
@@ -282,7 +322,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             Items.PACKED_ICE -> 3.5f
             Items.BLUE_ICE -> 5f
             Items.WATER_BUCKET -> 1f
-            Items.POTION -> (PotionUtil.getPotion(stack) == Potions.WATER).to(1/3f, null)
+            Items.POTION -> (PotionUtil.getPotion(stack) == Potions.WATER).transform(1/3f, null)
             Items.POWDER_SNOW_BUCKET -> 2f
             else -> null
         }

@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
@@ -47,7 +47,7 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
 
     override fun lcc_getAdditionalItemBarIndexes(stack: ItemStack) = intArrayOf(0)
 
-    override fun lcc_getAdditionalItemBarOffset(stack: ItemStack, index: Int) = stack.isItemBarVisible.toInt(3, 0)
+    override fun lcc_getAdditionalItemBarOffset(stack: ItemStack, index: Int) = stack.isItemBarVisible.transformInt(3, 0)
 
     override fun lcc_getAdditionalItemBarStep(stack: ItemStack, index: Int) = getOxygenBarStep(stack)
 

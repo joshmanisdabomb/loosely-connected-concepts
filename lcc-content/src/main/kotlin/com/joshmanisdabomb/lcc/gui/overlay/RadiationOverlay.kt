@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.component.RadiationComponent
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
-import com.joshmanisdabomb.lcc.extensions.to
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -57,7 +57,7 @@ object RadiationOverlay : DrawableHelper() {
             lastTick = ticks
         }
 
-        val waveSpeed = 30f.div((effect?.amplifier?.plus(1) ?: 1).times(effectIncreasing.to(1.5f, 1f)).coerceAtMost(6f))
+        val waveSpeed = 30f.div((effect?.amplifier?.plus(1) ?: 1).times(effectIncreasing.transform(1.5f, 1f)).coerceAtMost(6f))
         RenderSystem.enableBlend()
         if (effectIncreasing) {
             renderWave(matrix, x, y, effect, ticks, 0, waveSpeed)
@@ -73,7 +73,7 @@ object RadiationOverlay : DrawableHelper() {
         val shakeX: Int
         val shakeY: Int
         if (effect != null) {
-            random.setSeed(ticksf.div(3f).times(effect.amplifier + 1).times(effectIncreasing.toInt(2, 1)).toInt() * 93564L)
+            random.setSeed(ticksf.div(3f).times(effect.amplifier + 1).times(effectIncreasing.transformInt(2, 1)).toInt() * 93564L)
             shakeX = random.nextInt(2).times(random.nextInt(3).minus(1))
             shakeY = random.nextInt(2).times(random.nextInt(3).minus(1))
         } else {
@@ -116,7 +116,7 @@ object RadiationOverlay : DrawableHelper() {
     }
 
     private fun renderWave(matrix: MatrixStack, x: Int, y: Int, effect: StatusEffectInstance?, ticks: Int, wave: Int, waveSpeed: Float) {
-        val f = ticks.div(waveSpeed.absoluteValue).plus(wave.div(5f).times((effect == null).toInt(1, -1)))
+        val f = ticks.div(waveSpeed.absoluteValue).plus(wave.div(5f).times((effect == null).transformInt(1, -1)))
         val color = when {
             effect == null -> restorationColor
             effectIncreasing -> increasingColor

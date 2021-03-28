@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.HazmatArmorItem
 import com.joshmanisdabomb.lcc.item.HazmatTankArmorItem
 import net.minecraft.block.Block
@@ -56,7 +56,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlock,
     override fun lcc_content_nukeIgnore() = true
 
     override fun lcc_onEntityNearby(world: World, state: BlockState, pos: BlockPos, entity: Entity, distSq: Double) {
-        NuclearUtil.addRadiation(entity as? LivingEntity ?: return, 2.times((distSq < 1.3).toInt(3, 1)), 0)
+        NuclearUtil.addRadiation(entity as? LivingEntity ?: return, 2.times((distSq < 1.3).transformInt(3, 1)), 0)
     }
 
     override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {

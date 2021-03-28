@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
-import com.joshmanisdabomb.lcc.extensions.to
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
@@ -102,7 +102,7 @@ object PunchGauntletAction : GauntletAction<PunchGauntletAction.PunchGauntletAct
                 //FIXME sometimes only server sees entities in range, so step height not reset for client, probably packet
                 return rebound(actor, sin, cos, f)
             }
-            val thrust = speedH.times(chargePercent.coerceAtLeast(0.3)).times(1-castPercent.times(0.5)).times((cast >= maxCast - 1).to(0.5f, 1f))
+            val thrust = speedH.times(chargePercent.coerceAtLeast(0.3)).times(1-castPercent.times(0.5)).times((cast >= maxCast - 1).transform(0.5f, 1f))
             if (actor.horizontalCollision) {
                 val vel = actor.velocity
                 if (vel.x == 0.0) {
@@ -121,9 +121,9 @@ object PunchGauntletAction : GauntletAction<PunchGauntletAction.PunchGauntletAct
             return false
         }
 
-        override fun getMaxCooldownTime(cancelled: Boolean) = cancelled.toInt(10, if (actor.isSurvival) 184 else 0)
+        override fun getMaxCooldownTime(cancelled: Boolean) = cancelled.transformInt(10, if (actor.isSurvival) 184 else 0)
 
-        override fun getMaxCastTime(cancelled: Boolean) = cancelled.toInt(-1, MathHelper.ceil(chargePercent.times(7)) + 2)
+        override fun getMaxCastTime(cancelled: Boolean) = cancelled.transformInt(-1, MathHelper.ceil(chargePercent.times(7)) + 2)
 
         override fun readFromNbt(tag: CompoundTag) {
             sin = tag.getFloat("Sin")
@@ -163,7 +163,7 @@ object PunchGauntletAction : GauntletAction<PunchGauntletAction.PunchGauntletAct
         }
 
         override fun tick(): Boolean {
-            val thrust = speedH.times(charge.coerceAtLeast(0.3)).times(1-percent.times(0.5)).times((ticks >= maxTicks - 1).to(0.5f, 1f))
+            val thrust = speedH.times(charge.coerceAtLeast(0.3)).times(1-percent.times(0.5)).times((ticks >= maxTicks - 1).transform(0.5f, 1f))
             val vel = entity.velocity
             val x = abs(sin * (thrust / f) * 0.1)
             val z = abs(cos * (thrust / f) * 0.1)

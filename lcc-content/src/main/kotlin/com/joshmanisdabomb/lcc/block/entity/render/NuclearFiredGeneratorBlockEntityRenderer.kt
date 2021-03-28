@@ -2,12 +2,15 @@ package com.joshmanisdabomb.lcc.block.entity.render
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.extensions.blockEntityTransform
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
@@ -15,6 +18,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Vec3f
+import java.util.*
 import kotlin.math.PI
 import kotlin.math.ceil
 
@@ -25,6 +29,11 @@ class NuclearFiredGeneratorBlockEntityRenderer(context: BlockEntityRendererFacto
     val coolant_empty: Array<ModelPart>
     val coolant_fill: Array<ModelPart>
 
+    val rand = Random()
+    var xShake = 0.0
+    var yShake = 0.0
+    var zShake = 0.0
+
     init {
         val part = context.getLayerModelPart(LCCModelLayers.nuclear_generator)
         fuel_empty = Array(partAmount) { part.getChild("fuel_empty_$it") }
@@ -34,22 +43,37 @@ class NuclearFiredGeneratorBlockEntityRenderer(context: BlockEntityRendererFacto
     }
 
     override fun render(entity: NuclearFiredGeneratorBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
-        val fuelLevel = ceil(entity.fuel.div(NuclearFiredGeneratorBlockEntity.maxFuel).times(11f)).toInt().coerceIn(0, 10)
-        val coolantLevel = ceil(entity.coolant.div(NuclearFiredGeneratorBlockEntity.maxCoolant).times(11f)).toInt().coerceIn(0, 10)
+        if (entity.meltdownTicks <= 0) {
+            val fuelLevel = ceil(entity.fuel.div(NuclearFiredGeneratorBlockEntity.maxFuel).times(11f)).toInt().coerceIn(0, 10)
+            val coolantLevel = ceil(entity.coolant.div(NuclearFiredGeneratorBlockEntity.maxCoolant).times(11f)).toInt().coerceIn(0, 10)
 
-        matrices.push()
-        if (fuelLevel != 10) fuel_empty[fuelLevel].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
-        if (fuelLevel != 0) fuel_fill[fuelLevel - 1].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
-        for (d in horizontalDirections) {
             matrices.push()
-            d.blockEntityTransform(matrices)
-            matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0f))
-            matrices.translate(0.0, -1.0, 0.0)
-            if (coolantLevel != 10) coolant_empty[coolantLevel].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
-            if (coolantLevel != 0) coolant_fill[coolantLevel - 1].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
+            if (fuelLevel != 10) fuel_empty[fuelLevel].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
+            if (fuelLevel != 0) fuel_fill[fuelLevel - 1].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
+            for (d in horizontalDirections) {
+                matrices.push()
+                d.blockEntityTransform(matrices)
+                matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0f))
+                matrices.translate(0.0, -1.0, 0.0)
+                if (coolantLevel != 10) coolant_empty[coolantLevel].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
+                if (coolantLevel != 0) coolant_fill[coolantLevel - 1].render(matrices, texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityCutout), light, overlay)
+                matrices.pop()
+            }
+            matrices.pop()
+        } else {
+            val state = entity.pos?.let { MinecraftClient.getInstance().world?.getBlockState(it) } ?: LCCBlocks.failing_nuclear_generator.defaultState
+            matrices.push()
+            MinecraftClient.getInstance().blockRenderManager.also {
+                if (!MinecraftClient.getInstance().isPaused) {
+                    xShake = xShake.plus(rand.nextDouble().minus(0.5).div(25.0)).coerceIn(-0.125, 0.125).div(1.5).plus(rand.nextDouble().minus(0.5).div(12.0))
+                    yShake = yShake.plus(rand.nextDouble().minus(0.5).div(25.0)).coerceIn(-0.125, 0.125).div(1.5).plus(rand.nextDouble().minus(0.5).div(12.0))
+                    zShake = zShake.plus(rand.nextDouble().minus(0.5).div(25.0)).coerceIn(-0.125, 0.125).div(1.5).plus(rand.nextDouble().minus(0.5).div(12.0))
+                }
+                matrices.translate(xShake, yShake, zShake)
+                it.modelRenderer.render(matrices.peek(), vertexConsumers.getBuffer(RenderLayers.getEntityBlockLayer(state, false)), state, it.getModel(state), 1f, 1f, 1f, light, overlay)
+            }
             matrices.pop()
         }
-        matrices.pop()
     }
 
     companion object : ClientSpriteRegistryCallback {

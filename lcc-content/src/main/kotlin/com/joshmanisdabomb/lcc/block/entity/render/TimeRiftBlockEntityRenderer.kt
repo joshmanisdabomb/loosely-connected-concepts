@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.directory.LCCRenderLayers
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.utils.RenderingUtils
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
@@ -114,7 +114,7 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
         }
     }
 
-    private fun randomMotion(vec: Vector3d) = DoubleArray(3) { if (it == 0) rand.nextDouble().times(0.02).plus(0.02).times(rand.nextBoolean().toInt(1, -1)) else rand.nextDouble().times(0.04).minus(0.02) }.run { shuffle(); vec.x = this[0]; vec.y = this[1]; vec.z = this[2]; vec }
+    private fun randomMotion(vec: Vector3d) = DoubleArray(3) { if (it == 0) rand.nextDouble().times(0.02).plus(0.02).times(rand.nextBoolean().transformInt(1, -1)) else rand.nextDouble().times(0.04).minus(0.02) }.run { shuffle(); vec.x = this[0]; vec.y = this[1]; vec.z = this[2]; vec }
 
     private fun color(color: Vector3d, x: Double, y: Double, z: Double): Vector3d {
         val distance = min((MathHelper.absMax(MathHelper.absMax(x, y), z) * 2).pow(4.0).times(3.0), 1.0)

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.RefiningScreenHandler
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
@@ -64,7 +64,7 @@ abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerI
         currentRecipe?.also {
             val lines = textRenderer.wrapLines(TranslatableText(it.lang), w)
             lines.forEachIndexed { k, v ->
-                textRenderer.draw(matrices, v, x, y.minus((lines.size > 1).toInt(6)).plus(k.times(10)), 4210752)
+                textRenderer.draw(matrices, v, x, y.minus((lines.size > 1).transformInt(6)).plus(k.times(10)), 4210752)
             }
         }
     }

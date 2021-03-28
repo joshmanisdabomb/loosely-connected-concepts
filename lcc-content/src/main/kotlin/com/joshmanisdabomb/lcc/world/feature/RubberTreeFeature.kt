@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.world.feature
 
 import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.mojang.serialization.Codec
 import net.minecraft.block.Blocks
 import net.minecraft.state.property.Properties
@@ -60,7 +60,7 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
                 false
             } else {
                 val optionalInt: OptionalInt = context.config.minimumSize.minClippedHeight
-                val branches = horizontalDirections.filter { context.random.nextInt(12) != 0 }.map { it to (-context.random.nextInt((i > 6).toInt(3, 2))..context.random.nextInt(3)) }.toMap()
+                val branches = horizontalDirections.filter { context.random.nextInt(12) != 0 }.map { it to (-context.random.nextInt((i > 6).transformInt(3, 2))..context.random.nextInt(3)) }.toMap()
                 r = this.getTopPosition(context.world, i, branches, context.origin, context.config)
                 if (r >= i + branches.maxHeight() || (optionalInt.isPresent && r >= optionalInt.asInt)) {
                     generateTree(context, i, branches, context.origin)

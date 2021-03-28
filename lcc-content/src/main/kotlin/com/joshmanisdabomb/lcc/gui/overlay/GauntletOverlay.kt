@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.PunchGauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.UppercutGauntletAction
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.extensions.toInt
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
 import com.joshmanisdabomb.lcc.gui.utils.GauntletProgressRenderer
 import com.mojang.blaze3d.systems.RenderSystem
@@ -63,12 +63,12 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
 
     fun renderAttack(matrix: MatrixStack, camera: PlayerEntity, action: GauntletAction<*>, current: GauntletAction<*>?, ticks: Int, delta: Float, angle: Float) {
         val shine = ticks.minus(actionLastUnlocked[action] ?: ticks)
-        val selected = (current == action).toInt(2)
+        val selected = (current == action).transformInt(2)
         val charging = current == action && action.canCharge && camera.activeItem.item == LCCItems.gauntlet
 
         val info = action.getInfo(camera)
-        val baseU = charging.toInt(2, info?.isCasting?.toInt(0, 5) ?: if (shine <= 3) shine.plus(1) else 0)
-        val baseV = (charging || action.isCasting(camera)).toInt(1) + selected
+        val baseU = charging.transformInt(2, info?.isCasting?.transformInt(0, 5) ?: if (shine <= 3) shine.plus(1) else 0)
+        val baseV = (charging || action.isCasting(camera)).transformInt(1) + selected
 
         matrix.push()
         matrix.translate(sw.div(2).toDouble(), 0.0, 0.0)

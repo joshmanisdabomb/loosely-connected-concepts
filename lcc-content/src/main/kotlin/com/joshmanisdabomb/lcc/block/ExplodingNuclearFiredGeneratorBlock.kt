@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
@@ -10,6 +11,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
@@ -32,6 +34,8 @@ class ExplodingNuclearFiredGeneratorBlock(settings: Settings) : BlockWithEntity(
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(HORIZONTAL_FACING).let {}
+
+    override fun getPlacementState(context: ItemPlacementContext) = horizontalPlacement(context)
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = NuclearFiredGeneratorBlockEntity(pos, state)
 
@@ -68,6 +72,6 @@ class ExplodingNuclearFiredGeneratorBlock(settings: Settings) : BlockWithEntity(
 
     override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos) = ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos))
 
-    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.nuclear_generator, NuclearFiredGeneratorBlockEntity::serverTick) else null
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.nuclear_generator, NuclearFiredGeneratorBlockEntity::serverTick) else checkType(type, LCCBlockEntities.nuclear_generator, NuclearFiredGeneratorBlockEntity::clientTick)
 
 }

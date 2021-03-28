@@ -28,7 +28,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
     private var _pos: BlockPos? = null
     val pos get() = _pos
 
-    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(9)) {
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(10)) {
         _pos = buf.readBlockPos()
     }
 
@@ -36,7 +36,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
 
     init {
         checkSize(inventory, 5)
-        checkDataCount(properties, 9)
+        checkDataCount(properties, 10)
 
         addSlot(object : PredicatedSlot(inventory, 0, 24, 63, { it.isOf(Items.TNT) }) {
             override fun getMaxItemCount() = 1
@@ -107,5 +107,8 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
 
     @Environment(EnvType.CLIENT)
     fun waterAmount() = properties.get(8)
+
+    @Environment(EnvType.CLIENT)
+    fun meltdownTicks() = properties.get(9)
 
 }

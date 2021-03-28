@@ -338,7 +338,20 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCItems.heavy_uranium_nugget) }
             .apply { offerInterface(this, d) }
     }) }
-    val nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(NuclearFiredGeneratorBlockAssetFactory).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_solar_panel.upload(loc(i), Texture().put(TextureKey.TOP, loc(i, folder = "block")).put(TextureKey.SIDE, loc(i, folder = "block") { it.plus("_side") }).put(TextureKey.BOTTOM, loc(i, folder = "block") { it.plus("_bottom") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(NuclearFiredGeneratorBlockAssetFactory).add(CustomItemAssetFactory { d, i ->
+        LCCModelTemplates.template_nuclear_generator_item.upload(loc(i), Texture()
+            .put(LCCModelTextureKeys.t0, LCC.block("generator"))
+            .put(LCCModelTextureKeys.t1, loc(i, folder = "block") { it.plus("_bottom_side") })
+            .put(LCCModelTextureKeys.t2, loc(i, folder = "block") { it.plus("_top_side") })
+            .put(LCCModelTextureKeys.t3, loc(LCCBlocks.machine_enclosure.asItem(), folder = "block") { it.plus("_bottom") })
+            .put(LCCModelTextureKeys.t4, loc(LCCBlocks.machine_enclosure.asItem(), folder = "block") { it.plus("_top") })
+            .put(LCCModelTextureKeys.t5, loc(i, folder = "block") { it.plus("_redstone") })
+            .put(LCCModelTextureKeys.t6, loc(i, folder = "block") { it.plus("_bottom") })
+            .put(LCCModelTextureKeys.t7, loc(i, folder = "block") { it.plus("_level") })
+            .put(LCCModelTextureKeys.t8, loc(i, folder = "block") { it.plus("_level") })
+            .put(LCCModelTextureKeys.t9, loc(LCCBlocks.heavy_uranium_shielding.asItem(), folder = "block"))
+        , d.modelStates::addModel) }
+    ).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ses")
             .pattern("bmr")
@@ -352,6 +365,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, LCCItems.heavy_uranium_nugget) }
             .apply { offerShaped(this, d) }
     }) }
+    val failing_nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(ExplodingNuclearFiredGeneratorBlockAssetFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

@@ -36,8 +36,10 @@ object LCC : ModInitializer {
         GauntletDirectory.init()
     }
 
-    fun id(path: String): Identifier = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))
+    fun id(path: String) = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))
 
-    fun gui(name: String): Identifier = id("textures/gui/$name.png")
+    fun block(name: String) = id("block/$name")
+    fun item(name: String) = id("item/$name")
+    fun gui(name: String) = id("textures/gui/$name.png")
 
 }

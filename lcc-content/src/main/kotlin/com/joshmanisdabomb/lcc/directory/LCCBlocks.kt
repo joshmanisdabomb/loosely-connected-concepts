@@ -213,7 +213,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val nuclear_generator by entry(::initialiser) { NuclearFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(6.0F, 3.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
-    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator)) }
+    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator).dropsNothing()) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val turbine by entry(::initialiser) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))

@@ -1,5 +1,7 @@
 package com.joshmanisdabomb.lcc.block.entity
 
+import com.joshmanisdabomb.lcc.block.ExplodingNuclearFiredGeneratorBlock
+import com.joshmanisdabomb.lcc.block.NuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
@@ -110,7 +112,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
     val steam get() = output * waterLevel.div(3f)
 
     override var rawEnergy: Float? = 0f
-    override val rawEnergyMaximum get() = LooseEnergy.toStandard(NuclearFiredGeneratorBlockEntity.maxEnergy)
+    override val rawEnergyMaximum get() = LooseEnergy.toStandard(maxEnergy)
     private var energy: Float
         get() = rawEnergy ?: 0f
         set(value) { rawEnergy = value }
@@ -209,9 +211,10 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             entity.waterLevel = LCCBlocks.nuclear_generator.getWaterMultiplier(world, pos, state).times(3f).roundToInt()
             if (entity.working) {
                 if (!entity.inventory[2].isEmpty) {
-                    val take = min(entity.inventory[2].count, floor(maxFuel.minus(entity.fuel)).toInt())
+                    val fuel = getFuelValue(world, pos)
+                    val take = min(entity.inventory[2].count, floor(maxFuel.minus(entity.fuel).div(fuel)).toInt())
                     if (take > 0) {
-                        entity.fuel = entity.fuel.coerceAtLeast(0f) + take
+                        entity.fuel = entity.fuel.coerceAtLeast(0f) + fuel.times(take)
                         entity.inventory[2].decrement(take)
                     }
                 }
@@ -232,11 +235,11 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                 } else {
                     if (entity.fuel >= 0f) {
                         entity.output += entity.fuel.times(fuelCoefficient)
-                        entity.fuel = entity.fuel.minus(0.005f).minus(MathHelper.sqrt(maxFuel - entity.fuel).times(0.001f)).coerceAtLeast(0f)
+                        entity.fuel = entity.fuel.minus(0.005f).minus(MathHelper.sqrt(maxFuel - entity.fuel).times(0.0022f)).coerceAtLeast(0f)
                     }
 
-                    entity.output = entity.output.times(0.995f.pow(entity.coolant.div(maxCoolant).let { it*it*it*it }.times(4).minus(3) + entity.coolant.div(maxCoolant).times(coolantCoefficient))).minus(0.01f).coerceAtLeast(0f)
-                    entity.coolant -= entity.output.times(0.000015f)
+                    entity.output = entity.output.times(0.995f.pow(entity.coolant.div(maxCoolant).let { it*it*it*it }.times(1f + getOutputBuildup(entity.fuel)).minus(getOutputBuildup(entity.fuel)) + entity.coolant.div(maxCoolant).times(coolantCoefficient))).minus(0.01f).coerceAtLeast(0f)
+                    entity.coolant -= entity.output.times(0.0003f)
                 }
 
                 if (entity.output > 400f) {
@@ -260,9 +263,9 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             Items.SNOWBALL -> 0.375f
             Items.SNOW_BLOCK -> 1.5f
             Items.SNOW -> 0.1875f
-            Items.ICE -> 1.5f
-            Items.PACKED_ICE -> 2.5f
-            Items.BLUE_ICE -> 3.5f
+            Items.ICE -> 2f
+            Items.PACKED_ICE -> 3.5f
+            Items.BLUE_ICE -> 5f
             Items.WATER_BUCKET -> 1f
             Items.POTION -> (PotionUtil.getPotion(stack) == Potions.WATER).to(1/3f, null)
             Items.POWDER_SNOW_BUCKET -> 2f
@@ -271,10 +274,27 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
         fun canStartup(energy: Float, inventory: LCCInventory) = energy >= maxEnergy && inventory[0].isOf(Items.TNT) && inventory[1].isOf(LCCItems.enriched_uranium_nugget) && inventory[2].isOf(LCCItems.nuclear_fuel)
 
+        fun getOutputBuildup(fuel: Float) = fuel.div(maxFuel).plus(2f).coerceAtMost(1f).times(2.33333f)
+
         fun approxEquilibrium(fuel: Float, coolant: Float): Float {
-            val x = 0.995f.pow(coolant.div(maxCoolant).let { it*it*it*it }.times(4).minus(3) + coolant.div(maxCoolant).times(coolantCoefficient))
+            val x = 0.995f.pow(coolant.div(maxCoolant).let { it*it*it*it }.times(1f + getOutputBuildup(fuel)).minus(getOutputBuildup(fuel)) + coolant.div(maxCoolant).times(coolantCoefficient))
             val f = fuel.times(fuelCoefficient)
             return -f.times(100).plus(1).div(x.minus(1.div(0.999f)).times(100))
+        }
+
+        fun getFuelValue(world: World, pos: BlockPos): Float {
+            val bp = pos.mutableCopy()
+            var amount = 1f
+            for (x in -1..1) {
+                for (z in -1..1) {
+                    if (x == 0 && z == 0) continue
+                    val state = world.getBlockState(bp.set(pos, x, 0, z))
+                    if (state.block is ExplodingNuclearFiredGeneratorBlock || (state.block is NuclearFiredGeneratorBlock && state[LIT])) {
+                        amount += 1/8f
+                    }
+                }
+            }
+            return amount
         }
 
     }

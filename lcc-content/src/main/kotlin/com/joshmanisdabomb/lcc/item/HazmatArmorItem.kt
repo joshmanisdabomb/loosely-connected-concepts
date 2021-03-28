@@ -37,7 +37,7 @@ open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArm
     override fun blockDamage(entity: LivingEntity, damage: DamageSource, amount: Float, piece: ItemStack, pieces: Iterable<ItemStack>): Boolean {
         if (!hasFullSuit(piece, pieces) || ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(pieces) <= 0f) return false
         return when (damage) {
-            DamageSource.CACTUS, DamageSource.DRAGON_BREATH, DamageSource.FREEZE, DamageSource.HOT_FLOOR, DamageSource.SWEET_BERRY_BUSH -> true
+            DamageSource.CACTUS, DamageSource.DRAGON_BREATH, DamageSource.FREEZE, DamageSource.HOT_FLOOR, DamageSource.SWEET_BERRY_BUSH, LCCDamage.boiled, LCCDamage.heated -> true
             else -> false
         }
     }

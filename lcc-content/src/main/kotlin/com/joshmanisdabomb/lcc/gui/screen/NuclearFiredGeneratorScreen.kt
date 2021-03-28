@@ -21,6 +21,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.math.MathHelper
 import kotlin.math.ceil
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity.Companion as BlockEntity
 
@@ -145,8 +146,17 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         state?.also {
             if (it.block is NuclearFiredGeneratorBlock && it[Properties.LIT]) {
                 val e = BlockEntity.approxEquilibrium(BlockEntity.maxFuel, handler.coolantAmount())
-                if (mouseX in x + 85..x + 99 && mouseY in y + 18..y + 32) {
+                if (mouseX in x + 85..x + 185 && mouseY in y + 15..y + 35) {
                     renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.output", LooseEnergy.displayWithUnits(handler.outputAmount().times(handler.waterAmount().div(3f))), LooseEnergy.displayWithUnits(handler.outputAmount()), LooseEnergy.displayWithUnits(BlockEntity.maxSafeOutput), if (e > 0f && e <= 10000f) LooseEnergy.displayWithUnits(e) else "∞ LE", handler.waterAmount().div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+                }
+                if (mouseX in x + 105..x + 119 && mouseY in y + 39..y + 53) {
+                    val rate = handler.outputAmount().times(0.0003f).plus(0.01f)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.coolant", handler.coolantAmount().decimalFormat(force = true), rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
+                }
+                if (mouseX in x + 105..x + 119 && mouseY in y + 64..y + 80) {
+                    val rate = MathHelper.sqrt(BlockEntity.maxFuel - handler.fuelAmount()).times(0.0022f).plus(0.005f)
+                    val value = run { BlockEntity.getFuelValue(client?.world ?: return@run 1f, handler.pos ?: return@run 1f) }
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.fuel", handler.fuelAmount().decimalFormat(force = true), value, rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
                 }
             }
         }

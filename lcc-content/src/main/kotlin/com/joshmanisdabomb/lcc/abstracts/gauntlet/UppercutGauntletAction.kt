@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
@@ -85,13 +85,13 @@ object UppercutGauntletAction : GauntletAction<UppercutGauntletAction.UppercutGa
 
         override fun getMaxCastTime(cancelled: Boolean) = 13
 
-        override fun readFromNbt(tag: CompoundTag) {
+        override fun readFromNbt(tag: NbtCompound) {
             sin = tag.getFloat("Sin")
             cos = tag.getFloat("Cos")
             health.readFromNbt(tag)
         }
 
-        override fun writeToNbt(tag: CompoundTag) {
+        override fun writeToNbt(tag: NbtCompound) {
             tag.putFloat("Sin", sin)
             tag.putFloat("Cos", cos)
             health.writeToNbt(tag)
@@ -129,12 +129,12 @@ object UppercutGauntletAction : GauntletAction<UppercutGauntletAction.UppercutGa
 
         override fun getTime(actor: PlayerEntity, info: UppercutGauntletActorInstance) = 10
 
-        override fun readFromNbt(tag: CompoundTag) {
+        override fun readFromNbt(tag: NbtCompound) {
             sin = tag.getFloat("Sin")
             cos = tag.getFloat("Cos")
         }
 
-        override fun writeToNbt(tag: CompoundTag) {
+        override fun writeToNbt(tag: NbtCompound) {
             tag.putFloat("Sin", sin)
             tag.putFloat("Cos", cos)
         }

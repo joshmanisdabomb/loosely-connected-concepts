@@ -17,7 +17,7 @@ import net.minecraft.entity.boss.BossBar
 import net.minecraft.entity.boss.ServerBossBar
 import net.minecraft.loot.context.LootContext
 import net.minecraft.loot.context.LootContextTypes
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.structure.StructurePlacementData
@@ -109,7 +109,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
         }
     }
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         activeTicks = tag.getInt("activeTicks")
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
@@ -118,7 +118,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
         super.readNbt(tag)
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         tag.putInt("activeTicks", activeTicks)
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))

@@ -9,7 +9,7 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent
 import net.minecraft.entity.LivingEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
@@ -47,7 +47,7 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         }
     }
 
-    override fun readFromNbt(tag: CompoundTag) {
+    override fun readFromNbt(tag: NbtCompound) {
         health.clear()
         maxHealth.clear()
         tag.getCompound("Values").apply {
@@ -61,11 +61,11 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         calculateDamageLayer()
     }
 
-    override fun writeToNbt(tag: CompoundTag) {
-        tag.build("Values", ref = CompoundTag()) {
+    override fun writeToNbt(tag: NbtCompound) {
+        tag.build("Values", ref = NbtCompound()) {
             health.forEach { (k, v) -> putFloat(k.tag, v) }
         }
-        tag.build("MaxValues", ref = CompoundTag()) {
+        tag.build("MaxValues", ref = NbtCompound()) {
             maxHealth.forEach { (k, v) -> putFloat(k.tag, v) }
         }
         tag.putFloat("CrystalRegenAmount", crystalRegenAmount)

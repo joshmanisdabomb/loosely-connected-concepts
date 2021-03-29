@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import com.joshmanisdabomb.lcc.extensions.build
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import net.minecraft.advancement.Advancement
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.world.WorldProperties
@@ -21,15 +21,15 @@ class AdvancementRaceComponent(private val properties: WorldProperties) : Compon
         }
     }
 
-    override fun readFromNbt(tag: CompoundTag) {
+    override fun readFromNbt(tag: NbtCompound) {
         map.clear()
         tag.getCompound("Advancements").apply {
             keys.forEach { map[Identifier(it)] = getUuid(it) }
         }
     }
 
-    override fun writeToNbt(tag: CompoundTag) {
-        tag.build("Advancements", CompoundTag()) {
+    override fun writeToNbt(tag: NbtCompound) {
+        tag.build("Advancements", NbtCompound()) {
             map.forEach { (k, v) -> putUuid(k.toString(), v) }
         }
     }

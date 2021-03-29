@@ -24,7 +24,7 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.item.AutomaticItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -49,7 +49,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         facing.also { _facing = it; this.facing = it }
         updatePosition(x, y, z)
         velocity = Vec3d.ZERO
-        this.be = be?.writeNbt(CompoundTag())
+        this.be = be?.writeNbt(NbtCompound())
         prevX = x
         prevY = y
         prevZ = z
@@ -63,7 +63,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         placedBy = igniter
     }
 
-    var be: CompoundTag? = null
+    var be: NbtCompound? = null
 
     var placedBy: LivingEntity? = null
 
@@ -94,7 +94,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         }
     }
 
-    override fun readCustomDataFromNbt(tag: CompoundTag) {
+    override fun readCustomDataFromNbt(tag: NbtCompound) {
         tag.getBoolean("Active").apply { _active = this; active = this }
         tag.getShort("Fuse").run { if (this > 0) this else 1200 }.toInt().apply { _fuse = this; fuse = this }
         tag.getByte("Facing").run { Direction.fromHorizontal(this.toInt()) }.apply { _facing = this; facing = this }
@@ -102,7 +102,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         if (tag.contains("TileEntityData", NBT_COMPOUND)) tag.getCompound("TileEntityData").apply { be = this }
     }
 
-    override fun writeCustomDataToNbt(tag: CompoundTag) {
+    override fun writeCustomDataToNbt(tag: NbtCompound) {
         tag.putBoolean("Active", _active)
         tag.putShort("Fuse", _fuse.toShort())
         tag.putByte("Facing", _facing.horizontal.toByte())
@@ -167,7 +167,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                             if (setBlockState) {
                                 be?.also {
                                     (world.getBlockEntity(bp) as? AtomicBombBlockEntity)?.apply {
-                                        val data = this.writeNbt(CompoundTag()).copyFrom(it)
+                                        val data = this.writeNbt(NbtCompound()).copyFrom(it)
                                         data.putInt("x", bp.x)
                                         data.putInt("y", bp.y)
                                         data.putInt("z", bp.z)

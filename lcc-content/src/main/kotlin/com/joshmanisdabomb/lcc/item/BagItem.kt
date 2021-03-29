@@ -10,8 +10,8 @@ import net.minecraft.client.item.TooltipData
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.inventory.CommandItemSlot
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
@@ -107,9 +107,9 @@ interface BagItem {
 
     @JvmDefault
     fun getBaggedStacks(stack: ItemStack): Stream<ItemStack> {
-        val compoundTag = stack.tag ?: return Stream.empty()
-        val listTag = compoundTag.getList("Items", 10)
-        return listTag.stream().map { obj -> CompoundTag::class.java.cast(obj) }.map { tag -> ItemStackUtils.fromTagIntCount(tag) }
+        val nbtCompound = stack.tag ?: return Stream.empty()
+        val nbtList = nbtCompound.getList("Items", 10)
+        return nbtList.stream().map { obj -> NbtCompound::class.java.cast(obj) }.map { tag -> ItemStackUtils.fromTagIntCount(tag) }
     }
 
     @JvmDefault
@@ -120,14 +120,14 @@ interface BagItem {
 
     @JvmDefault
     fun dropFromBag(stack: ItemStack, player: PlayerEntity): Boolean {
-        val compoundTag = stack.orCreateTag
-        if (!compoundTag.contains("Items")) return false
+        val nbtCompound = stack.orCreateTag
+        if (!nbtCompound.contains("Items")) return false
 
         if (player is ServerPlayerEntity) {
-            val listTag = compoundTag.getList("Items", 10)
-            for (i in listTag.indices) {
-                val compoundTag2 = listTag.getCompound(i)
-                val itemStack = ItemStackUtils.fromTagIntCount(compoundTag2)
+            val nbtList = nbtCompound.getList("Items", 10)
+            for (i in nbtList.indices) {
+                val nbtCompound2 = nbtList.getCompound(i)
+                val itemStack = ItemStackUtils.fromTagIntCount(nbtCompound2)
                 while (!itemStack.isEmpty) {
                     player.dropItem(itemStack.split(64), true)
                 }
@@ -138,26 +138,26 @@ interface BagItem {
     }
 
     @JvmDefault
-    fun bagCombineCheck(stack: ItemStack, listTag: ListTag): Optional<CompoundTag> {
+    fun bagCombineCheck(stack: ItemStack, nbtList: NbtList): Optional<NbtCompound> {
         return if (stack.item is BagItem) {
             Optional.empty()
         } else {
-            listTag.stream().filter { CompoundTag::class.java.isInstance(it) }.map { CompoundTag::class.java.cast(it) }.filter { ItemStack.canCombine(ItemStackUtils.fromTagIntCount(it), stack) }.findFirst()
+            nbtList.stream().filter { NbtCompound::class.java.isInstance(it) }.map { NbtCompound::class.java.cast(it) }.filter { ItemStack.canCombine(ItemStackUtils.fromTagIntCount(it), stack) }.findFirst()
         }
     }
 
     @JvmDefault
     fun retrieveBagStack(stack: ItemStack): Optional<ItemStack> {
-        val compoundTag = stack.orCreateTag
-        return if (!compoundTag.contains("Items")) {
+        val nbtCompound = stack.orCreateTag
+        return if (!nbtCompound.contains("Items")) {
             Optional.empty()
         } else {
-            val listTag = compoundTag.getList("Items", 10)
-            if (listTag.isEmpty()) {
+            val nbtList = nbtCompound.getList("Items", 10)
+            if (nbtList.isEmpty()) {
                 Optional.empty()
             } else {
-                val its = ItemStackUtils.fromTagIntCount(listTag.getCompound(0))
-                listTag.removeAt(0)
+                val its = ItemStackUtils.fromTagIntCount(nbtList.getCompound(0))
+                nbtList.removeAt(0)
                 Optional.of(its)
             }
         }
@@ -166,9 +166,9 @@ interface BagItem {
     @JvmDefault
     fun transferBagStack(bundle: ItemStack, stack: ItemStack): Int {
         return if (!stack.isEmpty && stack.item.canBeNested()) {
-            val compoundTag = bundle.orCreateTag
-            if (!compoundTag.contains("Items")) {
-                compoundTag.put("Items", ListTag())
+            val nbtCompound = bundle.orCreateTag
+            if (!nbtCompound.contains("Items")) {
+                nbtCompound.put("Items", NbtList())
             }
             val i = getBagTotalOccupancy(bundle)
             val j = getBagItemOccupancy(stack)
@@ -176,21 +176,21 @@ interface BagItem {
             if (k == 0) {
                 0
             } else {
-                val listTag = compoundTag.getList("Items", 10)
-                val optional = bagCombineCheck(stack, listTag)
+                val nbtList = nbtCompound.getList("Items", 10)
+                val optional = bagCombineCheck(stack, nbtList)
                 if (optional.isPresent) {
-                    val compoundTag2 = optional.get()
-                    val itemStack = ItemStackUtils.fromTagIntCount(compoundTag2)
+                    val nbtCompound2 = optional.get()
+                    val itemStack = ItemStackUtils.fromTagIntCount(nbtCompound2)
                     itemStack.increment(k)
-                    ItemStackUtils.toTagIntCount(itemStack, compoundTag2)
-                    listTag.remove(compoundTag2)
-                    listTag.add(0, compoundTag2)
+                    ItemStackUtils.toTagIntCount(itemStack, nbtCompound2)
+                    nbtList.remove(nbtCompound2)
+                    nbtList.add(0, nbtCompound2)
                 } else {
                     val itemStack2 = stack.copy()
                     itemStack2.count = k
-                    val compoundTag3 = CompoundTag()
-                    ItemStackUtils.toTagIntCount(itemStack2, compoundTag3)
-                    listTag.add(0, compoundTag3)
+                    val nbtCompound3 = NbtCompound()
+                    ItemStackUtils.toTagIntCount(itemStack2, nbtCompound3)
+                    nbtList.add(0, nbtCompound3)
                 }
                 k
             }

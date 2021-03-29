@@ -21,7 +21,7 @@ class DungeonTableScreen(handler: DungeonTableScreenHandler, inventory: PlayerIn
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
-        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderTexture(0, texture)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)

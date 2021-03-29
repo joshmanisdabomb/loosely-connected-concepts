@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import kotlin.math.floor
 import kotlin.math.pow
 
@@ -18,12 +18,12 @@ class TemporaryHealthCalculator(val power: Double) {
         HeartType.TEMPORARY.addHealth(actor, healthCalc.minus(before).toFloat())
     }
 
-    fun readFromNbt(tag: CompoundTag) {
+    fun readFromNbt(tag: NbtCompound) {
         health = tag.getDouble("TemporaryHealth")
         healthCalc = tag.getDouble("TemporaryHealthCalc")
     }
 
-    fun writeToNbt(tag: CompoundTag) {
+    fun writeToNbt(tag: NbtCompound) {
         tag.putDouble("TemporaryHealth", health)
         tag.putDouble("TemporaryHealthCalc", healthCalc)
     }

@@ -74,7 +74,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
 
     override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = SHAPE[state[FACING]]
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state[FACING]]
+    override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = SHAPE[state[FACING]]
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand?, hit: BlockHitResult): ActionResult {
         val cycle = state.with(SETTING, MathHelper.floorMod(state[SETTING].plus(if (player.isSneaking) -1 else 1), 5))

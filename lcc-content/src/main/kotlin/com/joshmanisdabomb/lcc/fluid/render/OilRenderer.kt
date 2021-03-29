@@ -22,8 +22,8 @@ class OilRenderer : FluidRenderer(LCCFluids.oil_still, LCCFluids.oil_flowing) {
         registry.register(geyser_texture)
     }
 
-    override fun apply(resourceManager: ResourceManager) {
-        super.apply(resourceManager)
+    override fun reload(resourceManager: ResourceManager) {
+        super.reload(resourceManager)
         with(MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {
             geyser_sprites[0] = apply(still_texture)
             geyser_sprites[1] = apply(geyser_texture)

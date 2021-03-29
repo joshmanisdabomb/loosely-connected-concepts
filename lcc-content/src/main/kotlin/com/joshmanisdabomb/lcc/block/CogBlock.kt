@@ -141,7 +141,7 @@ class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, Subblock
 
     override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = VoxelShapes.empty()
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = getSubblockVisualShape(state, world, pos)
+    override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = getSubblockVisualShape(state, world, pos)
 
     protected fun valid(d: Direction, world: BlockView, pos: BlockPos): Boolean {
         val from = pos.offset(d)

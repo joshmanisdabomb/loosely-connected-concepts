@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import kotlin.properties.Delegates
 
 abstract class GauntletActorInstance(val actor: PlayerEntity) {
@@ -46,7 +46,7 @@ abstract class GauntletActorInstance(val actor: PlayerEntity) {
     val castPercent get() = cast.toDouble().div(maxCast)
     val chargePercent get() = action.chargePercent(remaining)
 
-    fun read(tag: CompoundTag) {
+    fun read(tag: NbtCompound) {
         cooldown = tag.getInt("Cooldown")
         maxCooldown = tag.getInt("MaxCooldown")
         cast = tag.getInt("Cast")
@@ -55,9 +55,9 @@ abstract class GauntletActorInstance(val actor: PlayerEntity) {
         readFromNbt(tag)
     }
 
-    protected open fun readFromNbt(tag: CompoundTag) = Unit
+    protected open fun readFromNbt(tag: NbtCompound) = Unit
 
-    fun write(tag: CompoundTag) {
+    fun write(tag: NbtCompound) {
         tag.putInt("Cooldown", cooldown)
         tag.putInt("MaxCooldown", maxCooldown)
         tag.putInt("Cast", cast)
@@ -66,6 +66,6 @@ abstract class GauntletActorInstance(val actor: PlayerEntity) {
         writeToNbt(tag)
     }
 
-    protected open fun writeToNbt(tag: CompoundTag) = Unit
+    protected open fun writeToNbt(tag: NbtCompound) = Unit
 
 }

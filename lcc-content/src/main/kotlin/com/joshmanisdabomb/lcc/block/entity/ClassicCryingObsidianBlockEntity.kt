@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
@@ -26,12 +26,12 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
         markDirty()
     }
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         fromClientTag(tag)
         super.readNbt(tag)
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         return super.writeNbt(toClientTag(tag))
     }
 
@@ -41,7 +41,7 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
         return spawns.contains(player.uuid)
     }
 
-    override fun fromClientTag(tag: CompoundTag) {
+    override fun fromClientTag(tag: NbtCompound) {
         with (tag.getCompound("Spawns")) {
             keys.forEach {
                 with (this.getCompound(it)) {
@@ -51,7 +51,7 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
         }
     }
 
-    override fun toClientTag(tag: CompoundTag): CompoundTag {
+    override fun toClientTag(tag: NbtCompound): NbtCompound {
         tag.build("Spawns") {
             spawns.forEach { (k, v) ->
                 this.build(k.toString().toLowerCase()) {

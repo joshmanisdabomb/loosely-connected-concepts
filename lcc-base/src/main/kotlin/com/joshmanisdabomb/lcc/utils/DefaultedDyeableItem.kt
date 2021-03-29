@@ -8,8 +8,8 @@ interface DefaultedDyeableItem : DyeableItem {
     fun defaultColor(stack: ItemStack): Int
 
     override fun getColor(stack: ItemStack): Int {
-        val compoundTag = stack.getSubTag("display")
-        return if (compoundTag != null && compoundTag.contains("color", 99)) compoundTag.getInt("color") else defaultColor(stack)
+        val nbtCompound = stack.getSubTag("display")
+        return if (nbtCompound != null && nbtCompound.contains("color", 99)) nbtCompound.getInt("color") else defaultColor(stack)
     }
 
     companion object {

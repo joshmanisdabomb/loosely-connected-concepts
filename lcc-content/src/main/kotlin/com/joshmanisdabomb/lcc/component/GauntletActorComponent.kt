@@ -8,14 +8,14 @@ import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 
 class GauntletActorComponent(val entity: PlayerEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent {
 
     protected val _instances = mutableMapOf<GauntletAction<*>, GauntletActorInstance>()
     var fallHandler: GauntletAction<*>? = null
 
-    override fun readFromNbt(tag: CompoundTag) {
+    override fun readFromNbt(tag: NbtCompound) {
         _instances.clear()
         tag.getCompound("Instances").apply {
             keys.forEach {
@@ -27,10 +27,10 @@ class GauntletActorComponent(val entity: PlayerEntity) : ComponentV3, AutoSynced
         tag.getString("FallHandler").also { if (it.isNotBlank()) fallHandler = GauntletDirectory[it] }
     }
 
-    override fun writeToNbt(tag: CompoundTag) {
-        tag.build("Instances", CompoundTag()) {
+    override fun writeToNbt(tag: NbtCompound) {
+        tag.build("Instances", NbtCompound()) {
             _instances.forEach { (k, v) ->
-                put(GauntletDirectory[k].name, CompoundTag().also { v.write(it) })
+                put(GauntletDirectory[k].name, NbtCompound().also { v.write(it) })
             }
         }
         fallHandler?.also { tag.putString("FallHandler", GauntletDirectory[it].name) }

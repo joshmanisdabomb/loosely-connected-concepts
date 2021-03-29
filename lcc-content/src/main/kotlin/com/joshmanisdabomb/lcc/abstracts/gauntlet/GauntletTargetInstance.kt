@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import kotlin.properties.Delegates
 
 abstract class GauntletTargetInstance<A : GauntletActorInstance>(val entity: Entity) {
@@ -30,20 +30,20 @@ abstract class GauntletTargetInstance<A : GauntletActorInstance>(val entity: Ent
 
     val percent get() = ticks.toDouble().div(maxTicks)
 
-    fun read(tag: CompoundTag) {
+    fun read(tag: NbtCompound) {
         ticks = tag.getInt("Ticks")
         maxTicks = tag.getInt("MaxTicks")
         readFromNbt(tag)
     }
 
-    protected open fun readFromNbt(tag: CompoundTag) = Unit
+    protected open fun readFromNbt(tag: NbtCompound) = Unit
 
-    fun write(tag: CompoundTag) {
+    fun write(tag: NbtCompound) {
         tag.putInt("Ticks", ticks)
         tag.putInt("MaxTicks", maxTicks)
         writeToNbt(tag)
     }
 
-    protected open fun writeToNbt(tag: CompoundTag) = Unit
+    protected open fun writeToNbt(tag: NbtCompound) = Unit
 
 }

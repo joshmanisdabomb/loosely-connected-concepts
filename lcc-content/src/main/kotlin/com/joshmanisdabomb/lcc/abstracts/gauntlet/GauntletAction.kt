@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.UseAction
 import net.minecraft.util.math.MathHelper
 
@@ -78,8 +78,8 @@ abstract class GauntletAction<A : GauntletActorInstance> {
     protected fun handleFall(entity: LivingEntity, distance: Float, multiplier: Float, distanceBreak: Float) = MathHelper.ceil((distance - 3 - distanceBreak - (entity.getStatusEffect(StatusEffects.JUMP_BOOST)?.amplifier?.plus(1) ?: 0)) * multiplier)
 
     companion object {
-        fun getFromTag(tag: CompoundTag?) = GauntletDirectory.getOrNull(tag?.getString("Selected") ?: "") ?: UppercutGauntletAction
-        fun putInTag(ability: GauntletAction<*>, tag: CompoundTag) = tag.putString("Selected", GauntletDirectory[ability].name)
+        fun getFromTag(tag: NbtCompound?) = GauntletDirectory.getOrNull(tag?.getString("Selected") ?: "") ?: UppercutGauntletAction
+        fun putInTag(ability: GauntletAction<*>, tag: NbtCompound) = tag.putString("Selected", GauntletDirectory[ability].name)
     }
 
 }

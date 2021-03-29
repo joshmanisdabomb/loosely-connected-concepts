@@ -329,8 +329,9 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val heavy_uranium_shielding by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(Blocks.SAND, 4)
+            .addInput(Blocks.GRAVEL, 4)
             .addInput(LCCItems.heavy_uranium_nugget, 4)
-            .addOutput(i, 1)
+            .addOutput(i, 12)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.ducrete_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
             .speed(2000, 0.04f, 100f)

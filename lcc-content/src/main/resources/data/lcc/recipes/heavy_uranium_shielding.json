@@ -6,6 +6,10 @@
       "count": 4
     },
     {
+      "item": "minecraft:gravel",
+      "count": 4
+    },
+    {
       "item": "lcc:heavy_uranium_nugget",
       "count": 4
     }
@@ -13,7 +17,7 @@
   "results": [
     {
       "item": "lcc:heavy_uranium_shielding",
-      "count": 1,
+      "count": 12,
       "function": "minecraft:empty"
     }
   ],

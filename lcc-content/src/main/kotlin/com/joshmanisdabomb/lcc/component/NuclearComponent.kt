@@ -9,8 +9,8 @@ import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent
 import net.minecraft.client.MinecraftClient
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -32,21 +32,21 @@ class NuclearComponent(private val world: World) : ComponentV3, ServerTickingCom
 
     fun strike(entity: NuclearExplosionEntity) = strike(entity.radius.toShort(), world.time, entity.blockPos)
 
-    override fun readFromNbt(tag: CompoundTag) {
+    override fun readFromNbt(tag: NbtCompound) {
         _winter = tag.getFloat("WinterLevel")
         strikes.clear()
         tag.getList("Strikes", NBT_COMPOUND).forEach {
-            (it as? CompoundTag)?.also {
+            (it as? NbtCompound)?.also {
                 this.strikes += NuclearStrike(NbtHelper.toBlockPos(it.getCompound("Position")), it.getShort("Radius"), it.getLong("Time"))
             }
         }
     }
 
-    override fun writeToNbt(tag: CompoundTag) {
+    override fun writeToNbt(tag: NbtCompound) {
         tag.putFloat("WinterLevel", _winter)
-        tag.put("Strikes", ListTag().also {
+        tag.put("Strikes", NbtList().also {
             strikes.forEach { (p, r, t) ->
-                it.add(CompoundTag().also {
+                it.add(NbtCompound().also {
                     it.putShort("Radius", r)
                     it.putLong("Time", t)
                     it.put("Position", NbtHelper.fromBlockPos(p))

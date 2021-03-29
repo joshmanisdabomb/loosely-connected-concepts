@@ -41,7 +41,7 @@ open class FluidRenderer(val still: FlowableFluid, val flowing: FlowableFluid, v
 
     override fun getFabricId() = Identifier(LCC.modid, "${LCCFluids[still].name}_reload_listener")
 
-    override fun apply(resourceManager: ResourceManager) {
+    override fun reload(resourceManager: ResourceManager) {
         with(MinecraftClient.getInstance().getSpriteAtlas(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE)) {
             sprites[0] = apply(still_texture)
             sprites[1] = apply(flowing_texture)

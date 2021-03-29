@@ -48,7 +48,7 @@ class ExplodingNuclearFiredGeneratorBlock(settings: Settings) : BlockWithEntity(
 
     override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = VoxelShapes.empty()
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = NuclearFiredGeneratorBlock.shape
+    override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = NuclearFiredGeneratorBlock.shape
 
     override fun getRaycastShape(state: BlockState?, world: BlockView?, pos: BlockPos?): VoxelShape {
         return super.getRaycastShape(state, world, pos)

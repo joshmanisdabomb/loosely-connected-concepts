@@ -23,7 +23,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.text.Text
@@ -94,7 +94,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     override fun getDisplayName() = customName ?: refiningBlock?.defaultDisplayName ?: TranslatableText("container.lcc.refiner")
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)
 
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
@@ -107,7 +107,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         super.writeNbt(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }

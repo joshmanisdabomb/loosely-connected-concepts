@@ -45,7 +45,7 @@ class TimeRiftBlockEntityRenderer(context: BlockEntityRendererFactory.Context?) 
         }
     }
 
-    override fun apply(manager: ResourceManager) {
+    override fun reload(manager: ResourceManager) {
         val part = MinecraftClient.getInstance().entityModelLoader.getModelPart(LCCModelLayers.time_rift)
         parts = Array(partAmount) { part.getChild(it.toString()) }
     }

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.extensions
 
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 
 const val NBT_BYTE = 1
 const val NBT_SHORT = 2
@@ -16,7 +16,7 @@ const val NBT_INT_ARRAY = 11
 const val NBT_LONG_ARRAY = 12
 const val NBT_NUMERIC = 99
 
-fun CompoundTag.build(key: String, ref: CompoundTag = this.getCompound(key), modify: CompoundTag.() -> Unit): CompoundTag {
+fun NbtCompound.build(key: String, ref: NbtCompound = this.getCompound(key), modify: NbtCompound.() -> Unit): NbtCompound {
     modify(ref)
     this.put(key, ref)
     return ref

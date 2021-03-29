@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.SpawnEggItem
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
@@ -42,7 +42,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
 
-    override fun getVisualShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
+    override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) VoxelShapes.fullCube() else SHAPE
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = if (state[BOTTOM]) DungeonTableBlockEntity(pos, state) else null
 
@@ -78,7 +78,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             return defaultState.with(BOTTOM, false).with(ENTITY, state2[ENTITY])
         } else if (state2.isOf(Blocks.SPAWNER)) {
             val be = ctx.world.getBlockEntity(down) as? MobSpawnerBlockEntity ?: return null
-            val tag = be.logic.writeNbt(ctx.world, down, CompoundTag()).getCompound("SpawnData")
+            val tag = be.logic.writeNbt(ctx.world, down, NbtCompound()).getCompound("SpawnData")
             return try {
                 val entity = DungeonTableEntity.fromOr(Registry.ENTITY_TYPE[Identifier(tag.getString("id"))])
                 defaultState.with(BOTTOM, false).with(ENTITY, entity)

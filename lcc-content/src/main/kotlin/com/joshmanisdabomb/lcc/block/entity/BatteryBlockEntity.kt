@@ -22,7 +22,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.state.property.Properties
@@ -87,7 +87,7 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
 
     override fun getDisplayName() = customName ?: batteryBlock?.defaultDisplayName
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
@@ -97,7 +97,7 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         super.writeNbt(tag)
 
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }

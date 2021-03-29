@@ -33,11 +33,13 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc": ["0.4.2", "${version}"]
+    "lcc": ["0.4.3", "${version}"]
   },
   "custom": {
-    "modmenu:api": true,
-    "modmenu:parent": "lcc-mod"
+    "modmenu": {
+      "parent": "lcc-mod",
+      "badges": [ "library" ]
+    }
   },
   "accessWidener": "lcc-data.accesswidener"
 }

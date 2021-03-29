@@ -50,7 +50,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         val gauntlet = camera.mainHandStack.item == LCCItems.gauntlet || camera.offHandStack.item == LCCItems.gauntlet
         val current = camera.mainHandStack?.tag?.let { GauntletAction.getFromTag(it) } ?: camera.offHandStack?.tag?.let { GauntletAction.getFromTag(it) }
         RenderSystem.enableBlend()
-        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)
         if (gauntlet || UppercutGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, UppercutGauntletAction, current, ticks, delta, 0f)
         if (gauntlet || PunchGauntletAction.hasInfo(camera)) renderAttack(matrix, camera, PunchGauntletAction, current, ticks, delta, 90f)

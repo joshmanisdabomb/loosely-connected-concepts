@@ -66,7 +66,7 @@ object RadiationOverlay : DrawableHelper() {
         renderWave(matrix, x, y, effect, ticks, 2, waveSpeed)
         renderWave(matrix, x, y, effect, ticks, 3, waveSpeed)
         renderWave(matrix, x, y, effect, ticks, 4, waveSpeed)
-        RenderSystem.setShader(GameRenderer::method_34542)
+        RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         RenderSystem.disableBlend()
 

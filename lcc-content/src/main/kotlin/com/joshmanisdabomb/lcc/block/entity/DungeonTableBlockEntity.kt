@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
@@ -27,7 +27,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
     override fun getDisplayName() = customName ?: TranslatableText("container.lcc.spawner_table")
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)
 
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
@@ -35,7 +35,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         super.writeNbt(tag)
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))

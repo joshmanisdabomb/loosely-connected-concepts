@@ -21,7 +21,7 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.text.Text
@@ -73,13 +73,13 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
 
     override fun getDisplayName() = customName ?: TranslatableText("container.lcc.oxygen_extractor")
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)
 
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         super.writeNbt(tag)
 
         Inventories.writeNbt(tag, inventory.list)

@@ -32,7 +32,7 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
@@ -134,7 +134,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
     override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${LCCBlocks[LCCBlocks.nuclear_generator].name}")
 
-    override fun readNbt(tag: CompoundTag) {
+    override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)
 
         if (tag.contains("Energy", NBT_FLOAT)) rawEnergy = tag.getFloat("Energy")
@@ -149,7 +149,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: CompoundTag): CompoundTag {
+    override fun writeNbt(tag: NbtCompound): NbtCompound {
         super.writeNbt(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }
@@ -166,13 +166,13 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         return tag
     }
 
-    override fun fromClientTag(tag: CompoundTag) {
+    override fun fromClientTag(tag: NbtCompound) {
         fuel = tag.getFloat("Fuel")
         coolant = tag.getFloat("Coolant")
         meltdownTicks = tag.getInt("Meltdown")
     }
 
-    override fun toClientTag(tag: CompoundTag): CompoundTag {
+    override fun toClientTag(tag: NbtCompound): NbtCompound {
         tag.putFloat("Fuel", fuel)
         tag.putFloat("Coolant", coolant)
         tag.putInt("Meltdown", meltdownTicks)

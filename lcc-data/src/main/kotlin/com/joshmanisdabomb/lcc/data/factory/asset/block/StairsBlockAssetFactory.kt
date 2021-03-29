@@ -23,9 +23,9 @@ open class StairsBlockAssetFactory(val texture: Identifier, val textureTop: Iden
             val y = dir.asRotation().toInt()
             BlockStateVariant.create()
                 .put(VariantSettings.MODEL, when (s) {
-                    StairShape.STRAIGHT -> stairs
                     StairShape.INNER_LEFT, StairShape.INNER_RIGHT -> innerStairs
                     StairShape.OUTER_LEFT, StairShape.OUTER_RIGHT -> outerStairs
+                    else -> stairs
                 })
                 .put(VariantSettings.X, (h == BlockHalf.TOP).transform(VariantSettings.Rotation.R180, VariantSettings.Rotation.R0))
                 .put(VariantSettings.Y, VariantSettings.Rotation.values()[y.div(90)])

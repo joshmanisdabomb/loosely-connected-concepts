@@ -14,7 +14,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.predicate.entity.EntityPredicates
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -209,13 +209,13 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         super.onTrackedDataSet(data)
     }
 
-    override fun readCustomDataFromNbt(tag: CompoundTag) {
+    override fun readCustomDataFromNbt(tag: NbtCompound) {
         tag.getShort("Age").toInt().apply { ticks = this; dataTracker.set(tick_data, ticks) }
         tag.getShort("Lifetime").run { if (this > 0) this else 30 }.toInt().apply { lifetime = this; dataTracker.set(lifetime_data, lifetime) }
         tag.getShort("Radius").run { if (this > 0) this else 20 }.toInt().apply { radius = this; dataTracker.set(radius_data, radius) }
     }
 
-    override fun writeCustomDataToNbt(tag: CompoundTag) {
+    override fun writeCustomDataToNbt(tag: NbtCompound) {
         tag.putShort("Age", ticks.toShort())
         tag.putShort("Lifetime", lifetime.toShort())
         tag.putShort("Radius", radius.toShort())

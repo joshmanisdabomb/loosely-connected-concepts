@@ -44,7 +44,7 @@ class KilnRecipe(id: Identifier, group: String, input: Ingredient, output: ItemS
                 val id = LCC.id(it.id.namespace + "_" + it.id.path + "_kiln")
                 val json = JsonObject()
                 json.addProperty("type", "lcc:kiln")
-                CookingRecipeJsonFactory.CookingRecipeJsonProvider(id, it.group, it.previewInputs.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
+                CookingRecipeJsonFactory.CookingRecipeJsonProvider(id, "", it.previewInputs.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
                 map[id] = json
             }
         }

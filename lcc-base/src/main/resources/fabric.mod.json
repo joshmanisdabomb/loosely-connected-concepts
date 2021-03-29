@@ -48,8 +48,10 @@
     "lcc-mod": "*"
   },
   "custom": {
-    "modmenu:api": true,
-    "modmenu:parent": "lcc-mod"
+    "modmenu": {
+      "parent": "lcc-mod",
+      "badges": [ "library" ]
+    }
   },
   "accessWidener": "lcc-base.accesswidener"
 }

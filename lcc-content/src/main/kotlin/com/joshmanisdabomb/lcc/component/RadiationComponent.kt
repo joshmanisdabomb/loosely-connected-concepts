@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper
@@ -28,11 +28,11 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     private var lastHealthMod = 0
     val healthMod get() = MathHelper.floor(exposure.div(2f)).times(2)
 
-    override fun readFromNbt(tag: CompoundTag) {
+    override fun readFromNbt(tag: NbtCompound) {
         exposure = tag.getFloat("Exposure")
     }
 
-    override fun writeToNbt(tag: CompoundTag) {
+    override fun writeToNbt(tag: NbtCompound) {
         tag.putFloat("Exposure", exposure)
     }
 

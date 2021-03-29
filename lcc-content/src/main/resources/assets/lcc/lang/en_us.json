@@ -291,7 +291,7 @@
   "container.lcc.nuclear_generator.coolant": "Coolant Value: %1$s units\nDepletion Rate: %2$s units/t",
   "container.lcc.nuclear_generator.fuel": "Fuel Value: %1$s units\nFuel Value per Item: %2$s units\nDepletion Rate: %3$s units/t",
   "container.lcc.nuclear_generator.chance": "Meltdown Chance: %1$s%%",
-  "container.lcc.nuclear_generator.meltdown": "Meltdown in %1$ss!",
+  "container.lcc.nuclear_generator.meltdown": "Meltdown in %1$ss!!!",
   "container.lcc.battery.power": "Power: %1$s",
   "container.lcc.oxygen_extractor.power": "Power: %1$s",
   "container.lcc.oxygen_extractor.oxygen": "Oxygen Outflow: %1$s/t\nHold SHIFT for details",

@@ -94,6 +94,15 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
+    val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.5f, 1.0f).breakByTool(PICKAXES).sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
+    val scattered_salt by entry(::initialiser) { SaltBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.WHITE).noCollision().dropsNothing().breakInstantly().sounds(BlockSoundGroup.CAVE_VINES)) }
+        .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
+    val salt_block by entry(::initialiser) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.WHITE).breakByTool(SHOVELS).strength(0.2f).sounds(BlockSoundGroup.CAVE_VINES)) {
+        override fun getColor(state: BlockState, world: BlockView, pos: BlockPos) = 0xFFF7F0
+    } }.setProperties(BlockExtraSettings().creativeEx(MATERIALS))
+
+    //Sap Production
     val treetap by entry(::initialiser) { TreetapBlock(FabricBlockSettings.of(Material.DECORATION).strength(1.5f, 0f).breakByTool(PICKAXES, 1).requiresTool().ticksRandomly().nonOpaque().sounds(BlockSoundGroup.CHAIN)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val treetap_bowl by entry(::initialiser) { object : TreetapStorageBlock(FabricBlockSettings.copyOf(treetap)) {
@@ -213,7 +222,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val nuclear_generator by entry(::initialiser) { NuclearFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(6.0F, 3.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
-    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator).dropsNothing()) }
+    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator).dropsNothing().luminance(15)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val turbine by entry(::initialiser) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))

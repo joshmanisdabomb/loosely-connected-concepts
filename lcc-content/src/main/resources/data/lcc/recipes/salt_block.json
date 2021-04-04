@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "sss",
+    "sss",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "lcc:salt"
+    }
+  },
+  "result": {
+    "item": "lcc:salt_block"
+  }
+}

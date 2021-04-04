@@ -24,7 +24,7 @@ enum class Temperature(val energy: Float, val tag: Tag<Block>, val soulTag: Tag<
     RED_HOT(0.2f, LCCTags.temperature_red_hot, entityTag = LCCTags.temperature_red_hot_e),
     NUCLEAR(5f, LCCTags.temperature_nuclear);
 
-    val entityEnergy = energy.times(40)
+    val entityEnergy = energy.times(200)
 
     companion object {
         fun getBlockEnergy(world: BlockView, pos: BlockPos, source: BlockState = world.getBlockState(pos), block: Block = source.block) = (block as? LCCExtendedBlockContent)?.run { lcc_content_getTemperature(world, source, pos)?.let { lcc_content_getTemperatureEnergy(world, source, pos, it) } }

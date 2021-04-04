@@ -86,6 +86,8 @@ object LCCLangData {
         lang["en_gb"]!!["death.attack.lcc.radiation.player"] = "%1\$s was exposed to ionising radiation whilst trying to escape %2\$s"
         lang["en_us"]!!["death.attack.lcc.hazmat_anoxia"] = "%1\$s couldn't get their helmet off"
         lang["en_us"]!!["death.attack.lcc.hazmat_anoxia.player"] = "%1\$s couldn't get their helmet off whilst trying to escape %2\$s"
+        lang["en_us"]!!["death.attack.salt"] = "%1\$s was lightly salted by %2\$s"
+        lang["en_us"]!!["death.attack.salt.item"] = "%1\$s was lightly salted by %2\$s using %3\$s"
 
         lang["en_us"]!!["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"

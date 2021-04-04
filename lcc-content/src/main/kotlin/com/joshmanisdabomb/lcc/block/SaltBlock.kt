@@ -2,16 +2,18 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.ShapeContext
+import com.joshmanisdabomb.lcc.directory.LCCDamage
+import com.joshmanisdabomb.lcc.directory.LCCTags
+import net.minecraft.block.*
+import net.minecraft.entity.Entity
+import net.minecraft.entity.projectile.thrown.ThrownEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.LEVEL_3
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -28,7 +30,7 @@ class SaltBlock(settings: Settings) : Block(settings) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(LEVEL_3).let {}
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(15).plus(5))
+        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(35).plus(5))
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
@@ -63,7 +65,19 @@ class SaltBlock(settings: Settings) : Block(settings) {
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shapes[state[LEVEL_3].minus(1)]
 
-    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = VoxelShapes.empty()
+    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
+        return if (context is EntityShapeContext && context.entity.orElse(null) is ThrownEntity) {
+            shapes[2]
+        } else {
+            VoxelShapes.empty()
+        }
+    }
+
+    override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
+        if (entity.type.isIn(LCCTags.salt_weakness)) {
+            entity.damage(LCCDamage.salt, state[LEVEL_3].div(3f))
+        }
+    }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val down = pos.down()

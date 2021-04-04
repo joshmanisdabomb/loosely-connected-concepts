@@ -40,6 +40,8 @@ object LCCTagData : AdvancedDirectory<Unit, TagData.TagBuilder<*>, Unit, Unit>()
     val temperature_scalding_e by entry(::entityInitialiser) {}.addInitListener { context, _ -> context.entry.append(EntityType.MAGMA_CUBE) }
     val temperature_red_hot_e by entry(::entityInitialiser) {}.addInitListener { context, _ -> context.entry.append(EntityType.BLAZE) }
 
+    val salt_weakness by entry(::entityInitialiser) {}.addInitListener { context, _ -> context.entry.append(EntityType.SQUID, EntityType.GLOW_SQUID, EntityType.SILVERFISH, EntityType.ENDERMITE) }
+
     val oil by entry(::fluidInitialiser) {}
     val asphalt by entry(::fluidInitialiser) {}
 

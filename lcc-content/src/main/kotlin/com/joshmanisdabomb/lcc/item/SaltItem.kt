@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.entity.SaltEntity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.entity.projectile.thrown.SnowballEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.sound.SoundCategory
@@ -20,10 +20,11 @@ class SaltItem(val projectiles: Int, settings: Settings) : Item(settings) {
         user.itemCooldownManager.set(this, 30)
         if (!world.isClient) {
             repeat(projectiles) {
-                val snowballEntity = SnowballEntity(world, user)
-                snowballEntity.setItem(stack)
-                snowballEntity.setProperties(user, user.pitch, user.yaw, 0.0f, 0.6f, 13.0f)
-                world.spawnEntity(snowballEntity)
+                SaltEntity(world, user).apply {
+                    setItem(stack)
+                    setProperties(user, user.pitch, user.yaw, 0.0f, 0.45f, 22.0f)
+                    world.spawnEntity(this)
+                }
             }
         }
         user.incrementStat(Stats.USED.getOrCreateStat(this))

@@ -47,7 +47,7 @@ abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerI
         RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderTexture(0, texture)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
+        drawTexture(matrices, field_2776, field_2800, 0, 0, backgroundWidth, backgroundHeight)
     }
 
     fun onChanged(inventory: Inventory) {

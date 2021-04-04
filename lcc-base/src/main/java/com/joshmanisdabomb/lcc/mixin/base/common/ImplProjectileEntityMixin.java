@@ -25,7 +25,7 @@ public abstract class ImplProjectileEntityMixin extends Entity {
     @Shadow @Final
     protected abstract ItemStack asItemStack();
 
-    @Inject(method = "method_34713", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"), cancellable = true)
+    @Inject(method = "tryPickup", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z"), cancellable = true)
     public void onPlayerCollide(PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
         ItemStack stack = this.asItemStack();
         Item item = stack.getItem();

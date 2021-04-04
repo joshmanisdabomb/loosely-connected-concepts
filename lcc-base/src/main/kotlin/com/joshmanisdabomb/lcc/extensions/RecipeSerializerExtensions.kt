@@ -72,4 +72,4 @@ fun RecipeSerializer<*>.getShapelessIngredientsWithCount(ingredients: JsonArray)
     return defaultedList
 }
 
-fun RecipeSerializer<*>.getStack(result: JsonObject) = ShapedRecipe.getItemStack(result)
+fun RecipeSerializer<*>.getStack(result: JsonObject) = ShapedRecipe.getItemStack(result).stack()

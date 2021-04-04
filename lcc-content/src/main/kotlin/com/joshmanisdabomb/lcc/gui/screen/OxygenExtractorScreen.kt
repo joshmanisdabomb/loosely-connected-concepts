@@ -59,11 +59,11 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
         RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderTexture(0, texture)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
-        drawTexture(matrices, x, y + 15, 0, 15, backgroundWidth, 22)
+        drawTexture(matrices, field_2776, field_2800 + 15, 0, 15, backgroundWidth, 22)
 
         for ((k, v) in oxygenPosition.withIndex()) {
             val stack = handler.inventory[k / 6]
-            drawTexture(matrices, x + 39 + k.times(3), y + 17 + v.toInt(), 176, 14, 2, 5)
+            drawTexture(matrices, field_2776 + 39 + k.times(3), field_2800 + 17 + v.toInt(), 176, 14, 2, 5)
             oxygenPosition[k] += oxygenSpeed[k].div(((stack.item as? OxygenStorage)?.isFull(stack)?.not() ?: false).transformInt(4.times(handler.inventory.count { (it.item as? OxygenStorage)?.isFull(it)?.not() ?: false }.coerceAtLeast(1)), 100)).times(handler.oxygenAmount())
             if (oxygenPosition[k] >= 28f) {
                 oxygenPosition[k] = -5f
@@ -71,10 +71,10 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
             }
         }
 
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, 15)
-        drawTexture(matrices, x, y + 37, 0, 37, backgroundWidth, backgroundHeight - 37)
+        drawTexture(matrices, field_2776, field_2800, 0, 0, backgroundWidth, 15)
+        drawTexture(matrices, field_2776, field_2800 + 37, 0, 37, backgroundWidth, backgroundHeight - 37)
 
-        renderPower(matrices, handler.powerAmount(), LCCBlocks.oxygen_extractor.max, x + 100, y + 39)
+        renderPower(matrices, handler.powerAmount(), LCCBlocks.oxygen_extractor.max, field_2776 + 100, field_2800 + 39)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -82,9 +82,9 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
         super.render(matrices, mouseX, mouseY, delta)
         drawMouseoverTooltip(matrices, mouseX, mouseY)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 100..x + 111, y + 39..y + 53)
+        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, field_2776 + 100..field_2776 + 111, field_2800 + 39..field_2800 + 53)
 
-        if (mouseX in x + 39 .. x + 93 && mouseY in y + 17 .. y + 35) {
+        if (mouseX in field_2776 + 39 .. field_2776 + 93 && mouseY in field_2800 + 17 .. field_2800 + 35) {
             renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.oxygen_extractor.oxygen".plus(if (Screen.hasShiftDown()) ".advanced" else ""), handler.oxygenAmount().decimalFormat(force = true), *directions.map { handler.oxygenAmount(it).oxygen.times(OxygenExtractorBlockEntity.getDirectionOxygenModifier(it)).decimalFormat(force = true) }.toTypedArray(), 100f.div(handler.oxygenModifier()).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }

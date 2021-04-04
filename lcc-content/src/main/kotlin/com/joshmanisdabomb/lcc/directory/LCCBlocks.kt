@@ -38,7 +38,7 @@ import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.DyeColor
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.IntRange
+import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
 
@@ -63,7 +63,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(TESTING))
 
     //Resources
-    val ruby_ore by entry(::initialiser) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), IntRange.between(3, 7)) }
+    val ruby_ore by entry(::initialiser) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), UniformIntProvider.create(3, 7)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby)))
     val ruby_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby)))

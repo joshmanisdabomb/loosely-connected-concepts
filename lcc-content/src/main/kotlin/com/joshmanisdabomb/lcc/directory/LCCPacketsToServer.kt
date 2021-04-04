@@ -24,7 +24,7 @@ object LCCPacketsToServer : PacketForServerDirectory() {
         val dim = data.readIdentifier()
         val pos = data.readBlockPos()
         server.execute {
-            val world = server.getWorld(RegistryKey.of(Registry.DIMENSION, dim)) ?: return@execute
+            val world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, dim)) ?: return@execute
             if (!world.isChunkLoaded(pos)) return@execute
             if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
             (world.getBlockEntity(pos) as? AtomicBombBlockEntity)?.detonate(player)
@@ -35,7 +35,7 @@ object LCCPacketsToServer : PacketForServerDirectory() {
         val dim = data.readIdentifier()
         val pos = data.readBlockPos()
         server.execute {
-            val world = server.getWorld(RegistryKey.of(Registry.DIMENSION, dim)) ?: return@execute
+            val world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, dim)) ?: return@execute
             if (!world.isChunkLoaded(pos)) return@execute
             if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
             (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.activate(player)

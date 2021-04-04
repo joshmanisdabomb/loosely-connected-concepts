@@ -11,14 +11,17 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
+import net.minecraft.class_6108
+import net.minecraft.class_6124
 import net.minecraft.structure.rule.BlockMatchRuleTest
+import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
 import net.minecraft.util.math.floatprovider.UniformFloatProvider
+import net.minecraft.util.math.intprovider.ConstantIntProvider
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.UniformIntDistribution
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.*
 import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
@@ -98,8 +101,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 
-    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(2), UniformIntDistribution.of(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
-    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), SimpleBlockStateProvider(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(UniformIntDistribution.of(0), UniformIntDistribution.of(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
+    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(SimpleBlockStateProvider(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), SimpleBlockStateProvider(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
+    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), SimpleBlockStateProvider(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
     val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.007F, 1))) }
     val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.07F, 1))) }
     val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
@@ -114,7 +117,7 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CarverConfig.CONFIG_CODEC) }
+    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(class_6108.field_31491) }
     val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
 
     override fun defaultProperties(name: String) = Unit
@@ -127,8 +130,8 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CarverConfig(0.34F)) }
-    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), YOffset.fixed(10), YOffset.fixed(67), UniformIntDistribution.of(3), UniformFloatProvider.create(0.75f, 0.25f), UniformFloatProvider.create(-0.125f, 0.25f), TrapezoidFloatProvider.create(0.0f, 6.0f, 2.0f), 3, UniformFloatProvider.create(0.75f, 0.25f), 1.0f, 0.0f)) }
+    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(class_6108(0.33333334f, class_6124.method_35396(YOffset.aboveBottom(8), YOffset.fixed(126)), UniformFloatProvider.create(0.1f, 0.9f), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.defaultState), UniformFloatProvider.create(0.3f, 1.8f), UniformFloatProvider.create(0.5f, 1.8f), UniformFloatProvider.create(-1.0f, 0.0f))) }
+    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, class_6124.method_35396(YOffset.fixed(10), YOffset.fixed(67)), ConstantFloatProvider.create(3.0F), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), UniformFloatProvider.create(-0.125F, 0.125F), RavineCarverConfig.class_6107(UniformFloatProvider.create(0.75F, 1.0F), TrapezoidFloatProvider.create(0.0F, 6.0F, 2.0F), 3, UniformFloatProvider.create(0.75F, 1.0F), 1.0F, 0.0F))) }
 
     override fun defaultProperties(name: String) = Unit
 

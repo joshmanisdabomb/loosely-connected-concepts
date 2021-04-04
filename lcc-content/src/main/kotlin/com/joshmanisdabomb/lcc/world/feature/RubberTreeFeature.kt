@@ -1,12 +1,10 @@
 package com.joshmanisdabomb.lcc.world.feature
 
-import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.mojang.serialization.Codec
 import net.minecraft.block.Blocks
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.TestableWorld
@@ -19,7 +17,7 @@ import java.util.*
 class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureConfig>(codec) {
 
     fun generateTree(context: FeatureContext<TreeFeatureConfig>, r: Int, branches: Map<Direction, IntRange>, blockPos2: BlockPos) {
-        context.config.trunkPlacer.generate(context.world, context.random, r, blockPos2, Sets.newHashSet(), BlockBox.empty(), context.config)
+        context.config.trunkPlacer.generate(context.world, { p, s -> context.world.setBlockState(p, s, 19) }, context.random, r, blockPos2, context.config)
         horizontalDirections.forEach {
             for (i in -1..0) {
                 val pos6 = blockPos2.add(0, r+i, 0).offset(it)

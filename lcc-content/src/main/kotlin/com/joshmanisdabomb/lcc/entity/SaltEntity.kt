@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.isSurvival
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -57,16 +58,23 @@ class SaltEntity : ThrownItemEntity, LCCExtendedEntity {
         val state = world.getBlockState(result.blockPos)
         if (state.isOf(LCCBlocks.scattered_salt) && state[LEVEL_3] < 3) {
             world.setBlockState(result.blockPos, state.cycle(LEVEL_3))
+            destroy()
         } else {
-            if (result.side == Direction.UP && state.isSideSolidFullSquare(world, result.blockPos, Direction.UP)) {
-                val up = result.blockPos.up()
-                val above = world.getBlockState(up)
-                if (above.canReplace(AutomaticItemPlacementContext(world, up, Direction.DOWN, ItemStack.EMPTY, Direction.UP))) {
-                    world.setBlockState(up, LCCBlocks.scattered_salt.defaultState.with(LEVEL_3, 1))
+            if (result.side == Direction.UP) {
+                if (state.isSideSolidFullSquare(world, result.blockPos, Direction.UP)) {
+                    val up = result.blockPos.up()
+                    val above = world.getBlockState(up)
+                    if (above.canReplace(AutomaticItemPlacementContext(world, up, Direction.DOWN, ItemStack.EMPTY, Direction.UP))) {
+                        world.setBlockState(up, LCCBlocks.scattered_salt.defaultState.with(LEVEL_3, 1))
+                    }
                 }
+                destroy()
+            } else if (result.side == Direction.DOWN) {
+                this.replaceVelocity(y = 0.0)
+            } else {
+                this.replaceVelocity(x = 0.0, z = 0.0)
             }
         }
-        destroy()
         super.onBlockHit(result)
     }
 

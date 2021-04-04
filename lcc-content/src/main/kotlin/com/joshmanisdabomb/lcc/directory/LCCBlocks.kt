@@ -94,7 +94,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
-    val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.5f, 1.0f).breakByTool(PICKAXES).sounds(BlockSoundGroup.STONE)) }
+    val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.7f, 1.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
     val scattered_salt by entry(::initialiser) { SaltBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.WHITE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.CAVE_VINES)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS))

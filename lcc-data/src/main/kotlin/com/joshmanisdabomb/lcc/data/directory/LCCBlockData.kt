@@ -366,7 +366,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, LCCItems.heavy_uranium_nugget) }
             .apply { offerShaped(this, d) }
     }) }
-    val failing_nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(ExplodingNuclearFiredGeneratorBlockAssetFactory) }
+    val failing_nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(ExplodingNuclearFiredGeneratorBlockAssetFactory).add(BlockTagFactory(LCCTags.temperature_nuclear)) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

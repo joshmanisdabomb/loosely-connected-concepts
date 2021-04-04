@@ -12,6 +12,7 @@ class CommitData(val source: Path, val to: Path, val excluder: (path: String) ->
     private val store by lazy { to.toFile() }
 
     override fun run(cache: DataCache) {
+        cache.write()
         read("Commit new data to project at $to?", ::clean)
     }
 

@@ -21,18 +21,20 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val rubber_logs_i by entry(::itemInitialiser) {}
     val rubber_tree by entry(::itemInitialiser) {}
 
-    val geothermal_warm by entry(::blockInitialiser) {}
-    val geothermal_hot by entry(::blockInitialiser) {}
-    val geothermal_heated by entry(::blockInitialiser) {}
-    val geothermal_soul_heated by entry(::blockInitialiser) {}
-    val geothermal_burning by entry(::blockInitialiser) {}
-    val geothermal_soul_burning by entry(::blockInitialiser) {}
-    val geothermal_flaming by entry(::blockInitialiser) {}
-    val geothermal_soul_flaming by entry(::blockInitialiser) {}
-    val geothermal_full by entry(::blockInitialiser) {}
+    val temperature_lukewarm by entry(::blockInitialiser) {}
+    val temperature_warm by entry(::blockInitialiser) {}
+    val temperature_hot by entry(::blockInitialiser) {}
+    val temperature_scalding by entry(::blockInitialiser) {}
+    val temperature_soul_scalding by entry(::blockInitialiser) {}
+    val temperature_burning by entry(::blockInitialiser) {}
+    val temperature_soul_burning by entry(::blockInitialiser) {}
+    val temperature_scorching by entry(::blockInitialiser) {}
+    val temperature_soul_scorching by entry(::blockInitialiser) {}
+    val temperature_red_hot by entry(::blockInitialiser) {}
+    val temperature_nuclear by entry(::blockInitialiser) {}
 
-    val geothermal_magma by entry(::entityTypeInitialiser) {}
-    val geothermal_blaze by entry(::entityTypeInitialiser) {}
+    val temperature_scalding_e by entry(::entityTypeInitialiser) {}
+    val temperature_red_hot_e by entry(::entityTypeInitialiser) {}
 
     val enriched_uranium by entry(::itemInitialiser) {}
     val airlocked_suits by entry(::itemInitialiser) {}

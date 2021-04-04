@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:salt"
+    ]
+  },
+  "criteria": {
+    "has_latex_bottle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:latex_bottle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:salt"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_latex_bottle",
+      "has_the_recipe"
+    ]
+  ]
+}

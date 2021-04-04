@@ -7,17 +7,7 @@
         "y": 0
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 0,
-        "y": 0
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 0,
-        "y": 90
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 0,
         "y": 90
       },
@@ -27,27 +17,12 @@
         "y": 180
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 0,
-        "y": 180
-      },
-      {
         "model": "lcc:block/salt_block",
         "x": 0,
         "y": 270
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 0,
-        "y": 270
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 90,
-        "y": 0
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 90,
         "y": 0
       },
@@ -57,27 +32,12 @@
         "y": 90
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 90,
-        "y": 90
-      },
-      {
         "model": "lcc:block/salt_block",
         "x": 90,
         "y": 180
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 90,
-        "y": 180
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 90,
-        "y": 270
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 90,
         "y": 270
       },
@@ -87,27 +47,12 @@
         "y": 0
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 180,
-        "y": 0
-      },
-      {
         "model": "lcc:block/salt_block",
         "x": 180,
         "y": 90
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 180,
-        "y": 90
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 180,
-        "y": 180
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 180,
         "y": 180
       },
@@ -117,17 +62,7 @@
         "y": 270
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 180,
-        "y": 270
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 270,
-        "y": 0
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 270,
         "y": 0
       },
@@ -137,27 +72,12 @@
         "y": 90
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 270,
-        "y": 90
-      },
-      {
         "model": "lcc:block/salt_block",
         "x": 270,
         "y": 180
       },
       {
-        "model": "lcc:block/salt_block_mirrored",
-        "x": 270,
-        "y": 180
-      },
-      {
         "model": "lcc:block/salt_block",
-        "x": 270,
-        "y": 270
-      },
-      {
-        "model": "lcc:block/salt_block_mirrored",
         "x": 270,
         "y": 270
       }

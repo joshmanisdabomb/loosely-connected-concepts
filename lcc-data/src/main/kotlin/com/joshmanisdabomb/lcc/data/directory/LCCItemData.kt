@@ -255,6 +255,20 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
 
+    val salt by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCBlocks.rock_salt)
+            .addInput(Items.WATER_BUCKET)
+            .addOutput(i)
+            .addOutput(Items.BUCKET)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.salt", 6, RefiningBlock.RefiningProcess.PURIFYING)
+            .speed(300, 0.008f, 100f)
+            .energyPerTick(5f)
+            .apply { hasCriterionInterface(this, LCCItems.latex_bottle) }
+            .apply { offerInterface(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

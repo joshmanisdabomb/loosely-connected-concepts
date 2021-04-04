@@ -103,7 +103,8 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
         TREATING(12),
         ARC_SMELTING(15),
         DRYING(5),
-        PRESSING(0);
+        PRESSING(0),
+        PURIFYING(0);
 
         override fun asString() = name.toLowerCase()
 

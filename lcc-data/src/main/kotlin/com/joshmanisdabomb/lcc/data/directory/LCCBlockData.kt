@@ -368,7 +368,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     }) }
     val failing_nuclear_generator by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(ExplodingNuclearFiredGeneratorBlockAssetFactory).add(BlockTagFactory(LCCTags.temperature_nuclear)) }
 
-    val scattered_salt by entry(::initialiser) { BlockDataContainer().defaultLang().add(SaltBlockAssetFactory).add(CustomItemAssetFactory { d, i ->
+    val scattered_salt by entry(::initialiser) { BlockDataContainer().defaultLang().add(SaltBlockLootFactory).add(SaltBlockAssetFactory).add(CustomItemAssetFactory { d, i ->
         LCCModelTemplates.template_salt_item.upload(loc(i), Texture.texture(LCC.block("salt")), d.modelStates::addModel)
     }) }
     val salt_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(MirroredBlockAssetFactory((0..3).toList(), (0..3).toList(), LCC.block("salt"))).add(CustomRecipeFactory { d, i ->

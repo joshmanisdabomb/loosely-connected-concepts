@@ -17,6 +17,7 @@ class SaltItem(val projectiles: Int, settings: Settings) : Item(settings) {
         val stack = user.getStackInHand(hand)
         //TODO custom sound?
         world.playSound(null, user.x, user.y, user.z, SoundEvents.BLOCK_SAND_BREAK, SoundCategory.NEUTRAL, 0.5f, 0.4f / (world.getRandom().nextFloat() * 0.4f + 0.8f))
+        user.itemCooldownManager.set(this, 30)
         if (!world.isClient) {
             repeat(projectiles) {
                 val snowballEntity = SnowballEntity(world, user)

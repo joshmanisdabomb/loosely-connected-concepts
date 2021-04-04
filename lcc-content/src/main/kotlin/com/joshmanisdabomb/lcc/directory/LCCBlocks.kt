@@ -96,7 +96,7 @@ object LCCBlocks : BlockDirectory() {
     //Materials
     val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.5f, 1.0f).breakByTool(PICKAXES).sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
-    val scattered_salt by entry(::initialiser) { SaltBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.WHITE).noCollision().dropsNothing().breakInstantly().sounds(BlockSoundGroup.CAVE_VINES)) }
+    val scattered_salt by entry(::initialiser) { SaltBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.WHITE).noCollision().breakInstantly().sounds(BlockSoundGroup.CAVE_VINES)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
     val salt_block by entry(::initialiser) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.WHITE).breakByTool(SHOVELS).strength(0.2f).sounds(BlockSoundGroup.CAVE_VINES)) {
         override fun getColor(state: BlockState, world: BlockView, pos: BlockPos) = 0xFFF7F0

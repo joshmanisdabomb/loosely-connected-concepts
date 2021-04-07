@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bib",
+    "nnn"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:bell"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "n": {
+      "item": "minecraft:note_block"
+    }
+  },
+  "result": {
+    "item": "lcc:alarm",
+    "count": 2
+  }
+}

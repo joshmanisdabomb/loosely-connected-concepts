@@ -21,6 +21,9 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val bounce_pad_jump by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.bounce_pad.jump")) }
     val bounce_pad_set by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.bounce_pad.set")) }
 
+    val alarm_bell by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.alarm.bell")) }
+    val alarm_nuclear_siren by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.alarm.nuclear_siren")) }
+
     val pocket_zombie_pigman_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.pocket_zombie_pigman.ambient")) }
     val pocket_zombie_pigman_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.pocket_zombie_pigman.hurt")) }
     val pocket_zombie_pigman_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.pocket_zombie_pigman.death")) }

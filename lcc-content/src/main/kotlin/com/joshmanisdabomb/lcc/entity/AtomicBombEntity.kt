@@ -233,7 +233,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         (world as ServerWorld).chunkManager.addTicket(LCCChunkTickets.nuclear, chunkPos, 17, Unit.INSTANCE)
     }
 
-    override fun method_33332() = expandBoundingBox(super.method_33332())
+    override fun calculateBoundingBox() = expandBoundingBox(super.calculateBoundingBox())
 
     private fun expandBoundingBox(default: Box): Box? {
         dataTracker.get(facing_data).apply { return default.expand(abs(offsetX.toDouble()), 0.0, abs(offsetZ.toDouble())) }

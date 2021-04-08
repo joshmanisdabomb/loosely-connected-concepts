@@ -7,10 +7,15 @@ import com.joshmanisdabomb.lcc.data.generators.CommitData
 import com.joshmanisdabomb.lcc.data.generators.SoundData
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
+import net.minecraft.SharedConstants
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
 object LCCData : PreLaunchEntrypoint {
+
+    init {
+        SharedConstants.method_36208()
+    }
 
     val path = Paths.get("../lcc-content/src/generated/resources")
     val accessor = DataAccessor("lcc", DataGeneratorHandler.create(path), listOf("en_us", "en_gb"))

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.google.common.collect.ImmutableMap
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.block.entity.render.AlarmBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
@@ -20,6 +21,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(TimeRiftBlockEntityRenderer::data)
     val nuclear_generator by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(NuclearFiredGeneratorBlockEntityRenderer::data)
+    val alarm by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(AlarmBlockEntityRenderer::data)
 
     private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 

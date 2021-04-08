@@ -40,6 +40,7 @@ object LCC : ModInitializer {
 
     fun block(name: String) = id("block/$name")
     fun item(name: String) = id("item/$name")
+    fun entity(name: String) = id("entity/$name")
     fun gui(name: String) = id("textures/gui/$name.png")
 
 }

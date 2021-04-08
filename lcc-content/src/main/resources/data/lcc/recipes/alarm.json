@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "bib",
-    "nnn"
+    "nln"
   ],
   "key": {
     "b": {
@@ -10,6 +10,9 @@
     },
     "i": {
       "item": "minecraft:iron_ingot"
+    },
+    "l": {
+      "item": "minecraft:lever"
     },
     "n": {
       "item": "minecraft:note_block"

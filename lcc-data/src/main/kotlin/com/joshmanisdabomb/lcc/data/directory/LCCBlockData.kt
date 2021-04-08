@@ -386,9 +386,10 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val alarm by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_alarm_item.upload(loc(i), Texture.texture(loc(i, folder = "block")), d.modelStates::addModel) }).add(HorizontalBlockAssetFactory({ d, b -> LCCModelTemplates.template_alarm.upload(loc(b), Texture.texture(loc(b)), d.modelStates::addModel) })).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 2)
             .pattern("bib")
-            .pattern("nnn")
+            .pattern("nln")
             .input('b', Blocks.BELL)
             .input('i', Items.IRON_INGOT)
+            .input('l', Blocks.LEVER)
             .input('n', Blocks.NOTE_BLOCK)
             .apply { hasCriterionShaped(this, Blocks.BELL) }
             .apply { offerShaped(this, d) }

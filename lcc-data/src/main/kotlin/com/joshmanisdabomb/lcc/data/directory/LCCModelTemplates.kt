@@ -7179,8 +7179,8 @@ private const val template_alarm_item_json =
 			}
 		},
 		{
-			"from": [7.7, 3, 7.7],
-			"to": [8.3, 8, 8.3],
+			"from": [7.7, 3.3, 7.7],
+			"to": [8.3, 8.3, 8.3],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 4, 8]},
 			"faces": {
 				"north": {"uv": [1, 9, 2, 16], "texture": "#texture"},
@@ -7190,8 +7190,8 @@ private const val template_alarm_item_json =
 			}
 		},
 		{
-			"from": [7.1, 8, 7.6],
-			"to": [8.9, 8.8, 8.4],
+			"from": [7.1, 8.3, 7.6],
+			"to": [8.9, 9.1, 8.4],
 			"rotation": {"angle": 0, "axis": "z", "origin": [8, 4, 8]},
 			"faces": {
 				"north": {"uv": [1, 11, 3, 12], "texture": "#texture"},

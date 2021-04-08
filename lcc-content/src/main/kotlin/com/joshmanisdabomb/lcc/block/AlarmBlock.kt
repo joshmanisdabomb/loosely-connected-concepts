@@ -2,10 +2,13 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.AlarmBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
 import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundEvent
 import net.minecraft.state.StateManager
@@ -24,7 +27,7 @@ import net.minecraft.world.WorldAccess
 class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
-        stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(POWERED, false).with(ringer, Ringer.BELL)
+        defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(POWERED, false).with(ringer, Ringer.BELL)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(HORIZONTAL_FACING, POWERED, ringer).let {}
@@ -42,12 +45,18 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
         return state.with(ringer, Ringer.getRinger(neighborState))
     }
 
+    override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
+        neighborUpdate(state, world, pos, this, pos, notify)
+    }
+
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         val power = world.isReceivingRedstonePower(pos)
-        if (power != state.get(NoteBlock.POWERED)) {
-            world.setBlockState(pos, state.with(NoteBlock.POWERED, power), 3)
+        if (power != state.get(POWERED)) {
+            world.setBlockState(pos, state.with(POWERED, power), 3)
         }
     }
+
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.alarm, AlarmBlockEntity::clientTick) else null
 
     companion object {
         val ringer = EnumProperty.of("ringer", Ringer::class.java)

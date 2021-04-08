@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.BatteryBlock
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.block.entity.*
+import com.joshmanisdabomb.lcc.block.entity.render.AlarmBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
@@ -53,6 +54,8 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TimeRiftBlockEntityRenderer)
         BlockEntityRendererRegistry.INSTANCE.register(nuclear_generator, ::NuclearFiredGeneratorBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(NuclearFiredGeneratorBlockEntityRenderer)
+        BlockEntityRendererRegistry.INSTANCE.register(alarm, ::AlarmBlockEntityRenderer)
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(AlarmBlockEntityRenderer)
     }
 
 }

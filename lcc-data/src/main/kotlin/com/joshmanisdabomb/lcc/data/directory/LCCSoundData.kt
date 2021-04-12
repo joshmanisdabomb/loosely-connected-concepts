@@ -24,11 +24,11 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:step/soaking_soul_sand${it+1}")
     }, "subtitles.block.generic.footsteps") }
     val soaking_soul_sand_jump by entry(::initialiser) { SoundProperties("block", LCC.modid, "soaking_soul_sand.jump", Array(1) {
-        SoundProperties.SoundEntry("${LCC.modid}:block/soaking_soul_sand_jump")
+        SoundProperties.SoundEntry("${LCC.modid}:block/soaking_soul_sand/jump")
     }) }
 
     val bounce_pad_jump by entry(::initialiser) { SoundProperties("block", LCC.modid, "bounce_pad.jump", Array(1) {
-        SoundProperties.SoundEntry("${LCC.modid}:block/bounce_pad_jump")
+        SoundProperties.SoundEntry("${LCC.modid}:block/bounce_pad/jump")
     }) }
     val bounce_pad_set by entry(::initialiser) { SoundProperties("block", LCC.modid, "bounce_pad.set", Array(1) {
         SoundProperties.SoundEntry("minecraft:random/click")
@@ -67,6 +67,13 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
     val player_hurt_crystal by entry(::initialiser) { SoundProperties("entity", LCC.modid, "player.hurt_crystal", Array(3) {
         SoundProperties.SoundEntry("${LCC.modid}:entity/player/crystal${it+1}")
     }, "subtitles.entity.player.hurt") }
+
+    val alarm_bell by entry(::initialiser) { SoundProperties("block", LCC.modid, "alarm.bell", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/alarm/bell", stream = true)
+    }) }
+    val alarm_nuclear_siren by entry(::initialiser) { SoundProperties("block", LCC.modid, "alarm.nuclear_siren", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/alarm/nuclear_siren", stream = true)
+    }) }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.sounds.add(it) }
 

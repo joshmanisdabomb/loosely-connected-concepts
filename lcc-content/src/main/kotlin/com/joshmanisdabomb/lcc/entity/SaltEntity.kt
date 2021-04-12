@@ -64,7 +64,7 @@ class SaltEntity : ThrownItemEntity, LCCExtendedEntity {
                 if (state.isSideSolidFullSquare(world, result.blockPos, Direction.UP)) {
                     val up = result.blockPos.up()
                     val above = world.getBlockState(up)
-                    if (above.canReplace(AutomaticItemPlacementContext(world, up, Direction.DOWN, ItemStack.EMPTY, Direction.UP))) {
+                    if (!above.isOf(LCCBlocks.scattered_salt) && above.canReplace(AutomaticItemPlacementContext(world, up, Direction.DOWN, ItemStack.EMPTY, Direction.UP))) {
                         world.setBlockState(up, LCCBlocks.scattered_salt.defaultState.with(LEVEL_3, 1))
                     }
                 }

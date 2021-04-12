@@ -42,7 +42,6 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
 
     //TODO classic block sounds for nostalgic blocks
     //TODO sound update, pass for all blocks
-    //TODO soundinfo properties, link to data module for easy json fill
 
     override fun defaultProperties(name: String) = Unit
 

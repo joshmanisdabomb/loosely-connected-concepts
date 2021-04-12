@@ -72,7 +72,7 @@ class AlarmBlockEntityRenderer(context: BlockEntityRendererFactory.Context) : Bl
             val modelPartData = modelData.root
             modelPartData.addChild("ringer_stalk", ModelPartBuilder.create().uv(1, 0).cuboid(-0.5f, -1f, -0.5f, 1f, 7f, 1f), ModelTransform.of(0.0f, 0.0f, 0.0f, PI.toFloat(), 0.0f, 0.0f))
             modelPartData.addChild("ringer_end", ModelPartBuilder.create().uv(0, 9).cuboid(-0.5f, 6.0f.div(0.8f).times(0.6f), -1f, 1f, 1f, 2f), ModelTransform.of(0.0f, 0.0f, 0.0f, PI.toFloat(), 0.0f, 0.0f))
-            return TexturedModelData.of(modelData, 8, 16)
+            return TexturedModelData.of(modelData, 16, 16)
         }
 
         override fun registerSprites(sprite: SpriteAtlasTexture, registry: ClientSpriteRegistryCallback.Registry) {

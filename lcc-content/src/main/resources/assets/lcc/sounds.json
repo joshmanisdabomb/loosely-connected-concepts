@@ -72,13 +72,13 @@
   },
   "block.lcc.soaking_soul_sand.jump": {
     "sounds": [
-      "lcc:block/soaking_soul_sand_jump"
+      "lcc:block/soaking_soul_sand/jump"
     ],
     "subtitle": "subtitles.lcc.block.soaking_soul_sand.jump"
   },
   "block.lcc.bounce_pad.jump": {
     "sounds": [
-      "lcc:block/bounce_pad_jump"
+      "lcc:block/bounce_pad/jump"
     ],
     "subtitle": "subtitles.lcc.block.bounce_pad.jump"
   },
@@ -166,5 +166,23 @@
       "lcc:entity/player/crystal3"
     ],
     "subtitle": "subtitles.entity.player.hurt"
+  },
+  "block.lcc.alarm.bell": {
+    "sounds": [
+      {
+        "name": "lcc:block/alarm/bell",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.alarm.bell"
+  },
+  "block.lcc.alarm.nuclear_siren": {
+    "sounds": [
+      {
+        "name": "lcc:block/alarm/nuclear_siren",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.alarm.nuclear_siren"
   }
 }

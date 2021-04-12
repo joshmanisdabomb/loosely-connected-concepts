@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "lcc:cut_tungsten_slab",
     "lcc:rhyolite_slab",
     "lcc:dirt_slab",
     "lcc:classic_cobblestone_slab",

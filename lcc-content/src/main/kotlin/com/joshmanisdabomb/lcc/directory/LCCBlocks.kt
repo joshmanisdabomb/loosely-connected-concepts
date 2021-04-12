@@ -63,16 +63,16 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(TESTING))
 
     //Resources
-    val ruby_ore by entry(::initialiser) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 2), UniformIntProvider.create(3, 7)) }
+    val ruby_ore by entry(::initialiser) { OreBlock(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 2).requiresTool(), UniformIntProvider.create(3, 7)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby)))
-    val ruby_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val ruby_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::ruby)))
-    val sapphire_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.METAL)) }
+    val sapphire_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BLUE).strength(5.0F, 6.0F).breakByTool(PICKAXES, 2).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::sapphire)))
 
-    val topaz_block by entry(::initialiser) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).strength(1.5f).breakByTool(PICKAXES, 2).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
+    val topaz_block by entry(::initialiser) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).strength(1.5f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard)))
-    val topaz_cluster by entry(::initialiser) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES, 2).ticksRandomly().nonOpaque().strength(1.5f).luminance { it[Properties.LIT].transformInt(5) }.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
+    val topaz_cluster by entry(::initialiser) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES).ticksRandomly().nonOpaque().strength(1.5f).luminance { it[Properties.LIT].transformInt(5) }.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).cutout())
     val large_topaz_bud by entry(::initialiser) { AmethystClusterBlock(5, 3, FabricBlockSettings.copy(topaz_cluster).luminance { it[Properties.LIT].transformInt(4) }.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(104)).cutout())
@@ -82,6 +82,19 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).cutout())
     val budding_topaz by entry(::initialiser) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101)))
+
+    val tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 1).requiresTool()) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::raw_tungsten, 1)))
+    val deepslate_tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
+    val tungsten_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_TEAL).strength(2.0F, 6.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
+    val cut_tungsten by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_block)) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
+    val cut_tungsten_stairs by entry(::initialiser) { StairsBlock(cut_tungsten.defaultState, FabricBlockSettings.copy(cut_tungsten)) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
+    val cut_tungsten_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(cut_tungsten)) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
 
     //Building
     val pumice by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_LIGHT_GRAY).sounds(BlockSoundGroup.POINTED_DRIPSTONE).breakByTool(PICKAXES).requiresTool().strength(0.4f, 4.0f)) }
@@ -176,17 +189,17 @@ object LCCBlocks : BlockDirectory() {
     //TODO sapphire altar
 
     //Nuclear
-    val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F).breakByTool(PICKAXES, 3)) }
+    val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 3).requiresTool()) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0)))
     val deepslate_uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.copy(uranium_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(1)))
-    val uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11)))
-    val enriched_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 1, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val enriched_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 1, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(21)))
-    val heavy_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.METAL)) }
+    val heavy_uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(31)))
-    val heavy_uranium_shielding by entry(::initialiser) { RadioactiveShieldingBlock(6, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(10.0F, 6.0F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.FUNGUS)) }
+    val heavy_uranium_shielding by entry(::initialiser) { RadioactiveShieldingBlock(6, 0, FabricBlockSettings.of(Material.METAL, MapColor.GREEN).strength(10.0F, 6.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(35)))
     val nuclear_waste by entry(::initialiser) { NuclearWasteBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_CYAN).strength(-1f, 3600000f).sounds(BlockSoundGroup.CORAL).dropsNothing()) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(40, 1)))

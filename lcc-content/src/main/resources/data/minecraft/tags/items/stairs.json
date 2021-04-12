@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "lcc:cut_tungsten_stairs",
     "lcc:rhyolite_stairs",
     "lcc:classic_cobblestone_stairs",
     "lcc:classic_wooden_stairs",

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "lcc:deepslate_tungsten_ore"
+  },
+  "result": "lcc:tungsten_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

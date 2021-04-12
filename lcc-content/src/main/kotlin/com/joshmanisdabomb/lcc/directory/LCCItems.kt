@@ -34,8 +34,12 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(0)))
     val topaz_shard by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(100)))
-    val sapphire by entry(::initialiser) { Item(Item.Settings().defaults()) } //TODO from dungeon, temple, etc chests
+    val sapphire by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(200)))
+    val raw_tungsten by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(300)))
+    val tungsten_ingot by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(301)))
 
     //Gizmos
     val asphalt_bucket by entry(::initialiser) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }

@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:deepslate_uranium_from_blasting"
+      "lcc:classic_mossy_cobblestone_stairs_from_stonecutter"
     ]
   },
   "criteria": {
-    "has_uranium": {
+    "has_classic_mossy_cobblestone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:uranium"
+            "item": "lcc:classic_mossy_cobblestone"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:deepslate_uranium_from_blasting"
+        "recipe": "lcc:classic_mossy_cobblestone_stairs_from_stonecutter"
       }
     }
   },
   "requirements": [
     [
-      "has_uranium",
+      "has_classic_mossy_cobblestone",
       "has_the_recipe"
     ]
   ]

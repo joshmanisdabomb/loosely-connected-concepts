@@ -2,16 +2,16 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:deepslate_uranium"
+      "lcc:cut_tungsten_slab"
     ]
   },
   "criteria": {
-    "has_uranium": {
+    "has_cut_tungsten": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:uranium"
+            "item": "lcc:cut_tungsten"
           }
         ]
       }
@@ -19,13 +19,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:deepslate_uranium"
+        "recipe": "lcc:cut_tungsten_slab"
       }
     }
   },
   "requirements": [
     [
-      "has_uranium",
+      "has_cut_tungsten",
       "has_the_recipe"
     ]
   ]

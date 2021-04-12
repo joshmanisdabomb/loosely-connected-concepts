@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:cut_tungsten_stairs"
+    ]
+  },
+  "criteria": {
+    "has_cut_tungsten": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:cut_tungsten"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:cut_tungsten_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cut_tungsten",
+      "has_the_recipe"
+    ]
+  ]
+}

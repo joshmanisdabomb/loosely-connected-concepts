@@ -38,6 +38,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val kiln by entry(::beInitialiser) { BlockEntityType.Builder.create(::KilnBlockEntity, LCCBlocks.kiln) }
     val nuclear_generator by entry(::beInitialiser) { BlockEntityType.Builder.create(::NuclearFiredGeneratorBlockEntity, LCCBlocks.nuclear_generator, LCCBlocks.failing_nuclear_generator) }
     val alarm by entry(::beInitialiser) { BlockEntityType.Builder.create(::AlarmBlockEntity, LCCBlocks.alarm) }
+    val radar by entry(::beInitialiser) { BlockEntityType.Builder.create(::RadarBlockEntity, LCCBlocks.radar) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)

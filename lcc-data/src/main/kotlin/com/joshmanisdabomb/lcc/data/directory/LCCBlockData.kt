@@ -408,6 +408,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, Blocks.BELL) }
             .apply { offerShaped(this, d) }
     }) }
+    val radar by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(RadarBlockAssetFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

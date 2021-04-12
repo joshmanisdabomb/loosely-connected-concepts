@@ -174,6 +174,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     val alarm by entry(::initialiser) { AlarmBlock(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES).requiresTool().strength(3.0f).sounds(BlockSoundGroup.ANVIL)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
+    val radar by entry(::initialiser) { RadarBlock(FabricBlockSettings.of(Material.SCULK, MapColor.CYAN).strength(1.5f).sounds(BlockSoundGroup.SCULK_SENSOR).luminance(1).emissiveLighting { state, world, pos -> state[Properties.TRIGGERED] }) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS).cutout())
     //TODO rope
 
     //Wasteland

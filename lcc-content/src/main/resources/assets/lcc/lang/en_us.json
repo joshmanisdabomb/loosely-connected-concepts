@@ -122,6 +122,7 @@
   "block.lcc.scattered_salt": "Scattered Salt",
   "block.lcc.salt_block": "Salt Block",
   "block.lcc.alarm": "Alarm",
+  "block.lcc.radar": "Radar",
   "block.lcc.test_block": "Test Block",
   "block.lcc.composite_processor": "Composite Processor",
   "block.lcc.power_source": "Power Source",

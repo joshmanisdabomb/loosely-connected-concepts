@@ -23,6 +23,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldView
 
 class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
 
@@ -55,6 +56,8 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
             world.setBlockState(pos, state.with(POWERED, power), 3)
         }
     }
+
+    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos) = world.getBlockState(pos.down()).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER)
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.alarm, AlarmBlockEntity::clientTick) else null
 

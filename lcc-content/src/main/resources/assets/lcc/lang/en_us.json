@@ -334,6 +334,8 @@
   "subtitles.lcc.entity.atomic_bomb.fuse": "Atomic Bomb ticks",
   "subtitles.lcc.entity.atomic_bomb.defuse": "Atomic Bomb defused",
   "subtitles.lcc.entity.nuclear_explosion.explode": "Nuclear explosion",
+  "subtitles.lcc.block.alarm.bell": "Alarm rings",
+  "subtitles.lcc.block.alarm.nuclear_siren": "Alarm siren blares",
   "block.lcc.nether_reactor.active": "Active!",
   "block.lcc.nether_reactor.incorrect": "Not the correct pattern!",
   "block.lcc.nether_reactor.players": "All players need to be close to the reactor.",

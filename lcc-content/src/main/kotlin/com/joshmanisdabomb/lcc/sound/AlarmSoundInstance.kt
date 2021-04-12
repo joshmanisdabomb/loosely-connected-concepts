@@ -11,14 +11,13 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
 
 @Environment(EnvType.CLIENT)
-class AlarmSoundInstance(private val entity: AlarmBlockEntity, private val ringer: AlarmBlock.Ringer, volume: Float) : PositionedSoundInstance(ringer.sound, SoundCategory.BLOCKS, volume, 1f, entity.pos), TickableSoundInstance {
+class AlarmSoundInstance(private val entity: AlarmBlockEntity, val ringer: AlarmBlock.Ringer, volume: Float) : PositionedSoundInstance(ringer.sound, SoundCategory.BLOCKS, volume, 1f, entity.pos), TickableSoundInstance {
 
     var valid = true
 
     init {
         repeat = true
         repeatDelay = 0
-        looping = true
     }
 
     override fun isDone(): Boolean {
@@ -31,10 +30,6 @@ class AlarmSoundInstance(private val entity: AlarmBlockEntity, private val ringe
 
     override fun tick() {
         if (!valid) return
-        if (entity.cachedState[AlarmBlock.ringer] != ringer) {
-            entity.refreshSound()
-            valid = false
-        }
     }
 
     override fun shouldAlwaysPlay() = true

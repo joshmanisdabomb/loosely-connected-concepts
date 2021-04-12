@@ -31,10 +31,11 @@ class AlarmBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
         fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: AlarmBlockEntity) {
             if (entity.sound == null) {
                 entity.refreshSound()
-            } else {
-                if (state[Properties.POWERED] && !MinecraftClient.getInstance().soundManager.isPlaying(entity.sound)) {
-                    MinecraftClient.getInstance().soundManager.playNextTick(entity.sound)
-                }
+            } else if (entity.cachedState[AlarmBlock.ringer] != entity.sound?.ringer) {
+                entity.sound?.valid = false
+                entity.refreshSound()
+            } else if (!MinecraftClient.getInstance().soundManager.isPlaying(entity.sound)) {
+                MinecraftClient.getInstance().soundManager.playNextTick(entity.sound)
             }
 
             if (state[Properties.POWERED]) {

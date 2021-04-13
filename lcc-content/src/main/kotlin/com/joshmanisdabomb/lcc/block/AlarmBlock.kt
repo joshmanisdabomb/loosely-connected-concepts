@@ -51,15 +51,21 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
-        val power = world.isReceivingRedstonePower(pos)
-        if (power != state.get(POWERED)) {
-            world.setBlockState(pos, state.with(POWERED, power), 3)
+        val power = world.getReceivedRedstonePower(pos)
+        val powered = power > 0
+        val entity = world.getBlockEntity(pos) as? AlarmBlockEntity
+        if (!world.isClient && entity != null && power != entity.redstone) {
+            entity.redstone = power
+            entity.sync()
+        }
+        if (powered != state.get(POWERED)) {
+            world.setBlockState(pos, state.with(POWERED, powered), 3)
         }
     }
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos) = world.getBlockState(pos.down()).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER)
 
-    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.alarm, AlarmBlockEntity::clientTick) else null
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.alarm, AlarmBlockEntity::clientTick) else checkType(type, LCCBlockEntities.alarm, AlarmBlockEntity::serverTick)
 
     companion object {
         val ringer = EnumProperty.of("ringer", Ringer::class.java)

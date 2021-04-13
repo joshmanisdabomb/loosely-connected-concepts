@@ -348,5 +348,6 @@
   "block.lcc.nether_reactor.active": "Active!",
   "block.lcc.nether_reactor.incorrect": "Not the correct pattern!",
   "block.lcc.nether_reactor.players": "All players need to be close to the reactor.",
-  "block.lcc.nether_reactor.y": "The reactor must be placed between y=%1$s and y=%2$s"
+  "block.lcc.nether_reactor.y": "The reactor must be placed between y=%1$s and y=%2$s",
+  "block.lcc.radar.range": "Range is %1$s blocks"
 }

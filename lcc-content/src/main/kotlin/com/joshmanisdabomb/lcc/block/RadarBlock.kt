@@ -1,17 +1,20 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.RadarBlockEntity
-import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.TRIGGERED
-import net.minecraft.util.BlockRotation
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShapes
@@ -34,7 +37,7 @@ class RadarBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shape[state[HORIZONTAL_FACING]]
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shape
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos) = world.getBlockState(pos.down()).isSideSolid(world, pos, Direction.UP, SideShapeType.CENTER)
 
@@ -61,10 +64,16 @@ class RadarBlock(settings: Settings) : BlockWithEntity(settings) {
         return entity.type?.redstone ?: 0
     }
 
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        player.sendMessage(TranslatableText("block.lcc.radar.range", (world.getBlockEntity(pos) as? RadarBlockEntity)?.radius ?: 0), true)
+        return ActionResult.SUCCESS
+    }
+
     companion object {
         val shape_base = createCuboidShape(1.0, 0.0, 1.0, 15.0, 3.0, 15.0)
+        val shape_rod = createCuboidShape(7.0, 3.0, 7.0, 9.0, 15.0, 9.0)
 
-        val shape = VoxelShapes.union(shape_base).rotatable(BlockRotation.COUNTERCLOCKWISE_90, BlockRotation.NONE, BlockRotation.CLOCKWISE_90)
+        val shape = VoxelShapes.union(shape_base, shape_rod)
     }
 
 }

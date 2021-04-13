@@ -408,7 +408,21 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, Blocks.BELL) }
             .apply { offerShaped(this, d) }
     }) }
-    val radar by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(RadarBlockAssetFactory) }
+    val radar by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(RadarBlockAssetFactory).add(CustomRecipeFactory { d, i ->
+        //TODO temp recipe before sculks
+        ShapedRecipeJsonFactory(i, 1)
+            .pattern("r r")
+            .pattern("pcp")
+            .pattern("ete")
+            .input('r', Blocks.REDSTONE_TORCH)
+            .input('p', Items.ENDER_PEARL)
+            .input('e', Items.ENDER_EYE)
+            .input('c', Blocks.COPPER_BLOCK)
+            .input('t', LCCBlocks.tungsten_block)
+            .apply { hasCriterionShaped(this, LCCItems.tungsten_ingot) }
+            .apply { hasCriterionShaped(this, Items.ENDER_EYE) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

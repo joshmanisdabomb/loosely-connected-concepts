@@ -72,9 +72,9 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
         val shape = VoxelShapes.union(shape_base, shape_ringer, shape_bell_1, shape_bell_2).rotatable(BlockRotation.COUNTERCLOCKWISE_90, BlockRotation.NONE, BlockRotation.CLOCKWISE_90)
     }
 
-    enum class Ringer(val sound: SoundEvent, val base: (below: BlockState) -> Boolean = { true }) : StringIdentifiable {
-        BELL(LCCSounds.alarm_bell),
-        NUCLEAR_SIREN(LCCSounds.alarm_nuclear_siren, { it.isOf(LCCBlocks.uranium_block) || it.isOf(LCCBlocks.enriched_uranium_block) || it.isOf(LCCBlocks.heavy_uranium_block) || it.isOf(LCCBlocks.heavy_uranium_shielding) || it.isOf(LCCBlocks.uranium_ore) || it.isOf(LCCBlocks.deepslate_uranium_ore) || it.isOf(LCCBlocks.nuclear_waste) });
+    enum class Ringer(val sound: SoundEvent, val volume: Float, val base: (below: BlockState) -> Boolean = { true }) : StringIdentifiable {
+        BELL(LCCSounds.alarm_bell, 4f),
+        NUCLEAR_SIREN(LCCSounds.alarm_nuclear_siren, 30f, { it.isOf(LCCBlocks.uranium_block) || it.isOf(LCCBlocks.enriched_uranium_block) || it.isOf(LCCBlocks.heavy_uranium_block) || it.isOf(LCCBlocks.heavy_uranium_shielding) || it.isOf(LCCBlocks.uranium_ore) || it.isOf(LCCBlocks.deepslate_uranium_ore) || it.isOf(LCCBlocks.nuclear_waste) });
 
         override fun asString() = name.toLowerCase()
 

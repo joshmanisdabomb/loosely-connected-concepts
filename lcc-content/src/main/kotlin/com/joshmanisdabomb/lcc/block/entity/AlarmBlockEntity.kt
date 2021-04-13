@@ -23,17 +23,21 @@ class AlarmBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
     var sound: AlarmSoundInstance? = null
 
     @Environment(EnvType.CLIENT)
-    fun refreshSound() {
-        sound = AlarmSoundInstance(this, cachedState[AlarmBlock.ringer], 16.0f)
+    fun refreshSound(redstone: Int) {
+        sound = AlarmSoundInstance(this, cachedState[AlarmBlock.ringer], redstone)
     }
 
     companion object {
         fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: AlarmBlockEntity) {
+            val redstone = world.getReceivedRedstonePower(pos)
             if (entity.sound == null) {
-                entity.refreshSound()
+                entity.refreshSound(redstone)
             } else if (entity.cachedState[AlarmBlock.ringer] != entity.sound?.ringer) {
                 entity.sound?.valid = false
-                entity.refreshSound()
+                entity.refreshSound(redstone)
+            } else if (redstone != entity.sound?.redstone) {
+                entity.sound?.valid = false
+                entity.refreshSound(redstone)
             } else if (!MinecraftClient.getInstance().soundManager.isPlaying(entity.sound)) {
                 MinecraftClient.getInstance().soundManager.playNextTick(entity.sound)
             }

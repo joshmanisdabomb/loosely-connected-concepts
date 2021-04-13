@@ -7394,6 +7394,14 @@ private const val template_radar_json =
 				"south": {"uv": [8, 2, 9, 15], "texture": "#0"},
 				"west": {"uv": [10, 2, 11, 15], "texture": "#0"}
 			}
+		},
+		{
+			"from": [7, 13, 7],
+			"to": [9, 15, 9],
+			"faces": {
+				"up": {"uv": [7, 1, 9, 3], "texture": "#4"},
+				"down": {"uv": [7, 1, 9, 3], "texture": "#4"}
+			}
 		}
 	]
 }"""

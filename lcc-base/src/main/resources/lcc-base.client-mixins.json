@@ -7,7 +7,9 @@
     "WorldRendererAccessor",
     "ClientPlayerInteractionAccessor",
     "ImplClientInteractionManager",
-    "ItemRendererMixin"
+    "ItemRendererMixin",
+    "SignBlockEntityRendererMixin",
+    "SignEditScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

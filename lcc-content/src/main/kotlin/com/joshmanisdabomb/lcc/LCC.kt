@@ -14,6 +14,7 @@ object LCC : ModInitializer {
         LCCGroups.init()
         LCCSounds.init()
         LCCFluids.init()
+        LCCSignTypes.init()
         LCCBlocks.init()
         LCCItems.init()
         LCCEntities.init()

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "www",
+    " s "
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rubber_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_sign",
+    "count": 3
+  }
+}

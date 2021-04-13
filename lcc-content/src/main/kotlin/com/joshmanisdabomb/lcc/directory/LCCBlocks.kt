@@ -146,10 +146,10 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rubber_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
-    /*val rubber_sign by entry(::initialiser) { SignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE)) }
-        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
-    val rubber_wall_sign by entry(::initialiser) { WallSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE)) }
-        .setProperties(BlockExtraSettings().creativeEx(BUILDING))*/
+    val rubber_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), LCCSignTypes.rubber) }
+        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
+    val rubber_wall_sign by entry(::initialiser) { LCCWallSignBlock(FabricBlockSettings.copyOf(rubber_sign).dropsLike(rubber_sign), LCCSignTypes.rubber) }
+        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_door by entry(::initialiser) { DoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD).nonOpaque()) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutout())
     val rubber_pressure_plate by entry(::initialiser) { PressurePlateBlock(ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(0.5F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }

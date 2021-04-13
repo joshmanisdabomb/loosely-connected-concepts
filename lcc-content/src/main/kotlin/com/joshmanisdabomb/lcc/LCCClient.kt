@@ -2,6 +2,8 @@ package com.joshmanisdabomb.lcc
 
 import com.joshmanisdabomb.lcc.directory.*
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
+import net.minecraft.client.render.TexturedRenderLayers
 
 object LCCClient : ClientModInitializer {
 
@@ -18,6 +20,8 @@ object LCCClient : ClientModInitializer {
         LCCScreens.init()
         LCCPacketsToClient.init()
         LCCParticlesClient.init()
+
+        ClientSpriteRegistryCallback.event(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE).register(LCCSignTypes)
     }
 
 }

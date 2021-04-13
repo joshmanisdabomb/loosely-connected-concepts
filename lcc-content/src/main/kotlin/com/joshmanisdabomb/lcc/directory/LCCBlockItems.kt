@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.item.block.RadioactiveBlockItem
 import net.minecraft.block.Block
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.item.SignItem
 import net.minecraft.item.TallBlockItem
 import net.minecraft.util.registry.Registry
 
@@ -38,10 +39,14 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val treetap_bowl by entry(::initialiser) { Replacement() }
     val dried_treetap by entry(::initialiser) { Replacement() }
 
+    val rubber_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.rubber_sign, LCCBlocks.rubber_wall_sign)) }
+    val rubber_wall_sign by entry(::initialiser) { Replacement() }
+
     override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block>) -> Boolean) {
         LCCBlocks.all.forEach { (k, v) ->
-            val blockItem = (initialised.firstOrNull { it.name == k }?.input ?: Replacement(BlockItem(v, Item.Settings().defaults()))).bi ?: return@forEach
-            Registry.register(Registry.ITEM, LCC.id(k), blockItem)
+            val bi = initialised.firstOrNull { it.name == k }?.input ?: Replacement(BlockItem(v, Item.Settings().defaults()))
+            val blockItem = bi.bi ?: return@forEach
+            Registry.register(Registry.ITEM, LCC.id(bi.name ?: k), blockItem)
             LCCBlocks[blockItem.block].properties.initItem(blockItem)
             _map[k] = blockItem
         }
@@ -56,6 +61,6 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
         _map.forEach { (k, v) ->  LCCBlocks[v.block].properties.initItemClient(v) }
     }
 
-    data class Replacement(val bi: BlockItem? = null)
+    data class Replacement(val bi: BlockItem? = null, val name: String? = null)
 
 }

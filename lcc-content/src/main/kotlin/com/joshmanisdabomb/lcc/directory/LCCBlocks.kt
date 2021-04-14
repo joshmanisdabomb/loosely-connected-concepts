@@ -123,7 +123,7 @@ object LCCBlocks : BlockDirectory() {
     } }
     val dried_treetap by entry(::initialiser) { DriedTreetapBlock(FabricBlockSettings.copyOf(treetap)) }
     val rubber_log by entry(::initialiser) { FunctionalLogBlock(FabricBlockSettings.copyOf(Settings.of(Material.WOOD, pillarMapColorProvider(MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_GREEN))).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { stripped_rubber_log.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }
-        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
+        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION, sortValueInt(100, 1)))
     val natural_rubber_log by entry(::initialiser) { SapLogBlock(AbstractTreetapBlock.TreetapLiquid.LATEX, FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { sappy_stripped_rubber_log.defaultState } }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_wood by entry(::initialiser) { LogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_GREEN).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { stripped_rubber_wood.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }

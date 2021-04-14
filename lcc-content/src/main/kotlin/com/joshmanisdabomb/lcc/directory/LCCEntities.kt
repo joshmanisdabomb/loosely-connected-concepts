@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.adaptation.boat.LCCBoatEntity
 import com.joshmanisdabomb.lcc.entity.*
 import com.joshmanisdabomb.lcc.entity.render.*
 import net.fabricmc.api.EnvType
@@ -8,6 +9,7 @@ import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry
+import net.minecraft.client.render.entity.BoatEntityRenderer
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityType
@@ -30,6 +32,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
 
+    val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
+
     private fun <E : Entity> typeInitialiser(input: FabricEntityTypeBuilder<E>, context: DirectoryContext<Unit>, parameters: Unit): EntityType<E> {
         return initialiser(input.build(), context, parameters)
     }
@@ -44,6 +48,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(salt, ::SaltEntityRenderer)
+
+        EntityRendererRegistry.INSTANCE.register(rubber_boat, ::BoatEntityRenderer)
     }
 
 }

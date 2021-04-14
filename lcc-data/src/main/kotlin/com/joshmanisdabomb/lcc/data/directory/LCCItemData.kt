@@ -270,6 +270,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .apply { hasCriterionInterface(this, LCCItems.latex_bottle) }
             .apply { offerInterface(this, d) }
     }) }
+    val rubber_boat by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(BoatRecipeFactory(LCCBlocks.rubber_planks)) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

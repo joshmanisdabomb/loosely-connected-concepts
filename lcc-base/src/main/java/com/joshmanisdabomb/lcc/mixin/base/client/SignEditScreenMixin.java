@@ -28,7 +28,7 @@ public abstract class SignEditScreenMixin extends Screen {
     private SpriteIdentifier textureOverride(SpriteIdentifier original) {
         Block block = sign.getCachedState().getBlock();
         if (block instanceof LCCSign) {
-            return new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, ((LCCSign)block).getType().getTexture());
+            return new SpriteIdentifier(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE, ((LCCSign)block).getLcc_sign().getTexture());
         }
         return original;
     }

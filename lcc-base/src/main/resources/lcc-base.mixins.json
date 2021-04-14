@@ -19,7 +19,8 @@
     "ImplCrossbowMixin",
     "ImplServerInteractionManager",
     "ImplItemEntityMixin",
-    "ImplProjectileEntityMixin"
+    "ImplProjectileEntityMixin",
+    "BoatEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

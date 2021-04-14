@@ -9,7 +9,8 @@
     "ImplClientInteractionManager",
     "ItemRendererMixin",
     "SignBlockEntityRendererMixin",
-    "SignEditScreenMixin"
+    "SignEditScreenMixin",
+    "BoatEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

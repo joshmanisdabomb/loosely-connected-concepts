@@ -124,6 +124,7 @@
   "block.lcc.salt_block": "Salt Block",
   "block.lcc.alarm": "Alarm",
   "block.lcc.radar": "Radar",
+  "block.lcc.rubber_block": "Rubber Block",
   "block.lcc.test_block": "Test Block",
   "block.lcc.composite_processor": "Composite Processor",
   "block.lcc.power_source": "Power Source",

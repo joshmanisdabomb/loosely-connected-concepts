@@ -57,7 +57,7 @@ object LCCItems : ItemDirectory() {
     val heavy_duty_rubber by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
     val salt by entry(::initialiser) { SaltItem(8, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS, sortValueInt(100, 1)))
 
     val rubber_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.rubber_boat } }
         .setProperties(ItemExtraSettings().creativeEx(SAP_PRODUCTION, sortValueInt(130)))

@@ -107,8 +107,10 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
+    val rubber_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(2.0f).sounds(BlockSoundGroup.SHROOMLIGHT)) }
+        .setProperties(BlockExtraSettings().creativeEx(MATERIALS, sortValueInt(50, 1)))
     val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.7f, 1.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
-        .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
+        .setProperties(BlockExtraSettings().creativeEx(MATERIALS, sortValueInt(150, 1)))
     val scattered_salt by entry(::initialiser) { SaltBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.WHITE).nonOpaque().breakInstantly().sounds(BlockSoundGroup.CAVE_VINES)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS))
     val salt_block by entry(::initialiser) { object : FallingBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.WHITE).breakByTool(SHOVELS).strength(0.2f).sounds(BlockSoundGroup.CAVE_VINES)) {

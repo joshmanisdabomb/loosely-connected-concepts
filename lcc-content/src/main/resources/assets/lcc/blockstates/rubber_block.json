@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "lcc:block/rubber_block"
+      },
+      {
+        "model": "lcc:block/rubber_block_2"
+      },
+      {
+        "model": "lcc:block/rubber_block_3"
+      },
+      {
+        "model": "lcc:block/rubber_block_4"
+      },
+      {
+        "model": "lcc:block/rubber_block_5"
+      }
+    ]
+  }
+}

@@ -28,6 +28,9 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     private var lastHealthMod = 0
     val healthMod get() = MathHelper.floor(exposure.div(2f)).times(2)
 
+    private val modifierValue get() = healthMod.toDouble().coerceAtMost(exposureLimit).div(20.0)
+    val exposureLimit get() = 16.0
+
     override fun readFromNbt(tag: NbtCompound) {
         exposure = tag.getFloat("Exposure")
     }
@@ -37,24 +40,11 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
     }
 
     override fun writeSyncPacket(buf: PacketByteBuf, player: ServerPlayerEntity) {
-        writeSyncPacketExtra(buf, player, false)
-    }
-
-    private fun writeSyncPacketExtra(buf: PacketByteBuf, player: ServerPlayerEntity, extra: Boolean) {
         buf.writeFloat(exposure)
-        buf.writeFloat(if (extra) -1f else exposureLimit)
     }
 
     override fun applySyncPacket(buf: PacketByteBuf) {
         exposure = buf.readFloat()
-        val limit = buf.readFloat()
-        if (limit < 0f || exposure <= limit) {
-            entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
-                val new = EntityAttributeModifier(uuid, modifierName, -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
-                it.removeModifier(uuid)
-                it.addPersistentModifier(new)
-            }
-        }
     }
 
     override fun tick() {
@@ -66,6 +56,7 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
 
     override fun serverTick() {
         if ((entity as? PlayerEntity)?.isSurvival == false) return
+        super.serverTick()
         LCCComponents.nuclear.maybeGet(entity.world).orElse(null)?.also {
             var amp = -1
             var time = 1
@@ -79,25 +70,21 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
             if (amp > -1 && time > 1) NuclearUtil.addRadiation(entity, time, amp)
         }
         if (lastHealthMod != healthMod) {
-            if (healthMod < lastHealthMod || exposure <= exposureLimit) {
-                entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
-                    val new = EntityAttributeModifier(uuid, modifierName, -healthMod.toDouble(), EntityAttributeModifier.Operation.ADDITION)
-                    it.removeModifier(uuid)
-                    it.addPersistentModifier(new)
-                    if (entity.health > entity.maxHealth) {
-                        entity.damage(LCCDamage.radiation, 0.00001f)
-                        entity.health = entity.maxHealth
-                        entity.hurtTime = 0
-                        entity.timeUntilRegen = 0
-                    }
+            entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.also {
+                val new = EntityAttributeModifier(uuid, modifierName, -modifierValue, EntityAttributeModifier.Operation.MULTIPLY_TOTAL)
+                it.removeModifier(uuid)
+                it.addPersistentModifier(new)
+                if (entity.health > entity.maxHealth) {
+                    entity.damage(LCCDamage.radiation, 0.0001f)
+                    entity.health = entity.maxHealth
+                    entity.hurtTime = 0
+                    entity.timeUntilRegen = 0
                 }
             }
-            LCCComponents.radiation.sync(entity) { buf, player -> writeSyncPacketExtra(buf, player, healthMod < lastHealthMod) }
+            LCCComponents.radiation.sync(entity)
         }
         lastHealthMod = healthMod
     }
-
-    val exposureLimit get() = 18f//.plus(LCCComponents.hearts.maybeGet(entity).map { it.getMaxHealth(HeartType.RED) }.orElse(0f))
 
     companion object {
         val uuid by lazy { UUID.fromString("e322834e-028f-481c-bc3e-53f0065bb8ec") }

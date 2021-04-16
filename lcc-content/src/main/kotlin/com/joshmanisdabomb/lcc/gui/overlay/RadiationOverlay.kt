@@ -81,7 +81,7 @@ object RadiationOverlay : DrawableHelper() {
             shakeY = 0
         }
 
-        component.map(RadiationComponent::exposureLimit).orElse(18f)?.also {
+        component.map(RadiationComponent::exposureLimit).orElse(16.0)?.also {
             if (exposure >= it) {
                 renderHeart(matrix, x, -shakeX, y, -shakeY, exposure, ticks)
                 renderHeart(matrix, x, shakeX, y-2, shakeY, exposure, ticks)
@@ -97,7 +97,7 @@ object RadiationOverlay : DrawableHelper() {
         val noise = exposure.div(2f).rem(1f)
         if (noise > 0f) {
             RenderSystem.enableBlend()
-            random.setSeed(ticks.div(2) * 438125L)
+            random.setSeed(ticks.div(2).times(438125L).plus(y))
             for (j in 0 until 7) {
                 for (i in 0 until 7) {
                     if (j == 0 && i !in 1..2 && i !in 4..5) continue

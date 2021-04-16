@@ -109,6 +109,14 @@ object LCCLangData {
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".y"] = "The reactor must be placed between y=%1\$s and y=%2\$s"
 
         lang["en_us"]!![LCCBlocks.radar.translationKey.toString() + ".range"] = "Range is %1\$s blocks"
+
+        lang["en_us"]!!["commands.lcc.radiation.add.success.single"] = "Added %s to the radiation sickness of %s"
+        lang["en_us"]!!["commands.lcc.radiation.add.success.multiple"] = "Added %s to the radiation sickness of %s players"
+        lang["en_us"]!!["commands.lcc.radiation.set.success.single"] = "Set the radiation sickness of %s to %s"
+        lang["en_us"]!!["commands.lcc.radiation.set.success.multiple"] = "Set the radiation sickness of %s players to %s"
+        lang["en_us"]!!["commands.lcc.radiation.query"] = "%s has a radiation sickness value of %s"
+        lang["en_us"]!!["commands.lcc.radiation.failed.living.single"] = "%s must be a living entity to have radiation sickness"
+        lang["en_us"]!!["commands.lcc.radiation.failed.living.multiple"] = "No entities given were living and cannot receive radiation sickness"
     }
 
 }

@@ -7,11 +7,11 @@ import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.data.client.model.VariantsBlockStateSupplier
 import net.minecraft.util.Identifier
 
-class MultipleBlockAssetFactory(val ids: MultipleBlockAssetFactory.(data: DataAccessor, entry: Block) -> List<Identifier>) : BlockAssetFactory {
+class MultipleBlockAssetFactory(val y: List<Int> = listOf(0), val ids: MultipleBlockAssetFactory.(data: DataAccessor, entry: Block) -> List<Identifier>) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
        stateVariant(data, entry, {
-           VariantsBlockStateSupplier.create(entry, *ids(data, entry).map { BlockStateVariant.create().put(VariantSettings.MODEL, it) }.toTypedArray())
+           VariantsBlockStateSupplier.create(entry, *ids(data, entry).flatMap { y.map { y -> BlockStateVariant.create().put(VariantSettings.MODEL, it).put(VariantSettings.Y, VariantSettings.Rotation.values()[y]) } }.toTypedArray())
        }) {}
     }
 

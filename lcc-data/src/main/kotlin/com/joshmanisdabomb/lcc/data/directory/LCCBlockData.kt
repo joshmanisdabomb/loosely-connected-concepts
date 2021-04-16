@@ -425,7 +425,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { hasCriterionShaped(this, Items.ENDER_EYE) }
             .apply { offerShaped(this, d) }
     }) }
-    val rubber_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(MultipleBlockAssetFactory { d, b -> List(5) {
+    val rubber_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultLootTable().defaultItemAsset().add(MultipleBlockAssetFactory(y = (0..3).toList()) { d, b -> List(5) {
         modelCubeAll(d, b, suffix(loc(b), if (it == 0) null else it.plus(1).toString()), suffix(loc(b), it.plus(1).toString()))
     } }).add(Storage9RecipeFactory(LCCItems.heavy_duty_rubber)) }
 

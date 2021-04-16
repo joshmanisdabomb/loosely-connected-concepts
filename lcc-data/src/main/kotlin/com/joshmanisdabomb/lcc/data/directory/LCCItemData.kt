@@ -267,7 +267,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
             .meta("container.lcc.refining.recipe.salt", 6, RefiningBlock.RefiningProcess.PURIFYING)
             .speed(300, 0.008f, 100f)
             .energyPerTick(5f)
-            .apply { hasCriterionInterface(this, LCCItems.latex_bottle) }
+            .apply { hasCriterionInterface(this, LCCBlocks.rock_salt) }
             .apply { offerInterface(this, d) }
     }) }
     val rubber_boat by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(BoatRecipeFactory(LCCBlocks.rubber_planks)) }

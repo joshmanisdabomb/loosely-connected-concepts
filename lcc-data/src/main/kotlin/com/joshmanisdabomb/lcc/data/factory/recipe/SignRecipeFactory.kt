@@ -6,7 +6,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.Ingredient
 
-class SignRecipeFactory(val item: ItemConvertible, val stick: Ingredient, val output: Int = 3) : RecipeFactory {
+class SignRecipeFactory(val item: ItemConvertible, val stick: Ingredient, val output: Int = 3, val group: String? = null) : RecipeFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
         ShapedRecipeJsonFactory.create(entry, output)
@@ -15,6 +15,7 @@ class SignRecipeFactory(val item: ItemConvertible, val stick: Ingredient, val ou
             .pattern(" s ")
             .input('w', item)
             .input('s', stick)
+            .group(group)
             .apply { hasCriterionShaped(this, item) }
             .apply { offerShaped(this, data) }
     }

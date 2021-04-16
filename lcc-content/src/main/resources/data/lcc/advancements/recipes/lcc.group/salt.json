@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_latex_bottle": {
+    "has_rock_salt": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:latex_bottle"
+            "item": "lcc:rock_salt"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_latex_bottle",
+      "has_rock_salt",
       "has_the_recipe"
     ]
   ]

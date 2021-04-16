@@ -3,10 +3,7 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.block.ExplodingNuclearFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.block.NuclearFiredGeneratorBlock
-import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCChunkTickets
-import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
@@ -204,6 +201,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         removeEnergyDirect(maxEnergy, LooseEnergy, WorldEnergyContext(world, pos, null, null))
         world.setBlockState(pos, world.getBlockState(pos).with(LIT, true))
         working = true
+        (by as? ServerPlayerEntity)?.also { LCCCriteria.nuclear.trigger(it) }
         return true
     }
 

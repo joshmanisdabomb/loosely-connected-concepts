@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
+import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.AutomaticItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.property.Properties.LEVEL_3
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
@@ -46,10 +48,16 @@ class SaltEntity : ThrownItemEntity, LCCExtendedEntity {
             entity.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 50))
             entity.hurtTime = 0
             entity.timeUntilRegen = 0
-            entity.damage(LCCDamage.salt(this, this.owner), 1f)
+            this.owner?.also { entity.damage(LCCDamage.salt(this, it), 1f) }
             destroy()
         } else if (entity is PlayerEntity && entity != this.owner && entity.isSurvival) {
             entity.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 50))
+            if (!world.isClient) {
+                this.owner?.also {
+                    (it as? ServerPlayerEntity)?.also { Criteria.PLAYER_HURT_ENTITY.trigger(it, entity, LCCDamage.salt(this, it), 0f, 0f, false) }
+                    Criteria.ENTITY_HURT_PLAYER.trigger(entity as ServerPlayerEntity, LCCDamage.salt(this, it), 0f, 0f, false)
+                }
+            }
             destroy()
         }
     }

@@ -12,6 +12,7 @@ class BarkRecipeFactory(val item: ItemConvertible, val output: Int = 3) : Recipe
             .pattern("ww")
             .pattern("ww")
             .input('w', item)
+            .group("bark")
             .apply { hasCriterionShaped(this, item) }
             .apply { offerShaped(this, data) }
     }

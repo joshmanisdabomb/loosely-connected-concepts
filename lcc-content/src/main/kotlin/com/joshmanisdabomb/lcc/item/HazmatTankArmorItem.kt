@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.item
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
+import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.transformInt
@@ -13,6 +14,7 @@ import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
@@ -27,10 +29,16 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
         super.inventoryTick(stack, world, entity, slot, selected)
         if (entity.armorItems.indexOf(stack) <= -1) return
         if (!hasFullSuit(stack, entity.armorItems)) return
+        val before = this.getOxygen(stack)
         this.addOxygen(stack, -1f)
         (entity as? PlayerEntity)?.also {
-            val effect = it.getStatusEffect(StatusEffects.HUNGER) ?: return@also
-            this.addOxygen(stack, 0.05F.times(effect.amplifier + 1))
+            val effect = it.getStatusEffect(StatusEffects.HUNGER)
+            if (effect != null) this.addOxygen(stack, 0.05F.times(effect.amplifier + 1))
+
+            val after = this.getOxygen(stack)
+            if (!world.isClient && after != before) {
+                LCCCriteria.oxygen.trigger(entity as ServerPlayerEntity, stack, before, before - after, after)
+            }
         }
     }
 

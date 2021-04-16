@@ -3,25 +3,26 @@ package com.joshmanisdabomb.lcc.data.directory
 import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.LCCData
-import com.joshmanisdabomb.lcc.advancement.NuclearExplosionCriterion
-import com.joshmanisdabomb.lcc.advancement.RaceCriterion
+import com.joshmanisdabomb.lcc.advancement.*
 import com.joshmanisdabomb.lcc.data.DataUtils
 import com.joshmanisdabomb.lcc.directory.*
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.CriterionMerger
-import net.minecraft.advancement.criterion.ImpossibleCriterion
-import net.minecraft.advancement.criterion.InventoryChangedCriterion
-import net.minecraft.advancement.criterion.LocationArrivalCriterion
-import net.minecraft.advancement.criterion.PlacedBlockCriterion
+import net.minecraft.advancement.criterion.*
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
+import net.minecraft.predicate.DamagePredicate
+import net.minecraft.predicate.NbtPredicate
 import net.minecraft.predicate.NumberRange
+import net.minecraft.predicate.entity.DamageSourcePredicate
+import net.minecraft.predicate.entity.EntityPredicate
 import net.minecraft.predicate.entity.LocationPredicate
+import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.Tag
 import net.minecraft.text.TranslatableText
@@ -63,7 +64,15 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
                         .criteriaMerger(CriterionMerger.OR)
                         .translation("What Could Have Been", "Obtain rubies by throwing emeralds into the time rift", "en_us", this)
                 }.addTags("main")
-                //IDEA complete nether reactor
+                val nether_reactor by entry(::initialiser) {
+                    Advancement.Task.create()
+                        .parent(simulation_fabric)
+                        .display(LCCBlocks.nether_reactor, this, frame = AdvancementFrame.CHALLENGE)
+                        .criterion("challenge", NetherReactorChallengeCriterion.create())
+                        .criteriaMerger(CriterionMerger.OR)
+                        .rewards(AdvancementRewards.Builder.experience(500))
+                        .translation("Never Say Nether", "Survive the nether reactor and player-kill all spawned pigmen without leaving the nether spire", "en_us", this)
+                }.addTags("main")
             val rainbow_portal by entry(::initialiser) { emptyAdvancement(spawner_table, this) }.addTags("main") //into the rainbowverse
 
         val topaz by entry(::initialiser) {
@@ -104,6 +113,39 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
                             .translation("Nuclear Arms Race", "Be the first person on the server to detonate an atomic bomb", "en_us", this)
                     }.addTags("main")
                     val winter_survive by entry(::initialiser) { emptyAdvancement(nuke, this) }.addTags("main") //the struggle was real, return to winter level 0 after being at winter level 5
+                val nuclear by entry(::initialiser) {
+                    Advancement.Task.create()
+                        .parent(uranium)
+                        .display(LCCBlocks.nuclear_generator, this, frame = AdvancementFrame.GOAL)
+                        .criterion("activate", NuclearGeneratorCriterion.create())
+                        .translation("Unlimited Power!", "Activate a nuclear generator", "en_us", this)
+                }.addTags("main")
+
+        val salt by entry(::initialiser) {
+            Advancement.Task.create()
+                .parent(main_root)
+                .display(LCCItems.salt, this)
+                .criterion("salted", PlayerHurtEntityCriterion.Conditions.create(DamagePredicate.Builder.create().type(DamageSourcePredicate.Builder.create().projectile(true).directEntity(EntityPredicate.Builder.create().type(LCCEntities.salt)))))
+                .criteriaMerger(CriterionMerger.OR)
+                .translation("Pocket Salt", "Reach into your pocket and quickly blind something", "en_us", this)
+        }.addTags("main")
+
+        val rubber by entry(::initialiser) {
+            Advancement.Task.create()
+                .parent(main_root)
+                .display(LCCItems.flexible_rubber, this)
+                .has(LCCItems.latex_bottle).has(LCCItems.flexible_rubber)
+                .criteriaMerger(CriterionMerger.OR)
+                .translation("Tap That", "Extract latex or dry rubber from a tapped rubber tree", "en_us", this)
+        }.addTags("main")
+            val hazmat by entry(::initialiser) {
+                Advancement.Task.create()
+                    .parent(rubber)
+                    .display(LCCItems.hazmat_chestplate, this)
+                    .criterion("depleted", ContainedArmorDepletionCriterion.create(ItemPredicate(null, LCCItems.hazmat_chestplate, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)))
+                    .criteriaMerger(CriterionMerger.OR)
+                    .translation("Safety First", "Protect yourself with an oxygenated hazmat suit", "en_us", this)
+            }.addTags("main")
 
     val wasteland_root by entry(::initialiser) {
         Advancement.Task.create()

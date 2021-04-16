@@ -6,14 +6,10 @@
     ]
   },
   "criteria": {
-    "has_rubber_planks": {
-      "trigger": "minecraft:inventory_changed",
+    "water": {
+      "trigger": "minecraft:enter_block",
       "conditions": {
-        "items": [
-          {
-            "item": "lcc:rubber_planks"
-          }
-        ]
+        "block": "minecraft:water"
       }
     },
     "has_the_recipe": {
@@ -25,7 +21,7 @@
   },
   "requirements": [
     [
-      "has_rubber_planks",
+      "water",
       "has_the_recipe"
     ]
   ]

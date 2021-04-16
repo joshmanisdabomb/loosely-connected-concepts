@@ -7,7 +7,7 @@ import net.minecraft.item.Item
 import net.minecraft.recipe.Ingredient
 import net.minecraft.tag.Tag
 
-class SingleShapelessFromTagRecipeFactory(val tag: Tag<Item>, val criterion: Pair<String, CriterionConditions>, val outputCount: Int = 1, val inputCount: Int = 1) : RecipeFactory {
+class SingleShapelessFromTagRecipeFactory(val tag: Tag<Item>, val criterion: Pair<String, CriterionConditions>, val outputCount: Int = 1, val inputCount: Int = 1, val group: String? = null) : RecipeFactory {
 
     val ingredient = Ingredient.fromTag(tag)
 
@@ -15,6 +15,7 @@ class SingleShapelessFromTagRecipeFactory(val tag: Tag<Item>, val criterion: Pai
         ShapelessRecipeJsonFactory.create(entry, outputCount)
             .input(ingredient, inputCount)
             .criterion(criterion.first, criterion.second)
+            .group(group)
             .apply { offerShapeless(this, data) }
     }
 

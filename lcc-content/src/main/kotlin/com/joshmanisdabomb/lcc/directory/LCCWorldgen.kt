@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
+import com.joshmanisdabomb.lcc.world.decorator.NearAirDecorator
 import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
 import com.joshmanisdabomb.lcc.world.feature.RubberTreeFeature
@@ -100,9 +101,9 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.015f, 1))) }
     val oil_hidden by entry(::initialiser) { Feature.SCATTERED_ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.oil.defaultState, 5)).averageDepth(YOffset.fixed(63), 3).spreadHorizontally().applyChance(4) }
 
-    val uranium_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
-    val uranium_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally() }
-    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).rangeOf(YOffset.getBottom(), YOffset.fixed(64)).spreadHorizontally().repeat(3).applyChance(2) }
+    val uranium_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 110).spreadHorizontally().decorate(LCCDecorators.near_air.configure(DecoratorConfig.DEFAULT)).repeat(3) }
+    val uranium_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).averageDepth(YOffset.getBottom(), 160).spreadHorizontally().decorate(LCCDecorators.near_air.configure(DecoratorConfig.DEFAULT)).repeat(8) }
+    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState, 4)).rangeOf(YOffset.getBottom(), YOffset.fixed(64)).spreadHorizontally().decorate(LCCDecorators.near_air.configure(DecoratorConfig.DEFAULT)).repeat(8) }
 
     val tungsten_stone by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.tungsten_ore.defaultState, 7)).averageDepth(YOffset.fixed(0), 13).spreadHorizontally().repeat(2) }
     val tungsten_deepslate by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_tungsten_ore.defaultState, 7)).averageDepth(YOffset.fixed(0), 13).spreadHorizontally().repeat(2) }
@@ -166,6 +167,7 @@ object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), R
     override fun regId(name: String) = LCC.id(name)
 
     val near_lava_lake by entry(::initialiser) { NearLavaLakeDecorator(NopeDecoratorConfig.CODEC) }
+    val near_air by entry(::initialiser) { NearAirDecorator(NopeDecoratorConfig.CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 

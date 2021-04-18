@@ -7,8 +7,11 @@ import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.world.World
+import net.minecraft.world.level.ServerWorldProperties
+import java.util.*
 import kotlin.math.max
 import kotlin.math.pow
 
@@ -37,6 +40,10 @@ object NuclearUtil {
         else -> 1.0
     }
 
+    fun getWeatherSpeedChangeFromWinter(winterLevel: Int, random: Random): Int {
+        return winterLevel + random.nextFloat().times(4f).times(winterLevel.minus(1)).toInt()
+    }
+
     fun strike(world: World, entity: NuclearExplosionEntity) {
         LCCComponents.nuclear.maybeGet(world).orElse(null)?.strike(entity)
     }
@@ -49,6 +56,35 @@ object NuclearUtil {
         if (entity.canHaveStatusEffect(effect)) {
             entity.removeStatusEffectInternal(LCCEffects.radiation)
             entity.addStatusEffect(effect)
+        }
+    }
+
+    fun tick(world: ServerWorld, winterLevel: Int) {
+        val properties = world.levelProperties as? ServerWorldProperties ?: return
+        if (properties.clearWeatherTime > 0) {
+            properties.clearWeatherTime = properties.clearWeatherTime.minus(NuclearUtil.getWeatherSpeedChangeFromWinter(winterLevel, world.random)).coerceAtLeast(0)
+            if (properties.clearWeatherTime <= 0) {
+                properties.rainTime = world.random.nextInt(168000) + 12000
+                properties.thunderTime = world.random.nextInt(168000) + 24000
+                properties.isRaining = true
+                properties.isThundering = true
+                return
+            }
+        }
+        if (properties.thunderTime > 0) {
+            properties.thunderTime = properties.thunderTime.minus(NuclearUtil.getWeatherSpeedChangeFromWinter(winterLevel, world.random)).coerceAtLeast(0)
+            if (properties.thunderTime <= 0) {
+                properties.isThundering = false
+                return
+            }
+        }
+        if (properties.rainTime > 0) {
+            properties.rainTime = properties.rainTime.minus(NuclearUtil.getWeatherSpeedChangeFromWinter(winterLevel, world.random)).coerceAtLeast(0)
+            if (properties.rainTime <= 0) {
+                properties.isRaining = false
+                properties.clearWeatherTime = world.random.nextInt(168000.div(winterLevel.coerceAtLeast(1))) + 12000
+                return
+            }
         }
     }
 

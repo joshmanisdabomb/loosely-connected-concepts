@@ -117,6 +117,10 @@ object LCCLangData {
         lang["en_us"]!!["commands.lcc.radiation.query"] = "%s has a radiation sickness value of %s"
         lang["en_us"]!!["commands.lcc.radiation.failed.living.single"] = "%s must be a living entity to have radiation sickness"
         lang["en_us"]!!["commands.lcc.radiation.failed.living.multiple"] = "No entities given were living and cannot receive radiation sickness"
+
+        lang["en_us"]!!["commands.lcc.nuclearwinter.add.success"] = "Added %s to the nuclear winter level of %s"
+        lang["en_us"]!!["commands.lcc.nuclearwinter.set.success"] = "Set the nuclear winter level of %s to %s"
+        lang["en_us"]!!["commands.lcc.nuclearwinter.query"] = "%s has a nuclear winter level of %s"
     }
 
 }

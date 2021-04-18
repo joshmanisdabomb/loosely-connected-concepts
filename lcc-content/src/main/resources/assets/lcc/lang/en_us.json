@@ -369,5 +369,8 @@
   "commands.lcc.radiation.set.success.multiple": "Set the radiation sickness of %s players to %s",
   "commands.lcc.radiation.query": "%s has a radiation sickness value of %s",
   "commands.lcc.radiation.failed.living.single": "%s must be a living entity to have radiation sickness",
-  "commands.lcc.radiation.failed.living.multiple": "No entities given were living and cannot receive radiation sickness"
+  "commands.lcc.radiation.failed.living.multiple": "No entities given were living and cannot receive radiation sickness",
+  "commands.lcc.nuclearwinter.add.success": "Added %s to the nuclear winter level of %s",
+  "commands.lcc.nuclearwinter.set.success": "Set the nuclear winter level of %s to %s",
+  "commands.lcc.nuclearwinter.query": "%s has a nuclear winter level of %s"
 }

@@ -6,34 +6,34 @@ import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
-import dev.onyxstudios.cca.api.v3.component.tick.ClientTickingComponent
+import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent
 import dev.onyxstudios.cca.api.v3.component.tick.ServerTickingComponent
 import net.minecraft.client.MinecraftClient
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtList
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class NuclearComponent(private val world: World) : ComponentV3, ServerTickingComponent, ClientTickingComponent, AutoSyncedComponent {
+class NuclearComponent(private val world: World) : ComponentV3, ServerTickingComponent, CommonTickingComponent, AutoSyncedComponent {
 
     val strikes = mutableListOf<NuclearStrike>()
 
-    private var _winter = 0.0f
-    val winter get() = _winter
+    var winter = 0.0f
 
     fun strike(radius: Short, time: Long, pos: BlockPos) {
         this.strikes += NuclearStrike(pos, radius, time)
-        _winter = _winter.plus(NuclearUtil.getWinterIncreaseFromRadius(radius.toInt())).coerceIn(0f, 6f)
+        winter = winter.plus(NuclearUtil.getWinterIncreaseFromRadius(radius.toInt())).coerceIn(0f, 6f)
         LCCComponents.nuclear.sync(world)
     }
 
     fun strike(entity: NuclearExplosionEntity) = strike(entity.radius.toShort(), world.time, entity.blockPos)
 
     override fun readFromNbt(tag: NbtCompound) {
-        _winter = tag.getFloat("WinterLevel")
+        winter = tag.getFloat("WinterLevel")
         strikes.clear()
         tag.getList("Strikes", NBT_COMPOUND).forEach {
             (it as? NbtCompound)?.also {
@@ -43,7 +43,7 @@ class NuclearComponent(private val world: World) : ComponentV3, ServerTickingCom
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.putFloat("WinterLevel", _winter)
+        tag.putFloat("WinterLevel", winter)
         tag.put("Strikes", NbtList().also {
             strikes.forEach { (p, r, t) ->
                 it.add(NbtCompound().also {
@@ -57,21 +57,31 @@ class NuclearComponent(private val world: World) : ComponentV3, ServerTickingCom
 
     override fun shouldSyncWith(player: ServerPlayerEntity) = player.world == this.world
 
+    override fun writeSyncPacket(buf: PacketByteBuf, recipient: ServerPlayerEntity) {
+        buf.writeBoolean(false)
+        super.writeSyncPacket(buf, recipient)
+    }
+
     override fun applySyncPacket(buf: PacketByteBuf) {
-        val winter = NuclearUtil.getWinterLevel(_winter)
+        val w = NuclearUtil.getWinterLevel(winter)
+        val force = buf.readBoolean()
         super.applySyncPacket(buf)
-        if (NuclearUtil.getLightModifierFromWinter(winter) != NuclearUtil.getLightModifierFromWinter(NuclearUtil.getWinterLevel(_winter))) {
+        if (force || NuclearUtil.getLightModifierFromWinter(w) != NuclearUtil.getLightModifierFromWinter(NuclearUtil.getWinterLevel(winter))) {
             MinecraftClient.getInstance().worldRenderer.reload()
         }
     }
 
-    override fun clientTick() = serverTick()
+    override fun tick() {
+        winter = winter.minus(0.000001f.times(6f.minus(winter).plus(1f))).coerceIn(0f, 6f)
+    }
 
     override fun serverTick() {
-        val winter = NuclearUtil.getWinterLevel(_winter)
-        _winter = _winter.minus(0.000001f.times(6f.minus(_winter).plus(1f))).coerceIn(0f, 6f)
-        if (NuclearUtil.getLightModifierFromWinter(winter) != NuclearUtil.getLightModifierFromWinter(NuclearUtil.getWinterLevel(_winter))) {
-            LCCComponents.nuclear.sync(world)
+        val w = NuclearUtil.getWinterLevel(winter)
+        super.serverTick()
+        val w2 = NuclearUtil.getWinterLevel(winter)
+        if (w2 > 0) NuclearUtil.tick(world as ServerWorld, w2)
+        if (NuclearUtil.getLightModifierFromWinter(w) != NuclearUtil.getLightModifierFromWinter(w2)) {
+            LCCComponents.nuclear.sync(world) { buf, player -> buf.writeBoolean(true); super.writeSyncPacket(buf, player) }
         }
     }
 

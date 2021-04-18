@@ -90,7 +90,7 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
     }
 
     fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) {
-        recipe.create("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
+        recipe.createStonecutting("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
     }
 
     fun offerSmithing(recipe: SmithingRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {

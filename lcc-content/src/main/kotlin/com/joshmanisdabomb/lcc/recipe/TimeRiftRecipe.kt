@@ -19,7 +19,7 @@ class TimeRiftRecipe(id: Identifier, group: String, input: Ingredient, output: I
 
     override fun matches(inv: Inventory, world: World) = input.test(inv.getStack(0))
 
-    override fun getRecipeKindIcon() = LCCBlocks.time_rift.asItem().defaultStack
+    override fun createIcon() = LCCBlocks.time_rift.asItem().defaultStack
 
     class Serializer : RecipeSerializer<TimeRiftRecipe> {
 

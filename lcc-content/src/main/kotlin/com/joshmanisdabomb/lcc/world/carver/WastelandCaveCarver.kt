@@ -3,11 +3,11 @@ package com.joshmanisdabomb.lcc.world.carver
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
-import net.minecraft.class_6108
 import net.minecraft.world.gen.carver.CaveCarver
+import net.minecraft.world.gen.carver.CaveCarverConfig
 import java.util.*
 
-class WastelandCaveCarver(codec: Codec<class_6108>) : CaveCarver(codec) {
+class WastelandCaveCarver(codec: Codec<CaveCarverConfig>) : CaveCarver(codec) {
 
     override fun getBranchFactor() = 8
 

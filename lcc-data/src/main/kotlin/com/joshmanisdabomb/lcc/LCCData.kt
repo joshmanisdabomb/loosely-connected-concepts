@@ -14,7 +14,7 @@ import kotlin.system.exitProcess
 object LCCData : PreLaunchEntrypoint {
 
     init {
-        SharedConstants.method_36208()
+        SharedConstants.createGameVersion()
     }
 
     val path = Paths.get("../lcc-content/src/generated/resources")

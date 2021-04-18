@@ -12,7 +12,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
-import net.minecraft.recipe.RecipeFinder
+import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.screen.AbstractRecipeScreenHandler
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
@@ -89,9 +89,9 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
 
     val currentRecipe get() = playerInventory.player.world.recipeManager.getFirstMatch(LCCRecipeTypes.refining, inventory, playerInventory.player.world)
 
-    override fun populateRecipeFinder(finder: RecipeFinder) {
+    override fun populateRecipeFinder(finder: RecipeMatcher) {
         for (i in 0 until inventory.width * inventory.height) {
-            finder.addNormalItem(inventory.getStack(i))
+            finder.addUnenchantedInput(inventory.getStack(i))
         }
     }
 

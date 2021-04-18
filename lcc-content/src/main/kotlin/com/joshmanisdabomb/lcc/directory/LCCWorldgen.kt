@@ -13,8 +13,6 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
-import net.minecraft.class_6108
-import net.minecraft.class_6124
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
@@ -34,6 +32,7 @@ import net.minecraft.world.gen.decorator.NopeDecoratorConfig
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
+import net.minecraft.world.gen.heightprovider.UniformHeightProvider
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder
@@ -128,7 +127,7 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(class_6108.field_31491) }
+    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CaveCarverConfig.CAVE_CODEC) }
     val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
 
     override fun defaultProperties(name: String) = Unit
@@ -141,8 +140,8 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(class_6108(0.33333334f, class_6124.method_35396(YOffset.aboveBottom(8), YOffset.fixed(126)), UniformFloatProvider.create(0.1f, 0.9f), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.defaultState), UniformFloatProvider.create(0.3f, 1.8f), UniformFloatProvider.create(0.5f, 1.8f), UniformFloatProvider.create(-1.0f, 0.0f))) }
-    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, class_6124.method_35396(YOffset.fixed(10), YOffset.fixed(67)), ConstantFloatProvider.create(3.0F), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), UniformFloatProvider.create(-0.125F, 0.125F), RavineCarverConfig.class_6107(UniformFloatProvider.create(0.75F, 1.0F), TrapezoidFloatProvider.create(0.0F, 6.0F, 2.0F), 3, UniformFloatProvider.create(0.75F, 1.0F), 1.0F, 0.0F))) }
+    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CaveCarverConfig(0.33333334f, UniformHeightProvider.create(YOffset.aboveBottom(8), YOffset.fixed(126)), UniformFloatProvider.create(0.1f, 0.9f), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.defaultState), UniformFloatProvider.create(0.3f, 1.8f), UniformFloatProvider.create(0.5f, 1.8f), UniformFloatProvider.create(-1.0f, 0.0f))) }
+    val wasteland_ravine by entry(::initialiser) { LCCCarvers.wasteland_ravine.configure(RavineCarverConfig(0.02f, UniformHeightProvider.create(YOffset.fixed(10), YOffset.fixed(67)), ConstantFloatProvider.create(3.0F), YOffset.aboveBottom(9), CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState), UniformFloatProvider.create(-0.125F, 0.125F), RavineCarverConfig.Shape(UniformFloatProvider.create(0.75F, 1.0F), TrapezoidFloatProvider.create(0.0F, 6.0F, 2.0F), 3, UniformFloatProvider.create(0.75F, 1.0F), 1.0F, 0.0F))) }
 
     override fun defaultProperties(name: String) = Unit
 

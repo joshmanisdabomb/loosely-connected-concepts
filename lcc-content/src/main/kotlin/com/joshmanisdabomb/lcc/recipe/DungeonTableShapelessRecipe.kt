@@ -8,7 +8,7 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.RecipeFinder
+import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
@@ -18,18 +18,18 @@ import net.minecraft.world.World
 class DungeonTableShapelessRecipe(private val _id: Identifier, private val _group: String, private val ingredients: DefaultedList<Ingredient>, private val _output: ItemStack) : DungeonTableRecipe {
 
     override fun matches(inv: Inventory, world: World): Boolean {
-        val recipeFinder = RecipeFinder()
+        val recipeFinder = RecipeMatcher()
         var i = 0
 
         for (j in 0 until inv.size()) {
             val stack = inv.getStack(j)
             if (!stack.isEmpty) {
                 ++i
-                recipeFinder.addItem(stack, 1)
+                recipeFinder.addInput(stack, 1)
             }
         }
 
-        return i == ingredients.size && recipeFinder.findRecipe(this, null)
+        return i == ingredients.size && recipeFinder.match(this, null)
     }
 
     override fun craft(inv: Inventory) = output.copy()
@@ -40,7 +40,7 @@ class DungeonTableShapelessRecipe(private val _id: Identifier, private val _grou
 
     override fun getGroup() = _group
 
-    override fun getPreviewInputs() = ingredients
+    override fun getIngredients() = ingredients
 
     override fun getOutput() = _output
 

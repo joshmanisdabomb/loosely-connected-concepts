@@ -93,6 +93,8 @@ class PocketZombiePigmanEntity(entityType: EntityType<out PocketZombiePigmanEnti
 
     }
 
+    override fun cannotDespawn() = super.cannotDespawn() || (reactorWorld != null && reactorPos != null)
+
     companion object {
 
         fun createAttributes(): DefaultAttributeContainer.Builder {

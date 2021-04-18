@@ -20,7 +20,9 @@
     "ContainedPlayerMixin",
     "ContainedItemUsageMixin",
     "KilnRecipeManagerMixin",
-    "LivingEntityAccessor"
+    "LivingEntityAccessor",
+    "NuclearSpawnHelperInfoAccessor",
+    "NuclearSpawnHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1

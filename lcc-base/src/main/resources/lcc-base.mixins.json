@@ -20,7 +20,8 @@
     "ImplServerInteractionManager",
     "ImplItemEntityMixin",
     "ImplProjectileEntityMixin",
-    "BoatEntityMixin"
+    "BoatEntityMixin",
+    "ImplMobMixin"
   ],
   "injectors": {
     "defaultRequire": 1

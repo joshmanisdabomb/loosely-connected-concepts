@@ -161,9 +161,9 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
 
     override fun canInsertIntoSlot(slot: Slot) = slot.inventory != result && super.canInsertIntoSlot(slot)
 
-    override fun populateRecipeFinder(finder: RecipeFinder) {
+    override fun populateRecipeFinder(finder: RecipeMatcher) {
         for (i in 0..inventory.size()) {
-            finder.addNormalItem(inventory.getStack(i))
+            finder.addUnenchantedInput(inventory.getStack(i))
         }
     }
 

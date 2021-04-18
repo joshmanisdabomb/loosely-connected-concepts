@@ -70,18 +70,18 @@ class ClassicMeleeAttackGoal(entity: PathAwareEntity, private val speed: Double)
     override fun attack(target: LivingEntity?, squaredDistance: Double) {
         val d = getSquaredMaxAttackDistance(target)
         if (squaredDistance <= d && this.field_24667 <= 0) {
-            method_28346()
+            resetCooldown()
             mob.swingHand(Hand.MAIN_HAND)
             mob.tryAttack(target)
         }
     }
 
-    override fun method_28346() { field_24667 = 20 }
+    override fun resetCooldown() { field_24667 = 20 }
 
-    override fun method_28347() = field_24667 <= 0
+    override fun isCooledDown() = field_24667 <= 0
 
-    override fun method_28348() = field_24667
+    override fun getCooldown() = field_24667
 
-    override fun method_28349() = 20
+    override fun getMaxCooldown() = 20
 
 }

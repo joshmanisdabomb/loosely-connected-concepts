@@ -19,19 +19,19 @@ import net.minecraft.util.registry.Registry
 import java.util.*
 import kotlin.properties.Delegates
 
-abstract class RefiningRecipe(protected val _id: Identifier, protected val _group: String, protected val ingredients: DefaultedList<Pair<Ingredient, Int>>, protected val _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, val blocks: Array<Block>, val lang: String, val icon: Int, val state: RefiningBlock.RefiningProcess, val energy: Float, val ticks: Int, val gain: Float, val maxGain: Float) : Recipe<RefiningInventory> {
+abstract class RefiningRecipe(protected val _id: Identifier, protected val _group: String, protected val refiningIngredients: DefaultedList<Pair<Ingredient, Int>>, protected val _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, val blocks: Array<Block>, val lang: String, val icon: Int, val state: RefiningBlock.RefiningProcess, val energy: Float, val ticks: Int, val gain: Float, val maxGain: Float) : Recipe<RefiningInventory> {
 
-    private val ingredientList by lazy { DefaultedList.copyOf(Ingredient.EMPTY, *ingredients.map { it.first }.toTypedArray()) }
+    private val ingredientList by lazy { DefaultedList.copyOf(Ingredient.EMPTY, *refiningIngredients.map { it.first }.toTypedArray()) }
 
     override fun getType() = LCCRecipeTypes.refining
 
-    override fun getRecipeKindIcon() = blocks.first().asItem().defaultStack
+    override fun createIcon() = blocks.first().asItem().defaultStack
 
     override fun getId() = _id
 
     override fun getGroup() = _group
 
-    override fun getPreviewInputs() = ingredientList
+    override fun getIngredients() = ingredientList
 
     override fun getOutput() = _output.map { it.first }.firstOrNull() ?: ItemStack.EMPTY
 

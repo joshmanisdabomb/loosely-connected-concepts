@@ -53,7 +53,7 @@ class DungeonTableShapedRecipe(private val _id: Identifier, private val _group: 
 
     override fun getGroup() = _group
 
-    override fun getPreviewInputs() = ingredients
+    override fun getIngredients() = ingredients
 
     override fun getOutput() = _output
 

@@ -22,7 +22,7 @@ import net.minecraft.util.registry.Registry
 class KilnRecipe(id: Identifier, group: String, input: Ingredient, output: ItemStack, experience: Float, cookTime: Int) : AbstractCookingRecipe(LCCRecipeTypes.kiln, id, group, input, output, experience, cookTime) {
 
     @Environment(EnvType.CLIENT)
-    override fun getRecipeKindIcon() = ItemStack(LCCBlocks.kiln)
+    override fun createIcon() = ItemStack(LCCBlocks.kiln)
 
     override fun getSerializer() = LCCRecipeSerializers.kiln
 
@@ -34,7 +34,7 @@ class KilnRecipe(id: Identifier, group: String, input: Ingredient, output: ItemS
                 val type = JsonHelper.getString(json, "type")
                 val recipe = (Registry.RECIPE_SERIALIZER.getOrEmpty(Identifier(type)).orElse(null) ?: continue).read(k, json)
                 if (recipe !is AbstractCookingRecipe) continue
-                val match = CookingRecipeMatch(recipe.previewInputs.first().ids, recipe.output.item, recipe.output.count)
+                val match = CookingRecipeMatch(recipe.ingredients.first().matchingItemIds, recipe.output.item, recipe.output.count)
                 when (recipe) {
                     is SmeltingRecipe -> if (!matches.containsKey(match)) matches[match] = recipe
                     else -> matches[match] = null
@@ -44,7 +44,7 @@ class KilnRecipe(id: Identifier, group: String, input: Ingredient, output: ItemS
                 val id = LCC.id(it.id.namespace + "_" + it.id.path + "_kiln")
                 val json = JsonObject()
                 json.addProperty("type", "lcc:kiln")
-                CookingRecipeJsonFactory.CookingRecipeJsonProvider(id, "", it.previewInputs.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
+                CookingRecipeJsonFactory.CookingRecipeJsonProvider(id, "", it.ingredients.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
                 map[id] = json
             }
         }

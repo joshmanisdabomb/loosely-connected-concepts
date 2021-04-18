@@ -9,6 +9,6 @@ interface DungeonTableRecipe : Recipe<Inventory> {
 
     override fun getType() = LCCRecipeTypes.spawner_table
 
-    override fun getRecipeKindIcon() = LCCBlocks.spawner_table.asItem().defaultStack
+    override fun createIcon() = LCCBlocks.spawner_table.asItem().defaultStack
 
 }

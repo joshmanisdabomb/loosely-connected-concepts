@@ -10,7 +10,7 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.RecipeFinder
+import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
@@ -20,7 +20,7 @@ import net.minecraft.world.World
 class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: DefaultedList<Pair<Ingredient, Int>>, _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, blocks: Array<Block>, lang: String, icon: Int, state: RefiningBlock.RefiningProcess, energy: Float, ticks: Int, gain: Float, maxGain: Float) : RefiningRecipe(_id, _group, ingredients, _output, blocks, lang, icon, state, energy, ticks, gain, maxGain) {
 
     override fun matches(inv: RefiningInventory, world: World): Boolean {
-        val recipeFinder = RecipeFinder()
+        val recipeFinder = RecipeMatcher()
         var i = 0
 
         val stackMap = mutableListOf<ItemStack>()
@@ -36,12 +36,12 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
         stackMap.forEach {
             if (!it.isEmpty) {
                 ++i
-                recipeFinder.addItem(it.copy(), it.count)
+                recipeFinder.addInput(it.copy(), it.count)
             }
         }
 
-        if (i == ingredients.size && recipeFinder.findRecipe(this, null)) {
-            ingredients.forEach { ing ->
+        if (i == refiningIngredients.size && recipeFinder.match(this, null)) {
+            refiningIngredients.forEach { ing ->
                 (stackMap.firstOrNull { ing.first.test(it) && it.count >= ing.second } ?: return false).decrement(ing.second)
             }
             return true
@@ -50,7 +50,7 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
     }
 
     override fun input(inv: RefiningInventory): Boolean {
-        next@for (ing in ingredients) {
+        next@for (ing in refiningIngredients) {
             var debt = ing.second
             for (j in 0 until inv.width*inv.height) {
                 val stack = inv.getStack(j)
@@ -66,7 +66,7 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
         return true
     }
 
-    override fun fits(width: Int, height: Int) = width * height >= ingredients.size
+    override fun fits(width: Int, height: Int) = width * height >= refiningIngredients.size
 
     override fun getSerializer() = LCCRecipeSerializers.refining_shapeless
 
@@ -112,8 +112,8 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
         override fun write(buf: PacketByteBuf, recipe: RefiningShapelessRecipe) {
             buf.writeString(recipe._group)
             Metadata(recipe).write(buf)
-            buf.writeInt(recipe.ingredients.size)
-            recipe.ingredients.forEach { it.first.write(buf); buf.writeInt(it.second) }
+            buf.writeInt(recipe.refiningIngredients.size)
+            recipe.refiningIngredients.forEach { it.first.write(buf); buf.writeInt(it.second) }
             buf.writeInt(recipe._output.size)
             recipe._output.forEach { buf.writeItemStack(it.first); buf.writeIdentifier(it.second?.identifier ?: Identifier("minecraft", "empty")); it.second?.write(buf) }
         }

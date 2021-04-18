@@ -5,8 +5,8 @@ import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
-import net.minecraft.recipe.RecipeFinder
 import net.minecraft.recipe.RecipeInputProvider
+import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.recipe.RecipeUnlocker
 
 class RefiningInventory(private val block: RefiningBlock) : LCCInventory(block.slotCount), RecipeInputProvider, RecipeUnlocker {
@@ -37,8 +37,8 @@ class RefiningInventory(private val block: RefiningBlock) : LCCInventory(block.s
 
     override fun unlockLastRecipe(player: PlayerEntity) = Unit
 
-    override fun provideRecipeInputs(finder: RecipeFinder) {
-        slotsIn("input")?.forEach { finder.addItem(it) }
+    override fun provideRecipeInputs(finder: RecipeMatcher) {
+        slotsIn("input")?.forEach { finder.addInput(it) }
     }
 
 }

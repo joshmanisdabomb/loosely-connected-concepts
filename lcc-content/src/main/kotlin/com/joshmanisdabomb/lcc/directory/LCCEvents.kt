@@ -1,8 +1,10 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
 import com.joshmanisdabomb.lcc.event.DamageEntityCallback
 import com.joshmanisdabomb.lcc.event.InteractEntityCallback
+import com.joshmanisdabomb.lcc.event.MobSpawnCallback
 import net.fabricmc.fabric.api.event.Event
 import net.fabricmc.fabric.api.event.player.*
 import net.minecraft.util.ActionResult
@@ -27,6 +29,13 @@ object LCCEvents : BasicDirectory<Any, Unit>() {
             entity.timeUntilRegen = entity.timeUntilRegen.coerceAtMost(entity.timeUntilRegen.times((it.effectType as HurtResistanceStatusEffect).getResistanceMultiplier(source, it.amplifier)).toInt())
         }
         initial
+    } }
+
+    val nuclear_winter_spawn by entry({ i, c, p -> initialiser(i, c, p, MobSpawnCallback.EVENT) }) { MobSpawnCallback { entity, world, difficulty, spawnReason, entityData, entityNbt ->
+        val winter = LCCComponents.nuclear.getNullable(world.toServerWorld())?.winter ?: return@MobSpawnCallback
+        if (winter >= 1f) {
+            NuclearUtil.mobSpawned(entity, world, NuclearUtil.getWinterLevel(winter), difficulty, spawnReason, entityData, entityNbt)
+        }
     } }
 
     fun <E> initialiser(input: E, context: DirectoryContext<Unit>, parameters: Any, registry: Event<E>): E = input.also { registry.register(input) }

@@ -53,7 +53,7 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
                 val index = (x + (if (flip) width.minus(1).minus(i) else i)) + (y + j).times(width)
                 indexes.add(index)
                 val stack = inv.getStack(index)
-                val ingredient = ingredients[i + (j * width)]
+                val ingredient = refiningIngredients[i + (j * width)]
                 if (!ingredient.first.test(stack) && stack.count >= ingredient.second) return false
             }
         }
@@ -68,7 +68,7 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
             for (j in 0 until height) {
                 val index = (x + (if (flip) width.minus(1).minus(i) else i)) + (y + j).times(width)
                 val stack = inv.getStack(index)
-                val ingredient = ingredients[i + (j * width)]
+                val ingredient = refiningIngredients[i + (j * width)]
                 stack.decrement(ingredient.second)
             }
         }
@@ -128,7 +128,7 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
             buf.writeInt(recipe.height)
             buf.writeString(recipe._group)
             Metadata(recipe).write(buf)
-            recipe.ingredients.forEach { it.first.write(buf); buf.writeInt(it.second) }
+            recipe.refiningIngredients.forEach { it.first.write(buf); buf.writeInt(it.second) }
             buf.writeInt(recipe._output.size)
             recipe._output.forEach { buf.writeItemStack(it.first); buf.writeIdentifier(it.second?.identifier ?: Identifier("minecraft", "empty")); it.second?.write(buf) }
         }

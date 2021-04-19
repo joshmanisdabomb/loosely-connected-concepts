@@ -272,6 +272,20 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>() {
     }) }
     val rubber_boat by entry(::initialiser) { ItemDataContainer().defaultLang().defaultItemAsset().add(BoatRecipeFactory(LCCBlocks.rubber_planks)) }
 
+    val radiation_detector by entry(::initialiser) { ItemDataContainer().defaultLang().add(RadiationDetectorItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("gt ")
+            .pattern("ccl")
+            .pattern("  i")
+            .input('g', Blocks.GLASS)
+            .input('t', LCCItems.tungsten_ingot)
+            .input('c', Items.COPPER_INGOT)
+            .input('l', Blocks.REDSTONE_LAMP)
+            .input('i', Items.IRON_INGOT)
+            .apply { hasCriterionShaped(this, LCCItems.tungsten_ingot) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

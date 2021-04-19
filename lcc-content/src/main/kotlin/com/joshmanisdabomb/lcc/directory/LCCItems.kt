@@ -189,6 +189,9 @@ object LCCItems : ItemDirectory() {
     val heavy_uranium_nugget by entry(::initialiser) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(29)))
 
+    val radiation_detector by entry(::initialiser) { RadiationDetectorItem(LooseEnergy.toStandard(8000f), Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(1000)).modelPredicate(LCC.id("winter")) { (it as RadiationDetectorItem)::getWinterPredicate })
+
     //Health
     val heart_half by entryMap(::initialiser, *HeartType.values()) { HeartItem(it, 1.0F, Item.Settings().defaults()) }
         .setPropertySupplier { ItemExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }

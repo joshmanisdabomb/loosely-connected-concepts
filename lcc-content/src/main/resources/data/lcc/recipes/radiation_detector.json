@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gt ",
+    "ccl",
+    "  i"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "t": {
+      "item": "lcc:tungsten_ingot"
+    },
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "l": {
+      "item": "minecraft:redstone_lamp"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:radiation_detector"
+  }
+}

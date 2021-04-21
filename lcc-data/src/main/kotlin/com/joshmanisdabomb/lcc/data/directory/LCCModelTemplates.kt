@@ -7570,10 +7570,14 @@ private const val template_radiation_detector_json =
 			"scale": [0.98, 0.98, 0.98]
 		},
 		"firstperson_righthand": {
-			"translation": [-3.25, 9.75, 0]
+			"rotation": [-10, -5, 0],
+			"translation": [-2, 8.5, 2],
+            "scale": [0.9, 0.9, 0.5]
 		},
 		"firstperson_lefthand": {
-			"translation": [-1.75, 9.75, 0]
+			"rotation": [-10, -5, 0],
+			"translation": [0, 8.5, 2],
+            "scale": [0.9, 0.9, 0.5]
 		},
 		"ground": {
 			"translation": [0, 2, 0],

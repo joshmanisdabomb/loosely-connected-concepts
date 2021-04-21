@@ -6,6 +6,8 @@ import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.item.RadiationDetectorItem
+import com.joshmanisdabomb.lcc.mixin.base.client.GameRendererAccessor
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -13,8 +15,10 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.Identifier
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.sign
@@ -37,9 +41,11 @@ object RadiationOverlay : DrawableHelper() {
     private val increasingColor = Triple(1.0f, 0.7f, 0.4f)
     private val receivingColor = Triple(0.6f, 0.9f, 0.4f)
 
+    private var detectorActive = false
+
     fun render(matrix: MatrixStack, player: PlayerEntity, armorPosition: Int, ticks: Int) {
         val component = LCCComponents.radiation.maybeGet(player)
-        val exposure = component.map {it.exposure}.orElse(0f)
+        val exposure = component.map { it.exposure }.orElse(0f)
         val effect = player.getStatusEffect(LCCEffects.radiation)
         if (effect == null && exposure <= 0f) return
 
@@ -84,7 +90,7 @@ object RadiationOverlay : DrawableHelper() {
         component.map(RadiationComponent::exposureLimit).orElse(16.0)?.also {
             if (exposure >= it) {
                 renderHeart(matrix, x, -shakeX, y, -shakeY, exposure, ticks)
-                renderHeart(matrix, x, shakeX, y-2, shakeY, exposure, ticks)
+                renderHeart(matrix, x, shakeX, y - 2, shakeY, exposure, ticks)
             } else {
                 renderHeart(matrix, x, shakeX, y, shakeY, exposure, ticks)
             }
@@ -125,6 +131,23 @@ object RadiationOverlay : DrawableHelper() {
         if (f.rem(2f).toInt() == 0) {
             RenderSystem.setShaderColor(color.first, color.second, color.third, sin(f.times(pi)).let { it*it*it }.absoluteValue)
             this.drawTexture(matrix, x, y, wave.times(23), 0, 23, 23)
+        }
+    }
+
+    fun renderDetector(entity: Entity?, ticks: Int, matrix: MatrixStack) {
+        val player = entity as? PlayerEntity ?: return
+        if (!MinecraftClient.getInstance().options.perspective.isFirstPerson) {
+            detectorActive = false
+            return
+        }
+        if (player.activeItem.item is RadiationDetectorItem) {
+            if (detectorActive) return
+
+            (MinecraftClient.getInstance().gameRenderer as GameRendererAccessor).loadShaderPublic(Identifier("shaders/post/desaturate.json"))
+            detectorActive = true
+        } else if (detectorActive) {
+            MinecraftClient.getInstance().gameRenderer.disableShader()
+            detectorActive = false
         }
     }
 

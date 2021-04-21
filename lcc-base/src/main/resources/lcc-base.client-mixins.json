@@ -10,7 +10,8 @@
     "ItemRendererMixin",
     "SignBlockEntityRendererMixin",
     "SignEditScreenMixin",
-    "BoatEntityRendererMixin"
+    "BoatEntityRendererMixin",
+    "GameRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

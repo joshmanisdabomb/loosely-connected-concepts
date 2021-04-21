@@ -2,7 +2,9 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
+import com.joshmanisdabomb.lcc.block.RadioactiveBlock
 import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
@@ -45,6 +47,18 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         if ((user as? PlayerEntity)?.isSurvival == true && removeEnergyDirect(energyPerTick, LooseEnergy, StackEnergyContext(stack)) < energyPerTick) {
             user.clearActiveItem()
+        }
+        if (world.isClient) {
+            repeat(90) {
+                val pos = user.blockPos.add(
+                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20)),
+                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20)),
+                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20))
+                )
+                if (world.getBlockState(pos).block is RadioactiveBlock) {
+                    world.addImportantParticle(LCCParticles.uranium, true, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), 0.0, 0.0, 0.0)
+                }
+            }
         }
         super.usageTick(world, user, stack, remainingUseTicks)
     }

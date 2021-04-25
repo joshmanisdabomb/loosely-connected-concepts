@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.component.RadiationComponent
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.RadiationDetectorItem
@@ -14,10 +15,13 @@ import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.sound.PositionedSoundInstance
+import net.minecraft.client.sound.SoundInstance
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.Identifier
 import java.util.*
 import kotlin.math.absoluteValue
@@ -42,6 +46,8 @@ object RadiationOverlay : DrawableHelper() {
     private val receivingColor = Triple(0.6f, 0.9f, 0.4f)
 
     private var detectorActive = false
+
+    var detected = 0
 
     fun render(matrix: MatrixStack, player: PlayerEntity, armorPosition: Int, ticks: Int) {
         val component = LCCComponents.radiation.maybeGet(player)
@@ -138,9 +144,15 @@ object RadiationOverlay : DrawableHelper() {
         val player = entity as? PlayerEntity ?: return
         if (!MinecraftClient.getInstance().options.perspective.isFirstPerson) {
             detectorActive = false
+            detected = 0
             return
         }
         if (player.activeItem.item is RadiationDetectorItem) {
+            if (detected > 0) {
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance(LCCSounds.radiation_detector_click.id, SoundCategory.BLOCKS, 1f, entity.world.random.nextFloat().times(0.2f).plus(0.8f), false, 0, SoundInstance.AttenuationType.NONE, entity.x, entity.y, entity.z, false))
+                detected--
+            }
+
             if (detectorActive) return
 
             (MinecraftClient.getInstance().gameRenderer as GameRendererAccessor).loadShaderPublic(Identifier("shaders/post/desaturate.json"))
@@ -148,6 +160,7 @@ object RadiationOverlay : DrawableHelper() {
         } else if (detectorActive) {
             MinecraftClient.getInstance().gameRenderer.disableShader()
             detectorActive = false
+            detected = 0
         }
     }
 

@@ -184,5 +184,17 @@
       }
     ],
     "subtitle": "subtitles.lcc.block.alarm.nuclear_siren"
+  },
+  "item.lcc.detector.click": {
+    "sounds": [
+      "lcc:item/detector/click1",
+      "lcc:item/detector/click2",
+      "lcc:item/detector/click3",
+      "lcc:item/detector/click4",
+      "lcc:item/detector/click5",
+      "lcc:item/detector/click6",
+      "lcc:item/detector/click7"
+    ],
+    "subtitle": "subtitles.lcc.item.detector.click"
   }
 }

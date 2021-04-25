@@ -75,6 +75,10 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:block/alarm/nuclear_siren", stream = true)
     }) }
 
+    val radiation_detector_click by entry(::initialiser) { SoundProperties("item", LCC.modid, "detector.click", Array(7) {
+        SoundProperties.SoundEntry("${LCC.modid}:item/detector/click${it+1}")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.sounds.add(it) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

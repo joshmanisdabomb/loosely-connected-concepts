@@ -12,6 +12,7 @@ import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.gui.overlay.RadiationOverlay
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -26,8 +27,11 @@ import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.*
 import net.minecraft.util.collection.DefaultedList
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import kotlin.math.abs
+import kotlin.math.pow
 
 class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settings), StackEnergyStorage {
 
@@ -49,14 +53,19 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
             user.clearActiveItem()
         }
         if (world.isClient) {
-            repeat(90) {
-                val pos = user.blockPos.add(
-                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20)),
-                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20)),
-                    world.random.nextDouble().let { it*it*it }.times(world.random.nextBoolean().transformInt(20, -20))
-                )
-                if (world.getBlockState(pos).block is RadioactiveBlock) {
-                    world.addImportantParticle(LCCParticles.uranium, true, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), 0.0, 0.0, 0.0)
+            if (user != MinecraftClient.getInstance().getCameraEntity()) return
+            val bp = BlockPos.Mutable()
+            RadiationOverlay.detected = 0
+            for (i in -20..20) {
+                for (j in -20..20) {
+                    for (k in -20..20) {
+                        val state = world.getBlockState(bp.set(user.blockPos, i, j, k))
+                        if (state.block is RadioactiveBlock) {
+                            if (maxOf(abs(i), abs(j), abs(k)) > world.random.nextDouble().pow(16).times(21)) continue
+                            world.addImportantParticle(LCCParticles.uranium, true, bp.x.plus(0.5), bp.y.plus(0.5), bp.z.plus(0.5), 0.0, 0.0, 0.0)
+                            RadiationOverlay.detected += 1
+                        }
+                    }
                 }
             }
         }
@@ -95,7 +104,7 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
     fun getWinterPredicate() = ModelPredicateProvider { stack, world, entity, _ ->
         val w = world ?: entity?.world ?: MinecraftClient.getInstance().world ?: return@ModelPredicateProvider 0f
         val winter = LCCComponents.nuclear.getNullable(w)?.winter
-        NuclearUtil.getWinterLevel(winter?.minus((w.random.nextFloat() > 0.2f.plus(winter.rem(1f).times(0.8f))).transformInt())?.coerceAtLeast(0f) ?: 0f).toFloat()
+        NuclearUtil.getWinterLevel(winter?.minus((!MinecraftClient.getInstance().isPaused && w.random.nextFloat() > 0.2f.plus(winter.rem(1f).times(0.8f))).transformInt())?.coerceAtLeast(0f) ?: 0f).toFloat()
     }
 
     companion object {

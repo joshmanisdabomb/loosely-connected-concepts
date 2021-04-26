@@ -135,7 +135,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                 if (!insertItem(originalStack, inventory.size() + result.size(), slots.size, true)) {
                     return ItemStack.EMPTY
                 }
-                slot.onStackChanged(originalStack, newStack)
+                slot.onQuickTransfer(originalStack, newStack)
             } else if (index < inventory.size() + result.size()) {
                 if (!insertItem(originalStack, inventory.size() + result.size(), slots.size, true)) {
                     return ItemStack.EMPTY

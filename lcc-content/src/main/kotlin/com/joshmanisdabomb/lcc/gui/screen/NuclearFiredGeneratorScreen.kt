@@ -25,6 +25,7 @@ import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.MathHelper
 import kotlin.math.ceil
+import kotlin.math.min
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity.Companion as BlockEntity
 
 class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<NuclearFiredGeneratorScreenHandler>(handler, inventory, title), PowerScreenUtils {
@@ -103,29 +104,42 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         state?.also {
             val e = BlockEntity.approxEquilibrium(BlockEntity.maxFuel, handler.coolantAmount())
             val equilibriumW = ceil(e.div(barSize).times(barW)).toInt()
-            val dangerW = ceil(e.div(barSize).times(barW)).toInt()
+            val d = handler.safeOutputAmount()
+            val dangerW = ceil(d.div(barSize).times(barW)).toInt()
+            val o = handler.outputAmount()
             if (it.block is NuclearFiredGeneratorBlock) {
                 if (!it[Properties.LIT]) {
                     if (equilibriumW >= 0) {
                         drawTexture(matrices, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceCeilingDangerU, barW, 3)
                         renderBarX(matrices, e.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barInactiveDangerU, barW, 3)
+                        renderBarX(matrices, d.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barInactiveCeilingU, barW, 3)
+                        renderBarX(matrices, min(d, e).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barInactiveU, barW, 3)
                     } else {
                         drawTexture(matrices, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barInactiveDangerU, barW, 3)
+                        renderBarX(matrices, d.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barInactiveU, barW, 3)
                     }
                 } else {
                     if (equilibriumW >= 0) {
                         renderBarX(matrices, e.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceDangerU, barW, 3)
-                        renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillCeilingDangerU, barW, 3)
+                        renderBarX(matrices, d.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceCeilingU, barW, 3)
+                        renderBarX(matrices, min(d, e).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceU, barW, 3)
 
-                        renderBarX(matrices, handler.outputAmount().coerceAtMost(e), e, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillDangerU, equilibriumW, 3)
+                        renderBarX(matrices, o.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillCeilingDangerU, barW, 3)
+                        renderBarX(matrices, o.coerceAtMost(e).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillDangerU, barW, 3)
+                        renderBarX(matrices, o.coerceAtMost(d).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillCeilingU, barW, 3)
+                        renderBarX(matrices, o.coerceAtMost(min(d, e)).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillU, barW, 3)
                     } else {
                         drawTexture(matrices, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceDangerU, barW, 3)
-                        renderBarX(matrices, handler.outputAmount().coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillDangerU, barW, 3)
+                        renderBarX(matrices, d.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputSpaceU, barW, 3)
+
+                        renderBarX(matrices, o.coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillDangerU, barW, 3)
+                        renderBarX(matrices, o.coerceAtMost(d).coerceAtMost(barSize), barSize, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + barOutputFillU, barW, 3)
                     }
                 }
                 if (equilibriumW >= 0 && equilibriumW < barW-1) {
                     drawTexture(matrices, field_2776 + 105 + equilibriumW, field_2800 + 26, backgroundWidth, 70, 5, 3)
                 }
+                drawTexture(matrices, field_2776 + 105 + dangerW, field_2800 + 34, backgroundWidth + 5, 70, 5, 3)
             } else if (it.block is ExplodingNuclearFiredGeneratorBlock) {
                 drawTexture(matrices, field_2776 + 107, field_2800 + 30, 0, backgroundHeight + 55 + blink.transformInt(3, 0), barW, 3)
             }
@@ -174,7 +188,7 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
                     renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.fuel", handler.fuelAmount().decimalFormat(force = true), value, rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
                 }
                 if (mouseX in field_2776 + 167..field_2776 + 189 && mouseY in field_2800 + 63..field_2800 + 77) {
-                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.waste", handler.wasteAmount().div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), BlockEntity.getWasteIncrease(handler.fuelAmount(), handler.outputAmount()).div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), LooseEnergy.displayWithUnits(if (handler.wasteAmount() > BlockEntity.maxWaste) -0.08f else if (handler.safeOutputAmount() > 200f) 0.0f else 0.05f)), Int.MAX_VALUE), mouseX, mouseY)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.waste", handler.wasteAmount().div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), BlockEntity.getWasteIncrease(handler.fuelAmount(), handler.outputAmount()).div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), LooseEnergy.displayWithUnits(if (handler.wasteAmount() > BlockEntity.maxWaste) -0.08f else if (handler.safeOutputAmount() >= 200f) 0.0f else 0.05f)), Int.MAX_VALUE), mouseX, mouseY)
                 }
             }
         }

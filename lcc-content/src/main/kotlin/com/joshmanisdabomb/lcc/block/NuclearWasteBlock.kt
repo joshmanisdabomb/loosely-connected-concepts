@@ -84,8 +84,8 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlock,
             if ((stack.item as? HazmatArmorItem)?.hasFullSuit(stack, entity.armorItems) == true && ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(entity.armorItems) > 0f) {
                 return
             }
+            entity.damage(LCCDamage.radiation, 0.5f)
         }
-        entity.damage(LCCDamage.radiation, 0.5f)
     }
 
     companion object {

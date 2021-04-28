@@ -40,6 +40,7 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val airlocked_suits by entry(::itemInitialiser) {}
 
     val salt_weakness by entry(::entityTypeInitialiser) {}
+    val radioactive by entry(::blockInitialiser) {}
 
     val oil by entry(::fluidInitialiser) {}
     val asphalt by entry(::fluidInitialiser) {}

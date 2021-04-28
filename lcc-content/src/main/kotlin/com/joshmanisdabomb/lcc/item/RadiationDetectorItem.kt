@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.block.RadioactiveBlock
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCParticles
+import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
@@ -55,18 +55,22 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
         if (world.isClient) {
             if (user != MinecraftClient.getInstance().getCameraEntity()) return
             val bp = BlockPos.Mutable()
+            val list = mutableListOf<BlockPos>()
             RadiationOverlay.detected = 0
             for (i in -20..20) {
                 for (j in -20..20) {
                     for (k in -20..20) {
                         val state = world.getBlockState(bp.set(user.blockPos, i, j, k))
-                        if (state.block is RadioactiveBlock) {
+                        if (state.isIn(LCCTags.radioactive)) {
                             if (maxOf(abs(i), abs(j), abs(k)) > world.random.nextDouble().pow(16).times(21)) continue
-                            world.addImportantParticle(LCCParticles.uranium, true, bp.x.plus(0.5), bp.y.plus(0.5), bp.z.plus(0.5), 0.0, 0.0, 0.0)
-                            RadiationOverlay.detected += 1
+                            list.add(bp.toImmutable())
                         }
                     }
                 }
+            }
+            for (bp in list.run { if (list.size > 20) { shuffle(world.random); take(20) } else this }) {
+                world.addImportantParticle(LCCParticles.uranium, true, bp.x.plus(0.5), bp.y.plus(0.5), bp.z.plus(0.5), 0.0, 0.0, 0.0)
+                RadiationOverlay.detected += 1
             }
         }
         super.usageTick(world, user, stack, remainingUseTicks)

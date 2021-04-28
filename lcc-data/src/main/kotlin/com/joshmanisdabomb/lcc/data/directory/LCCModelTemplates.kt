@@ -7584,7 +7584,7 @@ private const val template_radiation_detector_json =
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [30, 46, 0],
+			"rotation": [30, 30, 0],
 			"translation": [-1.5, 5, 0],
 			"scale": [1.3, 1.3, 1.3]
 		},

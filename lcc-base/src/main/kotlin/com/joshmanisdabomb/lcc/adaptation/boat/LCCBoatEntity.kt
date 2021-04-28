@@ -24,7 +24,7 @@ open class LCCBoatEntity(type: EntityType<out LCCBoatEntity>, override val lcc_b
         prevY = y
         prevZ = z
         this.boatType = lcc_boat.base
-        this.yaw = yaw
+        this.method_36456(yaw)
     }
 
 }

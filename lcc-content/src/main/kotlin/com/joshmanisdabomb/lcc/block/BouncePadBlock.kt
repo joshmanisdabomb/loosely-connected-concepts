@@ -44,7 +44,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BouncePadBlockEntity(pos, state)
 
-    override fun onLandedUpon(world: World, pos: BlockPos, entity: Entity, distance: Float) {
+    override fun onLandedUpon(world: World, state: BlockState, pos: BlockPos, entity: Entity, distance: Float) {
         entity.handleFallDamage(distance, 0.0f, DamageSource.FALL)
         entity.fallDistance = 0.0f
     }

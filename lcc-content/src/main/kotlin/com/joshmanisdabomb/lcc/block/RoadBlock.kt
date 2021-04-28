@@ -75,7 +75,7 @@ class RoadBlock(settings: Settings) : Block(settings) {
         return state2
     }
 
-    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+    override fun onSteppedOn(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
         entity.velocity = entity.velocity.multiply(1.3, 1.0, 1.3)
     }
 

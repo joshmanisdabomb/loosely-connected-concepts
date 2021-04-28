@@ -20,8 +20,8 @@ interface LCCExtendedEntity {
         buf.writeDouble(me.x)
         buf.writeDouble(me.y)
         buf.writeDouble(me.z)
-        buf.writeFloat(me.pitch)
-        buf.writeFloat(me.yaw)
+        buf.writeFloat(me.method_36455())
+        buf.writeFloat(me.method_36454())
         return ServerSidePacketRegistry.INSTANCE.toPacket(LCCBasePacketsForClient[LCCBasePacketsForClient::spawn_packet].first().id, buf)
     }
 

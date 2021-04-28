@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
@@ -48,11 +47,11 @@ abstract class AbstractFiredGeneratorBlock(settings: Settings) : BlockWithEntity
         }
     }
 
-    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
-        if (world.getBlockState(pos)[Properties.LIT] && entity is LivingEntity && !entity.isFireImmune && !EnchantmentHelper.hasFrostWalker(entity)) {
+    override fun onSteppedOn(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
+        if (world.getBlockState(pos)[LIT] && entity is LivingEntity && !entity.isFireImmune && !EnchantmentHelper.hasFrostWalker(entity)) {
             entity.damage(LCCDamage.heated, 2.0f)
         }
-        super.onSteppedOn(world, pos, entity)
+        super.onSteppedOn(world, pos, state, entity)
     }
 
 }

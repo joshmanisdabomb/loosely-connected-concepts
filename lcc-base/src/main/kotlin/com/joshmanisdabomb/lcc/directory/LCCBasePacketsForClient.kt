@@ -25,8 +25,8 @@ object LCCBasePacketsForClient : PacketForClientDirectory() {
             e.uuid = uuid
             e.updatePosition(x, y, z)
             e.updateTrackedPosition(x, y, z)
-            e.pitch = pitch
-            e.yaw = yaw
+            e.method_36457(pitch)
+            e.method_36456(yaw)
 
             world.addEntity(e.id, e)
 

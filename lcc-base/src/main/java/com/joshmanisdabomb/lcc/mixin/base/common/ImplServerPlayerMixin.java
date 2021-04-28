@@ -44,8 +44,8 @@ public abstract class ImplServerPlayerMixin extends PlayerEntity {
             BlockState state2 = pos == null ? null : world2.getBlockState(pos);
             Block block = state == null ? null : state.getBlock();
             Block block2 = state2 == null ? null : state2.getBlock();
-            if (block instanceof LCCExtendedBlock) ((LCCExtendedBlock)block).lcc_spawnRemoved((ServerPlayerEntity)(Object)this, world, state, this.spawnPointPosition, world2, state2, pos, yaw, spawnPointSet, bl);
-            if (block2 instanceof LCCExtendedBlock) ((LCCExtendedBlock)block2).lcc_spawnSet((ServerPlayerEntity)(Object)this, world2, state2, pos, world, state, this.spawnPointPosition, yaw, spawnPointSet, bl);
+            if (block instanceof LCCExtendedBlock) ((LCCExtendedBlock)block).lcc_spawnRemoved((ServerPlayerEntity)(Object)this, world, state, this.spawnPointPosition, world2, state2, pos, method_36454(), spawnPointSet, bl);
+            if (block2 instanceof LCCExtendedBlock) ((LCCExtendedBlock)block2).lcc_spawnSet((ServerPlayerEntity)(Object)this, world2, state2, pos, world, state, this.spawnPointPosition, method_36454(), spawnPointSet, bl);
         }
     }
 

@@ -49,15 +49,15 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val budding_topaz by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultBlockAsset().add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
     val topaz_clusters by entry(::initialiser) { BlockDataContainer().affects(LCCBlocks.budding_topaz.crystals.toList()).defaultLang().add(ClusterBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(ClusterBlockLootFactory(LCCItems.topaz_shard)).add(BlockTagFactory(BlockTags.CRYSTAL_SOUND_BLOCKS)) }
     val sapphire_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.sapphire)).add(BlockTagFactory(BlockTags.BEACON_BASE_BLOCKS)) }
-    val uranium_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.uranium)) }
-    val deepslate_uranium_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.uranium)) }
-    val uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)) }
-    val enriched_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)).add(ItemTagFactory(LCCTags.enriched_uranium)) }
-    val heavy_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)) }
+    val uranium_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
+    val deepslate_uranium_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
+    val uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
+    val enriched_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)).add(ItemTagFactory(LCCTags.enriched_uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
+    val heavy_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
 
     val tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
     val deepslate_tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
-    val tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.tungsten_ingot)) }
+    val tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.tungsten_ingot)) }
     val cut_tungsten by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i, 4)
             .pattern("tt")
@@ -70,7 +70,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val cut_tungsten_slab by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCC.id("block/cut_tungsten")) { d, b -> loc(LCCBlocks.cut_tungsten) }).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.cut_tungsten)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.tungsten_block, 2, name = LCC.id("cut_tungsten_slab_from_tungsten_block_stonecutting"))).add(StonecutterItemRecipeFactory(LCCBlocks.cut_tungsten, 2)) }
 
     val cracked_mud by entry(::initialiser) { BlockDataContainer().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.wasteland_effective)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)) }
-    val nuclear_waste by entry(::initialiser) { BlockDataContainer().defaultLang ().defaultItemAsset().add(RotationBlockAssetFactory) }
+    val nuclear_waste by entry(::initialiser) { BlockDataContainer().defaultLang ().defaultItemAsset().add(RotationBlockAssetFactory).add(BlockTagFactory(LCCTags.radioactive)) }
 
     val oil by entry(::initialiser) { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/oil_still"))) }
     val asphalt by entry(::initialiser) { BlockDataContainer().defaultLang().add(ParticleBlockAssetFactory(LCC.id("block/asphalt_still"))) }
@@ -266,7 +266,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
             .apply { offerShaped(this, d) }
     }) }
 
-    val nuclear_fire by entry(::initialiser) { BlockDataContainer().defaultLang().add(StaticFireBlockAssetFactory) }
+    val nuclear_fire by entry(::initialiser) { BlockDataContainer().defaultLang().add(StaticFireBlockAssetFactory).add(BlockTagFactory(LCCTags.radioactive)) }
     val atomic_bomb by entry(::initialiser) { BlockDataContainer().defaultLang().add(AtomicBombBlockAssetFactory).add(AtomicBombBlockLootFactory).add(CustomItemAssetFactory { d, i -> LCCModelTemplates.template_atomic_bomb_item.upload(loc(i), Texture().put(LCCModelTextureKeys.t1, loc(i, folder = "block") { it.plus("_tail_side") }).put(LCCModelTextureKeys.t2, loc(i, folder = "block") { it.plus("_tail") }).put(LCCModelTextureKeys.t3, loc(i, folder = "block") { it.plus("_fin") }).put(LCCModelTextureKeys.t4, loc(i, folder = "block") { it.plus("_core") }).put(LCCModelTextureKeys.t5, loc(i, folder = "block") { it.plus("_head") }), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("ccc")

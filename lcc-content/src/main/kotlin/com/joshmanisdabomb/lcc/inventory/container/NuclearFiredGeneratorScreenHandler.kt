@@ -28,7 +28,7 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
     private var _pos: BlockPos? = null
     val pos get() = _pos
 
-    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(10)) {
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(5), ArrayPropertyDelegate(14)) {
         _pos = buf.readBlockPos()
     }
 
@@ -106,9 +106,15 @@ class NuclearFiredGeneratorScreenHandler(syncId: Int, protected val playerInvent
     fun coolantAmount() = DecimalTransport.from(properties.get(6), properties.get(7))
 
     @Environment(EnvType.CLIENT)
-    fun waterAmount() = properties.get(8)
+    fun wasteAmount() = DecimalTransport.from(properties.get(8), properties.get(9))
 
     @Environment(EnvType.CLIENT)
-    fun meltdownTicks() = properties.get(9)
+    fun safeOutputAmount() = DecimalTransport.from(properties.get(10), properties.get(11))
+
+    @Environment(EnvType.CLIENT)
+    fun waterAmount() = properties.get(12)
+
+    @Environment(EnvType.CLIENT)
+    fun meltdownTicks() = properties.get(13)
 
 }

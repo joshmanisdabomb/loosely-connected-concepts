@@ -78,8 +78,12 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             5 -> this@NuclearFiredGeneratorBlockEntity.fuelDisplay.second
             6 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.first
             7 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.second
-            8 -> this@NuclearFiredGeneratorBlockEntity.waterLevel
-            9 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks
+            8 -> this@NuclearFiredGeneratorBlockEntity.wasteDisplay.first
+            9 -> this@NuclearFiredGeneratorBlockEntity.wasteDisplay.second
+            10 -> this@NuclearFiredGeneratorBlockEntity.safeOutputDisplay.first
+            11 -> this@NuclearFiredGeneratorBlockEntity.safeOutputDisplay.second
+            12 -> this@NuclearFiredGeneratorBlockEntity.waterLevel
+            13 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks
             else -> 0
         }
 
@@ -92,12 +96,16 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             5 -> this@NuclearFiredGeneratorBlockEntity.fuelDisplay.second = value
             6 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.first = value
             7 -> this@NuclearFiredGeneratorBlockEntity.coolantDisplay.second = value
-            8 -> this@NuclearFiredGeneratorBlockEntity.waterLevel = value
-            9 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks = value
+            8 -> this@NuclearFiredGeneratorBlockEntity.wasteDisplay.first = value
+            9 -> this@NuclearFiredGeneratorBlockEntity.wasteDisplay.second = value
+            10 -> this@NuclearFiredGeneratorBlockEntity.safeOutputDisplay.first = value
+            11 -> this@NuclearFiredGeneratorBlockEntity.safeOutputDisplay.second = value
+            12 -> this@NuclearFiredGeneratorBlockEntity.waterLevel = value
+            13 -> this@NuclearFiredGeneratorBlockEntity.meltdownTicks = value
             else -> Unit
         }
 
-        override fun size() = 10
+        override fun size() = 14
     }
 
     var customName: Text? = null
@@ -107,11 +115,17 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
     var fuel = 0f
     var coolant = 0f
     var meltdownTicks = 0
+    var wasteAccumulator = 0f
     private var waterLevel = 0
+
+    var safeOutput = 200f
+    val maxOutput get() = safeOutput + 200f
 
     private val outputDisplay = DecimalTransport(::output)
     private val fuelDisplay = DecimalTransport(::fuel)
     private val coolantDisplay = DecimalTransport(::coolant)
+    private val wasteDisplay = DecimalTransport(::wasteAccumulator)
+    private val safeOutputDisplay = DecimalTransport(::safeOutput)
 
     val steam get() = output * waterLevel.div(3f)
 
@@ -122,6 +136,9 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         set(value) { rawEnergy = value }
 
     private val energyDisplay = DecimalTransport(::energy)
+
+    val level get() = ceil(output.div(safeOutput).coerceIn(0f, 1f).times(15f)).toInt()
+    var lastLevel = level
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = NuclearFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
@@ -138,6 +155,8 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         output = tag.getFloat("Output")
         fuel = tag.getFloat("Fuel")
         coolant = tag.getFloat("Coolant")
+        wasteAccumulator = tag.getFloat("Waste")
+        safeOutput = tag.getFloat("SafeOutput")
         if (tag.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(tag.getString("CustomName"))
 
         working = tag.getBoolean("Working")
@@ -153,6 +172,8 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         tag.putFloat("Output", output)
         tag.putFloat("Fuel", fuel)
         tag.putFloat("Coolant", coolant)
+        tag.putFloat("Waste", wasteAccumulator)
+        tag.putFloat("SafeOutput", safeOutput)
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
 
         tag.putBoolean("Working", working)
@@ -167,12 +188,16 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         fuel = tag.getFloat("Fuel")
         coolant = tag.getFloat("Coolant")
         meltdownTicks = tag.getInt("Meltdown")
+        wasteAccumulator = tag.getFloat("Waste")
+        safeOutput = tag.getFloat("SafeOutput")
     }
 
     override fun toClientTag(tag: NbtCompound): NbtCompound {
         tag.putFloat("Fuel", fuel)
         tag.putFloat("Coolant", coolant)
         tag.putInt("Meltdown", meltdownTicks)
+        tag.putFloat("Waste", wasteAccumulator)
+        tag.putFloat("SafeOutput", safeOutput)
         return tag
     }
 
@@ -224,11 +249,10 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
     companion object {
         const val maxEnergy = 200f
-        const val maxSafeOutput = 200f
-        const val maxChanceOutput = 400f
 
         const val maxFuel = 16f
         const val maxCoolant = 256f
+        const val maxWaste = 50f
 
         const val fuelCoefficient = 0.13f
         const val coolantCoefficient = 11.0f
@@ -284,12 +308,24 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
                         entity.output = entity.output.times(0.995f.pow(entity.coolant.div(maxCoolant).let { it * it * it * it }.times(1f + getOutputBuildup(entity.fuel)).minus(getOutputBuildup(entity.fuel)) + entity.coolant.div(maxCoolant).times(coolantCoefficient))).minus(0.01f).coerceAtLeast(0f)
                         entity.coolant -= entity.output.times(0.0003f)
+                        entity.safeOutput = entity.safeOutput.plus(0.05f).coerceAtMost(200f)
+
+                        entity.wasteAccumulator += getWasteIncrease(entity.fuel, entity.output)
+                        if (entity.wasteAccumulator > maxWaste) {
+                            val down = pos.down()
+                            if (world.getBlockState(down).isAir) {
+                                world.setBlockState(down, LCCBlocks.nuclear_waste.defaultState)
+                                entity.wasteAccumulator -= maxWaste
+                            } else {
+                                entity.safeOutput = entity.safeOutput.minus(0.13f).coerceAtLeast(0f)
+                            }
+                        }
                     }
 
-                    if (entity.output > 400f) {
+                    if (entity.output > entity.maxOutput) {
                         entity.meltdown()
                         return
-                    } else if (entity.output > maxSafeOutput && world.random.nextFloat() < entity.output.minus(maxSafeOutput).div(maxChanceOutput - maxSafeOutput).let { it * it * it }) {
+                    } else if (entity.output > entity.safeOutput && world.random.nextFloat() < getMeltdownChance(entity.output, entity.safeOutput)) {
                         entity.meltdown()
                         return
                     }
@@ -300,6 +336,12 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                 if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
 
                 if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
+                    entity.sync()
+                }
+
+                if (entity.level != entity.lastLevel) {
+                    entity.lastLevel = entity.level
+                    world.updateNeighbors(pos, state.block)
                     entity.sync()
                 }
 
@@ -347,6 +389,10 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
             }
             return amount
         }
+
+        fun getWasteIncrease(fuel: Float, output: Float) = (output.div(400f).pow(1.3f).times(2f) + fuel.div(maxFuel).pow(1.3f).times(2f)).pow(1.5f)
+
+        fun getMeltdownChance(output: Float, safe: Float) = output.minus(safe).div(200f).let { it * it * it }
 
         fun explode(world: ServerWorld, pos: BlockPos) {
             world.setBlockState(pos, Blocks.AIR.defaultState)

@@ -137,6 +137,9 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
 
     private val energyDisplay = DecimalTransport(::energy)
 
+    val level get() = ceil(output.div(safeOutput).coerceIn(0f, 1f).times(15f)).toInt()
+    var lastLevel = level
+
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = NuclearFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
     override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
@@ -333,6 +336,12 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                 if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
 
                 if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
+                    entity.sync()
+                }
+
+                if (entity.level != entity.lastLevel) {
+                    entity.lastLevel = entity.level
+                    world.updateNeighbors(pos, state.block)
                     entity.sync()
                 }
 

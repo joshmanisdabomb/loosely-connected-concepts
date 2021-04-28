@@ -55,6 +55,20 @@ class NuclearFiredGeneratorBlock(settings: Settings) : AbstractFiredGeneratorBlo
         if (stack.hasCustomName()) (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.customName = stack.name
     }
 
+    override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
+        if (state[LIT]) return
+        if (Direction.values().filter { it != state[HORIZONTAL_FACING] }.maxOf { world.getStrongRedstonePower(pos.offset(it), it.opposite) } > 0) {
+            (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.activate(null)
+        }
+    }
+
+    override fun emitsRedstonePower(state: BlockState) = state[LIT]
+
+    override fun getWeakRedstonePower(state: BlockState, world: BlockView, pos: BlockPos, direction: Direction): Int {
+        if (!state[LIT]) return 0
+        return (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.level ?: 0
+    }
+
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
         if (state.isOf(newState.block) || newState.isOf(LCCBlocks.failing_nuclear_generator)) return
         ItemScatterer.spawn(world, pos, (world.getBlockEntity(pos) as? NuclearFiredGeneratorBlockEntity)?.inventory ?: return super.onStateReplaced(state, world, pos, newState, moved))

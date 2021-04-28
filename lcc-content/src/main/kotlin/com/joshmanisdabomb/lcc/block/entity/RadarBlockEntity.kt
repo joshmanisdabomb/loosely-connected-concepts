@@ -57,6 +57,7 @@ class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
             }
             if (level != entity.level || type != entity.type) {
                 entity.sync()
+                world.updateNeighbors(pos, state.block)
             }
             if (state[TRIGGERED] == (entity.level == 0)) {
                 world.setBlockState(pos, state.with(TRIGGERED, entity.level > 0))

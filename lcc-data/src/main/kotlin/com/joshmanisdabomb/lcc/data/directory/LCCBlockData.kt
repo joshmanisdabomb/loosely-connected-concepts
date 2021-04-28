@@ -57,7 +57,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
 
     val tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
     val deepslate_tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
-    val tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.tungsten_ingot)) }
+    val tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.tungsten_ingot)) }
     val cut_tungsten by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i, 4)
             .pattern("tt")

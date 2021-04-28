@@ -54,7 +54,7 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.nuclear_generator.output"] = "Total Steam Produced: %1\$s/t\nBase Steam Produced: %2\$s/t\nMaximum Safe Output: %3\$s\nMaximum Fuel Approaches: %4\$s/t\nSteam Multiplier from Water: %5\$s%%"
         lang["en_us"]!!["container.lcc.nuclear_generator.coolant"] = "Coolant Value: %1\$s units\nDepletion Rate: %2\$s units/t"
         lang["en_us"]!!["container.lcc.nuclear_generator.fuel"] = "Fuel Value: %1\$s units\nFuel Value per Item: %2\$s units\nDepletion Rate: %3\$s units/t"
-        lang["en_us"]!!["container.lcc.nuclear_generator.chance"] = "Meltdown Chance: %1\$s%%"
+        lang["en_us"]!!["container.lcc.nuclear_generator.chance"] = "Meltdown Chance: %1\$s%%/t"
         lang["en_us"]!!["container.lcc.nuclear_generator.waste"] = "Progress Towards Next Waste: %1\$s%%\nGeneration Rate: %2\$s%%/t\nMaximum Safe Output: %3\$s\nSafe Output Change: %4\$s/t"
         lang["en_us"]!!["container.lcc.nuclear_generator.meltdown"] = "Meltdown in %1\$ss!!!"
 

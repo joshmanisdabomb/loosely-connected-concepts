@@ -314,7 +314,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                                 world.setBlockState(down, LCCBlocks.nuclear_waste.defaultState)
                                 entity.wasteAccumulator -= maxWaste
                             } else {
-                                entity.safeOutput = entity.safeOutput.minus(0.16f).coerceAtLeast(0f)
+                                entity.safeOutput = entity.safeOutput.minus(0.13f).coerceAtLeast(0f)
                             }
                         }
                     }
@@ -322,7 +322,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                     if (entity.output > entity.maxOutput) {
                         entity.meltdown()
                         return
-                    } else if (entity.output > entity.safeOutput && world.random.nextFloat() < entity.output.minus(entity.safeOutput).div(200f).let { it * it * it }) {
+                    } else if (entity.output > entity.safeOutput && world.random.nextFloat() < getMeltdownChance(entity.output, entity.safeOutput)) {
                         entity.meltdown()
                         return
                     }
@@ -382,6 +382,8 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         }
 
         fun getWasteIncrease(fuel: Float, output: Float) = (output.div(400f).pow(1.3f).times(2f) + fuel.div(maxFuel).pow(1.3f).times(2f)).pow(1.5f)
+
+        fun getMeltdownChance(output: Float, safe: Float) = output.minus(safe).div(200f).let { it * it * it }
 
         fun explode(world: ServerWorld, pos: BlockPos) {
             world.setBlockState(pos, Blocks.AIR.defaultState)

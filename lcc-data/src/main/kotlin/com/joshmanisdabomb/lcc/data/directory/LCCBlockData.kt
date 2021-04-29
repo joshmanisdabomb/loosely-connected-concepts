@@ -30,6 +30,7 @@ import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
 import net.minecraft.item.Items
+import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.tag.BlockTags
@@ -55,8 +56,9 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>() {
     val enriched_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.enriched_uranium)).add(ItemTagFactory(LCCTags.enriched_uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
     val heavy_uranium_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage4RecipeFactory(LCCItems.heavy_uranium)).add(BlockTagFactory(LCCTags.radioactive)) }
 
-    val tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
-    val deepslate_tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(OreBlockLootFactory(LCCItems.raw_tungsten)) }
+    val tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(GenerousOreBlockLootFactory(LCCItems.raw_tungsten, UniformLootNumberProvider.create(2.0F, 3.0F))) }
+    val deepslate_tungsten_ore by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().add(GenerousOreBlockLootFactory(LCCItems.raw_tungsten, UniformLootNumberProvider.create(2.0F, 3.0F))) }
+    val raw_tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.raw_tungsten)) }
     val tungsten_block by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(StorageTranslationFactory).add(Storage9RecipeFactory(LCCItems.tungsten_ingot)) }
     val cut_tungsten by entry(::initialiser) { BlockDataContainer().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i, 4)

@@ -7,15 +7,18 @@ import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.ItemConvertible
 import net.minecraft.loot.condition.SurvivesExplosionLootCondition
-import net.minecraft.loot.condition.TableBonusLootCondition
 import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.function.ApplyBonusLootFunction
+import net.minecraft.loot.function.SetCountLootFunction
+import net.minecraft.loot.provider.number.LootNumberProvider
 
-class ChanceAlternativeBlockLootFactory(val other: ItemConvertible, vararg val chances: Float) : BlockDataFactory {
+class GenerousOreBlockLootFactory(val ingot: ItemConvertible, val range: LootNumberProvider) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         data.lootTables.register(entry, LootTableData.dropsBlockWithSilkTouch(entry,
-            ItemEntry.builder(other)
-                .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.1f, 0.14285715f, 0.25f, 1.0f))
+            ItemEntry.builder(ingot)
+                .apply(SetCountLootFunction.builder(range))
+                .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))
                 .conditionally(SurvivesExplosionLootCondition.builder()))
         )
     }

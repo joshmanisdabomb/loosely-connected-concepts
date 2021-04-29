@@ -2,11 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "lcc:tungsten_block"
+      "item": "lcc:raw_tungsten_block"
     }
   ],
   "result": {
-    "item": "lcc:tungsten_ingot",
+    "item": "lcc:raw_tungsten",
     "count": 9
   }
 }

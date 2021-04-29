@@ -87,6 +87,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::raw_tungsten, 1)))
     val deepslate_tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
+    val raw_tungsten_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE).strength(5.0f, 6.0f).breakByTool(PICKAXES, 1).requiresTool()) }
+        .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::tungsten_ingot, 1)))
     val tungsten_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_TEAL).strength(2.0F, 6.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
     val cut_tungsten by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_block)) }

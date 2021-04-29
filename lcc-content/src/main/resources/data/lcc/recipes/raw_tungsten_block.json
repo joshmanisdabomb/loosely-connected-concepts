@@ -7,10 +7,10 @@
   ],
   "key": {
     "i": {
-      "item": "lcc:tungsten_ingot"
+      "item": "lcc:raw_tungsten"
     }
   },
   "result": {
-    "item": "lcc:tungsten_block"
+    "item": "lcc:raw_tungsten_block"
   }
 }

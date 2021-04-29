@@ -39,7 +39,7 @@ object LCCItems : ItemDirectory() {
     val raw_tungsten by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(300)))
     val tungsten_ingot by entry(::initialiser) { Item(Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(301)))
+        .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(310)))
 
     //Gizmos
     val asphalt_bucket by entry(::initialiser) { BucketItem(LCCFluids.asphalt_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }

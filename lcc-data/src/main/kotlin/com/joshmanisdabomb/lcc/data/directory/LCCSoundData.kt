@@ -78,6 +78,9 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
     val radiation_detector_click by entry(::initialiser) { SoundProperties("item", LCC.modid, "detector.click", Array(7) {
         SoundProperties.SoundEntry("${LCC.modid}:item/detector/click${it+1}")
     }) }
+    val salt_throw by entry(::initialiser) { SoundProperties("entity", LCC.modid, "salt.throw", Array(4) {
+        SoundProperties.SoundEntry("minecraft:dig/sand${it+1}") //TODO custom
+    }) }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.sounds.add(it) }
 

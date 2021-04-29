@@ -16,6 +16,7 @@ class ChanceAlternativeBlockLootFactory(val other: ItemConvertible, vararg val c
         data.lootTables.register(entry, LootTableData.dropsBlockWithSilkTouch(entry,
             ItemEntry.builder(other)
                 .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, 0.1f, 0.14285715f, 0.25f, 1.0f))
+                .alternatively(ItemEntry.builder(entry))
                 .conditionally(SurvivesExplosionLootCondition.builder()))
         )
     }

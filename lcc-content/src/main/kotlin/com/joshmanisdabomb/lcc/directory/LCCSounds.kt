@@ -39,6 +39,7 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val player_hurt_temporary by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.player.hurt_temporary")) }
 
     val radiation_detector_click by entry(::initialiser) { SoundEvent(LCC.id("item.lcc.detector.click")) }
+    val salt_throw by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.salt.throw")) }
 
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 

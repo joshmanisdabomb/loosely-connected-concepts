@@ -196,5 +196,14 @@
       "lcc:item/detector/click7"
     ],
     "subtitle": "subtitles.lcc.item.detector.click"
+  },
+  "entity.lcc.salt.throw": {
+    "sounds": [
+      "minecraft:dig/sand1",
+      "minecraft:dig/sand2",
+      "minecraft:dig/sand3",
+      "minecraft:dig/sand4"
+    ],
+    "subtitle": "subtitles.lcc.entity.salt.throw"
   }
 }

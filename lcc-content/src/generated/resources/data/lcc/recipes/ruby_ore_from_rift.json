@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:emerald_ore"
+  },
+  "result": "lcc:ruby_ore",
+  "count": 1
+}

@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
 open class ParentBlockItemAssetFactory(val parent: Identifier? = null) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        modelParent(data, entry, parent ?: loc(entry, "block"))
+        models.parent(parent ?: idh.loc(entry, "block")).create(data, entry)
     }
 
     companion object : ParentBlockItemAssetFactory()

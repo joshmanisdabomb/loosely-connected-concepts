@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:brick_stairs"
+  },
+  "result": "lcc:classic_brick_stairs",
+  "count": 1
+}

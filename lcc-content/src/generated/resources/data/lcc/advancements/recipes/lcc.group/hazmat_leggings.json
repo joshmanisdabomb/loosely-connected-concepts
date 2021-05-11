@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:hazmat_leggings"
+    ]
+  },
+  "criteria": {
+    "has_heavy_duty_rubber": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:heavy_duty_rubber"
+          }
+        ]
+      }
+    },
+    "has_radiation": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "lcc:radiation": {}
+        }
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:hazmat_leggings"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_heavy_duty_rubber",
+      "has_radiation",
+      "has_the_recipe"
+    ]
+  ]
+}

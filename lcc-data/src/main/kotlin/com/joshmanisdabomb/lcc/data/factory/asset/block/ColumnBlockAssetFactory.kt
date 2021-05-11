@@ -12,9 +12,8 @@ import net.minecraft.util.math.Direction
 open class ColumnBlockAssetFactory(val texture: Identifier? = null, val textureSide: Identifier? = null, val textureEnd: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val t = texture ?: loc(entry)
-        val column = modelPillar(data, entry, texture = t, textureSide = textureSide ?: suffix(t, "side"), textureEnd = textureEnd ?: suffix(t, "end"))
-        val columnHorizontal = modelPillarHorizontal(data, entry, suffix(loc(entry), "horizontal"), texture = t, textureSide = textureSide ?: suffix(t, "side"), textureEnd = textureEnd ?: suffix(t, "end"))
+        val column = models.pillar({ texture }, { textureSide }, { textureEnd }).create(data, entry)
+        val columnHorizontal = models.pillarHorizontal({ texture }, { textureSide }, { textureEnd }).create(data, entry)
         stateVariant(data, entry) { coordinate(BlockStateVariantMap.create(Properties.AXIS)
             .register(Direction.Axis.Y, BlockStateVariant.create().put(VariantSettings.MODEL, column))
             .register(Direction.Axis.Z, BlockStateVariant.create().put(VariantSettings.MODEL, columnHorizontal).put(VariantSettings.X, VariantSettings.Rotation.R90))

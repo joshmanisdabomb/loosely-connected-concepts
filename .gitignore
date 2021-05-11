@@ -3,6 +3,7 @@
 .gradle/
 build/
 out/
+prod/
 
 # idea
 
@@ -17,9 +18,28 @@ run/
 /minecraft/
 remappedSrc/
 
-# lcc
+# eclipse
 
+*.launch
+
+# vscode
+
+.settings/
+.vscode/
+bin/
+.classpath
+.project
+
+# macos
+
+*.DS_STORE
+
+# lcc
 /assets/
 lcc-content/src/main/resources/.cache/
 lcc-content/src/generated/
 TODO.md
+
+# fabric
+
+run/

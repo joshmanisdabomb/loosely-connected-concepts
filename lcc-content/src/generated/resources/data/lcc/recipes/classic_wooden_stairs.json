@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:classic_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:classic_wooden_stairs",
+    "count": 4
+  }
+}

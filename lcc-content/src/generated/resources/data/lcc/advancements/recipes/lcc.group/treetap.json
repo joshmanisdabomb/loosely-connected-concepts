@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:treetap"
+    ]
+  },
+  "criteria": {
+    "has_rubber_tree": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "lcc:rubber_tree"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:treetap"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_rubber_tree",
+      "has_the_recipe"
+    ]
+  ]
+}

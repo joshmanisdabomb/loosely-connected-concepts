@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "lcc:block/classic_grass_block"
+    },
+    "snowy=true": {
+      "model": "lcc:block/classic_grass_block_snowy"
+    }
+  }
+}

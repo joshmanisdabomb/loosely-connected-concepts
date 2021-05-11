@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:classic_cobblestone"
+    }
+  },
+  "result": {
+    "item": "lcc:classic_cobblestone_slab",
+    "count": 6
+  }
+}

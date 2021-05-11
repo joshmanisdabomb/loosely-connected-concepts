@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:tungsten_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:tungsten_block"
+  }
+}

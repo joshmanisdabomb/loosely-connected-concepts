@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:classic_golden_apple"
+    ]
+  },
+  "criteria": {
+    "has_classic_apple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:classic_apple"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:classic_golden_apple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_classic_apple",
+      "has_the_recipe"
+    ]
+  ]
+}

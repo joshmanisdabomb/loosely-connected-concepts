@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.data.container
 
-import com.joshmanisdabomb.lcc.LCCData
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.EntityDataFactory
 import net.minecraft.entity.EntityType
 
-class EntityDataContainer : DataContainer<EntityType<*>, EntityDataFactory>() {
+class EntityDataContainer(accessor: DataAccessor) : DataContainer<EntityType<*>, EntityDataFactory>(accessor) {
 
     override fun affects(entry: EntityType<*>) = super.affects(entry).let { this }
 
@@ -13,7 +13,7 @@ class EntityDataContainer : DataContainer<EntityType<*>, EntityDataFactory>() {
     override fun add(factory: EntityDataFactory) = super.add(factory).let { this }
 
     override fun apply(factory: EntityDataFactory, entry: EntityType<*>) {
-        factory.apply(LCCData.accessor, entry)
+        factory.apply(accessor, entry)
     }
 
 }

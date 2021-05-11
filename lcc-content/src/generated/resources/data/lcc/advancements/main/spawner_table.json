@@ -1,0 +1,31 @@
+{
+  "parent": "lcc:main/root",
+  "display": {
+    "icon": {
+      "item": "lcc:spawner_table"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.spawner_table.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.spawner_table.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "place": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "lcc:spawner_table"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place"
+    ]
+  ]
+}

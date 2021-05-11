@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "lcc-hooks",
+  "version": "${version}",
+
+  "name": "Loosely Connected Concepts - Hooks TEMP TODO",
+  "description": "This module is TODO.",
+  "authors": [
+    "joshmanisdabomb"
+  ],
+  "contact": {
+    "homepage": "https://joshmanisdabomb.com/",
+    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric/"
+  },
+
+  "license": "All rights reserved, see LICENSE.md",
+  "icon": "assets/lcc-hooks/icon.png",
+
+  "environment": "*",
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.4.21",
+    "minecraft": "1.17.x"
+  },
+  "suggests": {
+    "lcc-mod": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "lcc-mod",
+      "badges": [ "library" ]
+    }
+  }
+}

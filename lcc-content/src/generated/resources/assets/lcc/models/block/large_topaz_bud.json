@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/aligned_cross",
+  "textures": {
+    "cross": "lcc:block/large_topaz_bud"
+  }
+}

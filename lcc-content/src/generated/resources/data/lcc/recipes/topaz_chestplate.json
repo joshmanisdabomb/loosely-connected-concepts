@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "iii",
+    "iii"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:topaz_shard"
+    }
+  },
+  "result": {
+    "item": "lcc:topaz_chestplate"
+  }
+}

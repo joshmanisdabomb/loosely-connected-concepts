@@ -1,0 +1,57 @@
+{
+  "parent": "lcc:main/simulation_fabric",
+  "display": {
+    "icon": {
+      "item": "lcc:ruby"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.ruby.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.ruby.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ruby": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby"
+          }
+        ]
+      }
+    },
+    "ruby_ore": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby_ore"
+          }
+        ]
+      }
+    },
+    "ruby_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby_block"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ruby",
+      "ruby_ore",
+      "ruby_block"
+    ]
+  ]
+}

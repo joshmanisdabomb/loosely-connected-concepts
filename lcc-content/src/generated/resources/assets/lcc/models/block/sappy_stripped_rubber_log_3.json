@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "lcc:block/stripped_rubber_log_top",
+    "bottom": "lcc:block/stripped_rubber_log_top",
+    "side": "lcc:block/stripped_rubber_log_3"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:leather_boots"
+  },
+  "result": "lcc:classic_leather_boots",
+  "count": 1
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:cut_tungsten"
+    }
+  },
+  "result": {
+    "item": "lcc:cut_tungsten_stairs",
+    "count": 4
+  }
+}

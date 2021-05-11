@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "r r",
+    "r r"
+  ],
+  "key": {
+    "r": {
+      "item": "lcc:heavy_duty_rubber"
+    }
+  },
+  "result": {
+    "item": "lcc:hazmat_boots"
+  }
+}

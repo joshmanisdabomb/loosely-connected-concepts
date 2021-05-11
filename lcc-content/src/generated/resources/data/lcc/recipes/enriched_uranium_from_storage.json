@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:enriched_uranium_block"
+    }
+  ],
+  "result": {
+    "item": "lcc:enriched_uranium",
+    "count": 4
+  }
+}

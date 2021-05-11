@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:rubber_log",
+    "lcc:natural_rubber_log",
+    "lcc:rubber_wood",
+    "lcc:stripped_rubber_log",
+    "lcc:sappy_stripped_rubber_log",
+    "lcc:stripped_rubber_wood"
+  ]
+}

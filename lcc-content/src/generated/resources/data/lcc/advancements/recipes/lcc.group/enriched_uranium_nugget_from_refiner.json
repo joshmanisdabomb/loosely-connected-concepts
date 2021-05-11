@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enriched_uranium_nugget_from_refiner"
+    ]
+  },
+  "criteria": {
+    "has_uranium": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:uranium"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enriched_uranium_nugget_from_refiner"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_uranium",
+      "has_the_recipe"
+    ]
+  ]
+}

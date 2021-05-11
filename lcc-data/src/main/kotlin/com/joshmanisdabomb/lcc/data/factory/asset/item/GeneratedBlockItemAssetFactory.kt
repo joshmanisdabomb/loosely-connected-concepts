@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
 open class GeneratedBlockItemAssetFactory(val texture: Identifier? = null) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        modelGenerated(data, entry, texture = texture ?: loc(entry, "block"))
+        models.generated { texture ?: idh.loc(entry, "block") }.create(data, entry)
     }
 
     companion object : GeneratedBlockItemAssetFactory()

@@ -1,0 +1,9 @@
+{
+  "parent": "lcc:block/template_turbine",
+  "textures": {
+    "top": "lcc:block/solar_panel_bottom",
+    "side": "lcc:block/solar_panel_side",
+    "bottom": "lcc:block/turbine_on",
+    "particle": "lcc:block/turbine"
+  }
+}

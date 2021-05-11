@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ii",
+    "is",
+    " s"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:topaz_shard"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:topaz_axe"
+  }
+}

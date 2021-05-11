@@ -1,20 +1,19 @@
 package com.joshmanisdabomb.lcc.data.generators
 
-import com.joshmanisdabomb.lcc.data.DataUtils
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.data.DataCache
-import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
 import java.nio.file.Files
 
-class LangData(val dg: DataGenerator, val modid: String, val locale: String = defaultLocale) : DataProvider {
+class LangData(val da: DataAccessor, val locale: String = defaultLocale) : DataProvider {
 
     val translations = mutableMapOf<String, String>()
 
     override fun run(cache: DataCache) {
-        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(DataUtils.gson.toJson(translations))
+        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(translations))
         val string2 = DataProvider.SHA1.hashUnencodedChars(string).toString()
-        val path = dg.output.resolve("assets/$modid/lang/$locale.json")
+        val path = da.dg.output.resolve("assets/${da.modid}/lang/$locale.json")
         if (cache.getOldSha1(path) != string2 || !Files.exists(path, *arrayOfNulls(0))) {
             Files.createDirectories(path.parent)
             val bufferedWriter = Files.newBufferedWriter(path)
@@ -42,7 +41,7 @@ class LangData(val dg: DataGenerator, val modid: String, val locale: String = de
         cache.updateSha1(path, string2)
     }
 
-    override fun getName() = "$modid $locale Language Data"
+    override fun getName() = "${da.modid} $locale Language Data"
 
     //Translators
 

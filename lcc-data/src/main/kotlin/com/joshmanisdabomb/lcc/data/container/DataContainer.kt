@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.data.container
 
-abstract class DataContainer<T, U> {
+import com.joshmanisdabomb.lcc.data.DataAccessor
+
+abstract class DataContainer<T, U>(protected val accessor: DataAccessor) {
 
     val affects = mutableListOf<T>()
     val factories = mutableListOf<U>()

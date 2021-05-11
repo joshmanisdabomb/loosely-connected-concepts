@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.infra.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockEntityTypeMixin",
+    "ExtendedBlockMixin",
+    "ExtendedEntityMixin",
+    "ExtendedFluidMixin",
+    "ExtendedItemMixin",
+    "ImplPlayerSpawnMixin",
+    "ImplServerPlayerMixin",
+    "ImplPlayerMixin",
+    "ImplLivingMixin",
+    "ImplEntityMixin",
+    "ImplPlantBlockMixin",
+    "ImplFeatureMixin",
+    "ImplBowMixin",
+    "ImplCrossbowMixin",
+    "ImplServerInteractionManager",
+    "ImplItemEntityMixin",
+    "ImplProjectileEntityMixin",
+    "BoatEntityMixin",
+    "ImplMobMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

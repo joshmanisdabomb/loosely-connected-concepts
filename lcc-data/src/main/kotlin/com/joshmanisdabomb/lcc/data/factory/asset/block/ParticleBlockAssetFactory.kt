@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
 open class ParticleBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        stateOne(data, entry) { if (texture != null) modelParticle(data, entry, texture = texture) else modelParticle(data, entry) }
+        stateOne(data, entry, model = models.particle { texture })
     }
 
     companion object : ParticleBlockAssetFactory()

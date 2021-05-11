@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:potted_rubber_sapling",
+    "lcc:potted_classic_sapling",
+    "lcc:potted_classic_rose",
+    "lcc:potted_cyan_flower"
+  ]
+}

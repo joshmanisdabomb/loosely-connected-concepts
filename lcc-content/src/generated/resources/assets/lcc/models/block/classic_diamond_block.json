@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "lcc:block/classic_diamond_block_top",
+    "bottom": "lcc:block/classic_diamond_block_bottom",
+    "side": "lcc:block/classic_diamond_block_side"
+  }
+}

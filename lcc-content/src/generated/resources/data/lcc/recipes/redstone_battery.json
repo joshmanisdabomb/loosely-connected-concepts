@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iei",
+    "crc",
+    "crc"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "e": {
+      "item": "minecraft:iron_nugget"
+    },
+    "r": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "lcc:redstone_battery"
+  }
+}

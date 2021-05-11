@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "top": "lcc:block/rubber_door_top",
+    "bottom": "lcc:block/rubber_door_bottom"
+  }
+}

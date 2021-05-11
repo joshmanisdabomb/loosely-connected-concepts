@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:cooked_porkchop"
+  },
+  "result": "lcc:classic_cooked_porkchop",
+  "count": 1
+}

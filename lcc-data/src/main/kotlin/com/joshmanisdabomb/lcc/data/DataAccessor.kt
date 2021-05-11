@@ -1,16 +1,32 @@
 package com.joshmanisdabomb.lcc.data
 
+import com.google.gson.Gson
+import com.google.gson.JsonParser
+import com.joshmanisdabomb.lcc.data.generators.AdvancementData
 import com.joshmanisdabomb.lcc.data.generators.LangData
-import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
+import com.joshmanisdabomb.lcc.data.generators.SoundData
+import me.shedaniel.cloth.api.datagen.v1.*
+import net.minecraft.data.DataGenerator
+import org.apache.logging.log4j.Logger
 
-class DataAccessor(val modid: String, val handler: DataGeneratorHandler, val locales: List<String>) {
+interface DataAccessor {
 
-    val lang by lazy { locales.map { it to LangData(handler.dataGenerator, modid, it).apply { handler.install(this) } }.toMap() }
+    val modid: String
 
-    val modelStates by lazy { handler.modelStates }
-    val recipes by lazy { handler.recipes }
-    val lootTables by lazy { handler.lootTables }
-    val tags by lazy { handler.tags }
-    val worldGen by lazy { handler.worldGen }
+    val dg: DataGenerator
+
+    val lang: Map<String, LangData>
+    val advancements: AdvancementData
+    val sounds: SoundData
+
+    val modelStates: ModelStateData
+    val recipes: RecipeData
+    val lootTables: LootTableData
+    val tags: TagData
+    val worldGen: WorldGenData
+
+    val parser: JsonParser
+    val gson: Gson
+    val logger: Logger
 
 }

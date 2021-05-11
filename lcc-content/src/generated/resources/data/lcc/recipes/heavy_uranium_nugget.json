@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:heavy_uranium"
+    }
+  ],
+  "result": {
+    "item": "lcc:heavy_uranium_nugget",
+    "count": 9
+  }
+}

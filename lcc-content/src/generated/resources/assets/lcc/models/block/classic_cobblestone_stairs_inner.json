@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "lcc:block/classic_cobblestone",
+    "top": "lcc:block/classic_cobblestone",
+    "side": "lcc:block/classic_cobblestone"
+  }
+}

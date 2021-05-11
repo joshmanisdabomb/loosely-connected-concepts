@@ -1,0 +1,90 @@
+{
+  "display": {
+    "icon": {
+      "item": "lcc:test_block"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.root.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "lcc:textures/gui/advancements/backgrounds/main.png"
+  },
+  "criteria": {
+    "ruby": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:ruby"
+          }
+        ]
+      }
+    },
+    "topaz_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:topaz_shard"
+          }
+        ]
+      }
+    },
+    "emerald": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:emerald"
+          }
+        ]
+      }
+    },
+    "diamond": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond"
+          }
+        ]
+      }
+    },
+    "sapphire": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:sapphire"
+          }
+        ]
+      }
+    },
+    "amethyst_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:amethyst_shard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ruby",
+      "topaz_shard",
+      "emerald",
+      "diamond",
+      "sapphire",
+      "amethyst_shard"
+    ]
+  ]
+}

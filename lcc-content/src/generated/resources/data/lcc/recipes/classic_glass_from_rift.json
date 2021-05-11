@@ -1,0 +1,8 @@
+{
+  "type": "lcc:time_rift",
+  "ingredient": {
+    "item": "minecraft:glass"
+  },
+  "result": "lcc:classic_glass",
+  "count": 1
+}

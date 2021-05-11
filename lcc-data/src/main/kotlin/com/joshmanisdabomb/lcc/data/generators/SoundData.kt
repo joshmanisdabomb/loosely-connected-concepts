@@ -1,22 +1,21 @@
 package com.joshmanisdabomb.lcc.data.generators
 
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.data.DataUtils
+import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.json.sound.SoundProperties
 import net.minecraft.data.DataCache
-import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
 import java.nio.file.Files
 
-class SoundData(val dg: DataGenerator, val modid: String) : DataProvider {
+class SoundData(val da: DataAccessor) : DataProvider {
 
-    val sounds = mutableListOf<SoundProperties>()
+    val list = mutableListOf<SoundProperties>()
 
     override fun run(cache: DataCache) {
-        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(DataUtils.gson.toJson(sounds.map { it.name to it.serialise(JsonObject()) }.toMap()))
+        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(list.map { it.name to it.serialise(JsonObject()) }.toMap()))
         val string2 = DataProvider.SHA1.hashUnencodedChars(string).toString()
-        val path = dg.output.resolve("assets/$modid/sounds.json")
+        val path = da.dg.output.resolve("assets/${da.modid}/sounds.json")
         if (cache.getOldSha1(path) != string2 || !Files.exists(path, *arrayOfNulls(0))) {
             Files.createDirectories(path.parent)
             val bufferedWriter = Files.newBufferedWriter(path)
@@ -44,6 +43,6 @@ class SoundData(val dg: DataGenerator, val modid: String) : DataProvider {
         cache.updateSha1(path, string2)
     }
 
-    override fun getName() = "$modid Sound Data"
+    override fun getName() = "${da.modid} Sound Data"
 
 }

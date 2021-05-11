@@ -1,0 +1,8 @@
+{
+  "parent": "lcc:block/cable4_connection",
+  "textures": {
+    "side": "lcc:block/power_cable",
+    "end": "lcc:block/power_cable_end",
+    "particle": "lcc:block/power_cable"
+  }
+}

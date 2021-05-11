@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "i i"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:topaz_shard"
+    }
+  },
+  "result": {
+    "item": "lcc:topaz_helmet"
+  }
+}

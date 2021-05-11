@@ -1,0 +1,160 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "north",
+        "type": "none"
+      },
+      "apply": {
+        "model": "lcc:block/treetap"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "type": "none"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "type": "none"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "type": "none"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "type": "bowl"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_bowl"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "type": "bowl"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_bowl",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "type": "bowl"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_bowl",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "type": "bowl"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_bowl",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap"
+      }
+    },
+    {
+      "when": {
+        "facing": "north",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_overflow_latex"
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "east",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_overflow_latex",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "south",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_overflow_latex",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "west",
+        "type": "overflow_latex"
+      },
+      "apply": {
+        "model": "lcc:block/treetap_overflow_latex",
+        "y": 270
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "lcc:rubber_logs_i"
+    }
+  ],
+  "result": {
+    "item": "lcc:rubber_planks",
+    "count": 4
+  }
+}

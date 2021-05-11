@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:oil_generator"
+    ]
+  },
+  "criteria": {
+    "has_machine_enclosure": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:machine_enclosure"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:oil_generator"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_machine_enclosure",
+      "has_the_recipe"
+    ]
+  ]
+}

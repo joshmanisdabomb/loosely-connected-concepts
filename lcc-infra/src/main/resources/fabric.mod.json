@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "lcc-infra",
+  "version": "${version}",
+
+  "name": "Loosely Connected Concepts - Infrastructure",
+  "description": "This module contains the library that helps to create Loosely Connected Concepts. (and possibly others)",
+  "authors": [
+    "joshmanisdabomb"
+  ],
+  "contact": {
+    "homepage": "https://joshmanisdabomb.com/",
+    "sources": "https://bitbucket.org/joshmanisdabomb/loosely-connected-concepts/src/fabric/"
+  },
+
+  "license": "All rights reserved, see LICENSE.md",
+  "icon": "assets/lcc-infra/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCInfrastructure"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCInfrastructureClient"
+      }
+    ]
+  },
+  "mixins": [
+    "lcc-infra.mixins.json",
+    {
+      "config": "lcc-infra.client-mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.4.21",
+    "minecraft": "1.17.x"
+  },
+  "suggests": {
+    "lcc-mod": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "lcc-mod",
+      "badges": [ "library" ]
+    }
+  },
+  "accessWidener": "lcc-infra.accesswidener"
+}

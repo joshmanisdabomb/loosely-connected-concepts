@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:hazmat_helmet",
+    "lcc:hazmat_chestplate",
+    "lcc:hazmat_leggings",
+    "lcc:hazmat_boots"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "pattern": [
+    "w w",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rubber_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_boat"
+  }
+}

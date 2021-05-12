@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.data.generators.LangData
 import com.joshmanisdabomb.lcc.data.generators.SoundData
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
+import net.minecraft.Bootstrap
 import net.minecraft.SharedConstants
 import net.minecraft.data.DataProvider
 import org.apache.logging.log4j.LogManager
@@ -32,9 +33,12 @@ abstract class DataLauncher(override val modid: String, protected val path: Path
     override val gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     override val logger = LogManager.getLogger()
 
-    final override fun onPreLaunch() {
+    init {
         SharedConstants.createGameVersion()
+        Bootstrap.initialize()
+    }
 
+    final override fun onPreLaunch() {
         onLaunchStart()
 
         handler.run()

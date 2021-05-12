@@ -7,7 +7,7 @@ import net.minecraft.data.client.model.BlockStateVariant
 import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.data.client.model.VariantsBlockStateSupplier
 
-open class RotationBlockAssetFactory(val x: List<Int> = listOf(0), val y: List<Int> = (0..3).toList(), val model: ModelProvider.ModelFactory<Block> = models.cubeAll()) : BlockAssetFactory {
+open class RotationBlockAssetFactory(val x: List<Int> = listOf(0), val y: List<Int> = (0..3).toList(), val model: ModelProvider.ModelFactory<Block> = ModelProvider.block.cubeAll()) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val variants = mutableListOf<BlockStateVariant>()

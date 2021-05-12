@@ -15,7 +15,7 @@ class SapBurstBlockAssetFactory(val texture: Identifier? = null, val textureSide
         val t = texture ?: idh.loc(entry)
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(sap).register { sap ->
-                BlockStateVariant.create().put(VariantSettings.MODEL, models.cubeBottomTop(texture = { t.suffix(sap.toString()) }, textureSide = { t.suffix(sap.toString()) }, textureTop = { textureEnd ?: t.suffix("top") }, textureBottom = { textureEnd ?: t.suffix("top") }).create(data, entry) { idh.locSuffix(entry, if (sap == 7) null else "_$sap") })
+                BlockStateVariant.create().put(VariantSettings.MODEL, models.cubeBottomTop(texture = { t.suffix(sap.toString()) }, textureSide = { t.suffix(sap.toString()) }, textureTop = { textureEnd ?: t.suffix("top") }, textureBottom = { textureEnd ?: t.suffix("top") }).create(data, entry) { idh.locSuffix(entry, if (sap == 7) null else sap.toString()) })
             })
         }
     }

@@ -12,8 +12,8 @@ class BooleanHorizontalSideBlockAssetFactory(val on: Identifier, val off: Identi
 
     override fun apply(data: DataAccessor, entry: Block) {
         val base = LCCModelTemplates.template_face_up_down.upload(idh.loc(entry), Texture.texture(end).put(TextureKey.PARTICLE, particle), data.modelStates::addModel)
-        val off = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, "_${k.asString()}"), Texture.texture(off), data.modelStates::addModel) }
-        val on = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, "_${k.asString()}_on"), Texture.texture(on), data.modelStates::addModel) }
+        val off = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, k.asString()), Texture.texture(off), data.modelStates::addModel) }
+        val on = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, "${k.asString()}_on"), Texture.texture(on), data.modelStates::addModel) }
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, base))
             map.keys.forEach {

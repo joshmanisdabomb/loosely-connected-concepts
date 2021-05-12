@@ -13,7 +13,7 @@ open class ColumnBlockAssetFactory(val texture: Identifier? = null, val textureS
 
     override fun apply(data: DataAccessor, entry: Block) {
         val column = models.pillar({ texture }, { textureSide }, { textureEnd }).create(data, entry)
-        val columnHorizontal = models.pillarHorizontal({ texture }, { textureSide }, { textureEnd }).create(data, entry)
+        val columnHorizontal = models.pillarHorizontal({ texture }, { textureSide }, { textureEnd }).create(data, entry) { idh.locSuffix(it, "horizontal") }
         stateVariant(data, entry) { coordinate(BlockStateVariantMap.create(Properties.AXIS)
             .register(Direction.Axis.Y, BlockStateVariant.create().put(VariantSettings.MODEL, column))
             .register(Direction.Axis.Z, BlockStateVariant.create().put(VariantSettings.MODEL, columnHorizontal).put(VariantSettings.X, VariantSettings.Rotation.R90))

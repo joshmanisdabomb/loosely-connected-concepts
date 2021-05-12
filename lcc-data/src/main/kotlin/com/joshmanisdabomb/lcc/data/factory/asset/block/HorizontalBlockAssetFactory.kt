@@ -9,7 +9,7 @@ import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
 
-open class HorizontalBlockAssetFactory(val model: ModelProvider.ModelFactory<Block> = models.orientable(), val default: Direction = Direction.NORTH) : BlockAssetFactory {
+open class HorizontalBlockAssetFactory(val model: ModelProvider.ModelFactory<Block> = ModelProvider.block.orientable(), val default: Direction = Direction.NORTH) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         stateVariantModel(data, entry, model) { coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING).register {

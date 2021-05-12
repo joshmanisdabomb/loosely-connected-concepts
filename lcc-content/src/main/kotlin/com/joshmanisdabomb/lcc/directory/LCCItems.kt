@@ -169,11 +169,11 @@ object LCCItems : ItemDirectory() {
 
     //Power
     val turbine_blades by entry(::initialiser) { Item(Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(3)))
+        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(99)))
     val nuclear_fuel by entry(::initialiser) { RadioactiveItem(2, 2, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(4)))
+        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(10)))
     val redstone_battery by entry(::initialiser) { BatteryItem(LooseEnergy.fromCoals(4f), Item.Settings().maxCount(1).defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(100)).stackColor(BatteryItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(POWER, sortValueInt(5001)).stackColor(BatteryItem::getTintColor))
 
     //Nuclear
     val uranium by entry(::initialiser) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
@@ -189,7 +189,7 @@ object LCCItems : ItemDirectory() {
     val heavy_uranium_nugget by entry(::initialiser) { RadioactiveItem(1, 0, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(29)))
 
-    val radiation_detector by entry(::initialiser) { RadiationDetectorItem(LooseEnergy.toStandard(8000f), Item.Settings().defaults()) }
+    val radiation_detector by entry(::initialiser) { RadiationDetectorItem(LooseEnergy.toStandard(8000f), Item.Settings().defaults().maxCount(1)) }
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(1000)).modelPredicate(LCC.id("winter")) { (it as RadiationDetectorItem)::getWinterPredicate })
 
     //Health

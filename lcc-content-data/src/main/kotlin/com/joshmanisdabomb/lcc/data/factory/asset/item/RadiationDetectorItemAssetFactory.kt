@@ -15,7 +15,7 @@ object RadiationDetectorItemAssetFactory : ItemAssetFactory {
     "parent": "lcc:item/template_radiation_detector",
     "textures": {
         "0": "${idh.loc(entry)}",
-        "1": "${idh.locSuffix(entry, "winter_0")}}"
+        "1": "${idh.locSuffix(entry, "winter_0")}"
     },
     "overrides": [
         { "predicate": { "lcc:winter": 1.0 }, "model": "${alts[0]}" },

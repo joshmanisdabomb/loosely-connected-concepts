@@ -19,10 +19,10 @@ object TreetapDriedBlockAssetFactory : BlockAssetFactory {
         stateMultipart(data, entry) {
             horizontalDirections.forEach { f ->
                 AbstractTreetapBlock.TreetapContainer.values().forEach { c ->
-                    with(When.create().set(Properties.HORIZONTAL_FACING, f).set(DriedTreetapBlock.container, c), BlockStateVariant.create().put(VariantSettings.MODEL, idh.locSuffix(LCCBlocks.treetap, "_${c.asString()}")).apply(ModelProvider.horizontalRotation(f)))
+                    with(When.create().set(Properties.HORIZONTAL_FACING, f).set(DriedTreetapBlock.container, c), BlockStateVariant.create().put(VariantSettings.MODEL, idh.locSuffix(LCCBlocks.treetap, c.asString())).apply(ModelProvider.horizontalRotation(f)))
                     DriedTreetapBlock.liquid.values.forEach { l ->
                         with(When.create().set(Properties.HORIZONTAL_FACING, f).set(DriedTreetapBlock.container, c).set(DriedTreetapBlock.liquid, l),
-                            BlockStateVariant.create().put(VariantSettings.MODEL, idh.locSuffix(LCCBlocks.treetap, "_${c.asString()}_${l.asString()}_dried")).apply(ModelProvider.horizontalRotation(f)))
+                            BlockStateVariant.create().put(VariantSettings.MODEL, idh.locSuffix(LCCBlocks.treetap, "${c.asString()}_${l.asString()}_dried")).apply(ModelProvider.horizontalRotation(f)))
                     }
                 }
             }

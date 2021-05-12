@@ -1,9 +1,8 @@
 {
-  "parent": "minecraft:block/orientable_with_bottom",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "top": "lcc:block/energy_bank",
     "bottom": "lcc:block/machine_enclosure_bottom",
-    "side": "lcc:block/machine_enclosure_side",
-    "front": "lcc:block/machine_enclosure_side"
+    "side": "lcc:block/machine_enclosure_side"
   }
 }

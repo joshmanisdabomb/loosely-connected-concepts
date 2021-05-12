@@ -24,7 +24,7 @@ object TreetapBlockAssetFactory : BlockAssetFactory {
         stateMultipart(data, entry) {
             TreetapBlock.TreetapState.values().forEach { t ->
                 horizontalDirections.forEach { f ->
-                    with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapBlock.tap, t), BlockStateVariant.create().put(VariantSettings.MODEL, t.container?.run { idh.locSuffix(entry, "_${this.asString()}") } ?: tap).apply(ModelProvider.horizontalRotation(f)))
+                    with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapBlock.tap, t), BlockStateVariant.create().put(VariantSettings.MODEL, t.container?.run { idh.locSuffix(entry, this.asString()) } ?: tap).apply(ModelProvider.horizontalRotation(f)))
 
                     t.liquid?.also {
                         with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapBlock.tap, t), BlockStateVariant.create().put(VariantSettings.MODEL, overflows[it]).apply(ModelProvider.horizontalRotation(f)))

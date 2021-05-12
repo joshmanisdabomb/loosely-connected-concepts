@@ -145,7 +145,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d) }
     }) }
 
-    val redstone_battery by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val redstone_battery by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("iei")
             .pattern("crc")
@@ -229,7 +229,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .criterion("has_suit", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.airlocked_suits).build()))
             .apply { offerShaped(this, d) }
     }) }
-    val hazmat_helmet by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val hazmat_helmet by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")
             .pattern("rvr")
@@ -239,7 +239,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .criterion("has_radiation", EffectsChangedCriterion.Conditions.create(EntityEffectPredicate.create().withEffect(LCCEffects.radiation)))
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
-    val hazmat_chestplate by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(ComplexRecipeFactory(LCCRecipeSerializers.hazmat_chestplate)).add(ItemTagFactory(LCCTags.airlocked_suits)) }
+    val hazmat_chestplate by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(ComplexRecipeFactory(LCCRecipeSerializers.hazmat_chestplate)).add(ItemTagFactory(LCCTags.airlocked_suits)) }
     val hazmat_leggings by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")

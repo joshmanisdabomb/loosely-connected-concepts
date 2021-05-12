@@ -3,8 +3,8 @@
   "id": "lcc-hooks",
   "version": "${version}",
 
-  "name": "Loosely Connected Concepts - Hooks TEMP TODO",
-  "description": "This module is TODO.",
+  "name": "Loosely Connected Concepts - Hooks",
+  "description": "This module contains a library of mixins, events, access wideners and vanilla overrides for Loosely Connected Concepts.",
   "authors": [
     "joshmanisdabomb"
   ],
@@ -17,7 +17,22 @@
   "icon": "assets/lcc-hooks/icon.png",
 
   "environment": "*",
-  "mixins": [],
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCHooksClient"
+      }
+    ]
+  },
+  "mixins": [
+    "lcc-hooks.mixins.json",
+    "lcc-traits.mixins.json",
+    {
+      "config": "lcc-hooks.client-mixins.json",
+      "environment": "client"
+    }
+  ],
   "depends": {
     "fabricloader": ">=0.11.1",
     "fabric": "*",
@@ -32,5 +47,6 @@
       "parent": "lcc-mod",
       "badges": [ "library" ]
     }
-  }
+  },
+  "accessWidener": "lcc-hooks.accesswidener"
 }

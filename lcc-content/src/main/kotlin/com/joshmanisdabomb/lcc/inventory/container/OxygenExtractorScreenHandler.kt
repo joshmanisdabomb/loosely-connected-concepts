@@ -6,8 +6,8 @@ import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
-import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Loosely Connected Concepts - Infrastructure",
-  "description": "This module contains the library that helps to create Loosely Connected Concepts. (and possibly others)",
+  "description": "This module contains useful helpers and tools for the programmers of Loosely Connected Concepts.",
   "authors": [
     "joshmanisdabomb"
   ],
@@ -17,27 +17,7 @@
   "icon": "assets/lcc-infra/icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      {
-        "adapter": "kotlin",
-        "value": "com.joshmanisdabomb.lcc.LCCInfrastructure"
-      }
-    ],
-    "client": [
-      {
-        "adapter": "kotlin",
-        "value": "com.joshmanisdabomb.lcc.LCCInfrastructureClient"
-      }
-    ]
-  },
-  "mixins": [
-    "lcc-infra.mixins.json",
-    {
-      "config": "lcc-infra.client-mixins.json",
-      "environment": "client"
-    }
-  ],
+  "entrypoints": {},
   "depends": {
     "fabricloader": ">=0.11.1",
     "fabric": "*",
@@ -52,6 +32,5 @@
       "parent": "lcc-mod",
       "badges": [ "library" ]
     }
-  },
-  "accessWidener": "lcc-infra.accesswidener"
+  }
 }

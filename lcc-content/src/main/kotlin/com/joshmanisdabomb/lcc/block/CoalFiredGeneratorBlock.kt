@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.CoalFiredGeneratorScreenHandler
 import net.fabricmc.fabric.api.registry.FuelRegistry
 import net.minecraft.entity.player.PlayerEntity

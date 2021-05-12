@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
@@ -15,7 +15,7 @@ import net.minecraft.util.TypedActionResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class GauntletItem(settings: Settings) : Item(settings), LCCExtendedItem {
+class GauntletItem(settings: Settings) : Item(settings), LCCItemTrait {
 
     override fun canMine(state: BlockState, world: World, pos: BlockPos, miner: PlayerEntity) = false
 

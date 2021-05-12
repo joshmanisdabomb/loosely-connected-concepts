@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.adaptation.boat.LCCBoatType
+import com.joshmanisdabomb.lcc.facade.boat.LCCBoatType
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.api.EnvironmentInterface

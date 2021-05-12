@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.directory.LCCSounds
@@ -20,7 +20,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import java.util.*
 
-class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCExtendedBlock {
+class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCBlockTrait {
 
     @Environment(EnvType.CLIENT)
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {

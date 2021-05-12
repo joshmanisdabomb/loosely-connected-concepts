@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.model.ClassicCryingObsidianModel
 import com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel
-import com.joshmanisdabomb.lcc.block.model.LCCModel
+import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
 import com.joshmanisdabomb.lcc.block.model.RoadModel
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry
 import net.fabricmc.fabric.api.client.model.ModelProviderContext

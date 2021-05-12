@@ -1,1 +1,5 @@
 archivesBaseName = "lcc-hooks"
+
+minecraft {
+    accessWidener "src/main/resources/lcc-hooks.accesswidener"
+}

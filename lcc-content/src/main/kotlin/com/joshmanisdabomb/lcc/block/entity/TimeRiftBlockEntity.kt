@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.mixin.content.common.ItemEntityAccessor
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import net.minecraft.block.BlockState

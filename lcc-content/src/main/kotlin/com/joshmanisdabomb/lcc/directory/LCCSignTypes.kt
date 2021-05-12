@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.adaptation.sign.LCCSignType
+import com.joshmanisdabomb.lcc.facade.sign.LCCSignType
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.api.EnvironmentInterface

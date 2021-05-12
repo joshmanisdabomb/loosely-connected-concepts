@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedItem
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
@@ -17,7 +17,7 @@ import net.minecraft.util.ClickType
 import net.minecraft.util.Hand
 import net.minecraft.world.World
 
-class QuiverItem(override val size: Int, settings: Settings) : Item(settings), LCCExtendedItem, BagItem {
+class QuiverItem(override val size: Int, settings: Settings) : Item(settings), LCCItemTrait, BagItem {
 
     override fun canBagStore(stack: ItemStack) = stack.isIn(ItemTags.ARROWS)
 
@@ -29,7 +29,7 @@ class QuiverItem(override val size: Int, settings: Settings) : Item(settings), L
         val item = projectile.item
 
         (item as? ArrowItem)?.createArrow(world, projectile, shooter)?.apply { return this }
-        (item as? LCCExtendedItem)?.lcc_createArrow(world, projectile, shooter)?.apply { return this }
+        (item as? LCCItemTrait)?.lcc_createArrow(world, projectile, shooter)?.apply { return this }
 
         return null
     }

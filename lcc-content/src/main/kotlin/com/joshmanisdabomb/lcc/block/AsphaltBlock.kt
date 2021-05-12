@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import net.minecraft.block.*
@@ -20,7 +20,7 @@ import net.minecraft.world.WorldAccess
 import java.util.*
 import net.minecraft.fluid.FlowableFluid.LEVEL as FLUID_LEVEL
 
-class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCExtendedBlock {
+class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(LEVEL, 0).with(AGE_7, 0)

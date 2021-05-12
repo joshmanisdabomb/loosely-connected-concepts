@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
 import com.joshmanisdabomb.lcc.block.FiredGeneratorBlock
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

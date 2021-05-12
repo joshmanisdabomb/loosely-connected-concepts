@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.inventory
 
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe

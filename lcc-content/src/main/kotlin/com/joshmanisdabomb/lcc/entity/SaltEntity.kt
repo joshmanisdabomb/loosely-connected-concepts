@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.minecraft.advancement.criterion.Criteria
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -21,7 +21,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 
-class SaltEntity : ThrownItemEntity, LCCExtendedEntity {
+class SaltEntity : ThrownItemEntity, LCCEntityTrait {
 
     constructor(type: EntityType<out ThrownItemEntity>, world: World) : super(type, world)
 

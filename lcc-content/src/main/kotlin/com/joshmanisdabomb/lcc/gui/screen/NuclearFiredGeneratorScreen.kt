@@ -9,7 +9,7 @@ import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
-import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
+import com.joshmanisdabomb.lcc.lib.gui.FunctionalButtonWidget
 import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking

@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -27,7 +27,7 @@ import net.minecraft.world.Heightmap
 import net.minecraft.world.World
 import java.util.*
 
-class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCExtendedEntity {
+class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCEntityTrait {
 
     constructor(world: World, x: Double, y: Double, z: Double, by: LivingEntity?) : this(LCCEntities.nuclear_explosion, world) {
         updatePosition(x, y, z)

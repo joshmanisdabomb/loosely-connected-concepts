@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.utils.ClientAccessUtils
+import com.joshmanisdabomb.lcc.widens.ClientWidens
 import net.minecraft.client.render.*
 import net.minecraft.util.Identifier
 
@@ -29,7 +29,7 @@ object LCCRenderLayers : BasicDirectory<(Identifier) -> RenderLayer, Unit>() {
 
     fun initialiser(input: (Identifier) -> RenderLayer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
-    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, crumbling: Boolean, translucent: Boolean, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = ClientAccessUtils.renderLayer(name, vertexFormat, drawMode, expectedBuffer, crumbling, translucent, parameters)
+    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, crumbling: Boolean, translucent: Boolean, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = ClientWidens.renderLayer(name, vertexFormat, drawMode, expectedBuffer, crumbling, translucent, parameters)
 
     override fun defaultProperties(name: String) = Unit
 

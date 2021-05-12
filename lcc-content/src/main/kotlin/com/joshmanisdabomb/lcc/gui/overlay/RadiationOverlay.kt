@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.RadiationDetectorItem
-import com.joshmanisdabomb.lcc.mixin.infra.client.GameRendererAccessor
+import com.joshmanisdabomb.lcc.mixin.hooks.client.GameRendererAccessor
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

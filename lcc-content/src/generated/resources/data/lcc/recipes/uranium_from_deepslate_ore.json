@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "lcc:deepslate_uranium_ore"
-  },
-  "result": "lcc:uranium",
-  "experience": 1.0,
-  "cookingtime": 200
-}

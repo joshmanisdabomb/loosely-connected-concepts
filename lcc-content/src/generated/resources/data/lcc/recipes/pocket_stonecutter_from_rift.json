@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "minecraft:stonecutter"
-  },
-  "result": "lcc:pocket_stonecutter",
-  "count": 1
-}

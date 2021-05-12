@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "lcc:raw_tungsten"
-  },
-  "result": "lcc:tungsten_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
-}

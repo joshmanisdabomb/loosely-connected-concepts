@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "lcc:flexible_rubber"
-  },
-  "result": "lcc:heavy_duty_rubber",
-  "experience": 0.1,
-  "cookingtime": 200
-}

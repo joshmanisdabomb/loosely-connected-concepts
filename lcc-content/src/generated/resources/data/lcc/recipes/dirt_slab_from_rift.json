@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "minecraft:dirt"
-  },
-  "result": "lcc:dirt_slab",
-  "count": 2
-}

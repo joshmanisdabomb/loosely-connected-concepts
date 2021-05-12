@@ -1,8 +1,0 @@
-{
-  "type": "lcc:time_rift",
-  "ingredient": {
-    "item": "minecraft:sponge"
-  },
-  "result": "lcc:classic_sponge",
-  "count": 1
-}

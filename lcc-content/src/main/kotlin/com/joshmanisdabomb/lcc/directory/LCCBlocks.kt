@@ -187,6 +187,13 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val oil by entry(::initialiser) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
         .setProperties(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE))
+
+    val deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val infested_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_LIGHT_GRAY).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     //IDEA deadwood, rarely spawns naturally or dries out wood
     //IDEA rusted iron blocks, first tier of wasteland tools
     //TODO minesweep blocks

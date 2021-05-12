@@ -1,10 +1,7 @@
 package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.AbstractTreetapBlock
-import com.joshmanisdabomb.lcc.block.DriedTreetapBlock
-import com.joshmanisdabomb.lcc.block.RefiningBlock
-import com.joshmanisdabomb.lcc.block.TreetapBlock
+import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelAccess
@@ -442,6 +439,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val rubber_block by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(MultipleBlockAssetFactory(y = (0..3).toList(), List(5) {
         mb.cubeAll { t -> idb.locSuffix(t, it.plus(1).toString()) }
     })).add(Storage9RecipeFactory(LCCItems.heavy_duty_rubber)) }
+
+    val deposits by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<DepositBlock>()).defaultLang().defaultItemAsset().add(DepositBlockAssetFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

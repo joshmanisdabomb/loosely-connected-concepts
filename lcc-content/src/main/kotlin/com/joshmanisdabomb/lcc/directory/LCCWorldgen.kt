@@ -25,14 +25,12 @@ import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.*
-import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
-import net.minecraft.world.gen.decorator.Decorator
-import net.minecraft.world.gen.decorator.DecoratorConfig
-import net.minecraft.world.gen.decorator.NopeDecoratorConfig
+import net.minecraft.world.gen.decorator.*
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
 import net.minecraft.world.gen.heightprovider.UniformHeightProvider
+import net.minecraft.world.gen.placer.SimpleBlockPlacer
 import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder
@@ -116,6 +114,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
 
     val salt by entry(::initialiser) { Feature.DISK.configure(DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))).spreadHorizontally().decorate(ConfiguredFeatures.Decorators.SQUARE_TOP_SOLID_HEIGHTMAP).applyChance(13) }
+
+    val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.deposit.defaultState), SimpleBlockPlacer.INSTANCE).tries(8).whitelist(setOf(LCCBlocks.cracked_mud)).build()).decorate(ConfiguredFeatures.Decorators.SPREAD_32_ABOVE).decorate(ConfiguredFeatures.Decorators.HEIGHTMAP).spreadHorizontally().decorate(Decorator.COUNT_NOISE.configure(CountNoiseDecoratorConfig(-0.9, 15, 4))) }
 
     override fun defaultProperties(name: String) = Unit
 

@@ -440,7 +440,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         mb.cubeAll { t -> idb.locSuffix(t, it.plus(1).toString()) }
     })).add(Storage9RecipeFactory(LCCItems.heavy_duty_rubber)) }
 
-    val deposits by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<DepositBlock>()).defaultLang().defaultItemAsset().add(DepositBlockAssetFactory) }
+    val deposits by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<DepositBlock>()).defaultLang().defaultItemAsset().add(DepositBlockAssetFactory).add(DepositBlockLootFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

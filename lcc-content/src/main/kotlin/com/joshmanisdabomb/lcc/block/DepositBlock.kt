@@ -4,6 +4,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShapes
@@ -24,9 +25,9 @@ class DepositBlock(settings: Settings) : Block(settings) {
         return shape.minX <= 0.3125 && shape.maxX >= 0.6875 && shape.minZ <= 0.3125 && shape.maxZ >= 0.6875
     }
 
-    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
-        return if (direction == Direction.DOWN && !canPlaceAt(state, world, pos)) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
-    }
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState = if (direction == Direction.DOWN && !canPlaceAt(state, world, pos)) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+
+    override fun getPistonBehavior(state: BlockState) = PistonBehavior.DESTROY
 
     companion object {
         val shape = createCuboidShape(4.0, 0.0, 4.0, 12.0, 9.0, 12.0)

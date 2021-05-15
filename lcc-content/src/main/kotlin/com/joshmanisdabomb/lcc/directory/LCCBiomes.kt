@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes
 import net.fabricmc.fabric.api.biome.v1.OverworldClimate
-import net.minecraft.entity.EntityType
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.sound.BiomeMoodSound
 import net.minecraft.util.registry.BuiltinRegistries
@@ -40,10 +39,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .moodSound(BiomeMoodSound.CAVE)
                 .build())
             .spawnSettings(SpawnSettings.Builder()
-                .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.SPIDER, 10, 2, 4))
-                .spawn(SpawnGroup.MONSTER, SpawnEntry(EntityType.CAVE_SPIDER, 10, 4, 8))
-                .spawnCost(EntityType.SPIDER, 0.1, 0.12)
-                .spawnCost(EntityType.CAVE_SPIDER, 0.1, 0.12)
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.wasp, 10, 2, 8))
+                .spawnCost(LCCEntities.wasp, 0.1, 0.12)
                 .build())
             .generationSettings(GenerationSettings.Builder()
                 .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland)

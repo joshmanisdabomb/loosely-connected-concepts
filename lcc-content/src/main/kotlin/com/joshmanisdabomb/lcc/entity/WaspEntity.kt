@@ -8,7 +8,7 @@ import net.minecraft.entity.ai.AboveGroundTargeting
 import net.minecraft.entity.ai.Durations
 import net.minecraft.entity.ai.NoPenaltySolidTargeting
 import net.minecraft.entity.ai.control.FlightMoveControl
-import net.minecraft.entity.ai.control.LookControl
+import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.ai.pathing.BirdNavigation
 import net.minecraft.entity.ai.pathing.EntityNavigation
@@ -34,6 +34,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.Tag
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
@@ -44,34 +45,21 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     private var target: UUID? = null
 
+    var stingAnimation = 0f
+    var lastStingAnimation = 0f
+
     constructor(world: World) : this(LCCEntities.wasp, world)
 
     init {
-        moveControl = FlightMoveControl(this, 90, true)
-        lookControl = object : LookControl(this) {
-
-            override fun tick() {
-                if (!this@WaspEntity.hasAngerTime()) super.tick()
-            }
-
-        }
         flyingSpeed = 0.09f
         setPathfindingPenalty(PathNodeType.WATER, -1.0f)
-        setPathfindingPenalty(PathNodeType.WATER_BORDER, -1.0f)
-        setPathfindingPenalty(PathNodeType.DANGER_CACTUS, -1.0f)
-        setPathfindingPenalty(PathNodeType.DAMAGE_CACTUS, -1.0f)
-        setPathfindingPenalty(PathNodeType.DANGER_OTHER, -1.0f)
-        setPathfindingPenalty(PathNodeType.DAMAGE_OTHER, -1.0f)
-        setPathfindingPenalty(PathNodeType.DANGER_FIRE, -1.0f)
-        setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, -1.0f)
-        setPathfindingPenalty(PathNodeType.COCOA, -1.0f)
-        setPathfindingPenalty(PathNodeType.FENCE, -1.0f)
         setPathfindingPenalty(PathNodeType.LAVA, -1.0f)
     }
 
     override fun initDataTracker() {
         super.initDataTracker()
         dataTracker.startTracking(anger, 0)
+        dataTracker.startTracking(targetClose, false)
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView) = world.getBlockState(pos).isAir.transform(10f, 0f)
@@ -83,6 +71,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         goalSelector.add(8, FollowParentGoal(this, 1.25))
         goalSelector.add(10, WaspWanderGoal(this))
         goalSelector.add(12, SwimGoal(this))
+        goalSelector.add(14, LookAtEntityGoal(this, LivingEntity::class.java, 8.0f))
+        goalSelector.add(14, LookAroundGoal(this))
         targetSelector.add(1, WaspRevengeGoal(this).setGroupRevenge())
         targetSelector.add(2, WaspFollowTargetGoal(this))
         targetSelector.add(3, UniversalAngerGoal(this, true))
@@ -139,18 +129,43 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         }
     }
 
+    override fun tick() {
+        super.tick()
+        this.lastStingAnimation = this.stingAnimation
+        if (dataTracker.get(targetClose)) {
+            this.stingAnimation = this.stingAnimation.plus(0.2F).coerceAtMost(1.0F)
+        } else {
+            this.stingAnimation = this.stingAnimation.minus(0.24F).coerceAtLeast(0.0F)
+        }
+    }
+
+    override fun tickMovement() {
+        if (isBaby && (moveControl is FlightMoveControl || navigation is BirdNavigation)) {
+            moveControl = MoveControl(this)
+            navigation = createNavigation(world)
+        } else if (!isBaby && (moveControl !is FlightMoveControl || navigation !is BirdNavigation)) {
+            moveControl = FlightMoveControl(this, 90, true)
+            navigation = createNavigation(world)
+        }
+        super.tickMovement()
+        if (!world.isClient) {
+            dataTracker.set(targetClose, this.hasAngerTime() && this.getTarget()?.squaredDistanceTo(this)?.compareTo(5.0) == -1)
+        }
+    }
+
     override fun createNavigation(world: World): EntityNavigation {
+        if (isBaby) return super.createNavigation(world)
         val birdNavigation = object : BirdNavigation(this, world) {
 
             override fun isValidPosition(pos: BlockPos): Boolean {
                 var flag = false
-                for (i in 1..3) {
+                for (i in 1..2) {
                     flag = flag || !this.world.getBlockState(pos.down(i)).isAir
                 }
                 if (!flag) return false
 
                 var flag2 = false
-                for (i in 1..2) {
+                for (i in 0..2) {
                     flag2 = flag2 || !this.world.getFluidState(pos.down(i)).isEmpty
                 }
                 return !flag2
@@ -171,7 +186,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         velocity = velocity.add(0.0, 0.02, 0.0)
     }
 
-    override fun hasWings() = isInAir
+    override fun hasWings(): Boolean = !isBaby && isInAir && age % MathHelper.ceil(2.4166098f) == 0
 
     override fun playStepSound(pos: BlockPos, state: BlockState) {
         if (onGround) {
@@ -187,9 +202,9 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun getSoundVolume() = 0.4f
 
-    override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
+    override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = if (!isBaby) false else super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
 
-    override fun fall(heightDifference: Double, onGround: Boolean, landedState: BlockState, landedPosition: BlockPos) = Unit
+    override fun fall(heightDifference: Double, onGround: Boolean, landedState: BlockState, landedPosition: BlockPos) = if (!isBaby) Unit else super.fall(heightDifference, onGround, landedState, landedPosition)
 
     override fun getGroup() = EntityGroup.ARTHROPOD
 
@@ -197,6 +212,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         val anger = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val angerRange = Durations.betweenSeconds(300, 600)
+
+        val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 28.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
@@ -212,7 +229,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         override fun shouldContinue() = super.shouldContinue() && wasp.hasAngerTime()
 
-        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(2)
+        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(1.5)
 
     }
 

@@ -32,7 +32,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
 
-    val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::WaspEntity).dimensions(EntityDimensions.fixed(1.1f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+    val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::WaspEntity).dimensions(EntityDimensions.changing(1.1f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, WaspEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType

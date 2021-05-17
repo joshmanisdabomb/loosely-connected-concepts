@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.abstracts.color.ColorConstants
+import com.joshmanisdabomb.lcc.abstracts.types.WoodType
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.block.DoorBlock
 import com.joshmanisdabomb.lcc.block.PressurePlateBlock
@@ -194,6 +195,11 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+
+    val papercomb_block by entry(::initialiser) { PapercombBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.0F).breakByTool(HOES).sounds(BlockSoundGroup.HANGING_ROOTS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).flammability(60, 70, Blocks.FIRE))
+    val paper_envelope by entryMap(::initialiser, *WoodType.values()) { Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, when (it) { WoodType.WARPED -> MapColor.DARK_AQUA; WoodType.CRIMSON -> MapColor.TERRACOTTA_MAGENTA; WoodType.DARK_OAK, WoodType.JUNGLE, WoodType.ACACIA -> MapColor.TERRACOTTA_WHITE; else -> MapColor.PALE_YELLOW }).breakByTool(PICKAXES).strength(4.0F, 2.0F).sounds(BlockSoundGroup.HANGING_ROOTS)) }
+        .setPropertySupplier { BlockExtraSettings().creativeEx(WASTELAND).flammability(60, 70, Blocks.FIRE) }
     //IDEA deadwood, rarely spawns naturally or dries out wood
     //IDEA rusted iron blocks, first tier of wasteland tools
     //TODO minesweep blocks

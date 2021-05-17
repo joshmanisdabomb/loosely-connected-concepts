@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import net.minecraft.block.AbstractFireBlock
@@ -21,7 +21,7 @@ import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import java.util.*
 
-class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), LCCBlockTrait, LCCExtendedBlockContent {
+class NuclearFireBlock(settings: Settings) : AbstractFireBlock(settings, 0.0f), LCCBlockTrait, LCCContentBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(AGE_25, 0)

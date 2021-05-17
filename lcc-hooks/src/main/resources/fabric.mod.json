@@ -27,7 +27,7 @@
   },
   "mixins": [
     "lcc-hooks.mixins.json",
-    "lcc-traits.mixins.json",
+    "lcc-hooks.trait-mixins.json",
     {
       "config": "lcc-hooks.client-mixins.json",
       "environment": "client"

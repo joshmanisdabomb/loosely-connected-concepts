@@ -3,9 +3,7 @@
   "package": "com.joshmanisdabomb.lcc.mixin.content.common",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ExtendedBlockMixin",
     "ExtendedDyeColorMixin",
-    "ExtendedEntityMixin",
     "GauntletLivingMixin",
     "GauntletEntityMixin",
     "HeartsLivingMixin",

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.content.common.trait",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockContentTraitMixin",
+    "EntityContentTraitMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

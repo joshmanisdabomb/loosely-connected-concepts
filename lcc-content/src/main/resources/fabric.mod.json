@@ -36,6 +36,7 @@
   },
   "mixins": [
     "lcc.mixins.json",
+    "lcc.trait-mixins.json",
     {
       "config": "lcc.client-mixins.json",
       "environment": "client"

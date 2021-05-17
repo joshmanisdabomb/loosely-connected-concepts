@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -31,7 +31,7 @@ abstract class AbstractFiredGeneratorBlock(settings: Settings) : BlockWithEntity
     open fun getWaterMultiplier(world: World, pos: BlockPos, state: BlockState): Float {
         val pos2 = pos.up()
         val state2 = world.getBlockState(pos2)
-        return (state2.block as? LCCExtendedBlockContent)?.lcc_content_getSteamMultiplier(world, state2, pos2, state, pos) ?: 0f
+        return (state2.block as? LCCContentBlockTrait)?.lcc_content_getSteamMultiplier(world, state2, pos2, state, pos) ?: 0f
     }
 
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {

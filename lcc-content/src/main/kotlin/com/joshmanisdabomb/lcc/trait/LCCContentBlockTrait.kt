@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.adaptation;
+package com.joshmanisdabomb.lcc.trait;
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
 import com.joshmanisdabomb.lcc.block.AbstractFiredGeneratorBlock
@@ -13,7 +13,7 @@ import net.minecraft.world.WorldAccess
 import java.util.*
 import kotlin.math.roundToInt
 
-interface LCCExtendedBlockContent {
+interface LCCContentBlockTrait {
 
     @JvmDefault
     fun lcc_content_getSteamMultiplier(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos) = when (provider.block) {

@@ -109,7 +109,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
-    val rubber_block by entry(::initialiser) { RubberBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(2.0f).sounds(BlockSoundGroup.SHROOMLIGHT)) }
+    val rubber_block by entry(::initialiser) { RubberBlock(FabricBlockSettings.of(Material.SOIL, MapColor.BLACK).strength(2.0f).sounds(BlockSoundGroup.SHROOMLIGHT)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS, sortValueInt(50, 1)))
     val rock_salt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(0.7f, 1.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(MATERIALS, sortValueInt(150, 1)))

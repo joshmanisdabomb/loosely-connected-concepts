@@ -1,10 +1,10 @@
-package com.joshmanisdabomb.lcc.adaptation;
+package com.joshmanisdabomb.lcc.trait;
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
 import net.minecraft.entity.Entity
 import net.minecraft.entity.mob.SlimeEntity
 
-interface LCCExtendedEntityContent {
+interface LCCContentEntityTrait {
 
     @JvmDefault
     fun lcc_content_getTemperature() = Temperature.values().filter { (this as Entity).type.isIn(it.entityTag ?: return@filter false) }.maxOrNull()

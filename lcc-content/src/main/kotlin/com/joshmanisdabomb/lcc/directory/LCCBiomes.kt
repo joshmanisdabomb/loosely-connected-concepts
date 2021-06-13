@@ -39,7 +39,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .moodSound(BiomeMoodSound.CAVE)
                 .build())
             .spawnSettings(SpawnSettings.Builder()
-                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.wasp, 10, 2, 8))
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.baby_skeleton, 10, 1, 3))
                 .spawnCost(LCCEntities.wasp, 0.1, 0.12)
                 .build())
             .generationSettings(GenerationSettings.Builder()

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttribute
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry
 import net.minecraft.client.render.entity.BoatEntityRenderer
+import net.minecraft.client.render.entity.SkeletonEntityRenderer
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityType
@@ -35,6 +36,9 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::WaspEntity).dimensions(EntityDimensions.changing(1.1f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, WaspEntity.createAttributes()) }
 
+    val baby_skeleton by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::BabySkeletonEntity).dimensions(EntityDimensions.changing(0.6f, 1.99f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
+
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
 
     private fun <E : Entity> typeInitialiser(input: FabricEntityTypeBuilder<E>, context: DirectoryContext<Unit>, parameters: Unit): EntityType<E> {
@@ -48,6 +52,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     fun initRenderers() {
         EntityRendererRegistry.INSTANCE.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(wasp, ::WaspEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(baby_skeleton, ::SkeletonEntityRenderer)
 
         EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)

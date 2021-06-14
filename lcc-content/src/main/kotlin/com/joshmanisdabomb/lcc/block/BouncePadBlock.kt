@@ -1,12 +1,12 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream
@@ -32,8 +32,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEntity(settings), BlockEntityProvider,
-    LCCBlockTrait {
+class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEntity(settings), LCCBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(FACING, Direction.UP).with(SETTING, 0)

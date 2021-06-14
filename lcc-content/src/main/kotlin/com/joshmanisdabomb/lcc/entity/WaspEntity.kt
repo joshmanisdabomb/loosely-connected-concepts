@@ -1,17 +1,22 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.block.entity.PapercombBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
+import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.AboveGroundTargeting
 import net.minecraft.entity.ai.Durations
 import net.minecraft.entity.ai.NoPenaltySolidTargeting
+import net.minecraft.entity.ai.NoWaterTargeting
 import net.minecraft.entity.ai.control.FlightMoveControl
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.ai.pathing.BirdNavigation
 import net.minecraft.entity.ai.pathing.EntityNavigation
+import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -29,21 +34,31 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtHelper
 import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.Tag
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
+import net.minecraft.world.poi.PointOfInterestStorage
 import java.util.*
+import kotlin.math.PI
+import kotlin.streams.toList
 
 open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : AnimalEntity(entityType, world), Monster, Angerable, Flutterer {
 
     private var target: UUID? = null
+
+    private var ticksLeftToFindHive = 0
+
+    var hiveLoc: BlockPos? = null
+    val hive: PapercombBlockEntity? get() { return world.getBlockEntity(hiveLoc ?: return null) as? PapercombBlockEntity }
 
     var stingAnimation = 0f
     var lastStingAnimation = 0f
@@ -64,27 +79,35 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView) = world.getBlockState(pos).isAir.transform(10f, 0f)
 
+    private lateinit var moveToHive: WaspMoveToHiveGoal
+
     override fun initGoals() {
-        goalSelector.add(2, StingGoal(this, 1.4, false))
-        goalSelector.add(4, AnimalMateGoal(this, 1.0))
-        goalSelector.add(6, TemptGoal(this, 1.25, Ingredient.ofItems(Items.SUGAR), false))
-        goalSelector.add(8, FollowParentGoal(this, 1.25))
-        goalSelector.add(10, WaspWanderGoal(this))
-        goalSelector.add(12, SwimGoal(this))
-        goalSelector.add(14, LookAtEntityGoal(this, LivingEntity::class.java, 8.0f))
-        goalSelector.add(14, LookAroundGoal(this))
+        goalSelector.add(0, WaspStingGoal(this, 1.1, false))
+        goalSelector.add(1, WaspEnterHiveGoal(this))
+        goalSelector.add(2, AnimalMateGoal(this, 1.0))
+        goalSelector.add(3, TemptGoal(this, 1.1, Ingredient.ofItems(Items.SUGAR), false))
+        goalSelector.add(4, FollowParentGoal(this, 1.1))
+        goalSelector.add(4, WaspFindHiveGoal(this))
+        moveToHive = WaspMoveToHiveGoal(this, 1.25)
+        goalSelector.add(4, moveToHive)
+        goalSelector.add(5, WaspWanderGoal(this))
+        goalSelector.add(6, LookAtEntityGoal(this, LivingEntity::class.java, 8.0f))
+        goalSelector.add(6, LookAroundGoal(this))
+        goalSelector.add(7, SwimGoal(this))
         targetSelector.add(1, WaspRevengeGoal(this).setGroupRevenge())
-        targetSelector.add(2, WaspFollowTargetGoal(this))
+        targetSelector.add(2, FollowTargetGoal(this, LivingEntity::class.java, 100, false, true, this::shouldAngerAt))
         targetSelector.add(3, UniversalAngerGoal(this, true))
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         super.writeCustomDataToNbt(nbt)
+        if (hiveLoc != null) nbt.put("Hive", NbtHelper.fromBlockPos(hiveLoc))
         writeAngerToNbt(nbt)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
         super.readCustomDataFromNbt(nbt)
+        if (nbt.contains("Hive", NBT_COMPOUND)) hiveLoc = NbtHelper.toBlockPos(nbt.getCompound("Hive"))
         readAngerFromNbt(world, nbt)
     }
 
@@ -149,7 +172,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         }
         super.tickMovement()
         if (!world.isClient) {
-            dataTracker.set(targetClose, this.hasAngerTime() && this.getTarget()?.squaredDistanceTo(this)?.compareTo(5.0) == -1)
+            dataTracker.set(targetClose, this.angerTime >= 10000 && this.getTarget()?.squaredDistanceTo(this)?.compareTo(5.0) == -1)
+            if (ticksLeftToFindHive > 0) ticksLeftToFindHive--
         }
     }
 
@@ -176,6 +200,32 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         birdNavigation.setCanSwim(false)
         birdNavigation.setCanEnterOpenDoors(true)
         return birdNavigation
+    }
+
+    private fun startMovingTo(pos: BlockPos, speed: Double = 1.0) {
+        val vec = Vec3d.ofBottomCenter(pos)
+        var i = 0
+        val j = vec.y.toInt() - blockPos.y
+        if (j > 2) i = 4
+        else if (j < -2) i = -4
+        var k = 6
+        var l = 8
+        val m = blockPos.getManhattanDistance(pos)
+        if (m < 15) {
+            k = m / 2
+            l = m / 2
+        }
+        val vec2 = NoWaterTargeting.find(this, k, l, i, vec, PI.div(10))
+        if (vec2 != null) {
+            navigation.setRangeMultiplier(0.5f)
+            navigation.startMovingTo(vec2.x, vec2.y, vec2.z, speed)
+        }
+    }
+
+    private fun startMovingToFar(pos: BlockPos, speed: Double = 1.0): Boolean {
+        navigation.setRangeMultiplier(10.0f)
+        navigation.startMovingTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), speed)
+        return navigation.currentPath?.reachesTarget() == true
     }
 
     override fun isBreedingItem(stack: ItemStack) = stack.isOf(Items.SUGAR)
@@ -211,7 +261,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     companion object {
 
         val anger = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        val angerRange = Durations.betweenSeconds(300, 600)
+        val angerRange = Durations.betweenSeconds(590, 600)
 
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
@@ -219,17 +269,146 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
             return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 28.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
         }
 
+        fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {
+            val list = world.getNonSpectatingEntities(WaspEntity::class.java, Box(pos).expand(range.toDouble()))
+            if (list.isEmpty()) return emptyList()
+            list.removeIf {
+                if (it.getTarget() != null) return@removeIf true
+                it.setTarget(aggressor)
+                false
+            }
+            return list
+        }
+
     }
 
-    class StingGoal(mob: WaspEntity, speed: Double, pauseWhenMobIdle: Boolean) : MeleeAttackGoal(mob, speed, pauseWhenMobIdle) {
+    class WaspStingGoal(mob: WaspEntity, speed: Double, pauseWhenMobIdle: Boolean) : MeleeAttackGoal(mob, speed, pauseWhenMobIdle) {
 
         private val wasp = mob
 
-        override fun canStart() = super.canStart() && wasp.hasAngerTime()
+        override fun canStart() = super.canStart()// && wasp.hasAngerTime()
 
-        override fun shouldContinue() = super.shouldContinue() && wasp.hasAngerTime()
+        override fun shouldContinue() = super.shouldContinue()// && wasp.hasAngerTime()
 
         override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(1.5)
+
+    }
+
+    class WaspEnterHiveGoal(protected val wasp: WaspEntity) : Goal() {
+
+        override fun canStart(): Boolean {
+            if (wasp.angerTime >= 10000 || wasp.hiveLoc?.isWithinDistance(wasp.pos, 2.0) != true) return false
+            if (wasp.hive?.isFull() == true) {
+                wasp.hiveLoc = null
+                return false
+            }
+            return wasp.hive?.canEnter(wasp) == true
+        }
+
+        override fun start() {
+            wasp.hive?.enter(wasp)
+        }
+
+        override fun shouldContinue() = false
+
+    }
+
+    class WaspFindHiveGoal(protected val wasp: WaspEntity) : Goal() {
+
+        override fun canStart() = wasp.angerTime < 10000 && wasp.ticksLeftToFindHive == 0 && wasp.hiveLoc == null
+
+        override fun start() {
+            wasp.ticksLeftToFindHive = 200
+            val hives = find()
+            if (hives.isNotEmpty()) {
+                wasp.hiveLoc = hives.firstOrNull { !wasp.moveToHive.isPossibleHive(it) } ?: hives.firstOrNull().also { wasp.moveToHive.clearPossibleHives() }
+            }
+        }
+
+        override fun shouldContinue() = false
+
+        private fun find(): List<BlockPos> {
+            val poi = (wasp.world as ServerWorld).pointOfInterestStorage
+            return poi.getInCircle({ it == LCCPointsOfInterest.papercomb }, wasp.blockPos, 160, PointOfInterestStorage.OccupationStatus.ANY)
+                .map { it.pos }.filter { (wasp.world.getBlockEntity(it) as? PapercombBlockEntity)?.isFull() == false }.sorted(Comparator.comparingDouble { it.getSquaredDistance(wasp.blockPos) }).toList()
+        }
+
+    }
+
+    class WaspMoveToHiveGoal(protected val wasp: WaspEntity, private val speed: Double) : Goal() {
+
+        private val possibleHives = mutableListOf<BlockPos>()
+
+        private var ticks = 0
+        private var ticksUntilLost = 0
+        private var path: Path? = null
+
+        override fun canStart() = wasp.angerTime < 10000 && wasp.hiveLoc != null && !wasp.hasPositionTarget() && wasp.hive?.canEnter(wasp) == true && wasp.hive?.isClose(wasp) == false
+
+        override fun start() {
+            ticks = 0
+            ticksUntilLost = 0
+            super.start()
+        }
+
+        override fun tick() {
+            val hiveLoc = wasp.hiveLoc ?: return
+            ++ticks
+            if (ticks > 600) {
+                this.makeChosenHivePossibleHive()
+            } else if (!wasp.navigation.isFollowingPath) {
+                if (!wasp.blockPos.isWithinDistance(hiveLoc, 16.0)) {
+                    if (!wasp.blockPos.isWithinDistance(wasp.hiveLoc, 160.0)) {
+                        this.setLost()
+                    } else {
+                        wasp.startMovingTo(hiveLoc, speed)
+                    }
+                } else {
+                    if (!wasp.startMovingToFar(hiveLoc, speed)) {
+                        this.makeChosenHivePossibleHive()
+                    } else if (this.path != null && wasp.navigation.currentPath?.equalsPath(this.path) == true) {
+                        ++ticksUntilLost
+                        if (ticksUntilLost > 60) {
+                            this.setLost()
+                            ticksUntilLost = 0
+                        }
+                    } else {
+                        this.path = wasp.navigation.currentPath
+                    }
+                }
+            }
+        }
+
+        override fun shouldContinue() = canStart()
+
+        override fun stop() {
+            ticks = 0
+            ticksUntilLost = 0
+            wasp.navigation.stop()
+            wasp.navigation.resetRangeMultiplier()
+        }
+
+        private fun addPossibleHive(pos: BlockPos) {
+            possibleHives.add(pos)
+            while (possibleHives.size > 3) {
+                possibleHives.removeAt(0)
+            }
+        }
+
+        private fun makeChosenHivePossibleHive() {
+            val hiveLoc = wasp.hiveLoc
+            if (hiveLoc != null) this.addPossibleHive(hiveLoc)
+            this.setLost()
+        }
+
+        private fun setLost() {
+            wasp.hiveLoc = null
+            wasp.ticksLeftToFindHive = 200
+        }
+
+        fun isPossibleHive(pos: BlockPos) = possibleHives.contains(pos)
+
+        fun clearPossibleHives() = possibleHives.clear()
 
     }
 
@@ -238,7 +417,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         private val wasp = mob
 
         override fun shouldContinue(): Boolean {
-            return wasp.hasAngerTime() && super.shouldContinue()
+            return wasp.angerTime >= 10000 && super.shouldContinue()
         }
 
         override fun setMobEntityTarget(mob: MobEntity, target: LivingEntity?) {
@@ -271,24 +450,14 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         }
 
         private fun getRandomLocation(): Vec3d? {
-            val vec3d3 = wasp.getRotationVec(0.0f)
-            val vec3d4 = AboveGroundTargeting.find(wasp, 8, 7, vec3d3.x, vec3d3.z, 1.5707964f, 3, 1)
-            return vec3d4 ?: NoPenaltySolidTargeting.find(wasp, 8, 4, -2, vec3d3.x, vec3d3.z, 1.5707963705062866)
-        }
-
-    }
-
-    class WaspFollowTargetGoal(mob: WaspEntity) : FollowTargetGoal<LivingEntity>(mob, LivingEntity::class.java,100, true, false, mob::shouldAngerAt) {
-
-        private val wasp = mob
-
-        override fun shouldContinue(): Boolean {
-            if (wasp.getTarget() != null) {
-                return super.shouldContinue()
+            val vec: Vec3d
+            if (wasp.hive != null && wasp.blockPos.isWithinDistance(wasp.hiveLoc, 22.0)) {
+                vec = Vec3d.ofCenter(wasp.hiveLoc).subtract(wasp.getPos()).normalize()
             } else {
-                target = null
-                return false
+                vec = wasp.getRotationVec(0.0f)
             }
+            val vec2 = AboveGroundTargeting.find(wasp, 8, 7, vec.x, vec.z, 1.5707964f, 3, 1)
+            return vec2 ?: NoPenaltySolidTargeting.find(wasp, 8, 4, -2, vec.x, vec.z, 1.5707963705062866)
         }
 
     }

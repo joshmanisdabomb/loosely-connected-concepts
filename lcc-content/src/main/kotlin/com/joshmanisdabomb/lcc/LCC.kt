@@ -35,6 +35,7 @@ object LCC : ModInitializer {
         LCCChunkTickets.init()
         LCCCriteria.init()
         LCCCommands.init()
+        LCCPointsOfInterest.init()
 
         GauntletDirectory.init()
     }

@@ -26,9 +26,11 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.entity.mob.Angerable
+import net.minecraft.entity.mob.CreeperEntity
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.mob.Monster
 import net.minecraft.entity.passive.AnimalEntity
+import net.minecraft.entity.passive.BeeEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.ItemStack
@@ -95,8 +97,9 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         goalSelector.add(6, LookAroundGoal(this))
         goalSelector.add(7, SwimGoal(this))
         targetSelector.add(1, WaspRevengeGoal(this).setGroupRevenge())
-        targetSelector.add(2, FollowTargetGoal(this, LivingEntity::class.java, 100, false, true, this::shouldAngerAt))
-        targetSelector.add(3, UniversalAngerGoal(this, true))
+        targetSelector.add(2, FollowTargetGoal(this, LivingEntity::class.java, 100, false, true, this::aggression))
+        targetSelector.add(3, FollowTargetGoal(this, BeeEntity::class.java, 100, false, true) { it.pos.squaredDistanceTo(this.pos) < 4096 })
+        targetSelector.add(4, UniversalAngerGoal(this, true))
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
@@ -125,6 +128,23 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun setAngryAt(uuid: UUID?) {
         target = uuid
+    }
+
+    fun aggression(entity: LivingEntity): Boolean {
+        if (entity is WaspEntity || entity is CreeperEntity) return false
+        if (this.shouldAngerAt(entity)) return true
+        if (entity.uuid == this.angryAt) return true
+
+        val distsq = hiveLoc?.getSquaredDistance(entity.blockPos)
+        if (distsq != null && distsq < 900 && random.nextDouble() <= 900.minus(distsq).div(450)) {
+            return true
+        }
+
+        val distsq2 = entity.squaredDistanceTo(this)
+        if (distsq2 < 100 && random.nextDouble() <= 100.minus(distsq2).div(100)) {
+            return true
+        }
+        return false
     }
 
     override fun tryAttack(target: Entity): Boolean {
@@ -452,7 +472,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         private fun getRandomLocation(): Vec3d? {
             val vec: Vec3d
             if (wasp.hive != null && wasp.blockPos.isWithinDistance(wasp.hiveLoc, 22.0)) {
-                vec = Vec3d.ofCenter(wasp.hiveLoc).subtract(wasp.getPos()).normalize()
+                vec = Vec3d.ofCenter(wasp.hiveLoc).subtract(wasp.pos).normalize()
             } else {
                 vec = wasp.getRotationVec(0.0f)
             }

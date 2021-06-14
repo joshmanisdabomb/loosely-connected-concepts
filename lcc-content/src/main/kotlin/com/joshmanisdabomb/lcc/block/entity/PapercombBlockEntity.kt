@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
+import com.joshmanisdabomb.lcc.block.PapercombBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.entity.WaspEntity
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
@@ -95,7 +96,8 @@ class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         data.nbt.remove("UUID")
         for (d in Direction.values().apply { shuffle() }) {
             val pos2 = pos.offset(d)
-            val collision = !world.getBlockState(pos2).getCollisionShape(world, pos2).isEmpty
+            val state = world.getBlockState(pos2)
+            val collision = state.block !is PapercombBlock && !state.getCollisionShape(world, pos2).isEmpty
             if (collision && !emergency) continue
             val wasp = EntityType.loadEntityWithPassengers(data.nbt, world) { it } as? WaspEntity ?: return null
             if (wasp.breedingAge < 0) {
@@ -105,10 +107,10 @@ class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             }
             wasp.loveTicks = wasp.loveTicks.minus(data.ticks).coerceAtLeast(0)
 
-            val f = if (collision) 0.0 else 0.55 + (wasp.width / 2.0f).toDouble()
-            val x = pos.x.toDouble() + 0.5 + f * d.offsetX
-            val y = pos.y.toDouble() + 0.5 - (wasp.height / 2.0f)
-            val z = pos.z.toDouble() + 0.5 + f * d.offsetZ
+            val f = if (collision) 0.0 else 0.5 + (wasp.width / 2.0f)
+            val x = pos.x + 0.5 + f.times(d.offsetX)
+            val y = pos.y + 0.5 + (f + (wasp.height / 2.0f)).times(d.offsetY)
+            val z = pos.z + 0.5 + f.times(d.offsetZ)
             wasp.refreshPositionAndAngles(x, y, z, wasp.yaw, wasp.pitch)
 
             if (world.spawnEntity(wasp)) {

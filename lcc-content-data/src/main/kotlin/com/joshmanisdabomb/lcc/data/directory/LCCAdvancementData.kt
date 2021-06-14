@@ -144,7 +144,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
     val wasteland_root by entry(::initialiser) {
         Advancement.Task.create()
             .display(LCCBlocks.cracked_mud, this, toast = false, chat = false)
-            .criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland))))
+            .criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland_barrens))))
             .translation("LCC: Wasteland", "Perambulate into the haze of the wasteland", "en_us", this)
     }.addTags("wasteland", "root")
         val oil by entry(::initialiser) {

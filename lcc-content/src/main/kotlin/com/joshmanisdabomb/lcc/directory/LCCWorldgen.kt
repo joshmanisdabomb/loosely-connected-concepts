@@ -10,6 +10,7 @@ import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
 import com.joshmanisdabomb.lcc.world.feature.RubberTreeFeature
 import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
@@ -45,6 +46,7 @@ object LCCWorldgen {
         LCCConfiguredFeatures.init()
         LCCCarvers.init()
         LCCConfiguredCarvers.init()
+        LCCSurfaceBuilders.init()
         LCCConfiguredSurfaceBuilders.init()
 
         biomeModifications()
@@ -52,7 +54,7 @@ object LCCWorldgen {
 
     fun biomeModifications() {
         //Ores
-        with (BiomeSelectors.foundInOverworld().and { it.biome != LCCBiomes.wasteland }) {
+        with (BiomeSelectors.foundInOverworld().and { LCCBiomes.getOrNull(it.biome)?.tags?.contains("wasteland") != true }) {
             BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.uranium_stone));
             BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.uranium_deepslate));
             BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.topaz_geode));
@@ -147,13 +149,26 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
 
 }
 
+object LCCSurfaceBuilders : BasicDirectory<SurfaceBuilder<out SurfaceConfig>, Unit>(), RegistryDirectory<SurfaceBuilder<out SurfaceConfig>, Unit, Unit> {
+
+    override val registry by lazy { Registry.SURFACE_BUILDER }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val wasteland_spikes by entry(::initialiser) { WastelandSpikesSurfaceBuilder(TernarySurfaceConfig.CODEC) }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
 object LCCConfiguredSurfaceBuilders : BasicDirectory<ConfiguredSurfaceBuilder<out SurfaceConfig>, Unit>(), RegistryDirectory<ConfiguredSurfaceBuilder<out SurfaceConfig>, Unit, Unit> {
 
     override val registry by lazy { BuiltinRegistries.CONFIGURED_SURFACE_BUILDER }
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland by entry(::initialiser) { SurfaceBuilder.DEFAULT.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
+    val wasteland_barrens by entry(::initialiser) { SurfaceBuilder.DEFAULT.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
+    val wasteland_spikes by entry(::initialiser) { LCCSurfaceBuilders.wasteland_spikes.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
 
     override fun defaultProperties(name: String) = Unit
 

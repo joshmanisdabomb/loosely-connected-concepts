@@ -202,7 +202,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val birdNavigation = object : BirdNavigation(this, world) {
 
             override fun isValidPosition(pos: BlockPos): Boolean {
-                var flag = false
+                return super.isValidPosition(pos)
+                /*var flag = false
                 for (i in 1..2) {
                     flag = flag || !this.world.getBlockState(pos.down(i)).isAir
                 }
@@ -212,7 +213,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
                 for (i in 0..2) {
                     flag2 = flag2 || !this.world.getFluidState(pos.down(i)).isEmpty
                 }
-                return !flag2
+                return !flag2*/
             }
 
         }

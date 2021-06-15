@@ -26,7 +26,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
             .depth(0.5f)
-            .scale(-0.11f)
+            .scale(-0.105f)
             .temperature(1.23F)
             .downfall(0.0f)
             .effects(BiomeEffects.Builder()
@@ -71,7 +71,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 }.build())
     }.addInitListener { context, params ->
         val key = registry.getKey(context.entry).get();
-        OverworldBiomes.addContinentalBiome(key, OverworldClimate.DRY, 0.03)
+        OverworldBiomes.addContinentalBiome(key, OverworldClimate.DRY, 0.07)
         OverworldBiomes.setRiverBiome(key, key)
     }.addTags("wasteland")
 
@@ -79,8 +79,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
-            .depth(0.425F)
-            .scale(0.45F)
+            .depth(1.5f)
+            .scale(0.01f)
             .temperature(1.23F)
             .downfall(0.0f)
             .effects(BiomeEffects.Builder()
@@ -114,9 +114,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_wasteland)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_stone)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_deepslate)
-                .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.oil_hidden)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deposits)
+                .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.fortstone_patches)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

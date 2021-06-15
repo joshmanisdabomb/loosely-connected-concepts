@@ -20,7 +20,7 @@
       "trigger": "minecraft:location",
       "conditions": {
         "location": {
-          "biome": "lcc:wasteland"
+          "biome": "lcc:wasteland_barrens"
         }
       }
     }

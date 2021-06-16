@@ -442,6 +442,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val deposits by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<DepositBlock>()).defaultLang().defaultItemAsset().add(DepositBlockAssetFactory).add(DepositBlockLootFactory) }
 
+    val polished_fortstone by entry(::initialiser) { data().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeAll { idi.loc(it, folder = "block") })) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

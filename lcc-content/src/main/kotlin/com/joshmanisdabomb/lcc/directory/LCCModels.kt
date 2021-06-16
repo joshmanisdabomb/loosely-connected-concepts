@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.model.ClassicCryingObsidianModel
 import com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel
-import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
 import com.joshmanisdabomb.lcc.block.model.RoadModel
+import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry
 import net.fabricmc.fabric.api.client.model.ModelProviderContext
 import net.fabricmc.fabric.api.client.model.ModelResourceProvider
@@ -34,6 +34,8 @@ object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
     val solar_panel by entry(::initialiser) { ConnectedTextureModel(LCC.id("solar_panel"), { _, state, _, other, _, _ -> other.isOf(state.block) }, 2, pos2 = Vec3f(1f, 5/16f, 1f)) { this.exclude(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, replacement = LCC.id("block/solar_panel_side")).exclude(Direction.DOWN, replacement = LCC.id("block/solar_panel_bottom")) } }
 
     val classic_crying_obsidian by entry(::initialiser) { ClassicCryingObsidianModel() }
+
+    val polished_fortstone by entry(::initialiser) { ConnectedTextureModel(id) }
 
     private val models by lazy { entries.map { (k, v) -> Identifier(v.context.id.namespace, "${v.tags.firstOrNull() ?: "block"}/${v.context.id.path}") to v.entry }.toMap() }
 

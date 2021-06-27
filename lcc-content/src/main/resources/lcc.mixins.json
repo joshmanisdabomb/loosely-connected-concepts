@@ -20,7 +20,8 @@
     "KilnRecipeManagerMixin",
     "LivingEntityAccessor",
     "NuclearSpawnHelperInfoAccessor",
-    "NuclearSpawnHelperMixin"
+    "NuclearSpawnHelperMixin",
+    "WastelandBiomeModifierMixin"
   ],
   "injectors": {
     "defaultRequire": 1

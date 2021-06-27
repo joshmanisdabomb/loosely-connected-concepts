@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
 import com.joshmanisdabomb.lcc.world.feature.RubberTreeFeature
 import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
+import com.joshmanisdabomb.lcc.world.feature.WastelandSpikesFeature
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
@@ -23,6 +24,7 @@ import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.CountConfig
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.*
@@ -82,6 +84,8 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
 
     val rubber_tree by entry(::initialiser) { RubberTreeFeature(TreeFeatureConfig.CODEC) }
 
+    val wasteland_spikes by entry(::initialiser) { WastelandSpikesFeature(DefaultFeatureConfig.CODEC) }
+
     override fun defaultProperties(name: String) = Unit
 
 }
@@ -119,6 +123,7 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.deposit.defaultState), SimpleBlockPlacer.INSTANCE).tries(8).whitelist(setOf(LCCBlocks.cracked_mud)).build()).decorate(ConfiguredFeatures.Decorators.SPREAD_32_ABOVE).decorate(ConfiguredFeatures.Decorators.HEIGHTMAP).spreadHorizontally().decorate(Decorator.COUNT_NOISE.configure(CountNoiseDecoratorConfig(-0.9, 15, 4))) }
     val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)).range(RangeDecoratorConfig(YOffset.fixed(75), YOffset.getTop())).spreadHorizontally().repeat(70) }
+    val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(8))) }
 
     override fun defaultProperties(name: String) = Unit
 

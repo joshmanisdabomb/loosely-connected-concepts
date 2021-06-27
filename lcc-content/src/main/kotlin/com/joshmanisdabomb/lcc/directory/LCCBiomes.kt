@@ -116,6 +116,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_deepslate)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deposits)
                 .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.fortstone_patches)
+                .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCConfiguredFeatures.wasteland_spikes)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

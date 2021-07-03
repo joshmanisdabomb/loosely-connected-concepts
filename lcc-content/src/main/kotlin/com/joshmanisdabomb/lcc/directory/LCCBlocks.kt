@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.abstracts.color.ColorConstants
+import com.joshmanisdabomb.lcc.abstracts.types.IronRustType
 import com.joshmanisdabomb.lcc.abstracts.types.WoodType
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.block.DoorBlock
@@ -186,6 +187,9 @@ object LCCBlocks : BlockDirectory() {
     //Wasteland
     val cracked_mud by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val cracked_mud_pressure_plate by entry(::initialiser) { SprintPressurePlateBlock(FabricBlockSettings.copyOf(cracked_mud)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
     val oil by entry(::initialiser) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
         .setProperties(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE))
 
@@ -208,9 +212,12 @@ object LCCBlocks : BlockDirectory() {
     val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     //IDEA deadwood, rarely spawns naturally or dries out wood
-    //IDEA rusted iron blocks, first tier of wasteland tools
+
+    val rusted_iron_blocks by entryMap(::initialiser, *IronRustType.values()) { WastelandRustingBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) { IronRustType.values().map { LCCBlocks[it.name.toLowerCase().plus("_iron_block")] }.toTypedArray() } }
+        .setInstanceNameSupplier { _, k -> k.name.toLowerCase().plus("_iron_block") }
+        .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND)) }
+
     //TODO minesweep blocks
-    //TODO fortstone
     //TODO reinforced stone or similar for nuke protection
     //TODO sapphire altar
 

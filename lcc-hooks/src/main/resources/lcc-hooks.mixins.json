@@ -17,7 +17,8 @@
     "PlayerManagerMixin",
     "ProjectileEntityMixin",
     "ServerInteractionManagerMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "ServerWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

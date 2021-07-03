@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.world.feature
 
+import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.mojang.serialization.Codec
 import net.minecraft.util.math.MathHelper
@@ -11,19 +12,20 @@ class WastelandSpikesFeature(codec: Codec<DefaultFeatureConfig>) : Feature<Defau
 
     override fun generate(context: FeatureContext<DefaultFeatureConfig>): Boolean {
         val pos = context.origin.mutableCopy()
+        val world = context.world
         val random = context.random
+        if (world.getBiomeKey(pos).orElse(null) != LCCBiomes.getRegistryKey(LCCBiomes.wasteland_spikes)) return false
 
-        val structureWorldAccess = context.world
-        while (structureWorldAccess.isAir(pos) && pos.y > structureWorldAccess.bottomY + 2) {
+        while (world.isAir(pos) && pos.y > world.bottomY + 2) {
             pos.move(0, -1, 0)
         }
 
-        if (!structureWorldAccess.getBlockState(pos).isOf(LCCBlocks.cracked_mud)) {
+        if (!world.getBlockState(pos).isOf(LCCBlocks.cracked_mud)) {
             return false
         } else {
-            pos.move(0, random.nextInt(8), 0)
-            val i = random.nextInt(10) + 3
-            val j = i.div(random.nextInt(4).plus(4)) + random.nextInt(2)
+            pos.move(0, random.nextInt(16).minus(8), 0)
+            val i = random.nextInt(12) + 3
+            val j = (i.div(random.nextInt(4).plus(4)) + random.nextInt(2)).coerceAtLeast(1)
 
             var k = 0
             var l: Int
@@ -34,15 +36,15 @@ class WastelandSpikesFeature(codec: Codec<DefaultFeatureConfig>) : Feature<Defau
                     val g = MathHelper.abs(m).toFloat() - 0.25f
                     for (n in -l..l) {
                         val h = MathHelper.abs(n).toFloat() - 0.25f
-                        if ((m == 0 && n == 0 || g * g + h * h <= f * f) && (m != -l && m != l && n != -l && n != l || random.nextFloat() <= 0.1f)) {
-                            var blockState = structureWorldAccess.getBlockState(pos.add(m, k, n))
+                        if ((m == 0 && n == 0 || g * g + h * h <= f * f) && (m != -l && m != l && n != -l && n != l || random.nextFloat() <= 0.2f)) {
+                            var blockState = world.getBlockState(pos.add(m, k, n))
                             if (blockState.isAir || blockState.isOf(LCCBlocks.cracked_mud)) {
-                                setBlockState(structureWorldAccess, pos.add(m, k, n), LCCBlocks.cracked_mud.defaultState)
+                                setBlockState(world, pos.add(m, k, n), LCCBlocks.cracked_mud.defaultState)
                             }
                             if (k != 0 && l > 1) {
-                                blockState = structureWorldAccess.getBlockState(pos.add(m, -k, n))
+                                blockState = world.getBlockState(pos.add(m, -k, n))
                                 if (blockState.isAir || blockState.isOf(LCCBlocks.cracked_mud)) {
-                                    setBlockState(structureWorldAccess, pos.add(m, -k, n), LCCBlocks.cracked_mud.defaultState)
+                                    setBlockState(world, pos.add(m, -k, n), LCCBlocks.cracked_mud.defaultState)
                                 }
                             }
                         }
@@ -67,11 +69,11 @@ class WastelandSpikesFeature(codec: Codec<DefaultFeatureConfig>) : Feature<Defau
                         r = random.nextInt(5)
                     }
                     while (blockPos2.y > 50) {
-                        val blockState2 = structureWorldAccess.getBlockState(blockPos2)
+                        val blockState2 = world.getBlockState(blockPos2)
                         if (!blockState2.isAir && !blockState2.isOf(LCCBlocks.cracked_mud)) {
                             break
                         }
-                        setBlockState(structureWorldAccess, blockPos2, LCCBlocks.cracked_mud.defaultState)
+                        setBlockState(world, blockPos2, LCCBlocks.cracked_mud.defaultState)
                         blockPos2 = blockPos2.down()
                         --r
                         if (r <= 0) {

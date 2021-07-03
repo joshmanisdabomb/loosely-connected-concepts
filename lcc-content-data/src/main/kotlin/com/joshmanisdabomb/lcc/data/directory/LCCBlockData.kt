@@ -444,6 +444,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val polished_fortstone by entry(::initialiser) { data().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeAll { idi.loc(it, folder = "block") })) }
 
+    val cracked_mud_pressure_plate by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(PressurePlateBlockAssetFactory(LCCBlocks.cracked_mud.identifierLoc())).add(BlockTagFactory(BlockTags.PRESSURE_PLATES)).add(PressurePlateRecipeFactory(LCCBlocks.cracked_mud)) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

@@ -1,13 +1,12 @@
 package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.data.LCCData
-import com.joshmanisdabomb.lcc.directory.BasicDirectory
-import net.minecraft.data.client.model.Model
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.util.Identifier
-import java.util.*
 
-object LCCModelTemplates : BasicDirectory<Model, Unit>() {
+object LCCModelTemplates : ModelTemplateDirectory() {
+
+    override val data = LCCData
 
     val aligned_cross by templateEntry("block", aligned_cross_json, TextureKey.CROSS)
     val generated1 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
@@ -60,13 +59,10 @@ object LCCModelTemplates : BasicDirectory<Model, Unit>() {
     val template_radar by templateEntry("block", template_radar_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, LCCModelTextureKeys.t4)
     val template_radiation_detector by templateEntry("item", template_radiation_detector_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1)
     val template_deposit by templateEntry("block", template_deposit_json, TextureKey.TEXTURE)
-
-    fun initialiser(input: Model, context: DirectoryContext<Unit>, parameters: Unit) = input.also { if (context.tags.size >= 2) LCCData.modelStates.addModel(Identifier(LCCData.modid, "${context.tags[0]}/${context.name}")) { LCCData.parser.parse(context.tags[1]) } }
-
-    fun referenceEntry(parent: Identifier, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(parent), Optional.empty(), *keys) }
-    fun templateEntry(folder: String, json: String, vararg keys: TextureKey) = entry(::initialiser) { Model(Optional.of(Identifier(LCCData.modid, "${tags[0]}/$name")), Optional.empty(), *keys) }.addTags(folder, json)
-
-    override fun defaultProperties(name: String) = Unit
+    val template_redstone_dust_dot by templateEntry("block", template_redstone_dust_dot_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
+    val template_redstone_dust_side by templateEntry("block", template_redstone_dust_side_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
+    val template_redstone_dust_side_alt by templateEntry("block", template_redstone_dust_side_alt_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
+    val template_redstone_dust_up by templateEntry("block", template_redstone_dust_up_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
 
 }
 
@@ -7698,4 +7694,104 @@ private const val template_deposit_json =
 			"translation": [0, 4, -0.5]
 		}
 	}
+}"""
+
+private const val template_redstone_dust_dot_json =
+"""{
+    "ambientocclusion": false,
+    "elements": [
+        {   
+            "from": [ 0, 0.25, 0 ],
+            "to": [ 16, 0.25, 16 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+                "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#texture", "tintindex": 0 }
+            }
+        },
+        {   
+            "from": [ 0, 0.25, 0 ],
+            "to": [ 16, 0.25, 16 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay" },
+                "down": { "uv": [ 0, 16, 16, 0 ], "texture": "#overlay" }
+            }
+        }
+    ]
+}"""
+
+private const val template_redstone_dust_side_json =
+"""{
+    "ambientocclusion": false,
+    "elements": [
+        {   
+            "from": [ 0, 0.25, 0 ],
+            "to": [ 16, 0.25, 8 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 8 ], "texture": "#texture", "tintindex": 0 },
+                "down": { "uv": [ 0, 8, 16, 0 ], "texture": "#texture", "tintindex": 0 }
+            }
+        },
+        {   
+            "from": [ 0, 0.25, 0 ],
+            "to": [ 16, 0.25, 8 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 8 ], "texture": "#overlay" },
+                "down": { "uv": [ 0, 8, 16, 0 ], "texture": "#overlay" }
+            }
+        }
+    ]
+}"""
+
+private const val template_redstone_dust_side_alt_json =
+"""{
+    "ambientocclusion": false,
+    "elements": [
+        {   
+            "from": [ 0, 0.25, 8 ],
+            "to": [ 16, 0.25, 16 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 8, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+                "down": { "uv": [ 0, 16, 16, 8 ], "texture": "#texture", "tintindex": 0 }
+            }
+        },
+        {   
+            "from": [ 0, 0.25, 8 ],
+            "to": [ 16, 0.25, 16 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 8, 16, 16 ], "texture": "#overlay" },
+                "down": { "uv": [ 0, 16, 16, 8 ], "texture": "#overlay" }
+            }
+        }
+    ]
+}"""
+
+private const val template_redstone_dust_up_json =
+"""{
+    "ambientocclusion": false,
+    "elements": [
+        {   
+            "from": [ 0, 0, 0.25 ],
+            "to": [ 16, 16, 0.25 ],
+            "shade": false,
+            "faces": {
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#texture", "tintindex": 0 },
+                "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#texture", "tintindex": 0 }
+            }
+        },
+        {   
+            "from": [ 0, 0, 0.25 ],
+            "to": [ 16, 16, 0.25 ],
+            "shade": false,
+            "faces": {
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay" },
+                "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#overlay" }
+            }
+        }
+    ]
 }"""

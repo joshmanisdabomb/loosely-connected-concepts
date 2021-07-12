@@ -18,6 +18,7 @@ object LCCModelTextureKeys : AdvancedDirectory<String, TextureKey, Unit, Unit>()
     val t9 by entry(::initialiser) { "9" }
 
     val layer1 by entry(::initialiser) { name }
+    val overlay by entry(::initialiser) { name }
 
     fun initialiser(input: String, context: DirectoryContext<Unit>, parameters: Unit) = DataUtils.textureKey(input, null)
 

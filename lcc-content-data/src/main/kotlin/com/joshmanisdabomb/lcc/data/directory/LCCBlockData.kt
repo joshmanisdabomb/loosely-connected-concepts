@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelAccess
+import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.data.factory.asset.block.*
 import com.joshmanisdabomb.lcc.data.factory.asset.item.*
 import com.joshmanisdabomb.lcc.data.factory.loot.block.*
@@ -18,10 +19,7 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
-import com.joshmanisdabomb.lcc.extensions.identifier
-import com.joshmanisdabomb.lcc.extensions.identifierLoc
-import com.joshmanisdabomb.lcc.extensions.identifierLocSuffix
-import com.joshmanisdabomb.lcc.extensions.suffix
+import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks

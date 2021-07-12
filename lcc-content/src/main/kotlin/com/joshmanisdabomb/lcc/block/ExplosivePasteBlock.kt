@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -11,7 +12,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
@@ -75,16 +76,20 @@ class ExplosivePasteBlock(settings: Settings) : Block(settings) {
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         if (state[LIT]) {
             world.removeBlock(pos, false)
-            world.createExplosion(null, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), directionProperties.values.count { state[it].isConnected }.times(0.7f).plus(2.5f), Explosion.DestructionType.DESTROY)
+            world.createExplosion(null, pos.x.plus(0.5), pos.y.plus(0.5), pos.z.plus(0.5), directionProperties.values.count { state[it].isConnected }.times(0.9f).plus(2.5f), Explosion.DestructionType.DESTROY)
         } else {
             dropStacks(state, world, pos)
             world.removeBlock(pos, false)
         }
     }
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
-        return super.getOutlineShape(state, world, pos, context)
-    }
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = VoxelShapes.union(dot, *directionProperties.mapNotNull { (k, v) ->
+        when (state[v]) {
+            WireConnection.UP -> up[k]
+            WireConnection.SIDE -> side[k]
+            else -> null
+        }
+    }.toTypedArray())
 
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val pos2 = pos.down()
@@ -124,5 +129,13 @@ class ExplosivePasteBlock(settings: Settings) : Block(settings) {
     }
 
     private fun canRunOn(state: BlockState, world: BlockView, pos: BlockPos) = (state.isSideSolidFullSquare(world, pos, Direction.UP) || state.isOf(Blocks.HOPPER))
+
+    override fun shouldDropItemsOnExplosion(explosion: Explosion) = false
+
+    companion object {
+        val dot = createCuboidShape(3.0, 0.0, 3.0, 13.0, 1.0, 13.0)
+        val side = createCuboidShape(3.0, 0.0, 0.0, 13.0, 1.0, 13.0).rotatable(Direction.NORTH)
+        val up = VoxelShapes.union(createCuboidShape(3.0, 0.0, 0.0, 13.0, 1.0, 13.0), createCuboidShape(3.0, 0.0, 0.0, 13.0, 16.0, 1.0)).rotatable(Direction.NORTH)
+    }
 
 }

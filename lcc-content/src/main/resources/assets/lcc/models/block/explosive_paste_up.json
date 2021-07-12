@@ -1,7 +1,7 @@
 {
   "parent": "lcc:block/template_redstone_dust_up",
   "textures": {
-    "texture": "lcc:block/explosive_paste_line0",
+    "texture": "lcc:block/explosive_paste_up",
     "particle": "lcc:block/explosive_paste",
     "overlay": "minecraft:block/redstone_dust_overlay"
   }

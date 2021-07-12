@@ -217,7 +217,7 @@ object LCCBlocks : BlockDirectory() {
         .setInstanceNameSupplier { _, k -> k.name.toLowerCase().plus("_iron_block") }
         .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(890+it.ordinal))) }
 
-    val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly()) }
+    val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().emissiveLighting { state, world, pos -> state[Properties.LIT] }) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val improvised_explosive by entry(::initialiser) { Block(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).breakInstantly().sounds(BlockSoundGroup.GRASS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

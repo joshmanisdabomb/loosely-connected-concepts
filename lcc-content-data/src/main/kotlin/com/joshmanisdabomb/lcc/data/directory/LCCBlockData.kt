@@ -444,6 +444,27 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val cracked_mud_pressure_plate by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(PressurePlateBlockAssetFactory(LCCBlocks.cracked_mud.identifierLoc())).add(BlockTagFactory(BlockTags.PRESSURE_PLATES)).add(PressurePlateRecipeFactory(LCCBlocks.cracked_mud)) }
 
+    val explosive_paste by entry(::initialiser) { data().defaultLang().defaultLootTable().add(GeneratedItemAssetFactory).add(WireBlockAssetFactory(
+        { d, t, i -> LCCModelTemplates.template_redstone_dust_dot.upload(i(t) ?: idb.loc(t), Texture.texture(i(t) ?: idb.loc(t)).put(TextureKey.PARTICLE, idb.loc(t)).put(LCCModelTextureKeys.overlay, Identifier("block/redstone_dust_overlay")), d.modelStates::addModel) },
+        { s, l -> ModelProvider.ModelFactory { d, t, i -> s.transform(LCCModelTemplates.template_redstone_dust_side_alt, LCCModelTemplates.template_redstone_dust_side).upload(i(t) ?: idb.loc(t), Texture.texture(idb.locSuffix(t, "line".plus(l.toString()))).put(TextureKey.PARTICLE, idb.loc(t)).put(LCCModelTextureKeys.overlay, Identifier("block/redstone_dust_overlay")), d.modelStates::addModel) } },
+        { d, t, i -> LCCModelTemplates.template_redstone_dust_up.upload(i(t) ?: idb.loc(t), Texture.texture(idb.locSuffix(t, "line0")).put(TextureKey.PARTICLE, idb.loc(t)).put(LCCModelTextureKeys.overlay, Identifier("block/redstone_dust_overlay")), d.modelStates::addModel) },
+        true
+    )).add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(Items.GUNPOWDER, 1)
+            .addInput(Items.BLAZE_POWDER, 1)
+            .addInput(LCCItems.oil_bucket, 1)
+            .addInput(Items.SLIME_BALL, 1)
+            .addOutput(LCCBlocks.explosive_paste, 4)
+            .addOutput(Items.BUCKET, 1)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.paste_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
+            .speed(4000, 0.005f, 100f)
+            .energyPerOperation(LooseEnergy.fromCoals(8f))
+            .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
+            .apply { offerInterface(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

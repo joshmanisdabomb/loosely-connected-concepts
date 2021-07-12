@@ -8,13 +8,13 @@ import com.joshmanisdabomb.lcc.item.*
 import com.joshmanisdabomb.lcc.item.AxeItem
 import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
+import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
-import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.item.*
 import net.minecraft.util.Rarity
@@ -205,7 +205,9 @@ object LCCItems : ItemDirectory() {
 
     //Wasteland
     val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100)))
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(1000)))
+    val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(900)))
     //IDEA forget me not, forget villager trades and entity hostility
 
     //Nostalgia

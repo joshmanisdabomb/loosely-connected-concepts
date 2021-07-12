@@ -215,7 +215,12 @@ object LCCBlocks : BlockDirectory() {
 
     val rusted_iron_blocks by entryMap(::initialiser, *IronRustType.values()) { WastelandRustingBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) { IronRustType.values().map { LCCBlocks[it.name.toLowerCase().plus("_iron_block")] }.toTypedArray() } }
         .setInstanceNameSupplier { _, k -> k.name.toLowerCase().plus("_iron_block") }
-        .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND)) }
+        .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(890+it.ordinal))) }
+
+    val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly()) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val improvised_explosive by entry(::initialiser) { Block(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).breakInstantly().sounds(BlockSoundGroup.GRASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     //TODO minesweep blocks
     //TODO reinforced stone or similar for nuke protection

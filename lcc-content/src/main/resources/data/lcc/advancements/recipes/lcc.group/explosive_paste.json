@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:explosive_paste"
+    ]
+  },
+  "criteria": {
+    "has_oil_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:oil_bucket"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:explosive_paste"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_oil_bucket",
+      "has_the_recipe"
+    ]
+  ]
+}

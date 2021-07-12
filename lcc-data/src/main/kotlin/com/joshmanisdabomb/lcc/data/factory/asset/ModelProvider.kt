@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider.ModelFactory
 import com.joshmanisdabomb.lcc.extensions.IdentifierHelper
 import com.joshmanisdabomb.lcc.extensions.suffix
-import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
@@ -81,6 +80,14 @@ class ModelProvider<T>(val idh: IdentifierHelper<T>) {
                 Direction.SOUTH to { put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.Y, VariantSettings.Rotation.R180) },
                 Direction.WEST to { put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.Y, VariantSettings.Rotation.R270) },
                 Direction.DOWN to { put(VariantSettings.X, VariantSettings.Rotation.R180) }
+            ),
+            Direction.NORTH to mapOf(
+                Direction.UP to { put(VariantSettings.X, VariantSettings.Rotation.R270) },
+                Direction.NORTH to {  },
+                Direction.EAST to { put(VariantSettings.Y, VariantSettings.Rotation.R90) },
+                Direction.SOUTH to { put(VariantSettings.Y, VariantSettings.Rotation.R180) },
+                Direction.WEST to { put(VariantSettings.Y, VariantSettings.Rotation.R270) },
+                Direction.DOWN to { put(VariantSettings.X, VariantSettings.Rotation.R90) }
             )
         )
 

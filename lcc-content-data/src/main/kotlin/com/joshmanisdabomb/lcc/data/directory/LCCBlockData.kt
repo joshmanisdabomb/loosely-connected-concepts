@@ -440,6 +440,28 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val deposits by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<DepositBlock>()).defaultLang().defaultItemAsset().add(DepositBlockAssetFactory).add(DepositBlockLootFactory) }
 
+    val rubber_piston by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(PistonBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeBottomTop(texture = { idi.loc(it, folder = "block") }, textureBottom = { Identifier("block/piston_bottom") }))).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 1)
+            .pattern("rrr")
+            .pattern("cic")
+            .pattern("cdc")
+            .input('r', LCCItems.heavy_duty_rubber)
+            .input('c', Blocks.COBBLESTONE)
+            .input('i', Items.IRON_INGOT)
+            .input('d', Items.REDSTONE)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .apply { offerShaped(this, d) }
+    }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 1)
+            .pattern("rrr")
+            .pattern(" p ")
+            .input('r', LCCItems.heavy_duty_rubber)
+            .input('p', Blocks.PISTON)
+            .apply { hasCriterionShaped(this, LCCItems.heavy_duty_rubber) }
+            .apply { offerShaped(this, d, i.identifier.suffix("upgrade")) }
+    }) }
+    val rubber_piston_head by entry(::initialiser) { data().add(PistonHeadBlockAssetFactory(idb.locSuffix(LCCBlocks.rubber_piston, "top"))) }
+
     val polished_fortstone by entry(::initialiser) { data().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeAll { idi.loc(it, folder = "block") })) }
 
     val cracked_mud_pressure_plate by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(PressurePlateBlockAssetFactory(LCCBlocks.cracked_mud.identifierLoc())).add(BlockTagFactory(BlockTags.PRESSURE_PLATES)).add(PressurePlateRecipeFactory(LCCBlocks.cracked_mud)) }

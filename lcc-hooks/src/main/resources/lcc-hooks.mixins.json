@@ -18,7 +18,8 @@
     "ProjectileEntityMixin",
     "ServerInteractionManagerMixin",
     "ServerPlayerEntityMixin",
-    "ServerWorldMixin"
+    "ServerWorldMixin",
+    "PistonBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

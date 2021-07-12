@@ -15,6 +15,7 @@ import com.joshmanisdabomb.lcc.block.WoodenButtonBlock
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.facade.piston.AbstractPistonHeadBlock
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
 import com.joshmanisdabomb.lcc.settings.BlockColorExtraSetting.Companion.blockColor
 import com.joshmanisdabomb.lcc.settings.BlockExtraSettings
@@ -33,6 +34,7 @@ import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags.*
 import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.PressurePlateBlock.ActivationRule
+import net.minecraft.block.enums.PistonType
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.sound.BlockSoundGroup
@@ -182,6 +184,11 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     val radar by entry(::initialiser) { RadarBlock(FabricBlockSettings.of(Material.SCULK, MapColor.CYAN).strength(1.5f).sounds(BlockSoundGroup.SCULK_SENSOR).luminance(1).emissiveLighting { state, world, pos -> state[Properties.TRIGGERED] }) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS).cutout())
+    val rubber_piston by entry(::initialiser) { RubberPistonBlock(false, FabricBlockSettings.of(Material.PISTON).strength(1.5f).solidBlock(::never).suffocates { state, _, _ -> state[Properties.EXTENDED] }.blockVision { state, _, _ -> state[Properties.EXTENDED] }) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
+    val rubber_piston_head by entry(::initialiser) { object : AbstractPistonHeadBlock(FabricBlockSettings.of(Material.PISTON).strength(1.5f).dropsNothing()) {
+        override val bases: Map<PistonType, PistonBlock> by lazy { mapOf(PistonType.DEFAULT to rubber_piston) }
+    } }
     //TODO rope
 
     //Wasteland

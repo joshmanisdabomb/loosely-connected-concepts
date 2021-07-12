@@ -11,7 +11,8 @@
     "SignBlockEntityRendererMixin",
     "SignEditScreenMixin",
     "BoatEntityRendererMixin",
-    "GameRendererAccessor"
+    "GameRendererAccessor",
+    "PistonBlockEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

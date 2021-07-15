@@ -19,6 +19,7 @@ object LCCModelTextureKeys : AdvancedDirectory<String, TextureKey, Unit, Unit>()
 
     val layer1 by entry(::initialiser) { name }
     val overlay by entry(::initialiser) { name }
+    val bars by entry(::initialiser) { name }
 
     fun initialiser(input: String, context: DirectoryContext<Unit>, parameters: Unit) = DataUtils.textureKey(input, null)
 

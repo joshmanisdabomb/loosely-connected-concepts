@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_iron_bars_cap_alt",
+  "textures": {
+    "bars": "lcc:block/rusted_iron_bars"
+  }
+}

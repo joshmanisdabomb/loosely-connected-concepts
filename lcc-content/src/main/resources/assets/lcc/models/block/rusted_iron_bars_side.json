@@ -1,0 +1,7 @@
+{
+  "parent": "lcc:block/template_iron_bars_side",
+  "textures": {
+    "bars": "lcc:block/rusted_iron_bars",
+    "edge": "lcc:block/rusted_iron_bars"
+  }
+}

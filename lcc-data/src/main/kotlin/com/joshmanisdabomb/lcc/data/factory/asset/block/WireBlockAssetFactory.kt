@@ -33,6 +33,4 @@ open class WireBlockAssetFactory(val dot: ModelProvider.ModelFactory<Block>, val
 
     private val Direction.isAlt get() = when (this) { Direction.SOUTH, Direction.EAST -> true else -> false }
 
-    //companion object : WireBlockAssetFactory()
-
 }

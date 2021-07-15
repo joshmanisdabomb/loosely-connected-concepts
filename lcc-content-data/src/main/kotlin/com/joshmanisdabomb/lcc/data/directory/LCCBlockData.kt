@@ -487,6 +487,23 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d) }
     }) }
 
+    val rusted_iron_block by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().defaultBlockAsset().add(Storage9RecipeFactory(LCCItems.iron_oxide)) }
+    val rusted_iron_bars by entry(::initialiser) { data().defaultLang().defaultLootTable().add(GeneratedBlockItemAssetFactory).add(BarsBlockAssetFactory(
+        { d, t, i -> LCCModelTemplates.template_iron_bars_post.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.bars, idb.loc(t)), d.modelStates::addModel) },
+        { d, t, i -> LCCModelTemplates.template_iron_bars_post_ends.upload(i(t) ?: idb.loc(t), Texture().put(TextureKey.EDGE, idb.loc(t)), d.modelStates::addModel) },
+        { d, t, i -> LCCModelTemplates.template_iron_bars_cap.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.bars, idb.loc(t)), d.modelStates::addModel) },
+        { d, t, i -> LCCModelTemplates.template_iron_bars_cap_alt.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.bars, idb.loc(t)), d.modelStates::addModel) },
+        { d, t, i -> LCCModelTemplates.template_iron_bars_side.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.bars, idb.loc(t)).put(TextureKey.EDGE, idb.loc(t)), d.modelStates::addModel) },
+        { d, t, i -> LCCModelTemplates.template_iron_bars_side_alt.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.bars, idb.loc(t)).put(TextureKey.EDGE, idb.loc(t)), d.modelStates::addModel) }
+    )).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 16)
+            .pattern("iii")
+            .pattern("iii")
+            .input('i', LCCItems.iron_oxide)
+            .apply { hasCriterionShaped(this, LCCItems.iron_oxide) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

@@ -63,6 +63,12 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_redstone_dust_side by templateEntry("block", template_redstone_dust_side_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
     val template_redstone_dust_side_alt by templateEntry("block", template_redstone_dust_side_alt_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
     val template_redstone_dust_up by templateEntry("block", template_redstone_dust_up_json, TextureKey.TEXTURE, TextureKey.PARTICLE, LCCModelTextureKeys.overlay)
+    val template_iron_bars_post by templateEntry("block", template_iron_bars_post_json, LCCModelTextureKeys.bars)
+    val template_iron_bars_post_ends by templateEntry("block", template_iron_bars_post_ends_json, TextureKey.EDGE)
+    val template_iron_bars_cap by templateEntry("block", template_iron_bars_cap_json, LCCModelTextureKeys.bars)
+    val template_iron_bars_cap_alt by templateEntry("block", template_iron_bars_cap_alt_json, LCCModelTextureKeys.bars)
+    val template_iron_bars_side by templateEntry("block", template_iron_bars_side_json, LCCModelTextureKeys.bars, TextureKey.EDGE)
+    val template_iron_bars_side_alt by templateEntry("block", template_iron_bars_side_alt_json, LCCModelTextureKeys.bars, TextureKey.EDGE)
 
 }
 
@@ -7791,6 +7797,194 @@ private const val template_redstone_dust_up_json =
             "faces": {
                 "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#overlay" },
                 "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#overlay" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_post_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#bars"
+    },
+    "elements": [
+        {   
+            "from": [ 8, 0, 7 ],
+            "to": [ 8, 16, 9 ],
+            "faces": {
+                "west": { "uv": [ 7, 0, 9, 16 ], "texture": "#bars" },
+                "east": { "uv": [ 9, 0, 7, 16 ], "texture": "#bars" }
+            }
+        },
+        {   
+            "from": [ 7, 0, 8 ],
+            "to": [ 9, 16, 8 ],
+            "faces": {
+                "north": { "uv": [ 7, 0, 9, 16 ], "texture": "#bars" },
+                "south": { "uv": [ 9, 0, 7, 16 ], "texture": "#bars" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_post_ends_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#edge"
+    },
+    "elements": [
+        {   
+            "from": [ 7, 0.001, 7 ],
+            "to": [ 9, 0.001, 9 ],
+            "faces": {
+                "down":  { "uv": [  7, 7,  9,  9 ], "texture": "#edge" },
+                "up":    { "uv": [  7, 7,  9,  9 ], "texture": "#edge" }
+            }
+        },
+        {   
+            "from": [ 7, 15.999, 7 ],
+            "to": [ 9, 15.999, 9 ],
+            "faces": {
+                "down":  { "uv": [  7, 7,  9,  9 ], "texture": "#edge" },
+                "up":    { "uv": [  7, 7,  9,  9 ], "texture": "#edge" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_cap_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#bars"
+    },
+    "elements": [
+        {   
+            "from": [ 8, 0, 8 ],
+            "to": [ 8, 16, 9 ],
+            "faces": {
+                "west": { "uv": [ 8, 0, 7, 16 ], "texture": "#bars" },
+                "east": { "uv": [ 7, 0, 8, 16 ], "texture": "#bars" }
+            }
+        },
+        {   
+            "from": [ 7, 0, 9 ],
+            "to": [ 9, 16, 9 ],
+            "faces": {
+                "north": { "uv": [ 9, 0, 7, 16 ], "texture": "#bars" },
+                "south": { "uv": [ 7, 0, 9, 16 ], "texture": "#bars" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_cap_alt_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#bars"
+    },
+    "elements": [
+        {   
+            "from": [ 8, 0, 7 ],
+            "to": [ 8, 16, 8 ],
+            "faces": {
+                "west": { "uv": [ 8, 0, 9, 16 ], "texture": "#bars" },
+                "east": { "uv": [ 9, 0, 8, 16 ], "texture": "#bars" }
+            }
+        },
+        {   
+            "from": [ 7, 0, 7 ],
+            "to": [ 9, 16, 7 ],
+            "faces": {
+                "north": { "uv": [ 7, 0, 9, 16 ], "texture": "#bars" },
+                "south": { "uv": [ 9, 0, 7, 16 ], "texture": "#bars" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_side_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#bars"
+    },
+    "elements": [
+        {   
+            "from": [ 8, 0, 0 ],
+            "to": [ 8, 16, 8 ],
+            "faces": {
+                "west": { "uv": [ 16, 0,  8, 16 ], "texture": "#bars" },
+                "east": { "uv": [  8, 0, 16, 16 ], "texture": "#bars" }
+            }
+        },
+        {   
+            "from": [ 7, 0, 0 ],
+            "to": [ 9, 16, 7 ],
+            "faces": {
+                "north": { "uv": [ 7, 0, 9, 16 ], "texture": "#edge", "cullface": "north" }
+            }
+        },
+        {   
+            "from": [ 7, 0.001, 0 ],
+            "to": [ 9, 0.001, 7 ],
+            "faces": {
+                "down":  { "uv": [ 9, 0, 7, 7 ], "texture": "#edge" },
+                "up":    { "uv": [ 7, 0, 9, 7 ], "texture": "#edge" }
+            }
+        },
+        {   
+            "from": [ 7, 15.999, 0 ],
+            "to": [ 9, 15.999, 7 ],
+            "faces": {
+                "down":  { "uv": [ 9, 0, 7, 7 ], "texture": "#edge" },
+                "up":    { "uv": [ 7, 0, 9, 7 ], "texture": "#edge" }
+            }
+        }
+    ]
+}"""
+
+private const val template_iron_bars_side_alt_json =
+"""{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "#bars"
+    },
+    "elements": [
+        {   
+            "from": [ 8, 0, 8 ],
+            "to": [ 8, 16, 16 ],
+            "faces": {
+                "west": { "uv": [ 8, 0, 0, 16 ], "texture": "#bars" },
+                "east": { "uv": [ 0, 0, 8, 16 ], "texture": "#bars" }
+            }
+        },
+        {   
+            "from": [ 7, 0, 9 ],
+            "to": [ 9, 16, 16 ],
+            "faces": {
+                "south": { "uv": [ 7, 0, 9, 16 ], "texture": "#edge", "cullface": "south" },
+                "down":  { "uv": [ 9, 9, 7, 16 ], "texture": "#edge" },
+                "up":    { "uv": [ 7, 9, 9, 16 ], "texture": "#edge" }
+            }
+        },
+        {   
+            "from": [ 7, 0.001, 9 ],
+            "to": [ 9, 0.001, 16 ],
+            "faces": {
+                "down":  { "uv": [ 9, 9, 7, 16 ], "texture": "#edge" },
+                "up":    { "uv": [ 7, 9, 9, 16 ], "texture": "#edge" }
+            }
+        },
+        {   
+            "from": [ 7, 15.999, 9 ],
+            "to": [ 9, 15.999, 16 ],
+            "faces": {
+                "down":  { "uv": [ 9, 9, 7, 16 ], "texture": "#edge" },
+                "up":    { "uv": [ 7, 9, 9, 16 ], "texture": "#edge" }
             }
         }
     ]

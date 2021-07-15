@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.abstracts.types.IronRustType
 import com.joshmanisdabomb.lcc.abstracts.types.WoodType
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.block.DoorBlock
+import com.joshmanisdabomb.lcc.block.PaneBlock
 import com.joshmanisdabomb.lcc.block.PressurePlateBlock
 import com.joshmanisdabomb.lcc.block.SaplingBlock
 import com.joshmanisdabomb.lcc.block.StairsBlock
@@ -222,7 +223,9 @@ object LCCBlocks : BlockDirectory() {
 
     val rusted_iron_blocks by entryMap(::initialiser, *IronRustType.values()) { WastelandRustingBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) { IronRustType.values().map { LCCBlocks[it.name.toLowerCase().plus("_iron_block")] }.toTypedArray() } }
         .setInstanceNameSupplier { _, k -> k.name.toLowerCase().plus("_iron_block") }
-        .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(890+it.ordinal))) }
+        .setPropertySupplier { (BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(890+it.ordinal, 1))) }
+    val rusted_iron_bars by entry(::initialiser) { PaneBlock(FabricBlockSettings.of(Material.METAL, MapColor.CLEAR).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL).nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutoutMipped())
 
     val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().emissiveLighting { state, world, pos -> state[Properties.LIT] }) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())

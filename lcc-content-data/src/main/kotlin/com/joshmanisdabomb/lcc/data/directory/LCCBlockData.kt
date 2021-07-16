@@ -20,7 +20,7 @@ import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.*
-import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.recipe.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.client.model.Models
@@ -191,8 +191,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     }).add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(Items.ROTTEN_FLESH)
-            .addOutput(Items.LEATHER, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.3f))
-            .addOutput(Items.IRON_NUGGET, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.03f))
+            .addOutput(Items.LEATHER, 1, RefiningSimpleRecipe.OutputFunction.ChanceOutputFunction(0.3f))
+            .addOutput(Items.IRON_NUGGET, 1, RefiningSimpleRecipe.OutputFunction.ChanceOutputFunction(0.03f))
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.treating", 2, RefiningBlock.RefiningProcess.TREATING)
             .speed(200, 0.04f, 100f)
@@ -475,9 +475,9 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         RefiningShapelessRecipeJsonFactory()
             .addInput(Items.GUNPOWDER, 1)
             .addInput(Items.BLAZE_POWDER, 1)
-            .addInput(LCCItems.oil_bucket, 1)
+            .addInput(LCCItems.fuel_bucket, 1)
             .addInput(Items.SLIME_BALL, 1)
-            .addOutput(LCCBlocks.explosive_paste, 6)
+            .addOutput(LCCBlocks.explosive_paste, 10)
             .addOutput(Items.BUCKET, 1)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.paste_mixing", 0, RefiningBlock.RefiningProcess.MIXING)

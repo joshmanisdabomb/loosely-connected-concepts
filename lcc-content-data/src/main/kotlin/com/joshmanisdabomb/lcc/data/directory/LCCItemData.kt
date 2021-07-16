@@ -17,7 +17,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
-import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.recipe.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
@@ -45,7 +45,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     val enriched_uranium_nugget by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.enriched_uranium)).add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
             .addInput(LCCItems.uranium)
-            .addOutput(i, 1, RefiningRecipe.OutputFunction.RangeOutputFunction(8))
+            .addOutput(i, 1, RefiningSimpleRecipe.OutputFunction.RangeOutputFunction(8))
             .addOutput(LCCItems.heavy_uranium, 1)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.uranium", 1, RefiningBlock.RefiningProcess.ENRICHING)
@@ -131,17 +131,55 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
 
+    val oil_bucket by entry(::initialiser) { data().defaultItemAsset().add(LiteralTranslationFactory("Crude Oil Bucket")).add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(i, 2)
+            .addOutput(LCCItems.fuel_bucket)
+            .addOutput(LCCItems.refined_oil_bucket)
+            .addOutput(LCCItems.tar_ball)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.fractional_distillation", 7, RefiningBlock.RefiningProcess.TREATING)
+            .speed(3000, 0.008f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(4f))
+            .apply { hasCriterionInterface(this, i) }
+            .apply { offerInterface(this, d, LCC.id("oil_distillation")) }
+    }) }
+    val refined_oil_bucket by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.tar_ball, 2)
+            .addInput(Items.WATER_BUCKET)
+            .addOutput(i)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.tar_cracking", 8, RefiningBlock.RefiningProcess.TREATING)
+            .speed(6000, 0.012f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(8f))
+            .apply { hasCriterionInterface(this, LCCItems.tar_ball) }
+            .apply { offerInterface(this, d) }
+    }).add(ComplexRecipeFactory(LCCRecipeSerializers.polymerization, LCC.id("plastic"))) }
+    val fuel_bucket by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        RefiningShapelessRecipeJsonFactory()
+            .addInput(LCCItems.refined_oil_bucket, 2)
+            .addOutput(i)
+            .addOutput(Items.BUCKET)
+            .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
+            .meta("container.lcc.refining.recipe.oil_cracking", 8, RefiningBlock.RefiningProcess.TREATING)
+            .speed(3000, 0.008f, 400f)
+            .energyPerOperation(LooseEnergy.fromCoals(12f))
+            .apply { hasCriterionInterface(this, LCCItems.refined_oil_bucket) }
+            .apply { offerInterface(this, d) }
+    }) }
     val asphalt_bucket by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         RefiningShapelessRecipeJsonFactory()
-            .addInput(LCCItems.oil_bucket)
+            .addInput(LCCItems.tar_ball)
             .addInput(Blocks.GRAVEL, 8)
             .addInput(Blocks.SAND, 8)
+            .addInput(Items.BUCKET)
             .addOutput(i)
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.asphalt_mixing", 0, RefiningBlock.RefiningProcess.MIXING)
             .speed(6000, 0.012f, 400f)
             .energyPerOperation(LooseEnergy.fromCoals(6f))
-            .apply { hasCriterionInterface(this, LCCItems.oil_bucket) }
+            .apply { hasCriterionInterface(this, LCCItems.tar_ball) }
             .apply { offerInterface(this, d) }
     }) }
 
@@ -173,7 +211,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .addInput(Blocks.RED_SAND)
             .addInput(Items.COAL)
             .addOutput(i)
-            .addOutput(i, 1, RefiningRecipe.OutputFunction.ChanceOutputFunction(0.2f))
+            .addOutput(i, 1, RefiningSimpleRecipe.OutputFunction.ChanceOutputFunction(0.2f))
             .with(LCCBlocks.refiner, LCCBlocks.composite_processor)
             .meta("container.lcc.refining.recipe.arc", 3, RefiningBlock.RefiningProcess.ARC_SMELTING)
             .speed(650, 0.006f, 200f)

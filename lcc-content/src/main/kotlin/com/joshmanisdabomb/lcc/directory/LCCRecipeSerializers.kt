@@ -27,6 +27,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
 
     val kiln by entry(::initialiser) { CookingRecipeSerializer(CommonWidens.cookingRecipeFactory(::KilnRecipe), 100) }
 
+    val polymerization by entry(::initialiser) { SpecialRecipeSerializer(::PolymerRefiningRecipe) }
+
     override fun defaultProperties(name: String) = Unit
 
 }

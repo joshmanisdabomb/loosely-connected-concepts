@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -29,7 +30,13 @@ public abstract class ItemEntityMixin extends Entity {
     private int pickupDelay;
 
     @Shadow
+    private int itemAge;
+
+    @Shadow
     private UUID owner;
+
+    @Shadow
+    public abstract ItemStack getStack();
 
     @Inject(method = "onPlayerCollision", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/item/ItemStack;getCount()I"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
     public void onPlayerCollide(PlayerEntity player, CallbackInfo info, ItemStack stack, Item item, int count) {
@@ -76,6 +83,15 @@ public abstract class ItemEntityMixin extends Entity {
                 }
                 info.cancel();
             }
+        }
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    public void disableDespawn(CallbackInfo info) {
+        ItemStack stack = getStack();
+        Item item = stack.getItem();
+        if (item instanceof LCCItemTrait && !((LCCItemTrait)item).lcc_doesDespawn(stack, (ItemEntity)(Object)this)) {
+            if (itemAge % 126 == 0 || itemAge > 376) itemAge = 0;
         }
     }
 

@@ -3,24 +3,16 @@
   "ingredients": [
     {
       "item": "lcc:tar_ball",
-      "count": 1
+      "count": 2
     },
     {
-      "item": "minecraft:gravel",
-      "count": 8
-    },
-    {
-      "item": "minecraft:sand",
-      "count": 8
-    },
-    {
-      "item": "minecraft:bucket",
+      "item": "minecraft:water_bucket",
       "count": 1
     }
   ],
   "results": [
     {
-      "item": "lcc:asphalt_bucket",
+      "item": "lcc:refined_oil_bucket",
       "count": 1,
       "function": "minecraft:empty"
     }
@@ -29,10 +21,10 @@
     "lcc:refiner",
     "lcc:composite_processor"
   ],
-  "lang": "container.lcc.refining.recipe.asphalt_mixing",
-  "icon": 0,
-  "state": "mixing",
-  "energy": 8.0,
+  "lang": "container.lcc.refining.recipe.tar_cracking",
+  "icon": 8,
+  "state": "treating",
+  "energy": 10.666667,
   "ticks": 6000,
   "gain": 0.012,
   "maxGain": 400.0

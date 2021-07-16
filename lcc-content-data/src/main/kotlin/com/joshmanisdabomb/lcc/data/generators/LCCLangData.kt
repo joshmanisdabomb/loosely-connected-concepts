@@ -49,6 +49,10 @@ object LCCLangData {
         lang["en_us"]!!["container.lcc.refining.recipe.ducrete_mixing"] = "Ducrete Mixing"
         lang["en_us"]!!["container.lcc.refining.recipe.pellet_compression"] = "Pellet Compression"
         lang["en_us"]!!["container.lcc.refining.recipe.salt"] = "Salt Purification"
+        lang["en_us"]!!["container.lcc.refining.recipe.paste_mixing"] = "Reagent Binding"
+        lang["en_us"]!!["container.lcc.refining.recipe.fractional_distillation"] = "Fractional Distillation"
+        lang["en_us"]!!["container.lcc.refining.recipe.oil_cracking"] = "Oil Cracking"
+        lang["en_us"]!!["container.lcc.refining.recipe.polymerization"] = "Polymerization"
 
         lang["en_us"]!!["container.lcc.generator.burn"] = "Remaining Time: %1\$s/%2\$s s"
         lang["en_us"]!!["container.lcc.generator.output"] = "Steam Produced: %1\$s/t\nBase Steam from Fuel: %2\$s/t\nSteam Multiplier from Water: %3\$s%%"

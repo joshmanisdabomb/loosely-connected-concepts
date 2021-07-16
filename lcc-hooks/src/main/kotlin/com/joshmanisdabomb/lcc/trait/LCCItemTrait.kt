@@ -48,4 +48,7 @@ interface LCCItemTrait {
     @JvmDefault
     fun lcc_getAdditionalItemBarColor(stack: ItemStack, index: Int) = 0
 
+    @JvmDefault
+    fun lcc_doesDespawn(stack: ItemStack, entity: ItemEntity) = true
+
 }

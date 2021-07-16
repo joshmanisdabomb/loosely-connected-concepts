@@ -18,7 +18,7 @@ import net.minecraft.util.JsonHelper
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 
-class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: Int, private val height: Int, ingredients: DefaultedList<Pair<Ingredient, Int>>, _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, blocks: Array<Block>, lang: String, icon: Int, state: RefiningBlock.RefiningProcess, energy: Float, ticks: Int, gain: Float, maxGain: Float) : RefiningRecipe(_id, _group, ingredients, _output, blocks, lang, icon, state, energy, ticks, gain, maxGain) {
+class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: Int, private val height: Int, ingredients: DefaultedList<Pair<Ingredient, Int>>, _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, blocks: Array<Block>, lang: String, icon: Int, state: RefiningBlock.RefiningProcess, energy: Float, ticks: Int, gain: Float, maxGain: Float) : RefiningSimpleRecipe(_id, _group, ingredients, _output, blocks, lang, icon, state, energy, ticks, gain, maxGain) {
 
     override fun matches(inv: RefiningInventory, world: World): Boolean {
         for (i in 0..inv.width - width) {
@@ -30,20 +30,18 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
         return false
     }
 
-    override fun input(inv: RefiningInventory): Boolean {
+    override fun input(inv: RefiningInventory): List<ItemStack>? {
         for (i in 0..inv.width - width) {
             for (j in 0..inv.height - height) {
                 if (match(inv, i, j, true)) {
-                    receive(inv, i, j, true)
-                    return true
+                    return receive(inv, i, j, true)
                 }
                 if (match(inv, i, j, false)) {
-                    receive(inv, i, j, false)
-                    return true
+                    return receive(inv, i, j, false)
                 }
             }
         }
-        return false
+        return null
     }
 
     private fun match(inv: RefiningInventory, x: Int, y: Int, flip: Boolean): Boolean {
@@ -63,15 +61,17 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
         return true
     }
 
-    private fun receive(inv: RefiningInventory, x: Int, y: Int, flip: Boolean) {
+    private fun receive(inv: RefiningInventory, x: Int, y: Int, flip: Boolean): List<ItemStack> {
+        val consumed = mutableListOf<ItemStack>()
         for (i in 0 until width) {
             for (j in 0 until height) {
                 val index = (x + (if (flip) width.minus(1).minus(i) else i)) + (y + j).times(width)
                 val stack = inv.getStack(index)
                 val ingredient = refiningIngredients[i + (j * width)]
-                stack.decrement(ingredient.second)
+                consumed.add(stack.split(ingredient.second))
             }
         }
+        return consumed
     }
 
     override fun fits(width: Int, height: Int) = width >= this.width && height >= this.height

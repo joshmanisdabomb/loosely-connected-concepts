@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.item.*
 import com.joshmanisdabomb.lcc.item.AxeItem
 import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
-import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
+import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
@@ -48,6 +48,16 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
 
     //Materials
+    val fuel_bucket by entry(::initialiser) { Item(Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val refined_oil_bucket by entry(::initialiser) { Item(Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val tar_ball by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
+    val flexible_plastic by entry(::initialiser) { PlasticItem(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS).stackColor(DefaultedColoredItem::getTintColor))
+    val rigid_plastic by entry(::initialiser) { PlasticItem(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS).stackColor(DefaultedColoredItem::getTintColor))
     val silicon by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
     val latex_bottle by entry(::initialiser) { Item(Item.Settings().defaults()) }
@@ -155,16 +165,13 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::amethyst_sword)))
 
     val hazmat_helmet by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.HEAD, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueInt(500)).stackColor(DefaultedDyeableItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueInt(500)).stackColor(DefaultedColoredItem::getTintColor))
     val hazmat_chestplate by entry(::initialiser) { HazmatTankArmorItem(EquipmentSlot.CHEST, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(
-            DefaultedDyeableItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
     val hazmat_leggings by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.LEGS, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(
-            DefaultedDyeableItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
     val hazmat_boots by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.FEET, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(
-            DefaultedDyeableItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
 
     //Special
     val gauntlet by entry(::initialiser) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }

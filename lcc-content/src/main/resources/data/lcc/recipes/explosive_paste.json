@@ -10,7 +10,7 @@
       "count": 1
     },
     {
-      "item": "lcc:oil_bucket",
+      "item": "lcc:fuel_bucket",
       "count": 1
     },
     {
@@ -21,7 +21,7 @@
   "results": [
     {
       "item": "lcc:explosive_paste",
-      "count": 6,
+      "count": 10,
       "function": "minecraft:empty"
     },
     {

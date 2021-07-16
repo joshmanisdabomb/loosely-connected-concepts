@@ -10,60 +10,45 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Ingredient
-import net.minecraft.recipe.RecipeMatcher
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
 
-class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: DefaultedList<Pair<Ingredient, Int>>, _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, blocks: Array<Block>, lang: String, icon: Int, state: RefiningBlock.RefiningProcess, energy: Float, ticks: Int, gain: Float, maxGain: Float) : RefiningRecipe(_id, _group, ingredients, _output, blocks, lang, icon, state, energy, ticks, gain, maxGain) {
+class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: DefaultedList<Pair<Ingredient, Int>>, _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, blocks: Array<Block>, lang: String, icon: Int, state: RefiningBlock.RefiningProcess, energy: Float, ticks: Int, gain: Float, maxGain: Float) : RefiningSimpleRecipe(_id, _group, ingredients, _output, blocks, lang, icon, state, energy, ticks, gain, maxGain) {
 
     override fun matches(inv: RefiningInventory, world: World): Boolean {
-        val recipeFinder = RecipeMatcher()
-        var i = 0
+        val stackMap = getInputStackMap(inv) { it == refiningIngredients.size } ?: return false
 
-        val stackMap = mutableListOf<ItemStack>()
-        for (j in 0 until inv.width*inv.height) {
-            val stack = inv.getStack(j)
-            if (!stack.isEmpty) {
-                val stack2 = stackMap.firstOrNull { ItemStack.canCombine(it, stack) }
-                if (stack2 == null) stackMap.add(stack.copy())
-                else stack2.increment(stack.count)
-            }
+        refiningIngredients.forEach { ing ->
+            (stackMap.firstOrNull { ing.first.test(it) && it.count >= ing.second } ?: return false).decrement(ing.second)
         }
 
-        stackMap.forEach {
-            if (!it.isEmpty) {
-                ++i
-                recipeFinder.addInput(it.copy(), it.count)
-            }
-        }
-
-        if (i == refiningIngredients.size && recipeFinder.match(this, null)) {
-            refiningIngredients.forEach { ing ->
-                (stackMap.firstOrNull { ing.first.test(it) && it.count >= ing.second } ?: return false).decrement(ing.second)
-            }
-            return true
-        }
-        return false
+        return true
     }
 
-    override fun input(inv: RefiningInventory): Boolean {
+    override fun input(inv: RefiningInventory): List<ItemStack>? {
+        val consumed = mutableListOf<ItemStack>()
         next@for (ing in refiningIngredients) {
             var debt = ing.second
             for (j in 0 until inv.width*inv.height) {
                 val stack = inv.getStack(j)
                 if (!stack.isEmpty && ing.first.test(stack)) {
                     val difference = stack.count.coerceAtMost(debt)
-                    stack.decrement(difference)
+                    val stackConsumed = stack.split(difference)
+
+                    val stackMatch = consumed.firstOrNull { ItemStack.canCombine(it, stackConsumed) }
+                    if (stackMatch == null) consumed.add(stack.copy())
+                    else stackMatch.increment(stack.count)
+
                     debt -= difference
                 }
                 if (debt <= 0) continue@next
             }
-            return false
+            return null
         }
-        return true
+        return consumed
     }
 
     override fun fits(width: Int, height: Int) = width * height >= refiningIngredients.size

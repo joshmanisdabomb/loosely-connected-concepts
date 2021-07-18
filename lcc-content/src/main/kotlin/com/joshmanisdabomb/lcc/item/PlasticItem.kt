@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.entity.ItemEntity
 import net.minecraft.item.ItemStack
 
-class PlasticItem(settings: Settings) : ColoredItem(settings), LCCItemTrait {
+open class PlasticItem(settings: Settings) : ColoredItem(settings), LCCItemTrait {
 
     override fun defaultColor(stack: ItemStack) = 0xFFF7EE
 

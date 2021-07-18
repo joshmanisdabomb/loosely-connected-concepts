@@ -46,6 +46,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(99)))
     val oxygen_tank by entry(::initialiser) { OxygenStorageItem(12000f, Item.Settings().maxCount(1).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
+    val plastic_bag by entry(::initialiser) { PlasticBagItem(128, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(GIZMOS).stackColor(DefaultedColoredItem::getTintColor))
 
     //Materials
     val fuel_bucket by entry(::initialiser) { Item(Item.Settings().defaults().maxCount(1)) }

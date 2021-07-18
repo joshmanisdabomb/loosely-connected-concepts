@@ -504,6 +504,19 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val improvised_explosive by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(VariantBlockAssetFactory(ImprovisedExplosiveBlock.ie_state, { s -> mb.cubeBottomTop(textureSide = { idb.locSuffix(it, s.asString()) }) })).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 1)
+            .pattern("iei")
+            .pattern("ltl")
+            .pattern("iei")
+            .input('i', LCCItems.iron_oxide)
+            .input('e', LCCBlocks.explosive_paste)
+            .input('l', Blocks.REDSTONE_LAMP)
+            .input('t', Blocks.TNT)
+            .apply { hasCriterionShaped(this, LCCBlocks.explosive_paste) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

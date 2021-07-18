@@ -3,6 +3,6 @@
   "textures": {
     "top": "lcc:block/improvised_explosive_top",
     "bottom": "lcc:block/improvised_explosive_bottom",
-    "side": "lcc:block/improvised_explosive_inactive"
+    "side": "lcc:block/improvised_explosive_active"
   }
 }

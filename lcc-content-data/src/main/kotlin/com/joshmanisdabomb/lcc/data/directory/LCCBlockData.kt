@@ -32,6 +32,7 @@ import net.minecraft.item.Items
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.util.Identifier
@@ -462,8 +463,6 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     }) }
     val rubber_piston_head by entry(::initialiser) { data().add(PistonHeadBlockAssetFactory(idb.locSuffix(LCCBlocks.rubber_piston, "top"))) }
 
-    val polished_fortstone by entry(::initialiser) { data().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeAll { idi.loc(it, folder = "block") })) }
-
     val cracked_mud_pressure_plate by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(PressurePlateBlockAssetFactory(LCCBlocks.cracked_mud.identifierLoc())).add(BlockTagFactory(BlockTags.PRESSURE_PLATES)).add(PressurePlateRecipeFactory(LCCBlocks.cracked_mud)) }
 
     val explosive_paste by entry(::initialiser) { data().defaultLang().defaultLootTable().add(GeneratedItemAssetFactory).add(WireBlockAssetFactory(
@@ -516,6 +515,20 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShaped(this, LCCBlocks.explosive_paste) }
             .apply { offerShaped(this, d) }
     }) }
+
+    val fortstone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory(LCCBlocks.cobbled_fortstone)).add(SmeltFromItemRecipeFactory(LCCBlocks.cobbled_fortstone, RecipeSerializer.SMELTING)) }
+    val polished_fortstone by entry(::initialiser) { data().defaultLang().defaultLootTable().add(SpecialBlockAssetFactory).add(CustomItemAssetFactory(mi.cubeAll { idi.loc(it, folder = "block") })).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 4)
+            .pattern("ff")
+            .pattern("ff")
+            .input('f', LCCBlocks.fortstone)
+            .apply { hasCriterionShaped(this, LCCBlocks.fortstone) }
+            .apply { offerShaped(this, d) }
+    }).add(StonecutterItemRecipeFactory(LCCBlocks.fortstone)) }
+    val fortstone_stairs by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(StairsBlockAssetFactory(LCCBlocks.fortstone.identifierLoc())).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.fortstone)).add(StonecutterItemRecipeFactory(LCCBlocks.fortstone)) }
+    val fortstone_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCCBlocks.fortstone.identifierLoc(), full = LCCBlocks.fortstone.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.fortstone)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.fortstone, 2)) }
+    val cobbled_fortstone_stairs by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(StairsBlockAssetFactory(LCCBlocks.cobbled_fortstone.identifierLoc())).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.cobbled_fortstone)).add(StonecutterItemRecipeFactory(LCCBlocks.fortstone, name = LCC.id("fortstone_stairs_from_fortstone_stonecutting"))).add(StonecutterItemRecipeFactory(LCCBlocks.cobbled_fortstone)) }
+    val cobbled_fortstone_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCCBlocks.cobbled_fortstone.identifierLoc(), full = LCCBlocks.cobbled_fortstone.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.cobbled_fortstone)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.fortstone, 2, name = LCC.id("fortstone_slabs_from_fortstone_stonecutting"))).add(StonecutterItemRecipeFactory(LCCBlocks.cobbled_fortstone, 2)) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

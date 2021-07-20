@@ -215,7 +215,15 @@ object LCCBlocks : BlockDirectory() {
 
     val fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val fortstone_stairs by entry(::initialiser) { StairsBlock(fortstone.defaultState, FabricBlockSettings.copy(fortstone)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(fortstone)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cobbled_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val cobbled_fortstone_stairs by entry(::initialiser) { StairsBlock(cobbled_fortstone.defaultState, FabricBlockSettings.copy(cobbled_fortstone)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val cobbled_fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(cobbled_fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

@@ -3,6 +3,8 @@
   "values": [
     "lcc:cut_tungsten_slab",
     "lcc:rhyolite_slab",
+    "lcc:fortstone_slab",
+    "lcc:cobbled_fortstone_slab",
     "lcc:dirt_slab",
     "lcc:classic_cobblestone_slab",
     "lcc:classic_brick_slab",

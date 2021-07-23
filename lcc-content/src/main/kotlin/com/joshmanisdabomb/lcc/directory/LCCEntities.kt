@@ -32,10 +32,12 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     val nuclear_explosion by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::NuclearExplosionEntity).dimensions(EntityDimensions.fixed(0.1f, 0.1f)).fireImmune().trackRangeChunks(100).trackedUpdateRate(1).forceTrackedVelocityUpdates(false) }
 
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
+    val consumer_tongue by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ConsumerTongueEntity).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
 
-    val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::WaspEntity).dimensions(EntityDimensions.changing(1.1f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+    val consumer by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::ConsumerEntity).dimensions(EntityDimensions.changing(0.8f, 1.1f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, ConsumerEntity.createAttributes()) }
+    val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::WaspEntity).dimensions(EntityDimensions.changing(0.99f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, WaspEntity.createAttributes()) }
-
     val baby_skeleton by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::BabySkeletonEntity).dimensions(EntityDimensions.changing(0.6f, 1.99f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
 
@@ -51,12 +53,15 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
         EntityRendererRegistry.INSTANCE.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
+
+        EntityRendererRegistry.INSTANCE.register(consumer, ::ConsumerEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(wasp, ::WaspEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(baby_skeleton, ::SkeletonEntityRenderer)
 
         EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(salt, ::SaltEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(consumer_tongue, ::ConsumerTongueEntityRenderer)
 
         EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 

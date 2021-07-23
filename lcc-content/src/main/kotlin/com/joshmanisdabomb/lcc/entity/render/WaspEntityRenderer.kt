@@ -12,7 +12,7 @@ import net.minecraft.client.util.math.MatrixStack
 class WaspEntityRenderer(ctx: EntityRendererFactory.Context) : MobEntityRenderer<WaspEntity, WaspEntityModel<WaspEntity>>(ctx, WaspEntityModel(ctx.getPart(LCCModelLayers.wasp)), 0.6f) {
 
     init {
-        addFeature(WaspEyesFeatureRenderer(this));
+        addFeature(WaspEyesFeatureRenderer(this))
     }
 
     override fun setupTransforms(entity: WaspEntity, matrices: MatrixStack, animationProgress: Float, bodyYaw: Float, tickDelta: Float) {

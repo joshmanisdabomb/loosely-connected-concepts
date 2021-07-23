@@ -24,3 +24,7 @@ dependencies {
     modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w06a"
     include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w06a"
 }
+
+minecraft {
+    accessWidener "src/main/resources/lcc.accesswidener"
+}

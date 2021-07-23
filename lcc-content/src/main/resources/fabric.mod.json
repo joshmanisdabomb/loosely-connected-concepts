@@ -73,5 +73,6 @@
       "lcc:gauntlet_target",
       "lcc:hearts"
     ]
-  }
+  },
+  "accessWidener": "lcc.accesswidener"
 }

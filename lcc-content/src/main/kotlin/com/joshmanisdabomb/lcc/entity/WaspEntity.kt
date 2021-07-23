@@ -65,6 +65,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     var stingAnimation = 0f
     var lastStingAnimation = 0f
 
+    private lateinit var moveToHive: WaspMoveToHiveGoal
+
     constructor(world: World) : this(LCCEntities.wasp, world)
 
     init {
@@ -80,8 +82,6 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView) = world.getBlockState(pos).isAir.transform(10f, 0f)
-
-    private lateinit var moveToHive: WaspMoveToHiveGoal
 
     override fun initGoals() {
         goalSelector.add(0, WaspStingGoal(this, 1.1, false))
@@ -136,7 +136,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         if (entity.uuid == this.angryAt) return true
 
         val distsq = hiveLoc?.getSquaredDistance(entity.blockPos)
-        if (distsq != null && distsq < 900 && random.nextDouble() <= 900.minus(distsq).div(450)) {
+        if (distsq != null && distsq < 256 && random.nextDouble() <= 256.minus(distsq).div(128)) {
             return true
         }
 
@@ -287,7 +287,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 28.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 28.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {

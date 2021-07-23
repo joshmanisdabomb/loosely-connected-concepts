@@ -25,7 +25,6 @@ import net.minecraft.item.AutomaticItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
@@ -111,10 +110,6 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
     }
 
     override fun createSpawnPacket() = lcc_createSpawnPacket()// { it.writeByte(_facing.horizontal) }
-
-    override fun lcc_readSpawnPacket(data: PacketByteBuf) {
-
-    }
 
     override fun tick() {
         prevX = x

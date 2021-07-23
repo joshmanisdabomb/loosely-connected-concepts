@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.PacketSender
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.network.ClientPlayNetworkHandler
+import net.minecraft.nbt.NbtTagSizeTracker
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -24,6 +25,7 @@ object TraitSpawnPacket {
             val z = buf.readDouble()
             val pitch = buf.readFloat()
             val yaw = buf.readFloat()
+            val extra = buf.readNbt(NbtTagSizeTracker(65536L))
             client.execute {
                 val world = client.world ?: return@execute
                 val e = entity.create(world) ?: return@execute
@@ -35,9 +37,9 @@ object TraitSpawnPacket {
                 e.pitch = pitch
                 e.yaw = yaw
 
-                world.addEntity(e.id, e)
+                (e as? LCCEntityTrait)?.lcc_readSpawnPacket(extra)
 
-                (e as? LCCEntityTrait)?.lcc_readSpawnPacket(buf)
+                world.addEntity(e.id, e)
             }
         }
     }

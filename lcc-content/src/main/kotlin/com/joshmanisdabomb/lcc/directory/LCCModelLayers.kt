@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEntityRenderer
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.entity.model.ConsumerEntityModel
+import com.joshmanisdabomb.lcc.entity.model.ConsumerTongueEntityModel
 import com.joshmanisdabomb.lcc.entity.model.WaspEntityModel
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import net.minecraft.client.model.TexturedModelData
@@ -20,6 +21,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(WaspEntityModel.Companion::data)
     val consumer by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(ConsumerEntityModel.Companion::data)
+    val consumer_tongue by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(ConsumerTongueEntityModel.Companion::data)
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

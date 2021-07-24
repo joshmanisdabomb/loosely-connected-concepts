@@ -21,6 +21,9 @@ import net.minecraft.world.World
 class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World) : ProjectileEntity(type, world), LCCEntityTrait {
 
     private var hookedEntity: Entity? = null
+    val hooked get() = hookedEntity
+
+    val targetY get() = owner?.eyeY?.minus(0.2)
 
     init {
         ignoreCameraFrustum = true
@@ -28,7 +31,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
 
     constructor(world: World, owner: LivingEntity) : this(LCCEntities.consumer_tongue, world) {
         this.owner = owner
-        this.setPosition(owner.x, owner.eyeY - 0.1, owner.z)
+        this.setPosition(owner.x, targetY!!, owner.z)
     }
 
     override fun initDataTracker() {
@@ -81,9 +84,9 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                 return
             } else {
                 val e = entity.x - this.x
-                val f = (entity.eyeY - 0.1) - this.y
+                val f = targetY!! - this.y
                 val g = entity.z - this.z
-                this.setVelocity(e, f, g, 0.8f, 0f)
+                this.setVelocity(e, f, g, speed.div(2f), 0f)
                 if (entity2 != null) {
                     val y = this.y + entity2.height.div(2.0)
 
@@ -95,6 +98,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                     if (hookDist < 24.0) {
                         entity2.velocity = Vec3d(this.x - entity2.x, y - entity2.y, this.z - entity2.z)
                         entity2.isOnGround = false
+                        entity2.fallDistance = 0f
                         entity2.velocityModified = true
                         entity2.velocityDirty = true
                     } else {
@@ -146,7 +150,11 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
         super.lcc_readSpawnPacket(data)
         val owner = data?.getInt("owner") ?: return
         if (owner > 1) {
-            this.owner = world.getEntityById(owner - 1)
+            val entity = world.getEntityById(owner - 1)
+            this.owner = entity
+            if (entity is ConsumerEntity) {
+                entity.tongueEntity = this
+            }
         }
     }
 
@@ -165,6 +173,8 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
     companion object {
         val hooked_id = DataTracker.registerData(ConsumerTongueEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val retract = DataTracker.registerData(ConsumerTongueEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+
+        val speed = 1.3f
     }
 
 }

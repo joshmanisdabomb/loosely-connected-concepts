@@ -63,6 +63,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.oil_hidden)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deposits)
+                .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.landmines)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

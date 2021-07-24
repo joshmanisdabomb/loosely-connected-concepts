@@ -6,10 +6,7 @@ import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
 import com.joshmanisdabomb.lcc.world.decorator.NearAirDecorator
 import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
-import com.joshmanisdabomb.lcc.world.feature.OilGeyserFeature
-import com.joshmanisdabomb.lcc.world.feature.RubberTreeFeature
-import com.joshmanisdabomb.lcc.world.feature.SmallGeodeFeature
-import com.joshmanisdabomb.lcc.world.feature.WastelandSpikesFeature
+import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
@@ -85,6 +82,7 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
     val rubber_tree by entry(::initialiser) { RubberTreeFeature(TreeFeatureConfig.CODEC) }
 
     val wasteland_spikes by entry(::initialiser) { WastelandSpikesFeature(DefaultFeatureConfig.CODEC) }
+    val landmines by entry(::initialiser) { LandmineFeature(DefaultFeatureConfig.CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -121,7 +119,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     val salt by entry(::initialiser) { Feature.DISK.configure(DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))).spreadHorizontally().decorate(ConfiguredFeatures.Decorators.SQUARE_TOP_SOLID_HEIGHTMAP).applyChance(13) }
 
-    val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.deposit.defaultState), SimpleBlockPlacer.INSTANCE).tries(8).whitelist(setOf(LCCBlocks.cracked_mud)).build()).decorate(ConfiguredFeatures.Decorators.SPREAD_32_ABOVE).decorate(ConfiguredFeatures.Decorators.HEIGHTMAP).spreadHorizontally().decorate(Decorator.COUNT_NOISE.configure(CountNoiseDecoratorConfig(-0.9, 15, 4))) }
+    val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig.Builder(SimpleBlockStateProvider(LCCBlocks.deposit.defaultState), SimpleBlockPlacer.INSTANCE).tries(8).whitelist(setOf(LCCBlocks.cracked_mud)).build()).decorate(ConfiguredFeatures.Decorators.SPREAD_32_ABOVE).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP) }
+    val landmines by entry(::initialiser) { LCCFeatures.landmines.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.15f, 1))) }
     val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)).range(RangeDecoratorConfig(YOffset.fixed(75), YOffset.getTop())).spreadHorizontally().repeat(70) }
     val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(8))) }
 

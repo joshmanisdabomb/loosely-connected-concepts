@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_sign",
+  "pattern": [
+    "www",
+    "www",
+    " s "
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:deadwood_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:deadwood_sign",
+    "count": 3
+  }
+}

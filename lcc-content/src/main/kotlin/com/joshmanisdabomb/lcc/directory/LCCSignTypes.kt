@@ -12,6 +12,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture
 object LCCSignTypes : BasicDirectory<LCCSignType, Unit>(), ClientSpriteRegistryCallback {
 
     val rubber by entry(::initialiser) { LCCSignType(LCC.entity("signs/$name")) }
+    val deadwood by entry(::initialiser) { LCCSignType(LCC.entity("signs/$name")) }
 
     fun initialiser(input: LCCSignType, context: DirectoryContext<Unit>, parameters: Unit) = input
 
@@ -20,6 +21,7 @@ object LCCSignTypes : BasicDirectory<LCCSignType, Unit>(), ClientSpriteRegistryC
     @Environment(EnvType.CLIENT)
     override fun registerSprites(atlasTexture: SpriteAtlasTexture, registry: ClientSpriteRegistryCallback.Registry) {
         registry.register(rubber.texture)
+        registry.register(deadwood.texture)
     }
 
 }

@@ -227,7 +227,6 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    //IDEA deadwood, rarely spawns naturally or dries out wood
 
     val rusted_iron_blocks by entryMap(::initialiser, *IronRustType.values()) { WastelandRustingBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE)) { IronRustType.values().map { LCCBlocks[it.name.toLowerCase().plus("_iron_block")] }.toTypedArray() } }
         .setInstanceNameSupplier { _, k -> k.name.toLowerCase().plus("_iron_block") }
@@ -239,6 +238,37 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val improvised_explosive by entry(::initialiser) { ImprovisedExplosiveBlock(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).strength(7.0f, 0.0F).breakByTool(PICKAXES, 1).requiresTool().luminance { (it[ImprovisedExplosiveBlock.ie_state] != ImprovisedExplosiveBlock.ImprovisedExplosiveState.INACTIVE).transformInt(7) }.sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
+    val deadwood_log by entry(::initialiser) { FunctionalLogBlock(FabricBlockSettings.copyOf(Settings.of(Material.WOOD, pillarMapColorProvider(MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_GREEN))).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { stripped_deadwood_log.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood by entry(::initialiser) { LogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_GREEN).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { stripped_deadwood.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0f, 3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val stripped_deadwood_log by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val stripped_deadwood by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_stairs by entry(::initialiser) { StairsBlock(deadwood_planks.defaultState, FabricBlockSettings.copy(deadwood_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(deadwood_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), LCCSignTypes.deadwood) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_wall_sign by entry(::initialiser) { LCCWallSignBlock(FabricBlockSettings.copyOf(deadwood_sign).dropsLike(deadwood_sign), LCCSignTypes.deadwood) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_door by entry(::initialiser) { DoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD).nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val deadwood_pressure_plate by entry(::initialiser) { PressurePlateBlock(ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(0.5F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_button by entry(::initialiser) { WoodenButtonBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().strength(0.5F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_fence by entry(::initialiser) { FenceBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_fence_gate by entry(::initialiser) { FenceGateBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val deadwood_trapdoor by entry(::initialiser) { TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(::never)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
     //TODO minesweep blocks
     //TODO reinforced stone or similar for nuke protection

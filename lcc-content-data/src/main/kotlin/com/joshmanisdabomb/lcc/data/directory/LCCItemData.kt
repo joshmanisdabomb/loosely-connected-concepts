@@ -312,6 +312,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d) }
     }) }
     val rubber_boat by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(BoatRecipeFactory(LCCBlocks.rubber_planks)) }
+    val deadwood_boat by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(BoatRecipeFactory(LCCBlocks.deadwood_planks)) }
 
     val radiation_detector by entry(::initialiser) { data().defaultLang().add(RadiationDetectorItemAssetFactory).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)

@@ -217,6 +217,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(1000)))
     val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(900)))
+    val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
     //IDEA forget me not, forget villager trades and entity hostility
 
     //Nostalgia

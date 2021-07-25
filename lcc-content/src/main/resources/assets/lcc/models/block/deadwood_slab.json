@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "lcc:block/deadwood_planks",
+    "top": "lcc:block/deadwood_planks",
+    "side": "lcc:block/deadwood_planks"
+  }
+}

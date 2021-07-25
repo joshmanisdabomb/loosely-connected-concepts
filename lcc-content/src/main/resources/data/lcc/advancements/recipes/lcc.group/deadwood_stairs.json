@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:deadwood_stairs"
+    ]
+  },
+  "criteria": {
+    "has_deadwood_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:deadwood_planks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:deadwood_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_deadwood_planks",
+      "has_the_recipe"
+    ]
+  ]
+}

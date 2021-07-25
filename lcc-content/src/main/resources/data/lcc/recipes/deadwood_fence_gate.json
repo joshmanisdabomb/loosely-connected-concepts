@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_fence_gate",
+  "pattern": [
+    "sws",
+    "sws"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:deadwood_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:deadwood_fence_gate"
+  }
+}

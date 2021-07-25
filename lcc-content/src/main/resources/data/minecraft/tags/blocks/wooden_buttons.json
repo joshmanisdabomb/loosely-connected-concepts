@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_button"
+    "lcc:rubber_button",
+    "lcc:deadwood_button"
   ]
 }

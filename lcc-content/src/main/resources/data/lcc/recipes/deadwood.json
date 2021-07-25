@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "ww",
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:deadwood_log"
+    }
+  },
+  "result": {
+    "item": "lcc:deadwood",
+    "count": 3
+  }
+}

@@ -11,6 +11,7 @@ enum class WoodType(val mapColor: MapColor) {
     ACACIA(MapColor.ORANGE),
     DARK_OAK(MapColor.BROWN),
     RUBBER(MapColor.TERRACOTTA_WHITE),
+    DEADWOOD(MapColor.TERRACOTTA_WHITE),
     CRIMSON(MapColor.DULL_PINK),
     WARPED(MapColor.DARK_AQUA);
 

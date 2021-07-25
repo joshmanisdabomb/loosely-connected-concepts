@@ -42,6 +42,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
+    val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
 
     private fun <E : Entity> typeInitialiser(input: FabricEntityTypeBuilder<E>, context: DirectoryContext<Unit>, parameters: Unit): EntityType<E> {
         return initialiser(input.build(), context, parameters)
@@ -66,6 +67,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 
         EntityRendererRegistry.INSTANCE.register(rubber_boat, ::BoatEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(deadwood_boat, ::BoatEntityRenderer)
     }
 
 }

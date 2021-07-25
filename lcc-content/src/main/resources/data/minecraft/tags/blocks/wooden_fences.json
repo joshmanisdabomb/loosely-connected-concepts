@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_fence"
+    "lcc:rubber_fence",
+    "lcc:deadwood_fence"
   ]
 }

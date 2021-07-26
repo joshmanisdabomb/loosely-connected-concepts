@@ -219,6 +219,17 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(900)))
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
+    val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))
+        .addTags("wasteland_spawn_egg")
+    val consumer_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.consumer, Item.Settings().defaults(), 0x444444, 0x11EE11, 0xB78987) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
+    val wasp_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.wasp, Item.Settings().defaults(), 0xEDC343, 0x43241B, 0x4E9331) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
+
     //IDEA forget me not, forget villager trades and entity hostility
 
     //Nostalgia

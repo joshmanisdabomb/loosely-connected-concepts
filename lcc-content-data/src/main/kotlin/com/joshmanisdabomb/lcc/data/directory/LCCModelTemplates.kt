@@ -9,7 +9,9 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     override val data = LCCData
 
     val aligned_cross by templateEntry("block", aligned_cross_json, TextureKey.CROSS)
+
     val generated1 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
+    val generated2 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1, LCCModelTextureKeys.layer2)
 
     val cable4_center by templateEntry("block", cable4_center_json, TextureKey.END, TextureKey.PARTICLE)
     val cable4_connection by templateEntry("block", cable4_connection_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)

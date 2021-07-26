@@ -18,6 +18,8 @@ object LCCModelTextureKeys : AdvancedDirectory<String, TextureKey, Unit, Unit>()
     val t9 by entry(::initialiser) { "9" }
 
     val layer1 by entry(::initialiser) { name }
+    val layer2 by entry(::initialiser) { name }
+
     val overlay by entry(::initialiser) { name }
     val bars by entry(::initialiser) { name }
 

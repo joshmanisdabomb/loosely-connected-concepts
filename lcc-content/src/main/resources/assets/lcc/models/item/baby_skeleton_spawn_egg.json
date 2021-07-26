@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lcc:item/wasteland_spawn_egg",
+    "layer1": "lcc:item/wasteland_spawn_egg_overlay",
+    "layer2": "lcc:item/wasteland_spawn_egg_goop"
+  }
+}

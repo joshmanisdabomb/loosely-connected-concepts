@@ -328,6 +328,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val wasteland_spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.tags.contains("wasteland_spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ LCC.id("item/wasteland_spawn_egg") }, { LCC.id("item/wasteland_spawn_egg_overlay") }, { LCC.id("item/wasteland_spawn_egg_goop") })) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

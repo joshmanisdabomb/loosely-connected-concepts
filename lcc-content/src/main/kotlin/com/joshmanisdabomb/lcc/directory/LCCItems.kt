@@ -220,6 +220,9 @@ object LCCItems : ItemDirectory() {
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
+    val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))
         .addTags("wasteland_spawn_egg")

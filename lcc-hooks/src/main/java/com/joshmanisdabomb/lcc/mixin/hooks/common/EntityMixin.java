@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.hooks.common;
 
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -18,8 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
@@ -45,9 +43,60 @@ public abstract class EntityMixin {
 
             if (!lcc_onEntitySingleCollision_positions.isEmpty()) {
                 try {
-                    lcc_onEntitySingleCollision_positions.values().stream().map(AbstractBlock.AbstractBlockState::getBlock).distinct().forEach(block -> {
-                        if (block instanceof LCCBlockTrait) ((LCCBlockTrait)block).lcc_onEntitySingleCollision(world, lcc_onEntitySingleCollision_positions.entrySet().stream().filter(e -> e.getValue().isOf(block)).map(Map.Entry::getKey).toArray(BlockPos[]::new), lcc_onEntitySingleCollision_positions.values().stream().filter(state -> state.isOf(block)).toArray(BlockState[]::new), (Entity)(Object)this);
-                    });
+                    Set<Map.Entry<BlockPos, BlockState>> collides = lcc_onEntitySingleCollision_positions.entrySet();
+                    //Group by Block
+                    Map<Block, List<Map.Entry<BlockPos, BlockState>>> group1 = new HashMap<>();
+                    //Group by Block class
+                    Map<Class<? extends Block>, List<Map.Entry<BlockPos, BlockState>>> group2 = new HashMap<>();
+
+                    for (Map.Entry<BlockPos, BlockState> collide : collides) {
+                        group1.computeIfAbsent(collide.getValue().getBlock(), k -> new ArrayList<>()).add(collide);
+                        group2.computeIfAbsent(collide.getValue().getBlock().getClass(), k -> new ArrayList<>()).add(collide);
+                    }
+
+                    for (Map.Entry<Block, List<Map.Entry<BlockPos, BlockState>>> entry : group1.entrySet()) {
+                        Block block = entry.getKey();
+                        List<Map.Entry<BlockPos, BlockState>> entries = entry.getValue();
+
+                        if (block instanceof LCCBlockTrait) {
+                            List<BlockPos> bpList = new ArrayList<>();
+                            for (Map.Entry<BlockPos, BlockState> e : entries) {
+                                bpList.add(e.getKey());
+                            }
+                            BlockPos[] positions = bpList.toArray(new BlockPos[0]);
+                            List<BlockState> bsList = new ArrayList<>();
+                            for (Map.Entry<BlockPos, BlockState> e : entries) {
+                                bsList.add(e.getValue());
+                            }
+                            BlockState[] states = bsList.toArray(new BlockState[0]);
+
+                            ((LCCBlockTrait)block).lcc_onEntityCollisionGroupedByBlock(world, positions, states, (Entity)(Object)this);
+                        }
+                    }
+
+                    for (Map.Entry<Class<? extends Block>, List<Map.Entry<BlockPos, BlockState>>> entry : group2.entrySet()) {
+                        Block block = null;
+                        for (Block b : group1.keySet()) {
+                            if (b.getClass().equals(entry.getKey())) {
+                                block = b;
+                            }
+                        }
+                        if (block == null) continue;
+                        List<Map.Entry<BlockPos, BlockState>> entries = entry.getValue();
+
+                        List<BlockPos> bpList = new ArrayList<>();
+                        for (Map.Entry<BlockPos, BlockState> e : entries) {
+                            bpList.add(e.getKey());
+                        }
+                        BlockPos[] positions = bpList.toArray(new BlockPos[0]);
+                        List<BlockState> bsList = new ArrayList<>();
+                        for (Map.Entry<BlockPos, BlockState> e : entries) {
+                            bsList.add(e.getValue());
+                        }
+                        BlockState[] states = bsList.toArray(new BlockState[0]);
+
+                        ((LCCBlockTrait)block).lcc_onEntityCollisionGroupedByClass(world, positions, states, (Entity)(Object)this);
+                    }
                 } catch (Throwable var12) {
                     CrashReport crashReport = CrashReport.create(var12, "LCC: Single colliding entity with blocks");
                     throw new CrashException(crashReport);
@@ -69,7 +118,7 @@ public abstract class EntityMixin {
                         Block block = state.getBlock();
                         if (block instanceof LCCBlockTrait) {
                             Vec3d vec = ((Entity)(Object)this).getPos();
-                            ((LCCBlockTrait)block).lcc_onEntityNearby(world, state, bp.toImmutable(), (Entity)(Object)this, bp.getSquaredDistance(vec.x, vec.y, vec.z, true));
+                            ((LCCBlockTrait)block).lcc_onEntityNearby(world, state, bp, (Entity)(Object)this, bp.getSquaredDistance(vec.x, vec.y, vec.z, true));
                         }
                     }
                 }

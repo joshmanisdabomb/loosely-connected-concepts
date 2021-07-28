@@ -54,7 +54,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         entity.fallDistance = 0.0f
     }
 
-    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         with(pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return) {
             bounce(world, this, states[pos.indexOf(this)], entity)
         }

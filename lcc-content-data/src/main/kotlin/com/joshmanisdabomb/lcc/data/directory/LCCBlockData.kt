@@ -547,6 +547,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val deadwood_sign by entry(::initialiser) { data().defaultLang().defaultLootTable().add(ParticleBlockAssetFactory(LCCBlocks.deadwood_planks.identifierLoc())).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.STANDING_SIGNS)).add(ItemTagFactory(ItemTags.SIGNS)).add(SignRecipeFactory(LCCBlocks.deadwood_planks, Ingredient.ofItems(Items.STICK), group = "wooden_sign")) }
     val deadwood_wall_sign by entry(::initialiser) { data().add(ParticleBlockAssetFactory(LCCBlocks.deadwood_planks.identifierLoc())).add(BlockTagFactory(BlockTags.WALL_SIGNS)) }
 
+    val spikes by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<SpikesBlock>()).defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory() { d, t, i -> LCCModelTemplates.template_spikes.upload(i(t) ?: idb.loc(t), Texture.texture(idb.loc(t)), d.modelStates::addModel) }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

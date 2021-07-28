@@ -234,6 +234,13 @@ object LCCBlocks : BlockDirectory() {
     val rusted_iron_bars by entry(::initialiser) { PaneBlock(FabricBlockSettings.of(Material.METAL, MapColor.CLEAR).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL).nonOpaque()) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutoutMipped())
 
+    val spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val bleeding_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val poison_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
     val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().emissiveLighting { state, world, pos -> state[Properties.LIT] }) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(5000, 1)).cutout())
     val improvised_explosive by entry(::initialiser) { ImprovisedExplosiveBlock(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).strength(7.0f, 0.0F).breakByTool(PICKAXES, 1).requiresTool().luminance { (it[ImprovisedExplosiveBlock.ie_state] != ImprovisedExplosiveBlock.ImprovisedExplosiveState.INACTIVE).transformInt(7) }.sounds(BlockSoundGroup.STONE)) }

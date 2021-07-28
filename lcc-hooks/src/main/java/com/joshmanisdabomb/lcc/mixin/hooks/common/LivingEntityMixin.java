@@ -67,7 +67,8 @@ public abstract class LivingEntityMixin extends Entity {
                 for(int j = pos1.getY(); j <= pos2.getY(); ++j) {
                     for(int k = pos1.getZ(); k <= pos2.getZ(); ++k) {
                         bp.set(i, j, k);
-                        lcc_onEntitySingleJumpOff_positions.put(bp.toImmutable(), this.world.getBlockState(bp)); }
+                        lcc_onEntitySingleJumpOff_positions.put(bp.toImmutable(), this.world.getBlockState(bp));
+                    }
                 }
             }
 
@@ -77,14 +78,14 @@ public abstract class LivingEntityMixin extends Entity {
                     for (BlockState blockState : lcc_onEntitySingleJumpOff_positions.values()) {
                         Block block = blockState.getBlock();
                         if (block instanceof LCCBlockTrait && uniqueValues.add(block)) {
-                            if (((LCCBlockTrait)block).lcc_onEntitySingleJumpOff(world, lcc_onEntitySingleJumpOff_positions.entrySet().stream().filter(e -> e.getValue().isOf(block)).map(Map.Entry::getKey).toArray(BlockPos[]::new), lcc_onEntitySingleJumpOff_positions.values().stream().filter(state -> state.isOf(block)).toArray(BlockState[]::new), (LivingEntity)(Object)this)) {
+                            if (((LCCBlockTrait)block).lcc_onEntityJumpGroupedByBlock(world, lcc_onEntitySingleJumpOff_positions.entrySet().stream().filter(e -> e.getValue().isOf(block)).map(Map.Entry::getKey).toArray(BlockPos[]::new), lcc_onEntitySingleJumpOff_positions.values().stream().filter(state -> state.isOf(block)).toArray(BlockState[]::new), (LivingEntity)(Object)this)) {
                                 info.cancel();
                                 return;
                             }
                         }
                     }
                 } catch (Throwable var12) {
-                    CrashReport crashReport = CrashReport.create(var12, "LCC: Single colliding entity with blocks");
+                    CrashReport crashReport = CrashReport.create(var12, "LCC: Single jumping entity with blocks");
                     throw new CrashException(crashReport);
                 }
             }

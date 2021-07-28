@@ -37,7 +37,7 @@ class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCBlockTrait 
         }
     }
 
-    override fun lcc_onEntitySingleJumpOff(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity): Boolean {
+    override fun lcc_onEntityJumpGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity): Boolean {
         with (pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return false) {
             entity.addVelocity(0.0, 0.78, 0.0)
             entity.fallDistance = -1.0F

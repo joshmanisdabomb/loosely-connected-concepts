@@ -16,10 +16,13 @@ import java.util.*
 interface LCCBlockTrait {
 
     @JvmDefault
-    fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) = Unit
+    fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) = Unit
 
     @JvmDefault
-    fun lcc_onEntitySingleJumpOff(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity) = false
+    fun lcc_onEntityCollisionGroupedByClass(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) = Unit
+
+    @JvmDefault
+    fun lcc_onEntityJumpGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity) = false
 
     @JvmDefault
     fun lcc_isPlantable(state: BlockState, world: BlockView, pos: BlockPos, plant: Block): Boolean? = null

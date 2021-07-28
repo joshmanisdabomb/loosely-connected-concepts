@@ -5,6 +5,9 @@
     "lcc:topaz_shovel",
     "lcc:emerald_shovel",
     "lcc:sapphire_shovel",
-    "lcc:amethyst_shovel"
+    "lcc:amethyst_shovel",
+    "lcc:deadwood_shovel",
+    "lcc:fortstone_shovel",
+    "lcc:rusty_iron_shovel"
   ]
 }

@@ -50,6 +50,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS).stackColor(DefaultedColoredItem::getTintColor))
 
     //Materials
+    val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
     val fuel_bucket by entry(::initialiser) { Item(Item.Settings().defaults().maxCount(1)) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
     val refined_oil_bucket by entry(::initialiser) { Item(Item.Settings().defaults().maxCount(1)) }
@@ -175,6 +177,46 @@ object LCCItems : ItemDirectory() {
     val hazmat_boots by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
 
+    val deadwood_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2900, 1)))
+    val deadwood_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val deadwood_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val deadwood_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val deadwood_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val fortstone_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.0f) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(3900, 1)))
+    val fortstone_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.4f) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val fortstone_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val fortstone_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val fortstone_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -2.0f) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
+    val rusty_iron_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4900, 1)))
+    val rusty_iron_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_helmet by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.HEAD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_chestplate by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.CHEST, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_leggings by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.LEGS, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val rusty_iron_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.FEET, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
     //Special
     val gauntlet by entry(::initialiser) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(SPECIAL))
@@ -213,15 +255,13 @@ object LCCItems : ItemDirectory() {
         .setPropertySupplier { ItemExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }
 
     //Wasteland
-    val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(1000)))
     val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(900)))
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4000, 1)))
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
-        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 
     val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(90100, 1)))
 
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))

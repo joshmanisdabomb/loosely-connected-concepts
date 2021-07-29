@@ -155,7 +155,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rubber_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
-    val rubber_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), LCCSignTypes.rubber) }
+    val rubber_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD), LCCSignTypes.rubber) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_wall_sign by entry(::initialiser) { LCCWallSignBlock(FabricBlockSettings.copyOf(rubber_sign).dropsLike(rubber_sign), LCCSignTypes.rubber) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
@@ -193,7 +193,7 @@ object LCCBlocks : BlockDirectory() {
     //TODO rope
 
     //Wasteland
-    val cracked_mud by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val cracked_mud by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(2.2F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(0, 1)))
     val cracked_mud_pressure_plate by entry(::initialiser) { SprintPressurePlateBlock(FabricBlockSettings.copyOf(cracked_mud)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
@@ -208,24 +208,24 @@ object LCCBlocks : BlockDirectory() {
     val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
-    val papercomb_block by entry(::initialiser) { PapercombBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.TERRACOTTA_WHITE).strength(2.0F, 0.0F).breakByTool(HOES).sounds(BlockSoundGroup.HANGING_ROOTS).suffocates(::never)) }
+    val papercomb_block by entry(::initialiser) { PapercombBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.TERRACOTTA_WHITE).strength(4.0F, 0.0F).breakByTool(HOES).requiresTool().sounds(BlockSoundGroup.HANGING_ROOTS).suffocates(::never)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(90000, 1)).flammability(60, 70, Blocks.FIRE))
-    val paper_envelope by entryMap(::initialiser, *WoodType.values()) { Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, when (it) { WoodType.WARPED -> MapColor.DARK_AQUA; WoodType.CRIMSON -> MapColor.TERRACOTTA_MAGENTA; WoodType.DARK_OAK, WoodType.JUNGLE, WoodType.ACACIA -> MapColor.TERRACOTTA_WHITE; else -> MapColor.PALE_YELLOW }).breakByTool(PICKAXES).strength(4.0F, 2.0F).sounds(BlockSoundGroup.HANGING_ROOTS)) }
+    val paper_envelope by entryMap(::initialiser, *WoodType.values()) { Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, when (it) { WoodType.WARPED -> MapColor.DARK_AQUA; WoodType.CRIMSON -> MapColor.TERRACOTTA_MAGENTA; WoodType.DARK_OAK, WoodType.JUNGLE, WoodType.ACACIA -> MapColor.TERRACOTTA_WHITE; else -> MapColor.PALE_YELLOW }).breakByTool(HOES).requiresTool().strength(8.0F, 2.0F).sounds(BlockSoundGroup.HANGING_ROOTS)) }
         .setPropertySupplier { BlockExtraSettings().creativeEx(WASTELAND).flammability(60, 70, Blocks.FIRE) }
 
-    val fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
+    val fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(3000, 1)))
     val fortstone_stairs by entry(::initialiser) { StairsBlock(fortstone.defaultState, FabricBlockSettings.copy(fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val cobbled_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
+    val cobbled_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cobbled_fortstone_stairs by entry(::initialiser) { StairsBlock(cobbled_fortstone.defaultState, FabricBlockSettings.copy(cobbled_fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cobbled_fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(cobbled_fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(60.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
+    val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     val rusted_iron_blocks by entryMap(::initialiser, *IronRustType.values()) { WastelandRustingBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE)) { IronRustType.values().map { LCCBlocks[it.name.toLowerCase().plus("_iron_block")] }.toTypedArray() } }
@@ -260,7 +260,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val deadwood_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(deadwood_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val deadwood_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), LCCSignTypes.deadwood) }
+    val deadwood_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD), LCCSignTypes.deadwood) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val deadwood_wall_sign by entry(::initialiser) { LCCWallSignBlock(FabricBlockSettings.copyOf(deadwood_sign).dropsLike(deadwood_sign), LCCSignTypes.deadwood) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

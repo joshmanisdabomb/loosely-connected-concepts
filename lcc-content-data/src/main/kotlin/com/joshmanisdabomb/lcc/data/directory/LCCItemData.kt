@@ -330,10 +330,10 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
 
     val wasteland_spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.tags.contains("wasteland_spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ LCC.id("item/wasteland_spawn_egg") }, { LCC.id("item/wasteland_spawn_egg_overlay") }, { LCC.id("item/wasteland_spawn_egg_goop") })) }
 
-    val deadwood_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("deadwood_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.deadwood_planks)).add(ToolItemTagFactory) }
-    val fortstone_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("fortstone_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.cobbled_fortstone)).add(ToolItemTagFactory) }
-    val rusty_iron_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.iron_oxide)).add(ToolItemTagFactory) }
-    val rusty_iron_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.iron_oxide)) }
+    val deadwood_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("deadwood_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.deadwood_planks)).add(ToolItemTagFactory).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
+    val fortstone_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("fortstone_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.cobbled_fortstone)).add(ToolItemTagFactory).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
+    val rusty_iron_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.iron_oxide)).add(ToolItemTagFactory).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
+    val rusty_iron_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.iron_oxide)).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

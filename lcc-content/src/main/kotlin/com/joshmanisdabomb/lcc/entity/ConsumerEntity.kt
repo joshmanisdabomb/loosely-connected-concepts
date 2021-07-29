@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
@@ -8,12 +9,14 @@ import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
@@ -93,6 +96,13 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     override fun getJumpVelocity() = super.getJumpVelocity().times(1.4f)
 
+    override fun dropLoot(source: DamageSource, causedByPlayer: Boolean) {
+        if (lootTable == type.lootTableId && tongue?.isRemoved == false) {
+            this.world.server?.lootManager?.getTable(type.lootTableId.suffix("tongue"))?.generateLoot(this.getLootContextBuilder(causedByPlayer, source).build(LootContextTypes.ENTITY), this::dropStack)
+        }
+        super.dropLoot(source, causedByPlayer)
+    }
+
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
@@ -114,7 +124,6 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
                 val i = MathHelper.wrapDegrees((MathHelper.atan2(f, d) * 57.2957763671875).toFloat() - 90.0f)
                 entity.headYaw = this.changeAngle(entity.headYaw, i, 20.0f)
                 entity.pitch = this.changeAngle(entity.pitch, h, 20.0f)
-                println("hello")
             } else {
                 super.tick()
             }

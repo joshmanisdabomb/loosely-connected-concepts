@@ -260,6 +260,9 @@ object LCCItems : ItemDirectory() {
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 
+    val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(80000, 1)))
+
     val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(90100, 1)))
 

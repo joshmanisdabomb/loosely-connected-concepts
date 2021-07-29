@@ -47,7 +47,8 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
 
     val deadwood_logs by entry(::blockInitialiser) {}
     val deadwood_logs_i by entry(::itemInitialiser) {}
-    val deadwood_tree by entry(::itemInitialiser) {}
+
+    val wasteland_equipment by entry(::itemInitialiser) {}
 
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.block(context.id)
     fun entityTypeInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.entityType(context.id)

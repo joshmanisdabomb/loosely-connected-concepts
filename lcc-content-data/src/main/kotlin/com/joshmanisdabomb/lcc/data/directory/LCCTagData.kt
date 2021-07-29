@@ -12,9 +12,6 @@ import net.minecraft.tag.ItemTags
 import net.minecraft.tag.Tag
 
 object LCCTagData : AdvancedDirectory<Unit, TagData.TagBuilder<*>, Unit, Unit>() {
-    
-    val wasteland_effective by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.appendTag(LCCTags.wasteland_required.cast()) }
-    val wasteland_required by entry(::blockInitialiser) {}
 
     val nether_reactor_base by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.append(Blocks.GOLD_BLOCK) }
     val nether_reactor_shell by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.append(Blocks.COBBLESTONE) }

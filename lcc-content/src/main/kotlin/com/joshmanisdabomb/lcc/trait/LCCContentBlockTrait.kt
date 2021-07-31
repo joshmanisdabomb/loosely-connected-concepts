@@ -1,10 +1,12 @@
 package com.joshmanisdabomb.lcc.trait;
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
+import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.AbstractFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.*
+import net.minecraft.item.ItemStack
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.LEVEL_3
 import net.minecraft.util.math.BlockPos
@@ -78,5 +80,11 @@ interface LCCContentBlockTrait {
         is FluidBlock -> getFluidState(state).let { if (it.isStill) 1f else if (it[Properties.FALLING]) return@let null else it[Properties.LEVEL_1_8].times(0.1f) }?.times(temperature.energy)
         else -> temperature.energy
     }?.plus(soul.transform(0.025f, 0.0f))
+
+    @JvmDefault
+    fun lcc_content_isToolEffective(state: BlockState, stack: ItemStack, effectivity: ToolEffectivity) = state.isIn(effectivity.effective)
+
+    @JvmDefault
+    fun lcc_content_isToolRequired(state: BlockState, stack: ItemStack, effectivity: ToolEffectivity) = state.isIn(effectivity.required)
 
 }

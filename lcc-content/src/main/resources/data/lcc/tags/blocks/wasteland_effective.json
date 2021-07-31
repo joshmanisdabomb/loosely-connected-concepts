@@ -21,6 +21,7 @@
     "lcc:deadwood_button",
     "lcc:deadwood_fence",
     "lcc:deadwood_fence_gate",
-    "lcc:deadwood_trapdoor"
+    "lcc:deadwood_trapdoor",
+    "#lcc:wasteland_required"
   ]
 }

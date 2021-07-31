@@ -21,7 +21,9 @@
     "LivingEntityAccessor",
     "NuclearSpawnHelperInfoAccessor",
     "NuclearSpawnHelperMixin",
-    "WastelandBiomeModifierMixin"
+    "WastelandBiomeModifierMixin",
+    "ToolManagerMixin",
+    "AbstractBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,7 +5,7 @@ import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.tag.Tag
 
-enum class ToolEffectivity(effective: Tag<Block>, required: Tag<Block>, equipment: Tag<Item>) {
+enum class ToolEffectivity(val effective: Tag<Block>, val required: Tag<Block>, val equipment: Tag<Item>) {
 
     WASTELAND(LCCTags.wasteland_effective, LCCTags.wasteland_required, LCCTags.wasteland_equipment)
 

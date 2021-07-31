@@ -13,8 +13,8 @@
             },
             {
               "condition": "minecraft:random_chance_with_looting",
-              "chance": 0.045,
-              "looting_multiplier": 0.015
+              "chance": 0.08,
+              "looting_multiplier": 0.04
             }
           ],
           "name": "lcc:tongue_tissue"

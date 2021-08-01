@@ -23,7 +23,9 @@
     "NuclearSpawnHelperMixin",
     "WastelandBiomeModifierMixin",
     "ToolManagerMixin",
-    "AbstractBlockMixin"
+    "AbstractBlockMixin",
+    "EntityAccessor",
+    "MovementEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

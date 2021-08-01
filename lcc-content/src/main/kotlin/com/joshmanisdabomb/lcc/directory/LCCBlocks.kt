@@ -37,6 +37,7 @@ import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.PressurePlateBlock.ActivationRule
 import net.minecraft.block.enums.PistonType
 import net.minecraft.client.color.block.BlockColorProvider
+import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.property.Properties
@@ -46,6 +47,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
+import kotlin.math.pow
 
 object LCCBlocks : BlockDirectory() {
 
@@ -236,9 +238,9 @@ object LCCBlocks : BlockDirectory() {
 
     val spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val bleeding_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
+    val bleeding_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f.pow(1.2f).coerceAtLeast(2.0f) } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val poison_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> f } }
+    val poison_spikes by entry(::initialiser) { SpikesBlock(FabricBlockSettings.of(Material.METAL, MapColor.TERRACOTTA_BROWN).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.STONE).nonOpaque()) { f, e -> e.addStatusEffect(StatusEffectInstance(StatusEffects.POISON, 170, 0)); f } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().emissiveLighting { state, world, pos -> state[Properties.LIT] }) }

@@ -18,6 +18,7 @@ object LCCDamage : BasicDirectory<DamageSource, String>() {
     val radiation by entry(::initialiser) { LCCDamageSource(properties, bypassArmor = true, unblockable = true) }
     val hazmat_anoxia by entry(::initialiser) { LCCDamageSource(properties, bypassArmor = true) }
     val salt by entry(::initialiser) { LCCDamageSource(properties) }
+    val spikes by entry(::initialiser) { LCCDamageSource(properties) }
 
     fun <D : DamageSource> initialiser(input: D, context: DirectoryContext<String>, parameters: Unit) = input
 

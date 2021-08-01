@@ -94,8 +94,10 @@ object LCCLangData {
         lang["en_gb"]!!["death.attack.lcc.radiation.player"] = "%1\$s was exposed to ionising radiation whilst trying to escape %2\$s"
         lang["en_us"]!!["death.attack.lcc.hazmat_anoxia"] = "%1\$s couldn't get their helmet off"
         lang["en_us"]!!["death.attack.lcc.hazmat_anoxia.player"] = "%1\$s couldn't get their helmet off whilst trying to escape %2\$s"
-        lang["en_us"]!!["death.attack.salt"] = "%1\$s was lightly salted by %2\$s"
-        lang["en_us"]!!["death.attack.salt.item"] = "%1\$s was lightly salted by %2\$s using %3\$s"
+        lang["en_us"]!!["death.attack.lcc.salt"] = "%1\$s was lightly salted by %2\$s"
+        lang["en_us"]!!["death.attack.lcc.salt.item"] = "%1\$s was lightly salted by %2\$s using %3\$s"
+        lang["en_us"]!!["death.attack.lcc.spikes"] = "%1\$s was skewered"
+        lang["en_us"]!!["death.attack.lcc.spikes.player"] = "%1\$s was skewered like a kebab whilst trying to escape %2\$s"
 
         lang["en_us"]!!["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["en_us"]!!["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"
@@ -111,6 +113,7 @@ object LCCLangData {
         lang["en_us"]!!["subtitles.lcc.block.alarm.nuclear_siren"] = "Alarm siren blares"
         lang["en_us"]!!["subtitles.lcc.item.detector.click"] = "Radiation Detector clicks"
         lang["en_us"]!!["subtitles.lcc.entity.salt.throw"] = "Salt thrown"
+        lang["en_us"]!!["subtitles.lcc.block.spikes.hurt"] = "Spikes hurt"
 
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"

@@ -205,5 +205,13 @@
       "minecraft:dig/sand4"
     ],
     "subtitle": "subtitles.lcc.entity.salt.throw"
+  },
+  "block.lcc.spikes.hurt": {
+    "sounds": [
+      "lcc:block/spikes/hurt1",
+      "lcc:block/spikes/hurt2",
+      "lcc:block/spikes/hurt3"
+    ],
+    "subtitle": "subtitles.lcc.block.spikes.hurt"
   }
 }

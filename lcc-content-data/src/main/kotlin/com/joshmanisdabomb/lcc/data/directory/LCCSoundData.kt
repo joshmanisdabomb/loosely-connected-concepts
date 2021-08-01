@@ -82,6 +82,10 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("minecraft:dig/sand${it+1}") //TODO custom
     }) }
 
+    val spikes_hurt by entry(::initialiser) { SoundProperties("block", LCC.modid, "spikes.hurt", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/spikes/hurt${it+1}")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.list.add(it) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

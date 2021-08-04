@@ -10,6 +10,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.POWERED
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 
@@ -33,7 +34,7 @@ class SprintPressurePlateBlock(settings: Settings) : AbstractPressurePlateBlock(
         val state = world.getBlockState(pos)
         if (!state.isOf(this)) return 0
         if (state[POWERED]) {
-            return world.getOtherEntities(null, BOX.offset(pos), EntityPredicates.EXCEPT_SPECTATOR).any().transformInt(15)
+            return world.getOtherEntities(null, activeBox.offset(pos), EntityPredicates.EXCEPT_SPECTATOR).any().transformInt(15)
         }
         return world.getOtherEntities(null, BOX.offset(pos), EntityPredicates.EXCEPT_SPECTATOR.and { (it.isSprinting || it.prevY - it.y > 0) && !it.canAvoidTraps() }).any().transformInt(15)
     }
@@ -41,5 +42,9 @@ class SprintPressurePlateBlock(settings: Settings) : AbstractPressurePlateBlock(
     override fun getRedstoneOutput(state: BlockState) = state[POWERED].transformInt(15)
 
     override fun setRedstoneOutput(state: BlockState, redstone: Int) = state.with(POWERED, redstone > 0)
+
+    companion object {
+        val activeBox = Box(0.0, 0.0, 0.0, 1.0, 0.25, 1.0)
+    }
 
 }

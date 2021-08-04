@@ -245,7 +245,7 @@ object LCCBlocks : BlockDirectory() {
 
     val explosive_paste by entry(::initialiser) { ExplosivePasteBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().breakInstantly().emissiveLighting { state, world, pos -> state[Properties.LIT] }) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(5000, 1)).cutout())
-    val improvised_explosive by entry(::initialiser) { ImprovisedExplosiveBlock(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).strength(7.0f, 0.0F).breakByTool(PICKAXES, 1).requiresTool().luminance { (it[ImprovisedExplosiveBlock.ie_state] != ImprovisedExplosiveBlock.ImprovisedExplosiveState.INACTIVE).transformInt(7) }.sounds(BlockSoundGroup.STONE)) }
+    val improvised_explosive by entry(::initialiser) { ImprovisedExplosiveBlock(FabricBlockSettings.of(Material.TNT, MapColor.DIRT_BROWN).strength(4.0f, 0.0F).breakByTool(PICKAXES, 1).requiresTool().luminance { (it[ImprovisedExplosiveBlock.ie_state] != ImprovisedExplosiveBlock.ImprovisedExplosiveState.INACTIVE).transformInt(7) }.sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     val deadwood_log by entry(::initialiser) { FunctionalLogBlock(FabricBlockSettings.copyOf(Settings.of(Material.WOOD, pillarMapColorProvider(MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_GREEN))).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) { stripped_deadwood_log.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }

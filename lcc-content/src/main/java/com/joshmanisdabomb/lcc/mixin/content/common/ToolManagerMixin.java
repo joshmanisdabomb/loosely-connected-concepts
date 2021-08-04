@@ -34,14 +34,13 @@ public abstract class ToolManagerMixin {
             Item item = stack.getItem();
             if (block instanceof LCCContentBlockTrait && item instanceof LCCContentItemTrait) {
                 for (ToolEffectivity t : ToolEffectivity.values()) {
-                    if (((LCCContentItemTrait)item).lcc_content_isTool(stack, state, t) && ((LCCContentBlockTrait)block).lcc_content_isToolRequired(state, stack, t)) {
-                        info.setReturnValue(true);
+                    if (!((LCCContentItemTrait)item).lcc_content_isTool(stack, state, t) && ((LCCContentBlockTrait)block).lcc_content_isToolRequired(state, stack, t)) {
+                        info.setReturnValue(false);
                         return;
                     }
                 }
             }
         }
-        info.setReturnValue(false);
     }
 
 }

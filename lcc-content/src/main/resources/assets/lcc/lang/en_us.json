@@ -454,7 +454,7 @@
   "subtitles.lcc.block.alarm.nuclear_siren": "Alarm siren blares",
   "subtitles.lcc.item.detector.click": "Radiation Detector clicks",
   "subtitles.lcc.entity.salt.throw": "Salt thrown",
-  "subtitles.lcc.block.spikes.hurt": "Spikes hurt",
+  "subtitles.lcc.block.spikes.hurt": "Spikes damage",
   "block.lcc.nether_reactor.active": "Active!",
   "block.lcc.nether_reactor.incorrect": "Not the correct pattern!",
   "block.lcc.nether_reactor.players": "All players need to be close to the reactor.",

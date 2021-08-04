@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.mixin.content.common.EntityAccessor
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -24,6 +25,8 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldView
 import kotlin.math.abs
 
 class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: LivingEntity) -> Float) : Block(settings), LCCBlockTrait {
@@ -44,7 +47,8 @@ class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: Livi
             val d = abs(entity.x - entity.lastRenderX)
             val e = abs(entity.y - entity.lastRenderY)
             val f = abs(entity.z - entity.lastRenderZ)
-            if (speed >= 0.003 && (d >= 0.003 || e >= 0.003 || f >= 0.003) && !world.isClient) {
+            val g = entity.isSneaking.transform(0.03, 0.003)
+            if (speed >= g && (d >= g || e >= g || f >= g) && !world.isClient) {
                 val damage = states.mapNotNull { it.block as? SpikesBlock }.distinct().maxOf { it.modifier(speed.plus(1).exp(3).minus(1.0).times(4.0).coerceAtLeast(1.0).toFloat(), entity) }
                 if (entity.damage(LCCDamage.spikes, damage)) {
                     world.playSound(null, entity.blockPos, LCCSounds.spikes_hurt, SoundCategory.BLOCKS, 1.0f, 1.0f)
@@ -58,8 +62,18 @@ class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: Livi
         }
     }
 
-    override fun canPathfindThrough(state: BlockState?, world: BlockView?, pos: BlockPos?, type: NavigationType?): Boolean {
-        return super.canPathfindThrough(state, world, pos, type)
+    override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
+        val dir = state[FACING]
+        val pos2 = pos.offset(dir.opposite)
+        return world.getBlockState(pos2).isSideSolidFullSquare(world, pos2, dir)
+    }
+
+    override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
+        return if (direction == state[FACING].opposite && !state.canPlaceAt(world, pos)) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
+    }
+
+    override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType): Boolean {
+        return false
     }
 
     companion object {

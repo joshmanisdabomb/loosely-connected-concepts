@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.entity.PapercombBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
@@ -277,6 +278,11 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun fall(heightDifference: Double, onGround: Boolean, landedState: BlockState, landedPosition: BlockPos) = if (!isBaby) Unit else super.fall(heightDifference, onGround, landedState, landedPosition)
 
+    override fun damage(source: DamageSource, amount: Float): Boolean {
+        if (source.isFire) return super.damage(source, amount.times(1.5f).coerceAtLeast(3.0f))
+        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamage(source, amount))
+    }
+
     override fun getGroup() = EntityGroup.ARTHROPOD
 
     companion object {
@@ -287,7 +293,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 28.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {

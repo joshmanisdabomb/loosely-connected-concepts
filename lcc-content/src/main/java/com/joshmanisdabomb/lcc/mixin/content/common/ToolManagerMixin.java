@@ -1,13 +1,9 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity;
-import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait;
-import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait;
 import net.fabricmc.fabric.api.tool.attribute.v1.ToolManager;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,14 +26,10 @@ public abstract class ToolManagerMixin {
 
     private static void isToolTypeSuitableFor(BlockState state, ItemStack stack, @Nullable LivingEntity user, boolean vanillaResult, CallbackInfoReturnable<Boolean> info) {
         if (info.getReturnValueZ()) {
-            Block block = state.getBlock();
-            Item item = stack.getItem();
-            if (block instanceof LCCContentBlockTrait && item instanceof LCCContentItemTrait) {
-                for (ToolEffectivity t : ToolEffectivity.values()) {
-                    if (!((LCCContentItemTrait)item).lcc_content_isTool(stack, state, t) && ((LCCContentBlockTrait)block).lcc_content_isToolRequired(state, stack, t)) {
-                        info.setReturnValue(false);
-                        return;
-                    }
+            for (ToolEffectivity t : ToolEffectivity.values()) {
+                if (t.isToolInsufficient(state, stack)) {
+                    info.setReturnValue(false);
+                    return;
                 }
             }
         }

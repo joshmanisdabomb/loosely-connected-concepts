@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.extensions.suffix
+import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.RangedAttackMob
@@ -22,7 +24,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 
-class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob {
+class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob, LCCContentEntityTrait {
 
     internal var tongueEntity: ConsumerTongueEntity? = null
     val tongue get() = tongueEntity
@@ -103,11 +105,13 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         super.dropLoot(source, causedByPlayer)
     }
 
+    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamage(source, amount))
+
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 57.0 /* TODO increase health for wasteland weapons */).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
         }
     }
 

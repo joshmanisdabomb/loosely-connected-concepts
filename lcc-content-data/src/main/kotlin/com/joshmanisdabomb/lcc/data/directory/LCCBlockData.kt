@@ -504,7 +504,17 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
-    val improvised_explosive by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(VariantBlockAssetFactory(ImprovisedExplosiveBlock.ie_state, { s -> mb.cubeBottomTop(textureSide = { idb.locSuffix(it, s.asString()) }) })).add(CustomRecipeFactory { d, i ->
+    val improvised_explosive by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(VariantBlockAssetFactory(ImprovisedExplosiveBlock.ie_state, { s ->
+        mb.cube(
+            textureParticle = { idb.locSuffix(it, "inactive") },
+            textureUp = { idb.locSuffix(it, "top") },
+            textureDown = { idb.locSuffix(it, "bottom") },
+            textureNorth = { idb.locSuffix(it, s.asString()) },
+            textureEast = { idb.locSuffix(it, s.asString()) },
+            textureSouth = { idb.locSuffix(it, s.asString()) },
+            textureWest = { idb.locSuffix(it, s.asString()) }
+        )
+    })).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i, 1)
             .pattern("iei")
             .pattern("ltl")

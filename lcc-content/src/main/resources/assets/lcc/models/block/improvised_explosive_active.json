@@ -1,8 +1,12 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "top": "lcc:block/improvised_explosive_top",
-    "bottom": "lcc:block/improvised_explosive_bottom",
-    "side": "lcc:block/improvised_explosive_active"
+    "particle": "lcc:block/improvised_explosive_inactive",
+    "north": "lcc:block/improvised_explosive_active",
+    "south": "lcc:block/improvised_explosive_active",
+    "east": "lcc:block/improvised_explosive_active",
+    "west": "lcc:block/improvised_explosive_active",
+    "up": "lcc:block/improvised_explosive_top",
+    "down": "lcc:block/improvised_explosive_bottom"
   }
 }

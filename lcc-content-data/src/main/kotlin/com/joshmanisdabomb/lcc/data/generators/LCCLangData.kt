@@ -114,6 +114,10 @@ object LCCLangData {
         lang["en_us"]!!["subtitles.lcc.item.detector.click"] = "Radiation Detector clicks"
         lang["en_us"]!!["subtitles.lcc.entity.salt.throw"] = "Salt thrown"
         lang["en_us"]!!["subtitles.lcc.block.spikes.hurt"] = "Spikes damage"
+        lang["en_us"]!!["subtitles.lcc.block.improvised_explosive.beep"] = "Improvised Explosive beeps"
+        lang["en_us"]!!["subtitles.lcc.block.improvised_explosive.constant"] = "Improvised Explosive beeps rapidly"
+        lang["en_us"]!!["subtitles.lcc.block.improvised_explosive.triggered"] = "Improvised Explosive triggered"
+        lang["en_us"]!!["subtitles.lcc.block.improvised_explosive.defuse"] = "Improvised Explosive defused"
 
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang["en_us"]!![LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"

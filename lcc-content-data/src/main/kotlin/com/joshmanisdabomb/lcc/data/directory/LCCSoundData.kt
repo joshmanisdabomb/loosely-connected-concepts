@@ -86,6 +86,19 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:block/spikes/hurt${it+1}")
     }) }
 
+    val improvised_explosive_triggered by entry(::initialiser) { SoundProperties("block", LCC.modid, "improvised_explosive.triggered", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/improvised_explosive/triggered")
+    }) }
+    val improvised_explosive_beep by entry(::initialiser) { SoundProperties("block", LCC.modid, "improvised_explosive.beep", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/improvised_explosive/beep", stream = true)
+    }) }
+    val improvised_explosive_constant by entry(::initialiser) { SoundProperties("block", LCC.modid, "improvised_explosive.constant", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/improvised_explosive/constant", stream = true)
+    }) }
+    val improvised_explosive_defuse by entry(::initialiser) { SoundProperties("block", LCC.modid, "improvised_explosive.defuse", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/improvised_explosive/defuse")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.list.add(it) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

@@ -213,5 +213,35 @@
       "lcc:block/spikes/hurt3"
     ],
     "subtitle": "subtitles.lcc.block.spikes.hurt"
+  },
+  "block.lcc.improvised_explosive.triggered": {
+    "sounds": [
+      "lcc:block/improvised_explosive/triggered"
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.triggered"
+  },
+  "block.lcc.improvised_explosive.beep": {
+    "sounds": [
+      {
+        "name": "lcc:block/improvised_explosive/beep",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.beep"
+  },
+  "block.lcc.improvised_explosive.constant": {
+    "sounds": [
+      {
+        "name": "lcc:block/improvised_explosive/constant",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.constant"
+  },
+  "block.lcc.improvised_explosive.defuse": {
+    "sounds": [
+      "lcc:block/improvised_explosive/defuse"
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.defuse"
   }
 }

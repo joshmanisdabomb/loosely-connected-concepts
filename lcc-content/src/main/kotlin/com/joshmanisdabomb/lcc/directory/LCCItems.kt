@@ -73,7 +73,7 @@ object LCCItems : ItemDirectory() {
     val salt by entry(::initialiser) { SaltItem(8, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS, sortValueInt(100, 1)))
 
-    val rubber_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.rubber_boat } }
+    val rubber_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.rubber_boat } }
         .setProperties(ItemExtraSettings().creativeEx(SAP_PRODUCTION, sortValueInt(130)))
 
     //Tools
@@ -257,7 +257,7 @@ object LCCItems : ItemDirectory() {
     //Wasteland
     val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4000, 1)))
-    val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults()) { LCCEntities.deadwood_boat } }
+    val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 
     val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }

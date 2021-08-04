@@ -515,7 +515,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .input('t', Blocks.TNT)
             .apply { hasCriterionShaped(this, LCCBlocks.explosive_paste) }
             .apply { offerShaped(this, d) }
-    }) }
+    }).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
     val fortstone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory(LCCBlocks.cobbled_fortstone)).add(SmeltFromItemRecipeFactory(LCCBlocks.cobbled_fortstone, RecipeSerializer.SMELTING)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)).add(BlockTagFactory(LCCTags.wasteland_required)) }
     val cobbled_fortstone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().add(BlockTagFactory(LCCTags.wasteland_required)) }

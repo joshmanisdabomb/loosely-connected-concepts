@@ -35,4 +35,14 @@ public abstract class HeartsLivingMixin extends Entity {
         return after;
     }
 
+    @Redirect(method = "applyEnchantmentsToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getInflictedDamage"))
+    private float modifyProtectionReduction(float original, float protection, DamageSource source) {
+        float after = DamageUtil.getInflictedDamage(original, protection);
+        Entity entity = source.getSource();
+        if (entity instanceof LCCContentEntityTrait) {
+            return ((LCCContentEntityTrait)entity).lcc_content_applyDamageThroughProtection((LivingEntity)(Object)this, after, protection, original);
+        }
+        return after;
+    }
+
 }

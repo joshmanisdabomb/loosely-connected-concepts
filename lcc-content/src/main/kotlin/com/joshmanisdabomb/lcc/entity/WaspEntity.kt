@@ -288,6 +288,10 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
     }
 
+    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
+        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
+    }
+
     override fun getGroup() = EntityGroup.ARTHROPOD
 
     companion object {

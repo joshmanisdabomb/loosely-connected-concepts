@@ -111,6 +111,10 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
     }
 
+    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
+        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
+    }
+
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 

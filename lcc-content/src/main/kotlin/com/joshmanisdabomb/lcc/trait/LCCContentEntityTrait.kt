@@ -21,6 +21,9 @@ interface LCCContentEntityTrait {
     fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float) = after
 
     @JvmDefault
+    fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float) = after
+
+    @JvmDefault
     fun lcc_content_isCombatResistant(against: LivingEntity, effectivity: ToolEffectivity) = (this as Entity).type.isIn(effectivity.resistant)
 
     @JvmDefault

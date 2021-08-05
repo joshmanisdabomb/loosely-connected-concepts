@@ -105,13 +105,17 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         super.dropLoot(source, causedByPlayer)
     }
 
-    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamage(source, amount))
+    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
+
+    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
+        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
+    }
 
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
         }
     }
 

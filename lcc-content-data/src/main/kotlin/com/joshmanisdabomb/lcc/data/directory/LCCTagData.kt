@@ -15,6 +15,9 @@ object LCCTagData : AdvancedDirectory<Unit, TagData.TagBuilder<*>, Unit, Unit>()
 
     val wasteland_effective by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.appendTag(LCCTags.wasteland_required.cast()) }
     val wasteland_required by entry(::blockInitialiser) {}
+    val wasteland_equipment by entry(::itemInitialiser) {}
+    val wasteland_combat by entry(::entityInitialiser) {}
+    val wasteland_resistant by entry(::entityInitialiser) {}.addInitListener { context, _ -> context.entry.appendTag(LCCTags.wasteland_combat.cast()) }
 
     val nether_reactor_base by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.append(Blocks.GOLD_BLOCK) }
     val nether_reactor_shell by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.append(Blocks.COBBLESTONE) }

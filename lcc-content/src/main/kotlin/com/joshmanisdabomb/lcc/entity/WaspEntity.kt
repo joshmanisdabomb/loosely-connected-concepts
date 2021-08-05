@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.AboveGroundTargeting
@@ -54,7 +55,7 @@ import java.util.*
 import kotlin.math.PI
 import kotlin.streams.toList
 
-open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : AnimalEntity(entityType, world), Monster, Angerable, Flutterer {
+open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : AnimalEntity(entityType, world), Monster, Angerable, Flutterer, LCCContentEntityTrait {
 
     private var target: UUID? = null
 
@@ -280,7 +281,11 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
         if (source.isFire) return super.damage(source, amount.times(1.5f).coerceAtLeast(3.0f))
-        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamage(source, amount))
+        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
+    }
+
+    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
+        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
     }
 
     override fun getGroup() = EntityGroup.ARTHROPOD
@@ -293,7 +298,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 5.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {

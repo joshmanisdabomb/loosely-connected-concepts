@@ -10,11 +10,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Entity.class)
 public abstract class MovementEntityMixin {
 
+    private Vec3d lcc_fullVelocityBeforeCollisions = Vec3d.ZERO;
     private Vec3d lcc_fullVelocity = Vec3d.ZERO;
 
-    @Inject(method = "adjustMovementForCollisions", at = @At("HEAD"))
+    @Inject(method = "adjustMovementForCollisions", at = @At("RETURN"))
     private void adjustMovementForCollisions(Vec3d movement, CallbackInfoReturnable<Vec3d> info) {
-        lcc_fullVelocity = movement;
+        lcc_fullVelocityBeforeCollisions = movement;
+        lcc_fullVelocity = info.getReturnValue();
     }
 
 }

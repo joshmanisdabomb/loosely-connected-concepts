@@ -164,6 +164,8 @@
   "block.lcc.spikes": "Spikes",
   "block.lcc.bleeding_spikes": "Bleeding Spikes",
   "block.lcc.poison_spikes": "Poison Spikes",
+  "block.lcc.shattered_glass": "Shattered Glass",
+  "block.lcc.shattered_glass_pane": "Shattered Glass Pane",
   "block.lcc.test_block": "Test Block",
   "block.lcc.papercomb_block": "Papercomb Block",
   "block.lcc.oak_paper_envelope": "Oak Paper Envelope",

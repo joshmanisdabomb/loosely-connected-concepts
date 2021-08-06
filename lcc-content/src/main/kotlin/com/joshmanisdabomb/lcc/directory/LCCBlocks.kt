@@ -279,6 +279,13 @@ object LCCBlocks : BlockDirectory() {
     val deadwood_trapdoor by entry(::initialiser) { TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(::never)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
+    val shattered_glass by entry(::initialiser) { ShatteredGlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.GLASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+        .addTags("shattered_glass")
+    val shattered_glass_pane by entry(::initialiser) { ShatteredPaneBlock(FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().sounds(BlockSoundGroup.GLASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutoutMipped())
+        .addTags("shattered_glass_pane")
+
     //TODO minesweep blocks
     //TODO reinforced stone or similar for nuke protection
     //TODO sapphire altar

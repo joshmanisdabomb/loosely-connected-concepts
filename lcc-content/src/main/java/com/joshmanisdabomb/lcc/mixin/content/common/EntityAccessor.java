@@ -8,6 +8,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(Entity.class)
 public interface EntityAccessor {
 
+    @Accessor("lcc_fullVelocityBeforeCollisions")
+    Vec3d getFullVelocityBeforeCollides();
+
     @Accessor("lcc_fullVelocity")
     Vec3d getFullVelocity();
 

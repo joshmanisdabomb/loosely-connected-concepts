@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "lcc:shattered_glass",
+    "lcc:shattered_glass_pane",
     "lcc:classic_glass"
   ]
 }

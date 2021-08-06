@@ -43,7 +43,7 @@ class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: Livi
 
     override fun lcc_onEntityCollisionGroupedByClass(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         if (entity is LivingEntity) {
-            val speed = (entity as EntityAccessor).fullVelocity.length()
+            val speed = (entity as EntityAccessor).fullVelocityBeforeCollides.length()
             val d = abs(entity.x - entity.lastRenderX)
             val e = abs(entity.y - entity.lastRenderY)
             val f = abs(entity.z - entity.lastRenderZ)

@@ -562,7 +562,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val spikes by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<SpikesBlock>()).defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_spikes.upload(i(t) ?: idb.loc(t), Texture.texture(idb.loc(t)), d.modelStates::addModel) }).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
     val shattered_glass by entry(::initialiser) { data().affects(LCCBlocks.entries.values.filter { it.tags.contains("shattered_glass") }.map { it.entry }).defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory).add(BlockTagFactory(BlockTags.IMPERMEABLE)) }
-    val shattered_glass_pane by entry(::initialiser) { data().affects(LCCBlocks.entries.values.filter { it.tags.contains("shattered_glass_pane") }.map { it.entry }).defaultLang().add(GeneratedBlockItemAssetFactory { i -> idi.loc(i, "block").modify { it.replace("_pane", "") } }).add(GlassPaneBlockAssetFactory { b -> Identifier(idb.locSuffix(b, "top").path.replace("shattered_", "")) }).add(SilkBlockLootFactory).add(BlockTagFactory(BlockTags.IMPERMEABLE)) }
+    val shattered_glass_pane by entry(::initialiser) { data().affects(LCCBlocks.entries.values.filter { it.tags.contains("shattered_glass_pane") }.map { it.entry }).defaultLang().add(GeneratedBlockItemAssetFactory { i -> idi.loc(i, "block").modify { it.replace("_pane", "") } }).add(GlassPaneBlockAssetFactory { b -> Identifier(idb.locSuffix(b, "top").path.replace("shattered_", "")) }).add(SilkBlockLootFactory) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

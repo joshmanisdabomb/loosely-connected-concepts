@@ -19,7 +19,8 @@
     "ServerInteractionManagerMixin",
     "ServerPlayerEntityMixin",
     "ServerWorldMixin",
-    "PistonBlockMixin"
+    "PistonBlockMixin",
+    "AbstractBlockStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

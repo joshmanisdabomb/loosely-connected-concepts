@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.abstracts.color.ColorConstants
+import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.abstracts.types.IronRustType
 import com.joshmanisdabomb.lcc.abstracts.types.WoodType
 import com.joshmanisdabomb.lcc.block.*
@@ -28,6 +29,7 @@ import com.joshmanisdabomb.lcc.settings.DynamicItemRenderExtraSetting.Companion.
 import com.joshmanisdabomb.lcc.settings.FlammableExtraSetting.Companion.flammability
 import com.joshmanisdabomb.lcc.settings.RenderLayerExtraSetting.Companion.cutout
 import com.joshmanisdabomb.lcc.settings.RenderLayerExtraSetting.Companion.cutoutMipped
+import com.joshmanisdabomb.lcc.settings.RenderLayerExtraSetting.Companion.translucent
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
 import com.joshmanisdabomb.lcc.world.feature.tree.RubberSaplingGenerator
 import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
@@ -43,6 +45,7 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.state.property.Properties
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.DyeColor
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
@@ -279,11 +282,25 @@ object LCCBlocks : BlockDirectory() {
     val deadwood_trapdoor by entry(::initialiser) { TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(::never)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
-    val shattered_glass by entry(::initialiser) { ShatteredGlassBlock(FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.GLASS)) }
+    val shattered_glass by entry(::initialiser) { ShatteredGlassBlock(Blocks.GLASS, FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.GLASS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
         .addTags("shattered_glass")
-    val shattered_glass_pane by entry(::initialiser) { ShatteredPaneBlock(FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().sounds(BlockSoundGroup.GLASS)) }
+    val shattered_glass_pane by entry(::initialiser) { ShatteredPaneBlock(Blocks.GLASS_PANE, FabricBlockSettings.of(Material.GLASS, MapColor.CLEAR).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().sounds(BlockSoundGroup.GLASS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutoutMipped())
+        .addTags("shattered_glass_pane")
+    val shattered_tinted_glass by entry(::initialiser) { object : ShatteredGlassBlock(Blocks.TINTED_GLASS, FabricBlockSettings.of(Material.GLASS, MapColor.GRAY).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.GLASS)) {
+        override fun isTranslucent(state: BlockState, world: BlockView, pos: BlockPos) = false
+        override fun getOpacity(state: BlockState, world: BlockView, pos: BlockPos) = world.maxLightLevel
+    } }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).translucent())
+        .addTags("shattered_glass")
+    val stained_shattered_glass by entryMap(::initialiser, *DyeColor.values()) { StainedShatteredGlassBlock(Registry.BLOCK[Identifier("${it}_stained_glass")] as StainedGlassBlock, FabricBlockSettings.of(Material.GLASS, it.mapColor).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.GLASS)) }
+        .setInstanceNameSupplier { n, k -> "shattered_${k}_stained_glass" }
+        .setPropertySupplier { BlockExtraSettings().creativeExSet(WASTELAND, "stained_shattered_glass") { stack -> it as LCCExtendedDyeColor }.translucent() }
+        .addTags("shattered_glass")
+    val stained_shattered_glass_pane by entryMap(::initialiser, *DyeColor.values()) { StainedShatteredPaneBlock(Registry.BLOCK[Identifier("${it}_stained_glass_pane")] as StainedGlassPaneBlock, FabricBlockSettings.of(Material.GLASS, it.mapColor).strength(0.0f, 0.0f).breakByTool(PICKAXES).nonOpaque().sounds(BlockSoundGroup.GLASS)) }
+        .setInstanceNameSupplier { n, k -> "shattered_${k}_stained_glass_pane" }
+        .setPropertySupplier { BlockExtraSettings().creativeExSet(WASTELAND, "stained_shattered_glass_pane") { stack -> it as LCCExtendedDyeColor }.translucent() }
         .addTags("shattered_glass_pane")
 
     //TODO minesweep blocks

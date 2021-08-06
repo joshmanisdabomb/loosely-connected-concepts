@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
@@ -47,5 +48,8 @@ interface LCCBlockTrait {
 
     @JvmDefault
     fun lcc_onEntityNearby(world: World, state: BlockState, pos: BlockPos, entity: Entity, distSq: Double) = Unit
+
+    @JvmDefault
+    fun lcc_otherSideInvisible(state: BlockState, state2: BlockState, from: Direction): Boolean? = null
 
 }

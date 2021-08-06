@@ -21,6 +21,7 @@ class OilPocketsFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defa
                 val y = world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z)
                 if (!world.getBlockState(bp.set(x, y-1, z)).isOf(LCCBlocks.cracked_mud)) return@repeat
                 val h = world.random.nextInt(3).plus(2)
+                if (world.isOutOfHeightLimit(y-h)) return@repeat
                 if (!GenUtils.areaMatches(world::getBlockState, x, y-h, z, ex = 1, ey = 1, ez = 1) { state, pos -> state.isSolidBlock(world, pos) }) return@repeat
                 world.setBlockState(bp.setY(y-h), LCCBlocks.oil.defaultState, 18)
                 success = true

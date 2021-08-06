@@ -22,6 +22,7 @@ class DeadwoodLogsFeature(codec: Codec<DefaultFeatureConfig>) : Feature<DefaultF
                 val x = origin.x.plus(world.random.nextInt(16).minus(world.random.nextInt(16)))
                 val z = origin.z.plus(world.random.nextInt(16).minus(world.random.nextInt(16)))
                 val y = world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x, z)
+                if (world.isOutOfHeightLimit(y)) return@repeat
                 if (world.random.nextBoolean()) {
                     val h = world.random.nextInt(7).plus(3)
                     if (!GenUtils.areaMatches(world::getBlockState, x, y-1, z, ex = 1, ez = 1) { state, pos -> state.isOf(LCCBlocks.cracked_mud) }) return@repeat
@@ -48,6 +49,7 @@ class DeadwoodLogsFeature(codec: Codec<DefaultFeatureConfig>) : Feature<DefaultF
                     val drop = world.random.nextBoolean()
                     for (i in 0..l) {
                         val y2 = if (i == 0) y else world.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, x + d.offsetX.times(i), z + d.offsetZ.times(i))
+                        if (world.isOutOfHeightLimit(y2)) continue
                         world.setBlockState(bp.set(x + d.offsetX.times(i), if (y2 < y && !drop) y else y2, z + d.offsetZ.times(i)), LCCBlocks.deadwood_log.defaultState.with(Properties.AXIS, d.axis), 18)
                     }
 

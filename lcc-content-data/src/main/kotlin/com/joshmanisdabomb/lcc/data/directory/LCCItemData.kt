@@ -335,6 +335,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     val rusty_iron_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCItems.iron_oxide)).add(ToolItemTagFactory).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
     val rusty_iron_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.iron_oxide)).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
 
+    val crowbar by entry(::initialiser) { data().defaultLang().add(HandheldItemAssetFactory) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

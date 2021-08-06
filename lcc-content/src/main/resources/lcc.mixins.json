@@ -25,7 +25,9 @@
     "ToolManagerMixin",
     "AbstractBlockMixin",
     "EntityAccessor",
-    "MovementEntityMixin"
+    "MovementEntityMixin",
+    "PlayerEntityAccessor",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

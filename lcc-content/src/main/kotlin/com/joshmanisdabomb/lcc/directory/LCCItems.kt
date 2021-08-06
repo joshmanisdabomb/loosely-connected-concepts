@@ -260,6 +260,9 @@ object LCCItems : ItemDirectory() {
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 
+    val crowbar by entry(::initialiser) { CrowbarItem(Item.Settings().maxDamage(96).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4050, 1)))
+
     val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(80000, 1)))
 

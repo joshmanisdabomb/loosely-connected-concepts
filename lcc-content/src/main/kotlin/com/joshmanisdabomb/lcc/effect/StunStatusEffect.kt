@@ -1,11 +1,18 @@
 package com.joshmanisdabomb.lcc.effect
 
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.input.Input
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributeModifier.Operation.MULTIPLY_TOTAL
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectType
+import net.minecraft.entity.mob.CreeperEntity
+import net.minecraft.entity.mob.MobEntity
 
 class StunStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(type, color) {
 
@@ -18,5 +25,20 @@ class StunStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(type, 
     override fun applyUpdateEffect(entity: LivingEntity, amplifier: Int) = Unit
 
     override fun adjustModifierAmount(amplifier: Int, modifier: EntityAttributeModifier) = modifier.value
+
+    fun handleMobAi(entity: MobEntity, directMovement: MoveControl): Boolean {
+        directMovement.tick()
+        (entity as? CreeperEntity)?.fuseSpeed = -1
+        return true
+    }
+
+    @Environment(EnvType.CLIENT)
+    fun modifyLookSpeed(player: ClientPlayerEntity): Array<Double> = arrayOf(0.0, 0.0)
+
+    @Environment(EnvType.CLIENT)
+    fun modifyPlayerInput(player: ClientPlayerEntity, input: Input) {
+        0.0f.also { input.movementSideways = it; input.movementForward = it; }
+        false.also { input.pressingForward = it; input.sneaking = it; input.jumping = it; input.pressingRight = it; input.pressingLeft = it; input.pressingBack = it }
+    }
 
 }

@@ -22,7 +22,6 @@ public abstract class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/enchantment/EnchantmentHelper;getFireAspect"), locals = LocalCapture.CAPTURE_FAILHARD)
     private void retainCriticalHit(Entity target, CallbackInfo info, float f, float f1, boolean b, boolean b2, int i, boolean b3) {
-        System.out.println(b3);
         lcc_lastHitCritical = b3;
     }
 

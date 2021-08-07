@@ -14,20 +14,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPlayerEntity.class)
-public abstract class StunPlayerMixin extends PlayerEntity {
+public abstract class EffectPlayerMixin extends PlayerEntity {
 
     @Shadow
     public Input input;
 
-    public StunPlayerMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+    public EffectPlayerMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
         super(world, pos, yaw, profile);
     }
 
     @Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/TutorialManager;onMovement(Lnet/minecraft/client/input/Input;)V"))
-    public void replaceMovement(CallbackInfo info) {
+    public void replaceMovementWhenStun(CallbackInfo info) {
         if (this.hasStatusEffect(LCCEffects.INSTANCE.getStun())) {
-            input.movementForward = input.movementSideways = 0.0F;
-            input.pressingForward = input.pressingBack = input.pressingLeft = input.pressingRight = input.jumping = input.sneaking = false;
+            LCCEffects.INSTANCE.getStun().modifyPlayerInput((ClientPlayerEntity)(Object)this, input);
         }
     }
 

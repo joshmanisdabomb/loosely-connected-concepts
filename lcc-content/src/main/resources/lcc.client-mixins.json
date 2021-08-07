@@ -8,7 +8,7 @@
     "HeartsLivingRendererMixin",
     "GauntletHudMixin",
     "RadiationHudMixin",
-    "StunPlayerMixin",
+    "EffectPlayerMixin",
     "StunMouseMixin",
     "EntityModelsMixin",
     "ContainedHudMixin"

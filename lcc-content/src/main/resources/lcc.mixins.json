@@ -27,7 +27,8 @@
     "EntityAccessor",
     "MovementEntityMixin",
     "PlayerEntityAccessor",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "EffectMobEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

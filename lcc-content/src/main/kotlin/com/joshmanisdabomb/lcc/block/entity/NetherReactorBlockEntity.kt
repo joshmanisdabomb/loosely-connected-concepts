@@ -281,11 +281,6 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                     entity.challengers = null
                 }
             }
-
-            println(entity.challengers)
-            println(entity.pigmen)
-            println(entity.activeTicks)
-            println("-----")
         }
 
     }

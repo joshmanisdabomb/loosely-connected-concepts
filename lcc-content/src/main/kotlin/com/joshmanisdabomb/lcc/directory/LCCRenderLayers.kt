@@ -18,18 +18,17 @@ object LCCRenderLayers : BasicDirectory<(Identifier) -> RenderLayer, Unit>() {
             .texture(RenderPhase.Texture(it, false, false))
             .cull(cull_enabled)
             .build(true)
-        layer("entity_lcc_bright",
+        ClientWidens.renderLayer("entity_lcc_bright",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
             256,
             false,
             true,
             multiPhaseParameters
-        ) } }
+        )
+    } }
 
     fun initialiser(input: (Identifier) -> RenderLayer, context: DirectoryContext<Unit>, parameters: Unit) = input
-
-    private fun layer(name: String, vertexFormat: VertexFormat, drawMode: VertexFormat.DrawMode, expectedBuffer: Int, crumbling: Boolean, translucent: Boolean, parameters: RenderLayer.MultiPhaseParameters): RenderLayer = ClientWidens.renderLayer(name, vertexFormat, drawMode, expectedBuffer, crumbling, translucent, parameters)
 
     override fun defaultProperties(name: String) = Unit
 

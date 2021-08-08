@@ -8,10 +8,13 @@ import com.joshmanisdabomb.lcc.world.decorator.NearAirDecorator
 import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature
 import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder
 import net.minecraft.block.Blocks
+import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
@@ -47,6 +50,9 @@ object LCCWorldgen {
         LCCConfiguredCarvers.init()
         LCCSurfaceBuilders.init()
         LCCConfiguredSurfaceBuilders.init()
+        LCCStructurePieceTypes.init()
+        LCCStructureFeatures.init()
+        LCCConfiguredStructureFeatures.init()
 
         biomeModifications()
     }
@@ -192,6 +198,51 @@ object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), R
 
     val near_lava_lake by entry(::initialiser) { NearLavaLakeDecorator(NopeDecoratorConfig.CODEC) }
     val near_air by entry(::initialiser) { NearAirDecorator(NopeDecoratorConfig.CODEC) }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
+object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out FeatureConfig, out StructureFeature<out FeatureConfig>>, StructureFeature<out FeatureConfig>, GenerationStep.Feature, Unit>() {
+
+    override fun id(name: String) = LCC.id(name)
+
+    val wasteland_tent by entry(::initialiser) {
+        FabricStructureBuilder.create(id, WastelandTentStructureFeature(DefaultFeatureConfig.CODEC))
+            .step(GenerationStep.Feature.SURFACE_STRUCTURES)
+            .defaultConfig(8, 5, 5648943)
+            .adjustsSurface()
+    }
+
+    fun <C : FeatureConfig, S : StructureFeature<C>> initialiser(input: FabricStructureBuilder<C, S>, context: DirectoryContext<GenerationStep.Feature>, parameters: Unit): S {
+        return input.register()
+    }
+
+    override fun defaultProperties(name: String) = GenerationStep.Feature.RAW_GENERATION
+
+    override fun defaultContext() = Unit
+
+}
+
+object LCCConfiguredStructureFeatures : BasicDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit>(), RegistryDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit, Unit> {
+
+    override val registry by lazy { BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val wasteland_tent by entry(::initialiser) { LCCStructureFeatures.wasteland_tent.configure(FeatureConfig.DEFAULT) }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
+object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), RegistryDirectory<StructurePieceType, Unit, Unit> {
+
+    override val registry by lazy { Registry.STRUCTURE_PIECE }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val wasteland_tent by entry(::initialiser) { StructurePieceType(WastelandTentStructureFeature::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

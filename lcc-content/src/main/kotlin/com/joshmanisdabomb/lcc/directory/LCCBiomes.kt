@@ -66,6 +66,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.landmines)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.spike_trap)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deadwood_logs)
+                .structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

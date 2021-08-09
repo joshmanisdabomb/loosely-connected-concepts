@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.refining
 
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes

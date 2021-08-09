@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.refining
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException

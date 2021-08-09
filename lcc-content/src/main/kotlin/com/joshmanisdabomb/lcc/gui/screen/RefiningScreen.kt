@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.gui.screen
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.RefiningScreenHandler
-import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningRecipe
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.GameRenderer

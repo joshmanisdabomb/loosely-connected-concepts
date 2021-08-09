@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.google.gson.JsonElement;
-import com.joshmanisdabomb.lcc.recipe.KilnRecipe;
+import com.joshmanisdabomb.lcc.recipe.cooking.KilnRecipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;

@@ -17,7 +17,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
-import com.joshmanisdabomb.lcc.recipe.RefiningSimpleRecipe
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
@@ -336,6 +336,18 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     val rusty_iron_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("rusty_iron_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.iron_oxide)).add(ItemTagFactory(LCCTags.wasteland_equipment)) }
 
     val crowbar by entry(::initialiser) { data().defaultLang().add(HandheldItemAssetFactory) }
+
+    val flexible_plastic by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.plastic)) }
+    val rigid_plastic by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.plastic)) }
+
+    val plastic_bag by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("p p")
+            .pattern(" p ")
+            .input('p', LCCItems.flexible_plastic)
+            .apply { hasCriterionShaped(this, LCCItems.flexible_plastic) }
+            .apply { offerShaped(this, d, override = LCCRecipeSerializers.plastic_shaped) }
+    }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

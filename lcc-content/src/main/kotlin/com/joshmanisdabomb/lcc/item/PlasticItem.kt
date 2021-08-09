@@ -21,6 +21,14 @@ open class PlasticItem(settings: Settings) : ColoredItem(settings), LCCItemTrait
             return b + (g shl 8) + (r shl 16)
         }
 
+        fun getColorMix(colors: List<Int>): Int {
+            val floats = colors.map(LCCExtendedDyeColor.Companion::getComponents).fold(FloatArray(3) { 1f }) { a, b -> a.zip(b) { c, d -> c.times(d) }.toFloatArray() }
+            val r = (floats[0] * 255).toInt()
+            val g = (floats[1] * 255).toInt()
+            val b = (floats[2] * 255).toInt()
+            return b + (g shl 8) + (r shl 16)
+        }
+
     }
 
 }

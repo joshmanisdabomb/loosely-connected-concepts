@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.special
 
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
 import com.joshmanisdabomb.lcc.directory.LCCItems

@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.arcane
 
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes

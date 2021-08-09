@@ -20,7 +20,7 @@ import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.*
-import com.joshmanisdabomb.lcc.recipe.RefiningSimpleRecipe
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.client.model.Models

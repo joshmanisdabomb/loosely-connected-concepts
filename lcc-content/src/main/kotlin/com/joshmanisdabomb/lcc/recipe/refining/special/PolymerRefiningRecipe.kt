@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.refining.special
 
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.block.RefiningBlock
@@ -10,6 +10,7 @@ import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
 import com.joshmanisdabomb.lcc.item.PlasticItem
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningSpecialRecipe
 import net.minecraft.block.Block
 import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack

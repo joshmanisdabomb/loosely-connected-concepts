@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.refining
 
 import net.minecraft.item.ItemStack
 import net.minecraft.util.Identifier

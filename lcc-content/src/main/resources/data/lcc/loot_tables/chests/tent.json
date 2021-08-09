@@ -344,12 +344,12 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 5,
+          "weight": 3,
           "name": "lcc:red_heart_half"
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 3,
           "name": "lcc:red_heart_container"
         },
         {

@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
 import com.joshmanisdabomb.lcc.extensions.identifier
-import com.joshmanisdabomb.lcc.recipe.RefiningSimpleRecipe
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.CriterionMerger

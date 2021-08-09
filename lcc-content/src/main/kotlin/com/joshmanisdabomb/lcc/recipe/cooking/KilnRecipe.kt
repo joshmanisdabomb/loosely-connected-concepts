@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.recipe
+package com.joshmanisdabomb.lcc.recipe.cooking
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject

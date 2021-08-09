@@ -302,7 +302,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 33.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {
@@ -365,7 +365,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         private fun find(): List<BlockPos> {
             val poi = (wasp.world as ServerWorld).pointOfInterestStorage
-            return poi.getInCircle({ it == LCCPointsOfInterest.papercomb }, wasp.blockPos, 160, PointOfInterestStorage.OccupationStatus.ANY)
+            return poi.getInCircle({ it == LCCPointsOfInterest.papercomb }, wasp.blockPos, 60, PointOfInterestStorage.OccupationStatus.ANY)
                 .map { it.pos }.filter { (wasp.world.getBlockEntity(it) as? PapercombBlockEntity)?.isFull() == false }.sorted(Comparator.comparingDouble { it.getSquaredDistance(wasp.blockPos) }).toList()
         }
 

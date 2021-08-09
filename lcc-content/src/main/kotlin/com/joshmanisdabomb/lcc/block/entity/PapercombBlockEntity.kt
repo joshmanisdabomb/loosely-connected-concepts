@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.block.PapercombBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.entity.WaspEntity
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import net.minecraft.block.BlockState
@@ -15,6 +16,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.papercomb, pos, state) {
@@ -44,16 +46,21 @@ class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
     fun canEnter(wasp: WaspEntity) = !isNearFire() && !isFull() && wasp.world.isNight
 
-    fun enter(wasp: WaspEntity) {
+    fun enter(wasp: WaspEntity, ticks: Int = 0) {
         wasp.stopRiding()
         wasp.removeAllPassengers()
         val nbt = NbtCompound()
         wasp.saveNbt(nbt)
-        entries.add(WaspEntry(nbt, 0))
+        entries.add(WaspEntry(nbt, ticks))
         world?.also {
             it.playSound(null, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble(), SoundEvents.BLOCK_BEEHIVE_ENTER, SoundCategory.BLOCKS, 1.0F, 1.0F)
         }
         wasp.discard()
+    }
+
+    fun spawn(ticks: Int = 599, nbt: NbtCompound = NbtCompound()) {
+        nbt.putString("id", Registry.ENTITY_TYPE.getId(LCCEntities.wasp).toString())
+        entries.add(WaspEntry(nbt, 599))
     }
 
     fun isNearFire(): Boolean {

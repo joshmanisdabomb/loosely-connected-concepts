@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.extensions.suffix
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.control.LookControl
 import net.minecraft.entity.ai.control.MoveControl
@@ -23,6 +24,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 
 class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob, LCCContentEntityTrait {
 
@@ -61,6 +63,10 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         targetSelector.add(1, RevengeGoal(this))
         targetSelector.add(2, FollowTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, FollowTargetGoal(this, IronGolemEntity::class.java, true))
+    }
+
+    override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
+        return true
     }
 
     override fun attack(target: LivingEntity, pullProgress: Float) {

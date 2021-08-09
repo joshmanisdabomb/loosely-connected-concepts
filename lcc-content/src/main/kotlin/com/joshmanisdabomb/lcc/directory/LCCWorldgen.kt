@@ -92,6 +92,7 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
     val landmines by entry(::initialiser) { LandmineFeature(DefaultFeatureConfig.CODEC) }
     val deadwood_logs by entry(::initialiser) { DeadwoodLogsFeature(DefaultFeatureConfig.CODEC) }
     val spike_trap by entry(::initialiser) { SpikeTrapFeature(DefaultFeatureConfig.CODEC) }
+    val wasp_hive by entry(::initialiser) { WaspHiveFeature(DefaultFeatureConfig.CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -132,8 +133,9 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val landmines by entry(::initialiser) { LCCFeatures.landmines.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.15f, 1))) }
     val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)).range(RangeDecoratorConfig(YOffset.fixed(75), YOffset.getTop())).spreadHorizontally().repeat(70) }
     val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(8))) }
-    val deadwood_logs by entry(::initialiser) { LCCFeatures.deadwood_logs.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).applyChance(16) }
+    val deadwood_logs by entry(::initialiser) { LCCFeatures.deadwood_logs.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).applyChance(14) }
     val spike_trap by entry(::initialiser) { LCCFeatures.spike_trap.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.4f, 1))) }
+    val wasp_hive by entry(::initialiser) { LCCFeatures.wasp_hive.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).applyChance(100) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -210,7 +212,7 @@ object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out Featu
     val wasteland_tent by entry(::initialiser) {
         FabricStructureBuilder.create(id, WastelandTentStructureFeature(DefaultFeatureConfig.CODEC))
             .step(GenerationStep.Feature.SURFACE_STRUCTURES)
-            .defaultConfig(8, 5, 5648943)
+            .defaultConfig(12, 8, 5648943)
             .adjustsSurface()
     }
 

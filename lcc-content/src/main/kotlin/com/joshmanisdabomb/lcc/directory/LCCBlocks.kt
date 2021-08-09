@@ -84,28 +84,28 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard)))
     val topaz_cluster by entry(::initialiser) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES).ticksRandomly().nonOpaque().strength(1.5f).luminance { it[Properties.LIT].transformInt(5) }.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).cutout())
-    val large_topaz_bud by entry(::initialiser) { AmethystClusterBlock(5, 3, FabricBlockSettings.copy(topaz_cluster).luminance { it[Properties.LIT].transformInt(4) }.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
+    val large_topaz_bud by entry(::initialiser) { AmethystClusterBlock(5, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(4) }.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(104)).cutout())
-    val medium_topaz_bud by entry(::initialiser) { AmethystClusterBlock(4, 3, FabricBlockSettings.copy(topaz_cluster).luminance { it[Properties.LIT].transformInt(2) }.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
+    val medium_topaz_bud by entry(::initialiser) { AmethystClusterBlock(4, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(2) }.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(103)).cutout())
-    val small_topaz_bud by entry(::initialiser) { AmethystClusterBlock(3, 4, FabricBlockSettings.copy(topaz_cluster).luminance { it[Properties.LIT].transformInt(1) }.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
+    val small_topaz_bud by entry(::initialiser) { AmethystClusterBlock(3, 4, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(1) }.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).cutout())
     val budding_topaz by entry(::initialiser) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101)))
 
     val tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 1).requiresTool()) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::raw_tungsten, 1)))
-    val deepslate_tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
+    val deepslate_tungsten_ore by entry(::initialiser) { Block(FabricBlockSettings.copyOf(tungsten_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
     val raw_tungsten_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE).strength(5.0f, 6.0f).breakByTool(PICKAXES, 1).requiresTool()) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::tungsten_ingot, 1)))
     val tungsten_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_TEAL).strength(2.0F, 6.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
-    val cut_tungsten by entry(::initialiser) { Block(FabricBlockSettings.copy(tungsten_block)) }
+    val cut_tungsten by entry(::initialiser) { Block(FabricBlockSettings.copyOf(tungsten_block)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
-    val cut_tungsten_stairs by entry(::initialiser) { StairsBlock(cut_tungsten.defaultState, FabricBlockSettings.copy(cut_tungsten)) }
+    val cut_tungsten_stairs by entry(::initialiser) { StairsBlock(cut_tungsten.defaultState, FabricBlockSettings.copyOf(cut_tungsten)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
-    val cut_tungsten_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(cut_tungsten)) }
+    val cut_tungsten_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(cut_tungsten)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES))
 
     //Building
@@ -113,9 +113,11 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
     val rhyolite by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.LIGHT_GRAY).sounds(BlockSoundGroup.STONE).breakByTool(PICKAXES).requiresTool().strength(1.0f, 10.0f)) }
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
-    val rhyolite_stairs by entry(::initialiser) { StairsBlock(rhyolite.defaultState, FabricBlockSettings.copy(rhyolite)) }
+    val rhyolite_stairs by entry(::initialiser) { StairsBlock(rhyolite.defaultState, FabricBlockSettings.copyOf(rhyolite)) }
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
-    val rhyolite_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rhyolite)) }
+    val rhyolite_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(rhyolite)) }
+        .setProperties(BlockExtraSettings().creativeEx(BUILDING))
+    val rhyolite_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(rhyolite)) }
         .setProperties(BlockExtraSettings().creativeEx(BUILDING))
 
     //Materials
@@ -156,9 +158,9 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val stripped_rubber_wood by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
-    val rubber_stairs by entry(::initialiser) { StairsBlock(rubber_planks.defaultState, FabricBlockSettings.copy(rubber_planks)) }
+    val rubber_stairs by entry(::initialiser) { StairsBlock(rubber_planks.defaultState, FabricBlockSettings.copyOf(rubber_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
-    val rubber_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(rubber_planks)) }
+    val rubber_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(rubber_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val rubber_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD), LCCSignTypes.rubber) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
@@ -220,15 +222,19 @@ object LCCBlocks : BlockDirectory() {
 
     val fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(3000, 1)))
-    val fortstone_stairs by entry(::initialiser) { StairsBlock(fortstone.defaultState, FabricBlockSettings.copy(fortstone)) }
+    val fortstone_stairs by entry(::initialiser) { StairsBlock(fortstone.defaultState, FabricBlockSettings.copyOf(fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(fortstone)) }
+    val fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(fortstone)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val fortstone_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cobbled_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val cobbled_fortstone_stairs by entry(::initialiser) { StairsBlock(cobbled_fortstone.defaultState, FabricBlockSettings.copy(cobbled_fortstone)) }
+    val cobbled_fortstone_stairs by entry(::initialiser) { StairsBlock(cobbled_fortstone.defaultState, FabricBlockSettings.copyOf(cobbled_fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val cobbled_fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(cobbled_fortstone)) }
+    val cobbled_fortstone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(cobbled_fortstone)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val cobbled_fortstone_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(cobbled_fortstone)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val polished_fortstone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
@@ -261,9 +267,9 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val stripped_deadwood by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val deadwood_stairs by entry(::initialiser) { StairsBlock(deadwood_planks.defaultState, FabricBlockSettings.copy(deadwood_planks)) }
+    val deadwood_stairs by entry(::initialiser) { StairsBlock(deadwood_planks.defaultState, FabricBlockSettings.copyOf(deadwood_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-    val deadwood_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(deadwood_planks)) }
+    val deadwood_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(deadwood_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val deadwood_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD), LCCSignTypes.deadwood) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
@@ -310,7 +316,7 @@ object LCCBlocks : BlockDirectory() {
     //Nuclear
     val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 3).requiresTool()) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(0)))
-    val deepslate_uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.copy(uranium_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
+    val deepslate_uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.copyOf(uranium_ore).strength(4.5F, 3.0F).sounds(BlockSoundGroup.DEEPSLATE)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(1)))
     val uranium_block by entry(::initialiser) { RadioactiveBlock(3, 0, FabricBlockSettings.of(Material.METAL, MapColor.LIME).strength(5.0F, 6.0F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NUCLEAR, sortValueInt(11)))
@@ -380,15 +386,15 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_cobblestone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_cobblestone.defaultState, FabricBlockSettings.copy(classic_cobblestone)) }
+    val classic_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_cobblestone.defaultState, FabricBlockSettings.copyOf(classic_cobblestone)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_cobblestone)) }
+    val classic_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(classic_cobblestone)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD).strength(2.0f, 5.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_wooden_stairs by entry(::initialiser) { StairsBlock(classic_planks.defaultState, FabricBlockSettings.copy(classic_planks)) }
+    val classic_wooden_stairs by entry(::initialiser) { StairsBlock(classic_planks.defaultState, FabricBlockSettings.copyOf(classic_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_wooden_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_planks)) }
+    val classic_wooden_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(classic_planks)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_leaves by entry(::initialiser) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2f).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isOf(Blocks.OAK_LOG) } }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA).cutoutMipped())
@@ -415,29 +421,29 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().cutout())
     val classic_iron_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).breakByTool(PICKAXES, 1).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val alpha_iron_block by entry(::initialiser) { Block(FabricBlockSettings.copy(classic_iron_block)) }
+    val alpha_iron_block by entry(::initialiser) { Block(FabricBlockSettings.copyOf(classic_iron_block)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_gold_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).requiresTool().strength(3.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val alpha_gold_block by entry(::initialiser) { Block(FabricBlockSettings.copy(classic_gold_block)) }
+    val alpha_gold_block by entry(::initialiser) { Block(FabricBlockSettings.copyOf(classic_gold_block)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_diamond_block by entry(::initialiser) { Block(FabricBlockSettings.of(Material.METAL, MapColor.DIAMOND_BLUE).breakByTool(PICKAXES, 2).requiresTool().strength(5.0f, 6.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val alpha_diamond_block by entry(::initialiser) { Block(FabricBlockSettings.copy(classic_diamond_block)) }
+    val alpha_diamond_block by entry(::initialiser) { Block(FabricBlockSettings.copyOf(classic_diamond_block)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_bricks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.RED).strength(2.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_brick_stairs by entry(::initialiser) { StairsBlock(classic_bricks.defaultState, FabricBlockSettings.copy(classic_bricks)) }
+    val classic_brick_stairs by entry(::initialiser) { StairsBlock(classic_bricks.defaultState, FabricBlockSettings.copyOf(classic_bricks)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_bricks)) }
+    val classic_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(classic_bricks)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_tnt by entry(::initialiser) { FunctionalTNTBlock(::ClassicTNTEntity, FabricBlockSettings.of(Material.TNT).breakInstantly().sounds(BlockSoundGroup.GRASS), unstable = true) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_mossy_cobblestone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.STONE_GRAY).strength(2.0f, 6.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_mossy_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_mossy_cobblestone.defaultState, FabricBlockSettings.copy(classic_mossy_cobblestone)) }
+    val classic_mossy_cobblestone_stairs by entry(::initialiser) { StairsBlock(classic_mossy_cobblestone.defaultState, FabricBlockSettings.copyOf(classic_mossy_cobblestone)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
-    val classic_mossy_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copy(classic_mossy_cobblestone)) }
+    val classic_mossy_cobblestone_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(classic_mossy_cobblestone)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))
     val classic_chest by entry(::initialiser) { ClassicChestBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(AXES).strength(2.5f).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(NOSTALGIA))

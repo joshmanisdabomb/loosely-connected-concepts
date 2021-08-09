@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:fortstone"
+    }
+  },
+  "result": {
+    "item": "lcc:fortstone_wall",
+    "count": 6
+  }
+}

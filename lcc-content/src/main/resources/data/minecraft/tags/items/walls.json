@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:rhyolite_wall",
+    "lcc:fortstone_wall",
+    "lcc:cobbled_fortstone_wall"
+  ]
+}

@@ -7,7 +7,6 @@ import com.joshmanisdabomb.lcc.extensions.transform
 import com.mojang.serialization.Codec
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.ChestBlockEntity
-import net.minecraft.loot.LootTables
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.structure.SimpleStructurePiece
@@ -50,7 +49,7 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
             val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
             val rot = BlockRotation.random(random)
             val mirror = BlockMirror.values()[random.nextInt(3)]
-            method_35462(Piece(manager, random.nextBoolean().transform(template, template_alt), pos, rot, mirror))
+            method_35462(Piece(manager, (random.nextInt(3) == 0).transform(template_alt, template), pos, rot, mirror))
             setBoundingBoxFromChildren()
         }
 
@@ -75,10 +74,10 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
         override fun handleMetadata(metadata: String, pos: BlockPos, world: ServerWorldAccess, random: Random, boundingBox: BlockBox) {
             when (metadata) {
                 "Chest" -> {
-                    world.setBlockState(pos, LCCBlocks.fortstone.defaultState, 3)
+                    world.setBlockState(pos, Blocks.AIR.defaultState, 3)
                     val blockEntity = world.getBlockEntity(pos.down())
                     if (blockEntity is ChestBlockEntity) {
-                        blockEntity.setLootTable(LootTables.IGLOO_CHEST_CHEST, random.nextLong())
+                        blockEntity.setLootTable(LCC.id("chests/tent"), random.nextLong())
                     }
                 }
             }
@@ -95,7 +94,7 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
         companion object {
 
             private fun getData(rot: BlockRotation, mirror: BlockMirror, template: Identifier): StructurePlacementData {
-                return StructurePlacementData().setRotation(rot).setMirror(mirror).setPosition(BlockPos.ORIGIN).addProcessor(BlockIgnoreStructureProcessor.IGNORE_STRUCTURE_BLOCKS).addProcessor(tent_path).addProcessor(tent_floor)
+                return StructurePlacementData().setRotation(rot).setMirror(mirror).setPosition(BlockPos.ORIGIN).addProcessor(BlockIgnoreStructureProcessor.IGNORE_STRUCTURE_BLOCKS).addProcessor(tent_path).addProcessor(tent_floor).addProcessor(tent_wall)
             }
 
         }
@@ -114,6 +113,9 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
         val tent_floor = RuleStructureProcessor(listOf(
             StructureProcessorRule(RandomBlockMatchRuleTest(Blocks.LIGHT_BLUE_WOOL, 0.33f), AlwaysTrueRuleTest.INSTANCE, Blocks.DIRT_PATH.defaultState),
             StructureProcessorRule(BlockMatchRuleTest(Blocks.LIGHT_BLUE_WOOL), AlwaysTrueRuleTest.INSTANCE, LCCBlocks.cracked_mud.defaultState)
+        ))
+        val tent_wall = RuleStructureProcessor(listOf(
+            StructureProcessorRule(BlockMatchRuleTest(Blocks.BLACKSTONE_WALL), AlwaysTrueRuleTest.INSTANCE, LCCBlocks.cobbled_fortstone_wall.defaultState)
         ))
 
     }

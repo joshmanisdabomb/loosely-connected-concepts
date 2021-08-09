@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "www",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:rhyolite"
+    }
+  },
+  "result": {
+    "item": "lcc:rhyolite_wall",
+    "count": 6
+  }
+}

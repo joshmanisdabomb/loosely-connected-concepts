@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "lcc:fortstone_stairs_from_fortstone_stonecutting"
+      "lcc:fortstone_wall"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "lcc:fortstone_stairs_from_fortstone_stonecutting"
+        "recipe": "lcc:fortstone_wall"
       }
     }
   },

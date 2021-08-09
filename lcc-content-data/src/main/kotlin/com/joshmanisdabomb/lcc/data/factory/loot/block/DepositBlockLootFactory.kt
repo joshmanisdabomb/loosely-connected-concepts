@@ -22,10 +22,10 @@ object DepositBlockLootFactory : BlockDataFactory {
             LCCBlocks.deposit -> {
                 data.lootTables.register(entry, LootTable.builder().pool(
                     LootPool.builder()
-                        .with(ItemEntry.builder(Items.GOLD_NUGGET).weight(100))
-                        .with(ItemEntry.builder(Items.IRON_NUGGET).weight(50))
-                        .with(ItemEntry.builder(Items.RAW_GOLD).weight(5))
-                        .with(ItemEntry.builder(Items.RAW_IRON).weight(4))
+                        .with(ItemEntry.builder(Items.GOLD_NUGGET).weight(40))
+                        .with(ItemEntry.builder(Items.IRON_NUGGET).weight(20))
+                        .with(ItemEntry.builder(Items.RAW_GOLD).weight(8))
+                        .with(ItemEntry.builder(Items.RAW_IRON).weight(6))
                         .with(ItemEntry.builder(LCCItems.heavy_uranium_nugget).weight(8))
                         .with(ItemEntry.builder(LCCItems.heart_half[HeartType.RED]).weight(25))
                         .with(ItemEntry.builder(LCCItems.heart_full[HeartType.RED]).weight(15))

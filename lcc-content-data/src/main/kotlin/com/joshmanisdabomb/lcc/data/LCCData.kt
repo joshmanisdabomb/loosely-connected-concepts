@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.CommitData
 import com.joshmanisdabomb.lcc.data.generators.LCCLangData
+import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import java.nio.file.Paths
 
 object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/resources"), listOf("en_us", "en_gb")) {
@@ -21,6 +22,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
 
         LCCAdvancementData.init()
         LCCLangData.init()
+        LCCLootData.init()
 
         LCCSoundData.init()
 

@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.suffix
+import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -104,9 +106,12 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     override fun tick() {
         super.tick()
-        val tongue = tongue
-        if (isTongueActive) lookControl.lookAt(tongue)
         if (world.isClient) lastJawPitch = jawPitch
+        if (isTongueActive) {
+            lookControl.lookAt(tongue)
+        } else if (canBiteTarget(target)) {
+            ambientSoundChance += 4
+        }
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
@@ -125,8 +130,15 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     fun canBiteTarget(target: LivingEntity? = this.target): Boolean {
         if (target == null) return false
-        return target.squaredDistanceTo(this) < 24.0
+        return target.squaredDistanceTo(this) < 40.0
     }
+
+
+    override fun getAmbientSound() = canBiteTarget(target).transform(LCCSounds.consumer_cqc, LCCSounds.consumer_ambient)
+
+    override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
+
+    override fun getDeathSound() = LCCSounds.consumer_death
 
     override fun getJumpVelocity() = super.getJumpVelocity().times(1.4f)
 

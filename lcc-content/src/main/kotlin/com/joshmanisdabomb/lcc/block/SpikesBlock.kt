@@ -65,7 +65,9 @@ class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: Livi
     override fun canPlaceAt(state: BlockState, world: WorldView, pos: BlockPos): Boolean {
         val dir = state[FACING]
         val pos2 = pos.offset(dir.opposite)
-        return world.getBlockState(pos2).isSideSolidFullSquare(world, pos2, dir)
+        val state2 = world.getBlockState(pos2)
+        if (dir == Direction.UP && state2.isOf(Blocks.HOPPER)) return true
+        return state2.isSideSolidFullSquare(world, pos2, dir)
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {

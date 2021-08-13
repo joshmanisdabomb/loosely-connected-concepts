@@ -99,6 +99,19 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:block/improvised_explosive/defuse")
     }) }
 
+    val consumer_ambient by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.ambient", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/idle${it+1}")
+    }) }
+    val consumer_cqc by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.cqc", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/cqc${it+1}")
+    }) }
+    val consumer_hurt by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.hurt", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/hurt${it+1}")
+    }) }
+    val consumer_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/death")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.list.add(it) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

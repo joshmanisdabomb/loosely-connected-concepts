@@ -243,5 +243,37 @@
       "lcc:block/improvised_explosive/defuse"
     ],
     "subtitle": "subtitles.lcc.block.improvised_explosive.defuse"
+  },
+  "entity.lcc.consumer.ambient": {
+    "sounds": [
+      "lcc:entity/consumer/idle1",
+      "lcc:entity/consumer/idle2",
+      "lcc:entity/consumer/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.ambient"
+  },
+  "entity.lcc.consumer.cqc": {
+    "sounds": [
+      "lcc:entity/consumer/cqc1",
+      "lcc:entity/consumer/cqc2",
+      "lcc:entity/consumer/cqc3",
+      "lcc:entity/consumer/cqc4"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.cqc"
+  },
+  "entity.lcc.consumer.hurt": {
+    "sounds": [
+      "lcc:entity/consumer/hurt1",
+      "lcc:entity/consumer/hurt2",
+      "lcc:entity/consumer/hurt3",
+      "lcc:entity/consumer/hurt4"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.hurt"
+  },
+  "entity.lcc.consumer.death": {
+    "sounds": [
+      "lcc:entity/consumer/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.death"
   }
 }

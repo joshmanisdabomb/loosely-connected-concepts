@@ -28,6 +28,7 @@ enum class ToolEffectivity(val effective: Tag<Block>, val required: Tag<Block>, 
     fun isEffective(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolEffective(state, param, this) == true && (state.block as? LCCContentBlockTrait)?.lcc_content_isToolRequired(state, param, this) != true
 
     fun isToolInsufficient(state: BlockState, stack: ItemStack) = !isTool(stack, state) && isRequired(state, stack)
+    fun isToolSufficient(state: BlockState, stack: ItemStack) = isTool(stack, state) && isRequired(state, stack)
 
     fun isResistant(check: Entity, against: LivingEntity) = (check as? LCCContentEntityTrait)?.lcc_content_isCombatResistant(against, this) == true
     fun isCombat(check: Entity, against: LivingEntity) = (check as? LCCContentEntityTrait)?.lcc_content_isCombatEffective(against, this) == true

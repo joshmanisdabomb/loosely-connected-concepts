@@ -504,7 +504,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
-    val improvised_explosive by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(VariantBlockAssetFactory(ImprovisedExplosiveBlock.ie_state, { s ->
+    val improvised_explosive by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(VariantBlockAssetFactory(ImprovisedExplosiveBlock.ie_state, { s ->
         mb.cube(
             textureParticle = { idb.locSuffix(it, "inactive") },
             textureUp = { idb.locSuffix(it, "top") },
@@ -525,7 +525,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .input('t', Blocks.TNT)
             .apply { hasCriterionShaped(this, LCCBlocks.explosive_paste) }
             .apply { offerShaped(this, d) }
-    }).add(BlockTagFactory(LCCTags.wasteland_required)) }
+    }).add(SalvageBlockLootFactory).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
     val fortstone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory(LCCBlocks.cobbled_fortstone)).add(SmeltFromItemRecipeFactory(LCCBlocks.cobbled_fortstone, RecipeSerializer.SMELTING)).add(BlockTagFactory(BlockTags.ENDERMAN_HOLDABLE)).add(BlockTagFactory(LCCTags.wasteland_required)) }
     val cobbled_fortstone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().add(BlockTagFactory(LCCTags.wasteland_required)) }

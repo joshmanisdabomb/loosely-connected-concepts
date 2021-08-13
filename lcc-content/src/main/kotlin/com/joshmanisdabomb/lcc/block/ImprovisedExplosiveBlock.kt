@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.block.entity.ImprovisedExplosiveBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.item.CrowbarItem
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
@@ -14,6 +15,7 @@ import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.thrown.ThrownEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
@@ -28,10 +30,10 @@ import net.minecraft.world.explosion.Explosion
 class ImprovisedExplosiveBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
-        defaultState = stateManager.defaultState.with(ie_state, ImprovisedExplosiveState.INACTIVE)
+        defaultState = stateManager.defaultState.with(ie_state, ImprovisedExplosiveState.INACTIVE).with(CrowbarItem.salvage, true)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(ie_state).let {}
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(CrowbarItem.salvage, ie_state).let {}
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = ImprovisedExplosiveBlockEntity(pos, state)
 
@@ -85,6 +87,10 @@ class ImprovisedExplosiveBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun shouldDropItemsOnExplosion(explosion: Explosion) = false
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
+        return defaultState.with(CrowbarItem.salvage, false)
+    }
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
         return if (world.isClient) checkType(type, LCCBlockEntities.improvised_explosive, ImprovisedExplosiveBlockEntity::clientTick) else checkType(type, LCCBlockEntities.improvised_explosive, ImprovisedExplosiveBlockEntity::serverTick)

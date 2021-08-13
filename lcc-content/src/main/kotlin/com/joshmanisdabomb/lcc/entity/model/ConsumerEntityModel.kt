@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity.model
 
 import com.joshmanisdabomb.lcc.entity.ConsumerEntity
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
@@ -42,15 +43,36 @@ class ConsumerEntityModel<T : ConsumerEntity>(root: ModelPart) : EntityModel<T>(
     }
 
     override fun animateModel(entity: T, limbAngle: Float, limbDistance: Float, tickDelta: Float) {
+        if (!MinecraftClient.getInstance().isPaused) {
+            var jawTarget = 0f
+            var jawSpeed = 0.045f
+            if (this.handSwingProgress > 0.0) {
+                jawTarget = (0.5f - this.handSwingProgress).times(4f).coerceAtLeast(0f)
+                jawSpeed = (1f - this.handSwingProgress)
+            } else if (entity.isTongueActive) {
+                jawTarget = 1f
+            } else if (entity.aggroTarget != null) {
+                if (entity.canBiteTarget(entity.aggroTarget)) {
+                    jawTarget = 0.5f
+                } else {
+                    jawTarget = 0.15f
+                }
+            }
+            entity.jawPitch = entity.jawPitch.plus((jawTarget - entity.jawPitch).times(jawSpeed))
+        }
 
+        head.pitch = -MathHelper.lerp(tickDelta, entity.lastJawPitch, entity.jawPitch)
+        jaw.pitch = -head.pitch.times(2f)
     }
 
     override fun setAngles(entity: T, limbAngle: Float, limbDistance: Float, animationProgress: Float, headYaw: Float, headPitch: Float) {
         head.yaw = headYaw * 0.017453292f
-        head.pitch = headPitch * 0.017453292f
+        head.pitch += headPitch * 0.017453292f
 
-        head.pitch = -0.5f - MathHelper.sin(animationProgress.times(0.1f)).times(0.5f)
-        jaw.pitch = (0.5f + MathHelper.sin(animationProgress.times(0.1f)).times(0.5f)).times(2f)
+        head.pitch -= MathHelper.sin(animationProgress.times(0.07f)).times(0.07f)
+        head.pitch = head.pitch.coerceAtMost(0f)
+        jaw.pitch += MathHelper.sin(animationProgress.times(0.07f)).times(0.14f)
+        jaw.pitch = jaw.pitch.coerceAtLeast(0f)
 
         teeth.forEach { it.pitch = -0.2f }
 

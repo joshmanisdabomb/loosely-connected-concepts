@@ -153,7 +153,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
             val entity = world.getEntityById(owner - 1)
             this.owner = entity
             if (entity is ConsumerEntity) {
-                entity.tongueEntity = this
+                entity.tongue = this
             }
         }
     }

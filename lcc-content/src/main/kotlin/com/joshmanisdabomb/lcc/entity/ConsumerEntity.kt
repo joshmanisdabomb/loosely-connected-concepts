@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.extensions.suffix
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
@@ -28,8 +30,15 @@ import net.minecraft.world.WorldAccess
 
 class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob, LCCContentEntityTrait {
 
-    internal var tongueEntity: ConsumerTongueEntity? = null
-    val tongue get() = tongueEntity
+    var aggroTarget: LivingEntity? = null
+    val isAggro get() = aggroTarget?.isRemoved == false
+
+    var tongue: ConsumerTongueEntity? = null
+    val isTongueActive get() = tongue?.isRemoved == false
+
+    @Environment(EnvType.CLIENT)
+    var jawPitch = 0f
+    var lastJawPitch = 0f
 
     init {
         moveControl = ConsumerMoveControl()
@@ -38,13 +47,18 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     override fun initDataTracker() {
         super.initDataTracker()
+        dataTracker.startTracking(aggro_id, 0)
         dataTracker.startTracking(tongue_id, 0)
     }
 
     override fun onTrackedDataSet(data: TrackedData<*>) {
         if (data == tongue_id) {
             val id = dataTracker.get(tongue_id)
-            this.tongueEntity = if (id > 0) world.getEntityById(id - 1) as? ConsumerTongueEntity else null
+            this.tongue = if (id > 0) world.getEntityById(id - 1) as? ConsumerTongueEntity else null
+        }
+        if (data == aggro_id) {
+            val id = dataTracker.get(aggro_id)
+            this.aggroTarget = if (id > 0) world.getEntityById(id - 1) as? LivingEntity else null
         }
         super.onTrackedDataSet(data)
     }
@@ -52,11 +66,11 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
     override fun initGoals() {
         goalSelector.add(1, SwimGoal(this))
         goalSelector.add(2, object : PounceAtTargetGoal(this, 0.3f) {
-            override fun canStart() = super.canStart() && this@ConsumerEntity.tongueEntity?.isRemoved != false
-            override fun shouldContinue() = super.shouldContinue() && this@ConsumerEntity.tongueEntity?.isRemoved != false
+            override fun canStart() = super.canStart() && !isTongueActive
+            override fun shouldContinue() = super.shouldContinue() && !isTongueActive
         })
         goalSelector.add(3, ConsumerMeleeAttack())
-        goalSelector.add(4, ProjectileAttackGoal(this, 1.0, 30, 13.0F))
+        goalSelector.add(4, ProjectileAttackGoal(this, 1.0, 56, 13.0F))
         goalSelector.add(5, WanderAroundFarGoal(this, 0.7))
         goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(6, LookAroundGoal(this))
@@ -70,8 +84,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
     }
 
     override fun attack(target: LivingEntity, pullProgress: Float) {
-        val tongue = tongueEntity
-        if (tongue != null && !tongue.isRemoved) return
+        if (isTongueActive) return
 
         val dist = this.squaredDistanceTo(target)
         if (dist < 2048.0) {
@@ -82,7 +95,8 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             entity.setVelocity(e, f, g, ConsumerTongueEntity.speed, 0.8f)
             playSound(SoundEvents.ENTITY_SNOW_GOLEM_SHOOT, 1.0f, 0.4f / (getRandom().nextFloat() * 0.4f + 0.8f))
             world.spawnEntity(entity)
-            tongueEntity = entity
+            tongue = entity
+            dataTracker.set(tongue_id, entity.id.plus(1))
         } else {
             this.target = null
         }
@@ -90,8 +104,9 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     override fun tick() {
         super.tick()
-        val tongue = tongueEntity
-        if (tongue != null && !tongue.isRemoved) lookControl.lookAt(tongue)
+        val tongue = tongue
+        if (isTongueActive) lookControl.lookAt(tongue)
+        if (world.isClient) lastJawPitch = jawPitch
     }
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
@@ -102,10 +117,21 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         super.readCustomDataFromNbt(nbt)
     }
 
+    override fun setTarget(target: LivingEntity?) {
+        super.setTarget(target)
+        aggroTarget = target
+        dataTracker.set(aggro_id, target?.id?.plus(1) ?: 0)
+    }
+
+    fun canBiteTarget(target: LivingEntity? = this.target): Boolean {
+        if (target == null) return false
+        return target.squaredDistanceTo(this) < 24.0
+    }
+
     override fun getJumpVelocity() = super.getJumpVelocity().times(1.4f)
 
     override fun dropLoot(source: DamageSource, causedByPlayer: Boolean) {
-        if (lootTable == type.lootTableId && tongue?.isRemoved == false) {
+        if (lootTable == type.lootTableId && isTongueActive) {
             this.world.server?.lootManager?.getTable(type.lootTableId.suffix("tongue"))?.generateLoot(this.getLootContextBuilder(causedByPlayer, source).build(LootContextTypes.ENTITY), this::dropStack)
         }
         super.dropLoot(source, causedByPlayer)
@@ -123,16 +149,17 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val aggro_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 10.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 9.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
         }
     }
 
     inner class ConsumerLookControl : LookControl(this@ConsumerEntity) {
         override fun tick() {
-            val tongue = tongueEntity
-            if (tongue != null && !tongue.isRemoved) {
+            val tongue = tongue
+            if (tongue?.isRemoved == false) {
                 val hooked = tongue.hooked
                 val d = (hooked ?: tongue).x - this@ConsumerEntity.x
                 val e = (hooked?.y?.plus(hooked.height.div(2f)) ?: tongue.y) - tongue.targetY!!
@@ -147,16 +174,12 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             }
         }
 
-        override fun shouldStayHorizontal(): Boolean {
-            val tongue = tongueEntity
-            return tongue == null || tongue.isRemoved
-        }
+        override fun shouldStayHorizontal() = !isTongueActive
     }
 
     inner class ConsumerMoveControl : MoveControl(this@ConsumerEntity) {
         override fun tick() {
-            val tongue = tongueEntity
-            if (tongue != null && !tongue.isRemoved) {
+            if (isTongueActive) {
                 entity.setForwardSpeed(0.0f)
                 entity.setSidewaysSpeed(0.0f)
             } else {
@@ -167,9 +190,9 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     inner class ConsumerMeleeAttack : MeleeAttackGoal(this, 1.4, false) {
 
-        override fun canStart() = super.canStart() && tongueEntity?.isRemoved != false && mob?.target?.squaredDistanceTo(this@ConsumerEntity)?.let { it < 24.0 } == true
+        override fun canStart() = super.canStart() && !isTongueActive && canBiteTarget(target)
 
-        override fun shouldContinue() = super.shouldContinue() && tongueEntity?.isRemoved != false && mob?.target?.squaredDistanceTo(this@ConsumerEntity)?.let { it < 24.0 } == true
+        override fun shouldContinue() = super.shouldContinue() && !isTongueActive && canBiteTarget(target)
 
     }
 

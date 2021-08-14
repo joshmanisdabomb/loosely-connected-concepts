@@ -283,5 +283,27 @@
       "lcc:entity/consumer/attack3"
     ],
     "subtitle": "subtitles.lcc.entity.consumer.attack"
+  },
+  "entity.lcc.consumer.tongue.shoot": {
+    "sounds": [
+      "lcc:entity/consumer/tongue1",
+      "lcc:entity/consumer/tongue2"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.tongue.shoot"
+  },
+  "entity.lcc.consumer.tongue.loop": {
+    "sounds": [
+      {
+        "name": "lcc:entity/consumer/tongue_loop",
+        "stream": true
+      }
+    ]
+  },
+  "entity.lcc.consumer.tongue.attach": {
+    "sounds": [
+      "lcc:entity/consumer/attach1",
+      "lcc:entity/consumer/attach2"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.tongue.attach"
   }
 }

@@ -114,6 +114,15 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
     val consumer_attack by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.attack", Array(3) {
         SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/attack${it+1}")
     }) }
+    val consumer_tongue_shoot by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.tongue.shoot", Array(2) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/tongue${it+1}")
+    }) }
+    val consumer_tongue_loop by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.tongue.loop", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/tongue_loop", stream = true)
+    }, subtitle = null) }
+    val consumer_tongue_attach by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.tongue.attach", Array(2) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/attach${it+1}")
+    }) }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.list.add(it) }
 

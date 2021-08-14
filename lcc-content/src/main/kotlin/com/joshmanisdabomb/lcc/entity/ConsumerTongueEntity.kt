@@ -1,7 +1,12 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.sound.ConsumerTongueSoundInstance
 import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
@@ -24,6 +29,9 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
     val hooked get() = hookedEntity
 
     val targetY get() = owner?.eyeY?.minus(0.2)
+
+    @Environment(EnvType.CLIENT)
+    var sound: ConsumerTongueSoundInstance? = null
 
     init {
         ignoreCameraFrustum = true
@@ -156,6 +164,8 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                 entity.tongue = this
             }
         }
+        sound = ConsumerTongueSoundInstance(this)
+        MinecraftClient.getInstance().soundManager.playNextTick(sound)
     }
 
     private fun hook(entity: Entity) {
@@ -163,6 +173,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
         dataTracker.set(hooked_id, entity.id + 1)
         dataTracker.set(retract, true)
         this.setPosition(entity.x, entity.y + entity.height.div(2), entity.z)
+        playSound(LCCSounds.consumer_tongue_attach, 1.0f, random.nextFloat().times(0.2f).plus(0.9f))
     }
 
     private fun unhook() {

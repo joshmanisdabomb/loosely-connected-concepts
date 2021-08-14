@@ -27,7 +27,6 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.sound.SoundEvent
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
@@ -98,7 +97,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             val f = (target.eyeY - 0.1) - entity.y
             val g = target.z - this.z
             entity.setVelocity(e, f, g, ConsumerTongueEntity.speed, 0.8f)
-            playSound(SoundEvents.ENTITY_SNOW_GOLEM_SHOOT, 1.0f, 0.4f / (getRandom().nextFloat() * 0.4f + 0.8f))
+            playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
             world.spawnEntity(entity)
             tongue = entity
             dataTracker.set(tongue_id, entity.id.plus(1))

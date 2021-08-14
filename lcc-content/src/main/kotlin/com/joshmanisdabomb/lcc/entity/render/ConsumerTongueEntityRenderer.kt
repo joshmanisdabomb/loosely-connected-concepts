@@ -25,18 +25,20 @@ class ConsumerTongueEntityRenderer(context: EntityRendererFactory.Context) : Ent
 
     override fun getPositionOffset(entity: ConsumerTongueEntity, tickDelta: Float): Vec3d {
         val hooked = entity.hooked ?: return super.getPositionOffset(entity, tickDelta)
-        return hooked.pos.add(0.0, hooked.height.div(2.0), 0.0).subtract(entity.pos)
+        return Vec3d(MathHelper.lerp(tickDelta.toDouble(), hooked.lastRenderX, hooked.x), MathHelper.lerp(tickDelta.toDouble(), hooked.lastRenderY, hooked.y) + hooked.height.div(2f), MathHelper.lerp(tickDelta.toDouble(), hooked.lastRenderZ, hooked.z))
+            .subtract(MathHelper.lerp(tickDelta.toDouble(), entity.lastRenderX, entity.x), MathHelper.lerp(tickDelta.toDouble(), entity.lastRenderY, entity.y), MathHelper.lerp(tickDelta.toDouble(), entity.lastRenderZ, entity.z))
     }
 
     override fun render(entity: ConsumerTongueEntity, yaw: Float, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
         val owner = entity.owner ?: return
         val hooked = entity.hooked
+        val origin = hooked ?: entity
 
         matrices.push()
 
-        val d = owner.x - (hooked ?: entity).x
-        val e = entity.targetY!! - (hooked?.y?.plus(hooked.height.div(2f)) ?: entity.y)
-        val f = owner.z - (hooked ?: entity).z
+        val d = MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderX, owner.x) - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderX, origin.x)
+        val e = entity.getTargetY(MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderY, owner.y))!! - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderY, origin.y).plus(if (origin === hooked) hooked.height.div(2f) else 0f)
+        val f = MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderZ, owner.z) - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderZ, origin.z)
         val g = MathHelper.sqrt(d * d + f * f).toDouble()
         val h = MathHelper.wrapDegrees((-(MathHelper.atan2(e, g) * 57.2957763671875)).toFloat())
         val i = MathHelper.wrapDegrees((MathHelper.atan2(f, d) * 57.2957763671875).toFloat() - 90.0f)

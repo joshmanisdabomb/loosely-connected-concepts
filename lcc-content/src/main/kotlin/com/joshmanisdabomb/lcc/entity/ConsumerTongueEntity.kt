@@ -28,7 +28,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
     private var hookedEntity: Entity? = null
     val hooked get() = hookedEntity
 
-    val targetY get() = owner?.eyeY?.minus(0.2)
+    fun getTargetY(y: Double? = owner?.y, eyeHeight: Float = owner?.standingEyeHeight ?: 0f) = y?.plus(eyeHeight)?.minus(0.2)
 
     @Environment(EnvType.CLIENT)
     var sound: ConsumerTongueSoundInstance? = null
@@ -39,7 +39,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
 
     constructor(world: World, owner: LivingEntity) : this(LCCEntities.consumer_tongue, world) {
         this.owner = owner
-        this.setPosition(owner.x, targetY!!, owner.z)
+        this.setPosition(owner.x, getTargetY()!!, owner.z)
     }
 
     override fun initDataTracker() {
@@ -92,7 +92,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                 return
             } else {
                 val e = entity.x - this.x
-                val f = targetY!! - this.y
+                val f = getTargetY()!! - this.y
                 val g = entity.z - this.z
                 this.setVelocity(e, f, g, speed.div(2f), 0f)
                 if (entity2 != null) {

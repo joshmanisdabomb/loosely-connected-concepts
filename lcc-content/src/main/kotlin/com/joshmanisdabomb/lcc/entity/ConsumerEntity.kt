@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.suffix
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
@@ -27,9 +28,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.sound.SoundEvent
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldView
 
 class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob, LCCContentEntityTrait {
 
@@ -87,6 +91,11 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         return true
     }
 
+    override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
+        if (LCCBiomes.getOrNull(world.getBiome(pos))?.tags?.contains("wasteland") != true) return -100.0f
+        return 0.0f
+    }
+
     override fun attack(target: LivingEntity, pullProgress: Float) {
         if (isTongueActive) return
 
@@ -97,6 +106,8 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             val f = (target.eyeY - 0.1) - entity.y
             val g = target.z - this.z
             entity.setVelocity(e, f, g, ConsumerTongueEntity.speed, 0.8f)
+            val h = Vec3d(e, f, g).normalize().multiply(0.01)
+            entity.setPosition(this.x + h.x, entity.getTargetY()!! + h.y, this.z + h.z)
             playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
             world.spawnEntity(entity)
             tongue = entity
@@ -188,7 +199,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             if (tongue?.isRemoved == false) {
                 val hooked = tongue.hooked
                 val d = (hooked ?: tongue).x - this@ConsumerEntity.x
-                val e = (hooked?.y?.plus(hooked.height.div(2f)) ?: tongue.y) - tongue.targetY!!
+                val e = (hooked?.y?.plus(hooked.height.div(2f)) ?: tongue.y) - tongue.getTargetY()!!
                 val f = (hooked ?: tongue).z - this@ConsumerEntity.z
                 val g = MathHelper.sqrt(d * d + f * f).toDouble()
                 val h = MathHelper.wrapDegrees((-(MathHelper.atan2(e, g) * 57.2957763671875)).toFloat())

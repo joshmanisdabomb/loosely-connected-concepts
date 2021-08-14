@@ -90,7 +90,7 @@ class ConsumerEntityModel<T : ConsumerEntity>(root: ModelPart) : EntityModel<T>(
             val modelData = ModelData()
             val root = modelData.root
             val bone = root.addChild("bone", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 0.0f, 0.0f))
-            val head = bone.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-6.5f, -5.0f, -8.0f, 13.0f, 5.0f, 8.0f), ModelTransform.pivot(0f, 12.3f, -1.5f))
+            val head = bone.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-6.5f, -5.0f, -8.0f, 13.0f, 5.0f, 8.0f), ModelTransform.pivot(0f, 12.3f, -0.0f))
 
             val jaw = head.addChild("jaw", ModelPartBuilder.create().uv(0, 13).cuboid(-6.5f, 0.0f, -8.0f, 13.0f, 1.0f, 8.0f), ModelTransform.pivot(0f, 0f, 0f))
 

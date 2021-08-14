@@ -3,10 +3,10 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.suffix
-import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
@@ -22,9 +22,11 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.IronGolemEntity
+import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
@@ -71,14 +73,15 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             override fun canStart() = super.canStart() && !isTongueActive
             override fun shouldContinue() = super.shouldContinue() && !isTongueActive
         })
-        goalSelector.add(3, ConsumerMeleeAttack())
+        goalSelector.add(3, ConsumerMeleeAttackGoal())
         goalSelector.add(4, ProjectileAttackGoal(this, 1.0, 56, 13.0F))
         goalSelector.add(5, WanderAroundFarGoal(this, 0.7))
         goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(6, LookAroundGoal(this))
         targetSelector.add(1, RevengeGoal(this))
         targetSelector.add(2, FollowTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(3, FollowTargetGoal(this, IronGolemEntity::class.java, true))
+        targetSelector.add(3, FollowTargetGoal(this, IronGolemEntity::class.java, false, true))
+        targetSelector.add(4, FollowTargetGoal(this, VillagerEntity::class.java, false, true))
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
@@ -110,7 +113,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         if (isTongueActive) {
             lookControl.lookAt(tongue)
         } else if (canBiteTarget(target)) {
-            ambientSoundChance += 4
+            ambientSoundChance += 6
         }
     }
 
@@ -133,12 +136,24 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         return target.squaredDistanceTo(this) < 40.0
     }
 
-
-    override fun getAmbientSound() = canBiteTarget(target).transform(LCCSounds.consumer_cqc, LCCSounds.consumer_ambient)
+    override fun getAmbientSound(): SoundEvent {
+        if (!isTongueActive && canBiteTarget(target)) {
+            return LCCSounds.consumer_cqc
+        }
+        return LCCSounds.consumer_ambient
+    }
 
     override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
 
     override fun getDeathSound() = LCCSounds.consumer_death
+
+    override fun tryAttack(target: Entity): Boolean {
+        if (super.tryAttack(target)) {
+            playSound(LCCSounds.consumer_attack, soundVolume, soundPitch)
+            return true
+        }
+        return false
+    }
 
     override fun getJumpVelocity() = super.getJumpVelocity().times(1.4f)
 
@@ -200,7 +215,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         }
     }
 
-    inner class ConsumerMeleeAttack : MeleeAttackGoal(this, 1.4, false) {
+    inner class ConsumerMeleeAttackGoal : MeleeAttackGoal(this, 1.4, false) {
 
         override fun canStart() = super.canStart() && !isTongueActive && canBiteTarget(target)
 

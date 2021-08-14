@@ -275,5 +275,13 @@
       "lcc:entity/consumer/death"
     ],
     "subtitle": "subtitles.lcc.entity.consumer.death"
+  },
+  "entity.lcc.consumer.attack": {
+    "sounds": [
+      "lcc:entity/consumer/attack1",
+      "lcc:entity/consumer/attack2",
+      "lcc:entity/consumer/attack3"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.attack"
   }
 }

@@ -51,6 +51,7 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val consumer_cqc by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.cqc")) }
     val consumer_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.hurt")) }
     val consumer_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.death")) }
+    val consumer_attack by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.attack")) }
 
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 

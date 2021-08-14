@@ -111,6 +111,9 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
     val consumer_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.death", Array(1) {
         SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/death")
     }) }
+    val consumer_attack by entry(::initialiser) { SoundProperties("entity", LCC.modid, "consumer.attack", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/attack${it+1}")
+    }) }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds.list.add(it) }
 

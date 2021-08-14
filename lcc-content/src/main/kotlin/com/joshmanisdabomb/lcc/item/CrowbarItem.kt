@@ -51,7 +51,7 @@ class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait {
     }
 
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState): Float {
-        return if (isSuitableFor(state)) 20.0f else super.getMiningSpeedMultiplier(stack, state)
+        return if (isSuitableFor(state)) 32.0f else super.getMiningSpeedMultiplier(stack, state)
     }
 
     override fun lcc_content_isEffectiveTool(stack: ItemStack, state: BlockState, effectivity: ToolEffectivity): Boolean {

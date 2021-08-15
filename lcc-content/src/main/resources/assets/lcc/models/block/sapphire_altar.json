@@ -1,0 +1,10 @@
+{
+  "parent": "lcc:block/template_sapphire_altar",
+  "textures": {
+    "front": "lcc:block/sapphire_altar_front",
+    "side": "lcc:block/sapphire_altar",
+    "inside": "lcc:block/sapphire_altar_top",
+    "bottom": "lcc:block/sapphire_altar_gems",
+    "particle": "lcc:block/sapphire_altar"
+  }
+}

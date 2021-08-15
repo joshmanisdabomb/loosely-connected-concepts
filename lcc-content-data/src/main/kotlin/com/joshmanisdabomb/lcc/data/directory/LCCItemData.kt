@@ -349,6 +349,19 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.plastic_shaped) }
     }) }
 
+    val iron_oxide_nugget by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.iron_oxide)) }
+    val altar_challenge_key by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("ii")
+            .pattern("in")
+            .pattern("in")
+            .input('i', LCCItems.iron_oxide)
+            .input('n', LCCItems.iron_oxide_nugget)
+            .apply { hasCriterionShaped(this, LCCItems.iron_oxide) }
+            .apply { hasCriterionShaped(this, LCCItems.iron_oxide_nugget) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

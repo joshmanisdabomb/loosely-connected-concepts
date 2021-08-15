@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "lcc:rhyolite_wall",
+    "lcc:sapphire_altar_brick_wall",
     "lcc:fortstone_wall",
     "lcc:cobbled_fortstone_wall"
   ]

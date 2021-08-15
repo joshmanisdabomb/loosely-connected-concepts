@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:iron_oxide_from_nuggets"
+    ]
+  },
+  "criteria": {
+    "has_iron_oxide_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:iron_oxide_nugget"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:iron_oxide_from_nuggets"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_oxide_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}

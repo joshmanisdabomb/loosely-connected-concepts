@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:altar_challenge_key"
+    ]
+  },
+  "criteria": {
+    "has_iron_oxide": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:iron_oxide"
+          }
+        ]
+      }
+    },
+    "has_iron_oxide_nugget": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:iron_oxide_nugget"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:altar_challenge_key"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_oxide",
+      "has_iron_oxide_nugget",
+      "has_the_recipe"
+    ]
+  ]
+}

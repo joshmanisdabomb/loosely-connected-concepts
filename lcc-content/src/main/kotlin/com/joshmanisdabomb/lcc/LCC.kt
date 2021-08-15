@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc
 
 import com.google.common.base.CaseFormat
+import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
 import net.fabricmc.api.ModInitializer
@@ -11,6 +12,7 @@ object LCC : ModInitializer {
     const val modid = "lcc"
 
     override fun onInitialize() {
+        LCCRegistries.init()
         LCCGroups.init()
         LCCSounds.init()
         LCCFluids.init()
@@ -37,6 +39,7 @@ object LCC : ModInitializer {
         LCCCommands.init()
         LCCPointsOfInterest.init()
 
+        LCCAltarChallenges.init()
         GauntletDirectory.init()
     }
 

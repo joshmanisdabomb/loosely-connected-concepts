@@ -36,6 +36,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(100)))
     val sapphire by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(200)))
+    val dull_sapphire by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(210)))
     val raw_tungsten by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(RESOURCES, sortValueInt(300)))
     val tungsten_ingot by entry(::initialiser) { Item(Item.Settings().defaults()) }
@@ -257,6 +259,8 @@ object LCCItems : ItemDirectory() {
     //Wasteland
     val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4000, 1)))
+    val iron_oxide_nugget by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 
@@ -268,6 +272,9 @@ object LCCItems : ItemDirectory() {
 
     val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(90100, 1)))
+
+    val altar_challenge_key by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))

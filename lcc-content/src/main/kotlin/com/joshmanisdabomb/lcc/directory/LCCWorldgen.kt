@@ -215,6 +215,12 @@ object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out Featu
             .defaultConfig(12, 8, 5648943)
             .adjustsSurface()
     }
+    val sapphire_altar by entry(::initialiser) {
+        FabricStructureBuilder.create(id, SapphireAltarStructureFeature(DefaultFeatureConfig.CODEC))
+            .step(GenerationStep.Feature.TOP_LAYER_MODIFICATION)
+            .defaultConfig(5, 4, 24758369)
+            .adjustsSurface()
+    }
 
     fun <C : FeatureConfig, S : StructureFeature<C>> initialiser(input: FabricStructureBuilder<C, S>, context: DirectoryContext<GenerationStep.Feature>, parameters: Unit): S {
         return input.register()
@@ -233,6 +239,7 @@ object LCCConfiguredStructureFeatures : BasicDirectory<ConfiguredStructureFeatur
     override fun regId(name: String) = LCC.id(name)
 
     val wasteland_tent by entry(::initialiser) { LCCStructureFeatures.wasteland_tent.configure(FeatureConfig.DEFAULT) }
+    val sapphire_altar by entry(::initialiser) { LCCStructureFeatures.sapphire_altar.configure(FeatureConfig.DEFAULT) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -245,6 +252,7 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
     override fun regId(name: String) = LCC.id(name)
 
     val wasteland_tent by entry(::initialiser) { StructurePieceType(WastelandTentStructureFeature::Piece) }
+    val sapphire_altar by entry(::initialiser) { StructurePieceType(SapphireAltarStructureFeature::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

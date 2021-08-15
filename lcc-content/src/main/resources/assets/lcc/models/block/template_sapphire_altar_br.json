@@ -1,0 +1,63 @@
+{
+  "elements": [
+    {
+      "from": [
+        3,
+        10,
+        2
+      ],
+      "to": [
+        5,
+        14,
+        4
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            2,
+            16,
+            6
+          ],
+          "texture": "#texture"
+        },
+        "east": {
+          "uv": [
+            8,
+            2,
+            10,
+            6
+          ],
+          "texture": "#texture"
+        },
+        "south": {
+          "uv": [
+            12,
+            2,
+            14,
+            6
+          ],
+          "texture": "#texture"
+        },
+        "west": {
+          "uv": [
+            10,
+            2,
+            12,
+            6
+          ],
+          "texture": "#texture"
+        },
+        "up": {
+          "uv": [
+            7,
+            8,
+            9,
+            10
+          ],
+          "texture": "#texture"
+        }
+      }
+    }
+  ]
+}

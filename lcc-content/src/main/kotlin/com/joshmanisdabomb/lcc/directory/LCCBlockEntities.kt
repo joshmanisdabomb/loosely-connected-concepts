@@ -41,6 +41,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val radar by entry(::beInitialiser) { BlockEntityType.Builder.create(::RadarBlockEntity, LCCBlocks.radar) }
     val papercomb by entry(::beInitialiser) { BlockEntityType.Builder.create(::PapercombBlockEntity, LCCBlocks.papercomb_block) }
     val improvised_explosive by entry(::beInitialiser) { BlockEntityType.Builder.create(::ImprovisedExplosiveBlockEntity, LCCBlocks.improvised_explosive) }
+    val sapphire_altar by entry(::beInitialiser) { BlockEntityType.Builder.create(::SapphireAltarBlockEntity, LCCBlocks.sapphire_altar) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)

@@ -215,6 +215,17 @@ object LCCBlocks : BlockDirectory() {
     val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
+    val sapphire_altar by entry(::initialiser) { SapphireAltarBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(4.0F, 18000000F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(200, 1)).cutout())
+    val sapphire_altar_brick by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(4.0f, 18000000f).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val sapphire_altar_brick_stairs by entry(::initialiser) { StairsBlock(sapphire_altar_brick.defaultState, FabricBlockSettings.copyOf(sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val sapphire_altar_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val sapphire_altar_brick_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
     val papercomb_block by entry(::initialiser) { PapercombBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.TERRACOTTA_WHITE).strength(4.0F, 0.0F).breakByTool(HOES).requiresTool().sounds(BlockSoundGroup.HANGING_ROOTS).suffocates(::never)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(90000, 1)).flammability(60, 70, Blocks.FIRE))
     val paper_envelope by entryMap(::initialiser, *WoodType.values()) { Block(FabricBlockSettings.of(Material.SOLID_ORGANIC, when (it) { WoodType.WARPED -> MapColor.DARK_AQUA; WoodType.CRIMSON -> MapColor.TERRACOTTA_MAGENTA; WoodType.DARK_OAK, WoodType.JUNGLE, WoodType.ACACIA -> MapColor.TERRACOTTA_WHITE; else -> MapColor.PALE_YELLOW }).breakByTool(HOES).requiresTool().strength(8.0F, 2.0F).sounds(BlockSoundGroup.HANGING_ROOTS)) }
@@ -309,9 +320,10 @@ object LCCBlocks : BlockDirectory() {
         .setPropertySupplier { BlockExtraSettings().creativeExSet(WASTELAND, "stained_shattered_glass_pane") { stack -> it as LCCExtendedDyeColor }.translucent() }
         .addTags("shattered_glass_pane")
 
-    //TODO minesweep blocks
+    val bomb_board_block by entry(::initialiser) { BombBoardBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BROWN).strength(3.0f, 2.0f).breakByTool(PICKAXES, 0).requiresTool().allowsSpawning(::never).sounds(BlockSoundGroup.TUFF)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
     //TODO reinforced stone or similar for nuke protection
-    //TODO sapphire altar
 
     //Nuclear
     val uranium_ore by entry(::initialiser) { RadioactiveBlock(2, 0, FabricBlockSettings.of(Material.STONE).strength(3.0F, 3.0F).breakByTool(PICKAXES, 3).requiresTool()) }

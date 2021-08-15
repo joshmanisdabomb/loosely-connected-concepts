@@ -23,6 +23,8 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.ActionResult
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -41,6 +43,10 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING, SETTING).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = directionalFacePlacement(context)
+
+    override fun rotate(state: BlockState, rot: BlockRotation) = state.with(FACING, rot.rotate(state[FACING]))
+
+    override fun mirror(state: BlockState, mirror: BlockMirror) = state.rotate(mirror.getRotation(state[FACING]))
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BouncePadBlockEntity(pos, state)
 

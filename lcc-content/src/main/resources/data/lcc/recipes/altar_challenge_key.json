@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ii",
+    "in",
+    "in"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:iron_oxide"
+    },
+    "n": {
+      "item": "lcc:iron_oxide_nugget"
+    }
+  },
+  "result": {
+    "item": "lcc:altar_challenge_key"
+  }
+}

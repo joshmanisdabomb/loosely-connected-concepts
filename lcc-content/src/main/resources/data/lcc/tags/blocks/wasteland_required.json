@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
+    "lcc:sapphire_altar_brick",
+    "lcc:sapphire_altar_brick_stairs",
+    "lcc:sapphire_altar_brick_slab",
+    "lcc:sapphire_altar_brick_wall",
     "lcc:fortstone",
     "lcc:fortstone_stairs",
     "lcc:fortstone_slab",
@@ -20,6 +24,7 @@
     "lcc:spikes",
     "lcc:bleeding_spikes",
     "lcc:poison_spikes",
-    "lcc:improvised_explosive"
+    "lcc:improvised_explosive",
+    "lcc:bomb_board_block"
   ]
 }

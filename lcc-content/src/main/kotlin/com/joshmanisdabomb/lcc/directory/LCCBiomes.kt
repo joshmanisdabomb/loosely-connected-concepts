@@ -69,6 +69,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deadwood_logs)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
                 .structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
+                .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)
@@ -100,7 +101,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .build())
             .spawnSettings(SpawnSettings.Builder()
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.baby_skeleton, 10, 1, 3))
-                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.consumer, 20, 1, 1))
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.consumer, 20, 1, 3))
                 .build())
             .generationSettings(GenerationSettings.Builder()
                 .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_spikes)
@@ -125,6 +126,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.fortstone_patches)
                 .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCConfiguredFeatures.wasteland_spikes)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
+                .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

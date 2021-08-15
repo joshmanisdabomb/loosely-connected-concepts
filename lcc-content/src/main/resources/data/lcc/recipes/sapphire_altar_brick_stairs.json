@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:sapphire_altar_brick"
+    }
+  },
+  "result": {
+    "item": "lcc:sapphire_altar_brick_stairs",
+    "count": 4
+  }
+}

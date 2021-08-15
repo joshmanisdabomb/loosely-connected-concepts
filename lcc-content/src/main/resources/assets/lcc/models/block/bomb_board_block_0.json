@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "lcc:block/bomb_board_block_0",
+    "side": "lcc:block/bomb_board_block_side"
+  }
+}

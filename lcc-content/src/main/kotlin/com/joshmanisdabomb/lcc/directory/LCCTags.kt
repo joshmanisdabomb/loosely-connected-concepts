@@ -53,6 +53,12 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
 
     val plastic by entry(::itemInitialiser) {}
 
+    val red_hearts by entry(::itemInitialiser) {}
+    val iron_hearts by entry(::itemInitialiser) {}
+    val crystal_hearts by entry(::itemInitialiser) {}
+    val temporary_hearts by entry(::itemInitialiser) {}
+    val hearts by entry(::itemInitialiser) {}
+
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.block(context.id)
     fun entityTypeInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.entityType(context.id)
     fun itemInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.item(context.id)

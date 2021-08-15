@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.data.container.ItemDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelAccess
 import com.joshmanisdabomb.lcc.data.factory.asset.item.*
 import com.joshmanisdabomb.lcc.data.factory.recipe.*
+import com.joshmanisdabomb.lcc.data.factory.tag.HeartItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ToolItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
@@ -17,6 +18,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.item.HeartItem
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
@@ -107,8 +109,6 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
     val quiver by entry(::initialiser) { data().defaultLang().add(QuiverItemAssetFactory).add(RiftFromItemRecipeFactory(Items.BUNDLE)) }
-
-    val full_hearts by entry(::initialiser) { data().affects(LCCItems.heart_full.values.toList()).defaultLang().defaultItemAsset().add(TransformTranslationFactory(*LCCData.locales.toTypedArray()) { it.replace(" Full", "") }) }
 
     val gauntlet by entry(::initialiser) { data().add(DynamicItemAssetFactory).add(LiteralTranslationFactory("Doom Gauntlet")).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
@@ -350,6 +350,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     }) }
 
     val iron_oxide_nugget by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.iron_oxide)) }
+    val hearts by entry(::initialiser) { data().affects(LCCItems.all.values.filterIsInstance<HeartItem>()).defaultLang().defaultItemAsset().add(HeartRecipeFactory).add(HeartItemTagFactory).add(TransformTranslationFactory(*LCCData.locales.toTypedArray()) { it.replace(" Full", "") }) }
     val altar_challenge_key by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ii")

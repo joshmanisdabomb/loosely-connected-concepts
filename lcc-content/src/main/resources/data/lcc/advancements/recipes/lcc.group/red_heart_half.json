@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:red_heart_half"
+    ]
+  },
+  "criteria": {
+    "has_red_hearts": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "lcc:red_hearts"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:red_heart_half"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_red_hearts",
+      "has_the_recipe"
+    ]
+  ]
+}

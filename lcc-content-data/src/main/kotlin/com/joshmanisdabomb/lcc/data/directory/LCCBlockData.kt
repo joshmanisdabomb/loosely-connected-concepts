@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.block.*
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.container.BlockDataContainer
@@ -561,7 +562,38 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val deadwood_sign by entry(::initialiser) { data().defaultLang().defaultLootTable().add(ParticleBlockAssetFactory(LCCBlocks.deadwood_planks.identifierLoc())).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.STANDING_SIGNS)).add(ItemTagFactory(ItemTags.SIGNS)).add(SignRecipeFactory(LCCBlocks.deadwood_planks, Ingredient.ofItems(Items.STICK), group = "wooden_sign")).add(BlockTagFactory(LCCTags.wasteland_effective)) }
     val deadwood_wall_sign by entry(::initialiser) { data().add(ParticleBlockAssetFactory(LCCBlocks.deadwood_planks.identifierLoc())).add(BlockTagFactory(BlockTags.WALL_SIGNS)).add(BlockTagFactory(LCCTags.wasteland_effective)) }
 
-    val spikes by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<SpikesBlock>()).defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_spikes.upload(i(t) ?: idb.loc(t), Texture.texture(idb.loc(t)), d.modelStates::addModel) }).add(BlockTagFactory(LCCTags.wasteland_required)) }
+    val spike_blocks by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<SpikesBlock>()).defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_spikes.upload(i(t) ?: idb.loc(t), Texture.texture(idb.loc(t)), d.modelStates::addModel) }).add(BlockTagFactory(LCCTags.wasteland_required)) }
+    val spikes by entry(::initialiser) { data().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 2)
+            .pattern(" n ")
+            .pattern("nin")
+            .pattern("iii")
+            .input('n', LCCItems.iron_oxide_nugget)
+            .input('i', LCCItems.iron_oxide)
+            .apply { hasCriterionShaped(this, LCCItems.iron_oxide) }
+            .apply { hasCriterionShaped(this, LCCItems.iron_oxide_nugget) }
+            .apply { offerShaped(this, d) }
+    }) }
+    val bleeding_spikes by entry(::initialiser) { data().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 1)
+            .pattern("h")
+            .pattern("s")
+            .input('h', LCCItems.heart_half[HeartType.RED])
+            .input('s', LCCBlocks.spikes)
+            .apply { hasCriterionShaped(this, LCCBlocks.spikes) }
+            .criterion("has_red_hearts", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.red_hearts).build()))
+            .apply { offerShaped(this, d) }
+    }) }
+    val poison_spikes by entry(::initialiser) { data().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i, 1)
+            .pattern("w")
+            .pattern("s")
+            .input('w', LCCItems.stinger)
+            .input('s', LCCBlocks.spikes)
+            .apply { hasCriterionShaped(this, LCCBlocks.spikes) }
+            .apply { hasCriterionShaped(this, LCCItems.stinger) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     val shattered_glass by entry(::initialiser) { data().affects(LCCBlocks.entries.values.filter { it.tags.contains("shattered_glass") }.map { it.entry }).defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory).add(BlockTagFactory(BlockTags.IMPERMEABLE)) }
     val shattered_glass_pane by entry(::initialiser) { data().affects(LCCBlocks.entries.values.filter { it.tags.contains("shattered_glass_pane") }.map { it.entry }).defaultLang().add(GeneratedBlockItemAssetFactory { i -> idi.loc(i, "block").modify { it.replace("_pane", "") } }).add(GlassPaneBlockAssetFactory { b -> Identifier(idb.locSuffix(b, "top").path.replace("shattered_", "")) }).add(SilkBlockLootFactory) }

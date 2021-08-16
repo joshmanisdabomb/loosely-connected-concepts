@@ -50,7 +50,6 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             val width = challenge.getAltarWidth(options) ?: 3
             val depth = challenge.getAltarDepth(options) ?: 3
             method_35462(Piece(challenge, options, random, pos, width, depth, rot))
-            setBoundingBoxFromChildren()
         }
 
     }

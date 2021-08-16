@@ -13,6 +13,9 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val generated1 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1)
     val generated2 by referenceEntry(Identifier("minecraft", "item/generated"), TextureKey.LAYER0, LCCModelTextureKeys.layer1, LCCModelTextureKeys.layer2)
 
+    val cube_column_with_particle by templateEntry("block", cube_column_with_particle_json, TextureKey.END, TextureKey.SIDE, TextureKey.PARTICLE)
+    val cube_column_horizontal_with_particle by templateEntry("block", cube_column_horizontal_with_particle_json, TextureKey.END, TextureKey.SIDE, TextureKey.PARTICLE)
+
     val cable4_center by templateEntry("block", cable4_center_json, TextureKey.END, TextureKey.PARTICLE)
     val cable4_connection by templateEntry("block", cable4_connection_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
     val cable4_item by templateEntry("block", cable4_item_json, TextureKey.SIDE, TextureKey.END)
@@ -9204,3 +9207,41 @@ private const val template_sapphire_altar_key_json = """{
 		}
 	]
 }"""
+
+private const val cube_column_with_particle_json = """{
+    "parent": "block/cube",
+    "textures": {
+        "down": "#end",
+        "up": "#end",
+        "north": "#side",
+        "east": "#side",
+        "south": "#side",
+        "west": "#side"
+    }
+}"""
+
+private const val cube_column_horizontal_with_particle_json = """{
+    "parent": "block/block",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "texture": "#down", "cullface": "down" },
+                "up":    { "texture": "#up", "rotation": 180, "cullface": "up" },
+                "north": { "texture": "#north", "cullface": "north" },
+                "south": { "texture": "#south", "cullface": "south" },
+                "west":  { "texture": "#west", "cullface": "west" },
+                "east":  { "texture": "#east", "cullface": "east" }
+            }
+        }
+    ],
+    "textures": {
+        "down": "#end",
+        "up": "#end",
+        "north": "#side",
+        "east": "#side",
+        "south": "#side",
+        "west": "#side"
+    }
+}
+"""

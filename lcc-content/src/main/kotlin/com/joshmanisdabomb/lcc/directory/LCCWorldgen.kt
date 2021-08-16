@@ -218,7 +218,7 @@ object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out Featu
     val sapphire_altar by entry(::initialiser) {
         FabricStructureBuilder.create(id, SapphireAltarStructureFeature(DefaultFeatureConfig.CODEC))
             .step(GenerationStep.Feature.TOP_LAYER_MODIFICATION)
-            .defaultConfig(5, 4, 24758369)
+            .defaultConfig(8, 6, 24758369)
             .adjustsSurface()
     }
 

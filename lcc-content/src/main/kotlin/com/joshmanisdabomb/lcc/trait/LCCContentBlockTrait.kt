@@ -6,9 +6,11 @@ import com.joshmanisdabomb.lcc.block.AbstractFiredGeneratorBlock
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.*
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.LEVEL_3
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
@@ -86,5 +88,8 @@ interface LCCContentBlockTrait {
 
     @JvmDefault
     fun lcc_content_isToolRequired(state: BlockState, stack: ItemStack, effectivity: ToolEffectivity) = state.isIn(effectivity.required)
+
+    @JvmDefault
+    fun lcc_content_hideStateFromDebug(state: BlockState, player: PlayerEntity, hit: BlockHitResult): String? = null
 
 }

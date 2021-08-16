@@ -11,7 +11,8 @@
     "EffectPlayerMixin",
     "StunMouseMixin",
     "EntityModelsMixin",
-    "ContainedHudMixin"
+    "ContainedHudMixin",
+    "DebugHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

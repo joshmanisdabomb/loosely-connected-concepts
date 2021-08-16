@@ -2,10 +2,15 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityTicker
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.sound.SoundCategory
@@ -24,7 +29,7 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class SapphireAltarBlock(settings: AbstractBlock.Settings) : BlockWithEntity(settings) {
+class SapphireAltarBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
         defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(key, false).with(middle, SapphireState.EMPTY).with(tl, SapphireState.EMPTY).with(tr, SapphireState.EMPTY).with(bl, SapphireState.EMPTY).with(br, SapphireState.EMPTY)
@@ -45,14 +50,25 @@ class SapphireAltarBlock(settings: AbstractBlock.Settings) : BlockWithEntity(set
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
         if (stack.isOf(LCCItems.sapphire) || stack.isOf(LCCItems.dull_sapphire)) {
+            if (player.isSurvival && state[key]) return ActionResult.PASS
             if (hit.side != Direction.UP && hit.side != state[HORIZONTAL_FACING]) return ActionResult.PASS
             val dull = stack.isOf(LCCItems.dull_sapphire)
             return if (placeSapphire(state, world, pos, hit.pos, dull)) {
+                if (player.isSurvival) stack.decrement(1)
                 world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0f, world.random.nextFloat().times(0.2f).plus(dull.transform(0.5f, 0.9f)))
                 ActionResult.SUCCESS
             } else {
                 ActionResult.PASS
             }
+        } else if (stack.isOf(LCCItems.altar_challenge_key)) {
+            if (state[key]) return ActionResult.PASS
+            if (player.isSurvival && sapphireProperties.none { state[it] != SapphireState.EMPTY }) return ActionResult.FAIL
+            val be = (world.getBlockEntity(pos) as? SapphireAltarBlockEntity) ?: return ActionResult.FAIL
+            if (be.challenge?.start(world, state, pos, be, player) != true) return ActionResult.FAIL
+            if (player.isSurvival) stack.decrement(1)
+            world.setBlockState(pos, state.with(key, true))
+            world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 1.0f, 1.0f)
+            return ActionResult.SUCCESS
         }
         return super.onUse(state, world, pos, player, hand, hit)
     }
@@ -82,12 +98,24 @@ class SapphireAltarBlock(settings: AbstractBlock.Settings) : BlockWithEntity(set
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shape[state[HORIZONTAL_FACING]]
 
+    override fun getCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = collision[state[HORIZONTAL_FACING]]
+
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>): BlockEntityTicker<T>? {
+        if (!state[key]) return null
+        return if (!world.isClient) checkType(type, LCCBlockEntities.sapphire_altar, SapphireAltarBlockEntity::serverTick) else null
+    }
+
     companion object {
         val shape = VoxelShapes.union(
             createCuboidShape(0.0, 0.0, 0.0, 2.0, 6.0, 2.0),
             createCuboidShape(14.0, 0.0, 0.0, 16.0, 6.0, 2.0),
             createCuboidShape(0.0, 0.0, 14.0, 2.0, 8.0, 16.0),
             createCuboidShape(14.0, 0.0, 14.0, 16.0, 8.0, 16.0),
+            createCuboidShape(1.0, 0.0, 1.0, 15.0, 10.0, 15.0),
+            createCuboidShape(1.0, 10.0, 5.0, 15.0, 11.0, 15.0),
+            createCuboidShape(1.0, 11.0, 9.0, 15.0, 12.0, 15.0)
+        ).rotatable(Direction.NORTH)
+        val collision = VoxelShapes.union(
             createCuboidShape(1.0, 0.0, 1.0, 15.0, 10.0, 15.0),
             createCuboidShape(1.0, 10.0, 5.0, 15.0, 11.0, 15.0),
             createCuboidShape(1.0, 11.0, 9.0, 15.0, 12.0, 15.0)
@@ -99,6 +127,7 @@ class SapphireAltarBlock(settings: AbstractBlock.Settings) : BlockWithEntity(set
         val tr = EnumProperty.of("tr", SapphireState::class.java)
         val bl = EnumProperty.of("bl", SapphireState::class.java)
         val br = EnumProperty.of("br", SapphireState::class.java)
+        val sapphireProperties = listOf(tl, tr, middle, bl, br)
     }
 
     enum class SapphireState : StringIdentifiable {

@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.sapphire_altar, pos, state) {
 
@@ -29,6 +30,12 @@ class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
     fun setChallenge(challenge: AltarChallenge, options: NbtCompound) {
         this.challenge = challenge
         this.options = options
+    }
+
+    companion object {
+        fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity) {
+            println("active")
+        }
     }
 
 }

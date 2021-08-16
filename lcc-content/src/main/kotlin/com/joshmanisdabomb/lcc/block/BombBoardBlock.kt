@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.pillarPlacement
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -19,7 +20,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.explosion.Explosion
 
-class BombBoardBlock(settings: Settings) : Block(settings) {
+class BombBoardBlock(settings: Settings) : Block(settings), LCCContentBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(AXIS, Direction.Axis.Y).with(mine_state, 9)
@@ -71,7 +72,7 @@ class BombBoardBlock(settings: Settings) : Block(settings) {
         return ActionResult.PASS
     }
 
-    private fun getAdjacentMines(world: WorldAccess, state: BlockState, pos: BlockPos): Int {
+    fun getAdjacentMines(world: WorldAccess, state: BlockState, pos: BlockPos): Int {
         val bp = BlockPos.Mutable()
         val others = Direction.Axis.VALUES.filter { it != state[AXIS] }.map { Direction.from(it, Direction.AxisDirection.POSITIVE) }
         var count = 0
@@ -85,7 +86,7 @@ class BombBoardBlock(settings: Settings) : Block(settings) {
         return count
     }
 
-    private fun updateAdjacentBoard(world: WorldAccess, state: BlockState, pos: BlockPos) {
+    fun updateAdjacentBoard(world: WorldAccess, state: BlockState, pos: BlockPos) {
         val bp = BlockPos.Mutable()
         val others = Direction.Axis.VALUES.filter { it != state[AXIS] }.map { Direction.from(it, Direction.AxisDirection.POSITIVE) }
         for (i in -1..1) {
@@ -98,6 +99,8 @@ class BombBoardBlock(settings: Settings) : Block(settings) {
             }
         }
     }
+
+    override fun lcc_content_hideStateFromDebug(state: BlockState, player: PlayerEntity, hit: BlockHitResult) = if (player.isSurvival && state[mine_state] > 8) "No cheating!" else null
 
     companion object {
         val empty = 9

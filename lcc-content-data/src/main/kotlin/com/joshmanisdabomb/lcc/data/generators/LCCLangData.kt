@@ -135,7 +135,7 @@ object LCCLangData {
 
         en_us[LCCBlocks.radar.translationKey.toString() + ".range"] = "Range is %1\$s blocks"
 
-        en_us[LCCBlocks.sapphire_altar.translationKey.toString() + ".malformed"] = "The bomb board has been tampered with."
+        en_us[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.malformed"] = "The sapphire altar has been tampered with."
 
         en_us["commands.lcc.radiation.add.success.single"] = "Added %s to the radiation sickness of %s"
         en_us["commands.lcc.radiation.add.success.multiple"] = "Added %s to the radiation sickness of %s players"

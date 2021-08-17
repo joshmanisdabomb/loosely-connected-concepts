@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.extensions
 
-import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.*
 
 const val NBT_BYTE = 1
 const val NBT_SHORT = 2
@@ -21,3 +21,11 @@ fun NbtCompound.build(key: String, ref: NbtCompound = this.getCompound(key), mod
     this.put(key, ref)
     return ref
 }
+
+fun NbtList.addString(value: String) = this.add(NbtString.of(value))
+fun NbtList.addByte(value: Byte) = this.add(NbtByte.of(value))
+fun NbtList.addShort(value: Short) = this.add(NbtShort.of(value))
+fun NbtList.addInt(value: Int) = this.add(NbtInt.of(value))
+fun NbtList.addLong(value: Long) = this.add(NbtLong.of(value))
+fun NbtList.addFloat(value: Float) = this.add(NbtFloat.of(value))
+fun NbtList.addDouble(value: Double) = this.add(NbtDouble.of(value))

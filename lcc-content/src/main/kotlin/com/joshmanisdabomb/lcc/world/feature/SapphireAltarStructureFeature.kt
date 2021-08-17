@@ -46,10 +46,10 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
             val rot = horizontalDirections.random(random.asKotlinRandom())
             val challenge = LCCRegistries.altar_challenges.getRandom(random) ?: error("Invalid altar challenge for structure.")
-            val options = challenge.generateOptions(random)
-            val width = challenge.getAltarWidth(options) ?: 3
-            val depth = challenge.getAltarDepth(options) ?: 3
-            method_35462(Piece(challenge, options, random, pos, width, depth, rot))
+            val data = challenge.initialData(random)
+            val width = challenge.getAltarWidth(data) ?: 3
+            val depth = challenge.getAltarDepth(data) ?: 3
+            method_35462(Piece(challenge, data, random, pos, width, depth, rot))
         }
 
     }
@@ -57,24 +57,24 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
     class Piece : StructurePieceWithDimensions {
 
         val challenge: AltarChallenge
-        val options: NbtCompound
+        val data: NbtCompound
         val rotation: Direction
 
-        constructor(challenge: AltarChallenge, options: NbtCompound, random: Random, pos: BlockPos, width: Int, depth: Int, rot: Direction) : super(LCCStructurePieceTypes.sapphire_altar, pos.x, pos.y, pos.z, width, 40, depth + 3, rot) {
+        constructor(challenge: AltarChallenge, data: NbtCompound, random: Random, pos: BlockPos, width: Int, depth: Int, rot: Direction) : super(LCCStructurePieceTypes.sapphire_altar, pos.x, pos.y, pos.z, width, 40, depth + 3, rot) {
             this.challenge = challenge
-            this.options = options
+            this.data = data
             this.rotation = rot
         }
 
         constructor(world: ServerWorld, nbt: NbtCompound) : super(LCCStructurePieceTypes.sapphire_altar, nbt) {
             this.challenge = LCCRegistries.altar_challenges[Identifier(nbt.getString("Challenge"))] ?: error("Invalid altar challenge for structure.")
-            this.options = nbt.getCompound("ChallengeOptions")
+            this.data = nbt.getCompound("ChallengeOptions")
             this.rotation = Direction.byName(nbt.getString("Rotation")) ?: error("Invalid direction for sapphire altar structure.")
         }
 
         override fun writeNbt(world: ServerWorld, nbt: NbtCompound) {
             nbt.putString("Challenge", challenge.id.toString())
-            nbt.put("ChallengeOptions", options)
+            nbt.put("ChallengeOptions", data)
             nbt.putString("Rotation", rotation.getName())
         }
 
@@ -126,9 +126,9 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
                 }
                 if (blocks >= 3) break
             }
-            challenge.generate(world, this, y, boundingBox, options, random)
+            challenge.generate(world, this, y, boundingBox, data, random)
             addBlock(world, LCCBlocks.sapphire_altar.defaultState.with(HORIZONTAL_FACING, Direction.SOUTH).with(SapphireAltarBlock.middle, SapphireAltarBlock.SapphireState.NORMAL), w + 1, y + 1, 1, boundingBox)
-            (world.getBlockEntity(offsetPos(w + 1, y + 1, 1)) as? SapphireAltarBlockEntity)?.setChallenge(challenge, options)
+            (world.getBlockEntity(offsetPos(w + 1, y + 1, 1)) as? SapphireAltarBlockEntity)?.setChallenge(challenge, data)
             return true
         }
 

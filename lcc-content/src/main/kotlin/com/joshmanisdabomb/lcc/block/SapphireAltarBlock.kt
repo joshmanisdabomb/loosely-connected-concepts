@@ -130,10 +130,11 @@ class SapphireAltarBlock(settings: Settings) : BlockWithEntity(settings) {
         val sapphireProperties = listOf(tl, tr, middle, bl, br)
     }
 
-    enum class SapphireState : StringIdentifiable {
-        EMPTY,
-        DULL,
-        NORMAL;
+    enum class SapphireState(val reward: Int) : StringIdentifiable {
+
+        EMPTY(0),
+        DULL(1),
+        NORMAL(2);
 
         override fun asString() = name.toLowerCase()
     }

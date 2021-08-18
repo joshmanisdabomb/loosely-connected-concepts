@@ -37,7 +37,7 @@ class NuclearExplosionCriterion : AbstractCriterion<NuclearExplosionCriterion.Co
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.nuke].name) }
+        val id by lazy { LCCCriteria[LCCCriteria.nuke].id }
 
         fun create(uranium: NumberRange.IntRange): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, uranium)

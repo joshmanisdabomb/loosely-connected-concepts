@@ -1,14 +1,14 @@
 {
-  "parent": "lcc:wasteland/rusty_iron",
+  "parent": "lcc:wasteland/sapphire",
   "display": {
     "icon": {
-      "item": "lcc:sapphire"
+      "item": "lcc:sapphire_block"
     },
     "title": {
-      "translate": "advancements.lcc.wasteland.sapphire.title"
+      "translate": "advancements.lcc.wasteland.sapphire_10.title"
     },
     "description": {
-      "translate": "advancements.lcc.wasteland.sapphire.description"
+      "translate": "advancements.lcc.wasteland.sapphire_10.description"
     },
     "frame": "task",
     "show_toast": true,
@@ -19,7 +19,10 @@
     "challenge": {
       "trigger": "lcc:sapphire_altar",
       "conditions": {
-        "challenge": ""
+        "challenge": "",
+        "rewards": {
+          "min": 10
+        }
       }
     }
   },

@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.abstracts.challenges
 import com.joshmanisdabomb.lcc.block.BombBoardBlock
 import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.addString
 import com.joshmanisdabomb.lcc.extensions.transform
@@ -13,10 +14,12 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
@@ -33,7 +36,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val b = random.nextInt(4).plus(6).times(2).plus(1)
         nbt.putInt("Width", max(a, b))
         nbt.putInt("Depth", min(a, b))
-        nbt.putInt("Mines", (a*b).times(random.nextDouble().times(0.13).plus(0.2)).roundToInt())
+        nbt.putInt("Mines", (a*b).times(random.nextDouble().times(0.11).plus(0.16)).roundToInt())
         return nbt
     }
 
@@ -73,6 +76,12 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         board.forEach { nbtBoard.addString(it.joinToString("") { it.transform("x", " ") }) }
         data.put("Board", nbtBoard)
 
+        if (!world.isClient) {
+            val range = Box(pos).expand(40.0, 40.0, 40.0)
+            val players = world.server!!.playerManager.playerList
+            be.challengers = players.filter { it.world.dimension == world.dimension && range.intersects(it.boundingBox) }.map { it.uuid }.toMutableList()
+        }
+
         return true
     }
 
@@ -110,11 +119,15 @@ class MinesweeperAltarChallenge : AltarChallenge() {
                 val y = random.nextInt(height)
 
                 if (board[x][y]) continue
+                if ((x == 0 || x == width-1) && random.nextInt(2) == 0) continue
+                if ((y == 0 || y == height-1) && random.nextInt(2) == 0) continue
+                if ((x <= 1 || x >= width-2) && random.nextInt(2) == 0) continue
+                if ((y <= 1 || y >= height-2) && random.nextInt(2) == 0) continue
 
                 val xd = abs(x - width.div(2))
                 val yd = abs(y - height.div(2))
                 if (xd <= 1 && yd <= 1) continue
-                if (xd <= 4 && yd <= 4 && random.nextInt(10-(xd+yd)) != 0) continue
+                if (xd <= 3 && yd <= 3 && random.nextInt(5-(xd+yd).div(2)) != 0) continue
 
                 var adjacent = 0
                 for (j in -1..1) {
@@ -165,22 +178,17 @@ class MinesweeperAltarChallenge : AltarChallenge() {
 
     fun verifyBoard(world: World, facing: Direction, origin: BlockPos, board: List<List<Boolean>>, width: Int, depth: Int): Boolean? {
         var flag: Boolean? = true
-        board.forEach { println(it.joinToString("") { it.transform("x", " ") }) }
         foreachPlane(origin.offset(facing, 3).down(), facing, width, depth) { p, x, y ->
             if (flag == false) return@foreachPlane
             val state2 = world.getBlockState(p)
             when (state2[BombBoardBlock.mine_state]) {
                 BombBoardBlock.mine -> {
                     if (!board[x][y]) {
-                        println(1)
-                        println("$x $y")
                         flag = false
                     }
                 }
                 BombBoardBlock.mystery -> {
                     if (board[x][y]) {
-                        println(2)
-                        println("$x $y")
                         flag = false
                     }
                     else flag = null
@@ -190,8 +198,20 @@ class MinesweeperAltarChallenge : AltarChallenge() {
                 }
             }
         }
-        println(flag)
         return flag
+    }
+
+    override fun handleState(cstate: ChallengeState, world: ServerWorld, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity): Boolean {
+        when (cstate) {
+            ChallengeState.COMPLETED -> {
+                val challengers = world.server.playerManager.playerList.filter { entity.challengers?.contains(it.uuid) == true }
+                challengers.forEach {
+                    LCCCriteria.sapphire_altar.trigger(it, this, cstate.getRewards(state))
+                }
+                entity.challengers = null
+            }
+        }
+        return super.handleState(cstate, world, pos, state, entity)
     }
 
 }

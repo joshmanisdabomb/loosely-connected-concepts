@@ -1,38 +1,50 @@
 package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
-import com.joshmanisdabomb.lcc.block.SapphireAltarBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
-import com.joshmanisdabomb.lcc.extensions.stack
-import net.minecraft.block.Block
+import com.joshmanisdabomb.lcc.extensions.NBT_INT_ARRAY
+import com.joshmanisdabomb.lcc.extensions.NBT_LIST
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
+import net.minecraft.nbt.NbtHelper
+import net.minecraft.nbt.NbtList
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraft.world.explosion.Explosion
+import java.util.*
 
 class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.sapphire_altar, pos, state) {
 
     var challenge: AltarChallenge? = null
     var data: NbtCompound = NbtCompound()
 
+    var challengers: MutableList<UUID>? = null
+
     var ticks = 0
 
     override fun readNbt(nbt: NbtCompound) {
         challenge = LCCRegistries.altar_challenges[Identifier(nbt.getString("Challenge"))]
         data = nbt.getCompound("ChallengeData")
+
+        if (nbt.contains("Challengers", NBT_LIST)) {
+            challengers = nbt.getList("Challengers", NBT_INT_ARRAY).map { NbtHelper.toUuid(it) }.toMutableList()
+        }
     }
 
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         super.writeNbt(nbt)
         challenge?.also { nbt.putString("Challenge", it.id.toString()) }
         nbt.put("ChallengeData", data)
+
+        if (challengers != null) {
+            nbt.put("Challengers", NbtList().apply {
+                challengers?.forEach { this.add(NbtHelper.fromUuid(it)) }
+            })
+        }
+
         return nbt
     }
 
@@ -49,7 +61,7 @@ class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                 verify = challenge.verify(world, state, pos, entity)
                 entity.ticks = 0
             }
-            challenge.handleState(verify, world, pos, state, entity)
+            challenge.handleState(verify, world as ServerWorld, pos, state, entity)
         }
     }
 

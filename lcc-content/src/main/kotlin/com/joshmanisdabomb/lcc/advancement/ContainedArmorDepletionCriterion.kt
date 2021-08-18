@@ -45,7 +45,7 @@ class ContainedArmorDepletionCriterion : AbstractCriterion<ContainedArmorDepleti
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.oxygen].name) }
+        val id by lazy { LCCCriteria[LCCCriteria.oxygen].id }
 
         fun create(item: ItemPredicate, before: NumberRange.FloatRange = NumberRange.FloatRange.ANY, loss: NumberRange.FloatRange = NumberRange.FloatRange.ANY, after: NumberRange.FloatRange = NumberRange.FloatRange.ANY): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, item, before, loss, after)

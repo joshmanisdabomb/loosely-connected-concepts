@@ -1,12 +1,14 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.ShapeContext
 import net.minecraft.block.enums.WireConnection
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.LIT
@@ -63,6 +65,7 @@ class ExplosivePasteBlock(settings: Settings) : Block(settings) {
         if (!world.blockTickScheduler.isScheduled(pos, this)) {
             world.blockTickScheduler.schedule(pos, this, world.random.nextInt(10).plus(10))
         }
+        (explosion.causingEntity as? ServerPlayerEntity)?.also { LCCCriteria.explosive_paste.trigger(it, pos) }
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {

@@ -10,6 +10,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockBox
@@ -43,10 +44,10 @@ abstract class AltarChallenge {
 
     abstract fun verifyTick(world: World, state: BlockState, pos: BlockPos, be: SapphireAltarBlockEntity): ChallengeState
 
-    open fun handleState(cstate: ChallengeState, world: World, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity): Boolean {
+    open fun handleState(cstate: ChallengeState, world: ServerWorld, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity): Boolean {
         when (cstate) {
             ChallengeState.COMPLETED -> {
-                val reward = SapphireAltarBlock.sapphireProperties.sumOf { state[it].reward }
+                val reward = cstate.getRewards(state)
                 world.playSound(null, pos, SoundEvents.BLOCK_NOTE_BLOCK_CHIME, SoundCategory.BLOCKS, 1.0f, 1.0f)
                 world.breakBlock(pos, false)
                 repeat(reward) {
@@ -77,9 +78,13 @@ abstract class AltarChallenge {
 
     enum class ChallengeState {
         ACTIVE,
-        COMPLETED,
+        COMPLETED {
+            override fun getRewards(state: BlockState) = SapphireAltarBlock.sapphireProperties.sumOf { state[it].reward }
+        },
         FAILED,
         FAILED_AGGRESSIVE;
+
+        open fun getRewards(state: BlockState) = 0
     }
 
 }

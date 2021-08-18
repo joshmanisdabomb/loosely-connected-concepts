@@ -28,7 +28,7 @@ class NetherReactorChallengeCriterion : AbstractCriterion<NetherReactorChallenge
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.netherReactor].name) }
+        val id by lazy { LCCCriteria[LCCCriteria.nether_reactor].id }
 
         fun create(): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY)

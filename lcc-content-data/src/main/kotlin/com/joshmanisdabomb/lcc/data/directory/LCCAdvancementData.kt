@@ -212,7 +212,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
             .parent(oil)
             .display(LCCBlocks.explosive_paste, this, frame = AdvancementFrame.GOAL)
             .criterion("triggered_paste", ExplosivePasteTriggeredCriterion.create(StatePredicate.ANY, LocationPredicate.ANY))
-            .translation("Chain Reaction", "Trigger explosive paste with another explosive (directly caused by you)", "en_us", this)
+            .translation("Chain Reaction", "Trigger explosive paste with an explosion (directly caused by you)", "en_us", this)
     }.addTags("wasteland")
 
     //Wasteland Progression > Deader than my Trim

@@ -30,7 +30,7 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
             conditionally(RandomChanceWithLootingLootCondition.builder(0.3F, 0.1F))
         }
     ))).add(EntityTagFactory(LCCTags.wasteland_combat)) }
-    val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCTags.wasteland_combat)) }
+    val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCTags.wasteland_combat)).add(EntityTagFactory(LCCTags.salt_weakness)) }
 
     fun initialiser(input: EntityDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

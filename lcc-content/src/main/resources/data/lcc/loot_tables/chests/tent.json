@@ -345,16 +345,32 @@
         {
           "type": "minecraft:item",
           "weight": 3,
-          "name": "lcc:red_heart_half"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
           "name": "lcc:red_heart_container"
         },
         {
           "type": "minecraft:item",
           "name": "lcc:iron_heart_container"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 3,
+          "name": "lcc:altar_challenge_key"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_damage",
+              "damage": {
+                "type": "minecraft:uniform",
+                "min": 0.1,
+                "max": 0.6
+              },
+              "add": false
+            }
+          ],
+          "name": "lcc:crowbar"
         }
       ]
     }

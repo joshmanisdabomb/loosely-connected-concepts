@@ -57,9 +57,11 @@ object LCCLootData {
             )
             .pool(LootPool.builder()
                 .rolls(UniformLootNumberProvider.create(0.0f, 1.0f))
-                .with(ItemEntry.builder(LCCItems.heart_half[HeartType.RED]).weight(3))
                 .with(ItemEntry.builder(LCCItems.heart_container[HeartType.RED]).weight(3))
                 .with(ItemEntry.builder(LCCItems.heart_container[HeartType.IRON]).weight(1))
+                .with(ItemEntry.builder(LCCItems.altar_challenge_key).weight(3))
+                .with(ItemEntry.builder(LCCItems.crowbar).weight(2)
+                    .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.1F, 0.6F))))
             )
         )
     }

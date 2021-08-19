@@ -4,7 +4,11 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
+import net.minecraft.recipe.Recipe
+import net.minecraft.recipe.RecipeManager
+import net.minecraft.recipe.RecipeType
 import net.minecraft.world.World
 
 interface LCCItemTrait {
@@ -50,5 +54,8 @@ interface LCCItemTrait {
 
     @JvmDefault
     fun lcc_doesDespawn(stack: ItemStack, entity: ItemEntity) = true
+
+    @JvmDefault
+    fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = 0
 
 }

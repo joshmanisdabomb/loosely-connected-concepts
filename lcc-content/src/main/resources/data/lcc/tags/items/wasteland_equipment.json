@@ -1,6 +1,15 @@
 {
   "replace": false,
   "values": [
+    "lcc:sapphire_sword",
+    "lcc:sapphire_pickaxe",
+    "lcc:sapphire_shovel",
+    "lcc:sapphire_axe",
+    "lcc:sapphire_hoe",
+    "lcc:sapphire_helmet",
+    "lcc:sapphire_chestplate",
+    "lcc:sapphire_leggings",
+    "lcc:sapphire_boots",
     "lcc:deadwood_sword",
     "lcc:deadwood_pickaxe",
     "lcc:deadwood_shovel",

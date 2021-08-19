@@ -20,7 +20,8 @@
     "ServerPlayerEntityMixin",
     "ServerWorldMixin",
     "PistonBlockMixin",
-    "AbstractBlockStateMixin"
+    "AbstractBlockStateMixin",
+    "RecipeManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

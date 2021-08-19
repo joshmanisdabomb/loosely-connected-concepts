@@ -22,7 +22,7 @@ class WastelandRustingBlock(settings: Settings, stages: () -> Array<Block>) : Bl
     }
 
     fun rust(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random): BlockState? {
-        if (random.nextInt(4) != 0) return null
+        if (random.nextInt(2) != 0) return null
 
         val block = state.block as? WastelandRustingBlock
         if (block?.isFinalStage() == true) return null

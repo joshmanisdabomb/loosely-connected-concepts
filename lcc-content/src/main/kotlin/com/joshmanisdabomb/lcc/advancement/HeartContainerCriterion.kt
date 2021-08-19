@@ -17,7 +17,7 @@ class HeartContainerCriterion : AbstractCriterion<HeartContainerCriterion.Condit
 
     override fun conditionsFromJson(obj: JsonObject, player: EntityPredicate.Extended, deserializer: AdvancementEntityPredicateDeserializer): Conditions {
         val type = obj.get("heart").asString
-        val maxValue = NumberRange.FloatRange.fromJson(obj.get("maxValue"))
+        val maxValue = NumberRange.FloatRange.fromJson(obj.get("value"))
         return Conditions(player, if (type.isNotEmpty()) type else null, maxValue)
     }
 

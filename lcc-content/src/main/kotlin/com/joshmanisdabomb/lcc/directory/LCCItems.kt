@@ -8,6 +8,8 @@ import com.joshmanisdabomb.lcc.item.*
 import com.joshmanisdabomb.lcc.item.AxeItem
 import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
+import com.joshmanisdabomb.lcc.item.ShovelItem
+import com.joshmanisdabomb.lcc.item.SwordItem
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
@@ -179,15 +181,15 @@ object LCCItems : ItemDirectory() {
     val hazmat_boots by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
 
-    val deadwood_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+    val deadwood_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2900, 1)))
-    val deadwood_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+    val deadwood_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+    val deadwood_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+    val deadwood_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults()) }
+    val deadwood_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
     val fortstone_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.0f) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(3900, 1)))

@@ -2,30 +2,58 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.*
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.Recipe
+import net.minecraft.recipe.RecipeManager
+import net.minecraft.recipe.RecipeType
 import net.minecraft.sound.SoundEvent
+import net.minecraft.world.World
 import net.minecraft.item.AxeItem as VanillaAxeItem
 import net.minecraft.item.HoeItem as VanillaHoeItem
 import net.minecraft.item.PickaxeItem as VanillaPickaxeItem
+import net.minecraft.item.ShovelItem as VanillaShovelItem
+import net.minecraft.item.SwordItem as VanillaSwordItem
 
-fun SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F): SwordItem = SwordItem(toolMaterial, attackDamage, attackSpeed, settings)
+class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val recipePriority: Int = 0): VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
-class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings)
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
 
-class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F) : VanillaAxeItem(material, attackDamage, attackSpeed, settings)
+}
 
-fun ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F): ShovelItem = ShovelItem(toolMaterial, attackDamage, attackSpeed, settings)
+class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F, val recipePriority: Int = 0) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
 
-class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f) : VanillaHoeItem(material, attackDamage, attackSpeed, settings)
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F, val recipePriority: Int = 0) : VanillaAxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val recipePriority: Int = 0): VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f, val recipePriority: Int = 0) : VanillaHoeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
 
 enum class LCCToolMaterials(private val durability: Int, private val miningSpeed: Float, private val attackDamage: Float, private val miningLevel: Int, private val enchantability: Int, ingredientFactory: () -> Ingredient) : ToolMaterial {
 
     RUBY(ToolMaterials.DIAMOND, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
     TOPAZ(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz_shard) }),
     EMERALD(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
-    SAPPHIRE(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
+    SAPPHIRE(ToolMaterials.DIAMOND, durability = ToolMaterials.IRON.durability.times(2), ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
     AMETHYST(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) }),
 
     DEADWOOD(ToolMaterials.WOOD, enchantability = 8, ingredientFactory = { Ingredient.ofItems(LCCBlocks.deadwood_planks) }),

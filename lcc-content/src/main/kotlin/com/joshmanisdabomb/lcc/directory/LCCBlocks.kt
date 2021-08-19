@@ -215,9 +215,9 @@ object LCCBlocks : BlockDirectory() {
     val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
-    val sapphire_altar by entry(::initialiser) { SapphireAltarBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(4.0F, 18000000F).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.STONE)) }
+    val sapphire_altar by entry(::initialiser) { SapphireAltarBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(9.0F, 18000000F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(200, 1)).cutout())
-    val sapphire_altar_brick by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(4.0f, 18000000f).breakByTool(PICKAXES, 3).sounds(BlockSoundGroup.STONE)) }
+    val sapphire_altar_brick by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(6.0f, 18000000f).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val sapphire_altar_brick_stairs by entry(::initialiser) { StairsBlock(sapphire_altar_brick.defaultState, FabricBlockSettings.copyOf(sapphire_altar_brick)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

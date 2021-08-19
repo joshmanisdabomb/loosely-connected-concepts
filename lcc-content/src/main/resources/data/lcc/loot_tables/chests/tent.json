@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -27,7 +27,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 15,
+          "weight": 12,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -43,7 +43,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 12,
+          "weight": 9,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -104,6 +104,22 @@
             }
           ],
           "name": "lcc:iron_oxide"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 3.0
+              },
+              "add": false
+            }
+          ],
+          "name": "lcc:dull_sapphire"
         }
       ]
     },

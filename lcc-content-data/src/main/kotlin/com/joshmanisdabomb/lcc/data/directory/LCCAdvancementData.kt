@@ -268,8 +268,8 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
         Advancement.Task.create()
             .parent(wasteland_root)
             .display(LCCItems.heart_container[HeartType.RED]!!, this)
-            .criterion("add_red_health", HeartContainerCriterion.create(HeartType.RED, NumberRange.FloatRange.ANY))
-            .translation("A Hearty Meal", "Use a heart container to increase your maximum life", "en_us", this)
+            .criterion("add_red_health", HeartContainerCriterion.create(null, NumberRange.FloatRange.ANY))
+            .translation("A Hearty Meal", "Use any heart container to increase your maximum life", "en_us", this)
     }.addTags("wasteland")
 
     //Wasteland Progression > A Hearty Meal > Healthy Gamer

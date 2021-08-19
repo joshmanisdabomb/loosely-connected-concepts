@@ -79,7 +79,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         if (!world.isClient) {
             val range = Box(pos).expand(40.0, 40.0, 40.0)
             val players = world.server!!.playerManager.playerList
-            be.challengers = players.filter { it.world.dimension == world.dimension && range.intersects(it.boundingBox) }.map { it.uuid }.toMutableList()
+            be.challengers = players.filter { it.uuid == player.uuid || (it.world.dimension == world.dimension && range.intersects(it.boundingBox)) }.map { it.uuid }.toMutableList()
         }
 
         return true

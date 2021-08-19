@@ -68,7 +68,7 @@ class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait {
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         stack.damage(1, attacker) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
         if ((attacker as? PlayerEntityAccessor)?.lastHitCritical == true) {
-            target.addStatusEffect(StatusEffectInstance(LCCEffects.stun, (target is PlayerEntity).transformInt(6, 14)))
+            target.addStatusEffect(StatusEffectInstance(LCCEffects.stun, (target is PlayerEntity).transformInt(8, 14)))
             (attacker as? ServerPlayerEntity)?.networkHandler?.sendPacket(GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F))
         }
         return true

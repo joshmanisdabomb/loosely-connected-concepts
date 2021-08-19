@@ -19,7 +19,7 @@
     "add_red_health": {
       "trigger": "lcc:heart_container",
       "conditions": {
-        "heart": "red"
+        "heart": ""
       }
     }
   },

@@ -20,16 +20,13 @@ enum class ToolEffectivity(val effective: Tag<Block>, val required: Tag<Block>, 
 
     WASTELAND(LCCTags.wasteland_effective, LCCTags.wasteland_required, LCCTags.wasteland_equipment, LCCTags.wasteland_combat, LCCTags.wasteland_resistant);
 
-    fun isTool(stack: ItemStack, against: BlockState) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveTool(stack, against, this) == true
+    fun isTool(stack: ItemStack, against: BlockState, vanilla: Boolean) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveTool(stack, against, this, vanilla) == true
     fun isWeapon(stack: ItemStack, against: Entity) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveWeapon(stack, against, this) == true
     fun isArmor(stack: ItemStack, against: Entity) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveArmor(stack, against, this) == true
 
     fun isRequired(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolRequired(state, param, this) == true
     fun isEffective(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolEffective(state, param, this) == true && (state.block as? LCCContentBlockTrait)?.lcc_content_isToolRequired(state, param, this) != true
-
-    fun isToolInsufficient(state: BlockState, stack: ItemStack) = !isTool(stack, state) && isRequired(state, stack)
-    fun isToolSufficient(state: BlockState, stack: ItemStack) = isTool(stack, state) && isRequired(state, stack)
-
+    
     fun isResistant(check: Entity, against: LivingEntity) = (check as? LCCContentEntityTrait)?.lcc_content_isCombatResistant(against, this) == true
     fun isCombat(check: Entity, against: LivingEntity) = (check as? LCCContentEntityTrait)?.lcc_content_isCombatEffective(against, this) == true
 

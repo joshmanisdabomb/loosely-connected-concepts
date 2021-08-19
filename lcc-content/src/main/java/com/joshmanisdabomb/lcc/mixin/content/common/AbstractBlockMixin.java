@@ -29,7 +29,7 @@ public abstract class AbstractBlockMixin {
         Float newDelta = null;
         for (ToolEffectivity t : ToolEffectivity.values()) {
             if (t.isEffective(state, stack)) {
-                if (t.isTool(stack, state)) {
+                if (t.isTool(stack, state, true)) {
                     info.setReturnValue(original);
                     return;
                 } else if (newDelta == null) {

@@ -10,7 +10,7 @@ import net.minecraft.item.ToolItem
 interface LCCContentItemTrait {
 
     @JvmDefault
-    fun lcc_content_isEffectiveTool(stack: ItemStack, state: BlockState, effectivity: ToolEffectivity) = stack.isIn(effectivity.equipment) && (this is ToolItem)
+    fun lcc_content_isEffectiveTool(stack: ItemStack, state: BlockState, effectivity: ToolEffectivity, vanilla: Boolean) = stack.isIn(effectivity.equipment) && (this is ToolItem) && vanilla
 
     @JvmDefault
     fun lcc_content_isEffectiveWeapon(stack: ItemStack, entity: Entity, effectivity: ToolEffectivity) = stack.isIn(effectivity.equipment) && (this is ToolItem)

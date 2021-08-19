@@ -25,16 +25,17 @@ public abstract class ToolManagerMixin {
     }
 
     private static void isToolTypeSuitableFor(BlockState state, ItemStack stack, @Nullable LivingEntity user, boolean vanillaResult, CallbackInfoReturnable<Boolean> info) {
+        boolean req = false;
         for (ToolEffectivity t : ToolEffectivity.values()) {
-            if (info.getReturnValueZ() && t.isToolInsufficient(state, stack)) {
-                info.setReturnValue(false);
-                return;
-            }
-            if (!info.getReturnValueZ() && t.isToolSufficient(state, stack)) {
-                info.setReturnValue(true);
-                return;
+            if (t.isRequired(state, stack)) {
+                req = true;
+                if (!t.isTool(stack, state, info.getReturnValueZ())) {
+                    info.setReturnValue(false);
+                    return;
+                }
             }
         }
+        if (req) info.setReturnValue(true);
     }
 
 }

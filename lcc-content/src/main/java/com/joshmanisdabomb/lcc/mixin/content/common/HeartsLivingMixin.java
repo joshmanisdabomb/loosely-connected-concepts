@@ -25,7 +25,7 @@ public abstract class HeartsLivingMixin extends Entity {
         return HeartType.calculateDamageAll((LivingEntity)(Object)this, amount);
     }
 
-    @Redirect(method = "applyArmorToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getDamageLeft"))
+    @Redirect(method = "applyArmorToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getDamageLeft(FFF)F"))
     private float modifyArmorReduction(float original, float armor, float toughness, DamageSource source) {
         float after = DamageUtil.getDamageLeft(original, armor, toughness);
         Entity entity = source.getSource();
@@ -35,7 +35,7 @@ public abstract class HeartsLivingMixin extends Entity {
         return after;
     }
 
-    @Redirect(method = "applyEnchantmentsToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getInflictedDamage"))
+    @Redirect(method = "applyEnchantmentsToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getInflictedDamage(FF)F"))
     private float modifyProtectionReduction(float original, float protection, DamageSource source) {
         float after = DamageUtil.getInflictedDamage(original, protection);
         Entity entity = source.getSource();

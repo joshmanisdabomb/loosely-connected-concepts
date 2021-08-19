@@ -24,9 +24,7 @@
     "WastelandBiomeModifierMixin",
     "ToolManagerMixin",
     "AbstractBlockMixin",
-    "EntityAccessor",
     "MovementEntityMixin",
-    "PlayerEntityAccessor",
     "PlayerEntityMixin",
     "EffectMobEntityMixin"
   ],

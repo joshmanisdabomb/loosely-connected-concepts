@@ -1,13 +1,13 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
+import com.joshmanisdabomb.lcc.cache.EntityValueCache
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
 import com.joshmanisdabomb.lcc.extensions.exp
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.joshmanisdabomb.lcc.mixin.content.common.EntityAccessor
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -49,7 +49,7 @@ class SpikesBlock(settings: Settings, val modifier: (damage: Float, entity: Livi
 
     override fun lcc_onEntityCollisionGroupedByClass(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         if (entity is LivingEntity) {
-            val speed = (entity as EntityAccessor).fullVelocityBeforeCollides.length()
+            val speed = (entity as EntityValueCache).lcc_fullVelocityBeforeCollides.length()
             val d = abs(entity.x - entity.lastRenderX)
             val e = abs(entity.y - entity.lastRenderY)
             val f = abs(entity.z - entity.lastRenderZ)

@@ -46,7 +46,7 @@ class BabySkeletonEntity(type: EntityType<out BabySkeletonEntity>, world: World)
 
     override fun getDeathSound() = SoundEvents.ENTITY_SKELETON_DEATH
 
-    fun getStepSound() = SoundEvents.ENTITY_SKELETON_STEP
+    override fun getStepSound() = SoundEvents.ENTITY_SKELETON_STEP
 
     override fun getHeightOffset() = 0.0
 

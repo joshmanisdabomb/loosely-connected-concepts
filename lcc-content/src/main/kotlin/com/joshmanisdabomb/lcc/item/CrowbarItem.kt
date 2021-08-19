@@ -5,11 +5,11 @@ import com.google.common.collect.Multimap
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.ShatteredGlassBlock
 import com.joshmanisdabomb.lcc.block.ShatteredPaneBlock
+import com.joshmanisdabomb.lcc.cache.PlayerEntityValueCache
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.transformInt
-import com.joshmanisdabomb.lcc.mixin.content.common.PlayerEntityAccessor
 import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait
 import net.minecraft.block.AbstractGlassBlock
 import net.minecraft.block.Block
@@ -67,7 +67,7 @@ class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait {
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         stack.damage(1, attacker) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
-        if ((attacker as? PlayerEntityAccessor)?.lastHitCritical == true) {
+        if ((attacker as? PlayerEntityValueCache)?.lcc_lastHitCritical == true) {
             target.addStatusEffect(StatusEffectInstance(LCCEffects.stun, (target is PlayerEntity).transformInt(8, 14)))
             (attacker as? ServerPlayerEntity)?.networkHandler?.sendPacket(GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F))
         }

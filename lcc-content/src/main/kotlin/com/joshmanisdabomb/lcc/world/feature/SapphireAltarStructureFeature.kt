@@ -70,12 +70,14 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             this.challenge = LCCRegistries.altar_challenges[Identifier(nbt.getString("Challenge"))] ?: error("Invalid altar challenge for structure.")
             this.data = nbt.getCompound("ChallengeOptions")
             this.rotation = Direction.byName(nbt.getString("Rotation")) ?: error("Invalid direction for sapphire altar structure.")
+            setOrientation(this.rotation)
         }
 
         override fun writeNbt(world: ServerWorld, nbt: NbtCompound) {
             nbt.putString("Challenge", challenge.id.toString())
             nbt.put("ChallengeOptions", data)
             nbt.putString("Rotation", rotation.getName())
+            super.writeNbt(world, nbt)
         }
 
         override fun generate(world: StructureWorldAccess, structureAccessor: StructureAccessor, chunkGenerator: ChunkGenerator, random: Random, boundingBox: BlockBox, chunkPos: ChunkPos, pos: BlockPos): Boolean {

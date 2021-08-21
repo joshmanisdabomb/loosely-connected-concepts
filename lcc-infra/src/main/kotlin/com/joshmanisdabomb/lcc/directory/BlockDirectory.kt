@@ -34,6 +34,10 @@ abstract class BlockDirectory : BasicDirectory<Block, BlockExtraSettings>(), Reg
 
     protected fun never(state: BlockState, world: BlockView, pos: BlockPos, type: EntityType<*>) = false
 
+    protected fun always(state: BlockState, world: BlockView, pos: BlockPos) = true
+
+    protected fun always(state: BlockState, world: BlockView, pos: BlockPos, type: EntityType<*>) = true
+
     protected fun pillarMapColorProvider(top: MapColor, side: MapColor): (state: BlockState) -> MapColor = { if (it[Properties.AXIS] == Direction.Axis.Y) top else side }
 
 }

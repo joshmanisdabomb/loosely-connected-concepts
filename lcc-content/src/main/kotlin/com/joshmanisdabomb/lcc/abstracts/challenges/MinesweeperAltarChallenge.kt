@@ -36,7 +36,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val b = random.nextInt(4).plus(6).times(2).plus(1)
         nbt.putInt("Width", max(a, b))
         nbt.putInt("Depth", min(a, b))
-        nbt.putInt("Mines", (a*b).times(random.nextDouble().times(0.11).plus(0.16)).roundToInt())
+        nbt.putInt("Mines", (a*b).times(random.nextDouble().times(0.4).plus(0.12)).roundToInt())
         return nbt
     }
 

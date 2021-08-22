@@ -18,7 +18,7 @@ class SmeltFromItemRecipeFactory(val item: ItemConvertible, vararg val types: Co
 
     override fun apply(data: DataAccessor, entry: Item) {
         val id = registry(entry)
-        types.forEach { type -> CookingRecipeJsonFactory.create(ingredient, entry, experience, time, type).apply { this@SmeltFromItemRecipeFactory.criterion(this, entry) }.apply { offerCooking(this, data, name ?: loc(id) { "${it}_from_${Registry.RECIPE_SERIALIZER.getId(type)!!.path}" }) } }
+        types.forEach { type -> CookingRecipeJsonFactory.create(ingredient, entry, experience, time, type).apply { this@SmeltFromItemRecipeFactory.criterion(this, item.asItem()) }.apply { offerCooking(this, data, name ?: loc(id) { "${it}_from_${Registry.RECIPE_SERIALIZER.getId(type)!!.path}" }) } }
     }
 
     companion object {

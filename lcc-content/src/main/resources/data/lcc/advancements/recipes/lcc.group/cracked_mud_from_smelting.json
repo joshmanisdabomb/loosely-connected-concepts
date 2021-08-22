@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_cracked_mud": {
+    "has_mud": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:cracked_mud"
+            "item": "lcc:mud"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_cracked_mud",
+      "has_mud",
       "has_the_recipe"
     ]
   ]

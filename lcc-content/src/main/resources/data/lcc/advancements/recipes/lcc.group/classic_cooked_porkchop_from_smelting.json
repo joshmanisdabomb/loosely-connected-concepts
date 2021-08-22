@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_classic_cooked_porkchop": {
+    "has_classic_raw_porkchop": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:classic_cooked_porkchop"
+            "item": "lcc:classic_raw_porkchop"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_classic_cooked_porkchop",
+      "has_classic_raw_porkchop",
       "has_the_recipe"
     ]
   ]

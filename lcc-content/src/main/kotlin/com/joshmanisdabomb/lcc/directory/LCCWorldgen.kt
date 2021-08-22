@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder
 import net.minecraft.block.Blocks
 import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
+import net.minecraft.structure.rule.TagMatchRuleTest
 import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
 import net.minecraft.util.math.floatprovider.UniformFloatProvider
@@ -71,7 +72,10 @@ object LCCWorldgen {
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.JUNGLE -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_common))
 
         //Salt
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biome.category == Biome.Category.OCEAN && it.biomeKey.value.path.contains("deep") }, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.salt))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && it.biome.category == Biome.Category.OCEAN && it.biomeKey.value.path.contains("deep") }, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.salt))
+
+        //Mud
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && (it.biomeKey.value.path.contains("jungle") || it.biomeKey.value.path.contains("dark_forest") || it.biomeKey.value.path.contains("swamp")) }, GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.mud))
     }
 }
 
@@ -136,6 +140,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val deadwood_logs by entry(::initialiser) { LCCFeatures.deadwood_logs.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_OCEAN_FLOOR_NO_WATER).applyChance(14) }
     val spike_trap by entry(::initialiser) { LCCFeatures.spike_trap.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.4f, 1))) }
     val wasp_hive by entry(::initialiser) { LCCFeatures.wasp_hive.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).applyChance(90) }
+
+    val mud by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(TagMatchRuleTest(LCCTags.mud_replaceable), LCCBlocks.mud.defaultState, 40)).spreadHorizontally().decorate(ConfiguredFeatures.Decorators.HEIGHTMAP_WORLD_SURFACE) }
 
     override fun defaultProperties(name: String) = Unit
 

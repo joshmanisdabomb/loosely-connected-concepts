@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_classic_cooked_fish": {
+    "has_classic_raw_fish": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:classic_cooked_fish"
+            "item": "lcc:classic_raw_fish"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_classic_cooked_fish",
+      "has_classic_raw_fish",
       "has_the_recipe"
     ]
   ]

@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_fortstone": {
+    "has_cobbled_fortstone": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:fortstone"
+            "item": "lcc:cobbled_fortstone"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_fortstone",
+      "has_cobbled_fortstone",
       "has_the_recipe"
     ]
   ]

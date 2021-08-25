@@ -59,8 +59,6 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val temporary_hearts by entry(::itemInitialiser) {}
     val hearts by entry(::itemInitialiser) {}
 
-    val mud_replaceable by entry(::blockInitialiser) {}
-
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.block(context.id)
     fun entityTypeInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.entityType(context.id)
     fun itemInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.item(context.id)

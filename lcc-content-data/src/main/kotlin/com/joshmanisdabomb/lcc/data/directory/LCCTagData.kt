@@ -50,8 +50,6 @@ object LCCTagData : AdvancedDirectory<Unit, TagData.TagBuilder<*>, Unit, Unit>()
 
     val hearts by entry(::itemInitialiser) {}.addInitListener { context, _ -> context.entry.appendTag(LCCTags.red_hearts.cast()).appendTag(LCCTags.iron_hearts.cast()).appendTag(LCCTags.crystal_hearts.cast()).appendTag(LCCTags.temporary_hearts.cast()) }
 
-    val mud_replaceable by entry(::blockInitialiser) {}.addInitListener { context, _ -> context.entry.appendTag(BlockTags.DIRT).append(Blocks.GRASS_BLOCK).append(Blocks.PODZOL) }
-
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(LCCTags[context.name].cast().id)
     fun entityInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.entity(LCCTags[context.name].cast().id)
     fun itemInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.item(LCCTags[context.name].cast().id)

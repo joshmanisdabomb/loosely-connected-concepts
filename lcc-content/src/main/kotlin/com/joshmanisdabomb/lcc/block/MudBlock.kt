@@ -25,7 +25,7 @@ class MudBlock(settings: Settings) : Block(settings) {
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun getSlipperiness() = sin(System.currentTimeMillis().times(1.5).rem(1000L).div(1000.0).times(PI)).times(0.4).plus(0.41).toFloat()
+    override fun getSlipperiness() = sin(System.currentTimeMillis().times(1.8).rem(1000L).div(1000.0).times(PI)).times(0.4).plus(0.41).toFloat()
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
         if (abs(entity.velocity.y) > 0.02) {

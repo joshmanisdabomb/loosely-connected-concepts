@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.world.decorator.NearAirDecorator
 import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature
 import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
@@ -16,7 +17,7 @@ import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder
 import net.minecraft.block.Blocks
 import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
-import net.minecraft.structure.rule.TagMatchRuleTest
+import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.floatprovider.ConstantFloatProvider
 import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
 import net.minecraft.util.math.floatprovider.UniformFloatProvider
@@ -141,7 +142,7 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
     val spike_trap by entry(::initialiser) { LCCFeatures.spike_trap.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.4f, 1))) }
     val wasp_hive by entry(::initialiser) { LCCFeatures.wasp_hive.configure(FeatureConfig.DEFAULT).decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP).applyChance(90) }
 
-    val mud by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(TagMatchRuleTest(LCCTags.mud_replaceable), LCCBlocks.mud.defaultState, 40)).spreadHorizontally().decorate(ConfiguredFeatures.Decorators.HEIGHTMAP_WORLD_SURFACE) }
+    val mud by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)).spreadHorizontally().decorate(ConfiguredFeatures.Decorators.HEIGHTMAP_WORLD_SURFACE) }
 
     override fun defaultProperties(name: String) = Unit
 

@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature
 import com.joshmanisdabomb.lcc.world.surface.WastelandSpikesSurfaceBuilder
+import com.joshmanisdabomb.lcc.world.surface.WastelandSurfaceBuilder
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder
@@ -180,6 +181,7 @@ object LCCSurfaceBuilders : BasicDirectory<SurfaceBuilder<out SurfaceConfig>, Un
 
     override fun regId(name: String) = LCC.id(name)
 
+    val wasteland_barrens by entry(::initialiser) { WastelandSurfaceBuilder(TernarySurfaceConfig.CODEC) }
     val wasteland_spikes by entry(::initialiser) { WastelandSpikesSurfaceBuilder(TernarySurfaceConfig.CODEC) }
 
     override fun defaultProperties(name: String) = Unit
@@ -192,8 +194,8 @@ object LCCConfiguredSurfaceBuilders : BasicDirectory<ConfiguredSurfaceBuilder<ou
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_barrens by entry(::initialiser) { SurfaceBuilder.DEFAULT.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
-    val wasteland_spikes by entry(::initialiser) { LCCSurfaceBuilders.wasteland_spikes.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState)) }
+    val wasteland_barrens by entry(::initialiser) { LCCSurfaceBuilders.wasteland_barrens.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.mud.defaultState)) }
+    val wasteland_spikes by entry(::initialiser) { LCCSurfaceBuilders.wasteland_spikes.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.mud.defaultState)) }
 
     override fun defaultProperties(name: String) = Unit
 

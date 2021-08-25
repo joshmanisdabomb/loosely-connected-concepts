@@ -16,7 +16,6 @@ import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.util.FeatureContext
 import java.util.*
 import kotlin.math.max
-import kotlin.random.asKotlinRandom
 
 class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<SmallGeodeFeatureConfig>(configCodec) {
 
@@ -167,8 +166,8 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
                 for (d in Direction.values()) {
                     val pos2 = pos.offset(d)
                     val state2 = world.getBlockState(pos2)
-                    if (random.nextInt(2) == 0 && state2.isAir) {
-                        world.setBlockState(pos2, config.bud.crystals.random(random.asKotlinRandom()).defaultState.with(FACING, d).with(LIT, true).with(WATERLOGGED, false), 2)
+                    if (random.nextInt(4) != 0 && state2.isAir) {
+                        world.setBlockState(pos2, config.bud.crystals[random.nextInt(5).coerceAtMost(3)].defaultState.with(FACING, d).with(LIT, true).with(WATERLOGGED, false), 2)
                     }
                 }
             } else {

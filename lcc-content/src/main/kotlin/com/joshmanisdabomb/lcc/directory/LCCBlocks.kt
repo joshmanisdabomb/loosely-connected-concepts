@@ -200,9 +200,9 @@ object LCCBlocks : BlockDirectory() {
     //TODO rope
 
     //Wasteland
-    val mud by entry(::initialiser) { MudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.BROWN).strength(0.3f, 3.5f).velocityMultiplier(0.5F).allowsSpawning(::always).solidBlock(::always).blockVision(::always).suffocates(::always).sounds(BlockSoundGroup.SLIME)) }
+    val mud by entry(::initialiser) { MudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.BROWN).strength(0.3f, 3.5f).velocityMultiplier(0.5F).ticksRandomly().allowsSpawning(::always).solidBlock(::always).blockVision(::always).suffocates(::always).sounds(BlockSoundGroup.SLIME)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(0, 1)))
-    val cracked_mud by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) { LCCBlocks.mud.getStateWithProperties(it) } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cracked_mud_pressure_plate by entry(::initialiser) { SprintPressurePlateBlock(FabricBlockSettings.copyOf(cracked_mud)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

@@ -608,7 +608,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val sapphire_altar_brick_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(SlabBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc(), full = LCCBlocks.sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick, 2)).add(BlockTagFactory(LCCTags.wasteland_required)) }
     val sapphire_altar_brick_wall by entry(::initialiser) { data().defaultLang().defaultLootTable().add(WallBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), Texture().put(TextureKey.WALL, LCCBlocks.sapphire_altar_brick.identifierLoc()), d.modelStates::addModel) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
-    val mud by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory((0..3).toList(), (0..3).toList())) }
+    val mud by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory((0..3).toList(), (0..3).toList())).add(BlockTagFactory(LCCTags.wasteland_effective)) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

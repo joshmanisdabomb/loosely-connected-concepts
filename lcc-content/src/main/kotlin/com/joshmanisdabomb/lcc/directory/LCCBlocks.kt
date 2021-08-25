@@ -202,7 +202,7 @@ object LCCBlocks : BlockDirectory() {
     //Wasteland
     val mud by entry(::initialiser) { MudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.BROWN).strength(0.3f, 3.5f).velocityMultiplier(0.5F).ticksRandomly().allowsSpawning(::always).solidBlock(::always).blockVision(::always).suffocates(::always).sounds(BlockSoundGroup.SLIME)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(0, 1)))
-    val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) { LCCBlocks.mud.getStateWithProperties(it) } }
+    val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) { mud.getStateWithProperties(it) } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cracked_mud_pressure_plate by entry(::initialiser) { SprintPressurePlateBlock(FabricBlockSettings.copyOf(cracked_mud)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
@@ -323,6 +323,9 @@ object LCCBlocks : BlockDirectory() {
         .addTags("shattered_glass_pane")
 
     val bomb_board_block by entry(::initialiser) { BombBoardBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BROWN).strength(3.0f, 2.0f).breakByTool(PICKAXES, 0).requiresTool().allowsSpawning(::never).sounds(BlockSoundGroup.TUFF)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+
+    val wasteland_obelisk by entry(::initialiser) { WastelandObeliskBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     //TODO reinforced stone or similar for nuke protection

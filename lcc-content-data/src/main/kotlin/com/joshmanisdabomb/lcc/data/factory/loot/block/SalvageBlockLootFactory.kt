@@ -17,7 +17,7 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.predicate.StatePredicate
 import net.minecraft.predicate.item.ItemPredicate
 
-open class SalvageBlockLootFactory(val salvageChance: FloatArray = floatArrayOf(0.3f, 0.4f, 0.5f, 0.6f)) : BlockDataFactory {
+open class SalvageBlockLootFactory(val salvageChance: FloatArray = defaultSalvageChance) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         data.lootTables.register(entry, LootTable.builder().pool(
@@ -42,6 +42,8 @@ open class SalvageBlockLootFactory(val salvageChance: FloatArray = floatArrayOf(
         ))
     }
 
-    companion object : SalvageBlockLootFactory()
+    companion object : SalvageBlockLootFactory(floatArrayOf(0.3f, 0.4f, 0.5f, 0.6f)) {
+        val defaultSalvageChance = floatArrayOf(0.3f, 0.4f, 0.5f, 0.6f)
+    }
 
 }

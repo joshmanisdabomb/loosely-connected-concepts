@@ -221,6 +221,14 @@ object LCCItems : ItemDirectory() {
     val rusty_iron_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
+    val enhancing_dust_alpha by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val enhancing_dust_beta by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val enhancing_dust_omega by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    //TODO enhancing dust for imbuing weapons with poison from stinger, teleporting with obelisk orbs (beta), applying enchantments 1 level higher than max (omega), crafting heart containers
+
     //Special
     val gauntlet by entry(::initialiser) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(SPECIAL))

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:wasteland_obelisk"
+    ]
+  },
+  "criteria": {
+    "has_cracked_mud": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:cracked_mud"
+          }
+        ]
+      }
+    },
+    "has_topaz_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:topaz_shard"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:wasteland_obelisk"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cracked_mud",
+      "has_topaz_shard",
+      "has_the_recipe"
+    ]
+  ]
+}

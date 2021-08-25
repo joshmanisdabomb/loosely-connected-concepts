@@ -1,0 +1,8 @@
+{
+  "parent": "lcc:block/template_obelisk_bottom",
+  "textures": {
+    "texture": "lcc:block/cracked_mud",
+    "inside": "lcc:block/wasteland_obelisk",
+    "particle": "lcc:block/cracked_mud"
+  }
+}

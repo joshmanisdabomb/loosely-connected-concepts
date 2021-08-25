@@ -15,10 +15,7 @@ import com.joshmanisdabomb.lcc.data.factory.tag.BlockTagFactory
 import com.joshmanisdabomb.lcc.data.factory.tag.ItemTagFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.*
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
-import com.joshmanisdabomb.lcc.directory.BasicDirectory
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
@@ -609,6 +606,27 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val sapphire_altar_brick_wall by entry(::initialiser) { data().defaultLang().defaultLootTable().add(WallBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), Texture().put(TextureKey.WALL, LCCBlocks.sapphire_altar_brick.identifierLoc()), d.modelStates::addModel) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
     val mud by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(RotationBlockAssetFactory((0..3).toList(), (0..3).toList())).add(BlockTagFactory(LCCTags.wasteland_effective)) }
+
+    val wasteland_obelisk by entry(::initialiser) { data().defaultLang().add(WastelandObeliskBlockAssetFactory).add(WastelandObeliskBlockLootFactory).add(CustomItemAssetFactory { d, t, i ->
+        LCCModelTemplates.template_obelisk_item.upload(idi.loc(t), Texture()
+            .put(TextureKey.TEXTURE, idi.loc(LCCBlocks.cracked_mud.asItem(), folder = "block"))
+            .put(TextureKey.INSIDE, idi.loc(t, folder = "block"))
+            .put(TextureKey.LANTERN, idi.locSuffix(t, "0", folder = "block"))
+            , d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("cccc")
+            .pattern(" tt ")
+            .pattern(" tt ")
+            .pattern("cccc")
+            .pattern(" pp ")
+            .pattern("cccc")
+            .input('c', LCCBlocks.cracked_mud)
+            .input('t', LCCItems.topaz_shard)
+            .input('p', Items.POPPED_CHORUS_FRUIT)
+            .apply { hasCriterionShaped(this, LCCBlocks.cracked_mud) }
+            .apply { hasCriterionShaped(this, LCCItems.topaz_shard) }
+            .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

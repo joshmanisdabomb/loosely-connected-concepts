@@ -358,7 +358,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     }) }
 
     val iron_oxide_nugget by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.iron_oxide)) }
-    val hearts by entry(::initialiser) { data().affects(LCCItems.all.values.filterIsInstance<HeartItem>()).defaultLang().defaultItemAsset().add(HeartRecipeFactory).add(HeartItemTagFactory).add(TransformTranslationFactory(*LCCData.locales.toTypedArray()) { it.replace(" Full", "") }) }
+    val hearts by entry(::initialiser) { data().affects(LCCItems.all.values.filterIsInstance<HeartItem>()).defaultLang().defaultItemAsset().add(HeartRecipeFactory).add(HeartContainerRecipeFactory).add(HeartItemTagFactory).add(TransformTranslationFactory(*LCCData.locales.toTypedArray()) { it.replace(" Full", "") }) }
     val altar_challenge_key by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ii")

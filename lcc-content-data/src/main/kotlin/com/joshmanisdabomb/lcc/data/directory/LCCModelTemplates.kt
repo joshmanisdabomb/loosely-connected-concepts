@@ -9328,10 +9328,10 @@ private const val template_obelisk_top_json = """{
 			"from": [5, 8, 5],
 			"to": [11, 12, 11],
 			"faces": {
-				"north": {"uv": [5, 4, 11, 8], "texture": "#lantern"},
-				"east": {"uv": [5, 4, 11, 8], "texture": "#lantern"},
-				"south": {"uv": [5, 4, 11, 8], "texture": "#lantern"},
-				"west": {"uv": [5, 4, 11, 8], "texture": "#lantern"},
+				"north": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"east": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"south": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"west": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#lantern"},
 				"down": {"uv": [5, 5, 11, 11], "texture": "#lantern"}
 			}
@@ -9340,10 +9340,10 @@ private const val template_obelisk_top_json = """{
 			"from": [6, 7, 6],
 			"to": [10, 13, 10],
 			"faces": {
-				"north": {"uv": [6, 3, 10, 9], "texture": "#lantern"},
-				"east": {"uv": [6, 3, 10, 9], "texture": "#lantern"},
-				"south": {"uv": [6, 3, 10, 9], "texture": "#lantern"},
-				"west": {"uv": [6, 3, 10, 9], "texture": "#lantern"}
+				"north": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"east": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"south": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"west": {"uv": [6, 5, 10, 11], "texture": "#lantern"}
 			}
 		},
 		{
@@ -9547,12 +9547,12 @@ private const val template_obelisk_item_json = """{
 			"from": [5, 24, 5],
 			"to": [11, 28, 11],
 			"faces": {
-				"north": {"uv": [5, 4, 11, 8], "texture": "#lantern", "cullface": "up"},
-				"east": {"uv": [5, 4, 11, 8], "texture": "#lantern", "cullface": "up"},
-				"south": {"uv": [5, 4, 11, 8], "texture": "#lantern", "cullface": "up"},
-				"west": {"uv": [5, 4, 11, 8], "texture": "#lantern", "cullface": "up"},
-				"up": {"uv": [5, 5, 11, 11], "texture": "#lantern", "cullface": "up"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#lantern", "cullface": "up"}
+				"north": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"east": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"south": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"west": {"uv": [5, 6, 11, 10], "texture": "#lantern"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#lantern"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#lantern"}
 			}
 		},
 		{
@@ -9569,10 +9569,10 @@ private const val template_obelisk_item_json = """{
 			"from": [6, 23, 6],
 			"to": [10, 29, 10],
 			"faces": {
-				"north": {"uv": [6, 3, 10, 9], "texture": "#lantern", "cullface": "up"},
-				"east": {"uv": [6, 3, 10, 9], "texture": "#lantern", "cullface": "up"},
-				"south": {"uv": [6, 3, 10, 9], "texture": "#lantern", "cullface": "up"},
-				"west": {"uv": [6, 3, 10, 9], "texture": "#lantern", "cullface": "up"}
+				"north": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"east": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"south": {"uv": [6, 5, 10, 11], "texture": "#lantern"},
+				"west": {"uv": [6, 5, 10, 11], "texture": "#lantern"}
 			}
 		}
 	],

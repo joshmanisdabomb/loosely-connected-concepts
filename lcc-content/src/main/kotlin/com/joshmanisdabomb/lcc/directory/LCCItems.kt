@@ -223,9 +223,13 @@ object LCCItems : ItemDirectory() {
 
     val enhancing_dust_alpha by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val enhancing_dust_beta by entry(::initialiser) { Item(Item.Settings().defaults()) }
+    val enhancing_dust_beta by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
+        override fun hasGlint(stack: ItemStack) = true
+    } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val enhancing_dust_omega by entry(::initialiser) { Item(Item.Settings().defaults()) }
+    val enhancing_dust_omega by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
+        override fun hasGlint(stack: ItemStack) = true
+    } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
     //TODO enhancing dust for imbuing weapons with poison from stinger, teleporting with obelisk orbs (beta), applying enchantments 1 level higher than max (omega), crafting heart containers
 

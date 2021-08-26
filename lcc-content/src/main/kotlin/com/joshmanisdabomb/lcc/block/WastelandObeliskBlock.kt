@@ -1,11 +1,16 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.item.CrowbarItem
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.BOTTOM
@@ -39,7 +44,35 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = /*if (state[BOTTOM]) WastelandObeliskBlockEntity(pos, state) else */null
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        return ActionResult.SUCCESS
+        val stack = player.getStackInHand(hand)
+        if (state[charge] == 0 && stack.isOf(LCCItems.enhancing_dust_beta)) {
+            if (player.isSurvival) stack.decrement(1)
+            setTallState(world, pos, state, 5)
+            world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0f, world.random.nextFloat().times(0.2f).plus(0.9f))
+            return ActionResult.SUCCESS
+        } else if (state[charge] < 4 && stack.isOf(Items.ENDER_EYE)) {
+            if (player.isSurvival) stack.decrement(1)
+            setTallState(world, pos, state, state[charge] + 1)
+            world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0f, world.random.nextFloat().times(0.2f).plus(0.9f))
+            return ActionResult.SUCCESS
+        } else if (state[charge] >= 4) {
+            return ActionResult.SUCCESS
+        }
+        return ActionResult.PASS
+    }
+
+    private fun setTallState(world: World, pos: BlockPos, state: BlockState, charge: Int) {
+        world.setBlockState(pos, state.with(Companion.charge, charge), 19)
+        val pos2 = pos.up()
+        val state2 = world.getBlockState(pos2)
+        if (state[BOTTOM] && state2 == state.with(BOTTOM, false)) {
+            world.setBlockState(pos2, state2.with(Companion.charge, charge), 19)
+        }
+        val pos3 = pos.down()
+        val state3 = world.getBlockState(pos3)
+        if (!state[BOTTOM] && state3 == state.with(BOTTOM, true)) {
+            world.setBlockState(pos3, state3.with(Companion.charge, charge), 19)
+        }
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {

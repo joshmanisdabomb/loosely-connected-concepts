@@ -1,14 +1,20 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.block.entity.WastelandObeliskBlockEntity
+import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.isSurvival
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.CrowbarItem
 import net.minecraft.block.*
+import net.minecraft.block.entity.BlockEntity
+import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
@@ -41,7 +47,7 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = if (state[BOTTOM]) bottom_shape else top_shape
 
-    override fun createBlockEntity(pos: BlockPos, state: BlockState) = /*if (state[BOTTOM]) WastelandObeliskBlockEntity(pos, state) else */null
+    override fun createBlockEntity(pos: BlockPos, state: BlockState) = if (state[BOTTOM]) WastelandObeliskBlockEntity(pos, state) else null
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
@@ -56,6 +62,12 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
             world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0f, world.random.nextFloat().times(0.2f).plus(0.9f))
             return ActionResult.SUCCESS
         } else if (state[charge] >= 4) {
+            if (player.isSurvival && state[charge] == 4) {
+                setTallState(world, pos, state, 0)
+            }
+            if (!world.isClient) {
+                (world.getBlockEntity(pos.down(state[BOTTOM].transformInt(0, 1))) as? WastelandObeliskBlockEntity)?.activate(world as ServerWorld, state[charge] == 5)
+            }
             return ActionResult.SUCCESS
         }
         return ActionResult.PASS
@@ -113,6 +125,8 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.wasteland_obelisk, WastelandObeliskBlockEntity::serverTick) else null
 
     companion object {
         val charge = IntProperty.of("charge", 0, 5)

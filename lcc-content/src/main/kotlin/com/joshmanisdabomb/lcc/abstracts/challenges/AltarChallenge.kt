@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.stack
-import com.joshmanisdabomb.lcc.world.feature.SapphireAltarStructureFeature
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructureFeature
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity

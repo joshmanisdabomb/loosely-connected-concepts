@@ -70,6 +70,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
                 .structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
                 .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
+                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)
@@ -127,6 +128,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCConfiguredFeatures.wasteland_spikes)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
                 .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
+                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)

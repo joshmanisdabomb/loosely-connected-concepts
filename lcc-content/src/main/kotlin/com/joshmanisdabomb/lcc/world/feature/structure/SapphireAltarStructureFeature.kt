@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.world.feature
+package com.joshmanisdabomb.lcc.world.feature.structure
 
 import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.block.SapphireAltarBlock
@@ -37,7 +37,7 @@ import kotlin.random.asKotlinRandom
 
 class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(configCodec) {
 
-    override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(::Start)
+    override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(SapphireAltarStructureFeature::Start)
 
     class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
 

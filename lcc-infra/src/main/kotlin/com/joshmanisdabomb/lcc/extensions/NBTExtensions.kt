@@ -29,3 +29,22 @@ fun NbtList.addInt(value: Int) = this.add(NbtInt.of(value))
 fun NbtList.addLong(value: Long) = this.add(NbtLong.of(value))
 fun NbtList.addFloat(value: Float) = this.add(NbtFloat.of(value))
 fun NbtList.addDouble(value: Double) = this.add(NbtDouble.of(value))
+
+fun NbtList.addStrings(values: List<String>) = this.addAll(values.map(NbtString::of))
+fun NbtList.addBytes(values: List<Byte>) = this.addAll(values.map(NbtByte::of))
+fun NbtList.addShorts(values: List<Short>) = this.addAll(values.map(NbtShort::of))
+fun NbtList.addInts(values: List<Int>) = this.addAll(values.map(NbtInt::of))
+fun NbtList.addLongs(values: List<Long>) = this.addAll(values.map(NbtLong::of))
+fun NbtList.addFloats(values: List<Float>) = this.addAll(values.map(NbtFloat::of))
+fun NbtList.addDoubles(values: List<Double>) = this.addAll(values.map(NbtDouble::of))
+
+fun NbtCompound.getStringList(key: String) = this.getList(key, NBT_STRING).map(NbtElement::asString)
+fun NbtCompound.getByteList(key: String) = this.getList(key, NBT_BYTE).mapNotNull { (it as? AbstractNbtNumber)?.byteValue() }
+fun NbtCompound.getShortList(key: String) = this.getList(key, NBT_SHORT).mapNotNull { (it as? AbstractNbtNumber)?.shortValue() }
+fun NbtCompound.getIntList(key: String) = this.getList(key, NBT_INT).mapNotNull { (it as? AbstractNbtNumber)?.intValue() }
+fun NbtCompound.getLongList(key: String) = this.getList(key, NBT_LONG).mapNotNull { (it as? AbstractNbtNumber)?.longValue() }
+fun NbtCompound.getFloatList(key: String) = this.getList(key, NBT_FLOAT).mapNotNull { (it as? AbstractNbtNumber)?.floatValue() }
+fun NbtCompound.getDoubleList(key: String) = this.getList(key, NBT_DOUBLE).mapNotNull { (it as? AbstractNbtNumber)?.doubleValue() }
+fun NbtCompound.getListList(key: String) = this.getList(key, NBT_LIST).mapNotNull { it as? NbtList }
+fun NbtCompound.getCompoundList(key: String) = this.getList(key, NBT_COMPOUND).mapNotNull { it as? NbtCompound }
+fun <T> NbtCompound.getObjectList(key: String, map: (nbt: NbtCompound) -> T) = this.getList(key, NBT_COMPOUND).mapNotNull { (it as? NbtCompound)?.let { map(it) } }.toList()

@@ -15,6 +15,7 @@ fun Int.exp(exponent: Int): Int {
     return self
 }
 fun Int.square(): Int = this.exp(2)
+fun Int.sqrt(): Int = kotlin.math.sqrt(this.toFloat()).toInt()
 
 fun Float.exp(exponent: Int): Float {
     var self = this
@@ -22,6 +23,7 @@ fun Float.exp(exponent: Int): Float {
     return self
 }
 fun Float.square(): Float = this.exp(2)
+fun Float.sqrt(): Float = kotlin.math.sqrt(this)
 
 fun Double.exp(exponent: Int): Double {
     var self = this
@@ -29,3 +31,4 @@ fun Double.exp(exponent: Int): Double {
     return self
 }
 fun Double.square(): Double = this.exp(2)
+fun Double.sqrt(): Double = kotlin.math.sqrt(this)

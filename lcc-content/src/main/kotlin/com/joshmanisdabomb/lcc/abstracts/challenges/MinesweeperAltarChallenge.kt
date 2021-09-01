@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.addString
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
-import com.joshmanisdabomb.lcc.world.feature.SapphireAltarStructureFeature
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructureFeature
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound

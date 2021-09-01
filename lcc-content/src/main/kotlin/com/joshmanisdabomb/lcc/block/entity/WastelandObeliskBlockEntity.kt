@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
+import com.joshmanisdabomb.lcc.block.WastelandObeliskBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCStructureFeatures
 import com.joshmanisdabomb.lcc.extensions.NBT_LIST
@@ -40,14 +41,31 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
         return nbt
     }
 
-    fun activate(world: ServerWorld, alternate: Boolean) {
-        positions = mutableListOf(world.locateStructure(LCCStructureFeatures.wasteland_obelisk, pos, 100, false))
-        step = 1
-        cooldown = world.time
+    fun activate(world: ServerWorld): Long? {
+        if (yaw != null && distance != null) {
+            release(world, cachedState[WastelandObeliskBlock.charge] == 5)
+            return null
+        } else {
+            val cooldown = cooldown
+            if (cooldown != null && world.time - cooldown <= cooldownMax) {
+                return cooldownMax - (world.time - cooldown)
+            }
+            positions = mutableListOf(world.locateStructure(LCCStructureFeatures.wasteland_obelisk, pos, 100, false))
+            step = 1
+            Companion.cooldown = world.time
+            return null
+        }
+    }
+
+    fun release(world: ServerWorld, alternate: Boolean) {
+        println(alternate)
+        println(yaw)
+        println(distance)
     }
 
     companion object {
-        var cooldown = 0L
+        var cooldown: Long? = null
+        val cooldownMax = 30L
 
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: WastelandObeliskBlockEntity) {
             if (entity.step > 8) {
@@ -59,6 +77,7 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
                         -MathHelper.atan2(vec.x.toDouble(), vec.z.toDouble()).toFloat() * 57.295776f
                     }
                 }
+                entity.release(world as ServerWorld, state[WastelandObeliskBlock.charge] == 5)
                 entity.positions.clear()
                 entity.step = 0
             } else if (entity.step > 0) {

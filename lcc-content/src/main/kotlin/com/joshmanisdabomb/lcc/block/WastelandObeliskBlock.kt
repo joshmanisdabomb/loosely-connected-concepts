@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.WastelandObeliskBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transformInt
@@ -20,6 +21,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.BOTTOM
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.InvalidIdentifierException
@@ -66,7 +68,10 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
                 setTallState(world, pos, state, 0)
             }
             if (!world.isClient) {
-                (world.getBlockEntity(pos.down(state[BOTTOM].transformInt(0, 1))) as? WastelandObeliskBlockEntity)?.activate(world as ServerWorld, state[charge] == 5)
+                val cooldown = (world.getBlockEntity(pos.down(state[BOTTOM].transformInt(0, 1))) as? WastelandObeliskBlockEntity)?.activate(world as ServerWorld)
+                if (cooldown != null) {
+                    player.sendMessage(TranslatableText(LCCBlocks.wasteland_obelisk.translationKey.plus(".cooldown"), cooldown.div(20)), true)
+                }
             }
             return ActionResult.SUCCESS
         }

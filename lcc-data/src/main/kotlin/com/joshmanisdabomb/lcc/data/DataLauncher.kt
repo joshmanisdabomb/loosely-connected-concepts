@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.data
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import com.joshmanisdabomb.lcc.data.generators.AdvancementData
-import com.joshmanisdabomb.lcc.data.generators.LangData
-import com.joshmanisdabomb.lcc.data.generators.SoundData
+import com.joshmanisdabomb.lcc.data.generators.advancement.AdvancementData
+import com.joshmanisdabomb.lcc.data.generators.lang.LangData
+import com.joshmanisdabomb.lcc.data.generators.sound.SoundData
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
 import net.minecraft.Bootstrap

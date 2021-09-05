@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.LCCData
-import com.joshmanisdabomb.lcc.data.json.sound.SoundProperties
+import com.joshmanisdabomb.lcc.data.generators.sound.SoundProperties
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 

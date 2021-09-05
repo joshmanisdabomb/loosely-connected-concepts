@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.data.generators
+package com.joshmanisdabomb.lcc.data.generators.commit
 
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider

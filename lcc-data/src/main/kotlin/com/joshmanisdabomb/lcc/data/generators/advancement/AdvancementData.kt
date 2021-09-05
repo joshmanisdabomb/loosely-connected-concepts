@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.data.generators
+package com.joshmanisdabomb.lcc.data.generators.advancement
 
 import com.google.common.collect.Sets
 import com.joshmanisdabomb.lcc.data.DataAccessor

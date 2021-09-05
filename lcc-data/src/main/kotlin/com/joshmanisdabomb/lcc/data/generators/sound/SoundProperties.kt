@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.data.json.sound
+package com.joshmanisdabomb.lcc.data.generators.sound
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -11,7 +11,7 @@ class SoundProperties(val name: String, val entries: Array<SoundEntry>, val subt
 
         fun asString() = volume == 1f && pitch == 1f && weight == 1 && !stream && attenuation == 16 && !preload
 
-        fun serialise() =JsonObject().also {
+        fun serialise() = JsonObject().also {
             it.addProperty("name", name)
             if (volume != 1f) it.addProperty("volume", volume)
             if (pitch != 1f) it.addProperty("pitch", pitch)

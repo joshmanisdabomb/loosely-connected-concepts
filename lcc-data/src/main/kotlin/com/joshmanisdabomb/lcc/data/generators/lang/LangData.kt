@@ -1,21 +1,19 @@
-package com.joshmanisdabomb.lcc.data.generators
+package com.joshmanisdabomb.lcc.data.generators.lang
 
-import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.json.sound.SoundProperties
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
 import java.nio.file.Files
 
-class SoundData(val da: DataAccessor) : DataProvider {
+class LangData(val da: DataAccessor, val locale: String = defaultLocale) : DataProvider {
 
-    val list = mutableListOf<SoundProperties>()
+    val translations = mutableMapOf<String, String>()
 
     override fun run(cache: DataCache) {
-        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(list.map { it.name to it.serialise(JsonObject()) }.toMap()))
+        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(translations))
         val string2 = DataProvider.SHA1.hashUnencodedChars(string).toString()
-        val path = da.dg.output.resolve("assets/${da.modid}/sounds.json")
+        val path = da.dg.output.resolve("assets/${da.modid}/lang/$locale.json")
         if (cache.getOldSha1(path) != string2 || !Files.exists(path, *arrayOfNulls(0))) {
             Files.createDirectories(path.parent)
             val bufferedWriter = Files.newBufferedWriter(path)
@@ -43,6 +41,18 @@ class SoundData(val da: DataAccessor) : DataProvider {
         cache.updateSha1(path, string2)
     }
 
-    override fun getName() = "${da.modid} Sound Data"
+    override fun getName() = "${da.modid} $locale Language Data"
+
+    //Translators
+
+    operator fun get(key: String) = translations[key]
+
+    operator fun set(key: String, value: String) {
+        translations[key] = value
+    }
+
+    companion object {
+        const val defaultLocale = "en_us"
+    }
 
 }

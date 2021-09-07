@@ -1,14 +1,15 @@
 package com.joshmanisdabomb.lcc.data.directory
 
-import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
+import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCStructureFeatures
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 import net.minecraft.text.LiteralText
 
 object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
@@ -18,7 +19,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a block introduced in %s that allows players to interface with the challenge of a %s. It breaks into %s, even with the Silk Touch enchantment, making this block obtainable only in Creative Mode.")
                     .insert(LCCBlocks.sapphire_altar.name)
-                    .insertLink(LiteralText("LCC 0.5.0"), KnowledgeArticleIdentifier(LCC.id("versions"), LCC.id("0.5.0")))
+                    .insertLink(LiteralText("LCC 0.5.0"), LCCVersion.LCC_FABRIC_0_5_0.page)
                     .insertLink(LiteralText("Sapphire Altar (Structure)"), KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.sapphire_altar))
                     .insertLink(LCCBlocks.sapphire_altar_brick.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.sapphire_altar_brick))
                 )
@@ -36,11 +37,16 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder("If the challenge is failed, the altar block breaks and drops nothing. All sapphires and dull sapphires placed in the altar are lost. Additionally, if the challenge is failed due to being tampered with (e.g. the minesweeper board is broken to reveal mine locations) then the sapphire altar explodes violently.")
                 )
             )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
 
     private val introduction = LiteralText("Introduction")
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
+
+    override fun afterInitAll(initialised: List<DirectoryEntry<out KnowledgeArticleBuilder, out KnowledgeArticleBuilder>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
+        initialised.forEach { it.entry.afterInit() }
+    }
 
     override fun defaultProperties(name: String) = Unit
 

@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext

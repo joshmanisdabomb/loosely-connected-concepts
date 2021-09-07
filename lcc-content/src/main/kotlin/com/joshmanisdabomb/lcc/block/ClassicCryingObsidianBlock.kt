@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.isSurvival
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream

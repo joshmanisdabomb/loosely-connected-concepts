@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.extensions.isSurvival
-import com.joshmanisdabomb.lcc.mixin.content.common.LivingEntityAccessor
 import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
+import com.joshmanisdabomb.lcc.mixin.content.common.LivingEntityAccessor
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity

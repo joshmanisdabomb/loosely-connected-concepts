@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.abstracts
 
+import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
-import com.joshmanisdabomb.lcc.directory.LCCTags
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType

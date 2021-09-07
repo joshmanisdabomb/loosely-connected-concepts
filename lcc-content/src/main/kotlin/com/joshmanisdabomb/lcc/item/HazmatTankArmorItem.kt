@@ -2,11 +2,11 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.oxygen.OxygenStorage
-import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot

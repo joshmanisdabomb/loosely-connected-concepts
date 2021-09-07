@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
-import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import com.joshmanisdabomb.lcc.gui.screen.GauntletScreen
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.LivingEntity

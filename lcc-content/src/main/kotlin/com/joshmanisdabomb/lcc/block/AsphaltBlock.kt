@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.NavigationType

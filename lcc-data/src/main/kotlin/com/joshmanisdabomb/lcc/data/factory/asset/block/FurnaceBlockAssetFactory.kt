@@ -9,7 +9,6 @@ import net.minecraft.data.client.model.BlockStateVariantMap
 import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Direction
 
 open class FurnaceBlockAssetFactory(val texture: Identifier? = null, val textureOff: Identifier? = null, val textureOn: Identifier? = null, val textureSide: Identifier? = null, val textureTop: Identifier? = null, val textureBottom: Identifier? = null) : BlockAssetFactory {
 

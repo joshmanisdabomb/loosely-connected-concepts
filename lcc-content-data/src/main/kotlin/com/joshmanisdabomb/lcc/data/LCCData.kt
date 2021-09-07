@@ -42,7 +42,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
             println("Enter password for user 'lcc':")
             val password = Scanner(System.`in`).next().trim()
 
-            val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc" + if (url.startsWith("localhost")) "?useSSL=false" else "", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values)
+            val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values)
             exporters.add(exporter)
             install(exporter)
         } while (true)

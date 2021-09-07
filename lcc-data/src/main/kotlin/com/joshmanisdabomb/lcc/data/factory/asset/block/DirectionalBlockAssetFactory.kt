@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.BlockStateVariant
 import net.minecraft.data.client.model.BlockStateVariantMap
-import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
 

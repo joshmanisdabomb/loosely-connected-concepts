@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
-import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.*

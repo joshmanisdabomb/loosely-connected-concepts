@@ -11,7 +11,6 @@ import net.minecraft.data.client.model.BlockStateVariant
 import net.minecraft.data.client.model.VariantSettings
 import net.minecraft.data.client.model.When
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.Direction
 
 object TreetapDriedBlockAssetFactory : BlockAssetFactory {
 

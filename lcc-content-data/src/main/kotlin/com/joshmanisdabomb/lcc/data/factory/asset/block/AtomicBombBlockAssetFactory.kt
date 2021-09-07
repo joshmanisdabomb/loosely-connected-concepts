@@ -8,7 +8,6 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 import net.minecraft.state.property.Properties
-import net.minecraft.util.math.Direction
 
 object AtomicBombBlockAssetFactory : BlockAssetFactory {
 

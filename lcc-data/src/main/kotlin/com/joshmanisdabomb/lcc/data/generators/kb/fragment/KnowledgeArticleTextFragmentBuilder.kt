@@ -1,11 +1,8 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 
 import com.google.gson.JsonArray
-import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
@@ -35,15 +32,13 @@ class KnowledgeArticleTextFragmentBuilder() : KnowledgeArticleFragmentBuilder() 
         return this
     }
 
-    fun translationKey(article: KnowledgeArticleIdentifier, section: Int, fragment: Int) = "knowledge.lcc.${article.registry}.${article.key}.${section}.${fragment}"
-
-    override fun onExport(article: KnowledgeArticleBuilder, section: KnowledgeArticleSectionBuilder, exporter: KnowledgeExporter) {
-        val key = translationKey(article.location, article.sections.indexOf(section), section.fragments.indexOf(this))
+    override fun onExport(exporter: KnowledgeExporter) {
+        val key = defaultTranslationKey
         translations.forEach { (k, v) -> exporter.da.lang[k]?.set(key, v) }
     }
 
-    override fun toJson(article: KnowledgeArticleBuilder, section: KnowledgeArticleSectionBuilder, exporter: KnowledgeExporter): JsonElement {
-        val key = translationKey(article.location, article.sections.indexOf(section), section.fragments.indexOf(this))
+    override fun toJson(exporter: KnowledgeExporter): JsonObject {
+        val key = defaultTranslationKey
 
         val json = JsonObject()
         json.add("content", Text.Serializer.toJsonTree(TranslatableText(key)))

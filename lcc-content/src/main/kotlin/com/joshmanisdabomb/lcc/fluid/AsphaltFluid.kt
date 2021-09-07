@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.fluid
 
-import com.joshmanisdabomb.lcc.trait.LCCFluidTrait
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.trait.LCCFluidTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock

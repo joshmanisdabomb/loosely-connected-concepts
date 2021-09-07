@@ -10,7 +10,7 @@ import net.minecraft.item.Item
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
-class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, val name: Text = TranslatableText("knowledge.lcc.${location.registry}.${location.key}")) {
+open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, val name: Text = TranslatableText("knowledge.lcc.${location.registry}.${location.key}")) {
 
     constructor(block: Block, name: Text = block.name) : this(KnowledgeArticleIdentifier.ofBlock(block), name)
     constructor(item: Item, name: Text = item.name) : this(KnowledgeArticleIdentifier.ofItem(item), name)
@@ -20,6 +20,8 @@ class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, val name
     val sections by lazy { list.toList() }
 
     private val translations = mutableMapOf<String, String>()
+    val defaultTranslationKey get() = "knowledge.lcc.${location.registry}.${location.key}"
+    val translationKey get() = (name as? TranslatableText)?.key
     lateinit var finalName: String
 
     fun translation(content: String, locale: String = "en_us") : KnowledgeArticleBuilder {
@@ -27,9 +29,13 @@ class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, val name
         return this
     }
 
+    fun getSectionId(section: KnowledgeArticleSectionBuilder) = sections.indexOf(section)
+
+    fun getTranslationKeyAppend(section: KnowledgeArticleSectionBuilder) = getSectionId(section).toString()
+
     fun addSection(section: KnowledgeArticleSectionBuilder): KnowledgeArticleBuilder {
         list += section
-        section.id = list.count()
+        section.article = this
         return this
     }
 
@@ -39,6 +45,10 @@ class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, val name
         }
         val name = KnowledgeArticleUtils.customTranslate(name) { exporter.da.lang["en_us"]!![it] ?: error("No English translation for article $it") }
         finalName = name.plus(if (exporter.articles.count { it.location.registry.path == this.location.registry.path } > 1) " (${location.registry.path.split('_').joinToString(" ") { it.capitalize() }}" else "")
+    }
+
+    open fun afterInit() {
+        sections.forEach { it.afterInit() }
     }
 
 }

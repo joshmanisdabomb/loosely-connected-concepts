@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.item
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.DataUtils
 import net.minecraft.item.Item
 
 object QuiverItemAssetFactory : ItemAssetFactory {

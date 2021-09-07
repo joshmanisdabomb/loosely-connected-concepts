@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

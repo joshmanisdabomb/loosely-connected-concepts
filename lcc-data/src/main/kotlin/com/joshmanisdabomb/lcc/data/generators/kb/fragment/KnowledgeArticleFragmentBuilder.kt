@@ -1,16 +1,27 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 
-import com.google.gson.JsonElement
-import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
+import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 
 abstract class KnowledgeArticleFragmentBuilder {
 
     abstract val type: String
+    lateinit var container: KnowledgeArticleFragmentContainer
 
-    open fun onExport(article: KnowledgeArticleBuilder, section: KnowledgeArticleSectionBuilder, exporter: KnowledgeExporter) = Unit
+    val defaultTranslationKey get() = "${container.defaultTranslationKey}.${container.getTranslationKeyAppend(this)}"
 
-    abstract fun toJson(article: KnowledgeArticleBuilder, section: KnowledgeArticleSectionBuilder, exporter: KnowledgeExporter): JsonElement
+    open fun onExport(exporter: KnowledgeExporter) = Unit
+
+    protected abstract fun toJson(exporter: KnowledgeExporter): JsonObject
+
+    fun toJsonFinal(exporter: KnowledgeExporter): JsonObject {
+        val json = toJson(exporter)
+        json.addProperty("fragment", type)
+        return json
+    }
+
+    open fun afterInit() {
+
+    }
 
 }

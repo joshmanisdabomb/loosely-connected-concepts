@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.item
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.DataUtils
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
 import net.minecraft.data.client.model.Texture

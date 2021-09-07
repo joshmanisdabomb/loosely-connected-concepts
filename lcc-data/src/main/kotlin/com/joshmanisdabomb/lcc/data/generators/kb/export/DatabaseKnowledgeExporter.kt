@@ -48,7 +48,7 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
                 }
 
                 a.sections.forEachIndexed { k, s ->
-                    s.onExport(a, this@DatabaseKnowledgeExporter)
+                    s.onExport(this@DatabaseKnowledgeExporter)
                     val sectionId = ArticleSections.insert {
                         it[article_id] = articleId
                         it[name] = s.finalName
@@ -60,11 +60,11 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
                     } get ArticleSections.id
 
                     s.fragments.forEachIndexed { k2, f ->
-                        f.onExport(a, s, this@DatabaseKnowledgeExporter)
+                        f.onExport(this@DatabaseKnowledgeExporter)
                         ArticleFragments.insert {
                             it[section_id] = sectionId
                             it[type] = f.type
-                            it[markup] = f.toJson(a, s, this@DatabaseKnowledgeExporter).toString()
+                            it[markup] = f.toJsonFinal(this@DatabaseKnowledgeExporter).toString()
                             it[order] = k2.toShort()
                             it[created_at] = LocalDateTime.now()
                             it[updated_at] = null
@@ -88,6 +88,8 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
         val created_at = datetime("created_at").nullable()
         val updated_at = datetime("updated_at").nullable()
         val deleted_at = datetime("deleted_at").nullable()
+
+        override val tableName = "articles"
 
         override val primaryKey = PrimaryKey(id, name = "PRIMARY")
     }

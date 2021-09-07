@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.block
 
-import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.TurbineBlock
 import com.joshmanisdabomb.lcc.block.TurbineBlock.Companion.turbine_state
 import com.joshmanisdabomb.lcc.data.DataAccessor

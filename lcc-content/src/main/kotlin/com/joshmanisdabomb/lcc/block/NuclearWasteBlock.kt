@@ -2,14 +2,14 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
-import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.HazmatArmorItem
 import com.joshmanisdabomb.lcc.item.HazmatTankArmorItem
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks

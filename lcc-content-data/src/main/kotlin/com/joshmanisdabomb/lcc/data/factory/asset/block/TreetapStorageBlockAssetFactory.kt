@@ -12,8 +12,6 @@ import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
 import net.minecraft.data.client.model.*
 import net.minecraft.state.property.Properties
-import net.minecraft.util.Identifier
-import net.minecraft.util.math.Direction
 
 class TreetapStorageBlockAssetFactory(val container: AbstractTreetapBlock.TreetapContainer, vararg val liquids: Model?, val model: ModelProvider.ModelFactory<Block>) : BlockAssetFactory {
 

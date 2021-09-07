@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity

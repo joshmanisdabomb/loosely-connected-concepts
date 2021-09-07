@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
-import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.projectile.thrown.ThrownEntity

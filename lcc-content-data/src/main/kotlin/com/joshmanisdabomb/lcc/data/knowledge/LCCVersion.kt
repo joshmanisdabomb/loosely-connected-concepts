@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextF
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.util.Identifier
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: String, val group: LCCVersionGroup, val order: Short, val released: LocalDateTime, val title: String? = null) {
 
@@ -592,8 +593,22 @@ Content datagen now launching and matches 0.4.4 datagen."""
     val changelog by lazy { mutableMapOf<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>().also(this@LCCVersion::generateChangelog) }
     abstract fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>)
 
-    val nameWithGroup get() = (group.shortname?.plus(" ") ?: "").plus(modVersion)
+    val shortname get() = (group.shortname?.plus(" ") ?: "").plus(modVersion)
     val page = KnowledgeArticleIdentifier(LCC.id("versions"), Identifier(group.namespace, code))
+
+    fun getIntroduction(): String {
+        val sentence1 = "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."
+        var sentence2: String? = null
+        if (ordinal > 1) {
+            sentence2 = " The previous release was %s"
+        }
+        if (ordinal < values().lastIndex) {
+            sentence2 = (sentence2?.plus(", while the following release is ") ?: " The following release is ").plus("%s.")
+        } else {
+            sentence2 = sentence2?.plus(".")
+        }
+        return sentence1 + (sentence2 ?: "")
+    }
 
     companion object {
         private val introduced = "Introduced."

@@ -4,7 +4,9 @@ import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.feature.StructureFeature
 
 class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) {
@@ -19,6 +21,7 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofItem(item: Item) = of(Registry.ITEM, item)
         fun ofEntity(entity: EntityType<*>) = of(Registry.ENTITY_TYPE, entity)
 
+        fun ofBiome(biome: Biome) = of(BuiltinRegistries.BIOME, biome)
         fun ofStructure(structure: StructureFeature<*>) = of(Registry.STRUCTURE_FEATURE, structure)
 
     }

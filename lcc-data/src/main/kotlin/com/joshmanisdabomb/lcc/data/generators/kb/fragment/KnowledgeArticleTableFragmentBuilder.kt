@@ -11,12 +11,7 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
     private val rows = mutableListOf<Row>()
 
     fun addRow(callback: Row.() -> Unit): KnowledgeArticleTableFragmentBuilder {
-        rows.add(Row(rows.size, false).apply(callback))
-        return this
-    }
-
-    fun addHeadingRow(callback: Row.() -> Unit): KnowledgeArticleTableFragmentBuilder {
-        rows.add(Row(rows.size, true).apply(callback))
+        rows.add(Row(rows.size).apply(callback))
         return this
     }
 
@@ -34,7 +29,7 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
         return json
     }
 
-    inner class Row internal constructor(val index: Int, val heading: Boolean) {
+    inner class Row internal constructor(val index: Int) {
 
         private val cells = mutableListOf<Cell>()
 
@@ -73,7 +68,6 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
                 cjson.add(cell.toJson(exporter))
             }
             json.add("cells", cjson)
-            json.addProperty("heading", heading)
             return json
         }
 

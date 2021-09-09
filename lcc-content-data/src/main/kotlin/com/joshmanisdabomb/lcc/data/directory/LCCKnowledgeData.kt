@@ -114,6 +114,56 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_0))
     }
 
+    val block_explosive_paste by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.explosive_paste)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a block introduced in %s that explodes shortly after being triggered by another explosion. It connects to other pieces of %s placed nearby, similar to %s.")
+                    .insert(LCCBlocks.explosive_paste.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page)
+                    .insert(LCCBlocks.explosive_paste.name)
+                    .insert(Items.REDSTONE.name)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Strength")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The strength of the explosion caused by a piece of %s depends on the amount of connections to other adjacent pieces of %s.")
+                    .insert(LCCBlocks.explosive_paste.name)
+                    .insert(LCCBlocks.explosive_paste.name)
+                )
+                .addFragment(KnowledgeArticleTableFragmentBuilder()
+                    .addRow {
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Adjacent Connections"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Strength"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Equivalent To"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("0"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("2.5"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("Ghast Fireball"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("1"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("3.4"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("Creeper"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("2"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("4.3"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("TNT"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("3"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("5.2"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("Bed"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("4"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("6.1"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("Charged Creeper"))
+                    }
+                )
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
 
     private val introduction = "Introduction"
 

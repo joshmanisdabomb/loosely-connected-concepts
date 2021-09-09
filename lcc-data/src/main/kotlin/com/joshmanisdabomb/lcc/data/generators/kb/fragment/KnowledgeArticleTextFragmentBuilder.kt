@@ -2,68 +2,54 @@ package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
-class KnowledgeArticleTextFragmentBuilder() : KnowledgeArticleFragmentBuilder() {
+class KnowledgeArticleTextFragmentBuilder(content: (defaultKey: String) -> Text) : KnowledgeArticleFragmentBuilder() {
 
-    constructor(content: String) : this() {
-        translation(content)
-    }
+    constructor(content: String, locale: String = "en_us") : this({ IncludedTranslatableText(it).translation(content, locale) })
+    constructor(content: Text) : this({ content })
 
     override val type = "text"
+    val content by lazy { content(defaultTranslationKey) }
 
-    private val translations = mutableMapOf<String, String>()
-    private val inserts = mutableListOf<Text>()
+    private val inserts = mutableListOf<(String) -> Text>()
     private val extra = mutableListOf<JsonObject>()
 
-    fun insert(text: Text, extra: JsonObject = JsonObject()) : KnowledgeArticleTextFragmentBuilder {
+    fun insert(text: (defaultKey: String) -> Text, extra: JsonObject = JsonObject()) : KnowledgeArticleTextFragmentBuilder {
         this.inserts += text
         this.extra += extra
         return this
     }
 
-    fun insertLink(text: Text, link: KnowledgeArticleIdentifier, extra: JsonObject = JsonObject().apply { addProperty("link", link.toString()) }) = insert(text, extra)
+    fun insert(text: Text, extra: JsonObject = JsonObject()) = insert({ text }, extra)
+    fun insert(content: String, locale: String = "en_us", extra: JsonObject = JsonObject()) = insert({ IncludedTranslatableText(it).translation(content, locale) }, extra)
 
-    fun translation(content: String, locale: String = "en_us") : KnowledgeArticleTextFragmentBuilder {
-        translations[locale] = content
-        return this
-    }
+    fun insertLink(text: (defaultKey: String) -> Text, link: KnowledgeArticleIdentifier, extra: JsonObject = JsonObject()) = insert(text, extra.apply { addProperty("link", link.toString()) })
+
+    fun insertLink(text: Text, link: KnowledgeArticleIdentifier, extra: JsonObject = JsonObject()) = insertLink({ text }, link, extra)
+    fun insertLink(content: String, link: KnowledgeArticleIdentifier, locale: String = "en_us", extra: JsonObject = JsonObject()) = insertLink({ IncludedTranslatableText(it).translation(content, locale) }, link, extra)
 
     override fun onExport(exporter: KnowledgeExporter) {
-        val key = defaultTranslationKey
-        translations.forEach { (k, v) -> exporter.da.lang[k]?.set(key, v) }
+        (content as? IncludedTranslatableText)?.onExport(exporter)
     }
 
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val key = defaultTranslationKey
 
         val json = JsonObject()
-        json.add("content", Text.Serializer.toJsonTree(TranslatableText(key)))
+        json.add("content", exporter.translator.textSerialize(content))
 
         val inserts = JsonArray()
         this.inserts.forEachIndexed { k, v ->
             val extra = extra[k]
-            inserts.add(Text.Serializer.toJsonTree(v).asJsonObject.apply {
+            inserts.add(exporter.translator.textSerialize(v("$key.$k")).apply {
                 extra.entrySet().forEach { (k, v) -> this.add(k, v) }
             })
         }
         json.add("inserts", inserts)
-
-        if (exporter.hasTranslations()) {
-            val t = JsonObject()
-            exporter.getTranslations(key, *this.inserts.filterIsInstance<TranslatableText>().map(TranslatableText::getKey).toTypedArray()).forEach { (k, v) ->
-                val tl = JsonObject()
-                v.forEach { (k2, v2) ->
-                    tl.addProperty(k2, v2)
-                }
-                t.add(k, tl)
-            }
-
-            json.add("translations", t)
-        }
 
         return json
     }

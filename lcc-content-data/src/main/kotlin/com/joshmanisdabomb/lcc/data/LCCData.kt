@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
 import com.joshmanisdabomb.lcc.data.generators.kb.export.DatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
 import org.jetbrains.exposed.sql.Database
 import java.nio.file.Paths
 import java.util.*
@@ -15,7 +16,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
 
     private val exporters = mutableListOf<KnowledgeExporter>()
 
-    override fun onLaunchStart() {
+    override fun beforeRun() {
         LCC.onInitialize()
 
         LCCModelTextureKeys.init()
@@ -42,12 +43,12 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
             println("Enter password for user 'lcc':")
             val password = Scanner(System.`in`).next().trim()
 
-            val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values)
+            val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
             exporters.add(exporter)
-            install(exporter)
+            install(exporter, 2500)
         } while (true)
 
-        install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") })
+        install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
     }
 
 }

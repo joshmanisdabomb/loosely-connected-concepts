@@ -9,7 +9,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.feature.StructureFeature
 
-class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) {
+class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) : Comparable<KnowledgeArticleIdentifier> {
 
     override fun toString() = "$registry/$key"
 
@@ -24,6 +24,12 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofBiome(biome: Biome) = of(BuiltinRegistries.BIOME, biome)
         fun ofStructure(structure: StructureFeature<*>) = of(Registry.STRUCTURE_FEATURE, structure)
 
+    }
+
+    override fun compareTo(other: KnowledgeArticleIdentifier): Int {
+        val comp = registry.compareTo(other.registry)
+        if (comp != 0) return comp
+        return key.compareTo(other.key)
     }
 
 }

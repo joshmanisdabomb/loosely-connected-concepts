@@ -9,9 +9,12 @@ import net.minecraft.util.Identifier
 
 object LCC : ModInitializer {
 
+    var initialised = false
     const val modid = "lcc"
 
     override fun onInitialize() {
+        if (initialised) return
+
         LCCRegistries.init()
         LCCGroups.init()
         LCCSounds.init()
@@ -42,6 +45,8 @@ object LCC : ModInitializer {
 
         LCCAltarChallenges.init()
         GauntletDirectory.init()
+
+        initialised = true
     }
 
     fun id(path: String) = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))

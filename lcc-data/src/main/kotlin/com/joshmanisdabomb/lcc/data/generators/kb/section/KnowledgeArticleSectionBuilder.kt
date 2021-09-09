@@ -1,14 +1,16 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.section
 
-import com.joshmanisdabomb.lcc.data.generators.kb.KnowledgeArticleUtils
+import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentContainer
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
-open class KnowledgeArticleSectionBuilder(val name: Text, val type: String = "main") : KnowledgeArticleFragmentContainer {
+open class KnowledgeArticleSectionBuilder(name: (defaultKey: String) -> Text, val type: String = "main") : KnowledgeArticleFragmentContainer {
+
+    constructor(name: String, type: String = "main", locale: String = "en_us") : this({ IncludedTranslatableText(it).translation(name, locale) }, type)
+    constructor(name: Text, type: String = "main") : this({ name }, type)
 
     lateinit var article: KnowledgeArticleBuilder
 
@@ -17,13 +19,8 @@ open class KnowledgeArticleSectionBuilder(val name: Text, val type: String = "ma
 
     val id get() = article.getSectionId(this)
 
-    private val translations = mutableMapOf<String, String>()
+    val name by lazy { name(defaultTranslationKey) }
     lateinit var finalName: String
-
-    fun translation(content: String, locale: String = "en_us"): KnowledgeArticleSectionBuilder {
-        translations[locale] = content
-        return this
-    }
 
     fun addFragment(fragment: KnowledgeArticleFragmentBuilder): KnowledgeArticleSectionBuilder {
         list += fragment
@@ -32,10 +29,7 @@ open class KnowledgeArticleSectionBuilder(val name: Text, val type: String = "ma
     }
 
     fun onExport(exporter: KnowledgeExporter) {
-        if (name is TranslatableText) {
-            translations.forEach { (k, v) -> exporter.da.lang[k]?.set(name.key, v) }
-        }
-        finalName = KnowledgeArticleUtils.customTranslate(name) { exporter.da.lang["en_us"]!![it] ?: error("No English translation for article $it") }
+        finalName = exporter.translator.textResolve(name)
     }
 
     override val defaultTranslationKey get() = "${article.defaultTranslationKey}.${article.getTranslationKeyAppend(this)}"

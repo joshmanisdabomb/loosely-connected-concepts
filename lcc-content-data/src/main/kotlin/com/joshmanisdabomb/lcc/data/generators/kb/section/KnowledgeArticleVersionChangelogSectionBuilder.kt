@@ -1,12 +1,12 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.section
 
+import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 
-class KnowledgeArticleVersionChangelogSectionBuilder(val version: LCCVersion, name: Text = LiteralText("Full Changelog")) : KnowledgeArticleSectionBuilder(name) {
+class KnowledgeArticleVersionChangelogSectionBuilder(val version: LCCVersion, name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Full Changelog") }) : KnowledgeArticleSectionBuilder(name) {
 
     override fun afterInit() {
         val f = KnowledgeArticleTableFragmentBuilder()

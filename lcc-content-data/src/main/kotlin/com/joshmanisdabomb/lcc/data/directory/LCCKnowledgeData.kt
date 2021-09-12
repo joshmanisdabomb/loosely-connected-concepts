@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleRecipeFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
@@ -161,6 +162,12 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         addCell(KnowledgeArticleTextFragmentBuilder("Charged Creeper"))
                     }
                 )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.findRecipes(LCCBlocks.explosive_paste) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }

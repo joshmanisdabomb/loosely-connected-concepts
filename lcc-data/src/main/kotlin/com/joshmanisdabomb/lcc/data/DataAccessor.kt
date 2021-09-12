@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import com.joshmanisdabomb.lcc.data.generators.advancement.AdvancementData
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.data.generators.sound.SoundData
+import com.joshmanisdabomb.lcc.data.json.recipe.RecipeStore
 import me.shedaniel.cloth.api.datagen.v1.*
 import net.minecraft.data.DataGenerator
 import org.apache.logging.log4j.Logger
@@ -24,6 +25,8 @@ interface DataAccessor {
     val lootTables: LootTableData
     val tags: TagData
     val worldGen: WorldGenData
+
+    val recipeStore: RecipeStore
 
     val parser: JsonParser
     val gson: Gson

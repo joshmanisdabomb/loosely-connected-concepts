@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.BlockDataFactory
 import com.joshmanisdabomb.lcc.data.factory.ItemDataFactory
 import com.joshmanisdabomb.lcc.data.json.recipe.JsonFactoryAccess
+import net.minecraft.advancement.criterion.CriterionConditions
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.*
@@ -23,89 +24,29 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
         apply(data, entry.asItem())
     }
 
-    fun offerInterface(recipe: JsonFactoryAccess, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            if (name != null) recipe.offerTo({ provider = it }, name) else recipe.offerTo { provider = it }
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            if (name != null) recipe.offerTo(data.recipes, name) else recipe.offerTo(data.recipes)
-        }
-    }
+    fun offerInterface(recipe: JsonFactoryAccess, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerAs(r, n) }, data, name, override)
 
-    fun hasCriterionInterface(recipe: JsonFactoryAccess, item: ItemConvertible) {
-        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionInterface(recipe: JsonFactoryAccess, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerShaped(recipe: ShapedRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            if (name != null) recipe.offerTo({ provider = it }, name) else recipe.offerTo { provider = it }
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            if (name != null) recipe.offerTo(data.recipes, name) else recipe.offerTo(data.recipes)
-        }
-    }
+    fun offerShaped(recipe: ShapedRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionShaped(recipe: ShapedRecipeJsonFactory, item: ItemConvertible) {
-        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionShaped(recipe: ShapedRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerShapeless(recipe: ShapelessRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            if (name != null) recipe.offerTo({ provider = it }, name) else recipe.offerTo { provider = it }
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            if (name != null) recipe.offerTo(data.recipes, name) else recipe.offerTo(data.recipes)
-        }
-    }
+    fun offerShapeless(recipe: ShapelessRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionShapeless(recipe: ShapelessRecipeJsonFactory, item: ItemConvertible) {
-        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionShapeless(recipe: ShapelessRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerCooking(recipe: CookingRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            if (name != null) recipe.offerTo({ provider = it }, name) else recipe.offerTo { provider = it }
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            if (name != null) recipe.offerTo(data.recipes, name) else recipe.offerTo(data.recipes)
-        }
-    }
+    fun offerCooking(recipe: CookingRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionCooking(recipe: CookingRecipeJsonFactory, item: ItemConvertible) {
-        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionCooking(recipe: CookingRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerSingle(recipe: SingleItemRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            recipe.offerTo({ provider = it }, name)
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            recipe.offerTo(data.recipes, name)
-        }
-    }
+    fun offerSingle(recipe: SingleItemRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) {
-        recipe.createStonecutting("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> createStonecutting(s, c) }, item)
 
-    fun offerSmithing(recipe: SmithingRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
-        if (override != null) {
-            var provider: RecipeJsonProvider? = null
-            recipe.offerTo({ provider = it }, name)
-            data.recipes.accept(OverrideRecipeJsonProvider(override, provider!!))
-        } else {
-            recipe.offerTo(data.recipes, name)
-        }
-    }
+    fun offerSmithing(recipe: SmithingRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionSmithing(recipe: SmithingRecipeJsonFactory, item: ItemConvertible) {
-        recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
-    }
+    fun hasCriterionSmithing(recipe: SmithingRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
     fun loc(name: String, modid: String, path: (name: String) -> String = { it }) = Identifier(modid, path(name))
 
@@ -133,6 +74,37 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
         override fun getAdvancementId() = provider.advancementId
 
+    }
+
+    private companion object {
+        private fun accept(provider: RecipeJsonProvider, data: DataAccessor) {
+            data.recipes.accept(provider)
+            data.recipeStore.add(provider)
+        }
+
+        private fun <R> offer(recipe: R, offer: R.((RecipeJsonProvider) -> Unit) -> Unit, offerId: R.((RecipeJsonProvider) -> Unit, Identifier) -> Unit, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
+            if (override != null) {
+                var provider: RecipeJsonProvider? = null
+                if (name != null) recipe.offerId({ provider = it }, name) else recipe.offer { provider = it }
+                accept(OverrideRecipeJsonProvider(override, provider!!), data)
+            } else {
+                if (name != null) recipe.offerId({ accept(it, data) }, name) else recipe.offer { accept(it, data) }
+            }
+        }
+
+        private fun <R> offerName(recipe: R, offer: R.((RecipeJsonProvider) -> Unit, Identifier) -> Unit, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) {
+            if (override != null) {
+                var provider: RecipeJsonProvider? = null
+                recipe.offer({ provider = it }, name)
+                accept(OverrideRecipeJsonProvider(override, provider!!), data)
+            } else {
+                recipe.offer({ accept(it, data) }, name)
+            }
+        }
+
+        private fun <R> criterion(recipe: R, criterion: R.(String, CriterionConditions) -> Unit, item: ItemConvertible) {
+            recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
+        }
     }
 
 }

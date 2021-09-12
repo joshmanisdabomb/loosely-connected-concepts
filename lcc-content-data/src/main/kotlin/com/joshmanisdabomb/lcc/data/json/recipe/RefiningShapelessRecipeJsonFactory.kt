@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import java.util.function.Consumer
 import kotlin.properties.Delegates
 
 class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
@@ -87,25 +86,25 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
 
     fun energyPerOperation(energy: Float) = energyPerTick(energy.div(ticks))
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>): RefiningShapelessRecipeJsonFactory {
-        this.offerTo(exporter, Registry.ITEM.getId(outputs.first().item))
+    override fun offerTo(exporter: (RecipeJsonProvider) -> Unit): RefiningShapelessRecipeJsonFactory {
+        this.offerAs(exporter, Registry.ITEM.getId(outputs.first().item))
         return this
     }
 
-    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeIdStr: String): RefiningShapelessRecipeJsonFactory {
+    fun offerTo(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapelessRecipeJsonFactory {
         val identifier = Registry.ITEM.getId(outputs.first().item)
-        check(Identifier(recipeIdStr) != identifier) { "Shaped Recipe $recipeIdStr should remove its 'save' argument" }
-        this.offerTo(exporter, Identifier(recipeIdStr))
+        check(Identifier(recipeIdStr) != identifier) { "Shapeless Recipe $recipeIdStr should remove its 'save' argument" }
+        this.offerAs(exporter, Identifier(recipeIdStr))
         return this
     }
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier): RefiningShapelessRecipeJsonFactory {
+    override fun offerAs(exporter: (RecipeJsonProvider) -> Unit, recipeId: Identifier): RefiningShapelessRecipeJsonFactory {
         builder.parent(Identifier("recipes/root")).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR)
-        exporter.accept(RefiningShapedRecipeJsonProvider(recipeId, group ?: "", inputs, builder, Identifier(recipeId.namespace, "recipes/" + outputs.first().item.group?.name + "/" + recipeId.path), outputs, outputFunctions, blocks, lang, icon, state, energy, ticks, gain, maxGain))
+        exporter(RefiningShapelessRecipeJsonProvider(recipeId, group ?: "", inputs, builder, Identifier(recipeId.namespace, "recipes/" + outputs.first().item.group?.name + "/" + recipeId.path), outputs, outputFunctions, blocks, lang, icon, state, energy, ticks, gain, maxGain))
         return this
     }
 
-    class RefiningShapedRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val inputs: List<Pair<Ingredient, Int>>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
+    class RefiningShapelessRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val inputs: List<Pair<Ingredient, Int>>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
 
         override fun serialize(json: JsonObject) {
 

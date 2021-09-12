@@ -20,7 +20,8 @@ class CommitData(val source: Path, val to: Path, val excluder: (path: String) ->
         val input = Scanner(System.`in`)
         var answer: Char?
         do {
-            println(prompt)
+            println("\u001B[35m$prompt\u001B[0m")
+            print("> ")
             answer = input.next().trim().toLowerCase().firstOrNull()
         } while (decision(answer))
         return answer

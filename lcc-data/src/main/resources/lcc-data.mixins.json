@@ -3,7 +3,8 @@
   "package": "com.joshmanisdabomb.lcc.mixin.data.common",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "PropertyConditionMixin"
+    "PropertyConditionMixin",
+    "IngredientMixin"
   ],
   "injectors": {
     "defaultRequire": 1

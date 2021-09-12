@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import java.util.function.Consumer
 import kotlin.properties.Delegates
 
 class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
@@ -106,21 +105,21 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
 
     fun energyPerOperation(energy: Float) = energyPerTick(energy.div(ticks))
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>): RefiningShapedRecipeJsonFactory {
-        this.offerTo(exporter, Registry.ITEM.getId(outputs.first().item))
+    override fun offerTo(exporter: (RecipeJsonProvider) -> Unit): RefiningShapedRecipeJsonFactory {
+        this.offerAs(exporter, Registry.ITEM.getId(outputs.first().item))
         return this
     }
 
-    fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeIdStr: String): RefiningShapedRecipeJsonFactory {
+    fun offerTo(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapedRecipeJsonFactory {
         val identifier = Registry.ITEM.getId(outputs.first().item)
         check(Identifier(recipeIdStr) != identifier) { "Shaped Recipe $recipeIdStr should remove its 'save' argument" }
-        this.offerTo(exporter, Identifier(recipeIdStr))
+        this.offerAs(exporter, Identifier(recipeIdStr))
         return this
     }
 
-    override fun offerTo(exporter: Consumer<RecipeJsonProvider>, recipeId: Identifier): RefiningShapedRecipeJsonFactory {
+    override fun offerAs(exporter: (RecipeJsonProvider) -> Unit, recipeId: Identifier): RefiningShapedRecipeJsonFactory {
         builder.parent(Identifier("recipes/root")).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR)
-        exporter.accept(RefiningShapedRecipeJsonProvider(recipeId, group ?: "", pattern, inputs, builder, Identifier(recipeId.namespace, "recipes/" + outputs.first().item.group?.name + "/" + recipeId.path), outputs, outputFunctions, inputCounts, blocks, lang, icon, state, energy, ticks, gain, maxGain))
+        exporter(RefiningShapedRecipeJsonProvider(recipeId, group ?: "", pattern, inputs, builder, Identifier(recipeId.namespace, "recipes/" + outputs.first().item.group?.name + "/" + recipeId.path), outputs, outputFunctions, inputCounts, blocks, lang, icon, state, energy, ticks, gain, maxGain))
         return this
     }
 

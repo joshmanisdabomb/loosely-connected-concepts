@@ -5,6 +5,7 @@ import com.google.gson.JsonParser
 import com.joshmanisdabomb.lcc.data.generators.advancement.AdvancementData
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.data.generators.sound.SoundData
+import com.joshmanisdabomb.lcc.data.json.recipe.RecipeStore
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
@@ -38,6 +39,8 @@ abstract class DataLauncher(override val modid: String, protected val path: Path
     override val parser = JsonParser()
     override val gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
     override val logger = LogManager.getLogger()
+
+    override val recipeStore = RecipeStore()
 
     private val installs = mutableMapOf<DataProvider, Int>()
     private val nextPriority get() = installs.values.maxOrNull()?.plus(1) ?: 0

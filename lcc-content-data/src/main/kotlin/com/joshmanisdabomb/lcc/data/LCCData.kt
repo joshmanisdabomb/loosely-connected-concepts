@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data
 
+import com.google.gson.JsonParser
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.LCCLangData
@@ -8,20 +9,33 @@ import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
 import com.joshmanisdabomb.lcc.data.generators.kb.export.DatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
+import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.identifier
+import net.minecraft.client.MinecraftClient
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.jetbrains.exposed.sql.Database
+import java.io.File
 import java.nio.file.Paths
-import java.util.*
+import kotlin.system.exitProcess
 
 object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/resources"), listOf("en_us", "en_gb")) {
 
     private val exporters = mutableListOf<KnowledgeExporter>()
+
+    val commit: Char? = System.getProperty("com.joshmanisdabomb.lcc.data.Commit")?.firstOrNull()
+    val dbExports: List<Pair<String, String?>>? = System.getProperty("com.joshmanisdabomb.lcc.data.DbExports")?.let {
+        val array = JsonParser().parse(it).asJsonArray
+        array.map {
+            val obj = it.asJsonObject
+            obj.get("url").asString to obj.get("password")?.asString
+        }
+    }
+    val imageExport: String? = System.getProperty("com.joshmanisdabomb.lcc.data.ImageExport")
 
     override fun beforeRun() {
         println("Initialising content mod.")
@@ -55,25 +69,47 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         recipeStore.addTagHandlerFilter(ItemTags.MUSIC_DISCS) { it.asItem().identifier.path.startsWith("music_disc_") }
         recipeStore.addTagHandlerFilter(LCCTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
 
-        println("Setting knowledge ready for exporting.")
+        println("Setting up knowledge and exporters.")
+        recipeStore.init()
         LCCKnowledgeData.init()
+        setupExports()
+        exporters.forEach { install(it, 2500) }
 
-        do {
-            println("\u001B[35m${exporters.count()} database exports currently installed, enter connection URL or leave blank to finish:\u001B[0m")
-            print("> ")
-            val url = Scanner(System.`in`).nextLine().trim()
-            if (url.isBlank()) break
+        install(CommitData(path, Paths.get("../lcc-content/src/main/resources"), commit) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
+    }
 
-            println("\u001B[35mEnter password for user 'lcc':\u001B[0m")
-            print("> ")
-            val password = Scanner(System.`in`).next().trim()
+    override fun afterRun() = Unit
 
-            val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
-            exporters.add(exporter)
-            install(exporter, 2500)
-        } while (true)
+    override fun onMinecraftLoad(client: MinecraftClient) {
+        val path = imageExport ?: readString("Enter path to save image export, leave blank to not run:") { false }
+        if (path.isBlank()) exitProcess(0)
 
-        install(CommitData(path, Paths.get("../lcc-content/src/main/resources")) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
+        val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
+        client.openScreen(ImageExport(items, File(path), false))
+    }
+
+    private fun setupExports() {
+        if (dbExports == null) {
+            do {
+                var loop = true
+                readString("${exporters.count()} database exports currently installed, enter connection URL or leave blank to finish:") { url ->
+                    if (url.isBlank()) loop = false
+                    else readString("Enter password for user 'lcc' on url '$url':") {
+                        val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = it), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
+                        exporters.add(exporter)
+                        false
+                    }
+                    false
+                }
+            } while (loop)
+        } else {
+            println("Setting database exports from passed property array.")
+            dbExports.forEach {
+                val password = it.second ?: readString("Enter password for user 'lcc' on url '${it.first}':") { false }
+                val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://${it.first}/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
+                exporters.add(exporter)
+            }
+        }
     }
 
 }

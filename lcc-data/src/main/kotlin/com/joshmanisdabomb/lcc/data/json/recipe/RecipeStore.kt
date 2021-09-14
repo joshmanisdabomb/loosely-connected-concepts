@@ -5,6 +5,7 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.Recipe
 import net.minecraft.tag.Tag
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -12,48 +13,60 @@ import net.minecraft.util.registry.Registry
 class RecipeStore {
 
     private val map = mutableMapOf<Identifier, RecipeJsonProvider>()
-    private val serialised by lazy {
-        map.mapValues { (k, v) -> v.serializer.read(k, v.toJson()) }
-    }
+    private lateinit var objects: Map<Identifier, Recipe<*>>
+
+    private lateinit var make: Map<Item, List<RecipeJsonProvider>>
+    private lateinit var using: Map<Item, List<RecipeJsonProvider>>
+    private lateinit var makeReverse: Map<Identifier, List<Item>>
+    private lateinit var usingReverse: Map<Identifier, List<Item>>
 
     private val tagHandlers = mutableMapOf<Identifier, Iterable<ItemConvertible>>()
 
-    private val make by lazy {
-        val m = mutableMapOf<Item, MutableList<RecipeJsonProvider>>()
+    fun init() {
+        objects = map.mapValues { (k, v) -> v.serializer.read(k, v.toJson()) }
+
+        val make = mutableMapOf<Item, MutableList<RecipeJsonProvider>>()
+        val makeReverse = mutableMapOf<Identifier, List<Item>>()
         map.forEach { (k, v) ->
-            val recipe = serialised[k]!!
-            if (!recipe.output.isEmpty) m.computeIfAbsent(recipe.output.item) { mutableListOf() }.add(v)
-        }
-        m
-    }
-    private val _using by lazy {
-        val m = mutableMapOf<Ingredient, RecipeJsonProvider>()
-        map.forEach { (k, v) ->
-            val recipe = serialised[k]!!
-            recipe.ingredients.forEach {
-                if (!it.isEmpty) m[it] = v
+            val recipe = objects[k]!!
+            if (!recipe.output.isEmpty) {
+                make.computeIfAbsent(recipe.output.item) { mutableListOf() }.add(v)
+                makeReverse.put(k, listOf(recipe.output.item))
             }
         }
-        m
-    }
-    private val using by lazy {
-        val map = mutableMapOf<Item, MutableList<RecipeJsonProvider>>()
+        this.make = make
+        this.makeReverse = makeReverse
+
+        val _using = mutableMapOf<Ingredient, RecipeJsonProvider>()
+        map.forEach { (k, v) ->
+            val recipe = objects[k]!!
+            recipe.ingredients.forEach {
+                if (!it.isEmpty) _using[it] = v
+            }
+        }
+
+        val using = mutableMapOf<Item, MutableList<RecipeJsonProvider>>()
+        val usingReverse = mutableMapOf<Identifier, MutableList<Item>>()
         _using.forEach { (k, v) ->
             val json = k.toJson()
             val jsonArray = if (!json.isJsonArray) JsonArray().apply { add(json) } else json.asJsonArray
             jsonArray.forEach {
                 val entry = it.asJsonObject
                 if (entry.has("item")) {
-                    map.computeIfAbsent(Registry.ITEM.get(Identifier(entry.get("item").asString))) { mutableListOf() }.add(v)
+                    val item = Registry.ITEM.get(Identifier(entry.get("item").asString))
+                    using.computeIfAbsent(item) { mutableListOf() }.add(v)
+                    usingReverse.computeIfAbsent(v.recipeId) { mutableListOf() }.add(item)
                 } else if (entry.has("tag")) {
                     val items = tagHandlers.get(Identifier(entry.get("tag").asString)) ?: error("Items cannot be derived from tags before world load, please map items to tag \"${Identifier(entry.get("tag").asString)}\" in RecipeStore.")
                     items.forEach {
-                        map.computeIfAbsent(it.asItem()) { mutableListOf() }.add(v)
+                        using.computeIfAbsent(it.asItem()) { mutableListOf() }.add(v)
+                        usingReverse.computeIfAbsent(v.recipeId) { mutableListOf() }.add(it.asItem())
                     }
                 }
             }
         }
-        map
+        this.using = using
+        this.usingReverse = usingReverse
     }
 
     operator fun get(id: Identifier) = map[id]
@@ -62,6 +75,13 @@ class RecipeStore {
     fun findRecipes(item: ItemConvertible) = make[item.asItem()] ?: emptyList()
 
     fun findUsages(item: ItemConvertible) = using[item.asItem()] ?: emptyList()
+
+    fun getRecipe(id: Identifier) = objects[id]
+    fun getRecipeOrThrow(id: Identifier) = objects[id] ?: error("No recipe object found under $id")
+
+    fun getIngredientsOf(id: Identifier) = usingReverse[id] ?: emptyList()
+    fun getOutputsOf(id: Identifier) = makeReverse[id] ?: emptyList()
+    fun getItemsOf(id: Identifier) = getIngredientsOf(id) + getOutputsOf(id)
 
     fun add(provider: RecipeJsonProvider) {
         map[provider.recipeId] = provider

@@ -1,30 +1,20 @@
 package com.joshmanisdabomb.lcc.data.generators.commit
 
+import com.joshmanisdabomb.lcc.data.DataLauncher
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
 import java.io.File
 import java.nio.file.Path
-import java.util.*
 
-class CommitData(val source: Path, val to: Path, val excluder: (path: String) -> Boolean) : DataProvider {
+class CommitData(val source: Path, val to: Path, val default: Char? = null, val excluder: (path: String) -> Boolean) : DataProvider {
 
     private val gen by lazy { source.toFile() }
     private val store by lazy { to.toFile() }
 
     override fun run(cache: DataCache) {
         cache.write()
-        read("Commit new data to project at $to?", ::clean)
-    }
-
-    private fun read(prompt: String, decision: (choice: Char?) -> Boolean = { true }): Char? {
-        val input = Scanner(System.`in`)
-        var answer: Char?
-        do {
-            println("\u001B[35m$prompt\u001B[0m")
-            print("> ")
-            answer = input.next().trim().toLowerCase().firstOrNull()
-        } while (decision(answer))
-        return answer
+        if (default == null) DataLauncher.readChar("Commit new data to project at $to? (y = Copy without deleting, n = No, c = Copy with deleting)", ::clean)
+        else clean(default)
     }
 
     private fun clean(answer: Char?) = when (answer) {
@@ -33,7 +23,7 @@ class CommitData(val source: Path, val to: Path, val excluder: (path: String) ->
                 println("Commit successful.")
                 if (answer == 'c') {
                     val unknowns = store.walkTopDown().map { it.relativeTo(store).path }.minus(gen.walkTopDown().map { it.relativeTo(gen).path }).filter { excluder(it) }
-                    unknowns.forEach { read("Delete $it?") { answer -> remove(store.resolve(it), answer) } }
+                    unknowns.forEach { DataLauncher.readChar("Delete $it? (y,n)") { answer -> remove(store.resolve(it), answer) } }
                 }
             } else {
                 println("Commit failed. Generated assets can be found in $source")

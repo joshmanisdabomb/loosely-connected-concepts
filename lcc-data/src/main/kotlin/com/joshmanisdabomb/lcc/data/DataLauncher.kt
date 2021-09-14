@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.data.generators.advancement.AdvancementData
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.data.generators.sound.SoundData
 import com.joshmanisdabomb.lcc.data.json.recipe.RecipeStore
+import joptsimple.OptionParser
 import me.shedaniel.cloth.api.datagen.v1.DataGeneratorHandler
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
@@ -15,6 +16,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.data.DataProvider
 import org.apache.logging.log4j.LogManager
 import java.nio.file.Path
+import java.util.*
 import kotlin.system.exitProcess
 
 abstract class DataLauncher(override val modid: String, protected val path: Path, val locales: List<String>) : PreLaunchEntrypoint, DataAccessor {
@@ -45,6 +47,8 @@ abstract class DataLauncher(override val modid: String, protected val path: Path
     private val installs = mutableMapOf<DataProvider, Int>()
     private val nextPriority get() = installs.values.maxOrNull()?.plus(1) ?: 0
 
+    val optionParser = OptionParser()
+
     init {
         SharedConstants.createGameVersion()
         Bootstrap.initialize()
@@ -70,6 +74,30 @@ abstract class DataLauncher(override val modid: String, protected val path: Path
 
     fun install(gen: DataProvider, priority: Int = nextPriority) {
         installs[gen] = priority
+    }
+
+    companion object {
+        fun readString(prompt: String, decision: (choice: String) -> Boolean = { true }): String {
+            val input = Scanner(System.`in`)
+            var answer: String
+            do {
+                println("\u001B[35m$prompt\u001B[0m")
+                print("> ")
+                answer = input.nextLine().trim()
+            } while (decision(answer))
+            return answer
+        }
+
+        fun readChar(prompt: String, decision: (choice: Char?) -> Boolean = { true }): Char? {
+            val input = Scanner(System.`in`)
+            var answer: Char?
+            do {
+                println("\u001B[35m$prompt\u001B[0m")
+                print("> ")
+                answer = input.nextLine().trim().toLowerCase().firstOrNull()
+            } while (decision(answer))
+            return answer
+        }
     }
 
 }

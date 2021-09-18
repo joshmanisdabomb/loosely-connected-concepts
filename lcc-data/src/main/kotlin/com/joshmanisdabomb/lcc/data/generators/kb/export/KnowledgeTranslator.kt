@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.extensions.identifier
 import net.minecraft.client.resource.language.I18n
+import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
@@ -27,21 +28,22 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
 
     open fun getTranslation(key: String, locale: String = defaultLocale) = getTranslations(key).toList().firstOrNull { (k, _) -> k == locale }?.second ?: error("No translation could be found for key $key.")
 
+    fun withTranslationJson(translations: Map<String, String>, json: JsonObject = JsonObject()): JsonObject {
+        for ((k, v) in translations) json.addProperty(k, v)
+        return json
+    }
+
+    fun withTranslationJson(key: String, json: JsonObject = JsonObject()) = withTranslationJson(getTranslations(key), json)
+
     open fun textSerialize(text: Text): JsonObject {
         val json = Text.Serializer.toJsonTree(text).asJsonObject
         json.remove("with")
         when (text) {
             is IncludedTranslatableText -> {
-                val locales = JsonObject()
-                val translations = text.translations
-                translations.forEach { (k, v) -> locales.addProperty(k, v) }
-                json.add("translations", locales)
+                json.add("translations", withTranslationJson(text.translations))
             }
             is TranslatableText -> {
-                val locales = JsonObject()
-                val translations = getTranslations(text.key)
-                translations.forEach { (k, v) -> locales.addProperty(k, v) }
-                json.add("translations", locales)
+                json.add("translations", withTranslationJson(text.key))
             }
         }
         return json
@@ -53,19 +55,16 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
         else -> text.asString()
     }
 
-    fun itemTranslationsJson(vararg items: Item) : JsonObject {
+    open fun itemTranslationsJson(vararg items: Item) : JsonObject {
         val tjson = JsonObject()
         items.forEach {
-            val tijson = JsonObject()
-            val translations = this.getTranslations(it.translationKey)
-            for ((k, v) in translations) tijson.addProperty(k, v)
-            tjson.add(it.identifier.toString(), tijson)
+            tjson.add(it.identifier.toString(), withTranslationJson(it.translationKey))
         }
         return tjson
     }
 
-    fun stackTranslationsJson(vararg stacks: ItemStack) : JsonObject {
-        return itemTranslationsJson(*stacks.map { it.item }.distinct().toTypedArray())
-    }
+    open fun stackTranslationsJson(vararg stacks: ItemStack) = itemTranslationsJson(*stacks.map { it.item }.distinct().toTypedArray())
+
+    open fun recipeTranslationsJson(recipe: RecipeJsonProvider, vararg items: Item) = itemTranslationsJson(*items)
 
 }

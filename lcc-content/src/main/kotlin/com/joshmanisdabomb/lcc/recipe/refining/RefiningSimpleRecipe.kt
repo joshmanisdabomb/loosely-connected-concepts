@@ -43,6 +43,8 @@ abstract class RefiningSimpleRecipe(protected val _id: Identifier, protected val
 
     override fun generateMaximum(inventory: RefiningInventory) = maximum
 
+    override fun getOutputs() = maximum
+
     override fun craft(inv: RefiningInventory) = output.copy()
 
     sealed class OutputFunction {

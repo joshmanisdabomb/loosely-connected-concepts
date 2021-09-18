@@ -15,6 +15,11 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
         return this
     }
 
+    fun <T> addRows(vararg items: T, callback: Row.(obj: T) -> Unit): KnowledgeArticleTableFragmentBuilder {
+        items.forEach { rows.add(Row(rows.size).apply { callback(it) }) }
+        return this
+    }
+
     override fun onExport(exporter: KnowledgeExporter) {
         for (row in rows) row.onExport(exporter)
     }
@@ -42,6 +47,11 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
             val cell = Cell(cells.size, false)
             for (f in content) cell.addFragment(f)
             cells.add(cell)
+            return this
+        }
+
+        fun <T> addCells(vararg items: T, callback: Cell.(obj: T) -> Unit): Row {
+            items.forEach { cells.add(Cell(cells.size, false).apply { callback(it) }) }
             return this
         }
 

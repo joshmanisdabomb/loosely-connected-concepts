@@ -2,18 +2,26 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
+import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
+import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleRecipeFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleVersionChangelogSectionBuilder
+import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
+import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
+import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
+import net.minecraft.item.DyeItem
+import net.minecraft.item.Item
 import net.minecraft.item.Items
+import net.minecraft.recipe.Ingredient
 import net.minecraft.util.registry.BuiltinRegistries
+import net.minecraft.util.registry.Registry
 
 object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
 
@@ -61,7 +69,8 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("Wasteland Barrens", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens))
                     .insertLink("Wasteland Spikes", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_spikes))
                 )
-                .addFragment(KnowledgeArticleTextFragmentBuilder("Some blocks native to the Wasteland require Wasteland tools to mine, and most mobs native to the Wasteland deal increased damage through non-Wasteland armor and take reduced damage from non-Wasteland equipment. The tool progression starts at %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by %s structures to obtain %s, the current final tier of Wasteland equipment.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Some blocks native to the Wasteland require Wasteland tools to mine, and most mobs native to the Wasteland deal increased damage through non-Wasteland %s and take reduced damage from non-Wasteland equipment. The tool progression starts at %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by %s structures to obtain %s, the current final tier of Wasteland equipment.")
+                    .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
                     .insertLink(LCCBlocks.deadwood.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_log))
                     .insertLink(LCCItems.deadwood_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.deadwood_pickaxe))
                     .insertLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone))
@@ -88,7 +97,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("poisonous", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.poison_spikes))
                     .insertLink(LCCBlocks.improvised_explosive.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.improvised_explosive))
                 )
-                .addFragment(KnowledgeArticleTextFragmentBuilder("Oil refining has also been modified in this version. Oil, which now spawns more commonly in the wasteland as geysers or in pockets buried under %s, now refines into three products: %s, %s and %s. Fuel can be converted to energy using a %s, or refined further into %s which can be placed to cause chain reactions of explosions, create improvised explosives (landmines) or to %s. Refined oil can be further refined into %s or %s, both of which can have its color customised with dyes and do not despawn when dropped. Flexible plastic can be crafted into %s, which hold 2 stacks of items. Tar balls are used to create %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Oil refining has also been modified in this version. Oil, which now spawns more commonly in the wasteland as geysers or in pockets buried under %s, now refines into three products: %s, %s and %s. Fuel can be converted to energy using a %s, or refined further into %s which can be placed to cause chain reactions of explosions, create improvised explosives (landmines) or to %s. Refined oil can be further refined into %s or %s, both of which can have its %s customised with dyes and do not despawn when dropped. Flexible plastic can be crafted into %s, which hold 2 stacks of items. Tar balls are used to create %s.")
                     .insertLink("cracked mud", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud))
                     .insertLink("Fuel Buckets", KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket))
                     .insertLink("Refined Oil Buckets", KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket))
@@ -98,6 +107,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("construct a game of Minesweeper", KnowledgeArticleIdentifier.of(LCCRegistries.altar_challenges, LCCAltarChallenges.minesweeper))
                     .insertLink(LCCItems.rigid_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic))
                     .insertLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic))
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
                     .insertLink("plastic bags", KnowledgeArticleIdentifier.ofItem(LCCItems.plastic_bag))
                     .insertLink("roads", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.road))
                 )
@@ -164,11 +174,25 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.findRecipes(LCCBlocks.explosive_paste) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.findUsages(LCCBlocks.explosive_paste) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
             )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_rigid_plastic by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.rigid_plastic)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s as a crafting material for plastic items. It currently has no uses, but is planned to be a key crafting ingredient for computers in the future. It can be obtained through the refinement of %s, similarly to %s.")
+                    .insert(LCCItems.rigid_plastic.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page)
+                    .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket))
+                    .insertLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic))
+                )
+            )
+            .apply { generatePlasticArticle(this, LCCItems.rigid_plastic, Items.QUARTZ) }
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
 
@@ -181,5 +205,67 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     override fun defaultProperties(name: String) = Unit
+
+    //Article Generators (Shared Code)
+
+    private fun generatePlasticArticle(article: KnowledgeArticleBuilder, topic: Item, plasticiser: Item) {
+        article
+            .addSection(KnowledgeArticleSectionBuilder("Despawning")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s, like all plastic-based items, do not despawn after 5 minutes when dropped in the world.")
+                    .insert(topic.name)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder({ IncludedTranslatableText(it).translation("Coloring", "en_us").translation("Colouring", "en_gb") })
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s and %s can be crafted into different %s by adding dyes to their refining recipe. Similar to dyeing leather %s, multiple dyes can be applied and the resulting %s will be a mix (average) of the provided dyes. However, dyes apply a much more vibrant and saturated %s to plastic. You can view %s codes in the table below:")
+                    .insert(LCCItems.flexible_plastic.name)
+                    .insert(LCCItems.rigid_plastic.name)
+                    .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                )
+                .addFragment(KnowledgeArticleTableFragmentBuilder()
+                    .addRow {
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Item"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder { IncludedTranslatableText(it).translation("Color Code", "en_us").translation("Colour Code", "en_gb") })
+                    }
+                    .addRows(*Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray()) {
+                        addCell(KnowledgeArticleStackFragmentBuilder(it.stack()))
+                        addCell(KnowledgeArticleColorFragmentBuilder((it.color as LCCExtendedDyeColor).plasticColor))
+                    }
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder.fromOffers { e, g ->
+                    g(
+                        OverrideRecipeJsonProvider.fromFactory(LCCRecipeSerializers.polymerization, RefiningShapelessRecipeJsonFactory()
+                            .addInput(LCCItems.refined_oil_bucket)
+                            .addInput(plasticiser)
+                            .addInput(Ingredient.ofItems(*Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray()))
+                            .addOutput(topic, 3)
+                            .with(*PolymerRefiningRecipe.blocks)
+                            .meta(PolymerRefiningRecipe.lang, PolymerRefiningRecipe.icon, PolymerRefiningRecipe.state)
+                            .speed(PolymerRefiningRecipe.speed, PolymerRefiningRecipe.speedGainPerTick, PolymerRefiningRecipe.maxSpeedGainPerTick)
+                            .energyPerTick(PolymerRefiningRecipe.energyPerTick)
+                            , RefiningShapelessRecipeJsonFactory::offerTo) {
+                            val ingredients = it.get("ingredients").asJsonArray
+                            val dyeStack = ingredients[2].asJsonArray
+                            dyeStack.forEachIndexed { k, v ->
+                                val stack = v.asJsonObject
+                                stack.addProperty("vararg", true)
+                                dyeStack.set(k, v)
+                            }
+                            ingredients.set(2, dyeStack)
+                            it.add("ingredients", ingredients)
+                            it.add("translations", e.translator.itemTranslationsJson(LCCItems.refined_oil_bucket, plasticiser, *Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray(), topic))
+                        }
+                    )
+                })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(topic) })
+            )
+    }
 
 }

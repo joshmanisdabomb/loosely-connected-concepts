@@ -7,7 +7,7 @@ class IncludedTranslatableText(key: String, vararg args: Any) : TranslatableText
     
     val translations = mutableMapOf<String, String>()
 
-    fun translation(content: String, locale: String = "en_us") : TranslatableText {
+    fun translation(content: String, locale: String = "en_us") : IncludedTranslatableText {
         translations[locale] = content
         return this
     }

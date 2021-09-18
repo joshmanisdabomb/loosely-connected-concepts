@@ -12,6 +12,7 @@ import net.minecraft.advancement.AdvancementRewards
 import net.minecraft.advancement.CriterionMerger
 import net.minecraft.advancement.criterion.CriterionConditions
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion
+import net.minecraft.block.Block
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
@@ -28,7 +29,7 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
     private val builder = Advancement.Task.create()
     private var group: String? = null
 
-    private val blocks = mutableListOf<RefiningBlock>()
+    private val blocks = mutableListOf<Block>()
     private lateinit var lang: String
     private var icon by Delegates.notNull<Int>()
     private lateinit var state: RefiningBlock.RefiningProcess
@@ -60,7 +61,7 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    fun with(vararg blocks: RefiningBlock): RefiningShapelessRecipeJsonFactory {
+    fun with(vararg blocks: Block): RefiningShapelessRecipeJsonFactory {
         this.blocks.addAll(blocks)
         return this
     }
@@ -91,7 +92,7 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    fun offerTo(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapelessRecipeJsonFactory {
+    fun offerAsString(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapelessRecipeJsonFactory {
         val identifier = Registry.ITEM.getId(outputs.first().item)
         check(Identifier(recipeIdStr) != identifier) { "Shapeless Recipe $recipeIdStr should remove its 'save' argument" }
         this.offerAs(exporter, Identifier(recipeIdStr))
@@ -104,7 +105,7 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    class RefiningShapelessRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val inputs: List<Pair<Ingredient, Int>>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
+    class RefiningShapelessRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val inputs: List<Pair<Ingredient, Int>>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val blocks: MutableList<Block>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
 
         override fun serialize(json: JsonObject) {
 
@@ -113,7 +114,18 @@ class RefiningShapelessRecipeJsonFactory : JsonFactoryAccess {
             if (group.isNotEmpty()) json.addProperty("group", group)
 
             val jsonIngredients = JsonArray()
-            inputs.forEach { jsonIngredients.add(it.first.toJson().asJsonObject.apply { addProperty("count", it.second) }) }
+            inputs.forEach {
+                val ing = it.first.toJson()
+                if (ing.isJsonObject) {
+                    jsonIngredients.add(ing.asJsonObject.apply { addProperty("count", it.second) })
+                } else {
+                    val ingArr = ing.asJsonArray
+                    ingArr.forEachIndexed { k, v ->
+                        ingArr.set(k, v.asJsonObject.apply { addProperty("count", it.second) })
+                    }
+                    jsonIngredients.add(ingArr)
+                }
+            }
             json.add("ingredients", jsonIngredients)
 
             val jsonOutputs = JsonArray()

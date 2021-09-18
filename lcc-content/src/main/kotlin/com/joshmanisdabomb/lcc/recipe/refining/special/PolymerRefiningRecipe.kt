@@ -23,16 +23,16 @@ class PolymerRefiningRecipe(_id: Identifier) : RefiningSpecialRecipe(_id) {
 
     private val rand = Random()
 
-    override val blocks = arrayOf<Block>(LCCBlocks.refiner, LCCBlocks.composite_processor)
-    override val lang = "container.lcc.refining.recipe.polymerization"
-    override val icon = 9
-    override val state = RefiningBlock.RefiningProcess.TREATING
+    override val blocks = Companion.blocks
+    override val lang = Companion.lang
+    override val icon = Companion.icon
+    override val state = Companion.state
 
-    override fun getEnergyPerTick() = LooseEnergy.fromCoals(6f).div(getSpeed())
+    override fun getEnergyPerTick() = energyPerTick
 
-    override fun getSpeed() = 500
-    override fun getSpeedGainPerTick() = 0.012f
-    override fun getMaxSpeedGainPerTick() = 400f
+    override fun getSpeed() = speed
+    override fun getSpeedGainPerTick() = speedGainPerTick
+    override fun getMaxSpeedGainPerTick() = maxSpeedGainPerTick
 
     override fun generate(consumed: List<ItemStack>, inventory: RefiningInventory, random: Random) = listOf(generatePlastic(consumed.any { it.isOf(Items.BONE_MEAL) }, *consumed.mapNotNull { (it.item as? DyeItem)?.color as? LCCExtendedDyeColor }.toTypedArray()))
 
@@ -97,5 +97,18 @@ class PolymerRefiningRecipe(_id: Identifier) : RefiningSpecialRecipe(_id) {
     override fun fits(width: Int, height: Int) = width * height > 2
 
     override fun getSerializer() = LCCRecipeSerializers.polymerization
+
+    companion object {
+
+        val blocks = arrayOf<Block>(LCCBlocks.refiner, LCCBlocks.composite_processor)
+        val lang = "container.lcc.refining.recipe.polymerization"
+        val icon = 9
+        val state = RefiningBlock.RefiningProcess.TREATING
+        val energyPerTick get() = LooseEnergy.fromCoals(6f).div(speed)
+        val speed = 500
+        val speedGainPerTick = 0.012f
+        val maxSpeedGainPerTick = 400f
+
+    }
 
 }

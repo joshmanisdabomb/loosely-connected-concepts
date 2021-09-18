@@ -110,7 +110,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    fun offerTo(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapedRecipeJsonFactory {
+    fun offerAsString(exporter: (RecipeJsonProvider) -> Unit, recipeIdStr: String): RefiningShapedRecipeJsonFactory {
         val identifier = Registry.ITEM.getId(outputs.first().item)
         check(Identifier(recipeIdStr) != identifier) { "Shaped Recipe $recipeIdStr should remove its 'save' argument" }
         this.offerAs(exporter, Identifier(recipeIdStr))
@@ -136,7 +136,18 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
             json.add("pattern", jsonPattern)
 
             val jsonKey = JsonObject()
-            inputs.entries.forEach { (k, v) -> jsonKey.add(k.toString(), v.toJson().asJsonObject.apply { addProperty("count", inputCounts[k]) }) }
+            inputs.entries.forEach { (k, v) ->
+                val ing = v.toJson()
+                if (ing.isJsonObject) {
+                    jsonKey.add(k.toString(), ing.asJsonObject.apply { addProperty("count", inputCounts[k]) })
+                } else {
+                    val ingArr = ing.asJsonArray
+                    ingArr.forEachIndexed { k2, v2 ->
+                        ingArr.set(k2, v2.asJsonObject.apply { addProperty("count", inputCounts[k]) })
+                    }
+                    jsonKey.add(k.toString(), ingArr)
+                }
+            }
             json.add("key", jsonKey)
 
             val jsonOutputs = JsonArray()

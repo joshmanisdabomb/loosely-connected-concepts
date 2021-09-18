@@ -1,10 +1,10 @@
 package com.joshmanisdabomb.lcc.data.factory.recipe
 
-import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.BlockDataFactory
 import com.joshmanisdabomb.lcc.data.factory.ItemDataFactory
 import com.joshmanisdabomb.lcc.data.json.recipe.JsonFactoryAccess
+import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
 import net.minecraft.advancement.criterion.CriterionConditions
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Block
@@ -61,20 +61,6 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
     fun assetPath(item: Item) = registry(item).path
 
     fun registry(item: Item) = Registry.ITEM.getId(item)
-
-    class OverrideRecipeJsonProvider(val newSerializer: RecipeSerializer<*>, val provider: RecipeJsonProvider) : RecipeJsonProvider {
-
-        override fun serialize(json: JsonObject) = provider.serialize(json)
-
-        override fun getRecipeId() = provider.recipeId
-
-        override fun getSerializer() = newSerializer
-
-        override fun toAdvancementJson() = provider.toAdvancementJson()
-
-        override fun getAdvancementId() = provider.advancementId
-
-    }
 
     private companion object {
         private fun accept(provider: RecipeJsonProvider, data: DataAccessor) {

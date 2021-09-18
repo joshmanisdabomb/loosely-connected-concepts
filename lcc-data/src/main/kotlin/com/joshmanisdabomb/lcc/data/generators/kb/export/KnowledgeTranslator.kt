@@ -3,7 +3,10 @@ package com.joshmanisdabomb.lcc.data.generators.kb.export
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
+import com.joshmanisdabomb.lcc.extensions.identifier
 import net.minecraft.client.resource.language.I18n
+import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
@@ -48,6 +51,21 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
         is IncludedTranslatableText -> String.format(text.translations[locale] ?: getTranslation(text.key, locale), *text.args)
         is TranslatableText -> String.format(getTranslation(text.key, locale), *text.args)
         else -> text.asString()
+    }
+
+    fun itemTranslationsJson(vararg items: Item) : JsonObject {
+        val tjson = JsonObject()
+        items.forEach {
+            val tijson = JsonObject()
+            val translations = this.getTranslations(it.translationKey)
+            for ((k, v) in translations) tijson.addProperty(k, v)
+            tjson.add(it.identifier.toString(), tijson)
+        }
+        return tjson
+    }
+
+    fun stackTranslationsJson(vararg stacks: ItemStack) : JsonObject {
+        return itemTranslationsJson(*stacks.map { it.item }.distinct().toTypedArray())
     }
 
 }

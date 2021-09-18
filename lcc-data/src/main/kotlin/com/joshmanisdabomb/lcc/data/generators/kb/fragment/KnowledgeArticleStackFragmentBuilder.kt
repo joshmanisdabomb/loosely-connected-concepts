@@ -23,6 +23,7 @@ class KnowledgeArticleStackFragmentBuilder(vararg stacks: ItemStack) : Knowledge
         json.add("stacks", stacks)
 
         json.add("translations", exporter.translator.stackTranslationsJson(*this.stacks.toTypedArray()))
+        json.add("links", exporter.linker.stackLinksJson(*this.stacks.toTypedArray()))
 
         return json
     }

@@ -14,9 +14,16 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
     constructor(location: KnowledgeArticleIdentifier, name: String, locale: String = "en_us") : this(location, { IncludedTranslatableText(it).translation(name, locale) })
     constructor(location: KnowledgeArticleIdentifier, name: Text) : this(location, { name })
 
-    constructor(block: Block, name: Text = block.name) : this(KnowledgeArticleIdentifier.ofBlock(block), { name })
-    constructor(item: Item, name: Text = item.name) : this(KnowledgeArticleIdentifier.ofItem(item), { name })
-    constructor(entity: EntityType<*>, name: Text = entity.name) : this(KnowledgeArticleIdentifier.ofEntity(entity), { name })
+    constructor(block: Block, name: Text = block.name) : this(KnowledgeArticleIdentifier.ofBlock(block), { name }) {
+        about(block, block.asItem())
+        redirectsHere(KnowledgeArticleIdentifier.ofItem(block.asItem()))
+    }
+    constructor(item: Item, name: Text = item.name) : this(KnowledgeArticleIdentifier.ofItem(item), { name }) {
+        about(item)
+    }
+    constructor(entity: EntityType<*>, name: Text = entity.name) : this(KnowledgeArticleIdentifier.ofEntity(entity), { name }) {
+        about(entity)
+    }
 
     val defaultTranslationKey get() = "knowledge.lcc.${location.registry}.${location.key}"
 
@@ -26,9 +33,24 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
     private val list = mutableListOf<KnowledgeArticleSectionBuilder>()
     val sections by lazy { list.toList() }
 
+    private val _about = mutableListOf<Any>()
+    val about by lazy { _about.toList() }
+    private val _redirects = mutableListOf<KnowledgeArticleIdentifier>()
+    val redirects by lazy { _redirects.toList() }
+
     fun getSectionId(section: KnowledgeArticleSectionBuilder) = sections.indexOf(section)
 
     fun getTranslationKeyAppend(section: KnowledgeArticleSectionBuilder) = getSectionId(section).toString()
+
+    fun about(vararg objects: Any): KnowledgeArticleBuilder {
+        _about.addAll(objects)
+        return this
+    }
+
+    fun redirectsHere(vararg links: KnowledgeArticleIdentifier): KnowledgeArticleBuilder {
+        _redirects.addAll(links.filter { it != location })
+        return this
+    }
 
     fun addSection(section: KnowledgeArticleSectionBuilder): KnowledgeArticleBuilder {
         list += section

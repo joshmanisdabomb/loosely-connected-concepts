@@ -15,6 +15,7 @@ class KnowledgeArticleRecipeFragmentBuilder(val supplier: (exporter: KnowledgeEx
             val recipe = it.toJson()
             val items = exporter.da.recipeStore.getItemsOf(it.recipeId)
             if (!recipe.has("translations")) recipe.add("translations", exporter.translator.itemTranslationsJson(*items.toTypedArray()))
+            if (!recipe.has("links")) recipe.add("links", exporter.linker.itemLinksJson(*items.toTypedArray()))
             recipes.add(recipe)
         }
 
@@ -26,8 +27,8 @@ class KnowledgeArticleRecipeFragmentBuilder(val supplier: (exporter: KnowledgeEx
     companion object {
 
         fun fromOffers(getter: (exporter: KnowledgeExporter, (next: RecipeJsonProvider) -> Unit) -> Unit): KnowledgeArticleRecipeFragmentBuilder {
-            val recipes = mutableListOf<RecipeJsonProvider>()
             return KnowledgeArticleRecipeFragmentBuilder {
+                val recipes = mutableListOf<RecipeJsonProvider>()
                 getter(it, recipes::add)
                 recipes
             }

@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.generators.kb.section
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import net.minecraft.text.Text
 
@@ -14,7 +15,7 @@ class KnowledgeArticleVersionChangelogSectionBuilder(val version: LCCVersion, na
         if (changelog.isNotEmpty()) {
             changelog.forEach { (article, fragment) ->
                 f.addRow {
-                    addCell(KnowledgeArticleTextFragmentBuilder("%s").insertLink(article.name, article.location))
+                    addCell(KnowledgeArticleTextFragmentBuilder("%s").insertLink(article.name, article.location.link))
                     addCell(fragment)
                 }
             }

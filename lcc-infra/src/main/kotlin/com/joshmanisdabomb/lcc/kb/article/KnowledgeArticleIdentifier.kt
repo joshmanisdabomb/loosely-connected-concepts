@@ -11,7 +11,7 @@ import net.minecraft.world.gen.feature.StructureFeature
 
 class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) : Comparable<KnowledgeArticleIdentifier> {
 
-    override fun toString() = "$registry/$key"
+    override fun toString() = "$registry::$key"
 
     companion object {
 
@@ -30,6 +30,16 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         val comp = registry.compareTo(other.registry)
         if (comp != 0) return comp
         return key.compareTo(other.key)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        val o = other as? KnowledgeArticleIdentifier
+        return if (o != null) registry == o.registry && key == o.key
+        else super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        return registry.hashCode().times(31) + key.hashCode()
     }
 
 }

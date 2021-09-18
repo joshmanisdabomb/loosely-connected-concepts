@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 
-class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>, translator: KnowledgeTranslator) : KnowledgeExporter(da, articles, translator) {
+class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>, translator: KnowledgeTranslator, linker: KnowledgeLinker) : KnowledgeExporter(da, articles, translator, linker) {
 
     override fun run(cache: DataCache) {
         transaction(db) {

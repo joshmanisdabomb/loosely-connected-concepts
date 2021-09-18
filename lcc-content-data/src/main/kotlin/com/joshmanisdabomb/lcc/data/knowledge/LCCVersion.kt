@@ -472,6 +472,8 @@ Content datagen now launching and matches 0.4.4 datagen."""
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_sapphire_altar] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_explosive_paste] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rigid_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_flexible_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

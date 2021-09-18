@@ -8,7 +8,9 @@ import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
 import com.joshmanisdabomb.lcc.data.generators.kb.export.DatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeLinker
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
+import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCTags
@@ -89,13 +91,15 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
     }
 
     private fun setupExports() {
+        val translator = KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource()
+        val linker = KnowledgeLinker().addSelfProvider(modid).addProvider { a -> if (a.registry.namespace == "minecraft" && a.key.namespace == "minecraft") KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/${a.key.path}" } else null }
         if (dbExports == null) {
             do {
                 var loop = true
                 readString("${exporters.count()} database exports currently installed, enter connection URL or leave blank to finish:") { url ->
                     if (url.isBlank()) loop = false
                     else readString("Enter password for user 'lcc' on url '$url':") {
-                        val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = it), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
+                        val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://$url/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = it), this, LCCKnowledgeData.all.values, translator, linker)
                         exporters.add(exporter)
                         false
                     }
@@ -106,7 +110,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
             println("Setting database exports from passed property array.")
             dbExports.forEach {
                 val password = it.second ?: readString("Enter password for user 'lcc' on url '${it.first}':") { false }
-                val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://${it.first}/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values, KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource())
+                val exporter = DatabaseKnowledgeExporter(Database.connect("jdbc:mysql://${it.first}/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values, translator, linker)
                 exporters.add(exporter)
             }
         }

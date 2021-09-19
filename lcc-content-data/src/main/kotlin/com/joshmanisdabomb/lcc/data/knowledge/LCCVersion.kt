@@ -5,6 +5,9 @@ import com.joshmanisdabomb.lcc.data.directory.LCCKnowledgeData
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.util.Identifier
 import java.time.LocalDateTime
@@ -40,7 +43,10 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
     YAM_4("Update 4", "1.7.2", "u4", LCCVersionGroup.YAM, 300, LocalDateTime.of(2015, 2, 28, 11, 31, 57)) {
         override val description = "Pills almost work, Missile Launch Pads render properly with GUI, Oil Buckets."
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Introduced as Oil Bucket.")
+            return map.toSortedMap()
+        }
     },
     YAM_5("Update 5", "1.7.2", "u5", LCCVersionGroup.YAM, 400, LocalDateTime.of(2015, 3, 1, 20, 32, 8)) {
         override val description = "Adding computer functionality, new parts including motherboard."
@@ -297,12 +303,16 @@ Stun now locks mouse movement.
 Fix to double classic chest and hopper interaction.
 Added loot table, lang, block state, item model, tag, advancement data generator."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Reintroduced.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_1_0("0.1.0", "20w51a", "0.1.0", LCCVersionGroup.LCC_FABRIC, 0, LocalDateTime.of(2020, 12, 21, 1, 20, 11)) {
         override val description = """Added iron, crystal and temporary hearts.
 Starting wasteland biome.
 Added test blocks and cracked mud.
+Added oil buckets.
 Test block 5 connected texture.
 Added tools and armour real quick like.
 Implementing roads made from cooled asphalt.
@@ -313,7 +323,10 @@ Gauntlet work.
 To allow running in real environments: No longer use reflection for thing directories.
 Time rift functionality and ruby recipes."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Reintroduced.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_1_1("0.1.1", "20w51a", "0.1.1", LCCVersionGroup.LCC_FABRIC, 10, LocalDateTime.of(2020, 12, 22, 20, 9, 35)) {
         override val description = """Infrastructure for item rendering. Time rift rendering.
@@ -359,7 +372,12 @@ Fixed furnace recipes for smelting items."""
         override val description = """Added refiner, power cables and solar panels.
 Added heavy uranium."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Can be inserted into a %s to generate 6 LE/t\nCan now be refined into %s.")
+                .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
+                .insertLink(LCCItems.asphalt_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_3_1("0.3.1", "20w51a", "0.3.1", LCCVersionGroup.LCC_FABRIC, 210, LocalDateTime.of(2021, 1, 15, 0, 2, 42)) {
         override val description = """Fixed refiner numbers displaying incorrectly on multiplayer servers.
@@ -474,6 +492,12 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.block_explosive_paste] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_rigid_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_flexible_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_plastic_bag] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Name changed to Crude Oil Bucket.\nIs now instead refined into %s, %s and %s; this recipe requires 2 buckets of oil.\nNow only generates 2 LE/t in a %s")
+                .insertLink(LCCItems.fuel_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket).link)
+                .insertLink(LCCItems.refined_oil_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
+                .insertLink(LCCItems.tar_ball.name, KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
+                .insert(LCCBlocks.oil_generator.name)
             return map.toSortedMap()
         }
     };

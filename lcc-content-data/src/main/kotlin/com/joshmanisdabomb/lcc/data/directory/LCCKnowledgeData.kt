@@ -212,6 +212,71 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
 
+    val item_plastic_bag by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.plastic_bag)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s that functions similarly to the vanilla %s, but stores 2 stacks of items instead of only one. It is crafted with %s.")
+                    .insert(LCCItems.plastic_bag.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(Items.BUNDLE.name, KnowledgeArticleIdentifier.ofItem(Items.BUNDLE).link)
+                    .insertLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
+                )
+            )
+            .addSection(generatePlasticDespawningSection(LCCItems.plastic_bag))
+            .addSection(KnowledgeArticleSectionBuilder({ IncludedTranslatableText(it).translation("Coloring", "en_us").translation("Colouring", "en_gb") })
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The %s of the %s used to craft the plastic bag determines its final %s. Multiple %s of plastic can be used and the resulting bag will be a mix (multiplication) of the provided %s.")
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                    .insert(LCCItems.flexible_plastic.name)
+                    .insert({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
+                    .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.plastic_bag) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.plastic_bag) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_oil_bucket by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.oil_bucket)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item originally introduced in %s and reintroduced in %s. This %s contains %s, which can be found in the %s biome in pockets underneath the %s surface, or as geysers.")
+                    .insert(LCCItems.oil_bucket.name)
+                    .insertLink("YAM Update 4", LCCVersion.YAM_4.page.link)
+                    .insertLink("LCC 0.1.0", LCCVersion.LCC_FABRIC_0_1_0.page.link)
+                    .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
+                    .insertLink("oil", KnowledgeArticleIdentifier.ofFluid(LCCFluids.oil_still).link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink("cracked mud", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud).link)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Oil is a key component of this mod, allowing the player to use a %s to craft %s, %s and %s from %s, and %s from %s.")
+                    .insertLink(LCCBlocks.refiner.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.refiner).link)
+                    .insertLink("buckets of fuel", KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket).link)
+                    .insertLink("flexible", KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
+                    .insertLink("rigid plastic", KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
+                    .insertLink("refined oil buckets", KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
+                    .insertLink("asphalt", KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
+                    .insertLink("tar", KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Power")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Buckets of oil can be placed in a %s to yield 2 LE/t. It is much more efficient to first refine crude oil into fuel, which provides 14 LE/t in the generator.")
+                    .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.oil_bucket) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.oil_bucket) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
     private val introduction = "Introduction"
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
@@ -226,13 +291,14 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
 
     //Article Generators (Shared Code)
 
+    private fun generatePlasticDespawningSection(topic: Item) = KnowledgeArticleSectionBuilder("Despawning")
+        .addFragment(KnowledgeArticleTextFragmentBuilder("%s, like all plastic-based items, do not despawn after 5 minutes when dropped in the world.")
+            .insert(topic.name)
+        )
+
     private fun generatePlasticArticle(article: KnowledgeArticleBuilder, topic: Item, plasticiser: Item) {
         article
-            .addSection(KnowledgeArticleSectionBuilder("Despawning")
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s, like all plastic-based items, do not despawn after 5 minutes when dropped in the world.")
-                    .insert(topic.name)
-                )
-            )
+            .addSection(generatePlasticDespawningSection(topic))
             .addSection(KnowledgeArticleSectionBuilder({ IncludedTranslatableText(it).translation("Coloring", "en_us").translation("Colouring", "en_gb") })
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s and %s can be crafted into different %s by adding dyes to their refining recipe. Similar to dyeing leather %s, multiple dyes can be applied and the resulting %s will be a mix (average) of the provided dyes. However, dyes apply a much more vibrant and saturated %s to plastic. You can view %s codes in the table below:")
                     .insert(LCCItems.flexible_plastic.name)

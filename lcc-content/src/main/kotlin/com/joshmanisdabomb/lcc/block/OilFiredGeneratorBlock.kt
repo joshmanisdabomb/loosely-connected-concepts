@@ -11,7 +11,7 @@ import net.minecraft.screen.PropertyDelegate
 class OilFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings) {
 
     override val slots = 6
-    override val maxOutput = 4f
+    override val maxOutput = 14f
 
     override fun getBurnTime(stack: ItemStack): Int? {
         if (stack.isEmpty) return null

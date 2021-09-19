@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.entity.FiredGeneratorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.horizontalPlacement
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -21,9 +21,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -50,6 +48,10 @@ abstract class FiredGeneratorBlock(settings: Settings) : AbstractFiredGeneratorB
     override fun getSteam(world: BlockView, pos: BlockPos, state: BlockState) = (world.getBlockEntity(pos) as? FiredGeneratorBlockEntity)?.steam ?: 0f
 
     override fun getPlacementState(context: ItemPlacementContext) = horizontalPlacement(context)
+
+    override fun rotate(state: BlockState, rot: BlockRotation) = state.with(HORIZONTAL_FACING, rot.rotate(state[HORIZONTAL_FACING]))
+
+    override fun mirror(state: BlockState, mirror: BlockMirror) = state.rotate(mirror.getRotation(state[HORIZONTAL_FACING]))
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = FiredGeneratorBlockEntity(pos, state)
 

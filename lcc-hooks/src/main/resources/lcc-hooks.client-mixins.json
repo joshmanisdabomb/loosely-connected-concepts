@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.hooks.client",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "BackgroundRendererMixin",
+    "WorldRendererAccessor",
+    "ClientPlayerInteractionAccessor",
+    "ImplClientInteractionManager",
+    "ItemRendererMixin",
+    "SignBlockEntityRendererMixin",
+    "SignEditScreenMixin",
+    "BoatEntityRendererMixin",
+    "GameRendererAccessor",
+    "PistonBlockEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,31 +1,64 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.inventory.Inventory
 import net.minecraft.item.*
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.Recipe
+import net.minecraft.recipe.RecipeManager
+import net.minecraft.recipe.RecipeType
 import net.minecraft.sound.SoundEvent
+import net.minecraft.world.World
 import net.minecraft.item.AxeItem as VanillaAxeItem
 import net.minecraft.item.HoeItem as VanillaHoeItem
 import net.minecraft.item.PickaxeItem as VanillaPickaxeItem
+import net.minecraft.item.ShovelItem as VanillaShovelItem
+import net.minecraft.item.SwordItem as VanillaSwordItem
 
-fun SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F): SwordItem = SwordItem(toolMaterial, attackDamage, attackSpeed, settings)
+class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val recipePriority: Int = 0): VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
-class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings)
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
 
-class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F) : VanillaAxeItem(material, attackDamage, attackSpeed, settings)
+}
 
-fun ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F): ShovelItem = ShovelItem(toolMaterial, attackDamage, attackSpeed, settings)
+class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F, val recipePriority: Int = 0) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
 
-class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f) : VanillaHoeItem(material, attackDamage, attackSpeed, settings)
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F, val recipePriority: Int = 0) : VanillaAxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val recipePriority: Int = 0): VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
+
+class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f, val recipePriority: Int = 0) : VanillaHoeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+
+    override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+}
 
 enum class LCCToolMaterials(private val durability: Int, private val miningSpeed: Float, private val attackDamage: Float, private val miningLevel: Int, private val enchantability: Int, ingredientFactory: () -> Ingredient) : ToolMaterial {
 
     RUBY(ToolMaterials.DIAMOND, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
     TOPAZ(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz_shard) }),
     EMERALD(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
-    SAPPHIRE(ToolMaterials.IRON, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
-    AMETHYST(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) });
+    SAPPHIRE(ToolMaterials.DIAMOND, durability = ToolMaterials.IRON.durability.times(2), ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
+    AMETHYST(ToolMaterials.STONE, miningSpeed = ToolMaterials.DIAMOND.miningSpeedMultiplier, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) }),
+
+    DEADWOOD(ToolMaterials.WOOD, enchantability = 8, ingredientFactory = { Ingredient.ofItems(LCCBlocks.deadwood_planks) }),
+    FORTSTONE(ToolMaterials.STONE, enchantability = 1, ingredientFactory = { Ingredient.ofItems(LCCBlocks.cobbled_fortstone) }),
+    RUSTY_IRON(ToolMaterials.IRON, enchantability = 4, durability = ToolMaterials.GOLD.durability, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) });
 
     constructor(base: ToolMaterial, durability: Int = base.durability, miningSpeed: Float = base.miningSpeedMultiplier, attackDamage: Float = base.attackDamage, miningLevel: Int = base.miningLevel, enchantability: Int = base.enchantability, ingredientFactory: () -> Ingredient = base::getRepairIngredient) : this(durability, miningSpeed, attackDamage, miningLevel, enchantability, ingredientFactory)
 
@@ -49,6 +82,9 @@ enum class LCCArmorMaterials(durabilityMultiplier: Float, private val protection
     AMETHYST(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) }),
     CLASSIC_LEATHER(ArmorMaterials.LEATHER, enchantability = 17, ingredientFactory = { Ingredient.ofItems(Items.LEATHER) }),
     CLASSIC_STUDDED_LEATHER(ArmorMaterials.IRON, enchantability = 19, durabilityMultiplier = 20f, toughness = 0.2f, knockbackResistance = 0.1f, equipSound = ArmorMaterials.LEATHER.equipSound, ingredientFactory = { Ingredient.ofItems(Items.IRON_INGOT) }),
+
+    RUSTY_IRON(ArmorMaterials.IRON, durabilityMultiplier = 7f, enchantability = 4, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) }),
+
     HAZMAT(2.2f, intArrayOf(1, 1, 1, 1), 1, 0f, 0f, ArmorMaterials.TURTLE.equipSound, { Ingredient.ofItems(LCCItems.heavy_duty_rubber) });
 
     private val durabilities = intArrayOf(13, 15, 16, 11).map { it.times(durabilityMultiplier).toInt() }

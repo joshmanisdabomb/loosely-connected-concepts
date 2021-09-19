@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_door",
+  "pattern": [
+    "ww",
+    "ww",
+    "ww"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:deadwood_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:deadwood_door",
+    "count": 3
+  }
+}

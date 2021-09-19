@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w",
+    "s"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:stinger"
+    },
+    "s": {
+      "item": "lcc:spikes"
+    }
+  },
+  "result": {
+    "item": "lcc:poison_spikes"
+  }
+}

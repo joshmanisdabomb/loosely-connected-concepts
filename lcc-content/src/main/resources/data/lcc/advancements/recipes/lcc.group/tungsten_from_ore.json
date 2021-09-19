@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_tungsten_ingot": {
+    "has_tungsten_ore": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:tungsten_ingot"
+            "item": "lcc:tungsten_ore"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_tungsten_ingot",
+      "has_tungsten_ore",
       "has_the_recipe"
     ]
   ]

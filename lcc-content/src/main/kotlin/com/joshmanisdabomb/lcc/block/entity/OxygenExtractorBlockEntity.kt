@@ -11,8 +11,8 @@ import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.OxygenExtractorScreenHandler
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity

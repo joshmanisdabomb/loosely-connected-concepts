@@ -1,9 +1,0 @@
-archivesBaseName = "lcc-base"
-
-dependencies {
-
-}
-
-minecraft {
-    accessWidener "src/main/resources/lcc-base.accesswidener"
-}

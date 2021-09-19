@@ -1,5 +1,5 @@
 archivesBaseName = "lcc-creative-ex"
 
 dependencies {
-    compile project(':lcc-base')
+    compile project(':lcc-infra')
 }

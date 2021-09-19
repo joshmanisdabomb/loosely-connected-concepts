@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rrr",
+    " p "
+  ],
+  "key": {
+    "r": {
+      "item": "lcc:heavy_duty_rubber"
+    },
+    "p": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_piston"
+  }
+}

@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
@@ -11,6 +10,7 @@ import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.CogNetwork
 import com.joshmanisdabomb.lcc.subblock.Subblock
 import com.joshmanisdabomb.lcc.subblock.SubblockSystem
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -32,7 +32,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.event.GameEvent
 
-class CogBlock(settings: Settings) : Block(settings), LCCExtendedBlock, SubblockSystem {
+class CogBlock(settings: Settings) : Block(settings), LCCBlockTrait, SubblockSystem {
 
     init {
         defaultState = stateManager.defaultState.run { cog_states.values.setThrough(this) { with(it, CogState.NONE) } }.with(cog_states[Direction.DOWN], CogState.INACTIVE)

@@ -24,6 +24,9 @@ interface LCCExtendedDyeColor : StringIdentifiable, CreativeExSetKey {
 
     override val selectionColor get() = floatArrayOf(lcc_colorComponents[0], lcc_colorComponents[1], lcc_colorComponents[2], 1.0f)
 
+    //Custom Colors
+    val plasticColor: Int
+
     companion object {
         fun getComponents(color: Int): FloatArray {
             val i = color and 16711680 shr 16

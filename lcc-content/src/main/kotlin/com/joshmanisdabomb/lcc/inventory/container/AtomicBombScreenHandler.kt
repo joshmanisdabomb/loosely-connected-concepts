@@ -7,7 +7,7 @@ import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
 import com.joshmanisdabomb.lcc.extensions.insertItemWithInventoryMaxStack
 import com.joshmanisdabomb.lcc.inventory.AtomicBombInventory
-import com.joshmanisdabomb.lcc.inventory.PredicatedSlot
+import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.InventoryChangedListener

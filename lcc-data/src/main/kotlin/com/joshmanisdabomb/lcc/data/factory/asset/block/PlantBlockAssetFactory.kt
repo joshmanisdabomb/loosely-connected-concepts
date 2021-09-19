@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
 open class PlantBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        stateOne(data, entry) { modelCross(data, entry, texture ?: loc(entry)) }
+        stateOne(data, entry, model = models.cross { texture })
     }
 
     companion object : PlantBlockAssetFactory()

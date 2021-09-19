@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.block.AtomicBombBlock
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
@@ -10,6 +9,7 @@ import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.AtomicBombInventory
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
@@ -25,7 +25,6 @@ import net.minecraft.item.AutomaticItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
@@ -43,7 +42,7 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
-class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world), LCCExtendedEntity {
+class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world), LCCEntityTrait {
 
     constructor(world: World, x: Double, y: Double, z: Double, facing: Direction, be: AtomicBombBlockEntity?) : this(LCCEntities.atomic_bomb, world) {
         facing.also { _facing = it; this.facing = it }
@@ -111,10 +110,6 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
     }
 
     override fun createSpawnPacket() = lcc_createSpawnPacket()// { it.writeByte(_facing.horizontal) }
-
-    override fun lcc_readSpawnPacket(data: PacketByteBuf) {
-
-    }
 
     override fun tick() {
         prevX = x

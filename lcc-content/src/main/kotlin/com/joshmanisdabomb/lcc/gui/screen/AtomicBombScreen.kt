@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.gui.screen
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.inventory.container.AtomicBombScreenHandler
-import com.joshmanisdabomb.lcc.utils.FunctionalButtonWidget
+import com.joshmanisdabomb.lcc.lib.gui.FunctionalButtonWidget
 import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking

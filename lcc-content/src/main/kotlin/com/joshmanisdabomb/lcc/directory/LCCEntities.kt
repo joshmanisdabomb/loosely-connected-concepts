@@ -1,20 +1,20 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.adaptation.boat.LCCBoatEntity
 import com.joshmanisdabomb.lcc.entity.*
 import com.joshmanisdabomb.lcc.entity.render.*
+import com.joshmanisdabomb.lcc.facade.boat.LCCBoatEntity
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry
 import net.minecraft.client.render.entity.BoatEntityRenderer
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityDimensions
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.SpawnGroup
+import net.minecraft.client.render.entity.SkeletonEntityRenderer
+import net.minecraft.entity.*
+import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.Heightmap
 
 object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, EntityType<out Entity>, Unit, Unit>(), RegistryDirectory<EntityType<out Entity>, Unit, Unit> {
 
@@ -22,7 +22,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     override fun regId(path: String) = LCC.id(path)
 
-    val pocket_zombie_pigman by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MONSTER, ::PocketZombiePigmanEntity).dimensions(EntityDimensions.fixed(0.6f, 1.95f)).fireImmune().trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+    val pocket_zombie_pigman by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<PocketZombiePigmanEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::PocketZombiePigmanEntity).dimensions(EntityDimensions.fixed(0.6f, 1.95f)).fireImmune().trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, PocketZombiePigmanEntity.createAttributes()) }
 
     val classic_tnt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ClassicTNTEntity).dimensions(EntityDimensions.fixed(0.98f, 0.98f)).fireImmune().trackRangeChunks(10).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
@@ -31,8 +31,17 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     val nuclear_explosion by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::NuclearExplosionEntity).dimensions(EntityDimensions.fixed(0.1f, 0.1f)).fireImmune().trackRangeChunks(100).trackedUpdateRate(1).forceTrackedVelocityUpdates(false) }
 
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
+    val consumer_tongue by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ConsumerTongueEntity).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
+
+    val consumer by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<ConsumerEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::ConsumerEntity).dimensions(EntityDimensions.changing(0.8f, 1.1f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, ConsumerEntity.createAttributes()) }
+    val wasp by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<WaspEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::WaspEntity).dimensions(EntityDimensions.changing(0.99f, 0.675f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, WaspEntity.createAttributes()) }
+    val baby_skeleton by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<BabySkeletonEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::BabySkeletonEntity).dimensions(EntityDimensions.changing(0.6f, 1.99f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
+    val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
 
     private fun <E : Entity> typeInitialiser(input: FabricEntityTypeBuilder<E>, context: DirectoryContext<Unit>, parameters: Unit): EntityType<E> {
         return initialiser(input.build(), context, parameters)
@@ -43,13 +52,21 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
-        EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
         EntityRendererRegistry.INSTANCE.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
+
+        EntityRendererRegistry.INSTANCE.register(consumer, ::ConsumerEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(wasp, ::WaspEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(baby_skeleton, ::SkeletonEntityRenderer)
+
         EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
         EntityRendererRegistry.INSTANCE.register(salt, ::SaltEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(consumer_tongue, ::ConsumerTongueEntityRenderer)
+
+        EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 
         EntityRendererRegistry.INSTANCE.register(rubber_boat, ::BoatEntityRenderer)
+        EntityRendererRegistry.INSTANCE.register(deadwood_boat, ::BoatEntityRenderer)
     }
 
 }

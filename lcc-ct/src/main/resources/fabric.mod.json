@@ -23,7 +23,7 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc-base": [">=0.1.0", "${version}"]
+    "lcc-infra": [">=1.0.0", "${version}"]
   },
   "suggests": {
     "lcc-mod": "*"

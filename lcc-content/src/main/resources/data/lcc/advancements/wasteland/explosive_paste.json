@@ -1,0 +1,29 @@
+{
+  "parent": "lcc:wasteland/oil",
+  "display": {
+    "icon": {
+      "item": "lcc:explosive_paste"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.explosive_paste.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.explosive_paste.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "triggered_paste": {
+      "trigger": "lcc:explosive_paste",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "triggered_paste"
+    ]
+  ]
+}

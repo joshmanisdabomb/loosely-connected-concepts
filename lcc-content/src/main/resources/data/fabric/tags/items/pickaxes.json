@@ -5,6 +5,9 @@
     "lcc:topaz_pickaxe",
     "lcc:emerald_pickaxe",
     "lcc:sapphire_pickaxe",
-    "lcc:amethyst_pickaxe"
+    "lcc:amethyst_pickaxe",
+    "lcc:deadwood_pickaxe",
+    "lcc:fortstone_pickaxe",
+    "lcc:rusty_iron_pickaxe"
   ]
 }

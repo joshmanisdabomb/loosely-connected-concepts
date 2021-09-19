@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
@@ -24,7 +24,7 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.World
 import java.util.*
 
-class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCExtendedBlock {
+class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCBlockTrait {
 
     companion object {
         val GEYSER: BooleanProperty = BooleanProperty.of("geyser")
@@ -38,7 +38,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         if (states.none { it[GEYSER] }) {
             entity.slowMovement(states.first(), Vec3d(0.38, 0.4, 0.38))
         } else {

@@ -6,7 +6,7 @@ import net.minecraft.block.Block
 object SimpleBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        stateOne(data, entry) { modelCubeAll(data, entry) }
+        stateOne(data, entry, model = models.cubeAll())
     }
 
 }

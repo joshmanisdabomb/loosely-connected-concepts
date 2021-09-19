@@ -1,0 +1,35 @@
+{
+  "parent": "lcc:wasteland/root",
+  "display": {
+    "icon": {
+      "item": "lcc:tungsten_ingot"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.tungsten.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.tungsten.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tungsten_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:tungsten_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tungsten_ingot"
+    ]
+  ]
+}

@@ -20,7 +20,7 @@ public abstract class StunMouseMixin {
     @ModifyArgs(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
     public void changeLookDelta(Args args) {
         if (client.player.hasStatusEffect(LCCEffects.INSTANCE.getStun())) {
-            args.setAll(0.0, 0.0);
+            args.setAll((Object[])LCCEffects.INSTANCE.getStun().modifyLookSpeed(client.player));
         }
     }
 

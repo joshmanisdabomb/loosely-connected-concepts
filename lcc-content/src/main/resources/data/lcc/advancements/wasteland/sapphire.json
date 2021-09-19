@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:wasteland/root",
+  "parent": "lcc:wasteland/rusty_iron",
   "display": {
     "icon": {
       "item": "lcc:sapphire"
@@ -16,20 +16,16 @@
     "hidden": false
   },
   "criteria": {
-    "sapphire": {
-      "trigger": "minecraft:inventory_changed",
+    "challenge": {
+      "trigger": "lcc:sapphire_altar",
       "conditions": {
-        "items": [
-          {
-            "item": "lcc:sapphire"
-          }
-        ]
+        "challenge": ""
       }
     }
   },
   "requirements": [
     [
-      "sapphire"
+      "challenge"
     ]
   ]
 }

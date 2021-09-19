@@ -14,7 +14,7 @@ import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
-import com.joshmanisdabomb.lcc.recipe.RefiningRecipe
+import com.joshmanisdabomb.lcc.recipe.refining.RefiningRecipe
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -155,9 +155,9 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         currentRecipe = recipe
         icon = recipe?.icon ?: -1
         progress = 0
-        this.boost = min(boost(this.boost), recipe?.maxGain ?: 0f)
+        this.boost = min(boost(this.boost), recipe?.getMaxSpeedGainPerTick() ?: 0f)
         maxProgress = calculateMaxProgress(recipe)
-        maxBoost = recipe?.maxGain ?: 0f
+        maxBoost = recipe?.getMaxSpeedGainPerTick() ?: 0f
         markDirty()
     }
 
@@ -174,23 +174,22 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     protected fun progress(recipe: RefiningRecipe) {
         progress += 1
-        boost = boost.plus(recipe.gain).coerceAtMost(recipe.maxGain)
+        boost = boost.plus(recipe.getSpeedGainPerTick()).coerceAtMost(recipe.getMaxSpeedGainPerTick())
         maxProgress = calculateMaxProgress(recipe)
         while (progress >= maxProgress) {
             progress -= maxProgress
             maxProgress = calculateMaxProgress(recipe)
             generate(recipe)
         }
-        removeEnergyDirect(recipe.energy, LooseEnergy, WorldEnergyContext(world, pos, null, null))
+        removeEnergyDirect(recipe.getEnergyPerTick(), LooseEnergy, WorldEnergyContext(world, pos, null, null))
         markDirty()
     }
 
-    protected fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.ticks?.div(boost.div(100f).plus(1))?.toInt() ?: 0
+    protected fun calculateMaxProgress(recipe: RefiningRecipe?) = recipe?.getSpeed()?.div(boost.div(100f).plus(1))?.toInt() ?: 0
 
     protected fun generate(recipe: RefiningRecipe) {
-        recipe.input(inventory)
-
-        val stacks = recipe.generate(world?.random ?: return)
+        val consumed = recipe.input(inventory) ?: return
+        val stacks = recipe.generate(consumed, inventory, world?.random ?: return)
         next@for (s in stacks) {
             val stack = s.copy()
             for (i in outputRange) {
@@ -210,7 +209,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
     }
 
     protected fun hasSpace(recipe: RefiningRecipe): Boolean {
-        val required = recipe.maximum
+        val required = recipe.generateMaximum(inventory)
         next@for (s in required) {
             val stack = s.copy()
             for (i in outputRange) {
@@ -250,7 +249,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                 }
             } else if (recipe == entity.currentRecipe) { //try use current recipe
                 val energy = entity.getEnergy(LooseEnergy, WorldEnergyContext(world, pos, null, null)) ?: 0f
-                if (energy >= recipe.energy && entity.hasSpace(recipe)) {
+                if (energy >= recipe.getEnergyPerTick() && entity.hasSpace(recipe)) {
                     entity.working = true
                     entity.progress(recipe)
                 } else {

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block.model
 
 import com.joshmanisdabomb.lcc.extensions.perpendiculars
+import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

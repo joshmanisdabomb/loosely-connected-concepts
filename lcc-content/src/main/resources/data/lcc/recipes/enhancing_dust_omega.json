@@ -1,0 +1,19 @@
+{
+  "type": "lcc:spawner_table_shaped",
+  "pattern": [
+    " e ",
+    "ene",
+    " e "
+  ],
+  "key": {
+    "e": {
+      "item": "lcc:enhancing_dust_beta"
+    },
+    "n": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "lcc:enhancing_dust_omega"
+  }
+}

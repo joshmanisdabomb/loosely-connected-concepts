@@ -1,15 +1,18 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.adaptation.sign.LCCSignType
+import com.joshmanisdabomb.lcc.facade.sign.LCCSignType
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.fabricmc.api.EnvironmentInterface
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.minecraft.client.texture.SpriteAtlasTexture
 
+@EnvironmentInterface(itf = ClientSpriteRegistryCallback::class, value = EnvType.CLIENT)
 object LCCSignTypes : BasicDirectory<LCCSignType, Unit>(), ClientSpriteRegistryCallback {
 
     val rubber by entry(::initialiser) { LCCSignType(LCC.entity("signs/$name")) }
+    val deadwood by entry(::initialiser) { LCCSignType(LCC.entity("signs/$name")) }
 
     fun initialiser(input: LCCSignType, context: DirectoryContext<Unit>, parameters: Unit) = input
 
@@ -18,6 +21,7 @@ object LCCSignTypes : BasicDirectory<LCCSignType, Unit>(), ClientSpriteRegistryC
     @Environment(EnvType.CLIENT)
     override fun registerSprites(atlasTexture: SpriteAtlasTexture, registry: ClientSpriteRegistryCallback.Registry) {
         registry.register(rubber.texture)
+        registry.register(deadwood.texture)
     }
 
 }

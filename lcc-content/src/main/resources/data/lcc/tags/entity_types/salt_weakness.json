@@ -4,6 +4,7 @@
     "minecraft:endermite",
     "minecraft:glow_squid",
     "minecraft:silverfish",
-    "minecraft:squid"
+    "minecraft:squid",
+    "lcc:consumer"
   ]
 }

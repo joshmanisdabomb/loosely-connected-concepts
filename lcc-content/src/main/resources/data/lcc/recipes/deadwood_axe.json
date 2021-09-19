@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ii",
+    "is",
+    " s"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:deadwood_planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "lcc:deadwood_axe"
+  }
+}

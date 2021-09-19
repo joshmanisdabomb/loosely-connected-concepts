@@ -17,10 +17,7 @@ pluginManagement {
 
 rootProject.name = "lcc"
 
-include 'lcc-base'
+include 'lcc-creative-ex', 'lcc-ct', 'lcc-data', 'lcc-energy', 'lcc-hooks', 'lcc-infra', 'lcc-subblock'
 
-include 'lcc-creative-ex', 'lcc-ct', 'lcc-energy', 'lcc-network', 'lcc-subblock'
+include 'lcc-content', 'lcc-content-data'
 
-include 'lcc-content'
-
-include 'lcc-data'

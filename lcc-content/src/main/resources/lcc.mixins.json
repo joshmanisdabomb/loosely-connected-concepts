@@ -3,9 +3,7 @@
   "package": "com.joshmanisdabomb.lcc.mixin.content.common",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "ExtendedBlockMixin",
     "ExtendedDyeColorMixin",
-    "ExtendedEntityMixin",
     "GauntletLivingMixin",
     "GauntletEntityMixin",
     "HeartsLivingMixin",
@@ -22,7 +20,13 @@
     "KilnRecipeManagerMixin",
     "LivingEntityAccessor",
     "NuclearSpawnHelperInfoAccessor",
-    "NuclearSpawnHelperMixin"
+    "NuclearSpawnHelperMixin",
+    "WastelandBiomeModifierMixin",
+    "ToolManagerMixin",
+    "AbstractBlockMixin",
+    "MovementEntityMixin",
+    "PlayerEntityMixin",
+    "EffectMobEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

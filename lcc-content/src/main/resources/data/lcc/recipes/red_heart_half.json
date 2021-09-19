@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:red_heart_full"
+    }
+  ],
+  "result": {
+    "item": "lcc:red_heart_half",
+    "count": 2
+  }
+}

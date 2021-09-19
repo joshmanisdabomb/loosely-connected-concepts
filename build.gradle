@@ -8,9 +8,6 @@ archivesBaseName = project.archives_base_name
 version = project.root_version
 group = project.maven_group
 
-project(':lcc-base') {
-    version = project.base_version
-}
 project(':lcc-ct') {
     version = project.ct_version
 }
@@ -20,16 +17,24 @@ project(':lcc-creative-ex') {
 project(':lcc-energy') {
     version = project.energy_version
 }
-project(':lcc-network') {
-    version = project.network_version
+project(':lcc-hooks') {
+    version = project.hooks_version
+}
+project(':lcc-infra') {
+    version = project.infra_version
 }
 project(':lcc-subblock') {
     version = project.subblock_version
 }
+
 project(':lcc-content') {
     version = rootProject.version
 }
+
 project(':lcc-data') {
+    version = project.data_version
+}
+project(':lcc-content-data') {
     version = rootProject.version
 }
 
@@ -48,7 +53,7 @@ allprojects {
     compileKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
 
     ext {
-        dataTask = path == ":lcc-data"
+        dataTask = path == ":lcc-data" || path == ":lcc-content-data"
     }
 
     loom {
@@ -238,13 +243,13 @@ loom {
 }
 
 task update {
-    dependsOn project(':lcc-base').tasks.migrateMappings {
-        mappings = project.yarn_mappings
-    }
     dependsOn project(':lcc-content').tasks.migrateMappings {
         mappings = project.yarn_mappings
     }
     dependsOn project(':lcc-data').tasks.migrateMappings {
+        mappings = project.yarn_mappings
+    }
+    dependsOn project(':lcc-hooks').tasks.migrateMappings {
         mappings = project.yarn_mappings
     }
     dependsOn('genSources')

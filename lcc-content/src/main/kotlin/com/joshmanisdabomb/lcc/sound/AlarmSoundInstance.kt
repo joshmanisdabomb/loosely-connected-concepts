@@ -34,6 +34,6 @@ class AlarmSoundInstance(private val entity: AlarmBlockEntity, val ringer: Alarm
 
     override fun shouldAlwaysPlay() = true
 
-    override fun canPlay() = valid && entity.cachedState[Properties.POWERED]
+    override fun canPlay() = valid && !entity.isRemoved && entity.cachedState[Properties.POWERED]
 
 }

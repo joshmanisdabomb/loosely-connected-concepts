@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "lcc:block/cracked_mud_pressure_plate"
+    },
+    "powered=true": {
+      "model": "lcc:block/cracked_mud_pressure_plate_down"
+    }
+  }
+}

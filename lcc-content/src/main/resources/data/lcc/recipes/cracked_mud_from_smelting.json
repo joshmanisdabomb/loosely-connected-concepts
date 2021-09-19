@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "lcc:mud"
+  },
+  "result": "lcc:cracked_mud",
+  "experience": 0.1,
+  "cookingtime": 200
+}

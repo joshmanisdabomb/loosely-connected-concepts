@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.hooks.common",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockEntityTypeMixin",
+    "BoatEntityMixin",
+    "BowMixin",
+    "CrossbowMixin",
+    "EntityMixin",
+    "FeatureMixin",
+    "ItemEntityMixin",
+    "LivingEntityMixin",
+    "MobEntityMixin",
+    "PlantBlockMixin",
+    "PlayerEntityMixin",
+    "PlayerManagerMixin",
+    "ProjectileEntityMixin",
+    "ServerInteractionManagerMixin",
+    "ServerPlayerEntityMixin",
+    "ServerWorldMixin",
+    "PistonBlockMixin",
+    "AbstractBlockStateMixin",
+    "RecipeManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

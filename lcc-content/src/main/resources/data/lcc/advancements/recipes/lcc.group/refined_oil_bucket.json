@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:refined_oil_bucket"
+    ]
+  },
+  "criteria": {
+    "has_tar_ball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:tar_ball"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:refined_oil_bucket"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_tar_ball",
+      "has_the_recipe"
+    ]
+  ]
+}

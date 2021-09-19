@@ -15,6 +15,7 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.POWERED
+import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.math.BlockPos
@@ -34,6 +35,10 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(HORIZONTAL_FACING, POWERED, ringer).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = horizontalPlacement(context).with(ringer, Ringer.getRinger(context.world.getBlockState(context.blockPos.down())))
+
+    override fun rotate(state: BlockState, rot: BlockRotation) = state.with(HORIZONTAL_FACING, rot.rotate(state[HORIZONTAL_FACING]))
+
+    override fun mirror(state: BlockState, mirror: BlockMirror) = state.rotate(mirror.getRotation(state[HORIZONTAL_FACING]))
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = AlarmBlockEntity(pos, state)
 

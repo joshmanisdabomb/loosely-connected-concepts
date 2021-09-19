@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enhancing_dust_beta"
+    ]
+  },
+  "criteria": {
+    "has_enhancing_dust_alpha": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:enhancing_dust_alpha"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enhancing_dust_beta"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enhancing_dust_alpha",
+      "has_the_recipe"
+    ]
+  ]
+}

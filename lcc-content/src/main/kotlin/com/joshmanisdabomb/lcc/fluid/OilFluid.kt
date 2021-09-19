@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.fluid
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedFluid
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.trait.LCCFluidTrait
 import net.minecraft.block.*
 import net.minecraft.fluid.FlowableFluid
 import net.minecraft.fluid.Fluid
@@ -17,7 +17,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class OilFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
+class OilFluid(val source: Boolean) : FlowableFluid(), LCCFluidTrait {
 
     val colors = FloatArray(3) { 0.03f }
 

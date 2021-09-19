@@ -11,8 +11,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "down"
+        "facing": "down",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0",
@@ -21,8 +21,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "down"
+        "facing": "down",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1",
@@ -31,8 +31,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "down"
+        "facing": "down",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2",
@@ -41,8 +41,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "down"
+        "facing": "down",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3",
@@ -51,8 +51,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "down"
+        "facing": "down",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4",
@@ -69,8 +69,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "up"
+        "facing": "up",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0"
@@ -78,8 +78,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "up"
+        "facing": "up",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1"
@@ -87,8 +87,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "up"
+        "facing": "up",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2"
@@ -96,8 +96,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "up"
+        "facing": "up",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3"
@@ -105,8 +105,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "up"
+        "facing": "up",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4"
@@ -123,8 +123,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "north"
+        "facing": "north",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0",
@@ -133,8 +133,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "north"
+        "facing": "north",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1",
@@ -143,8 +143,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "north"
+        "facing": "north",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2",
@@ -153,8 +153,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "north"
+        "facing": "north",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3",
@@ -163,8 +163,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "north"
+        "facing": "north",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4",
@@ -183,8 +183,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "south"
+        "facing": "south",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0",
@@ -194,8 +194,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "south"
+        "facing": "south",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1",
@@ -205,8 +205,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "south"
+        "facing": "south",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2",
@@ -216,8 +216,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "south"
+        "facing": "south",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3",
@@ -227,8 +227,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "south"
+        "facing": "south",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4",
@@ -248,8 +248,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "west"
+        "facing": "west",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0",
@@ -259,8 +259,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "west"
+        "facing": "west",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1",
@@ -270,8 +270,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "west"
+        "facing": "west",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2",
@@ -281,8 +281,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "west"
+        "facing": "west",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3",
@@ -292,8 +292,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "west"
+        "facing": "west",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4",
@@ -313,8 +313,8 @@
     },
     {
       "when": {
-        "setting": "0",
-        "facing": "east"
+        "facing": "east",
+        "setting": "0"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_0",
@@ -324,8 +324,8 @@
     },
     {
       "when": {
-        "setting": "1",
-        "facing": "east"
+        "facing": "east",
+        "setting": "1"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_1",
@@ -335,8 +335,8 @@
     },
     {
       "when": {
-        "setting": "2",
-        "facing": "east"
+        "facing": "east",
+        "setting": "2"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_2",
@@ -346,8 +346,8 @@
     },
     {
       "when": {
-        "setting": "3",
-        "facing": "east"
+        "facing": "east",
+        "setting": "3"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_3",
@@ -357,8 +357,8 @@
     },
     {
       "when": {
-        "setting": "4",
-        "facing": "east"
+        "facing": "east",
+        "setting": "4"
       },
       "apply": {
         "model": "lcc:block/bounce_pad_4",

@@ -8,10 +8,11 @@
     "HeartsLivingRendererMixin",
     "GauntletHudMixin",
     "RadiationHudMixin",
-    "StunPlayerMixin",
+    "EffectPlayerMixin",
     "StunMouseMixin",
     "EntityModelsMixin",
-    "ContainedHudMixin"
+    "ContainedHudMixin",
+    "DebugHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

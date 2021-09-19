@@ -1,0 +1,32 @@
+{
+  "type": "lcc:refining_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:refined_oil_bucket",
+      "count": 2
+    }
+  ],
+  "results": [
+    {
+      "item": "lcc:fuel_bucket",
+      "count": 1,
+      "function": "minecraft:empty"
+    },
+    {
+      "item": "minecraft:bucket",
+      "count": 1,
+      "function": "minecraft:empty"
+    }
+  ],
+  "blocks": [
+    "lcc:refiner",
+    "lcc:composite_processor"
+  ],
+  "lang": "container.lcc.refining.recipe.oil_cracking",
+  "icon": 8,
+  "state": "treating",
+  "energy": 32.0,
+  "ticks": 3000,
+  "gain": 0.008,
+  "maxGain": 400.0
+}

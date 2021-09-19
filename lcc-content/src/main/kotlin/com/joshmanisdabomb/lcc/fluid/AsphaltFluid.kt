@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.fluid
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedFluid
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCFluids
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.trait.LCCFluidTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.FluidBlock
@@ -19,7 +19,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCExtendedFluid {
+class AsphaltFluid(val source: Boolean) : FlowableFluid(), LCCFluidTrait {
 
     val colors = FloatArray(3) { 0.33f }
 

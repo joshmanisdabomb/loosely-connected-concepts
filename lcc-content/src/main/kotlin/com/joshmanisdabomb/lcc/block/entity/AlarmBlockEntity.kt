@@ -24,14 +24,14 @@ class AlarmBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
     @Environment(EnvType.CLIENT)
     var sound: AlarmSoundInstance? = null
 
-    var redstone: Int? = 0
+    var redstone: Int = 0
 
     override fun fromClientTag(tag: NbtCompound) {
         redstone = tag.getByte("Redstone").toInt()
     }
 
     override fun toClientTag(tag: NbtCompound): NbtCompound {
-        tag.putByte("Redstone", (redstone ?: 0).toByte())
+        tag.putByte("Redstone", redstone.toByte())
         return tag
     }
 
@@ -43,18 +43,16 @@ class AlarmBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
     companion object {
         fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: AlarmBlockEntity) {
             val redstone = entity.redstone
-            if (redstone != null) {
-                if (entity.sound == null) {
-                    entity.refreshSound(redstone)
-                } else if (entity.cachedState[AlarmBlock.ringer] != entity.sound?.ringer) {
-                    entity.sound?.valid = false
-                    entity.refreshSound(redstone)
-                } else if (entity.redstone != entity.sound?.redstone) {
-                    entity.sound?.valid = false
-                    entity.refreshSound(redstone)
-                } else if (!MinecraftClient.getInstance().soundManager.isPlaying(entity.sound)) {
-                    MinecraftClient.getInstance().soundManager.playNextTick(entity.sound)
-                }
+            if (entity.sound == null) {
+                entity.refreshSound(redstone)
+            } else if (entity.cachedState[AlarmBlock.ringer] != entity.sound?.ringer) {
+                entity.sound?.valid = false
+                entity.refreshSound(redstone)
+            } else if (entity.redstone != entity.sound?.redstone) {
+                entity.sound?.valid = false
+                entity.refreshSound(redstone)
+            } else if (!MinecraftClient.getInstance().soundManager.isPlaying(entity.sound)) {
+                MinecraftClient.getInstance().soundManager.playNextTick(entity.sound)
             }
 
             if (state[Properties.POWERED]) {

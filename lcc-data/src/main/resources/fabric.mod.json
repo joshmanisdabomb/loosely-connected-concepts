@@ -3,8 +3,8 @@
   "id": "lcc-data",
   "version": "${version}",
 
-  "name": "Loosely Connected Concepts - Data Generator",
-  "description": "This module is responsible for generating the data of Loosely Connected Concepts.",
+  "name": "Loosely Connected Concepts - Datagen",
+  "description": "This module provides a library for Loosely Connected Concepts (and others) to generate data for a mod of any size.",
   "authors": [
     "joshmanisdabomb"
   ],
@@ -14,17 +14,9 @@
   },
 
   "license": "All rights reserved, see LICENSE.md",
-  "icon": "assets/lcc-multipart/icon.png",
+  "icon": "assets/lcc-data/icon.png",
 
   "environment": "*",
-  "entrypoints": {
-    "preLaunch": [
-      {
-        "adapter": "kotlin",
-        "value": "com.joshmanisdabomb.lcc.LCCData"
-      }
-    ]
-  },
   "mixins": [
     "lcc-data.mixins.json"
   ],
@@ -33,7 +25,7 @@
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
     "minecraft": "1.17.x",
-    "lcc": ["0.4.3", "${version}"]
+    "lcc-infra": [">=1.0.0", "${version}"]
   },
   "custom": {
     "modmenu": {

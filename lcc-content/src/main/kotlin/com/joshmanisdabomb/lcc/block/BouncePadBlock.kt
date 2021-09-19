@@ -1,12 +1,12 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream
@@ -23,6 +23,8 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.ActionResult
+import net.minecraft.util.BlockMirror
+import net.minecraft.util.BlockRotation
 import net.minecraft.util.Hand
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -32,7 +34,7 @@ import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
-class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEntity(settings), BlockEntityProvider, LCCExtendedBlock {
+class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEntity(settings), LCCBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(FACING, Direction.UP).with(SETTING, 0)
@@ -41,6 +43,10 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING, SETTING).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = directionalFacePlacement(context)
+
+    override fun rotate(state: BlockState, rot: BlockRotation) = state.with(FACING, rot.rotate(state[FACING]))
+
+    override fun mirror(state: BlockState, mirror: BlockMirror) = state.rotate(mirror.getRotation(state[FACING]))
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BouncePadBlockEntity(pos, state)
 
@@ -54,7 +60,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
         entity.fallDistance = 0.0f
     }
 
-    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         with(pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return) {
             bounce(world, this, states[pos.indexOf(this)], entity)
         }

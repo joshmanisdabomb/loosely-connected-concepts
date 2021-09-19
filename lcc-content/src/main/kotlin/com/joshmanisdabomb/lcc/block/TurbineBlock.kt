@@ -1,11 +1,11 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
@@ -30,7 +30,7 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(turbine_state).let {}
 
-    override fun getEnergy(world: BlockView, pos: BlockPos) = steamProviderRun(world, pos, LCCExtendedBlockContent::lcc_content_getSteam) ?: 0f
+    override fun getEnergy(world: BlockView, pos: BlockPos) = steamProviderRun(world, pos, LCCContentBlockTrait::lcc_content_getSteam) ?: 0f
 
     override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext): Float {
         if (context.side != null && context.side != Direction.UP) return 0f
@@ -55,12 +55,12 @@ class TurbineBlock(settings: Settings) : SimpleEnergyBlock(settings) {
         steamProviderRun(world, pos) { w, provider, p, below, pos2, distance -> lcc_content_steamProviderParticles(w, provider, p, below, pos2, distance, random) }
     }
 
-    protected fun <T> steamProviderRun(world: BlockView, pos: BlockPos, callback: LCCExtendedBlockContent.(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos, turbineDist: Int) -> T): T? {
+    protected fun <T> steamProviderRun(world: BlockView, pos: BlockPos, callback: LCCContentBlockTrait.(world: BlockView, provider: BlockState, pos: BlockPos, below: BlockState, pos2: BlockPos, turbineDist: Int) -> T): T? {
         for (i in 1..5) {
             val pos2 = pos.down(i)
             val state = world.getBlockState(pos2)
             if (state.isAir) continue
-            (state.block as? LCCExtendedBlockContent)?.also {
+            (state.block as? LCCContentBlockTrait)?.also {
                 val pos3 = pos2.down()
                 val state2 = world.getBlockState(pos3)
                 return it.callback(world, state, pos2, state2, pos3, i)

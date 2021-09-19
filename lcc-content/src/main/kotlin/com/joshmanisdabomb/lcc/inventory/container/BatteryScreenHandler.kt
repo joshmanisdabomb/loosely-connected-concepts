@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.BatteryBlock
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyStorage
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

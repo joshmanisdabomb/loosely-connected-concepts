@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.projectile.thrown.ThrownEntity
@@ -43,7 +43,7 @@ class SaltBlock(settings: Settings) : Block(settings) {
                     if (i == 0 && j == 0 && k == 0) continue
                     pos2.set(pos, i, j, k)
                     val state2 = world.getBlockState(pos2)
-                    val temp2 = (state2.block as? LCCExtendedBlockContent)?.lcc_content_getTemperature(world, state2, pos2)
+                    val temp2 = (state2.block as? LCCContentBlockTrait)?.lcc_content_getTemperature(world, state2, pos2)
                     if (temp2 != null && (temp == null || temp2 >= temp)) {
                         temp = temp2
                     }

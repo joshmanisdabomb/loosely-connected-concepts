@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.NavigationType
@@ -20,7 +20,7 @@ import net.minecraft.world.WorldAccess
 import java.util.*
 import net.minecraft.fluid.FlowableFluid.LEVEL as FLUID_LEVEL
 
-class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCExtendedBlock {
+class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCBlockTrait {
 
     init {
         defaultState = stateManager.defaultState.with(LEVEL, 0).with(AGE_7, 0)
@@ -30,7 +30,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
 
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
-    override fun lcc_onEntitySingleCollision(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
+    override fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
         entity.slowMovement(states.first(), Vec3d(0.16, 0.2, 0.16))
     }
 

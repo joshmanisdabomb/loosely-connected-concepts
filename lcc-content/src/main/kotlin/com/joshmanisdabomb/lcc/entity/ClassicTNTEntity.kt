@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.TntEntity
@@ -9,7 +9,7 @@ import net.minecraft.world.World
 import kotlin.math.cos
 import kotlin.math.sin
 
-class ClassicTNTEntity(type: EntityType<out ClassicTNTEntity>, world: World) : TntEntity(type, world), LCCExtendedEntity {
+class ClassicTNTEntity(type: EntityType<out ClassicTNTEntity>, world: World) : TntEntity(type, world), LCCEntityTrait {
 
     private var placer: LivingEntity? = null
 

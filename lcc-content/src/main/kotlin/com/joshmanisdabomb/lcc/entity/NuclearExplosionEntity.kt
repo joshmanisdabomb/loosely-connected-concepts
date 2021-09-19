@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntity
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -27,7 +27,7 @@ import net.minecraft.world.Heightmap
 import net.minecraft.world.World
 import java.util.*
 
-class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCExtendedEntity {
+class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world: World) : Entity(type, world), LCCEntityTrait {
 
     constructor(world: World, x: Double, y: Double, z: Double, by: LivingEntity?) : this(LCCEntities.nuclear_explosion, world) {
         updatePosition(x, y, z)
@@ -157,7 +157,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
             val state = world.getBlockState(bp2)
             val block = state.block
 
-            if (state.isAir || (block as? LCCExtendedBlockContent)?.lcc_content_nukeIgnore() == true) {
+            if (state.isAir || (block as? LCCContentBlockTrait)?.lcc_content_nukeIgnore() == true) {
                 current = current.add(step)
                 continue
             }
@@ -170,7 +170,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
     }
 
     private fun alterBlocks(world: World, target: BlockPos, state: BlockState, block: Block, above: BlockPos, mod: Double, mod2: Double, mod_waste: Double, mod_fire: Double): Boolean {
-        val resistance = (block as? LCCExtendedBlockContent)?.lcc_content_nukeResistance(state, target, fast_rand) ?: block.blastResistance
+        val resistance = (block as? LCCContentBlockTrait)?.lcc_content_nukeResistance(state, target, fast_rand) ?: block.blastResistance
         val r = resistance.times(resistance).times(resistance).div(240.0).coerceIn(0.01, 0.9).times(mod)
 
         if (block is FluidBlock) {

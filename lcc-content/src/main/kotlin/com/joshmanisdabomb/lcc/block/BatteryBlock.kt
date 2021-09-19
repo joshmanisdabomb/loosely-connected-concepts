@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.block.entity.BatteryBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -21,9 +21,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.ActionResult
-import net.minecraft.util.Hand
-import net.minecraft.util.ItemScatterer
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -47,6 +45,10 @@ abstract class BatteryBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING).let {}
 
     override fun getPlacementState(context: ItemPlacementContext) = directionalFacePlacement(context)
+
+    override fun rotate(state: BlockState, rot: BlockRotation) = state.with(FACING, rot.rotate(state[FACING]))
+
+    override fun mirror(state: BlockState, mirror: BlockMirror) = state.rotate(mirror.getRotation(state[FACING]))
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BatteryBlockEntity(pos, state)
 

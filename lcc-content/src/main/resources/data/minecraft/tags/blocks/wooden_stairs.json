@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "lcc:rubber_stairs",
+    "lcc:deadwood_stairs",
     "lcc:classic_wooden_stairs"
   ]
 }

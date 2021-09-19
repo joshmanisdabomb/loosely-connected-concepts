@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.data.factory.asset.item
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.DataUtils
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.item.Item
@@ -10,7 +9,7 @@ import net.minecraft.util.math.Vec3f
 open class DynamicItemAssetFactory(val transform: ModelTransformation = ModelTransformation.NONE) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        data.modelStates.addModel(loc(entry)) { DataUtils.parser.parse(getTemplate(transform)) }
+        data.modelStates.addModel(idh.loc(entry)) { data.parser.parse(getTemplate(transform)) }
     }
 
     companion object : DynamicItemAssetFactory() {

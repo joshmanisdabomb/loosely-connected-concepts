@@ -196,5 +196,114 @@
       "lcc:item/detector/click7"
     ],
     "subtitle": "subtitles.lcc.item.detector.click"
+  },
+  "entity.lcc.salt.throw": {
+    "sounds": [
+      "minecraft:dig/sand1",
+      "minecraft:dig/sand2",
+      "minecraft:dig/sand3",
+      "minecraft:dig/sand4"
+    ],
+    "subtitle": "subtitles.lcc.entity.salt.throw"
+  },
+  "block.lcc.spikes.hurt": {
+    "sounds": [
+      "lcc:block/spikes/hurt1",
+      "lcc:block/spikes/hurt2",
+      "lcc:block/spikes/hurt3"
+    ],
+    "subtitle": "subtitles.lcc.block.spikes.hurt"
+  },
+  "block.lcc.improvised_explosive.triggered": {
+    "sounds": [
+      "lcc:block/improvised_explosive/triggered"
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.triggered"
+  },
+  "block.lcc.improvised_explosive.beep": {
+    "sounds": [
+      {
+        "name": "lcc:block/improvised_explosive/beep",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.beep"
+  },
+  "block.lcc.improvised_explosive.constant": {
+    "sounds": [
+      {
+        "name": "lcc:block/improvised_explosive/constant",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.constant"
+  },
+  "block.lcc.improvised_explosive.defuse": {
+    "sounds": [
+      "lcc:block/improvised_explosive/defuse"
+    ],
+    "subtitle": "subtitles.lcc.block.improvised_explosive.defuse"
+  },
+  "entity.lcc.consumer.ambient": {
+    "sounds": [
+      "lcc:entity/consumer/idle1",
+      "lcc:entity/consumer/idle2",
+      "lcc:entity/consumer/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.ambient"
+  },
+  "entity.lcc.consumer.cqc": {
+    "sounds": [
+      "lcc:entity/consumer/cqc1",
+      "lcc:entity/consumer/cqc2",
+      "lcc:entity/consumer/cqc3",
+      "lcc:entity/consumer/cqc4"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.cqc"
+  },
+  "entity.lcc.consumer.hurt": {
+    "sounds": [
+      "lcc:entity/consumer/hurt1",
+      "lcc:entity/consumer/hurt2",
+      "lcc:entity/consumer/hurt3",
+      "lcc:entity/consumer/hurt4"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.hurt"
+  },
+  "entity.lcc.consumer.death": {
+    "sounds": [
+      "lcc:entity/consumer/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.death"
+  },
+  "entity.lcc.consumer.attack": {
+    "sounds": [
+      "lcc:entity/consumer/attack1",
+      "lcc:entity/consumer/attack2",
+      "lcc:entity/consumer/attack3"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.attack"
+  },
+  "entity.lcc.consumer.tongue.shoot": {
+    "sounds": [
+      "lcc:entity/consumer/tongue1",
+      "lcc:entity/consumer/tongue2"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.tongue.shoot"
+  },
+  "entity.lcc.consumer.tongue.loop": {
+    "sounds": [
+      {
+        "name": "lcc:entity/consumer/tongue_loop",
+        "stream": true
+      }
+    ]
+  },
+  "entity.lcc.consumer.tongue.attach": {
+    "sounds": [
+      "lcc:entity/consumer/attach1",
+      "lcc:entity/consumer/attach2"
+    ],
+    "subtitle": "subtitles.lcc.entity.consumer.tongue.attach"
   }
 }

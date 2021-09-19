@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:crystal_heart_container"
+    ]
+  },
+  "criteria": {
+    "has_enhancing_dust_beta": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:enhancing_dust_beta"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:crystal_heart_container"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enhancing_dust_beta",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -14,8 +14,8 @@ import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.*
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory

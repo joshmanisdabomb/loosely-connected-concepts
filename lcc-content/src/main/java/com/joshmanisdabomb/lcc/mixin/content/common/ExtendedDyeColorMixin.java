@@ -33,8 +33,8 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
         if (lcc_intColor == -1) {
             float[] cols = getColorComponents();
             int r = (int)(cols[0] * 255);
-            int g = (int)(cols[0] * 255);
-            int b = (int)(cols[0] * 255);
+            int g = (int)(cols[1] * 255);
+            int b = (int)(cols[2] * 255);
             lcc_intColor = b + (g << 8) + (r << 16);
         }
         return lcc_intColor;
@@ -66,6 +66,29 @@ public abstract class ExtendedDyeColorMixin implements LCCExtendedDyeColor {
     @Override
     public Item getLcc_dye() {
         return DyeItem.byColor((DyeColor)(Object)this);
+    }
+
+    @NotNull
+    @Override
+    public int getPlasticColor() {
+        DyeColor color = (DyeColor)(Object)this;
+        if (color == DyeColor.WHITE) return 0xFFFFFF;
+        else if (color == DyeColor.ORANGE) return 0xFF7700;
+        else if (color == DyeColor.MAGENTA) return 0xFF00FF;
+        else if (color == DyeColor.LIGHT_BLUE) return 0x00AAFF;
+        else if (color == DyeColor.YELLOW) return 0xFFFF00;
+        else if (color == DyeColor.LIME) return 0x00FF00;
+        else if (color == DyeColor.PINK) return 0xFF55BB;
+        else if (color == DyeColor.GRAY) return 0x777777;
+        else if (color == DyeColor.LIGHT_GRAY) return 0xBBBBBB;
+        else if (color == DyeColor.CYAN) return 0x00FFFF;
+        else if (color == DyeColor.PURPLE) return 0x7700FF;
+        else if (color == DyeColor.BLUE) return 0x0000FF;
+        else if (color == DyeColor.BROWN) return 0x773300;
+        else if (color == DyeColor.GREEN) return 0x007700;
+        else if (color == DyeColor.RED) return 0xFF0000;
+        else if (color == DyeColor.BLACK) return 0x000000;
+        throw new IllegalStateException("Unknown vanilla dye color!");
     }
 
 }

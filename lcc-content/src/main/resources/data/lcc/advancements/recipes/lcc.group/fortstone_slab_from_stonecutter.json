@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:fortstone_slab_from_stonecutter"
+    ]
+  },
+  "criteria": {
+    "has_fortstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:fortstone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:fortstone_slab_from_stonecutter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_fortstone",
+      "has_the_recipe"
+    ]
+  ]
+}

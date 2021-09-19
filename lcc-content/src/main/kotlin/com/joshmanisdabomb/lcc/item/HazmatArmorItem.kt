@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.extensions.isSurvival
+import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
 import com.joshmanisdabomb.lcc.mixin.content.common.LivingEntityAccessor
-import com.joshmanisdabomb.lcc.utils.DefaultedDyeableItem
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -18,7 +18,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tag.FluidTags
 import net.minecraft.world.World
 
-open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArmorItem(LCCArmorMaterials.HAZMAT, slot, settings), DefaultedDyeableItem, ContainedArmor {
+open class HazmatArmorItem(slot: EquipmentSlot, settings: Settings) : DyeableArmorItem(LCCArmorMaterials.HAZMAT, slot, settings),
+    DefaultedDyeableItem, ContainedArmor {
 
     override fun defaultColor(stack: ItemStack) = 0x909090
 

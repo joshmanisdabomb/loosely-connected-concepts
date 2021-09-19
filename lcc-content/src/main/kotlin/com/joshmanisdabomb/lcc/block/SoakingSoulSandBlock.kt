@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCParticles
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -20,7 +20,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import java.util.*
 
-class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCExtendedBlock {
+class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCBlockTrait {
 
     @Environment(EnvType.CLIENT)
     override fun randomDisplayTick(state: BlockState, world: World, pos: BlockPos, random: Random) {
@@ -37,7 +37,7 @@ class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCExtendedBlo
         }
     }
 
-    override fun lcc_onEntitySingleJumpOff(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity): Boolean {
+    override fun lcc_onEntityJumpGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity): Boolean {
         with (pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return false) {
             entity.addVelocity(0.0, 0.78, 0.0)
             entity.fallDistance = -1.0F

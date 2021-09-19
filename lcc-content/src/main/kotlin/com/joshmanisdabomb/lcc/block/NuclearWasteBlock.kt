@@ -2,14 +2,14 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.abstracts.oxygen.ContainedArmor
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlock
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.HazmatArmorItem
 import com.joshmanisdabomb.lcc.item.HazmatTankArmorItem
+import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -24,7 +24,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.*
 
-class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlock, LCCExtendedBlockContent {
+class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LCCContentBlockTrait {
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
         fall(world, pos, state, oldState, initCascade = true)
@@ -84,8 +84,8 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCExtendedBlock,
             if ((stack.item as? HazmatArmorItem)?.hasFullSuit(stack, entity.armorItems) == true && ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(entity.armorItems) > 0f) {
                 return
             }
+            entity.damage(LCCDamage.radiation, 0.5f)
         }
-        entity.damage(LCCDamage.radiation, 0.5f)
     }
 
     companion object {

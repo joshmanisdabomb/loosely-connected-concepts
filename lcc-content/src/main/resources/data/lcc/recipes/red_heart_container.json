@@ -1,0 +1,41 @@
+{
+  "type": "lcc:spawner_table_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:red_heart_full"
+    },
+    {
+      "item": "lcc:enhancing_dust_beta"
+    }
+  ],
+  "result": {
+    "item": "lcc:red_heart_container"
+  }
+}

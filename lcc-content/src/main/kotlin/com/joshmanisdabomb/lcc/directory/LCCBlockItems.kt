@@ -42,6 +42,11 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val rubber_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.rubber_sign, LCCBlocks.rubber_wall_sign)) }
     val rubber_wall_sign by entry(::initialiser) { Replacement() }
 
+    val rubber_piston_head by entry(::initialiser) { Replacement() }
+
+    val deadwood_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.deadwood_sign, LCCBlocks.deadwood_wall_sign)) }
+    val deadwood_wall_sign by entry(::initialiser) { Replacement() }
+
     override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block>) -> Boolean) {
         LCCBlocks.all.forEach { (k, v) ->
             val bi = initialised.firstOrNull { it.name == k }?.input ?: Replacement(BlockItem(v, Item.Settings().defaults()))

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_door"
+    "lcc:rubber_door",
+    "lcc:deadwood_door"
   ]
 }

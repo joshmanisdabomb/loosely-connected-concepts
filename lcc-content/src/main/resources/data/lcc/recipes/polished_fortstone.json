@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ff",
+    "ff"
+  ],
+  "key": {
+    "f": {
+      "item": "lcc:fortstone"
+    }
+  },
+  "result": {
+    "item": "lcc:polished_fortstone",
+    "count": 4
+  }
+}

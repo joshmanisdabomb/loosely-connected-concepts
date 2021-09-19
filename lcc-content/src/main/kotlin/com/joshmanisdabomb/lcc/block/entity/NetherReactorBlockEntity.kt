@@ -145,7 +145,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
-        if (challengers?.isNotEmpty() == true) {
+        if (challengers != null) {
             tag.put("Challengers", NbtList().apply {
                 challengers?.forEach {
                     this.add(NbtHelper.fromUuid(it))
@@ -276,16 +276,11 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                 if (state[reactor_state] == NetherReactorBlock.NetherReactorState.USED && entity.pigmen.isEmpty()) {
                     val challengers = sworld.server.playerManager.playerList.filter { entity.challengers?.contains(it.uuid) == true }
                     challengers.forEach {
-                        LCCCriteria.netherReactor.trigger(it)
+                        LCCCriteria.nether_reactor.trigger(it)
                     }
                     entity.challengers = null
                 }
             }
-
-            println(entity.challengers)
-            println(entity.pigmen)
-            println(entity.activeTicks)
-            println("-----")
         }
 
     }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:oil_distillation"
+    ]
+  },
+  "criteria": {
+    "has_oil_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:oil_bucket"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:oil_distillation"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_oil_bucket",
+      "has_the_recipe"
+    ]
+  ]
+}

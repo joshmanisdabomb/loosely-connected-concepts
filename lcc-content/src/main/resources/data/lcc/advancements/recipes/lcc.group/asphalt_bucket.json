@@ -6,12 +6,12 @@
     ]
   },
   "criteria": {
-    "has_oil_bucket": {
+    "has_tar_ball": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "lcc:oil_bucket"
+            "item": "lcc:tar_ball"
           }
         ]
       }
@@ -25,7 +25,7 @@
   },
   "requirements": [
     [
-      "has_oil_bucket",
+      "has_tar_ball",
       "has_the_recipe"
     ]
   ]

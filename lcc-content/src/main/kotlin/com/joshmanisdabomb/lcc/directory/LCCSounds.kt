@@ -39,6 +39,22 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val player_hurt_temporary by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.player.hurt_temporary")) }
 
     val radiation_detector_click by entry(::initialiser) { SoundEvent(LCC.id("item.lcc.detector.click")) }
+    val salt_throw by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.salt.throw")) }
+
+    val spikes_hurt by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.spikes.hurt")) }
+    val improvised_explosive_triggered by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.improvised_explosive.triggered")) }
+    val improvised_explosive_beep by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.improvised_explosive.beep")) }
+    val improvised_explosive_constant by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.improvised_explosive.constant")) }
+    val improvised_explosive_defuse by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.improvised_explosive.defuse")) }
+
+    val consumer_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.ambient")) }
+    val consumer_cqc by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.cqc")) }
+    val consumer_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.hurt")) }
+    val consumer_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.death")) }
+    val consumer_attack by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.attack")) }
+    val consumer_tongue_shoot by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.shoot")) }
+    val consumer_tongue_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.loop")) }
+    val consumer_tongue_attach by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.attach")) }
 
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 

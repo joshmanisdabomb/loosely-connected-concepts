@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
 open class HandheldItemAssetFactory(val texture: Identifier? = null) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        modelHandheld(data, entry, texture = texture ?: loc(entry))
+        models.handheld { texture }.create(data, entry)
     }
 
     companion object : HandheldItemAssetFactory()

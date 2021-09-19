@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rrr",
+    "cic",
+    "cdc"
+  ],
+  "key": {
+    "r": {
+      "item": "lcc:heavy_duty_rubber"
+    },
+    "c": {
+      "item": "minecraft:cobblestone"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "d": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "lcc:rubber_piston"
+  }
+}

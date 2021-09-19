@@ -74,9 +74,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
         val down = ctx.blockPos.down()
         val state2 = ctx.world.getBlockState(down)
-        if (state2.isOf(this)) {
-            return defaultState.with(BOTTOM, false).with(ENTITY, state2[ENTITY])
-        } else if (state2.isOf(Blocks.SPAWNER)) {
+        if (state2.isOf(Blocks.SPAWNER)) {
             val be = ctx.world.getBlockEntity(down) as? MobSpawnerBlockEntity ?: return null
             val tag = be.logic.writeNbt(ctx.world, down, NbtCompound()).getCompound("SpawnData")
             return try {
@@ -86,6 +84,9 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
                 null
             }
         } else if (ctx.player?.isSurvival == false) {
+            if (state2.isOf(this)) {
+                return defaultState.with(BOTTOM, true).with(ENTITY, state2[ENTITY])
+            }
             val entity = DungeonTableEntity.values().random(ctx.world.random.asKotlinRandom())
             val up = ctx.blockPos.up()
             if (ctx.world.getBlockState(up).isAir) {

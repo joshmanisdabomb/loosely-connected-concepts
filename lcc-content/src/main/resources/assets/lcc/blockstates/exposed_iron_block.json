@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "lcc:block/exposed_iron_block"
+    }
+  }
+}

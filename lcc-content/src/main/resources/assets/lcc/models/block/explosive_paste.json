@@ -1,0 +1,8 @@
+{
+  "parent": "lcc:block/template_redstone_dust_dot",
+  "textures": {
+    "texture": "lcc:block/explosive_paste",
+    "particle": "lcc:block/explosive_paste",
+    "overlay": "minecraft:block/redstone_dust_overlay"
+  }
+}

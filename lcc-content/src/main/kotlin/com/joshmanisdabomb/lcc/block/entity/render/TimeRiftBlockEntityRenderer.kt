@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.TimeRiftBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.directory.LCCRenderLayers
 import com.joshmanisdabomb.lcc.extensions.transformInt
-import com.joshmanisdabomb.lcc.utils.RenderingUtils
+import com.joshmanisdabomb.lcc.hooks.RenderingUtils
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener

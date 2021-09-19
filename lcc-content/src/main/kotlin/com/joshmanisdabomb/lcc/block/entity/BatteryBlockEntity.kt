@@ -13,7 +13,7 @@ import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity

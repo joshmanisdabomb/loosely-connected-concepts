@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "iii",
+    "i i"
+  ],
+  "key": {
+    "i": {
+      "item": "lcc:iron_oxide"
+    }
+  },
+  "result": {
+    "item": "lcc:rusty_iron_helmet"
+  }
+}

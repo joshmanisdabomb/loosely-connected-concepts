@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data.factory.translation
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import com.joshmanisdabomb.lcc.data.generators.LangData
+import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 
 open class BritishTranslationFactory(val from: String = LangData.defaultLocale, val to: String = "en_gb") : TranslationFactory {
 

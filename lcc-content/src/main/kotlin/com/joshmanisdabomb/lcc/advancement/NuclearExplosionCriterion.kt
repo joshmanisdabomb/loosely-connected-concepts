@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.advancement
 
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import net.minecraft.advancement.criterion.AbstractCriterion
 import net.minecraft.advancement.criterion.AbstractCriterionConditions
@@ -37,7 +36,7 @@ class NuclearExplosionCriterion : AbstractCriterion<NuclearExplosionCriterion.Co
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.nuke].name) }
+        val id by lazy { LCCCriteria[LCCCriteria.nuke].id }
 
         fun create(uranium: NumberRange.IntRange): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, uranium)

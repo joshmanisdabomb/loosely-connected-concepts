@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.advancement;
 
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import net.minecraft.advancement.Advancement
@@ -40,7 +39,7 @@ class RaceCriterion : AbstractCriterion<RaceCriterion.Conditions>() {
     }
 
     companion object {
-        val id by lazy { LCC.id(LCCCriteria[LCCCriteria.race].name) }
+        val id by lazy { LCCCriteria[LCCCriteria.race].id }
 
         fun create(advancement: Identifier): Conditions {
             return Conditions(EntityPredicate.Extended.EMPTY, advancement)

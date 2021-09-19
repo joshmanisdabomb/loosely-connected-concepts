@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:plastic_bag"
+    ]
+  },
+  "criteria": {
+    "has_flexible_plastic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:flexible_plastic"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:plastic_bag"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_flexible_plastic",
+      "has_the_recipe"
+    ]
+  ]
+}

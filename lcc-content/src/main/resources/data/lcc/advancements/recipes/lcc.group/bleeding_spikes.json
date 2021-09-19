@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:bleeding_spikes"
+    ]
+  },
+  "criteria": {
+    "has_spikes": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:spikes"
+          }
+        ]
+      }
+    },
+    "has_red_hearts": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "lcc:red_hearts"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:bleeding_spikes"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_spikes",
+      "has_red_hearts",
+      "has_the_recipe"
+    ]
+  ]
+}

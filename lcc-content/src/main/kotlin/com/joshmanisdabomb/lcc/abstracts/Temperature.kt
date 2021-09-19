@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.abstracts
 
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedBlockContent
-import com.joshmanisdabomb.lcc.adaptation.LCCExtendedEntityContent
 import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
+import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -27,8 +27,8 @@ enum class Temperature(val energy: Float, val tag: Tag<Block>, val soulTag: Tag<
     val entityEnergy = energy.times(200)
 
     companion object {
-        fun getBlockEnergy(world: BlockView, pos: BlockPos, source: BlockState = world.getBlockState(pos), block: Block = source.block) = (block as? LCCExtendedBlockContent)?.run { lcc_content_getTemperature(world, source, pos)?.let { lcc_content_getTemperatureEnergy(world, source, pos, it) } }
-        fun getEntityEnergy(entity: Entity) = (entity as? LCCExtendedEntityContent)?.run { lcc_content_getTemperature()?.let { lcc_content_getTemperatureEnergy(it) } }
+        fun getBlockEnergy(world: BlockView, pos: BlockPos, source: BlockState = world.getBlockState(pos), block: Block = source.block) = (block as? LCCContentBlockTrait)?.run { lcc_content_getTemperature(world, source, pos)?.let { lcc_content_getTemperatureEnergy(world, source, pos, it) } }
+        fun getEntityEnergy(entity: Entity) = (entity as? LCCContentEntityTrait)?.run { lcc_content_getTemperature()?.let { lcc_content_getTemperatureEnergy(it) } }
 
         fun getEnergyFromPos(world: BlockView, pos: BlockPos, source: BlockState, block: Block): Float? {
             getBlockEnergy(world, pos, source, block)?.also { return it }

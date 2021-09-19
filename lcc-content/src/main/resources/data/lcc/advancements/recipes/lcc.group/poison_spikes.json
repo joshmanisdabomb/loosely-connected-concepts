@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:poison_spikes"
+    ]
+  },
+  "criteria": {
+    "has_spikes": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:spikes"
+          }
+        ]
+      }
+    },
+    "has_stinger": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "lcc:stinger"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:poison_spikes"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_spikes",
+      "has_stinger",
+      "has_the_recipe"
+    ]
+  ]
+}

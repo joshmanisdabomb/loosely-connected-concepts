@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
-import com.joshmanisdabomb.lcc.adaptation.boat.LCCBoatEntity
+import com.joshmanisdabomb.lcc.facade.boat.LCCBoatEntity
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity

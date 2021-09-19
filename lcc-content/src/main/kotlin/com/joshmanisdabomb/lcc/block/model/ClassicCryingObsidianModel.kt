@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.model
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
+import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.block.BlockState
 import net.minecraft.client.MinecraftClient

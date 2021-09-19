@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_planks"
+    "lcc:rubber_planks",
+    "lcc:deadwood_planks"
   ]
 }

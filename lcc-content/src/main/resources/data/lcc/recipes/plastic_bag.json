@@ -1,0 +1,15 @@
+{
+  "type": "lcc:plastic_shaped",
+  "pattern": [
+    "p p",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "item": "lcc:flexible_plastic"
+    }
+  },
+  "result": {
+    "item": "lcc:plastic_bag"
+  }
+}

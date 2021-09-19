@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.joshmanisdabomb.lcc.mixin.hooks.common.trait",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BlockTraitMixin",
+    "EntityTraitMixin",
+    "FluidTraitMixin",
+    "ItemTraitMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

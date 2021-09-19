@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier
 open class TintBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        stateOne(data, entry) { Models.LEAVES.upload(loc(entry), Texture.all(texture ?: loc(entry)), data.modelStates::addModel) }
+        stateOne(data, entry, model = { d, t, i -> Models.LEAVES.upload(idh.loc(entry), Texture.all(texture ?: idh.loc(entry)), data.modelStates::addModel) })
     }
 
     companion object : TintBlockAssetFactory()

@@ -1,0 +1,41 @@
+{
+  "type": "lcc:spawner_table_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:crystal_heart_full"
+    },
+    {
+      "item": "lcc:enhancing_dust_beta"
+    }
+  ],
+  "result": {
+    "item": "lcc:crystal_heart_container"
+  }
+}

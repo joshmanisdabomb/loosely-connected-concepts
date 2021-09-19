@@ -39,7 +39,7 @@ class RefinerScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(matrices, mouseX, mouseY, delta)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), currentRecipe?.energy, mouseX, mouseY, field_2776 + 18..field_2776 + 29, field_2800 + 58..field_2800 + 72)
+        renderPowerTooltip(matrices, handler.powerAmount(), currentRecipe?.getEnergyPerTick(), mouseX, mouseY, field_2776 + 18..field_2776 + 29, field_2800 + 58..field_2800 + 72)
 
         handler.iconIndex().also {
             renderActionTooltip(matrices, handler.efficiencyAmount(), it?.let { handler.maxEfficiencyAmount() }, mouseX, mouseY, field_2776 + 81..field_2776 + 94, field_2800 + 18..field_2800 + 32)

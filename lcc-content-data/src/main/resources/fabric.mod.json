@@ -29,8 +29,8 @@
     "fabricloader": ">=0.11.1",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
-    "minecraft": "1.17.x",
-    "lcc": ["0.5.0", "${version}"]
+    "minecraft": "1.18.x",
+    "lcc": ["0.5.1", "${version}"]
   },
   "custom": {
     "modmenu": {

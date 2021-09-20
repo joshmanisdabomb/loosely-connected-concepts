@@ -113,6 +113,6 @@ abstract class RefiningScreenHandler(type: ScreenHandlerType<out ScreenHandler>,
 
     override fun getCategory() = null
 
-    override fun method_32339(i: Int) = i < inventory.width * inventory.height
+    override fun canInsertIntoSlot(i: Int) = i < inventory.width * inventory.height
 
 }

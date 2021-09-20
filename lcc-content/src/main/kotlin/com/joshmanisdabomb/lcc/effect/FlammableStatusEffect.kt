@@ -4,11 +4,11 @@ import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.AttributeContainer
 import net.minecraft.entity.damage.DamageSource
-import net.minecraft.entity.effect.StatusEffectType
+import net.minecraft.entity.effect.StatusEffectCategory
 import net.minecraft.tag.BlockTags
 import kotlin.math.pow
 
-class FlammableStatusEffect(type: StatusEffectType, color: Int) : HurtResistanceStatusEffect(type, color, { source, amplifier -> if (source.isFire) 0.9f.pow(amplifier.plus(1)) else 1f }) {
+class FlammableStatusEffect(type: StatusEffectCategory, color: Int) : HurtResistanceStatusEffect(type, color, { source, amplifier -> if (source.isFire) 0.9f.pow(amplifier.plus(1)) else 1f }) {
 
     override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
 

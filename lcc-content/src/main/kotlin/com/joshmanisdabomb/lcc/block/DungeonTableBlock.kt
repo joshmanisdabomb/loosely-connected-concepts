@@ -50,7 +50,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         val stack = player.getStackInHand(hand)
         val item = stack?.item
         if (item is SpawnEggItem) {
-            val entity = DungeonTableEntity.from(item.getEntityType(stack.tag)) ?: return ActionResult.FAIL
+            val entity = DungeonTableEntity.from(item.getEntityType(stack.nbt)) ?: return ActionResult.FAIL
             world.setBlockState(pos, state.with(ENTITY, entity), 18)
             if (state[BOTTOM]) {
                 world.setBlockState(pos.up(), state.with(BOTTOM, false).with(ENTITY, entity), 18)
@@ -76,7 +76,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
         val state2 = ctx.world.getBlockState(down)
         if (state2.isOf(Blocks.SPAWNER)) {
             val be = ctx.world.getBlockEntity(down) as? MobSpawnerBlockEntity ?: return null
-            val tag = be.logic.writeNbt(ctx.world, down, NbtCompound()).getCompound("SpawnData")
+            val tag = be.logic.writeNbt(NbtCompound()).getCompound("SpawnData")
             return try {
                 val entity = DungeonTableEntity.fromOr(Registry.ENTITY_TYPE[Identifier(tag.getString("id"))])
                 defaultState.with(BOTTOM, false).with(ENTITY, entity)

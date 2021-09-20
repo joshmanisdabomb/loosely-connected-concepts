@@ -22,12 +22,12 @@ class CompositeProcessorScreen(handler: RefiningScreenHandler, inventory: Player
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
         super.drawBackground(matrices, delta, mouseX, mouseY)
 
-        renderPower(matrices, handler.powerAmount(), handler.block.maxEnergy, field_2776 + 18, field_2800 + 76)
+        renderPower(matrices, handler.powerAmount(), handler.block.maxEnergy, x + 18, y + 76)
 
         handler.iconIndex()?.also {
-            renderArrow(matrices, handler.progressAmount(), handler.maxProgressAmount(), field_2776 + 77, field_2800 + 43)
+            renderArrow(matrices, handler.progressAmount(), handler.maxProgressAmount(), x + 77, y + 43)
 
-            renderAction(matrices, it, handler.efficiencyAmount(), handler.maxEfficiencyAmount(), field_2776 + 81, field_2800 + 27)
+            renderAction(matrices, it, handler.efficiencyAmount(), handler.maxEfficiencyAmount(), x + 81, y + 27)
         }
     }
 
@@ -39,12 +39,12 @@ class CompositeProcessorScreen(handler: RefiningScreenHandler, inventory: Player
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(matrices, mouseX, mouseY, delta)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), currentRecipe?.getEnergyPerTick(), mouseX, mouseY, field_2776 + 18..field_2776 + 29, field_2800 + 76..field_2800 + 90)
+        renderPowerTooltip(matrices, handler.powerAmount(), currentRecipe?.getEnergyPerTick(), mouseX, mouseY, x + 18..x + 29, y + 76..y + 90)
 
         handler.iconIndex().also {
-            renderActionTooltip(matrices, handler.efficiencyAmount(), it?.let { handler.maxEfficiencyAmount() }, mouseX, mouseY, field_2776 + 81..field_2776 + 94, field_2800 + 27..field_2800 + 41)
+            renderActionTooltip(matrices, handler.efficiencyAmount(), it?.let { handler.maxEfficiencyAmount() }, mouseX, mouseY, x + 81..x + 94, y + 27..y + 41)
 
-            if (it != null) renderProgressTooltip(matrices, handler.progressAmount(), handler.maxProgressAmount(), mouseX, mouseY, field_2776 + 76..field_2776 + 100, field_2800 + 43..field_2800 + 60)
+            if (it != null) renderProgressTooltip(matrices, handler.progressAmount(), handler.maxProgressAmount(), mouseX, mouseY, x + 76..x + 100, y + 43..y + 60)
         }
     }
 

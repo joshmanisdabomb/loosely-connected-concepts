@@ -121,7 +121,7 @@ open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (worl
         }
     }
 
-    override fun getSprite() = map.getParticle(0)
+    override fun getParticleSprite() = map.getParticle(0)
 
     companion object {
         val segments = listOf("base", "corners_i", "corners_o", "lines_h", "lines_v")

@@ -20,7 +20,7 @@ class NuclearExplosionCriterion : AbstractCriterion<NuclearExplosionCriterion.Co
     }
 
     fun trigger(player: ServerPlayerEntity, uranium: Int) {
-        test(player) { it.matches(uranium) }
+        trigger(player) { it.matches(uranium) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val uranium: NumberRange.IntRange) : AbstractCriterionConditions(id, player) {

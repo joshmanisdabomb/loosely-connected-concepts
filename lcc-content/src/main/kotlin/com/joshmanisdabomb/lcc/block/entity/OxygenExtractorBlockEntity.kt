@@ -79,12 +79,10 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     fun getOxygenAmount() = world!!.run { Direction.values().filter { it != Direction.DOWN }.sumOf { getOxygenAmount(this, it).oxygen.times(getDirectionOxygenModifier(it)).toDouble() }.toFloat().div(getWorldOxygenModifier(this)) }

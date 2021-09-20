@@ -46,10 +46,10 @@ allprojects {
 
     group = rootProject.group
 
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 
-    compileKotlin.kotlinOptions.jvmTarget = "1.8"
+    compileKotlin.kotlinOptions.jvmTarget = "16"
     compileKotlin.kotlinOptions.freeCompilerArgs += "-Xjvm-default=all"
 
     ext {
@@ -61,7 +61,7 @@ allprojects {
     }
 
     repositories {
-        maven { url = "http://maven.fabricmc.net/" }
+        maven { url = "https://maven.fabricmc.net/" }
     }
 
     dependencies {
@@ -231,7 +231,7 @@ dependencies {
     afterEvaluate {
         subprojects.each {
             if (!it.dataTask) {
-                compile project(path: ":${it.name}", configuration: "dev")
+                implementation project(path: ":${it.name}", configuration: "dev")
                 include project("${it.name}:")
             }
         }

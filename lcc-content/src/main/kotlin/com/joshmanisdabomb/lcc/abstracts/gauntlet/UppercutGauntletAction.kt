@@ -43,7 +43,7 @@ object UppercutGauntletAction : GauntletAction<UppercutGauntletAction.UppercutGa
         val f by lazy { MathHelper.sqrt(sin * sin + cos * cos) }
 
         override fun initial(remaining: Int, cancelled: Boolean): Boolean {
-            val yaw = MathHelper.wrapDegrees(actor.method_36454())
+            val yaw = MathHelper.wrapDegrees(actor.yaw)
             val s = -MathHelper.sin(yaw * (Math.PI.toFloat() / 180f))
             val c = MathHelper.cos(yaw * (Math.PI.toFloat() / 180f))
             val f = MathHelper.sqrt(s * s + c * c)

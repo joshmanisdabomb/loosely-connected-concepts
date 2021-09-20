@@ -201,7 +201,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
                 val d = (hooked ?: tongue).x - this@ConsumerEntity.x
                 val e = (hooked?.y?.plus(hooked.height.div(2f)) ?: tongue.y) - tongue.getTargetY()!!
                 val f = (hooked ?: tongue).z - this@ConsumerEntity.z
-                val g = MathHelper.sqrt(d * d + f * f).toDouble()
+                val g = MathHelper.sqrt((d * d + f * f).toFloat()).toDouble()
                 val h = MathHelper.wrapDegrees((-(MathHelper.atan2(e, g) * 57.2957763671875)).toFloat())
                 val i = MathHelper.wrapDegrees((MathHelper.atan2(f, d) * 57.2957763671875).toFloat() - 90.0f)
                 entity.headYaw = this.changeAngle(entity.headYaw, i, 20.0f)

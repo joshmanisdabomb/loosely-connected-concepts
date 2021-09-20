@@ -37,6 +37,7 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.StructureFeature.StructureStartFactory
 import java.util.*
+import java.util.function.Predicate
 
 class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(codec) {
 
@@ -44,12 +45,12 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
 
     class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
 
-        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, biome: Biome, config: DefaultFeatureConfig, world: HeightLimitView) {
+        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView, predicate: Predicate<Biome>) {
             val y = gen.getHeight(chunkPos.startX, chunkPos.startZ, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world)
             val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
             val rot = BlockRotation.random(random)
             val mirror = BlockMirror.values()[random.nextInt(3)]
-            method_35462(Piece(manager, (random.nextInt(3) == 0).transform(template_alt, template), pos, rot, mirror))
+            addPiece(Piece(manager, (random.nextInt(3) == 0).transform(template_alt, template), pos, rot, mirror))
             setBoundingBoxFromChildren()
         }
 

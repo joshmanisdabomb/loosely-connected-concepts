@@ -25,7 +25,7 @@ class ExplosivePasteTriggeredCriterion : AbstractCriterion<ExplosivePasteTrigger
     }
 
     fun trigger(player: ServerPlayerEntity, pos: BlockPos) {
-        test(player) { it.matches(player.serverWorld, pos, player.serverWorld.getBlockState(pos)) }
+        trigger(player) { it.matches(player.getWorld(), pos, player.getWorld().getBlockState(pos)) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val state: StatePredicate, val location: LocationPredicate) : AbstractCriterionConditions(id, player) {
@@ -38,7 +38,7 @@ class ExplosivePasteTriggeredCriterion : AbstractCriterion<ExplosivePasteTrigger
         }
 
         fun matches(world: ServerWorld, pos: BlockPos, state: BlockState): Boolean {
-            return this.state.test(state) && this.location.test(world, pos.x.toFloat(), pos.y.toFloat(), pos.z.toFloat())
+            return this.state.test(state) && this.location.test(world, pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
         }
 
     }

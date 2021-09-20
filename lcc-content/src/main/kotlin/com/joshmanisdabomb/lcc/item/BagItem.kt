@@ -4,11 +4,11 @@ import com.joshmanisdabomb.lcc.utils.ItemStackUtils
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.item.BundleTooltipData
-import net.minecraft.client.item.ModelPredicateProvider
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.client.item.TooltipData
+import net.minecraft.client.item.UnclampedModelPredicateProvider
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.inventory.CommandItemSlot
+import net.minecraft.inventory.StackReference
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -52,10 +52,10 @@ interface BagItem {
     }
 
     @JvmDefault
-    fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, commandItemSlot: CommandItemSlot): Boolean {
+    fun onBagClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, cursorStackReference: StackReference): Boolean {
         return if (clickType == ClickType.RIGHT && slot.canTakePartial(player)) {
             if (otherStack.isEmpty) {
-                retrieveBagStack(stack).ifPresent(commandItemSlot::set)
+                retrieveBagStack(stack).ifPresent(cursorStackReference::set)
             } else {
                 if (!canBagStore(otherStack)) return false
                 otherStack.decrement(transferBagStack(stack, otherStack))
@@ -88,7 +88,7 @@ interface BagItem {
 
     @Environment(EnvType.CLIENT)
     @JvmDefault
-    fun getBagPredicate() = ModelPredicateProvider { stack, _, _, _ -> getBagFillPercent(stack) }
+    fun getBagPredicate() = UnclampedModelPredicateProvider { stack, _, _, _ -> getBagFillPercent(stack) }
 
     @Environment(EnvType.CLIENT)
     @JvmDefault
@@ -107,7 +107,7 @@ interface BagItem {
 
     @JvmDefault
     fun getBaggedStacks(stack: ItemStack): Stream<ItemStack> {
-        val nbtCompound = stack.tag ?: return Stream.empty()
+        val nbtCompound = stack.nbt ?: return Stream.empty()
         val nbtList = nbtCompound.getList("Items", 10)
         return nbtList.stream().map { obj -> NbtCompound::class.java.cast(obj) }.map { tag -> ItemStackUtils.fromTagIntCount(tag) }
     }
@@ -120,7 +120,7 @@ interface BagItem {
 
     @JvmDefault
     fun dropFromBag(stack: ItemStack, player: PlayerEntity): Boolean {
-        val nbtCompound = stack.orCreateTag
+        val nbtCompound = stack.orCreateNbt
         if (!nbtCompound.contains("Items")) return false
 
         if (player is ServerPlayerEntity) {
@@ -133,7 +133,7 @@ interface BagItem {
                 }
             }
         }
-        stack.removeSubTag("Items")
+        stack.removeSubNbt("Items")
         return true
     }
 
@@ -148,7 +148,7 @@ interface BagItem {
 
     @JvmDefault
     fun retrieveBagStack(stack: ItemStack): Optional<ItemStack> {
-        val nbtCompound = stack.orCreateTag
+        val nbtCompound = stack.orCreateNbt
         return if (!nbtCompound.contains("Items")) {
             Optional.empty()
         } else {
@@ -166,7 +166,7 @@ interface BagItem {
     @JvmDefault
     fun transferBagStack(bundle: ItemStack, stack: ItemStack): Int {
         return if (!stack.isEmpty && stack.item.canBeNested()) {
-            val nbtCompound = bundle.orCreateTag
+            val nbtCompound = bundle.orCreateNbt
             if (!nbtCompound.contains("Items")) {
                 nbtCompound.put("Items", NbtList())
             }

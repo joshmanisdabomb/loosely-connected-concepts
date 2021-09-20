@@ -1,21 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.content.common;
 
-import com.joshmanisdabomb.lcc.directory.LCCBiomes;
-import net.fabricmc.fabric.impl.biome.InternalBiomeData;
-import net.fabricmc.fabric.impl.biome.InternalBiomeUtils;
-import net.fabricmc.fabric.impl.biome.WeightedBiomePicker;
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BuiltinBiomes;
-import net.minecraft.world.biome.layer.AddHillsLayer;
-import net.minecraft.world.biome.layer.util.LayerRandomnessSource;
-import net.minecraft.world.biome.layer.util.LayerSampler;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-@Mixin(value = AddHillsLayer.class, priority = 500)
+/*@Mixin(value = AddHillsLayer.class, priority = 500)
 public class WastelandBiomeModifierMixin {
 
     @Inject(at = @At("HEAD"), method = "sample", cancellable = true)
@@ -41,7 +26,7 @@ public class WastelandBiomeModifierMixin {
                         if (BiomeLayers.areSimilar(biomeSampler.sample(chunkX, chunkZ + i), biomeId)) ++similarity;
                     }
 
-                    if (similarity >= 3) {*/
+                    if (similarity >= 3) {//
                         info.setReturnValue(biomeReturn);
                         info.cancel();
                         return;
@@ -55,3 +40,4 @@ public class WastelandBiomeModifierMixin {
     }
 
 }
+*/

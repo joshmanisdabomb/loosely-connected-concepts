@@ -43,20 +43,20 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
     }
 
     override fun render(matrix: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        val camera = (client!!.getCameraEntity() as? PlayerEntity) ?: return client!!.openScreen(null)
-        if (camera.mainHandStack.item != LCCItems.gauntlet) return client!!.openScreen(null)
+        val camera = (client!!.getCameraEntity() as? PlayerEntity) ?: return client!!.setScreen(null)
+        if (camera.mainHandStack.item != LCCItems.gauntlet) return client!!.setScreen(null)
 
         val hovered = hovered(mouseX, mouseY)
 
         if (!client!!.options.keyAttack.isPressed) {
             if (hovered != null) {
-                GauntletAction.putInTag(hovered, camera.mainHandStack.orCreateTag)
+                GauntletAction.putInTag(hovered, camera.mainHandStack.orCreateNbt)
                 ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::gauntlet_switch].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeString(GauntletDirectory[hovered].name) })
             }
-            client!!.openScreen(null)
+            client!!.setScreen(null)
         }
 
-        val current = GauntletAction.getFromTag(camera.mainHandStack.tag)
+        val current = GauntletAction.getFromTag(camera.mainHandStack.nbt)
         val alpha = (0x10.times(ticks) + lerp(client!!.tickDelta, 0x00.toFloat(), 0x10.toFloat())).toInt().coerceAtMost(0x90) shl 24
         this.fillGradient(matrix, 0, 0, width, height, 0x00101010 + alpha, 0x10101010 + alpha)
 

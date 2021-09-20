@@ -2,11 +2,11 @@ package com.joshmanisdabomb.lcc.settings
 
 import net.fabricmc.fabric.api.`object`.builder.v1.client.model.FabricModelPredicateProviderRegistry
 import net.minecraft.block.Block
-import net.minecraft.client.item.ModelPredicateProvider
+import net.minecraft.client.item.UnclampedModelPredicateProvider
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 
-class ModelPredicateExtraSetting(val id: Identifier, val provider: (item: Item) -> () -> ModelPredicateProvider) : ExtraSetting {
+class ModelPredicateExtraSetting(val id: Identifier, val provider: (item: Item) -> () -> UnclampedModelPredicateProvider) : ExtraSetting {
 
     override fun initBlock(block: Block) = Unit
 
@@ -19,7 +19,7 @@ class ModelPredicateExtraSetting(val id: Identifier, val provider: (item: Item) 
     }
 
     companion object {
-        fun <T : ItemExtraSettings> T.modelPredicate(id: Identifier, provider: (item: Item) -> () -> ModelPredicateProvider) = this.add(ModelPredicateExtraSetting(id, provider)).let { this }
+        fun <T : ItemExtraSettings> T.modelPredicate(id: Identifier, provider: (item: Item) -> () -> UnclampedModelPredicateProvider) = this.add(ModelPredicateExtraSetting(id, provider)).let { this }
     }
 
 }

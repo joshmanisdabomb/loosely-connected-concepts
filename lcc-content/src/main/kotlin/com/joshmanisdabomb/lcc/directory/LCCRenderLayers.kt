@@ -1,30 +1,27 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.widens.ClientWidens
-import net.minecraft.client.render.*
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.util.Identifier
+import org.apache.commons.lang3.tuple.Triple
 
 object LCCRenderLayers : BasicDirectory<(Identifier) -> RenderLayer, Unit>() {
 
-    private val eyes_shader by lazy { RenderPhase.Shader(GameRenderer::getRenderTypeEyesShader) }
-
-    private val cull_enabled by lazy { RenderPhase.Cull(true) }
-    private val cull_disabled by lazy { RenderPhase.Cull(false) }
-    private val color_mask by lazy { RenderPhase.WriteMaskState(true, false) }
-
     val bright by entry(::initialiser) { {
-        val multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-            .shader(eyes_shader)
-            .texture(RenderPhase.Texture(it, false, false))
-            .cull(cull_enabled)
-            .build(true)
         ClientWidens.renderLayer("entity_lcc_bright",
             VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
             VertexFormat.DrawMode.QUADS,
             256,
             false,
             true,
-            multiPhaseParameters
+            shader = { GameRenderer.getRenderTypeEyesShader()!! },
+            textures = ImmutableList.of(Triple.of(it, false, false)),
+            cull = true,
+            affectsOutline = true
         )
     } }
 

@@ -48,7 +48,7 @@ object GauntletOverlay : DrawableHelper(), GauntletProgressRenderer {
         }
 
         val gauntlet = camera.mainHandStack.item == LCCItems.gauntlet || camera.offHandStack.item == LCCItems.gauntlet
-        val current = camera.mainHandStack?.tag?.let { GauntletAction.getFromTag(it) } ?: camera.offHandStack?.tag?.let { GauntletAction.getFromTag(it) }
+        val current = camera.mainHandStack?.nbt?.let { GauntletAction.getFromTag(it) } ?: camera.offHandStack?.nbt?.let { GauntletAction.getFromTag(it) }
         RenderSystem.enableBlend()
         RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, if (gauntlet) 0.82F else 0.43F)

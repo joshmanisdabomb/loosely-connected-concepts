@@ -31,7 +31,7 @@ class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         }
     }
 
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
         val list = NbtList()
         for (wasp in entries) {
@@ -41,7 +41,6 @@ class PapercombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             list.add(w)
         }
         nbt.put("Wasps", list)
-        return nbt
     }
 
     fun canEnter(wasp: WaspEntity) = !isNearFire() && !isFull() && wasp.world.isNight

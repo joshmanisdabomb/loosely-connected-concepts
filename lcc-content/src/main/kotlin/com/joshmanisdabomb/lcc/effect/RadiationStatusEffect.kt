@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.effect
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
-import net.minecraft.entity.effect.StatusEffectType
+import net.minecraft.entity.effect.StatusEffectCategory
 
-class RadiationStatusEffect(type: StatusEffectType, color: Int) : StatusEffect(type, color) {
+class RadiationStatusEffect(type: StatusEffectCategory, color: Int) : StatusEffect(type, color) {
 
     override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
 

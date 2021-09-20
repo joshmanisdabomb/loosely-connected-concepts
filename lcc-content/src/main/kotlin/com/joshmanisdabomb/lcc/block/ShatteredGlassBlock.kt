@@ -21,11 +21,11 @@ open class ShatteredGlassBlock(val unbroken: Block, settings: Settings) : Abstra
         smash(world, hit.blockPos)
     }
 
-    override fun onLandedUpon(world: World, pos: BlockPos, entity: Entity, distance: Float) {
+    override fun onLandedUpon(world: World, state: BlockState, pos: BlockPos, entity: Entity, fallDistance: Float) {
         smash(world, pos)
     }
 
-    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+    override fun onSteppedOn(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
         smashOnWalk(world, pos, entity)
     }
 

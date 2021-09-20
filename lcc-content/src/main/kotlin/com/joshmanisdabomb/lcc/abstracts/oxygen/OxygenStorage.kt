@@ -5,8 +5,8 @@ import net.minecraft.util.math.MathHelper
 
 interface OxygenStorage {
 
-    fun getOxygen(stack: ItemStack) = stack.tag?.getFloat("lcc-oxygen") ?: 0f
-    fun setOxygen(stack: ItemStack, value: Float) = stack.orCreateTag.putFloat("lcc-oxygen", value.coerceIn(0f, getMaxOxygen(stack)))
+    fun getOxygen(stack: ItemStack) = stack.nbt?.getFloat("lcc-oxygen") ?: 0f
+    fun setOxygen(stack: ItemStack, value: Float) = stack.orCreateNbt.putFloat("lcc-oxygen", value.coerceIn(0f, getMaxOxygen(stack)))
     fun addOxygen(stack: ItemStack, value: Float) = setOxygen(stack, getOxygen(stack) + value)
 
     fun getMaxOxygen(stack: ItemStack): Float

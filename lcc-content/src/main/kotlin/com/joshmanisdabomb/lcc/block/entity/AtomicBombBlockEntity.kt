@@ -45,14 +45,12 @@ class AtomicBombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCB
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    public override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         if (customName != null) tag.putString("CustomName", Text.Serializer.toJson(customName))
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     override fun clear() = inventory.clear()

@@ -36,7 +36,7 @@ class LCCBoatItem(settings: Settings, entity: () -> EntityType<LCCBoatEntity>) :
                     }
                 }
             }
-            val boat = entity.create(world)?.apply { placed(hitResult.pos.x, hitResult.pos.y, hitResult.pos.z, user.method_36454()) } ?: return TypedActionResult.fail(itemStack)
+            val boat = entity.create(world)?.apply { placed(hitResult.pos.x, hitResult.pos.y, hitResult.pos.z, user.yaw) } ?: return TypedActionResult.fail(itemStack)
             if (!world.isSpaceEmpty(boat, boat.boundingBox.expand(-0.1))) {
                 return TypedActionResult.fail(itemStack)
             } else {

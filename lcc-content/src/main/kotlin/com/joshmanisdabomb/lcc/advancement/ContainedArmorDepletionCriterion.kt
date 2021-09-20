@@ -24,8 +24,8 @@ class ContainedArmorDepletionCriterion : AbstractCriterion<ContainedArmorDepleti
         return Conditions(player, stack, before, loss, after)
     }
 
-    fun trigger(player: ServerPlayerEntity, stack: ItemStack, before: Float, loss: Float, after: Float) {
-        test(player) { it.matches(stack, before, loss, after) }
+    fun trigger(player: ServerPlayerEntity, stack: ItemStack, before: Double, loss: Double, after: Double) {
+        trigger(player) { it.matches(stack, before, loss, after) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val item: ItemPredicate, val before: NumberRange.FloatRange, val loss: NumberRange.FloatRange, val after: NumberRange.FloatRange) : AbstractCriterionConditions(id, player) {
@@ -39,7 +39,7 @@ class ContainedArmorDepletionCriterion : AbstractCriterion<ContainedArmorDepleti
             return jsonObject
         }
 
-        fun matches(item: ItemStack, before: Float, loss: Float, after: Float) = this.item.test(item) && this.before.test(before) && this.loss.test(loss) && this.after.test(after)
+        fun matches(item: ItemStack, before: Double, loss: Double, after: Double) = this.item.test(item) && this.before.test(before) && this.loss.test(loss) && this.after.test(after)
 
     }
 

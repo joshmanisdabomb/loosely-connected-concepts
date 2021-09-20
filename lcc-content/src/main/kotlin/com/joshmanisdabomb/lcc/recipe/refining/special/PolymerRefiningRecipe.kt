@@ -56,7 +56,7 @@ class PolymerRefiningRecipe(_id: Identifier) : RefiningSpecialRecipe(_id) {
     }
 
     private fun generatePlastic(flexible: Boolean, vararg colors: LCCExtendedDyeColor) = flexible.transform(LCCItems.flexible_plastic, LCCItems.rigid_plastic).stack(3) {
-        if (colors.isNotEmpty()) getOrCreateSubTag("display").putInt("color", PlasticItem.getColorBlend(*colors))
+        if (colors.isNotEmpty()) getOrCreateSubNbt("display").putInt("color", PlasticItem.getColorBlend(*colors))
     }
 
     override fun matches(inv: RefiningInventory, world: World): Boolean {

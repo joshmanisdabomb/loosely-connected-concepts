@@ -31,7 +31,7 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
         super.readNbt(tag)
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         return super.writeNbt(toClientTag(tag))
     }
 

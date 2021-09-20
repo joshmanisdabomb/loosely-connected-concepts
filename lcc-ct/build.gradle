@@ -1,5 +1,5 @@
 archivesBaseName = "lcc-ct"
 
 dependencies {
-    compile project(':lcc-infra')
+    api project(':lcc-infra')
 }

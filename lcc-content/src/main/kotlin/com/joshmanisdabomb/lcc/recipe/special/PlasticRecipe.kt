@@ -38,7 +38,7 @@ class PlasticRecipe(private val id: Identifier, group: String, width: Int, heigh
         }
         if (colors.isEmpty()) error("Plastic recipe with no plastic ingredients, a regular shaped recipe should be used instead.")
         val color = PlasticItem.getColorMix(colors.distinct())
-        return super.craft(craftingInventory).apply { putSubTag("display", NbtCompound().apply { putInt("color", color) }) }
+        return super.craft(craftingInventory).apply { setSubNbt("display", NbtCompound().apply { putInt("color", color) }) }
     }
 
     override fun getSerializer() = LCCRecipeSerializers.plastic_shaped

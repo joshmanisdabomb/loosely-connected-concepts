@@ -32,13 +32,11 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
         else distance = null
     }
 
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
 
         yaw?.also { nbt.put("Yaw", NbtList().apply { addFloats(it) }) }
         distance?.also { nbt.put("Distance", NbtList().apply { addFloats(it) }) }
-
-        return nbt
     }
 
     fun activate(world: ServerWorld): Long? {

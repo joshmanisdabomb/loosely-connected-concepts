@@ -30,7 +30,7 @@ object TraitSpawnPacket {
                 val world = client.world ?: return@execute
                 val e = entity.create(world) ?: return@execute
 
-                e.setEntityId(id)
+                e.id = id
                 e.uuid = uuid
                 e.updatePosition(x, y, z)
                 e.updateTrackedPosition(x, y, z)

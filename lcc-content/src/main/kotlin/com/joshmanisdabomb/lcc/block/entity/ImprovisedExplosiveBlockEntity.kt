@@ -26,10 +26,9 @@ class ImprovisedExplosiveBlockEntity(pos: BlockPos, state: BlockState) : BlockEn
         fuse = tag.getShort("Fuse").toInt()
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
         tag.putShort("Fuse", fuse.toShort())
-        return tag
     }
 
     override fun fromClientTag(tag: NbtCompound) {

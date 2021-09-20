@@ -13,7 +13,10 @@ import com.joshmanisdabomb.lcc.energy.stack.StackEnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
-import com.joshmanisdabomb.lcc.extensions.*
+import com.joshmanisdabomb.lcc.extensions.NBT_FLOAT
+import com.joshmanisdabomb.lcc.extensions.NBT_STRING
+import com.joshmanisdabomb.lcc.extensions.stack
+import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
@@ -165,7 +168,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }
@@ -180,8 +183,6 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         tag.putInt("Meltdown", meltdownTicks)
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     override fun fromClientTag(tag: NbtCompound) {

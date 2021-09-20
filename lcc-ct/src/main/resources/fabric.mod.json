@@ -22,7 +22,7 @@
     "fabricloader": ">=0.11.1",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
-    "minecraft": "1.17.x",
+    "minecraft": "1.18.x",
     "lcc-infra": [">=1.0.0", "${version}"]
   },
   "suggests": {

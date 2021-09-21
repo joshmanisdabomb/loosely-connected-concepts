@@ -5,6 +5,8 @@ import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuild
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleSelfLinkBuilder
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
+import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
+import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 
@@ -47,6 +49,18 @@ open class KnowledgeLinker {
 
     fun stackLinksJson(vararg stacks: ItemStack) : JsonObject {
         return itemLinksJson(*stacks.map { it.item }.distinct().toTypedArray())
+    }
+
+    fun recipeLinksJson(recipe: RecipeJsonProvider, vararg items: Item) : JsonObject {
+        val json = itemLinksJson(*items)
+        val r = recipe.serializer.read(recipe.recipeId, recipe.toJson())
+        if (r is LCCRecipe) {
+            r.getAllOutputs().map { it.item }.forEach { i ->
+                val article = exporter.articles.firstOrNull { it.about.contains(i) }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
+                generateLink(article)?.apply { json.add(i.identifier.toString(), this.toJsonFinal(exporter)) }
+            }
+        }
+        return json
     }
 
 }

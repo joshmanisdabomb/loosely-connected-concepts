@@ -9,9 +9,9 @@ import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
 import com.joshmanisdabomb.lcc.data.generators.kb.export.DatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeLinker
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
-import com.joshmanisdabomb.lcc.data.knowledge.LCCKnowledgeTranslator
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCTags
@@ -92,7 +92,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
     }
 
     private fun setupExports() {
-        val translator = LCCKnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource()
+        val translator = KnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource()
         val linker = KnowledgeLinker()
             .apply { LCCVersionGroup.values().forEach { this.addSelfProvider(it.namespace) } }
             .addProvider { a -> if (a.registry.namespace == "minecraft" && a.key.namespace == "minecraft") KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/${a.key.path}" } else null }

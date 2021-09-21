@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
@@ -14,6 +15,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
@@ -244,7 +246,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     val item_oil_bucket by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.oil_bucket)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item originally introduced in %s and reintroduced in %s. This %s contains %s, which can be found in the %s biome in pockets underneath the %s surface, or as geysers.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item originally introduced in %s and reintroduced in %s. This %s contains %s which is found in the %s biome in the form of either geysers spewing from the surface, or as pockets hidden slightly underneath %s.")
                     .insert(LCCItems.oil_bucket.name)
                     .insertLink("YAM Update 4", LCCVersion.YAM_4.page.link)
                     .insertLink("LCC 0.1.0", LCCVersion.LCC_FABRIC_0_1_0.page.link)
@@ -264,7 +266,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Power")
-                .addFragment(KnowledgeArticleTextFragmentBuilder("Buckets of oil can be placed in a %s to yield 2 LE/t. It is much more efficient to first refine crude oil into fuel, which provides 14 LE/t in the generator.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Buckets of oil can be placed in a %s to yield 2 LE/t over 600 seconds. It is much more efficient to first refine crude oil into fuel, which provides 14 LE/t over 200 seconds in the generator.")
                     .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
                 )
             )
@@ -273,6 +275,94 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.oil_bucket) })
+                .addFragment(legacyOilRecipe())
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_tar_ball by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.tar_ball)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a crafting material introduced in %s used to create %s which eventually hardens into %s. It is obtained from refining %s.")
+                    .insert(LCCItems.tar_ball.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("asphalt", KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
+                    .insertLink("road blocks", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.road).link)
+                    .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.tar_ball) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.tar_ball) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_asphalt_bucket by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.asphalt_bucket)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s but first made obtainable in %s. This %s contains %s which can be placed in the world. It is obtained by refining %s.")
+                    .insert(LCCItems.asphalt_bucket.name)
+                    .insertLink("LCC 0.1.0", LCCVersion.LCC_FABRIC_0_1_0.page.link)
+                    .insertLink("LCC 0.3.0", LCCVersion.LCC_FABRIC_0_3_0.page.link)
+                    .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
+                    .insertLink("asphalt", KnowledgeArticleIdentifier.ofFluid(LCCFluids.asphalt_still).link)
+                    .insertLink("tar", KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.asphalt_bucket) })
+                .addFragment(legacyOilRecipe())
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.asphalt_bucket) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_fuel_bucket by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.fuel_bucket)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. The contents of this %s represents a crafting material that cannot be placed in the world. Fuel can be used to generate power or to craft %s.")
+                    .insert(LCCItems.fuel_bucket.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
+                    .insertLink(LCCBlocks.explosive_paste.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.explosive_paste).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Power")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Buckets of fuel can be placed in a %s to yield 14 LE/t over 200 seconds. It is much more efficient to use fuel than using crude oil directly, which provides 2 LE/t over 600 seconds in the generator.")
+                    .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.fuel_bucket) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.fuel_bucket) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+    }
+
+    val item_refined_oil_bucket by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.refined_oil_bucket)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. The contents of this %s represents a crafting material that cannot be placed in the world. Refined oil can be further refined to create %s and %s.")
+                    .insert(LCCItems.refined_oil_bucket.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
+                    .insertLink("flexible", KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
+                    .insertLink("rigid plastic", KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.refined_oil_bucket) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { listOf(plasticRecipe(it, LCCItems.flexible_plastic, Items.BONE_MEAL), plasticRecipe(it, LCCItems.rigid_plastic, Items.QUARTZ)) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.refined_oil_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
@@ -289,7 +379,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
 
     fun getArticlesAbout(topic: Any) = this.all.filter { (k, v) -> v.about.contains(topic) }
 
-    //Article Generators (Shared Code)
+    //Shared Code
 
     private fun generatePlasticDespawningSection(topic: Item) = KnowledgeArticleSectionBuilder("Despawning")
         .addFragment(KnowledgeArticleTextFragmentBuilder("%s, like all plastic-based items, do not despawn after 5 minutes when dropped in the world.")
@@ -321,37 +411,50 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder.fromOffers { e, g ->
-                    g(
-                        OverrideRecipeJsonProvider.fromFactory(LCCRecipeSerializers.polymerization, RefiningShapelessRecipeJsonFactory()
-                            .addInput(LCCItems.refined_oil_bucket)
-                            .addInput(plasticiser)
-                            .addInput(Ingredient.ofItems(*Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray()))
-                            .addOutput(topic, 3)
-                            .with(*PolymerRefiningRecipe.blocks)
-                            .meta(PolymerRefiningRecipe.lang, PolymerRefiningRecipe.icon, PolymerRefiningRecipe.state)
-                            .speed(PolymerRefiningRecipe.speed, PolymerRefiningRecipe.speedGainPerTick, PolymerRefiningRecipe.maxSpeedGainPerTick)
-                            .energyPerTick(PolymerRefiningRecipe.energyPerTick)
-                        , RefiningShapelessRecipeJsonFactory::offerTo) {
-                            val ingredients = it.get("ingredients").asJsonArray
-                            val dyeStack = ingredients[2].asJsonArray
-                            dyeStack.forEachIndexed { k, v ->
-                                val stack = v.asJsonObject
-                                stack.addProperty("vararg", true)
-                                dyeStack.set(k, v)
-                            }
-                            ingredients.set(2, dyeStack)
-                            it.add("ingredients", ingredients)
-                            val items = arrayOf(LCCItems.refined_oil_bucket, plasticiser, *Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray(), topic)
-                            it.add("translations", e.translator.itemTranslationsJson(*items))
-                            it.add("links", e.linker.itemLinksJson(*items))
-                        }
-                    )
-                })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { listOf(plasticRecipe(it, topic, plasticiser)) })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(topic) })
             )
     }
+
+    private fun plasticRecipe(exporter: KnowledgeExporter, output: Item, plasticiser: Item) = OverrideRecipeJsonProvider.fromFactory(LCCRecipeSerializers.polymerization, RefiningShapelessRecipeJsonFactory()
+        .addInput(LCCItems.refined_oil_bucket)
+        .addInput(plasticiser)
+        .addInput(Ingredient.ofItems(*Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray()))
+        .addOutput(output, 3)
+        .with(*PolymerRefiningRecipe.blocks)
+        .meta(PolymerRefiningRecipe.lang, PolymerRefiningRecipe.icon, PolymerRefiningRecipe.state)
+        .speed(PolymerRefiningRecipe.speed, PolymerRefiningRecipe.speedGainPerTick, PolymerRefiningRecipe.maxSpeedGainPerTick)
+        .energyPerTick(PolymerRefiningRecipe.energyPerTick)
+    , RefiningShapelessRecipeJsonFactory::offerTo) {
+        val ingredients = it.get("ingredients").asJsonArray
+        val dyeStack = ingredients[2].asJsonArray
+        dyeStack.forEachIndexed { k, v ->
+            val stack = v.asJsonObject
+            stack.addProperty("vararg", true)
+            dyeStack.set(k, v)
+        }
+        ingredients.set(2, dyeStack)
+        it.add("ingredients", ingredients)
+        val items = arrayOf(LCCItems.refined_oil_bucket, plasticiser, *Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray(), output)
+        it.add("translations", exporter.translator.itemTranslationsJson(*items))
+        it.add("links", exporter.linker.itemLinksJson(*items))
+    }
+
+    private fun legacyOilRecipe() = KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("Recipe before %s.")
+        .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link), obsolete = true) { e ->
+            listOf(OverrideRecipeJsonProvider(LCCRecipeSerializers.refining_shapeless, e.da.recipeStore.findRecipes(LCCItems.asphalt_bucket).first()) {
+                val ingredients = it.get("ingredients").asJsonArray
+                val tar = ingredients[0].asJsonObject
+                tar.addProperty("item", LCCItems.oil_bucket.identifier.toString())
+                ingredients.set(0, tar)
+                ingredients.remove(3)
+                it.add("ingredients", ingredients)
+                val items = arrayOf(LCCItems.oil_bucket, Items.SAND, Items.GRAVEL, LCCItems.asphalt_bucket)
+                it.add("translations", e.translator.itemTranslationsJson(*items))
+                it.add("links", e.linker.itemLinksJson(*items))
+            })
+        }
 
 }

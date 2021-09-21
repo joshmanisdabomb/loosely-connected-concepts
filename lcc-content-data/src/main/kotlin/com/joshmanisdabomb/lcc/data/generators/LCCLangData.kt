@@ -52,6 +52,7 @@ object LCCLangData {
         en_us["container.lcc.refining.recipe.salt"] = "Salt Purification"
         en_us["container.lcc.refining.recipe.paste_mixing"] = "Reagent Binding"
         en_us["container.lcc.refining.recipe.fractional_distillation"] = "Fractional Distillation"
+        en_us["container.lcc.refining.recipe.tar_cracking"] = "Tar Cracking"
         en_us["container.lcc.refining.recipe.oil_cracking"] = "Oil Cracking"
         en_us["container.lcc.refining.recipe.polymerization"] = "Polymerization"
 

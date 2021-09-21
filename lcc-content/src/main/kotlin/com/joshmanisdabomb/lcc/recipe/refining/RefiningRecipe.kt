@@ -2,16 +2,15 @@ package com.joshmanisdabomb.lcc.recipe.refining
 
 import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
-import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.inventory.RefiningInventory
-import com.joshmanisdabomb.lcc.knowledge.KnowledgeRecipeTranslationHandler
+import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeMatcher
 import java.util.*
 
-abstract class RefiningRecipe : Recipe<RefiningInventory>, KnowledgeRecipeTranslationHandler {
+abstract class RefiningRecipe : Recipe<RefiningInventory>, LCCRecipe {
 
     abstract val blocks: Array<Block>
     abstract val lang: String
@@ -36,10 +35,8 @@ abstract class RefiningRecipe : Recipe<RefiningInventory>, KnowledgeRecipeTransl
 
     abstract fun generateMaximum(inventory: RefiningInventory): List<ItemStack>
 
-    abstract fun getOutputs(): List<ItemStack>
-
     override fun getExtraTranslations(): Map<String, String> {
-        return mapOf("action" to lang, *getOutputs().map { it.item.identifier.toString() to it.item.translationKey }.toTypedArray())
+        return (mutableMapOf("action" to lang, *super.getExtraTranslations().toList().toTypedArray()))
     }
 
     fun getInputStackMap(inv: RefiningInventory, sizeCheck: (Int) -> Boolean): List<ItemStack>? {

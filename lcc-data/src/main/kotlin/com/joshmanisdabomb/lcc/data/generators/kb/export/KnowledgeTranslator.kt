@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
@@ -65,6 +66,15 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
 
     open fun stackTranslationsJson(vararg stacks: ItemStack) = itemTranslationsJson(*stacks.map { it.item }.distinct().toTypedArray())
 
-    open fun recipeTranslationsJson(recipe: RecipeJsonProvider, vararg items: Item) = itemTranslationsJson(*items)
+    open fun recipeTranslationsJson(recipe: RecipeJsonProvider, vararg items: Item): JsonObject {
+        val json = itemTranslationsJson(*items)
+        val r = recipe.serializer.read(recipe.recipeId, recipe.toJson())
+        if (r is LCCRecipe) {
+            r.getExtraTranslations().forEach { (k, v) ->
+                json.add(k, withTranslationJson(v))
+            }
+        }
+        return json
+    }
 
 }

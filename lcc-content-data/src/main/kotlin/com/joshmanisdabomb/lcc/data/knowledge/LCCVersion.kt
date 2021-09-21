@@ -325,6 +325,7 @@ Time rift functionality and ruby recipes."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Reintroduced.")
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     },
@@ -376,6 +377,8 @@ Added heavy uranium."""
             map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Can be inserted into a %s to generate 6 LE/t\nCan now be refined into %s.")
                 .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
                 .insertLink(LCCItems.asphalt_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder("Now craftable by refining %s.")
+                .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
             return map.toSortedMap()
         }
     },
@@ -493,11 +496,18 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_rigid_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_flexible_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_plastic_bag] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Name changed to Crude Oil Bucket.\nIs now instead refined into %s, %s and %s; this recipe requires 2 buckets of oil.\nNow only generates 2 LE/t in a %s")
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Name changed to Crude Oil Bucket.\nNo longer directly refines into %s. Now refines into %s, %s and %s; this recipe requires 2 buckets of oil.\nNow only generates 2 LE/t in a %s.")
+                .insertLink(LCCItems.asphalt_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
                 .insertLink(LCCItems.fuel_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket).link)
                 .insertLink(LCCItems.refined_oil_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
                 .insertLink(LCCItems.tar_ball.name, KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
                 .insert(LCCBlocks.oil_generator.name)
+            map[LCCKnowledgeData.item_tar_ball] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder("Recipe now requires %s instead of using %s directly.")
+                .insertLink(LCCItems.tar_ball.name, KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
+                .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
+            map[LCCKnowledgeData.item_fuel_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_refined_oil_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

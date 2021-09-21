@@ -44,7 +44,7 @@ class PolymerRefiningRecipe(_id: Identifier) : RefiningSpecialRecipe(_id) {
         return isPlasticiserFlexible(inventory)?.run { listOf(generatePlastic(this, *colors.toTypedArray())) } ?: emptyList()
     }
 
-    override fun getOutputs() = listOf(LCCItems.flexible_plastic.stack(), LCCItems.rigid_plastic.stack())
+    override fun getAllOutputs() = listOf(LCCItems.flexible_plastic.stack(), LCCItems.rigid_plastic.stack())
 
     private fun isPlasticiserFlexible(inventory: RefiningInventory): Boolean? {
         for (j in 0 until inventory.width*inventory.height) {

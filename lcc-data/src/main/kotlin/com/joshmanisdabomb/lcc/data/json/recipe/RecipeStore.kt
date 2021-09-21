@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data.json.recipe
 
 import com.google.gson.JsonArray
+import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
@@ -29,10 +30,9 @@ class RecipeStore {
         val makeReverse = mutableMapOf<Identifier, List<Item>>()
         map.forEach { (k, v) ->
             val recipe = objects[k]!!
-            if (!recipe.output.isEmpty) {
-                make.computeIfAbsent(recipe.output.item) { mutableListOf() }.add(v)
-                makeReverse.put(k, listOf(recipe.output.item))
-            }
+            val outputs = ((recipe as? LCCRecipe)?.getAllOutputs()?.plus(recipe.output) ?: listOf(recipe.output)).mapNotNull { it.item }.distinct()
+            outputs.forEach { make.computeIfAbsent(it) { mutableListOf() }.add(v) }
+            makeReverse[k] = outputs
         }
         this.make = make
         this.makeReverse = makeReverse

@@ -16,6 +16,8 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
 
             ArticleFragments.deleteAll()
             ArticleSections.deleteAll()
+            ArticleTags.deleteAll()
+            ArticleRedirects.deleteAll()
             Articles.update({ Articles.deleted_at.isNull() }) { it[deleted_at] = LocalDateTime.now() }
 
             articles.forEach { a ->
@@ -70,6 +72,27 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
                         }
                     }
                 }
+
+                a.redirects.forEach { (i, r) ->
+                    ArticleRedirects.insert {
+                        it[article_id] = articleId
+                        it[registry] = i.registry.toString()
+                        it[key] = i.key.toString()
+                        it[name] = r?.let { translator.textResolve(it) }
+                        it[slug1] = i.registry.path
+                        it[slug2] = i.key.path
+                        it[created_at] = LocalDateTime.now()
+                        it[updated_at] = null
+                        it[deleted_at] = null
+                    }
+                }
+
+                a.tags.forEach { t ->
+                    ArticleTags.insert {
+                        it[article_id] = articleId
+                        it[tag] = t
+                    }
+                }
             }
         }
     }
@@ -118,6 +141,32 @@ class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, arti
         val deleted_at = datetime("deleted_at").nullable()
 
         override val tableName = "article_fragments"
+
+        override val primaryKey = PrimaryKey(id, name = "PRIMARY")
+    }
+
+    protected object ArticleTags : Table() {
+        val article_id = integer("article_id").references(Articles.id)
+        val tag = varchar("tag", 255)
+
+        override val tableName = "article_tags"
+
+        override val primaryKey = PrimaryKey(article_id, tag, name = "PRIMARY")
+    }
+
+    protected object ArticleRedirects : Table() {
+        val id = integer("id").autoIncrement()
+        val article_id = integer("article_id").references(Articles.id)
+        val registry = varchar("registry", 255)
+        val key = varchar("key", 255)
+        val name = varchar("name", 255).nullable()
+        val slug1 = varchar("slug1", 255)
+        val slug2 = varchar("slug2", 255)
+        val created_at = datetime("created_at").nullable()
+        val updated_at = datetime("updated_at").nullable()
+        val deleted_at = datetime("deleted_at").nullable()
+
+        override val tableName = "article_redirects"
 
         override val primaryKey = PrimaryKey(id, name = "PRIMARY")
     }

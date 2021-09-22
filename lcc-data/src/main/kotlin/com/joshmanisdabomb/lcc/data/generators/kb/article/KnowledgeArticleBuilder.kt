@@ -35,8 +35,10 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
 
     private val _about = mutableListOf<Any>()
     val about by lazy { _about.toList() }
-    private val _redirects = mutableListOf<KnowledgeArticleIdentifier>()
-    val redirects by lazy { _redirects.toList() }
+    private val _redirects = mutableMapOf<KnowledgeArticleIdentifier, Text?>()
+    val redirects by lazy { _redirects.toMap() }
+    private val _tags = mutableListOf<String>()
+    val tags by lazy { _tags.toList() }
 
     fun getSectionId(section: KnowledgeArticleSectionBuilder) = sections.indexOf(section)
 
@@ -47,8 +49,14 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
-    fun redirectsHere(vararg links: KnowledgeArticleIdentifier): KnowledgeArticleBuilder {
-        _redirects.addAll(links.filter { it != location })
+    fun redirectsHere(link: KnowledgeArticleIdentifier, title: Text? = null): KnowledgeArticleBuilder {
+        if (link == location) return this
+        _redirects[link] = title
+        return this
+    }
+
+    fun tags(vararg tags: String): KnowledgeArticleBuilder {
+        _tags.addAll(tags)
         return this
     }
 

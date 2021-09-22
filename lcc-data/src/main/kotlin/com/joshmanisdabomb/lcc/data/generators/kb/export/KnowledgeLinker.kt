@@ -27,7 +27,7 @@ open class KnowledgeLinker {
         if (exporter.articles.any { it.location == location }) {
             return location
         }
-        return exporter.articles.firstOrNull { it.redirects.contains(location) }?.location ?: location
+        return exporter.articles.firstOrNull { it.redirects.containsKey(location) }?.location ?: location
     }
 
     fun generateLink(identifier: KnowledgeArticleIdentifier) : KnowledgeArticleLinkBuilder? {

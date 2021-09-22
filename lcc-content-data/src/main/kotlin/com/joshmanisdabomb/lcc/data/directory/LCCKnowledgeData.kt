@@ -52,6 +52,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland")
     }
 
     val lcc_fabric_0_5_0 by entry(::initialiser) {
@@ -126,6 +127,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder(LCCVersion.LCC_FABRIC_0_5_0.description))
             )
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_0))
+            .tags("LCC")
     }
 
     val block_explosive_paste by entry(::initialiser) {
@@ -183,35 +185,38 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Crafting Materials")
     }
 
     val item_rigid_plastic by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.rigid_plastic)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s as a crafting material for plastic items. It currently has no uses, but is planned to be a key crafting ingredient for computers in the future. It can be obtained through the refinement of %s, similarly to %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s as a crafting material for plastic items. It currently has no uses, but is planned to be a key crafting ingredient for computers in the future. It can be obtained by refining %s, similarly to %s.")
                     .insert(LCCItems.rigid_plastic.name)
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
-                    .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
+                    .insertLink("refined oil", KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
                     .insertLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
                 )
             )
             .apply { generatePlasticArticle(this, LCCItems.rigid_plastic, Items.QUARTZ) }
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Materials", "Plastic")
     }
 
     val item_flexible_plastic by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.flexible_plastic)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s as a crafting material for plastic items such as the %s. It can be obtained through the refinement of %s, similarly to %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s as a crafting material for plastic items such as the %s. It can be obtained by refining %s, similarly to %s.")
                     .insert(LCCItems.flexible_plastic.name)
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
                     .insertLink(LCCItems.plastic_bag.name, KnowledgeArticleIdentifier.ofItem(LCCItems.plastic_bag).link)
-                    .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
+                    .insertLink("refined oil", KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
                     .insertLink(LCCItems.rigid_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
                 )
             )
             .apply { generatePlasticArticle(this, LCCItems.flexible_plastic, Items.BONE_MEAL) }
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Materials", "Plastic")
     }
 
     val item_plastic_bag by entry(::initialiser) {
@@ -241,6 +246,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.plastic_bag) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Tools", "Bags", "Plastic")
     }
 
     val item_oil_bucket by entry(::initialiser) {
@@ -278,12 +284,13 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(legacyOilRecipe())
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Oil", "Materials", "Bucket", "Wasteland")
     }
 
     val item_tar_ball by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.tar_ball)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a crafting material introduced in %s used to create %s which eventually hardens into %s. It is obtained from refining %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a crafting material introduced in %s which can be used to create %s which eventually hardens into %s. It is one of the three products obtained by refining %s.")
                     .insert(LCCItems.tar_ball.name)
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
                     .insertLink("asphalt", KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
@@ -298,6 +305,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.tar_ball) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Oil", "Materials")
     }
 
     val item_asphalt_bucket by entry(::initialiser) {
@@ -320,14 +328,16 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.asphalt_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Oil", "Materials")
     }
 
     val item_fuel_bucket by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.fuel_bucket)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. The contents of this %s represents a crafting material that cannot be placed in the world. Fuel can be used to generate power or to craft %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. It is one of the three products obtained by refining %s. The contents of this %s represents a crafting material that cannot be placed in the world. Fuel can be used to generate power or to craft %s.")
                     .insert(LCCItems.fuel_bucket.name)
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
                     .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
                     .insertLink(LCCBlocks.explosive_paste.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.explosive_paste).link)
                 )
@@ -344,14 +354,16 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.fuel_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Oil", "Materials", "Power")
     }
 
     val item_refined_oil_bucket by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.refined_oil_bucket)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. The contents of this %s represents a crafting material that cannot be placed in the world. Refined oil can be further refined to create %s and %s.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an item introduced in %s. It is one of the three products obtained by refining %s. The contents of this %s represents a crafting material that cannot be placed in the world. Refined oil can be further refined to create %s and %s.")
                     .insert(LCCItems.refined_oil_bucket.name)
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
                     .insertLink("bucket", KnowledgeArticleIdentifier.ofItem(Items.BUCKET).link)
                     .insertLink("flexible", KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
                     .insertLink("rigid plastic", KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
@@ -365,6 +377,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.refined_oil_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Oil", "Materials", "Plastic")
     }
 
     private val introduction = "Introduction"

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.kb.article
 
 import net.minecraft.block.Block
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
@@ -22,6 +23,8 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofItem(item: Item) = of(Registry.ITEM, item)
         fun ofEntity(entity: EntityType<*>) = of(Registry.ENTITY_TYPE, entity)
         fun ofFluid(fluid: Fluid) = of(Registry.FLUID, fluid)
+
+        fun ofEnchant(enchant: Enchantment) = of(Registry.ENCHANTMENT, enchant)
 
         fun ofBiome(biome: Biome) = of(BuiltinRegistries.BIOME, biome)
         fun ofStructure(structure: StructureFeature<*>) = of(Registry.STRUCTURE_FEATURE, structure)

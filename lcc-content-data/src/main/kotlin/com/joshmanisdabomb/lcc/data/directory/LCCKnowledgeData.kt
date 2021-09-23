@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilde
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
+import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleVersionChangelogSectionBuilder
@@ -19,10 +20,14 @@ import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
+import net.minecraft.block.Blocks
+import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.EntityType
 import net.minecraft.item.DyeItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 
@@ -154,27 +159,27 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .addRow {
                         addCell(KnowledgeArticleTextFragmentBuilder("0"))
                         addCell(KnowledgeArticleTextFragmentBuilder("2.5"))
-                        addCell(KnowledgeArticleTextFragmentBuilder("Ghast Fireball"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("%s Fireball").insertLink(TranslatableText(EntityType.GHAST.translationKey), KnowledgeArticleIdentifier.ofEntity(EntityType.GHAST).link))
                     }
                     .addRow {
                         addCell(KnowledgeArticleTextFragmentBuilder("1"))
                         addCell(KnowledgeArticleTextFragmentBuilder("3.4"))
-                        addCell(KnowledgeArticleTextFragmentBuilder("Creeper"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("%s").insertLink(TranslatableText(EntityType.CREEPER.translationKey), KnowledgeArticleIdentifier.ofEntity(EntityType.CREEPER).link))
                     }
                     .addRow {
                         addCell(KnowledgeArticleTextFragmentBuilder("2"))
                         addCell(KnowledgeArticleTextFragmentBuilder("4.3"))
-                        addCell(KnowledgeArticleTextFragmentBuilder("TNT"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("%s").insertLink(Blocks.TNT.name, KnowledgeArticleIdentifier.ofBlock(Blocks.TNT).link))
                     }
                     .addRow {
                         addCell(KnowledgeArticleTextFragmentBuilder("3"))
                         addCell(KnowledgeArticleTextFragmentBuilder("5.2"))
-                        addCell(KnowledgeArticleTextFragmentBuilder("Bed"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("%s/%s").insertLink("Bed", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/bed" } }).insertLink(Blocks.RESPAWN_ANCHOR.name, KnowledgeArticleIdentifier.ofBlock(Blocks.RESPAWN_ANCHOR).link))
                     }
                     .addRow {
                         addCell(KnowledgeArticleTextFragmentBuilder("4"))
                         addCell(KnowledgeArticleTextFragmentBuilder("6.1"))
-                        addCell(KnowledgeArticleTextFragmentBuilder("Charged Creeper"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("Charged %s").insert(TranslatableText(EntityType.CREEPER.translationKey)))
                     }
                 )
             )
@@ -185,7 +190,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Crafting Materials")
+            .tags("Wasteland", "Crafting Materials", "Explosives")
     }
 
     val item_rigid_plastic by entry(::initialiser) {
@@ -378,6 +383,56 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .tags("Oil", "Materials", "Plastic")
+    }
+
+    val block_improvised_explosive by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.improvised_explosive)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a block introduced in %s that can be triggered to create an explosion, similar to %s.")
+                    .insert(LCCBlocks.improvised_explosive.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(Blocks.TNT.name, KnowledgeArticleIdentifier.ofBlock(Blocks.TNT).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Obtaining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss can be generated in the %s in the form of landmines, accompanied by a %s. When generated in the world, using a %s or higher has a 30%% chance to drop the block. This chance increases by 10%% for every level of %s. Mining with a %s has a 100%% drop chance.")
+                    .insert(LCCBlocks.improvised_explosive.name)
+                    .insertLink("Wasteland Barrens", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens).link)
+                    .insertLink(LCCBlocks.cracked_mud_pressure_plate.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud_pressure_plate).link)
+                    .insertLink(LCCItems.fortstone_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fortstone_pickaxe).link)
+                    .insertLink(TranslatableText(Enchantments.LOOTING.translationKey), KnowledgeArticleIdentifier.ofEnchant(Enchantments.LOOTING).link)
+                    .insertLink(LCCItems.crowbar.name, KnowledgeArticleIdentifier.ofItem(LCCItems.crowbar).link)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("They can also be crafted with a recipe involving %s.")
+                    .insertLink(LCCBlocks.explosive_paste.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.explosive_paste).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Usage")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss can be triggered with a redstone signal, another explosion, or a projectile (e.g. an %s or a %s). When activated by redstone or a projectile, the block will begin to blink and beep slowly for 3-6 seconds. After that, the block will blink and beep rapidly for 1 second before exploding.")
+                    .insert(LCCBlocks.improvised_explosive.name)
+                    .insertLink("arrow", KnowledgeArticleIdentifier.ofItem(Items.ARROW).link)
+                    .insertLink("trident", KnowledgeArticleIdentifier.ofItem(Items.TRIDENT).link)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("When activated by another explosion, the block blinks and beeps rapidly and is set to explode in 0.5-1.5 seconds."))
+                .addFragment(KnowledgeArticleTextFragmentBuilder("When an active explosive receives a block update and does not have a redstone signal applied to it (i.e. a redstone signal is removed from the explosive), the block will instantly explode."))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Explosion")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The explosion created by an %s leaves behind %s similar to that of a %s or %s. The explosion strength is 6.0, which is the same strength as a Charged %s.")
+                    .insert(LCCBlocks.improvised_explosive.name)
+                    .insertLink(Blocks.FIRE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.FIRE).link)
+                    .insertLink("Bed", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/bed" } })
+                    .insertLink(Blocks.RESPAWN_ANCHOR.name, KnowledgeArticleIdentifier.ofBlock(Blocks.RESPAWN_ANCHOR).link)
+                    .insertLink(TranslatableText(EntityType.CREEPER.translationKey), KnowledgeArticleIdentifier.ofEntity(EntityType.CREEPER).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.improvised_explosive) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.improvised_explosive) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Explosives")
     }
 
     private val introduction = "Introduction"

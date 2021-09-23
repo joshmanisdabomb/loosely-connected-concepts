@@ -508,6 +508,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
                 .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
             map[LCCKnowledgeData.item_fuel_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_refined_oil_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_improvised_explosive] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

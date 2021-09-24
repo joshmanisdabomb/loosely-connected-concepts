@@ -8,93 +8,95 @@ import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 
-class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>, translator: KnowledgeTranslator, linker: KnowledgeLinker) : KnowledgeExporter(da, articles, translator, linker) {
+open class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>, translator: KnowledgeTranslator, linker: KnowledgeLinker) : KnowledgeExporter(da, articles, translator, linker) {
 
-    override fun run(cache: DataCache) {
-        transaction(db) {
-            addLogger(StdOutSqlLogger)
+    open fun transaction(db: Transaction) {
+        db.addLogger(StdOutSqlLogger)
 
-            ArticleFragments.deleteAll()
-            ArticleSections.deleteAll()
-            ArticleTags.deleteAll()
-            ArticleRedirects.deleteAll()
-            Articles.update({ Articles.deleted_at.isNull() }) { it[deleted_at] = LocalDateTime.now() }
+        ArticleFragments.deleteAll()
+        ArticleSections.deleteAll()
+        ArticleTags.deleteAll()
+        ArticleRedirects.deleteAll()
+        Articles.update({ Articles.deleted_at.isNull() }) { it[deleted_at] = LocalDateTime.now() }
 
-            articles.forEach { a ->
-                a.onExport(this@DatabaseKnowledgeExporter)
+        articles.forEach { a ->
+            a.onExport(this@DatabaseKnowledgeExporter)
 
-                val existing: Int? = Articles.select { (Articles.registry eq a.location.registry.toString()) and (Articles.key eq a.location.key.toString()) }.singleOrNull()?.getOrNull(Articles.id)
-                val articleId: Int
-                if (existing == null) {
-                    articleId = Articles.insert {
-                        it[registry] = a.location.registry.toString()
-                        it[key] = a.location.key.toString()
-                        it[name] = a.finalName
-                        it[slug1] = a.location.registry.path
-                        it[slug2] = a.location.key.path
+            val existing: Int? = Articles.select { (Articles.registry eq a.location.registry.toString()) and (Articles.key eq a.location.key.toString()) }.singleOrNull()?.getOrNull(Articles.id)
+            val articleId: Int
+            if (existing == null) {
+                articleId = Articles.insert {
+                    it[registry] = a.location.registry.toString()
+                    it[key] = a.location.key.toString()
+                    it[name] = a.finalName
+                    it[slug1] = a.location.registry.path
+                    it[slug2] = a.location.key.path
+                    it[created_at] = LocalDateTime.now()
+                    it[updated_at] = null
+                    it[deleted_at] = null
+                } get Articles.id
+            } else {
+                articleId = existing
+                Articles.update({ Articles.id eq articleId }) {
+                    it[name] = a.finalName
+                    it[slug1] = a.location.registry.path
+                    it[slug2] = a.location.key.path
+                    it[updated_at] = LocalDateTime.now()
+                    it[deleted_at] = null
+                }
+            }
+
+            a.sections.forEachIndexed { k, s ->
+                s.onExport(this@DatabaseKnowledgeExporter)
+                val sectionId = ArticleSections.insert {
+                    it[article_id] = articleId
+                    it[name] = s.finalName
+                    it[type] = s.type
+                    it[order] = k.toShort()
+                    it[created_at] = LocalDateTime.now()
+                    it[updated_at] = null
+                    it[deleted_at] = null
+                } get ArticleSections.id
+
+                s.fragments.forEachIndexed { k2, f ->
+                    f.onExport(this@DatabaseKnowledgeExporter)
+                    ArticleFragments.insert {
+                        it[section_id] = sectionId
+                        it[type] = f.type
+                        it[markup] = f.toJsonFinal(this@DatabaseKnowledgeExporter).toString()
+                        it[order] = k2.toShort()
                         it[created_at] = LocalDateTime.now()
                         it[updated_at] = null
                         it[deleted_at] = null
-                    } get Articles.id
-                } else {
-                    articleId = existing
-                    Articles.update({ Articles.id eq articleId }) {
-                        it[name] = a.finalName
-                        it[slug1] = a.location.registry.path
-                        it[slug2] = a.location.key.path
-                        it[updated_at] = LocalDateTime.now()
-                        it[deleted_at] = null
-                    }
-                }
-
-                a.sections.forEachIndexed { k, s ->
-                    s.onExport(this@DatabaseKnowledgeExporter)
-                    val sectionId = ArticleSections.insert {
-                        it[article_id] = articleId
-                        it[name] = s.finalName
-                        it[type] = s.type
-                        it[order] = k.toShort()
-                        it[created_at] = LocalDateTime.now()
-                        it[updated_at] = null
-                        it[deleted_at] = null
-                    } get ArticleSections.id
-
-                    s.fragments.forEachIndexed { k2, f ->
-                        f.onExport(this@DatabaseKnowledgeExporter)
-                        ArticleFragments.insert {
-                            it[section_id] = sectionId
-                            it[type] = f.type
-                            it[markup] = f.toJsonFinal(this@DatabaseKnowledgeExporter).toString()
-                            it[order] = k2.toShort()
-                            it[created_at] = LocalDateTime.now()
-                            it[updated_at] = null
-                            it[deleted_at] = null
-                        }
-                    }
-                }
-
-                a.redirects.forEach { (i, r) ->
-                    ArticleRedirects.insert {
-                        it[article_id] = articleId
-                        it[registry] = i.registry.toString()
-                        it[key] = i.key.toString()
-                        it[name] = r?.let { translator.textResolve(it) }
-                        it[slug1] = i.registry.path
-                        it[slug2] = i.key.path
-                        it[created_at] = LocalDateTime.now()
-                        it[updated_at] = null
-                        it[deleted_at] = null
-                    }
-                }
-
-                a.tags.forEach { t ->
-                    ArticleTags.insert {
-                        it[article_id] = articleId
-                        it[tag] = t
                     }
                 }
             }
+
+            a.redirects.forEach { (i, r) ->
+                ArticleRedirects.insert {
+                    it[article_id] = articleId
+                    it[registry] = i.registry.toString()
+                    it[key] = i.key.toString()
+                    it[name] = r?.let { translator.textResolve(it) }
+                    it[slug1] = i.registry.path
+                    it[slug2] = i.key.path
+                    it[created_at] = LocalDateTime.now()
+                    it[updated_at] = null
+                    it[deleted_at] = null
+                }
+            }
+
+            a.tags.forEach { t ->
+                ArticleTags.insert {
+                    it[article_id] = articleId
+                    it[tag] = t
+                }
+            }
         }
+    }
+
+    override fun run(cache: DataCache) {
+        transaction(db) { transaction(this) }
     }
 
     override fun getName() = "${da.modid} Knowledge Database Exporter"

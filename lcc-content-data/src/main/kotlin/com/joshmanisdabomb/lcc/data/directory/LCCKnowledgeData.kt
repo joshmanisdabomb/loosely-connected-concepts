@@ -435,6 +435,37 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Explosives")
     }
 
+    val block_deadwood_log by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.deadwood_log)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a block introduced in %s that can be found in the %s. It is used to craft the first tier of Wasteland tools out of %s.")
+                    .insert(LCCBlocks.deadwood_log.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland Barrens", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Wood")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss is registered as a %s in-game, allowing it to be placed on its side, used as fuel in a %s or %s, or stripped with an axe into %s.")
+                    .insert(LCCBlocks.deadwood_log.name)
+                    .insertLink("wooden log", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/log" } })
+                    .insertLink(Blocks.FURNACE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.FURNACE).link)
+                    .insertLink(LCCBlocks.coal_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.coal_generator).link)
+                    .insertLink("Stripped Deadwood Logs", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.stripped_deadwood_log).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.deadwood_log) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.deadwood_log) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .about(LCCBlocks.deadwood)
+            .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood))
+            .tags("Wasteland", "Deadwood", "Wood")
+    }
+
     private val introduction = "Introduction"
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

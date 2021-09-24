@@ -509,6 +509,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_fuel_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_refined_oil_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_improvised_explosive] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_deadwood_log] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

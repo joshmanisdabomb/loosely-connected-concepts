@@ -4,6 +4,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.recipe.Ingredient
 
 class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
@@ -32,6 +33,14 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
             val ljson = exporter.linker.recipeLinksJson(it, *items.toTypedArray())
             recipe.get("links")?.asJsonObject?.entrySet()?.forEach { (k, v) -> ljson.add(k, v) }
             recipe.add("links", ljson)
+
+            val tags = JsonObject()
+            exporter.da.recipeStore.getTagIngredientsOf(it.recipeId).forEach {
+                val items = JsonArray()
+                exporter.da.recipeStore.getItemsInTag(it).forEach { items.add(Ingredient.ofItems(it.asItem()).toJson()) }
+                tags.add(it.toString(), items)
+            }
+            recipe.add("tags", tags)
 
             recipes.add(recipe)
         }

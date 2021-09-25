@@ -18,7 +18,7 @@ import net.minecraft.item.PickaxeItem as VanillaPickaxeItem
 import net.minecraft.item.ShovelItem as VanillaShovelItem
 import net.minecraft.item.SwordItem as VanillaSwordItem
 
-class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val recipePriority: Int = 0): VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val recipePriority: Int = 0) : VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
 
@@ -36,7 +36,7 @@ class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 
 
 }
 
-class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val recipePriority: Int = 0): VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val recipePriority: Int = 0) : VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
 

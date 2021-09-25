@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 
@@ -41,7 +42,7 @@ open class KnowledgeLinker {
     fun itemLinksJson(vararg items: Item) : JsonObject {
         val ljson = JsonObject()
         items.forEach { i ->
-            val article = exporter.articles.firstOrNull { it.about.contains(i) }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
+            val article = exporter.articles.firstOrNull { it.about.contains(i) || (i as? BlockItem)?.block?.run { it.about.contains(this) } == true }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
             generateLink(article)?.apply { ljson.add(i.identifier.toString(), this.toJsonFinal(exporter)) }
         }
         return ljson
@@ -56,7 +57,7 @@ open class KnowledgeLinker {
         val r = recipe.serializer.read(recipe.recipeId, recipe.toJson())
         if (r is LCCRecipe) {
             r.getAllOutputs().map { it.item }.forEach { i ->
-                val article = exporter.articles.firstOrNull { it.about.contains(i) }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
+                val article = exporter.articles.firstOrNull { it.about.contains(i) || (i as? BlockItem)?.block?.run { it.about.contains(this) } == true }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
                 generateLink(article)?.apply { json.add(i.identifier.toString(), this.toJsonFinal(exporter)) }
             }
         }

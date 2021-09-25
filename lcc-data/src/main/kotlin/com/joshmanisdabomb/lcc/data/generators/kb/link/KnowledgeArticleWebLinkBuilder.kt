@@ -7,10 +7,18 @@ class KnowledgeArticleWebLinkBuilder(val url: (exporter: KnowledgeExporter) -> S
 
     override val type = "web"
 
+    private var target: String? = null
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val json = JsonObject()
         json.addProperty("url", url(exporter))
+        if (target != null) json.addProperty("target", target)
         return json
+    }
+
+    fun target(id: String): KnowledgeArticleWebLinkBuilder {
+        target = id
+        return this
     }
 
 }

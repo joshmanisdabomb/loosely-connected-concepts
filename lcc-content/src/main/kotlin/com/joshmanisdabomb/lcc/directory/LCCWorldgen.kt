@@ -129,8 +129,8 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
 
-    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(BlockStateProvider.of(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), BlockStateProvider.of(LCCBlocks.classic_leaves.defaultState), BlockStateProvider.of(LCCBlocks.classic_sapling), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
-    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(BlockStateProvider.of(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), BlockStateProvider.of(LCCBlocks.rubber_leaves.defaultState), BlockStateProvider.of(LCCBlocks.rubber_sapling), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
+    val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(BlockStateProvider.of(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), BlockStateProvider.of(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
+    val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(BlockStateProvider.of(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), BlockStateProvider.of(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
     val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.002F, 1))) }
     val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.04F, 1))) }
     val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
@@ -184,7 +184,6 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
         UniformHeightProvider.create(YOffset.aboveBottom(8), YOffset.fixed(180)),
         UniformFloatProvider.create(0.1F, 0.9F),
         YOffset.aboveBottom(8),
-        true,
         CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.getDefaultState()),
         UniformFloatProvider.create(0.7F, 1.4F),
         UniformFloatProvider.create(0.8F, 1.3F),
@@ -195,13 +194,16 @@ object LCCConfiguredCarvers : BasicDirectory<ConfiguredCarver<out CarverConfig>,
         UniformHeightProvider.create(YOffset.fixed(10), YOffset.fixed(67)),
         ConstantFloatProvider.create(3.0F),
         YOffset.aboveBottom(8),
-        true,
         CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.getDefaultState()),
         UniformFloatProvider.create(-0.125F, 0.125F),
-        RavineCarverConfig.Shape(UniformFloatProvider.create(0.75F, 1.0F),
-        TrapezoidFloatProvider.create(0.0F, 6.0F, 2.0F),
-        3,
-        UniformFloatProvider.create(0.75F, 1.0F), 1.0F, 0.0F)
+        RavineCarverConfig.Shape(
+            UniformFloatProvider.create(0.75F, 1.0F),
+            TrapezoidFloatProvider.create(0.0F, 6.0F, 2.0F),
+            3,
+            UniformFloatProvider.create(0.75F, 1.0F),
+            1.0F,
+            0.0F
+        )
     )) }
     override fun defaultProperties(name: String) = Unit
 

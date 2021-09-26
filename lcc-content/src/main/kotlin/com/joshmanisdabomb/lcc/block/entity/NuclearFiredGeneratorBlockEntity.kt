@@ -20,7 +20,6 @@ import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.inventory.container.NuclearFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -34,6 +33,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.potion.PotionUtil
 import net.minecraft.potion.Potions
 import net.minecraft.screen.PropertyDelegate
@@ -50,7 +50,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.World
 import kotlin.math.*
 
-class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.nuclear_generator, pos, state), ExtendedScreenHandlerFactory, SidedInventory, WorldEnergyStorage, BlockEntityClientSerializable {
+class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.nuclear_generator, pos, state), ExtendedScreenHandlerFactory, SidedInventory, WorldEnergyStorage {
 
     val inventory by lazy { object : LCCInventory(5) {
 
@@ -185,21 +185,14 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         Inventories.writeNbt(tag, inventory.list)
     }
 
-    override fun fromClientTag(tag: NbtCompound) {
-        fuel = tag.getFloat("Fuel")
-        coolant = tag.getFloat("Coolant")
-        meltdownTicks = tag.getInt("Meltdown")
-        wasteAccumulator = tag.getFloat("Waste")
-        safeOutput = tag.getFloat("SafeOutput")
-    }
+    override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)
 
-    override fun toClientTag(tag: NbtCompound): NbtCompound {
-        tag.putFloat("Fuel", fuel)
-        tag.putFloat("Coolant", coolant)
-        tag.putInt("Meltdown", meltdownTicks)
-        tag.putFloat("Waste", wasteAccumulator)
-        tag.putFloat("SafeOutput", safeOutput)
-        return tag
+    override fun toInitialChunkDataNbt() = NbtCompound().also {
+        it.putFloat("Fuel", fuel)
+        it.putFloat("Coolant", coolant)
+        it.putInt("Meltdown", meltdownTicks)
+        it.putFloat("Waste", wasteAccumulator)
+        it.putFloat("SafeOutput", safeOutput)
     }
 
     override fun clear() = inventory.clear()
@@ -337,13 +330,13 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
                 if (working != entity.working) world.setBlockState(pos, state.with(LIT, entity.working), 3)
 
                 if (ceil(entity.fuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) != ceil(oldFuel.div(maxFuel).times(11f)).coerceIn(0f, 10f) || ceil(entity.coolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f) != ceil(oldCoolant.div(maxCoolant).times(11f)).coerceIn(0f, 10f)) {
-                    entity.sync()
+                    (world as ServerWorld).chunkManager.markForUpdate(pos)
                 }
 
                 if (entity.level != entity.lastLevel) {
                     entity.lastLevel = entity.level
                     world.updateNeighbors(pos, state.block)
-                    entity.sync()
+                    (world as ServerWorld).chunkManager.markForUpdate(pos)
                 }
 
                 EnergyTransaction()

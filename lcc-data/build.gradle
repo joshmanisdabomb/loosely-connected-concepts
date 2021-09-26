@@ -1,9 +1,5 @@
 archivesBaseName = "lcc-data"
 
-repositories {
-    maven { url = "https://maven.shedaniel.me" }
-}
-
 dependencies {
     api project(':lcc-infra')
 

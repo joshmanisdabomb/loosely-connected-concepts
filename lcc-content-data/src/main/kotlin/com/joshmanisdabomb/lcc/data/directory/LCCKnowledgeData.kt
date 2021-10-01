@@ -565,6 +565,44 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Deadwood", "Wood")
     }
 
+    val entity_consumer by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.consumer)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("A %s is a short hostile mob introduced in %s. It spawns in the %s and pulls in players and mobs with its ranged tongue attack.")
+                    .insert(LCCEntities.consumer.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss have 14.5 hearts of health and are fast mobs that can mostly keep up with sprinting players. They deal 4.125 hearts of damage on Easy difficulty, 6.75 hearts on Normal and 10.125 hearts on Hard with their bite attack.")
+                    .insert(LCCEntities.consumer.name)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("When %ss are out of close combat range, they will advance slowly and frequently extend their tongue at their target. This tongue will latch on to the first entity it hits and the %s will retract its tongue, pulling the attached mob or player back with it. Once the tongue is fully retracted, the %s will also land a bite attack.")
+                    .insert(LCCEntities.consumer.name)
+                    .insert(LCCEntities.consumer.name)
+                    .insert(LCCEntities.consumer.name)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Because %ss are a Wasteland-type creature, they deal extra damage that pierces through non-Wasteland %s and any damage dealt to them with a non-Wasteland tool is greatly reduced.")
+                    .insert(LCCEntities.consumer.name)
+                    .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
+                )
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleSectionBuilder("Drops")
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTableStore[LCCEntities.consumer]!!) }
+                )
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .about(LCCEntities.consumer_tongue)
+            .redirectsHere(KnowledgeArticleIdentifier.ofEntity(LCCEntities.consumer_tongue), LCCEntities.consumer_tongue.name)
+            .tags("Wasteland", "Hostile Mobs")
+    }
+
+    val item_deadwood_sword by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.deadwood_sword)
+    }
+
     private val introduction = "Introduction"
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

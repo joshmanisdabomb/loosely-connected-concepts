@@ -20,7 +20,7 @@ import net.minecraft.predicate.item.ItemPredicate
 open class SalvageBlockLootFactory(val salvageChance: FloatArray = defaultSalvageChance) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTable.builder().pool(
+        data.acceptLootTable(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(

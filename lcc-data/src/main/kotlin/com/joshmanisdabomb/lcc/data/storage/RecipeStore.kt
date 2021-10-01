@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.data.json.recipe
+package com.joshmanisdabomb.lcc.data.storage
 
 import com.google.gson.JsonArray
 import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe

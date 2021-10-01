@@ -9,7 +9,7 @@ import net.minecraft.item.ItemConvertible
 class OreBlockLootFactory(val ingot: ItemConvertible) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTableData.dropsSingleOreGem(entry, ingot))
+        data.acceptLootTable(entry, LootTableData.dropsSingleOreGem(entry, ingot))
     }
 
 }

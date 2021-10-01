@@ -9,6 +9,7 @@ import net.minecraft.client.resource.language.I18n
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootTable
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
@@ -75,6 +76,10 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
             }
         }
         return json
+    }
+
+    open fun lootTranslationsJson(loot: LootTable.Builder, vararg items: Item): JsonObject {
+        return itemTranslationsJson(*items)
     }
 
 }

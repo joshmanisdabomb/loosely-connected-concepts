@@ -11,8 +11,8 @@ import net.minecraft.loot.provider.number.LootNumberProvider
 open class SilkBlockLootFactory(val or: ItemConvertible? = null, val count: LootNumberProvider = ConstantLootNumberProvider.create(1.0f)) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        if (or != null) data.lootTables.register(entry, LootTableData.dropsSilkBlockAndNormalItem(entry, or, count))
-        else data.lootTables.register(entry, LootTableData.dropsBlockWithSilkTouch(entry))
+        if (or != null) data.acceptLootTable(entry, LootTableData.dropsSilkBlockAndNormalItem(entry, or, count))
+        else data.acceptLootTable(entry, LootTableData.dropsBlockWithSilkTouch(entry))
     }
 
     companion object : SilkBlockLootFactory()

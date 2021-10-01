@@ -20,7 +20,7 @@ object DepositBlockLootFactory : BlockDataFactory {
     override fun apply(data: DataAccessor, entry: Block) {
         when (entry) {
             LCCBlocks.deposit -> {
-                data.lootTables.register(entry, LootTable.builder().pool(
+                data.acceptLootTable(entry, LootTable.builder().pool(
                     LootPool.builder()
                         .with(ItemEntry.builder(Items.GOLD_NUGGET).weight(40))
                         .with(ItemEntry.builder(Items.IRON_NUGGET).weight(20))

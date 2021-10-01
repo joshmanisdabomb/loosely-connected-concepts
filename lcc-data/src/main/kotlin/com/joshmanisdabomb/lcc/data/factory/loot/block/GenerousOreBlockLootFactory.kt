@@ -15,7 +15,7 @@ import net.minecraft.loot.provider.number.LootNumberProvider
 class GenerousOreBlockLootFactory(val ingot: ItemConvertible, val range: LootNumberProvider) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTableData.dropsBlockWithSilkTouch(entry,
+        data.acceptLootTable(entry, LootTableData.dropsBlockWithSilkTouch(entry,
             ItemEntry.builder(ingot)
                 .apply(SetCountLootFunction.builder(range))
                 .apply(ApplyBonusLootFunction.oreDrops(Enchantments.FORTUNE))

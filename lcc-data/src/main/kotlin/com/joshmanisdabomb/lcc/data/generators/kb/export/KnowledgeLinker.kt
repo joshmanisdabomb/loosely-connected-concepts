@@ -10,6 +10,7 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.loot.LootTable
 
 open class KnowledgeLinker {
 
@@ -62,6 +63,10 @@ open class KnowledgeLinker {
             }
         }
         return json
+    }
+
+    open fun lootLinksJson(loot: LootTable.Builder, vararg items: Item): JsonObject {
+        return itemLinksJson(*items)
     }
 
 }

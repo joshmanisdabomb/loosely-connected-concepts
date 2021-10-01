@@ -8,7 +8,7 @@ import net.minecraft.loot.LootTable
 class CustomEntityLootFactory(val loot: LootTable.Builder) : EntityDataFactory {
 
     override fun apply(data: DataAccessor, entry: EntityType<*>) {
-        data.lootTables.register(entry, loot)
+        data.acceptLootTable(entry, loot)
     }
 
 }

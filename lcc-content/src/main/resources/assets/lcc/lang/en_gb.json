@@ -8,5 +8,6 @@
   "block.lcc.shattered_light_gray_stained_glass_pane": "Shattered Light Grey Stained Glass Pane",
   "death.attack.lcc.radiation": "%1$s was exposed to ionising radiation",
   "death.attack.lcc.radiation.player": "%1$s was exposed to ionising radiation whilst trying to escape %2$s",
-  "knowledge.lcc.minecraft:item.lcc:rigid_plastic.2.1.0.1.0": "Colour Code"
+  "knowledge.lcc.minecraft:item.lcc:rigid_plastic.2.1.0.1.0": "Colour Code",
+  "knowledge.lcc.minecraft:item.lcc:flexible_plastic.2.1.0.1.0": "Colour Code"
 }

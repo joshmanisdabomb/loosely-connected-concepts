@@ -40,6 +40,7 @@ import java.io.File
 import java.util.*
 import kotlin.math.atan
 import kotlin.math.max
+import kotlin.math.pow
 import kotlin.system.exitProcess
 
 class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, val folder: File, val test: Long? = null) : Screen(TranslatableText("narrator.screen.title")) {
@@ -140,26 +141,28 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
             RenderSystem.applyModelViewMatrix()
             val matrixStack2 = MatrixStack()
             matrixStack2.translate(0.0, 0.0, 1000.0)
-            val size = max(entity.width, entity.height).sqrt().sqrt().coerceAtLeast(0.5f)
-            matrixStack2.scale(110f / size, 110f / size, 110f / size)
+            println(instance)
+            println(instance.boundingBox)
+            val size = max(max(instance.boundingBox.xLength, instance.boundingBox.yLength), instance.boundingBox.zLength).pow(1.6).sqrt().coerceAtLeast(0.5).toFloat()
+            matrixStack2.scale(170f / size, 170f / size, 170f / size)
             val quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f)
             val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(g * 20.0f)
             quaternion.hamiltonProduct(quaternion2)
             matrixStack2.multiply(quaternion)
             matrixStack2.multiply(Vec3f.NEGATIVE_X.getDegreesQuaternion(30.0f))
-            matrixStack2.multiply(Vec3f.NEGATIVE_Y.getDegreesQuaternion(45.0f))
+            matrixStack2.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(135.0f))
             var h: Float? = null
             val i: Float = instance.yaw
             val j: Float = instance.pitch
             var k: Float? = null
             val l: Float = instance.headYaw
-            instance.yaw = 180.0f + f * 40.0f
-            instance.pitch = -g * 20.0f
+            instance.yaw = 0f
+            instance.pitch = 0f
             instance.headYaw = instance.yaw
             if (instance is LivingEntity) {
                 h = instance.bodyYaw
                 k = instance.prevHeadYaw
-                instance.bodyYaw = 180.0f + f * 20.0f
+                instance.bodyYaw = 0f
                 instance.prevHeadYaw = instance.yaw
             }
             DiffuseLighting.method_34742()

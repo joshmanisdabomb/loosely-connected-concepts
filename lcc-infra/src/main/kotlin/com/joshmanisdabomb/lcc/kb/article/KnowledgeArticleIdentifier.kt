@@ -21,7 +21,7 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
 
         fun ofBlock(block: Block) = of(Registry.BLOCK, block)
         fun ofItem(item: Item) = of(Registry.ITEM, item)
-        fun ofEntity(entity: EntityType<*>) = of(Registry.ENTITY_TYPE, entity)
+        fun ofEntity(entity: EntityType<*>) = KnowledgeArticleIdentifier(Identifier("entity"), Registry.ENTITY_TYPE.getId(entity))
         fun ofFluid(fluid: Fluid) = of(Registry.FLUID, fluid)
 
         fun ofEnchant(enchant: Enchantment) = of(Registry.ENCHANTMENT, enchant)
@@ -32,9 +32,9 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
     }
 
     override fun compareTo(other: KnowledgeArticleIdentifier): Int {
-        val comp = registry.compareTo(other.registry)
+        val comp = key.compareTo(other.key)
         if (comp != 0) return comp
-        return key.compareTo(other.key)
+        return registry.compareTo(other.registry)
     }
 
     override fun equals(other: Any?): Boolean {

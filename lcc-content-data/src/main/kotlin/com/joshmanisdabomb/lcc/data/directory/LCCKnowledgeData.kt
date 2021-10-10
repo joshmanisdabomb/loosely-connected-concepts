@@ -588,7 +588,6 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
                 )
             )
-            .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleSectionBuilder("Drops")
                 .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTableStore[LCCEntities.consumer]!!) }
                 )

@@ -514,6 +514,10 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.block_deadwood_planks] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.entity_consumer] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_deadwood_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

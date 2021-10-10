@@ -27,11 +27,14 @@ import net.minecraft.item.DyeItem
 import net.minecraft.item.Item
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
+import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 
-object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
+object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
 
     val block_sapphire_altar by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCBlocks.sapphire_altar)
@@ -432,7 +435,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.improvised_explosive) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Explosives")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Explosives")
     }
 
     val block_deadwood_log by entry(::initialiser) {
@@ -466,7 +469,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .about(LCCBlocks.deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood))
-            .tags("Wasteland", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
     }
 
     val block_stripped_deadwood_log by entry(::initialiser) {
@@ -499,7 +502,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .about(LCCBlocks.stripped_deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.stripped_deadwood), LCCBlocks.stripped_deadwood.name)
-            .tags("Wasteland", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
     }
 
     val block_deadwood_planks by entry(::initialiser) {
@@ -527,42 +530,17 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Can be used with %s that accepts any Overworld Planks.")
                     .insertLink("any recipe", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/planks" }.target("Crafting_ingredient") })
                 )
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
-                    .insert(LCCBlocks.deadwood_planks.name)
-                    .insertLink(Items.WOODEN_SWORD.name, KnowledgeArticleIdentifier.ofItem(Items.WOODEN_SWORD).link)
-                ) {
-                    listOf(it.da.recipeStore.get(LCCItems.deadwood_sword.identifier)!!)
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
-                    .insert(LCCBlocks.deadwood_planks.name)
-                    .insertLink(Items.WOODEN_PICKAXE.name, KnowledgeArticleIdentifier.ofItem(Items.WOODEN_PICKAXE).link)
-                ) {
-                    listOf(it.da.recipeStore.get(LCCItems.deadwood_pickaxe.identifier)!!)
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
-                    .insert(LCCBlocks.deadwood_planks.name)
-                    .insertLink(Items.WOODEN_SHOVEL.name, KnowledgeArticleIdentifier.ofItem(Items.WOODEN_SHOVEL).link)
-                ) {
-                    listOf(it.da.recipeStore.get(LCCItems.deadwood_shovel.identifier)!!)
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
-                    .insert(LCCBlocks.deadwood_planks.name)
-                    .insertLink(Items.WOODEN_AXE.name, KnowledgeArticleIdentifier.ofItem(Items.WOODEN_AXE).link)
-                ) {
-                    listOf(it.da.recipeStore.get(LCCItems.deadwood_axe.identifier)!!)
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
-                    .insert(LCCBlocks.deadwood_planks.name)
-                    .insertLink(Items.WOODEN_HOE.name, KnowledgeArticleIdentifier.ofItem(Items.WOODEN_HOE).link)
-                ) {
-                    listOf(it.da.recipeStore.get(LCCItems.deadwood_hoe.identifier)!!)
-                })
+                .addFragment(getRecipe(LCCItems.deadwood_sword.identifier, getDeadwoodToolNote(Items.WOODEN_SWORD)))
+                .addFragment(getRecipe(LCCItems.deadwood_pickaxe.identifier, getDeadwoodToolNote(Items.WOODEN_PICKAXE)))
+                .addFragment(getRecipe(LCCItems.deadwood_shovel.identifier, getDeadwoodToolNote(Items.WOODEN_SHOVEL)))
+                .addFragment(getRecipe(LCCItems.deadwood_axe.identifier, getDeadwoodToolNote(Items.WOODEN_AXE)))
+                .addFragment(getRecipe(LCCItems.deadwood_hoe.identifier, getDeadwoodToolNote(Items.WOODEN_HOE)))
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.deadwood_planks).filter { r ->
                     r.recipeId != LCCItems.deadwood_sword.identifier && r.recipeId != LCCItems.deadwood_pickaxe.identifier && r.recipeId != LCCItems.deadwood_shovel.identifier && r.recipeId != LCCItems.deadwood_axe.identifier && r.recipeId != LCCItems.deadwood_hoe.identifier
                 } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
     }
 
     val entity_consumer by entry(::initialiser) {
@@ -583,9 +561,11 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insert(LCCEntities.consumer.name)
                     .insert(LCCEntities.consumer.name)
                 )
-                .addFragment(KnowledgeArticleTextFragmentBuilder("Because %ss are a Wasteland-type creature, they deal extra damage that pierces through non-Wasteland %s and any damage dealt to them with a non-Wasteland tool is greatly reduced.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Because %ss are from the Wasteland, they deal extra damage that pierces through %s without %s. Any damage dealt to them with a weapon that doesn't provide %s is greatly reduced.")
                     .insert(LCCEntities.consumer.name)
                     .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
+                    .insertLink("Wasteland Protection", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                    .insertLink("Wasteland Damage", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Drops")
@@ -595,14 +575,203 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .about(LCCEntities.consumer_tongue)
             .redirectsHere(KnowledgeArticleIdentifier.ofEntity(LCCEntities.consumer_tongue), LCCEntities.consumer_tongue.name)
-            .tags("Wasteland", "Hostile Mobs")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
     }
 
     val item_deadwood_sword by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCItems.deadwood_sword)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the first tier of %s tool progression, crafted with %s. It deals 2 hearts of damage.")
+                    .insert(LCCItems.deadwood_sword.name)
+                    .insertLink("sword", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/sword" } })
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss deal %s, which deal full damage against Wasteland-based creatures.")
+                    .insert(LCCItems.deadwood_sword.name)
+                    .insertLink("Wasteland Damage", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.deadwood_sword, LCCBlocks.deadwood_planks.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(getRecipe(LCCItems.deadwood_sword.identifier, getDeadwoodToolNote(Items.WOODEN_SWORD)))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.deadwood_sword) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Deadwood", "Swords", "Tools")
     }
 
-    private val introduction = "Introduction"
+    val item_deadwood_pickaxe by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.deadwood_pickaxe)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the first tier of %s tool progression, crafted with %s. It functions similarly to a wooden pickaxe, but can mine %s.")
+                    .insert(LCCItems.deadwood_pickaxe.name)
+                    .insertLink("pickaxe", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/pickaxe" } })
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                    .insertLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to harvest blocks that require a Wasteland pickaxe to mine, such as Fortstone.")
+                    .insert(LCCItems.deadwood_pickaxe.name)
+                    .insertLink("Wasteland Effective", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Some blocks, such as %s, break faster with a Wasteland Effective pickaxe but do not require one.")
+                    .insertLink(LCCBlocks.cracked_mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud).link)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.deadwood_pickaxe, LCCBlocks.deadwood_planks.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(getRecipe(LCCItems.deadwood_pickaxe.identifier, getDeadwoodToolNote(Items.WOODEN_PICKAXE)))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.deadwood_pickaxe) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Pickaxes", "Tools")
+    }
+
+    val item_deadwood_shovel by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.deadwood_shovel)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the first tier of %s tool progression, crafted with %s. It functions similarly to a wooden shovel.")
+                    .insert(LCCItems.deadwood_shovel.name)
+                    .insertLink("shovel", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/shovel" } })
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to break blocks that require a Wasteland shovel, such as %s, faster.")
+                    .insert(LCCItems.deadwood_shovel.name)
+                    .insertLink("Wasteland Effective", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.mud).link)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.deadwood_shovel, LCCBlocks.deadwood_planks.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(getRecipe(LCCItems.deadwood_shovel.identifier, getDeadwoodToolNote(Items.WOODEN_SHOVEL)))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.deadwood_shovel) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Shovels", "Tools")
+    }
+
+    val item_deadwood_axe by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.deadwood_axe)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the first tier of %s tool progression, crafted with %s. It functions similarly to a wooden axe.")
+                    .insert(LCCItems.deadwood_axe.name)
+                    .insertLink("axe", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/axe" } })
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, which break blocks that require a Wasteland axe, such as %s, faster.")
+                    .insert(LCCItems.deadwood_axe.name)
+                    .insertLink("Wasteland Effective", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_log).link)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.deadwood_axe, LCCBlocks.deadwood_planks.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(getRecipe(LCCItems.deadwood_axe.identifier, getDeadwoodToolNote(Items.WOODEN_AXE)))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.deadwood_axe) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Axes", "Tools")
+    }
+
+    val item_deadwood_hoe by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.deadwood_hoe)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the first tier of %s tool progression, crafted with %s. It functions similarly to a wooden hoe.")
+                    .insert(LCCItems.deadwood_hoe.name)
+                    .insertLink("hoe", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/hoe" } })
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.deadwood_planks.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_planks).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to break blocks that require a Wasteland hoe, such as %s, faster.")
+                    .insert(LCCItems.deadwood_hoe.name)
+                    .insertLink("Wasteland Effective", KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")).link)
+                    .insertLink(LCCBlocks.papercomb_block.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.papercomb_block).link)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.deadwood_hoe, LCCBlocks.deadwood_planks.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(getRecipe(LCCItems.deadwood_hoe.identifier, getDeadwoodToolNote(Items.WOODEN_HOE)))
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.deadwood_hoe) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Hoes", "Tools")
+    }
+
+    val effectivity_wasteland by entry(::initialiser) {
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland"))) { IncludedTranslatableText(it).translation("Wasteland Effectivity", "en_us") }
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Wasteland Effectivity is a concept introduced in %s that aims to restrict the progression of players in the %s.")
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Most blocks in the Wasteland require Wasteland Effective tools to be mined. Below is a list of blocks that will not drop without a Wasteland-tier tool:")
+                )
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .addTagCriteria("Wasteland Required")
+                    .addRegistryCriteria(Registry.BLOCK.key.value)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Many blocks in the Wasteland do not require these tools to drop, but can be mined faster with a Wasteland Effective tool. Below is a list of these blocks:")
+                )
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .addTagCriteria("Wasteland Optimal")
+                    .addRegistryCriteria(Registry.BLOCK.key.value)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Any damage dealt to Wasteland-based mobs with a weapon that doesn't provide Wasteland Damage is greatly reduced, while these mobs also deal extra damage that pierces through %s without Wasteland Protection. Below is a list of mobs that follow these combat rules:")
+                    .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
+                )
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .addTagCriteria("Wasteland Combat")
+                    .addRegistryCriteria(Identifier("entity"))
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Equipment")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Below is a list of tools marked as Wasteland equipment:")
+                )
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .addTagCriteria("Wasteland Effective")
+                    .addRegistryCriteria(Registry.ITEM.key.value)
+                )
+            )
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("effective"), LCC.id("wasteland")), LiteralText("Wasteland Effective"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("required"), LCC.id("wasteland")), LiteralText("Wasteland Required"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("optimal"), LCC.id("wasteland")), LiteralText("Wasteland Optimal"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("combat"), LCC.id("wasteland")), LiteralText("Wasteland Combat"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("damage"), LCC.id("wasteland")), LiteralText("Wasteland Damage"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("protection"), LCC.id("wasteland")), LiteralText("Wasteland Protection"))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection")
+    }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
 
@@ -615,6 +784,8 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     fun getArticlesAbout(topic: Any) = this.all.filter { (k, v) -> v.about.contains(topic) }
 
     //Shared Code
+
+    private val introduction = "Introduction"
 
     private fun generatePlasticDespawningSection(topic: Item) = KnowledgeArticleSectionBuilder("Despawning")
         .addFragment(KnowledgeArticleTextFragmentBuilder("%s, like all plastic-based items, do not despawn after 5 minutes when dropped in the world.")
@@ -691,5 +862,22 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 it.add("links", e.linker.itemLinksJson(*items))
             })
         }
+
+    private fun getRecipe(recipe: Identifier, note: KnowledgeArticleFragmentBuilder? = null, obsolete: Boolean = false) = KnowledgeArticleRecipeFragmentBuilder(note, obsolete) {
+        listOf(it.da.recipeStore.get(recipe)!!)
+    }
+
+    private fun getDeadwoodToolNote(fallback: Item) = KnowledgeArticleTextFragmentBuilder("If not all planks provided are %s, a standard %s will be crafted instead.")
+        .insert(LCCBlocks.deadwood_planks.name)
+        .insertLink(fallback.name, KnowledgeArticleIdentifier.ofItem(fallback).link)
+
+    private fun getRepairingSection(tool: Item, repair: Text) = KnowledgeArticleSectionBuilder("Repairing")
+        .addFragment(KnowledgeArticleTextFragmentBuilder("%ss can be repaired with %s in an %s. Like all tools, two %ss can also be fused in crafting or a %s.")
+            .insert(tool.name)
+            .insert(repair)
+            .insertLink(Blocks.ANVIL.name, KnowledgeArticleIdentifier.ofBlock(Blocks.ANVIL).link)
+            .insert(tool.name)
+            .insertLink(Blocks.GRINDSTONE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GRINDSTONE).link)
+        )
 
 }

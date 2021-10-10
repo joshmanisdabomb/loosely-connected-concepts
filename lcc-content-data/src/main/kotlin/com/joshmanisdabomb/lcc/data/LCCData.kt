@@ -6,7 +6,10 @@ import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.LCCLangData
 import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
-import com.joshmanisdabomb.lcc.data.generators.kb.export.*
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeLinker
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
+import com.joshmanisdabomb.lcc.data.generators.kb.export.LCCDatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
@@ -85,7 +88,8 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         if (path.isBlank()) exitProcess(0)
 
         val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
-        client.openScreen(ImageExport(items, File(path), false))
+        val entities = Registry.ENTITY_TYPE.filter { val identifier = Registry.ENTITY_TYPE.getId(it); identifier.namespace == LCC.modid || identifier.namespace == "minecraft" }
+        client.openScreen(ImageExport(items, entities, File(path)))
     }
 
     private fun setupExports() {

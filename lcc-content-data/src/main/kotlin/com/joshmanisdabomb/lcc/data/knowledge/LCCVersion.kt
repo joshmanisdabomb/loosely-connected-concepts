@@ -518,6 +518,13 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_deadwood_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_deadwood_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_deadwood_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_fortstone] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cobbled_fortstone] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

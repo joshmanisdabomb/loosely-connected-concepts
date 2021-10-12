@@ -58,7 +58,7 @@ enum class LCCToolMaterials(private val durability: Int, private val miningSpeed
 
     DEADWOOD(ToolMaterials.WOOD, enchantability = 8, ingredientFactory = { Ingredient.ofItems(LCCBlocks.deadwood_planks) }),
     FORTSTONE(ToolMaterials.STONE, enchantability = 1, ingredientFactory = { Ingredient.ofItems(LCCBlocks.cobbled_fortstone) }),
-    RUSTY_IRON(ToolMaterials.IRON, enchantability = 4, durability = ToolMaterials.GOLD.durability, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) });
+    RUSTY_IRON(ToolMaterials.IRON, enchantability = 4, durability = ToolMaterials.GOLD.durability.times(3), ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) });
 
     constructor(base: ToolMaterial, durability: Int = base.durability, miningSpeed: Float = base.miningSpeedMultiplier, attackDamage: Float = base.attackDamage, miningLevel: Int = base.miningLevel, enchantability: Int = base.enchantability, ingredientFactory: () -> Ingredient = base::getRepairIngredient) : this(durability, miningSpeed, attackDamage, miningLevel, enchantability, ingredientFactory)
 
@@ -78,12 +78,12 @@ enum class LCCArmorMaterials(durabilityMultiplier: Float, private val protection
     RUBY(ArmorMaterials.DIAMOND, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.ruby) }),
     TOPAZ(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.topaz_shard) }),
     EMERALD(ArmorMaterials.IRON, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.EMERALD) }),
-    SAPPHIRE(ArmorMaterials.IRON, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
+    SAPPHIRE(ArmorMaterials.DIAMOND, durabilityMultiplier = 25f, toughness = 0.0f, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(LCCItems.sapphire) }),
     AMETHYST(ArmorMaterials.LEATHER, equipSound = ArmorMaterials.DIAMOND.equipSound, ingredientFactory = { Ingredient.ofItems(Items.AMETHYST_SHARD) }),
     CLASSIC_LEATHER(ArmorMaterials.LEATHER, enchantability = 17, ingredientFactory = { Ingredient.ofItems(Items.LEATHER) }),
     CLASSIC_STUDDED_LEATHER(ArmorMaterials.IRON, enchantability = 19, durabilityMultiplier = 20f, toughness = 0.2f, knockbackResistance = 0.1f, equipSound = ArmorMaterials.LEATHER.equipSound, ingredientFactory = { Ingredient.ofItems(Items.IRON_INGOT) }),
 
-    RUSTY_IRON(ArmorMaterials.IRON, durabilityMultiplier = 7f, enchantability = 4, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) }),
+    RUSTY_IRON(ArmorMaterials.IRON, durabilityMultiplier = 12f, enchantability = 4, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) }),
 
     HAZMAT(2.2f, intArrayOf(1, 1, 1, 1), 1, 0f, 0f, ArmorMaterials.TURTLE.equipSound, { Ingredient.ofItems(LCCItems.heavy_duty_rubber) });
 

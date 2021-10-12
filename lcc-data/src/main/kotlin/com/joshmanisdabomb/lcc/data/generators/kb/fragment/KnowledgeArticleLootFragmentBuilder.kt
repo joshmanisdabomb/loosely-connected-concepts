@@ -8,6 +8,8 @@ import net.minecraft.loot.LootTable
 
 class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<LootTable.Builder>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
+    private var tables: List<LootTable.Builder>? = null
+
     init {
         note?.container = this
     }
@@ -16,13 +18,20 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
 
     override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = "fragment"
 
+    override val section get() = container.section
+
     override fun onExport(exporter: KnowledgeExporter) {
         note?.onExport(exporter)
     }
 
+    override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
+        this.tables = (this.tables ?: supplier(exporter))
+        return this.tables?.isNotEmpty() == true
+    }
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val tables = JsonArray()
-        supplier(exporter).forEach {
+        this.tables = (this.tables ?: supplier(exporter)).onEach {
             val id = exporter.da.lootTableStore[it]!!
             val table = exporter.da.lootTableStore.getTable(id)!!
             val json = LootManager.toJson(table).asJsonObject

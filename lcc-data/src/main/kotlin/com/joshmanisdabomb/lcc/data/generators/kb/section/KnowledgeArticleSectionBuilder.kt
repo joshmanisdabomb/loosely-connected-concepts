@@ -13,6 +13,7 @@ open class KnowledgeArticleSectionBuilder(name: (defaultKey: String) -> Text, va
     constructor(name: Text, type: String = "main") : this({ name }, type)
 
     lateinit var article: KnowledgeArticleBuilder
+    override val section get() = this
 
     private val list = mutableListOf<KnowledgeArticleFragmentBuilder>()
     val fragments by lazy { list.toList() }
@@ -35,6 +36,8 @@ open class KnowledgeArticleSectionBuilder(name: (defaultKey: String) -> Text, va
     override val defaultTranslationKey get() = "${article.defaultTranslationKey}.${article.getTranslationKeyAppend(this)}"
 
     override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = fragments.indexOf(fragment).toString()
+
+    open fun shouldInclude(exporter: KnowledgeExporter) = fragments.any { it.shouldInclude(exporter) }
 
     open fun afterInit() {
         fragments.forEach { it.afterInit() }

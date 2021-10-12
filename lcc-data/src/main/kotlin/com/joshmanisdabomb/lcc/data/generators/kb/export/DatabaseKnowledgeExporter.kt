@@ -47,6 +47,8 @@ open class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor,
             }
 
             a.sections.forEachIndexed { k, s ->
+                if (!s.shouldInclude(this@DatabaseKnowledgeExporter)) return@forEachIndexed
+
                 s.onExport(this@DatabaseKnowledgeExporter)
                 val sectionId = ArticleSections.insert {
                     it[article_id] = articleId
@@ -58,7 +60,9 @@ open class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor,
                     it[deleted_at] = null
                 } get ArticleSections.id
 
-                s.fragments.forEachIndexed { k2, f ->
+                s.fragments.forEachIndexed fragment@{ k2, f ->
+                    if (!f.shouldInclude(this@DatabaseKnowledgeExporter)) return@fragment
+
                     f.onExport(this@DatabaseKnowledgeExporter)
                     ArticleFragments.insert {
                         it[section_id] = sectionId

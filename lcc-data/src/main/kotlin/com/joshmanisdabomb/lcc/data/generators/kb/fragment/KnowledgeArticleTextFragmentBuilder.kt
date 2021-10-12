@@ -27,7 +27,7 @@ class KnowledgeArticleTextFragmentBuilder(content: (defaultKey: String) -> Text)
     fun insert(text: Text, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert({ text }, extra)
     fun insert(content: String, locale: String = "en_us", extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert({ IncludedTranslatableText(it).translation(content, locale) }, extra)
 
-    fun insertLink(text: (defaultKey: String) -> Text, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert(text, { val json = extra(it); json.add("link", link(it).toJsonFinal(it)); json })
+    fun insertLink(text: (defaultKey: String) -> Text, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert(text) { val json = extra(it); json.add("link", link(it).toJsonFinal(it)); json }
 
     fun insertLink(text: Text, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insertLink({ text }, link, extra)
     fun insertLink(content: String, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, locale: String = "en_us", extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insertLink({ IncludedTranslatableText(it).translation(content, locale) }, link, extra)

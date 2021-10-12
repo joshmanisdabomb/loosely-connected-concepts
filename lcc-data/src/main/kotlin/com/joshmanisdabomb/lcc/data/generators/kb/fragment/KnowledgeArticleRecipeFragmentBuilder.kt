@@ -8,6 +8,8 @@ import net.minecraft.recipe.Ingredient
 
 class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
+    private var recipes: List<RecipeJsonProvider>? = null
+
     init {
         note?.container = this
     }
@@ -16,13 +18,20 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
 
     override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = "fragment"
 
+    override val section get() = container.section
+
     override fun onExport(exporter: KnowledgeExporter) {
         note?.onExport(exporter)
     }
 
+    override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
+        this.recipes = (this.recipes ?: supplier(exporter))
+        return this.recipes?.isNotEmpty() == true
+    }
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val recipes = JsonArray()
-        supplier(exporter).forEach {
+        this.recipes = (this.recipes ?: supplier(exporter)).onEach {
             val recipe = it.toJson()
             val items = exporter.da.recipeStore.getItemsOf(it.recipeId)
 

@@ -20,6 +20,8 @@ abstract class KnowledgeArticleFragmentBuilder {
         return json
     }
 
+    open fun shouldInclude(exporter: KnowledgeExporter) = true
+
     open fun afterInit() {
 
     }

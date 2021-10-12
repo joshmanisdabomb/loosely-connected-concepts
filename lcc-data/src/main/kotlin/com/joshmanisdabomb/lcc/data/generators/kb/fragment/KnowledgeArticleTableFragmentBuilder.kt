@@ -24,6 +24,8 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
         for (row in rows) row.onExport(exporter)
     }
 
+    override fun shouldInclude(exporter: KnowledgeExporter) = rows.any { it.shouldInclude(exporter) }
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val json = JsonObject()
         val rjson = JsonArray()
@@ -81,6 +83,8 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
             return json
         }
 
+        internal fun shouldInclude(exporter: KnowledgeExporter) = cells.any { it.shouldInclude(exporter) }
+
         inner class Cell internal constructor(val index: Int, val heading: Boolean) : KnowledgeArticleFragmentContainer {
 
             private val list = mutableListOf<KnowledgeArticleFragmentBuilder>()
@@ -90,6 +94,8 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
                 content.container = this
                 return this
             }
+
+            override val section get() = this@KnowledgeArticleTableFragmentBuilder.container.section
 
             override val defaultTranslationKey get() = this@KnowledgeArticleTableFragmentBuilder.defaultTranslationKey.plus(".${this@Row.index}.$index")
 
@@ -109,6 +115,8 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
                 json.addProperty("heading", heading)
                 return json
             }
+
+            internal fun shouldInclude(exporter: KnowledgeExporter) = list.any { it.shouldInclude(exporter) }
 
         }
 

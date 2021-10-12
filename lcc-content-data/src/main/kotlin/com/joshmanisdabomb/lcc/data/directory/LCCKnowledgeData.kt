@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
+import com.joshmanisdabomb.lcc.abstracts.types.IronRustType
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
@@ -597,13 +598,13 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleSectionBuilder("Mining")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Most blocks in the Wasteland require Wasteland Effective tools to be mined. Below is a list of blocks that will not drop without a Wasteland-tier tool:")
                 )
-                .addFragment(KnowledgeArticleListFragmentBuilder()
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
                     .addTagCriteria("Wasteland Required")
                     .addRegistryCriteria(Registry.BLOCK.key.value)
                 )
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Many blocks in the Wasteland do not require these tools to drop, but can be mined faster with a Wasteland Effective tool. Below is a list of these blocks:")
                 )
-                .addFragment(KnowledgeArticleListFragmentBuilder()
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
                     .addTagCriteria("Wasteland Optimal")
                     .addRegistryCriteria(Registry.BLOCK.key.value)
                 )
@@ -612,7 +613,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Any damage dealt to Wasteland-based mobs with a weapon that doesn't provide Wasteland Damage is greatly reduced, while these mobs also deal extra damage that pierces through %s without Wasteland Protection. Below is a list of mobs that follow these combat rules:")
                     .insert({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
                 )
-                .addFragment(KnowledgeArticleListFragmentBuilder()
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
                     .addTagCriteria("Wasteland Combat")
                     .addRegistryCriteria(Identifier("entity"))
                 )
@@ -620,7 +621,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleSectionBuilder("Equipment")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Below is a list of tools marked as Wasteland equipment:")
                 )
-                .addFragment(KnowledgeArticleListFragmentBuilder()
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
                     .addTagCriteria("Wasteland Effective")
                     .addRegistryCriteria(Registry.ITEM.key.value)
                 )
@@ -688,6 +689,43 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     val item_fortstone_axe by entry(::initialiser) { generateWastelandAxeArticle(LCCItems.fortstone_axe, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone") }
 
     val item_fortstone_hoe by entry(::initialiser) { generateWastelandHoeArticle(LCCItems.fortstone_hoe, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone") }
+
+    val block_rusty_iron by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.rusted_iron_blocks.values.last())
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a resource block introduced in %s that can be obtained by surrounding a regular %s in %s in the %s biome. It can be broken down into 9 %s which is used to craft the third tier of Wasteland tools. It must be mined with a %s or higher.")
+                    .insert(LCCBlocks.rusted_iron_blocks.values.last().name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(Blocks.IRON_BLOCK.name, KnowledgeArticleIdentifier.ofBlock(Blocks.IRON_BLOCK).link)
+                    .insertLink(Blocks.WATER.name, KnowledgeArticleIdentifier.ofBlock(Blocks.WATER).link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCItems.iron_oxide.name, KnowledgeArticleIdentifier.ofItem(LCCItems.iron_oxide).link)
+                    .insertLink(LCCItems.fortstone_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fortstone_pickaxe).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Stages")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("An iron block in any Wasteland biome will slowly become rusted if it meets all the following criteria:"))
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleTextFragmentBuilder("Has at least one orthogonally adjacent block of water."))
+                    .add(KnowledgeArticleTextFragmentBuilder("Has at least three orthogonally adjacent blocks of water OR any stage of rusted iron blocks."))
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Water sources, flowing water and waterlogged blocks are all considered as water, but any water below the iron block is not counted as it does not directly touch the block."))
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Below is an ordered list of the rusting stages of an iron block:"))
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .add(*LCCBlocks.rusted_iron_blocks.values.map(KnowledgeArticleIdentifier::ofBlock).toTypedArray(), reroute = false, link = false)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipeStore.findRecipes(b) } })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipeStore.findUsages(b) } })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .about(*LCCBlocks.rusted_iron_blocks.values.toTypedArray())
+            .apply { IronRustType.values().forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks[it]!!), LCCBlocks.rusted_iron_blocks[it]!!.name) } }
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Rusted Iron", "Resource Block")
+    }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
 

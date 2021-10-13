@@ -4,7 +4,9 @@ import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
+import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
@@ -21,6 +23,11 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
 
         fun ofBlock(block: Block) = of(Registry.BLOCK, block)
         fun ofItem(item: Item) = of(Registry.ITEM, item)
+        fun ofItemConvertible(item: ItemConvertible) : KnowledgeArticleIdentifier {
+            if (item is Block) ofBlock(item)
+            val i = item.asItem()
+            return if (i is BlockItem) ofBlock(i.block) else ofItem(i)
+        }
         fun ofEntity(entity: EntityType<*>) = KnowledgeArticleIdentifier(Identifier("entity"), Registry.ENTITY_TYPE.getId(entity))
         fun ofFluid(fluid: Fluid) = of(Registry.FLUID, fluid)
 

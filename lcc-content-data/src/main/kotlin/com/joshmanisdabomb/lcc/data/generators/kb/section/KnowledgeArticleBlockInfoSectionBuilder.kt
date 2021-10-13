@@ -2,10 +2,7 @@ package com.joshmanisdabomb.lcc.data.generators.kb.section
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleColorFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleStackFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
@@ -30,9 +27,10 @@ class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defau
     override fun getStats(): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> {
         val map = mutableMapOf<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>()
 
+        map[KnowledgeArticleTextFragmentBuilder("Image")] = listOf(KnowledgeArticleImageFragmentBuilder().apply { items.forEach { addArticle(KnowledgeArticleIdentifier.ofBlock(it)) } })
         map += addToolStat()
         map[KnowledgeArticleTextFragmentBuilder("Hardness")] = getTextStatFrom { (it.defaultState as BlockStateAccessor).hardness.toString() }
-        map[KnowledgeArticleTextFragmentBuilder("Resistance")] = getTextStatFrom { it.blastResistance.toString() }
+        map[KnowledgeArticleTextFragmentBuilder("Blast Resistance")] = getTextStatFrom { it.blastResistance.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Luminance")] = getTextStatFrom {
             val array = it.stateManager.states.map { it.luminance }.toIntArray()
             val min = array.minOrNull()!!
@@ -42,12 +40,12 @@ class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defau
         map[KnowledgeArticleTextFragmentBuilder("Friction")] = getTextStatFrom { if (it.slipperiness == 0.6f) "Normal" else it.slipperiness.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Flammability")] = getFlammability()
         map[KnowledgeArticleTextFragmentBuilder("Random Ticks")] = getTextStatFrom { it.stateManager.states.map { it.hasRandomTicks() }.any().transform("Yes", "No") }
-        map[KnowledgeArticleTextFragmentBuilder { IncludedTranslatableText(it).translation("Map Colors", "en_us").translation("Map Colours", "en_gb") }] = getStatFrom({ it.values.flatMap { it.map(::KnowledgeArticleColorFragmentBuilder) } }) { it.stateManager.states.map { (it as BlockStateAccessor).mapColor.color } }
 
         map[KnowledgeArticleTextFragmentBuilder("Stack Size")] = getTextStatFrom { it.asItem().maxCount.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Rarity")] = getTextStatFrom { it.asItem().getRarity(ItemStack(it)).name.toLowerCase().capitalize() }
         map[KnowledgeArticleTextFragmentBuilder("Renewable")] = listOf(KnowledgeArticleTextFragmentBuilder(renewable.transform("Yes", "No")))
 
+        map[KnowledgeArticleTextFragmentBuilder { IncludedTranslatableText(it).translation("Map Colors", "en_us").translation("Map Colours", "en_gb") }] = getStatFrom({ it.values.flatMap { it }.distinct().map(::KnowledgeArticleColorFragmentBuilder) }) { it.stateManager.states.map { (it as BlockStateAccessor).mapColor.color } }
         return map
     }
 

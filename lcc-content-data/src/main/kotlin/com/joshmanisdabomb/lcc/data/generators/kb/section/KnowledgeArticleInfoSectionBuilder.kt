@@ -8,7 +8,7 @@ import net.minecraft.text.Text
 
 abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U, name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Information") }, type: String = "info") : KnowledgeArticleSectionBuilder(name, type) {
 
-    protected val items by lazy { getList(models.toList()) }
+    protected val items by lazy { getList(models.toList()).distinct() }
     private var alter: (MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>) -> Unit = {}
 
     protected abstract fun getList(provided: List<U>): List<T>

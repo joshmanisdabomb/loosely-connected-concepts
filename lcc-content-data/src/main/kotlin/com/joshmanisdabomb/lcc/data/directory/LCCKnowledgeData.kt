@@ -57,6 +57,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland")
     }
 
@@ -190,6 +191,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland", "Materials", "Explosives")
     }
 
@@ -205,6 +207,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .apply { generatePlasticArticle(this, LCCItems.rigid_plastic, Items.QUARTZ) }
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Materials", "Plastic")
     }
 
@@ -221,6 +224,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .apply { generatePlasticArticle(this, LCCItems.flexible_plastic, Items.BONE_MEAL) }
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Materials", "Plastic")
     }
 
@@ -251,6 +255,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.plastic_bag) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Tools", "Bags", "Plastic")
     }
 
@@ -289,6 +294,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(legacyOilRecipe())
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Oil", "Materials", "Bucket", "Wasteland")
     }
 
@@ -310,6 +316,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.tar_ball) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Oil", "Materials")
     }
 
@@ -333,6 +340,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.asphalt_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Oil", "Materials")
     }
 
@@ -359,6 +367,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.fuel_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Oil", "Materials", "Power")
     }
 
@@ -382,6 +391,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.refined_oil_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = false))
             .tags("Oil", "Materials", "Plastic")
     }
 
@@ -432,6 +442,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.improvised_explosive) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives")
     }
 
@@ -464,6 +475,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.deadwood_log) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .about(LCCBlocks.deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
@@ -497,6 +509,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.stripped_deadwood_log) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .about(LCCBlocks.stripped_deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.stripped_deadwood), LCCBlocks.stripped_deadwood.name)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
@@ -537,6 +550,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
@@ -654,6 +668,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.fortstone) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Deadwood Pickaxe Required", "Fortstone")
     }
 
@@ -675,6 +690,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.cobbled_fortstone) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Deadwood Pickaxe Required", "Fortstone")
     }
 
@@ -854,7 +870,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .insertLink(Blocks.GRINDSTONE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GRINDSTONE).link)
         )
 
-    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, tag: String, damage: String = "It deals ${(item as SwordItem).attackDamage.div(2.0)}", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }) =
+    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, tag: String, damage: String = "It deals ${(item as SwordItem).attackDamage.div(2.0)}", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. $damage")
@@ -879,9 +895,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(item) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools")
 
-    private fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleTextFragmentBuilder.() -> Unit, example2: KnowledgeArticleTextFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }) =
+    private fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleTextFragmentBuilder.() -> Unit, example2: KnowledgeArticleTextFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent pickaxe, but can mine %s.")
@@ -911,9 +928,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(item) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", tag, "Pickaxes", "Tools")
 
-    private fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }) =
+    private fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent shovel.")
@@ -939,9 +957,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(item) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Shovels", "Tools")
 
-    private fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }) =
+    private fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent axe.")
@@ -967,9 +986,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(item) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Axes", "Tools")
 
-    private fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }) =
+    private fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent hoe.")
@@ -995,6 +1015,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(item) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Hoes", "Tools")
 
 }

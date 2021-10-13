@@ -2,9 +2,11 @@ package com.joshmanisdabomb.lcc.data.generators.kb.section
 
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleImageFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.text.Text
@@ -17,6 +19,7 @@ class KnowledgeArticleItemInfoSectionBuilder(vararg models: ItemConvertible, nam
 
     override fun getStats(): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> {
         val map = mutableMapOf<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>()
+        map[KnowledgeArticleTextFragmentBuilder("Image")] = listOf(KnowledgeArticleImageFragmentBuilder().apply { items.forEach { addArticle(KnowledgeArticleIdentifier.ofItemConvertible(it)) } })
         map[KnowledgeArticleTextFragmentBuilder("Stack Size")] = getTextStatFrom { it.maxCount.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Rarity")] = getTextStatFrom { it.getRarity(it.stack()).name.toLowerCase().capitalize() }
         map[KnowledgeArticleTextFragmentBuilder("Renewable")] = listOf(KnowledgeArticleTextFragmentBuilder(renewable.transform("Yes", "No")))

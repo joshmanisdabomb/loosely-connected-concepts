@@ -9,5 +9,6 @@
   "death.attack.lcc.radiation": "%1$s was exposed to ionising radiation",
   "death.attack.lcc.radiation.player": "%1$s was exposed to ionising radiation whilst trying to escape %2$s",
   "knowledge.lcc.minecraft:item.lcc:rigid_plastic.2.1.0.1.0": "Colour Code",
-  "knowledge.lcc.minecraft:item.lcc:flexible_plastic.2.1.0.1.0": "Colour Code"
+  "knowledge.lcc.minecraft:item.lcc:flexible_plastic.2.1.0.1.0": "Colour Code",
+  "knowledge.lcc.minecraft:block.lcc:rusted_iron_block.5.0.7.0.0": "Map Colours"
 }

@@ -525,6 +525,8 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_fortstone_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_fortstone_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_fortstone_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rusty_iron] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_iron_oxide] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };
@@ -535,7 +537,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
     abstract fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>
 
     val shortname get() = (group.shortname?.plus(" ") ?: "").plus(modVersion)
-    val page = KnowledgeArticleIdentifier(LCC.id("versions"), Identifier(group.namespace, code))
+    val page = KnowledgeArticleIdentifier(LCC.id("version"), Identifier(group.namespace, code))
 
     fun getIntroduction(): String {
         val sentence1 = "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."

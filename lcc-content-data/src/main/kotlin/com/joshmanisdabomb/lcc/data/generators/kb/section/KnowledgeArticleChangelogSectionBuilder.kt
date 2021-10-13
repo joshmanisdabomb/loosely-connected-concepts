@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 
-class KnowledgeArticleChangelogSectionBuilder(name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Changelog") }) : KnowledgeArticleSectionBuilder(name) {
+class KnowledgeArticleChangelogSectionBuilder(name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Changelog") }, type: String = "main") : KnowledgeArticleSectionBuilder(name, type) {
 
     override fun afterInit() {
         val f = KnowledgeArticleTableFragmentBuilder()

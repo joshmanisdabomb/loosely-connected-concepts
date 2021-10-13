@@ -8,7 +8,8 @@
     "LootTableAccessor",
     "LootPoolAccessor",
     "LootPoolEntryAccessor",
-    "ItemEntryAccessor"
+    "ItemEntryAccessor",
+    "BlockStateAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -10,9 +10,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleVersionChangelogSectionBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.section.*
 import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
@@ -192,7 +190,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Crafting Materials", "Explosives")
+            .tags("Wasteland", "Materials", "Explosives")
     }
 
     val item_rigid_plastic by entry(::initialiser) {
@@ -434,7 +432,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.improvised_explosive) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Explosives")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives")
     }
 
     val block_deadwood_log by entry(::initialiser) {
@@ -468,7 +466,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .about(LCCBlocks.deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
     val block_stripped_deadwood_log by entry(::initialiser) {
@@ -501,7 +499,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .about(LCCBlocks.stripped_deadwood)
             .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.stripped_deadwood), LCCBlocks.stripped_deadwood.name)
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
     val block_deadwood_planks by entry(::initialiser) {
@@ -539,7 +537,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood", "Wood")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
     val entity_consumer by entry(::initialiser) {
@@ -656,7 +654,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.fortstone) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Deadwood Pickaxe Required", "Fortstone")
     }
 
     val block_cobbled_fortstone by entry(::initialiser) {
@@ -677,7 +675,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.cobbled_fortstone) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Deadwood Pickaxe Required", "Fortstone")
     }
 
     val item_fortstone_sword by entry(::initialiser) { generateWastelandSwordArticle(LCCItems.fortstone_sword, LCCBlocks.cobbled_fortstone, "second", "Fortstone", "It deals 2.5 hearts of damage, but has a slower attack speed than other swords.") }
@@ -707,7 +705,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder("An iron block in any Wasteland biome will slowly become rusted if it meets all the following criteria:"))
                 .addFragment(KnowledgeArticleBulletedFragmentBuilder()
                     .add(KnowledgeArticleTextFragmentBuilder("Has at least one orthogonally adjacent block of water."))
-                    .add(KnowledgeArticleTextFragmentBuilder("Has at least three orthogonally adjacent blocks of water OR any stage of rusted iron blocks."))
+                    .add(KnowledgeArticleTextFragmentBuilder("Has at least three orthogonally adjacent blocks of either water or a rusted iron block of any stage."))
                 )
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Water sources, flowing water and waterlogged blocks are all considered as water, but any water below the iron block is not counted as it does not directly touch the block."))
                 .addFragment(KnowledgeArticleTextFragmentBuilder("Below is an ordered list of the rusting stages of an iron block:"))
@@ -722,9 +720,31 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipeStore.findUsages(b) } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
             .about(*LCCBlocks.rusted_iron_blocks.values.toTypedArray())
             .apply { IronRustType.values().forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks[it]!!), LCCBlocks.rusted_iron_blocks[it]!!.name) } }
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Rusted Iron", "Resource Block")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Rusted Iron", "Resources")
+    }
+
+    val item_iron_oxide by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.iron_oxide)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a resource introduced in %s. It can be crafted in groups of 9 by placing a %s in a crafting table. It is used to craft the third tier of %s tools.")
+                    .insert(LCCItems.iron_oxide.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(LCCBlocks.rusted_iron_blocks.values.last().name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()).link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.iron_oxide) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.iron_oxide) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = true))
+            .tags("Wasteland", "Materials", "Rusted Iron", "Resources")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

@@ -6,7 +6,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.utils.ItemStackUtils
 import net.minecraft.item.ItemStack
 
-class KnowledgeArticleStackFragmentBuilder(vararg stacks: ItemStack) : KnowledgeArticleFragmentBuilder() {
+class KnowledgeArticleStackFragmentBuilder(vararg stacks: ItemStack, val alter: (stack: JsonObject) -> Unit = {}) : KnowledgeArticleFragmentBuilder() {
 
     override val type = "stack"
     val stacks = stacks.filter { !it.isEmpty }
@@ -18,6 +18,7 @@ class KnowledgeArticleStackFragmentBuilder(vararg stacks: ItemStack) : Knowledge
         this.stacks.forEach {
             val stack = ItemStackUtils.toJson(it)
             stack.add("item", stack.remove("id"))
+            alter(stack)
             stacks.add(stack)
         }
         json.add("stacks", stacks)

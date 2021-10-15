@@ -589,15 +589,52 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
     }
 
-    val item_deadwood_sword by entry(::initialiser) { generateWastelandSwordArticle(LCCItems.deadwood_sword, LCCBlocks.deadwood_planks, "first", "Deadwood", recipe = getRecipe(LCCItems.deadwood_sword.identifier, getDeadwoodToolNote(Items.WOODEN_SWORD))) }
+    val item_deadwood_sword by entry(::initialiser) { generateWastelandSwordArticle(
+        LCCItems.deadwood_sword,
+        LCCBlocks.deadwood_planks,
+        "first",
+        "a wooden",
+        "Deadwood",
+        recipe = getRecipe(LCCItems.deadwood_sword.identifier, getDeadwoodToolNote(Items.WOODEN_SWORD))
+    ) }
 
-    val item_deadwood_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(LCCItems.deadwood_pickaxe, LCCBlocks.deadwood_planks, "first", "a wooden", "Deadwood", { insertLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone).link) }, { insert(LCCBlocks.fortstone.name) }, recipe = getRecipe(LCCItems.deadwood_pickaxe.identifier, getDeadwoodToolNote(Items.WOODEN_PICKAXE))) }
+    val item_deadwood_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(
+        LCCItems.deadwood_pickaxe,
+        LCCBlocks.deadwood_planks,
+        "first",
+        "a wooden",
+        "Deadwood",
+        { insertLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone).link) },
+        { insert(LCCBlocks.fortstone.name) },
+        recipe = getRecipe(LCCItems.deadwood_pickaxe.identifier, getDeadwoodToolNote(Items.WOODEN_PICKAXE))
+    ) }
 
-    val item_deadwood_shovel by entry(::initialiser) { generateWastelandShovelArticle(LCCItems.deadwood_shovel, LCCBlocks.deadwood_planks, "first", "a wooden", "Deadwood", recipe = getRecipe(LCCItems.deadwood_shovel.identifier, getDeadwoodToolNote(Items.WOODEN_SHOVEL))) }
+    val item_deadwood_shovel by entry(::initialiser) { generateWastelandShovelArticle(
+        LCCItems.deadwood_shovel,
+        LCCBlocks.deadwood_planks,
+        "first",
+        "a wooden",
+        "Deadwood",
+        recipe = getRecipe(LCCItems.deadwood_shovel.identifier, getDeadwoodToolNote(Items.WOODEN_SHOVEL))
+    ) }
 
-    val item_deadwood_axe by entry(::initialiser) { generateWastelandAxeArticle(LCCItems.deadwood_axe, LCCBlocks.deadwood_planks, "first", "a wooden", "Deadwood", recipe = getRecipe(LCCItems.deadwood_axe.identifier, getDeadwoodToolNote(Items.WOODEN_AXE))) }
+    val item_deadwood_axe by entry(::initialiser) { generateWastelandAxeArticle(
+        LCCItems.deadwood_axe,
+        LCCBlocks.deadwood_planks,
+        "first",
+        "a wooden",
+        "Deadwood",
+        recipe = getRecipe(LCCItems.deadwood_axe.identifier, getDeadwoodToolNote(Items.WOODEN_AXE))
+    ) }
 
-    val item_deadwood_hoe by entry(::initialiser) { generateWastelandHoeArticle(LCCItems.deadwood_hoe, LCCBlocks.deadwood_planks, "first", "a wooden", "Deadwood", recipe = getRecipe(LCCItems.deadwood_hoe.identifier, getDeadwoodToolNote(Items.WOODEN_HOE))) }
+    val item_deadwood_hoe by entry(::initialiser) { generateWastelandHoeArticle(
+        LCCItems.deadwood_hoe,
+        LCCBlocks.deadwood_planks,
+        "first",
+        "a wooden",
+        "Deadwood",
+        recipe = getRecipe(LCCItems.deadwood_hoe.identifier, getDeadwoodToolNote(Items.WOODEN_HOE))
+    ) }
 
     val effectivity_wasteland by entry(::initialiser) {
         KnowledgeArticleBuilder(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland"))) { IncludedTranslatableText(it).translation("Wasteland Effectivity", "en_us") }
@@ -694,15 +731,48 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Deadwood Pickaxe Required", "Fortstone")
     }
 
-    val item_fortstone_sword by entry(::initialiser) { generateWastelandSwordArticle(LCCItems.fortstone_sword, LCCBlocks.cobbled_fortstone, "second", "Fortstone", "It deals 2.5 hearts of damage, but has a slower attack speed than other swords.") }
+    val item_fortstone_sword by entry(::initialiser) { generateWastelandSwordArticle(
+        LCCItems.fortstone_sword,
+        LCCBlocks.cobbled_fortstone,
+        "second",
+        "a stone",
+        "Fortstone",
+        "It deals 2.5 hearts of damage, but has a slower attack speed than other swords."
+    ) }
 
-    val item_fortstone_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(LCCItems.fortstone_pickaxe, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone", { insertLink("rusted iron blocks", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()).link) }, { insert("rusted iron blocks") }) }
+    val item_fortstone_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(
+        LCCItems.fortstone_pickaxe,
+        LCCBlocks.cobbled_fortstone,
+        "second",
+        "a stone",
+        "Fortstone",
+        { insertLink("rusted iron blocks", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()).link) },
+        { insert("rusted iron blocks") }
+    ) }
 
-    val item_fortstone_shovel by entry(::initialiser) { generateWastelandShovelArticle(LCCItems.fortstone_shovel, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone") }
+    val item_fortstone_shovel by entry(::initialiser) { generateWastelandShovelArticle(
+        LCCItems.fortstone_shovel,
+        LCCBlocks.cobbled_fortstone,
+        "second",
+        "a stone",
+        "Fortstone"
+    ) }
 
-    val item_fortstone_axe by entry(::initialiser) { generateWastelandAxeArticle(LCCItems.fortstone_axe, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone") }
+    val item_fortstone_axe by entry(::initialiser) { generateWastelandAxeArticle(
+        LCCItems.fortstone_axe,
+        LCCBlocks.cobbled_fortstone,
+        "second",
+        "a stone",
+        "Fortstone"
+    ) }
 
-    val item_fortstone_hoe by entry(::initialiser) { generateWastelandHoeArticle(LCCItems.fortstone_hoe, LCCBlocks.cobbled_fortstone, "second", "a stone", "Fortstone") }
+    val item_fortstone_hoe by entry(::initialiser) { generateWastelandHoeArticle(
+        LCCItems.fortstone_hoe,
+        LCCBlocks.cobbled_fortstone,
+        "second",
+        "a stone",
+        "Fortstone"
+    ) }
 
     val block_rusty_iron by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCBlocks.rusted_iron_blocks.values.last())
@@ -762,6 +832,63 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = true))
             .tags("Wasteland", "Materials", "Rusted Iron", "Resources")
     }
+
+    val item_rusty_iron_sword by entry(::initialiser) { generateWastelandSwordArticle(
+        LCCItems.rusty_iron_sword,
+        LCCItems.iron_oxide,
+        "third",
+        "Rusted Iron",
+        "an iron",
+        renewable = true
+    ) { addFragment(
+        KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this sword has a much lower durability than one made of pure iron."))
+    } }
+
+    val item_rusty_iron_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(
+        LCCItems.rusty_iron_pickaxe,
+        LCCItems.iron_oxide,
+        "third",
+        "an iron",
+        "Rusted Iron",
+        { insertLink(LCCBlocks.sapphire_altar_brick.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.sapphire_altar_brick).link) },
+        { insert(LCCBlocks.sapphire_altar_brick.name) },
+        renewable = true
+    ) { addFragment(
+        KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this pickaxe has a much lower durability than one made of pure iron."))
+    } }
+
+    val item_rusty_iron_shovel by entry(::initialiser) { generateWastelandShovelArticle(
+        LCCItems.rusty_iron_shovel,
+        LCCItems.iron_oxide,
+        "third",
+        "an iron",
+        "Rusted Iron",
+        renewable = true
+    ) { addFragment(
+        KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this shovel has a much lower durability than one made of pure iron."))
+    } }
+
+    val item_rusty_iron_axe by entry(::initialiser) { generateWastelandAxeArticle(
+        LCCItems.rusty_iron_axe,
+        LCCItems.iron_oxide,
+        "third",
+        "an iron",
+        "Rusted Iron",
+        renewable = true
+    ) { addFragment(
+        KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this axe has a much lower durability than one made of pure iron."))
+    } }
+
+    val item_rusty_iron_hoe by entry(::initialiser) { generateWastelandHoeArticle(
+        LCCItems.rusty_iron_hoe,
+        LCCItems.iron_oxide,
+        "third",
+        "an iron",
+        "Rusted Iron",
+        renewable = true
+    ) { addFragment(
+        KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this hoe has a much lower durability than one made of pure iron."))
+    } }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
 
@@ -870,16 +997,17 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .insertLink(Blocks.GRINDSTONE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GRINDSTONE).link)
         )
 
-    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, tag: String, damage: String = "It deals ${(item as SwordItem).attackDamage.div(2.0)}", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
+    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, damage: String = "It deals ${(item as SwordItem).attackDamage.div(2.0)}", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. $damage")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent sword, $damage")
                     .insert(item.name)
                     .insertLink("sword", { KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/sword" } })
                     .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
                     .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
                     .insertLink(ingredient.asItem().name, KnowledgeArticleIdentifier.ofItem(ingredient.asItem()).link)
                 )
+                .apply(introAdd)
             )
             .addSection(KnowledgeArticleSectionBuilder("Combat")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%ss deal %s, which deal full damage against Wasteland-based creatures.")
@@ -898,7 +1026,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools")
 
-    private fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleTextFragmentBuilder.() -> Unit, example2: KnowledgeArticleTextFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
+    private fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleTextFragmentBuilder.() -> Unit, example2: KnowledgeArticleTextFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent pickaxe, but can mine %s.")
@@ -909,6 +1037,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink(ingredient.asItem().name, KnowledgeArticleIdentifier.ofItem(ingredient.asItem()).link)
                     .apply(example)
                 )
+                .apply(introAdd)
             )
             .addSection(KnowledgeArticleSectionBuilder("Mining")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to harvest blocks that require a Wasteland pickaxe to mine, such as %s.")
@@ -931,7 +1060,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", tag, "Pickaxes", "Tools")
 
-    private fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
+    private fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent shovel.")
@@ -941,6 +1070,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
                     .insertLink(ingredient.asItem().name, KnowledgeArticleIdentifier.ofItem(ingredient.asItem()).link)
                 )
+                .apply(introAdd)
             )
             .addSection(KnowledgeArticleSectionBuilder("Mining")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to break blocks that require a Wasteland shovel, such as %s, faster.")
@@ -960,7 +1090,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Shovels", "Tools")
 
-    private fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
+    private fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is an %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent axe.")
@@ -970,6 +1100,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
                     .insertLink(ingredient.asItem().name, KnowledgeArticleIdentifier.ofItem(ingredient.asItem()).link)
                 )
+                .apply(introAdd)
             )
             .addSection(KnowledgeArticleSectionBuilder("Mining")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to break blocks that require a Wasteland axe, such as %s, faster.")
@@ -989,7 +1120,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = renewable))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Axes", "Tools")
 
-    private fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false) =
+    private fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent hoe.")
@@ -999,6 +1130,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
                     .insertLink(ingredient.asItem().name, KnowledgeArticleIdentifier.ofItem(ingredient.asItem()).link)
                 )
+                .apply(introAdd)
             )
             .addSection(KnowledgeArticleSectionBuilder("Mining")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%ss are %s, allowing them to break blocks that require a Wasteland hoe, such as %s, faster.")

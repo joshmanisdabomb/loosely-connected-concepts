@@ -12,6 +12,7 @@ import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.mixin.data.common.BlockStateAccessor
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
 import net.minecraft.block.FireBlock
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.item.*
@@ -24,10 +25,9 @@ class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defau
 
     override fun getName(model: Block) = model.name
 
-    override fun getStats(): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> {
-        val map = mutableMapOf<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>()
-
+    override fun getStats(map: MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> {
         map[KnowledgeArticleTextFragmentBuilder("Image")] = listOf(KnowledgeArticleImageFragmentBuilder().apply { items.forEach { addArticle(KnowledgeArticleIdentifier.ofBlock(it)) } })
+
         map += addToolStat()
         map[KnowledgeArticleTextFragmentBuilder("Hardness")] = getTextStatFrom { (it.defaultState as BlockStateAccessor).hardness.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Blast Resistance")] = getTextStatFrom { it.blastResistance.toString() }
@@ -39,11 +39,9 @@ class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defau
         }
         map[KnowledgeArticleTextFragmentBuilder("Friction")] = getTextStatFrom { if (it.slipperiness == 0.6f) "Normal" else it.slipperiness.toString() }
         map[KnowledgeArticleTextFragmentBuilder("Flammability")] = getFlammability()
-        map[KnowledgeArticleTextFragmentBuilder("Random Ticks")] = getTextStatFrom { it.stateManager.states.map { it.hasRandomTicks() }.any().transform("Yes", "No") }
+        map[KnowledgeArticleTextFragmentBuilder("Random Ticks")] = getTextStatFrom { it.stateManager.states.map(BlockState::hasRandomTicks).any().transform("Yes", "No") }
 
-        map[KnowledgeArticleTextFragmentBuilder("Stack Size")] = getTextStatFrom { it.asItem().maxCount.toString() }
-        map[KnowledgeArticleTextFragmentBuilder("Rarity")] = getTextStatFrom { it.asItem().getRarity(ItemStack(it)).name.toLowerCase().capitalize() }
-        map[KnowledgeArticleTextFragmentBuilder("Renewable")] = listOf(KnowledgeArticleTextFragmentBuilder(renewable.transform("Yes", "No")))
+        map += KnowledgeArticleItemInfoSectionBuilder(*items.map(Block::asItem).toTypedArray(), renewable = renewable).getStats().toList().drop(1)
 
         map[KnowledgeArticleTextFragmentBuilder { IncludedTranslatableText(it).translation("Map Colors", "en_us").translation("Map Colours", "en_gb") }] = getStatFrom({ it.values.flatMap { it }.distinct().map(::KnowledgeArticleColorFragmentBuilder) }) { it.stateManager.states.map { (it as BlockStateAccessor).mapColor.color } }
         return map

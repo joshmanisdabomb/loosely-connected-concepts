@@ -25,13 +25,13 @@ abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U, name: 
         }
     }
 
-    protected fun getTextStatFrom(from: (model: T) -> String): List<KnowledgeArticleTextFragmentBuilder> {
+    protected fun getTextStatFrom(from: (model: T) -> String?): List<KnowledgeArticleTextFragmentBuilder> {
         return getStatFrom({
             it[null]?.let { listOf(KnowledgeArticleTextFragmentBuilder(it)) } ?: it.map { (k, v) -> KnowledgeArticleTextFragmentBuilder("%s: $v").insert(getName(k!!)) }
         }, from)
     }
 
-    protected abstract fun getStats(): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>
+    protected abstract fun getStats(map: MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> = mutableMapOf()): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>
 
     fun alterStats(alter: (MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>) -> Unit): KnowledgeArticleInfoSectionBuilder<T, U> {
         this.alter = alter
@@ -40,7 +40,7 @@ abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U, name: 
 
     override fun afterInit() {
         val fragment = KnowledgeArticleTableFragmentBuilder()
-        val stats = getStats().apply(alter)
+        val stats = getStats().apply(alter).filterValues(List<KnowledgeArticleFragmentBuilder>::isNotEmpty)
         for ((title, fragments) in stats) {
             fragment.addRow {
                 addHeadingCell(title)

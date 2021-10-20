@@ -924,13 +924,16 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Shattering")
-                .addFragment(KnowledgeArticleTextFragmentBuilder("%s, %s and all %s of %s can be shattered into %s by right clicking with a %s in hand.")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s, %s and all %s of %s can be shattered into %s by right clicking with a %s in hand. %s and %s can also be shattered into %s.")
                     .insert(Blocks.GLASS.name)
                     .insertLink(Blocks.TINTED_GLASS.name, KnowledgeArticleIdentifier.ofBlock(Blocks.TINTED_GLASS).link)
                     .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
                     .insert("Stained Glass")
                     .insertLink(LCCBlocks.shattered_glass.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_glass).link)
                     .insert(LCCItems.crowbar.name)
+                    .insertLink("Glass Panes", KnowledgeArticleIdentifier.ofBlock(Blocks.GLASS_PANE).link)
+                    .insert("Stained Glass Panes")
+                    .insertLink("Shattered Glass Panes", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_glass_pane).link)
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Durability")
@@ -948,6 +951,47 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = true))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Salvageable", "Rusted Iron", "Tools")
+    }
+
+    val block_shattered_glass by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.shattered_glass)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a transparent block introduced in %s that is obtained by smashing (right clicking) %s, %s and all %s of %s with a %s. It is extremely fragile and breaks easily when stepped on or shot with a projectile.")
+                    .insert(LCCBlocks.shattered_glass.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(Blocks.GLASS.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GLASS).link)
+                    .insertLink(Blocks.TINTED_GLASS.name, KnowledgeArticleIdentifier.ofBlock(Blocks.TINTED_GLASS).link)
+                    .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
+                    .insert("Stained Glass")
+                    .insertLink(LCCItems.crowbar.name, KnowledgeArticleIdentifier.ofItem(LCCItems.crowbar).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Types")
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .add(
+                        KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_glass),
+                        KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_tinted_glass),
+                        *LCCBlocks.stained_shattered_glass.values.map(KnowledgeArticleIdentifier::ofBlock).toTypedArray(),
+                        reroute = false, link = false
+                    )
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.shattered_glass) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.shattered_tinted_glass) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipeStore.findRecipes(b) } })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.shattered_glass) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.shattered_tinted_glass) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipeStore.findUsages(b) } })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
+            .about(LCCBlocks.shattered_tinted_glass, *LCCBlocks.stained_shattered_glass.values.toTypedArray())
+            .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_tinted_glass), LCCBlocks.shattered_tinted_glass.name)
+            .apply { LCCBlocks.stained_shattered_glass.values.forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(it), it.name) } }
+            .tags("Shattered Glass", "Colored")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.kb.article
 import net.minecraft.block.Block
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
@@ -32,6 +33,7 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofFluid(fluid: Fluid) = of(Registry.FLUID, fluid)
 
         fun ofEnchant(enchant: Enchantment) = of(Registry.ENCHANTMENT, enchant)
+        fun ofEffect(effect: StatusEffect) = KnowledgeArticleIdentifier(Identifier("effect"), Registry.STATUS_EFFECT.getId(effect)!!)
 
         fun ofBiome(biome: Biome) = of(BuiltinRegistries.BIOME, biome)
         fun ofStructure(structure: StructureFeature<*>) = of(Registry.STRUCTURE_FEATURE, structure)

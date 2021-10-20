@@ -15,6 +15,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
@@ -410,7 +411,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     .insertLink("Wasteland Barrens", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens).link)
                     .insertLink(LCCBlocks.cracked_mud_pressure_plate.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud_pressure_plate).link)
                     .insertLink(LCCItems.fortstone_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fortstone_pickaxe).link)
-                    .insertLink(TranslatableText(Enchantments.LOOTING.translationKey), KnowledgeArticleIdentifier.ofEnchant(Enchantments.LOOTING).link)
+                    .insertLink(TranslatableText(Enchantments.FORTUNE.translationKey), KnowledgeArticleIdentifier.ofEnchant(Enchantments.FORTUNE).link)
                     .insertLink(LCCItems.crowbar.name, KnowledgeArticleIdentifier.ofItem(LCCItems.crowbar).link)
                 )
                 .addFragment(KnowledgeArticleTextFragmentBuilder("They can also be crafted with a recipe involving %s.")
@@ -443,7 +444,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives", "Salvageable")
     }
 
     val block_deadwood_log by entry(::initialiser) {
@@ -737,7 +738,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         "second",
         "a stone",
         "Fortstone",
-        "It deals 2.5 hearts of damage, but has a slower attack speed than other swords."
+        "dealing 2.5 hearts of damage. However, it has a slower attack speed than other swords."
     ) }
 
     val item_fortstone_pickaxe by entry(::initialiser) { generateWastelandPickaxeArticle(
@@ -837,8 +838,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         LCCItems.rusty_iron_sword,
         LCCItems.iron_oxide,
         "third",
-        "Rusted Iron",
         "an iron",
+        "Rusted Iron",
         renewable = true
     ) { addFragment(
         KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this sword has a much lower durability than one made of pure iron."))
@@ -889,6 +890,65 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     ) { addFragment(
         KnowledgeArticleTextFragmentBuilder("Being made out of a worn material, this hoe has a much lower durability than one made of pure iron."))
     } }
+
+    val item_crowbar by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.crowbar)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The %s is a multi-purpose tool introduced in %s. It can be used for combat, shattering different %s blocks, and salvaging blocks that generate in the %s. It can be crafted with %s, or found as loot in %s structures.")
+                    .insert(LCCItems.crowbar.name)
+                    .insertLink("LCC 0.5.0", LCCVersion.LCC_FABRIC_0_5_0.page.link)
+                    .insertLink(Blocks.GLASS.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GLASS).link)
+                    .insertLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
+                    .insertLink(LCCItems.iron_oxide.name, KnowledgeArticleIdentifier.ofItem(LCCItems.iron_oxide).link)
+                    .insertLink("tent", KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.wasteland_tent).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss deal 1.5 hearts of damage, which limits its usefulness as a weapon. However, when a critical hit is landed on a mob, it is %s for 0.7 seconds. This gives a window of opportunity to perform another critical hit and chain many stuns together.")
+                    .insert(LCCItems.crowbar.name)
+                    .insertLink("stunned", KnowledgeArticleIdentifier.ofEffect(LCCEffects.stun).link)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("This stun is also applied against other players in PvP, but the stun is reduced to 0.4 seconds.")
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mining")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("A select list of blocks marked as salvageable will generate naturally in the Wasteland. As they have not been placed down by the player, they only have a chance (usually 30%% + 10%% per level of %s) to be picked up when mined with their respective tool. When a %s is used, this drop chance increases to 100%%.")
+                    .insertLink(TranslatableText(Enchantments.FORTUNE.translationKey), KnowledgeArticleIdentifier.ofEnchant(Enchantments.FORTUNE).link)
+                    .insert(LCCItems.crowbar.name)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("Below is a list of salvageable blocks:")
+                )
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
+                    .addTagCriteria("Salvageable")
+                    .addRegistryCriteria(Registry.BLOCK.key.value)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Shattering")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%s, %s and all %s of %s can be shattered into %s by right clicking with a %s in hand.")
+                    .insert(Blocks.GLASS.name)
+                    .insertLink(Blocks.TINTED_GLASS.name, KnowledgeArticleIdentifier.ofBlock(Blocks.TINTED_GLASS).link)
+                    .insert({ IncludedTranslatableText(it).translation("colors", "en_us").translation("colours", "en_gb") })
+                    .insert("Stained Glass")
+                    .insertLink(LCCBlocks.shattered_glass.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_glass).link)
+                    .insert(LCCItems.crowbar.name)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Durability")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("%ss have ${LCCItems.crowbar.maxDamage} durability points. Attacking or shattering glass costs 1 durability, while mining a block costs 2 durability.")
+                    .insert(LCCItems.crowbar.name)
+                )
+            )
+            .addSection(getRepairingSection(LCCItems.crowbar, LCCItems.iron_oxide.name))
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.crowbar) })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.crowbar) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleItemInfoSectionBuilder(renewable = true))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Salvageable", "Rusted Iron", "Tools")
+    }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
 
@@ -997,7 +1057,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .insertLink(Blocks.GRINDSTONE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.GRINDSTONE).link)
         )
 
-    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, damage: String = "It deals ${(item as SwordItem).attackDamage.div(2.0)}", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    private fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, damage: String = "dealing ${(item as SwordItem).attackDamage.div(2.0).plus(0.5).decimalFormat(1)} hearts of damage.", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a %s introduced in %s. It is one of the tools in the $tier tier of %s tool progression, crafted with %s. It functions similarly to $equivalent sword, $damage")

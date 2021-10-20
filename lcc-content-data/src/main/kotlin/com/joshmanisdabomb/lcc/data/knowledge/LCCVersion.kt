@@ -527,6 +527,12 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_fortstone_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_rusty_iron] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_iron_oxide] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_crowbar] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

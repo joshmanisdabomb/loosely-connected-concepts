@@ -19,5 +19,8 @@
   "knowledge.lcc.minecraft:block.lcc:fortstone.4.0.11.0.0": "Map Colours",
   "knowledge.lcc.minecraft:block.lcc:cobbled_fortstone.4.0.11.0.0": "Map Colours",
   "knowledge.lcc.minecraft:block.lcc:rusted_iron_block.5.0.11.0.0": "Map Colours",
-  "knowledge.lcc.minecraft:block.lcc:shattered_glass.5.0.11.0.0": "Map Colours"
+  "knowledge.lcc.minecraft:block.lcc:shattered_glass.5.0.11.0.0": "Map Colours",
+  "knowledge.lcc.minecraft:block.lcc:shattered_glass_pane.5.0.11.0.0": "Map Colours",
+  "knowledge.lcc.minecraft:block.lcc:cracked_mud.4.0.11.0.0": "Map Colours",
+  "knowledge.lcc.minecraft:block.lcc:mud.6.0.11.0.0": "Map Colours"
 }

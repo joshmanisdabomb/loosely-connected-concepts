@@ -533,6 +533,10 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_rusty_iron_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_rusty_iron_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_crowbar] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_shattered_glass] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_shattered_glass_pane] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

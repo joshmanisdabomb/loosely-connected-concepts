@@ -18,7 +18,11 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
     YAM_1("Update 1", "1.7.2", "u1", LCCVersionGroup.YAM, 0, LocalDateTime.of(2015, 2, 15, 19, 9, 2)) {
         override val description = "First version uploaded, reports itself as Beta 1.3."
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            return map.toSortedMap()
+        }
     },
     YAM_1_1("Update 1.1", "1.7.2", "u1.1", LCCVersionGroup.YAM, 10, LocalDateTime.of(2015, 2, 15, 21, 14, 56)) {
         override val description = "Removed Mars and Mercury dimensions, replaced with 'Asmia' dimension(?)"
@@ -214,7 +218,10 @@ Added loads of crafting recipes!
 Changed text colours of item tooltips.
 Updated textures of neon equipment."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            return map.toSortedMap()
+        }
     },
     AIMAGG_ALPHA_1_6_1("Alpha 1.6.1", "1.12.2", "a1.6.1", LCCVersionGroup.AIMAGG, 1610, LocalDateTime.of(2017, 10, 25, 18, 30, 32)) {
         override val description = """Fixed connected texture blocks, not touching them again for at least seven years.
@@ -304,7 +311,8 @@ Fix to double classic chest and hopper interaction.
 Added loot table, lang, block state, item model, tag, advancement data generator."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Reintroduced.")
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             return map.toSortedMap()
         }
     },
@@ -324,8 +332,9 @@ To allow running in real environments: No longer use reflection for thing direct
 Time rift functionality and ruby recipes."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Reintroduced.")
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             return map.toSortedMap()
         }
     },
@@ -535,17 +544,31 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_crowbar] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_shattered_glass] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_shattered_glass_pane] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud_pressure_plate] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_iron_oxide_nugget] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_spikes] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rusted_iron_bars] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_tongue_tissue] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
-    };
+    }/*,
+    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, LocalDateTime.of(TBD)) {
+        override val description = ""
+
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.cracked_mud] = KnowledgeArticleTextFragmentBuilder("Can now be hydrated into %s.")
+                .insertLink(LCCBlocks.mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.mud).link)
+            return map.toSortedMap()
+        }
+    }*/;
 
     abstract val description: String
 
     val changelog by lazy { generateChangelog(mutableMapOf()) }
     abstract fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>
 
+    val label get() = "${group.label} $modVersion"
     val shortname get() = (group.shortname?.plus(" ") ?: "").plus(modVersion)
     val page = KnowledgeArticleIdentifier(LCC.id("version"), Identifier(group.namespace, code))
 
@@ -565,6 +588,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
 
     companion object {
         private val introduced = "Introduced."
+        private val reintroduced = "Reintroduced."
     }
 
 }

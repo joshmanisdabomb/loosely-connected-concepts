@@ -36,7 +36,7 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofEffect(effect: StatusEffect) = KnowledgeArticleIdentifier(Identifier("effect"), Registry.STATUS_EFFECT.getId(effect)!!)
 
         fun ofBiome(biome: Biome) = of(BuiltinRegistries.BIOME, biome)
-        fun ofStructure(structure: StructureFeature<*>) = of(Registry.STRUCTURE_FEATURE, structure)
+        fun ofStructure(structure: StructureFeature<*>) = KnowledgeArticleIdentifier(Identifier("structure"), Registry.STRUCTURE_FEATURE.getId(structure)!!)
 
     }
 

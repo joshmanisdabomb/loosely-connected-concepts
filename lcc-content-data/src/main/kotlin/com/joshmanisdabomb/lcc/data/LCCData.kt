@@ -88,7 +88,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         if (path.isBlank()) exitProcess(0)
 
         val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
-        client.openScreen(ImageExport(items, File(path), false))
+        client.setScreen(ImageExport(items, File(path), false))
     }
 
     private fun setupExports() {

@@ -21,7 +21,7 @@ class SaltItem(val projectiles: Int, settings: Settings) : Item(settings) {
             repeat(projectiles) {
                 SaltEntity(world, user).apply {
                     setItem(stack)
-                    setProperties(user, user.pitch, user.yaw, 0.0f, 0.45f, 22.0f)
+                    setVelocity(user, user.pitch, user.yaw, 0.0f, 0.45f, 22.0f)
                     world.spawnEntity(this)
                 }
             }

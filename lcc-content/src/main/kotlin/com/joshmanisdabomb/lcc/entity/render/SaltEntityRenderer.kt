@@ -26,8 +26,8 @@ class SaltEntityRenderer(context: EntityRendererFactory.Context) : EntityRendere
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F))
         val vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(texture))
         val entry = matrices.peek()
-        val matrix4f = entry.model
-        val matrix3f = entry.normal
+        val matrix4f = entry.positionMatrix
+        val matrix3f = entry.normalMatrix
         vertexConsumer.vertex(matrix4f, -0.5f, -0.5f, 0.0F).color(255, 255, 255, 255).texture(uv.div(4f), uv.div(4f)).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(matrix3f, 0.0F, 1.0F, 0.0F).next()
         vertexConsumer.vertex(matrix4f, 0.5f, -0.5f, 0.0F).color(255, 255, 255, 255).texture(uv.div(4f).plus(0.25f), uv.div(4f)).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(matrix3f, 0.0F, 1.0F, 0.0F).next()
         vertexConsumer.vertex(matrix4f, 0.5f, 0.5f, 0.0F).color(255, 255, 255, 255).texture(uv.div(4f).plus(0.25f), uv.div(4f).plus(0.25f)).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(matrix3f, 0.0F, 1.0F, 0.0F).next()

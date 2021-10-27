@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.block.WastelandObeliskBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.directory.LCCStructureFeatures
+//import com.joshmanisdabomb.lcc.directory.LCCStructureFeatures
 import com.joshmanisdabomb.lcc.extensions.NBT_LIST
 import com.joshmanisdabomb.lcc.extensions.addFloats
 import com.joshmanisdabomb.lcc.extensions.getFloatList
@@ -48,7 +48,7 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
             if (cooldown != null && world.time - cooldown <= cooldownMax) {
                 return cooldownMax - (world.time - cooldown)
             }
-            positions = mutableListOf(world.locateStructure(LCCStructureFeatures.wasteland_obelisk, pos, 100, false))
+            positions = mutableListOf()//world.locateStructure(LCCStructureFeatures.wasteland_obelisk, pos, 100, false))
             step = 1
             Companion.cooldown = world.time
             return null
@@ -79,7 +79,7 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
                 entity.positions.clear()
                 entity.step = 0
             } else if (entity.step > 0) {
-                val dist = if (entity.step % 2 == 0) 4000 else 40000
+                /*val dist = if (entity.step % 2 == 0) 4000 else 40000
                 val x = if (entity.step % 4 >= 2) 1 else -1
                 val z = if (entity.step % 8 >= 4) 1 else -1
                 val next = (world as ServerWorld).locateStructure(LCCStructureFeatures.wasteland_obelisk, pos.add(x.times(dist), 0, z.times(dist)), 100, false)
@@ -88,7 +88,7 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
                 } else {
                     entity.positions.add(next)
                     entity.step = entity.step.div(2).plus(1).times(2)
-                }
+                }*/
             }
         }
     }

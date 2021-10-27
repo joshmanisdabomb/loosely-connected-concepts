@@ -58,7 +58,7 @@ class RefiningShapelessRecipe(_id: Identifier, _group: String, ingredients: Defa
     class Serializer : RecipeSerializer<RefiningShapelessRecipe> {
 
         override fun read(id: Identifier, json: JsonObject): RefiningShapelessRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val (blocks, lang, icon, state, energy, ticks, gain, maxGain) = Metadata().read(json)
             val ingredients = getShapelessIngredientsWithCount(JsonHelper.getArray(json, "ingredients"))
             val results = JsonHelper.getArray(json, "results")

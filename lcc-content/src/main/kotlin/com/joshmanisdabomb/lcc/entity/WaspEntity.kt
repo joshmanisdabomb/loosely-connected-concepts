@@ -71,7 +71,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     constructor(world: World) : this(LCCEntities.wasp, world)
 
     init {
-        flyingSpeed = 0.09f
+        airStrafingSpeed = 0.09f
         setPathfindingPenalty(PathNodeType.WATER, -1.0f)
         setPathfindingPenalty(PathNodeType.LAVA, -1.0f)
     }
@@ -98,8 +98,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         goalSelector.add(6, LookAroundGoal(this))
         goalSelector.add(7, SwimGoal(this))
         targetSelector.add(1, WaspRevengeGoal(this).setGroupRevenge())
-        targetSelector.add(2, FollowTargetGoal(this, LivingEntity::class.java, 100, false, true, this::aggression))
-        targetSelector.add(3, FollowTargetGoal(this, BeeEntity::class.java, 100, false, true) { it.pos.squaredDistanceTo(this.pos) < 4096 })
+        targetSelector.add(2, ActiveTargetGoal(this, LivingEntity::class.java, 100, false, true, this::aggression))
+        targetSelector.add(3, ActiveTargetGoal(this, BeeEntity::class.java, 100, false, true) { it.pos.squaredDistanceTo(this.pos) < 4096 })
         targetSelector.add(4, UniversalAngerGoal(this, true))
     }
 

@@ -1,5 +1,5 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
-
+/*
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
@@ -121,4 +121,4 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
 
     }
 
-}
+}*/

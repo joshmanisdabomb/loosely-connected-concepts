@@ -10,6 +10,7 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
@@ -61,7 +62,7 @@ class AlarmBlock(settings: Settings) : BlockWithEntity(settings) {
         val entity = world.getBlockEntity(pos) as? AlarmBlockEntity
         if (!world.isClient && entity != null && power != entity.redstone) {
             entity.redstone = power
-            entity.sync()
+            (world as ServerWorld).chunkManager.markForUpdate(pos)
         }
         if (powered != state.get(POWERED)) {
             world.setBlockState(pos, state.with(POWERED, powered), 3)

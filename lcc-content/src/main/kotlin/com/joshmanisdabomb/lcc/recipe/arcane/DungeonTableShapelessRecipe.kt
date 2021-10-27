@@ -49,7 +49,7 @@ class DungeonTableShapelessRecipe(private val _id: Identifier, private val _grou
     class Serializer : RecipeSerializer<DungeonTableShapelessRecipe> {
 
         override fun read(id: Identifier, json: JsonObject): DungeonTableShapelessRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val ingredients = getShapelessIngredients(JsonHelper.getArray(json, "ingredients"))
             val output = getStack(JsonHelper.getObject(json, "result"))
             return DungeonTableShapelessRecipe(id, group, ingredients, output)

@@ -1,5 +1,5 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
-
+/*
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
 import com.mojang.serialization.Codec
@@ -73,4 +73,4 @@ class WastelandObeliskStructureFeature(configCodec: Codec<DefaultFeatureConfig>)
 
     }
 
-}
+}*/

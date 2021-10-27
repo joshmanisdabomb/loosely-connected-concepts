@@ -24,7 +24,7 @@ class TimeRiftRecipe(id: Identifier, group: String, input: Ingredient, output: I
     class Serializer : RecipeSerializer<TimeRiftRecipe> {
 
         override fun read(id: Identifier, json: JsonObject): TimeRiftRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val input = if (JsonHelper.hasArray(json, "ingredient")) {
                 Ingredient.fromJson(JsonHelper.getArray(json, "ingredient"))
             } else {

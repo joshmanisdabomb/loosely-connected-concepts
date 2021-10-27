@@ -1,5 +1,5 @@
 package com.joshmanisdabomb.lcc.world.surface
-
+/*
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -85,3 +85,4 @@ open class WastelandSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Surface
     }
 
 }
+*/

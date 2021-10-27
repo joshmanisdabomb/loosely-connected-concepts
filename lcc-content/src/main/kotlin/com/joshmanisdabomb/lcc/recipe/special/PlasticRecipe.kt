@@ -45,7 +45,7 @@ class PlasticRecipe(private val id: Identifier, group: String, width: Int, heigh
 
     class Serializer : RecipeSerializer<PlasticRecipe> {
         override fun read(id: Identifier, json: JsonObject): PlasticRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val keys = getShapedKeys(JsonHelper.getObject(json, "key"))
             val pattern = getShapedPattern(JsonHelper.getArray(json, "pattern"), 3, 3)
             val w = pattern[0].length

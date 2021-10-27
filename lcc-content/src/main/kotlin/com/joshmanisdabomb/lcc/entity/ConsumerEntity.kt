@@ -82,9 +82,9 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(6, LookAroundGoal(this))
         targetSelector.add(1, RevengeGoal(this))
-        targetSelector.add(2, FollowTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(3, FollowTargetGoal(this, IronGolemEntity::class.java, false, true))
-        targetSelector.add(4, FollowTargetGoal(this, VillagerEntity::class.java, false, true))
+        targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(3, ActiveTargetGoal(this, IronGolemEntity::class.java, false, true))
+        targetSelector.add(4, ActiveTargetGoal(this, VillagerEntity::class.java, false, true))
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {

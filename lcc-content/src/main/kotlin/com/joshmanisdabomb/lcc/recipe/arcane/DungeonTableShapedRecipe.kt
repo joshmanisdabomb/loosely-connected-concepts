@@ -62,7 +62,7 @@ class DungeonTableShapedRecipe(private val _id: Identifier, private val _group: 
     class Serializer : RecipeSerializer<DungeonTableShapedRecipe> {
 
         override fun read(id: Identifier, json: JsonObject): DungeonTableShapedRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val keys = getShapedKeys(JsonHelper.getObject(json, "key"))
             val pattern = getShapedPattern(JsonHelper.getArray(json, "pattern"), 10, 6)
             val w = pattern[0].length

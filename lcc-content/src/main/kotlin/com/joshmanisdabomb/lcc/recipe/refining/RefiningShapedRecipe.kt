@@ -81,7 +81,7 @@ class RefiningShapedRecipe(_id: Identifier, _group: String, private val width: I
     class Serializer : RecipeSerializer<RefiningShapedRecipe> {
 
         override fun read(id: Identifier, json: JsonObject): RefiningShapedRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val (blocks, lang, icon, state, energy, ticks, gain, maxGain) = Metadata().read(json)
             val keys = getShapedKeysWithCount(JsonHelper.getObject(json, "key"))
             val pattern = getShapedPattern(JsonHelper.getArray(json, "pattern"), 3, 3)

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
 
+/*
 import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.block.SapphireAltarBlock
 import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
@@ -35,7 +36,6 @@ import java.util.function.Predicate
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.asKotlinRandom
-
 class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(configCodec) {
 
     override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(SapphireAltarStructureFeature::Start)
@@ -141,4 +141,4 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
 
     }
 
-}
+}*/

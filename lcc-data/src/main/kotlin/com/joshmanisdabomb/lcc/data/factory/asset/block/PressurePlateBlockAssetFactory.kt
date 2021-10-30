@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier
 class PressurePlateBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val plate = Models.PRESSURE_PLATE_UP.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.modelStates::addModel)
-        val plateDown = Models.PRESSURE_PLATE_DOWN.upload(idh.locSuffix(entry, "down"), Texture.texture(texture ?: idh.loc(entry)), data.modelStates::addModel)
+        val plate = Models.PRESSURE_PLATE_UP.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.models)
+        val plateDown = Models.PRESSURE_PLATE_DOWN.upload(idh.locSuffix(entry, "down"), Texture.texture(texture ?: idh.loc(entry)), data.models)
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.POWERED)
                 .register(false, BlockStateVariant.create().put(VariantSettings.MODEL, plate))

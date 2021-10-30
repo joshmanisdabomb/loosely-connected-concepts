@@ -37,20 +37,20 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+        world.method_39281(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         if (world.getBlockState(posFrom).isOf(LCCBlocks.road)) return state
         if (state.fluidState.isStill || newState.fluidState.isStill) {
-            world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+            world.method_39281(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
         }
         return state
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         if (world.getBlockState(fromPos).isOf(LCCBlocks.road)) return
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+        world.method_39281(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun hasRandomTicks(state: BlockState) = true

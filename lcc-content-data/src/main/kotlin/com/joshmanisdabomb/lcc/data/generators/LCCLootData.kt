@@ -21,7 +21,7 @@ object LCCLootData {
     val loot get() = LCCData.lootTables
 
     fun init() {
-        loot.register(LootContextTypes.CHEST, LCC.id("chests/tent"), LootTable.builder()
+        loot.add(LootContextTypes.CHEST, LCC.id("chests/tent"), LootTable.builder()
             .pool(LootPool.builder()
                 .rolls(UniformLootNumberProvider.create(2.0f, 8.0f))
                 .with(ItemEntry.builder(Items.CHARCOAL).weight(12)

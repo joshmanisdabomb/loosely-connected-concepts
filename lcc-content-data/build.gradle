@@ -1,8 +1,8 @@
 archivesBaseName = "lcc-content-data"
 
 dependencies {
-    api project(':lcc-content')
-    api project(':lcc-data')
+    modApi project(':lcc-content')
+    modApi project(':lcc-data')
 
     api "mysql:mysql-connector-java:5.1.48"
 }

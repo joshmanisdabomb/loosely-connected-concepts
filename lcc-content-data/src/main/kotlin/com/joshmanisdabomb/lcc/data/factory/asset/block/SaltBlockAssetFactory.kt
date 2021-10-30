@@ -18,7 +18,7 @@ object SaltBlockAssetFactory : BlockAssetFactory {
     }
 
     private fun getVariantsList(data: DataAccessor, entry: Block, level: Int, vararg variants: Model) = variants.flatMapIndexed { i, m ->
-        val model = m.upload(idh.locSuffix(entry, "${level}_${i.plus(1)}"), Texture.texture(LCC.block("salt")), data.modelStates::addModel)
+        val model = m.upload(idh.locSuffix(entry, "${level}_${i.plus(1)}"), Texture.texture(LCC.block("salt")), data.models)
         VariantSettings.Rotation.values().map {
             BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.Y, it)
         }

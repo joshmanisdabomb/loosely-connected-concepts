@@ -20,7 +20,7 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 object ConsumerEntityLootFactory : EntityDataFactory {
 
     override fun apply(data: DataAccessor, entry: EntityType<*>) {
-        data.lootTables.register(entry, LootTable.builder().pool(
+        data.lootTables.addEntity(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(ItemEntry.builder(Items.CHARCOAL)
@@ -28,7 +28,7 @@ object ConsumerEntityLootFactory : EntityDataFactory {
                     .apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
                 )
         ))
-        data.lootTables.register(LootContextTypes.ENTITY, entry.lootTableId.suffix("tongue"), LootTable.builder().pool(
+        data.lootTables.add(LootContextTypes.ENTITY, entry.lootTableId.suffix("tongue"), LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(ItemEntry.builder(LCCItems.tongue_tissue)

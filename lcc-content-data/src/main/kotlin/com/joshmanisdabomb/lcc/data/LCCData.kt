@@ -13,20 +13,14 @@ import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBu
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.data.knowledge.LCCKnowledgeTranslator
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.identifier
-import net.minecraft.client.MinecraftClient
-import net.minecraft.tag.BlockTags
-import net.minecraft.tag.ItemTags
-import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.jetbrains.exposed.sql.Database
 import java.io.File
 import java.nio.file.Paths
 import kotlin.system.exitProcess
 
-object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/resources"), listOf("en_us", "en_gb")) {
+object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/resources")) {
 
     private val exporters = mutableListOf<KnowledgeExporter>()
 
@@ -60,39 +54,36 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         LCCLootData.init()
         LCCSoundData.init()
 
-        println("Setting tag handlers for recipe exporting.")
-        recipeStore.addTagHandlerFilter(BlockTags.PLANKS) { it.asItem().identifier.path.endsWith("_planks") }
-        recipeStore.addTagHandlerFilter(BlockTags.LEAVES) { it.asItem().identifier.path.endsWith("_leaves") }
-        recipeStore.addTagHandlerFilter(BlockTags.SAPLINGS) { it.asItem().identifier.path.endsWith("_sapling") }
-        recipeStore.addTagHandlerFilter(BlockTags.BUTTONS) { it.asItem().identifier.path.endsWith("_button") }
-        recipeStore.addTagHandlerList(LCCTags.rubber_logs_i, LCCBlocks.natural_rubber_log, LCCBlocks.rubber_log, LCCBlocks.rubber_wood, LCCBlocks.sappy_stripped_rubber_log, LCCBlocks.stripped_rubber_log, LCCBlocks.stripped_rubber_wood)
-        recipeStore.addTagHandlerFilter(BlockTags.WOODEN_STAIRS) { it.asItem().identifier.path.endsWith("_stairs") && Registry.ITEM.containsId(Identifier(it.asItem().identifier.namespace, it.asItem().identifier.path.replace("_stairs", "_planks"))) }
-        recipeStore.addTagHandlerFilter(BlockTags.WOODEN_SLABS) { it.asItem().identifier.path.endsWith("_slab") && Registry.ITEM.containsId(Identifier(it.asItem().identifier.namespace, it.asItem().identifier.path.replace("_slab", "_planks"))) }
-        recipeStore.addTagHandlerList(LCCTags.deadwood_logs_i, LCCBlocks.deadwood_log, LCCBlocks.deadwood, LCCBlocks.stripped_deadwood_log, LCCBlocks.stripped_deadwood)
-        recipeStore.addTagHandlerFilter(ItemTags.MUSIC_DISCS) { it.asItem().identifier.path.startsWith("music_disc_") }
-        recipeStore.addTagHandlerFilter(LCCTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
+        /*println("Setting tag handlers for recipe exporting.")
+        recipes.addTagHandlerFilter(BlockTags.PLANKS) { it.asItem().identifier.path.endsWith("_planks") }
+        recipes.addTagHandlerFilter(BlockTags.LEAVES) { it.asItem().identifier.path.endsWith("_leaves") }
+        recipes.addTagHandlerFilter(BlockTags.SAPLINGS) { it.asItem().identifier.path.endsWith("_sapling") }
+        recipes.addTagHandlerFilter(BlockTags.BUTTONS) { it.asItem().identifier.path.endsWith("_button") }
+        recipes.addTagHandlerList(LCCTags.rubber_logs_i, LCCBlocks.natural_rubber_log, LCCBlocks.rubber_log, LCCBlocks.rubber_wood, LCCBlocks.sappy_stripped_rubber_log, LCCBlocks.stripped_rubber_log, LCCBlocks.stripped_rubber_wood)
+        recipes.addTagHandlerFilter(BlockTags.WOODEN_STAIRS) { it.asItem().identifier.path.endsWith("_stairs") && Registry.ITEM.containsId(Identifier(it.asItem().identifier.namespace, it.asItem().identifier.path.replace("_stairs", "_planks"))) }
+        recipes.addTagHandlerFilter(BlockTags.WOODEN_SLABS) { it.asItem().identifier.path.endsWith("_slab") && Registry.ITEM.containsId(Identifier(it.asItem().identifier.namespace, it.asItem().identifier.path.replace("_slab", "_planks"))) }
+        recipes.addTagHandlerList(LCCTags.deadwood_logs_i, LCCBlocks.deadwood_log, LCCBlocks.deadwood, LCCBlocks.stripped_deadwood_log, LCCBlocks.stripped_deadwood)
+        recipes.addTagHandlerFilter(ItemTags.MUSIC_DISCS) { it.asItem().identifier.path.startsWith("music_disc_") }
+        recipes.addTagHandlerFilter(LCCTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
 
         println("Setting up knowledge and exporters.")
-        recipeStore.init()
+        recipes.init()
         LCCKnowledgeData.init()
         setupExports()
-        exporters.forEach { install(it, 2500) }
+        exporters.forEach { install(it, 2500) }*/
 
         install(CommitData(path, Paths.get("../lcc-content/src/main/resources"), commit) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
-    }
 
-    override fun afterRun() = Unit
-
-    override fun onMinecraftLoad(client: MinecraftClient) {
+        println("Setting up image exporter.")
         val path = imageExport ?: readString("Enter path to save image export, leave blank to not run:") { false }
         if (path.isBlank()) exitProcess(0)
 
         val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
-        client.setScreen(ImageExport(items, File(path), false))
+        delayedInstall(ImageExport(items, File(path), false), 0);
     }
 
     private fun setupExports() {
-        val translator = LCCKnowledgeTranslator().addLangDataSource(lang["en_us"]!!).addI18nSource()
+        val translator = LCCKnowledgeTranslator().addLangBatchSource(lang, "en_us").addI18nSource()
         val linker = KnowledgeLinker()
             .apply { LCCVersionGroup.values().forEach { this.addSelfProvider(it.namespace) } }
             .addProvider { a -> if (a.registry.namespace == "minecraft" && a.key.namespace == "minecraft") KnowledgeArticleWebLinkBuilder { "https://minecraft.fandom.com/wiki/${a.key.path}" } else null }

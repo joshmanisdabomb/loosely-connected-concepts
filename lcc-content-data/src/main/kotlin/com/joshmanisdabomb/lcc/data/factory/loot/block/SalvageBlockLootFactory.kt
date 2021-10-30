@@ -20,19 +20,19 @@ import net.minecraft.predicate.item.ItemPredicate
 open class SalvageBlockLootFactory(val salvageChance: FloatArray = defaultSalvageChance) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTable.builder().pool(
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(
                     ItemEntry.builder(entry)
                         .conditionally(TableBonusLootCondition.builder(Enchantments.FORTUNE, *salvageChance))
                         .conditionally(BlockStatePropertyLootCondition.builder(entry).properties(StatePredicate.Builder.create().exactMatch(CrowbarItem.salvage, true)))
-                        .conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().item(LCCItems.crowbar)).invert())
+                        .conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(LCCItems.crowbar)).invert())
                 )
                 .with(
                     ItemEntry.builder(entry)
                         .conditionally(BlockStatePropertyLootCondition.builder(entry).properties(StatePredicate.Builder.create().exactMatch(CrowbarItem.salvage, true)))
-                        .conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().item(LCCItems.crowbar)))
+                        .conditionally(MatchToolLootCondition.builder(ItemPredicate.Builder.create().items(LCCItems.crowbar)))
                 )
                 .with(
                     ItemEntry.builder(entry)

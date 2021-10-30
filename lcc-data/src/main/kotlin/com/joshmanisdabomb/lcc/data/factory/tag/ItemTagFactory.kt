@@ -14,7 +14,7 @@ class ItemTagFactory(vararg val tags: Tag<Item>) : BlockDataFactory, ItemDataFac
     }
 
     override fun apply(data: DataAccessor, entry: Item) {
-        tags.forEach { data.tags.item(it as Tag.Identified<Item>).append(entry) }
+        tags.forEach { data.tags.item(it).attach(entry) }
     }
 
 }

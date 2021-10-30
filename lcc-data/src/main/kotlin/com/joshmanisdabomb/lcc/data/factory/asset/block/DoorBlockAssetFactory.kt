@@ -11,10 +11,10 @@ object DoorBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture().put(TextureKey.TOP, idh.locSuffix(entry, "top")).put(TextureKey.BOTTOM, idh.locSuffix(entry, "bottom"))
-        val bottom = Models.DOOR_BOTTOM.upload(idh.locSuffix(entry, "bottom"), texture, data.modelStates::addModel)
-        val bottomHinge = Models.DOOR_BOTTOM_RH.upload(idh.locSuffix(entry, "bottom_hinge"), texture, data.modelStates::addModel)
-        val top = Models.DOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.modelStates::addModel)
-        val topHinge = Models.DOOR_TOP_RH.upload(idh.locSuffix(entry, "top_hinge"), texture, data.modelStates::addModel)
+        val bottom = Models.DOOR_BOTTOM.upload(idh.locSuffix(entry, "bottom"), texture, data.models)
+        val bottomHinge = Models.DOOR_BOTTOM_RH.upload(idh.locSuffix(entry, "bottom_hinge"), texture, data.models)
+        val top = Models.DOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.models)
+        val topHinge = Models.DOOR_TOP_RH.upload(idh.locSuffix(entry, "top_hinge"), texture, data.models)
         stateVariant(data, entry) {
             val c = BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.DOOR_HINGE, Properties.OPEN, Properties.DOUBLE_BLOCK_HALF)
             Properties.HORIZONTAL_FACING.values.forEach { p1 ->

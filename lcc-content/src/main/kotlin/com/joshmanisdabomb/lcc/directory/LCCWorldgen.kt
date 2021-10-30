@@ -129,7 +129,7 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig(96, 6, 2) {
         Feature.SIMPLE_BLOCK.configure(SimpleBlockFeatureConfig(NoiseBlockStateProvider(2345L, DoublePerlinNoiseSampler.NoiseParameters(0, 1.0, *DoubleArray(0)), 0.020833334f, listOf(LCCBlocks.deposit.defaultState)))).onlyInAir()
-    }).decorate(DecoratorAccessor.getSpread32Above()).decorate(DecoratorAccessor.getSquareHeightmap()) }
+    }).decorate(DecoratorAccessor.getSquareHeightmap()) }
     val landmines by entry(::initialiser) { LCCFeatures.landmines.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmap()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.15f, 1))) }
     val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)).uniformRange(YOffset.fixed(75), YOffset.getTop()).spreadHorizontally().repeat(70) }
     val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(8))) }

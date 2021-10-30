@@ -56,8 +56,9 @@ allprojects {
         dataTask = path == ":lcc-data" || path == ":lcc-content-data"
     }
 
-    loom {
-        shareCaches = true
+    tasks.withType(JavaCompile).configureEach {
+        it.options.encoding = "UTF-8"
+        it.options.release = 16
     }
 
     repositories {
@@ -86,57 +87,43 @@ allprojects {
         // You may need to force-disable transitiveness on them.
     }
 
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        archiveClassifier = "sources"
+        from sourceSets.main.allSource
+    }
+
     configurations {
         dev
     }
 
+    java {
+        // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+        // if it is present.
+        // If you remove this line, sources will not be generated.
+        withSourcesJar()
+    }
+
     jar {
-        classifier = "dev"
+        archiveClassifier = "dev"
+        from(rootProject.file("LICENSE.md")) {
+            rename { "LICENSE_${project.archivesBaseName.replace('-', '_')}"}
+        }
+    }
+
+    processResources {
+        inputs.property "version", project.version
+
+        filesMatching("fabric.mod.json") {
+            expand "version": project.version
+        }
     }
 
     afterEvaluate {
-        remapJar {
-            input = file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar")
-            archiveName = "${archivesBaseName}-${version}.jar"
-        }
-
         artifacts {
             dev file: file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar"), type: "jar", builtBy: jar
         }
-
-        processResources {
-            inputs.property "version", project.version
-
-            from(sourceSets.main.resources.srcDirs) {
-                include "fabric.mod.json"
-                expand "version": project.version
-            }
-
-            from(sourceSets.main.resources.srcDirs) {
-                exclude "fabric.mod.json"
-            }
-        }
-
-        jar {
-            from rootProject.file("LICENSE.md")
-        }
-
-        sourcesJar {
-            classifier = "sources"
-            from rootProject.file("LICENSE.md")
-        }
-
-        /*if (dataTask) {
-            task genData(type: RunClientTask, dependsOn: downloadAssets) {
-                classpath = configurations.runtimeClasspath
-                classpath sourceSets.main.output
-            }
-        }*/
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        archiveClassifier.set('sources')
-        from sourceSets.main.allSource
     }
 
 }
@@ -146,93 +133,10 @@ allprojects {
 // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+    it.options.release = 16
 }
 
-subprojects {
-
-    task remapMavenJar(type: Copy, dependsOn: remapJar) {
-        afterEvaluate {
-            from("${project.buildDir}/libs/$archivesBaseName-${version}.jar")
-            into("${project.buildDir}/libs/")
-            rename {String fn -> "$archivesBaseName-${version}-maven.jar"}
-        }
-    }
-
-    publishing {
-        publications {
-            create("${archivesBaseName}_mavenJava", MavenPublication) {
-                afterEvaluate {
-                    artifact(file("${project.buildDir}/libs/$archivesBaseName-${version}-maven.jar")) {
-                        builtBy remapMavenJar
-                    }
-                    artifact(sourcesJar) {
-                        classifier = 'sources'
-                        builtBy remapSourcesJar
-                    }
-                }
-            }
-        }
-    }
-
-}
-
-jar {
-    from rootProject.file("LICENSE.md")
-}
-
-sourcesJar {
-    from rootProject.file("LICENSE.md")
-
-    //Force submodule sources into main source jar.
-    subprojects.each { proj ->
-        into("/" + proj.name + "-" + proj.version + "-sources") {
-            from proj.file("src/main")
-        }
-    }
-}
-
-task remapMavenJar(type: net.fabricmc.loom.task.RemapJarTask, dependsOn: jar) {
-    afterEvaluate {
-        input = file("${project.buildDir}/libs/${archivesBaseName}-${version}-dev.jar")
-        archiveName = "${archivesBaseName}-${version}-maven.jar"
-        addNestedDependencies = false
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact(file("${project.buildDir}/libs/$archivesBaseName-${version}-maven.jar")) {
-                builtBy remapMavenJar
-            }
-            artifact(sourcesJar) {
-                classifier = 'sources'
-                builtBy remapSourcesJar
-            }
-            pom.withXml {
-                def depsNode = asNode().appendNode("dependencies")
-                subprojects.each {
-                    if (!it.dataTask) {
-                        def depNode = depsNode.appendNode("dependency")
-                        depNode.appendNode("groupId", it.group)
-                        depNode.appendNode("artifactId", it.name)
-                        depNode.appendNode("version", it.version)
-                        depNode.appendNode("scope", "compile")
-                    }
-                }
-            }
-        }
-    }
-}
-
-subprojects.each {remapJar.dependsOn("${it.path}:remapJar")}
-
-repositories {
-    flatDir {
-        dirs 'jars'
-    }
-    mavenCentral()
-}
+subprojects.each { remapJar.dependsOn("${it.path}:remapJar") }
 
 dependencies {
     afterEvaluate {
@@ -243,21 +147,4 @@ dependencies {
             }
         }
     }
-}
-
-loom {
-    shareCaches = true
-}
-
-task update {
-    dependsOn project(':lcc-content').tasks.migrateMappings {
-        mappings = project.yarn_mappings
-    }
-    dependsOn project(':lcc-data').tasks.migrateMappings {
-        mappings = project.yarn_mappings
-    }
-    dependsOn project(':lcc-hooks').tasks.migrateMappings {
-        mappings = project.yarn_mappings
-    }
-    dependsOn('genSources')
 }

@@ -31,7 +31,7 @@ object NuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
                     .put(LCCModelTextureKeys.t5, idh.locSuffix(entry, "redstone").suffix(if (l) "on" else null))
                     .put(LCCModelTextureKeys.t6, idh.locSuffix(entry, "bottom"))
                     .put(LCCModelTextureKeys.t7, idh.loc(LCCBlocks.heavy_uranium_shielding))
-                BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_nuclear_generator.upload(idh.locSuffix(entry, if (l) "on" else null), texture, data.modelStates::addModel)).apply(ModelProvider.horizontalRotation(d))
+                BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_nuclear_generator.upload(idh.locSuffix(entry, if (l) "on" else null), texture, data.models)).apply(ModelProvider.horizontalRotation(d))
             })
         }
     }

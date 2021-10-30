@@ -19,10 +19,10 @@ open class PistonHeadBlockAssetFactory(val textureTopSticky: Identifier? = null,
         val texture = Texture()
             .put(TextureKey.SIDE, textureSide ?: idh.locSuffix(entry, "side").modify { it.replace("_head", "") })
             .put(TextureKey.UNSTICKY, top)
-        val head = Models.TEMPLATE_PISTON_HEAD.upload(idh.loc(entry), texture.copyAndAdd(TextureKey.PLATFORM, top), data.modelStates::addModel)
-        val headShort = Models.TEMPLATE_PISTON_HEAD_SHORT.upload(idh.locSuffix(entry, "short"), texture.copyAndAdd(TextureKey.PLATFORM, top), data.modelStates::addModel)
-        val headSticky = Models.TEMPLATE_PISTON_HEAD.upload(idh.locSuffix(entry, "sticky"), texture.copyAndAdd(TextureKey.PLATFORM, textureTopSticky ?: top.prefix("sticky")), data.modelStates::addModel)
-        val headStickyShort = Models.TEMPLATE_PISTON_HEAD_SHORT.upload(idh.locSuffix(entry, "short").suffix("sticky"), texture.copyAndAdd(TextureKey.PLATFORM, textureTopSticky ?: top.prefix("sticky")), data.modelStates::addModel)
+        val head = Models.TEMPLATE_PISTON_HEAD.upload(idh.loc(entry), texture.copyAndAdd(TextureKey.PLATFORM, top), data.models)
+        val headShort = Models.TEMPLATE_PISTON_HEAD_SHORT.upload(idh.locSuffix(entry, "short"), texture.copyAndAdd(TextureKey.PLATFORM, top), data.models)
+        val headSticky = Models.TEMPLATE_PISTON_HEAD.upload(idh.locSuffix(entry, "sticky"), texture.copyAndAdd(TextureKey.PLATFORM, textureTopSticky ?: top.prefix("sticky")), data.models)
+        val headStickyShort = Models.TEMPLATE_PISTON_HEAD_SHORT.upload(idh.locSuffix(entry, "short").suffix("sticky"), texture.copyAndAdd(TextureKey.PLATFORM, textureTopSticky ?: top.prefix("sticky")), data.models)
 
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.SHORT, Properties.PISTON_TYPE, Properties.FACING).register { short, type, dir ->

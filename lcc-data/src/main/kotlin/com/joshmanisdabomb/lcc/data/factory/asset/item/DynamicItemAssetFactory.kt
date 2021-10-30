@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3f
 open class DynamicItemAssetFactory(val transform: ModelTransformation = ModelTransformation.NONE) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        data.modelStates.addModel(idh.loc(entry)) { data.parser.parse(getTemplate(transform)) }
+        data.models[idh.loc(entry)] = { data.parser.parse(getTemplate(transform)) }
     }
 
     companion object : DynamicItemAssetFactory() {

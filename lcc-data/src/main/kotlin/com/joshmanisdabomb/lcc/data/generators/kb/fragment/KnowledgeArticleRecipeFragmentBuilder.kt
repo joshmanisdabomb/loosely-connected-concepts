@@ -13,7 +13,7 @@ class KnowledgeArticleRecipeFragmentBuilder(val supplier: (exporter: KnowledgeEx
         val recipes = JsonArray()
         supplier(exporter).forEach {
             val recipe = it.toJson()
-            val items = exporter.da.recipeStore.getItemsOf(it.recipeId)
+            val items = exporter.da.recipes.getItemsOf(it.recipeId)
 
             val tjson = exporter.translator.recipeTranslationsJson(it, *items.toTypedArray())
             recipe.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }

@@ -17,9 +17,9 @@ object BombBoardBlockAssetFactory : BlockAssetFactory {
             val model = if (f.isHorizontal) LCCModelTemplates.cube_column_horizontal_with_particle else LCCModelTemplates.cube_column_with_particle
             BlockStateVariant.create()
                 .put(VariantSettings.MODEL, when (i) {
-                    BombBoardBlock.mystery -> model.upload(idh.locSuffix(entry, f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "side")).put(TextureKey.END, idh.loc(entry)).put(TextureKey.PARTICLE, idh.loc(entry)), data.modelStates::addModel)
-                    BombBoardBlock.mine -> model.upload(idh.locSuffix(entry, "mine").suffix(f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "mine")).put(TextureKey.END, idh.loc(entry)).put(TextureKey.PARTICLE, idh.loc(entry)), data.modelStates::addModel)
-                    else -> model.upload(idh.locSuffix(entry, i.toString()).suffix(f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "side")).put(TextureKey.END, idh.locSuffix(entry, i.toString())).put(TextureKey.PARTICLE, idh.locSuffix(entry, "0")), data.modelStates::addModel)
+                    BombBoardBlock.mystery -> model.upload(idh.locSuffix(entry, f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "side")).put(TextureKey.END, idh.loc(entry)).put(TextureKey.PARTICLE, idh.loc(entry)), data.models)
+                    BombBoardBlock.mine -> model.upload(idh.locSuffix(entry, "mine").suffix(f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "mine")).put(TextureKey.END, idh.loc(entry)).put(TextureKey.PARTICLE, idh.loc(entry)), data.models)
+                    else -> model.upload(idh.locSuffix(entry, i.toString()).suffix(f.isHorizontal.transform("horizontal", null)), Texture().put(TextureKey.SIDE, idh.locSuffix(entry, "side")).put(TextureKey.END, idh.locSuffix(entry, i.toString())).put(TextureKey.PARTICLE, idh.locSuffix(entry, "0")), data.models)
                 })
                 .put(VariantSettings.X, if (f.isHorizontal) VariantSettings.Rotation.R90 else VariantSettings.Rotation.R0)
                 .put(VariantSettings.Y, if (f == Direction.Axis.X) VariantSettings.Rotation.R90 else VariantSettings.Rotation.R0)

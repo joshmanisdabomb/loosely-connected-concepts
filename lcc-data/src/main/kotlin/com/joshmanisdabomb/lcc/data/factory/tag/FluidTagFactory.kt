@@ -8,7 +8,7 @@ import net.minecraft.tag.Tag
 class FluidTagFactory(vararg val tags: Tag<Fluid>) : FluidDataFactory {
 
     override fun apply(data: DataAccessor, entry: Fluid) {
-        tags.forEach { data.tags.fluid(it as Tag.Identified<Fluid>).append(entry) }
+        tags.forEach { data.tags.fluid(it).attach(entry) }
     }
 
 }

@@ -324,8 +324,8 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     private fun Advancement.Task.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Task {
         val name = context.tags.getOrNull(1) ?: context.name
-        LCCData.lang[locale]!!["advancements.lcc.${context.tags[0]}.$name.title"] = title
-        LCCData.lang[locale]!!["advancements.lcc.${context.tags[0]}.$name.description"] = description
+        LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.title"] = title
+        LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.description"] = description
         return this
     }
 
@@ -336,8 +336,10 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     fun initialiser(input: Advancement.Task, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
         val name = "${context.tags[0]}/${context.tags.getOrNull(1) ?: context.name}"
-        return input.build(LCC.id(name)).also { LCCData.advancements.list[name] = it }
+        return LCCData.advancements.add(input, context.id)
     }
+
+    override fun id(name: String) = LCC.id(name)
 
     override fun defaultProperties(name: String) = Unit
     override fun defaultContext() = Unit

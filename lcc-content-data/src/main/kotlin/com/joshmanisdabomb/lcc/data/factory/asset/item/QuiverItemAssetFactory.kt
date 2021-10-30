@@ -7,7 +7,7 @@ object QuiverItemAssetFactory : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
         val filled = (1..3).map { level -> idh.locSuffix(entry, "filled_$level") }
-        data.modelStates.addItemModel(entry) { data.parser.parse("""{
+        data.models[idh.loc(entry)] = { data.parser.parse("""{
     "parent": "item/generated",
     "textures": {
         "layer0": "${idh.loc(entry)}"

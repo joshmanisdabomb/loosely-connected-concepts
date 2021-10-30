@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(OverlayTexture.class)
 public abstract class HeartsEntityOverlayMixin {
 
-    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/NativeImage;setPixelColor(III)V", ordinal = 0), index = 2)
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/NativeImage;setColor(III)V", ordinal = 0), index = 2)
     private int modifyPixelColor(int x, int y, int color) {
         for (HeartType ht : HeartType.values()) {
             if (y != ht.ordinal()) continue;

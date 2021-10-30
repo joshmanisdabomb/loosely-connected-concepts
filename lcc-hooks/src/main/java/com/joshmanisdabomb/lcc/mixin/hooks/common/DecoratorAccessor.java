@@ -16,9 +16,6 @@ public interface DecoratorAccessor {
     @Accessor("SQUARE_TOP_SOLID_HEIGHTMAP")
     public static ConfiguredDecorator<?> getSquareTopSolidHeightmap() { throw new AssertionError(); }
 
-    @Accessor("SPREAD_32_ABOVE")
-    public static ConfiguredDecorator<?> getSpread32Above() { throw new AssertionError(); }
-
     @Accessor("HEIGHTMAP_WORLD_SURFACE")
     public static ConfiguredDecorator<?> getHeightmapWorldSurface() { throw new AssertionError(); }
 

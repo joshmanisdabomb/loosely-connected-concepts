@@ -8,7 +8,7 @@ import net.minecraft.tag.Tag
 class EntityTagFactory(vararg val tags: Tag<EntityType<*>>) : EntityDataFactory {
 
     override fun apply(data: DataAccessor, entry: EntityType<*>) {
-        tags.forEach { data.tags.entity(it as Tag.Identified<EntityType<*>>).append(entry) }
+        tags.forEach { data.tags.entity(it).attach(entry) }
     }
 
 }

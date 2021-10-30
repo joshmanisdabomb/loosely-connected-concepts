@@ -14,11 +14,11 @@ open class GlassPaneBlockAssetFactory(val top: (entry: Block) -> Identifier? = {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture().put(TextureKey.PANE, idh.loc(entry).modify { it.replace("_pane", "") }).put(TextureKey.EDGE, top(entry) ?: idh.locSuffix(entry, "top"))
-        val post = Models.TEMPLATE_GLASS_PANE_POST.upload(idh.locSuffix(entry, "post"), texture, data.modelStates::addModel)
-        val side = Models.TEMPLATE_GLASS_PANE_SIDE.upload(idh.locSuffix(entry, "side"), texture, data.modelStates::addModel)
-        val side_alt = Models.TEMPLATE_GLASS_PANE_SIDE_ALT.upload(idh.locSuffix(entry, "side_alt"), texture, data.modelStates::addModel)
-        val noside = Models.TEMPLATE_GLASS_PANE_NOSIDE.upload(idh.locSuffix(entry, "noside"), texture, data.modelStates::addModel)
-        val noside_alt = Models.TEMPLATE_GLASS_PANE_NOSIDE_ALT.upload(idh.locSuffix(entry, "noside_alt"), texture, data.modelStates::addModel)
+        val post = Models.TEMPLATE_GLASS_PANE_POST.upload(idh.locSuffix(entry, "post"), texture, data.models)
+        val side = Models.TEMPLATE_GLASS_PANE_SIDE.upload(idh.locSuffix(entry, "side"), texture, data.models)
+        val side_alt = Models.TEMPLATE_GLASS_PANE_SIDE_ALT.upload(idh.locSuffix(entry, "side_alt"), texture, data.models)
+        val noside = Models.TEMPLATE_GLASS_PANE_NOSIDE.upload(idh.locSuffix(entry, "noside"), texture, data.models)
+        val noside_alt = Models.TEMPLATE_GLASS_PANE_NOSIDE_ALT.upload(idh.locSuffix(entry, "noside_alt"), texture, data.models)
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, post))
             for (d in Direction.Type.HORIZONTAL) {

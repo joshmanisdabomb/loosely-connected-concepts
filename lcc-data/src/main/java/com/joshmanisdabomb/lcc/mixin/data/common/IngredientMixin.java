@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.mixin.data.common;
 
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.Tag;
 import net.minecraft.tag.TagManager;
@@ -21,7 +21,7 @@ public class IngredientMixin {
         try {
             return tm.getTag(key, id, exception);
         } catch (Exception e) {
-            return TagRegistry.create(id, () -> tm.getOrCreateTagGroup(key));
+            return TagFactory.of(() -> tm.getOrCreateTagGroup(key)).create(id);
         }
     }
 

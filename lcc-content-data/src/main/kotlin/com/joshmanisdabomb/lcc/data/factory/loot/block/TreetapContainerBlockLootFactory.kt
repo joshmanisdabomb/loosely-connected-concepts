@@ -13,7 +13,7 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 class TreetapContainerBlockLootFactory(val treetap: ItemConvertible, val container: ItemConvertible) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTable.builder()
+        data.lootTables.addBlock(entry, LootTable.builder()
             .pool(
                 LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1.0f))

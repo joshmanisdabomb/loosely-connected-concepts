@@ -16,7 +16,7 @@ import net.minecraft.state.property.Properties
 object DoorBlockLootFactory : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTable.builder().pool(
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(

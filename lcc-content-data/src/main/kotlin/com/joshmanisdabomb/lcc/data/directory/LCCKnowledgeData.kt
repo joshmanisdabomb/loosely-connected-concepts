@@ -175,10 +175,10 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCBlocks.explosive_paste) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCBlocks.explosive_paste) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.explosive_paste) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
@@ -233,10 +233,10 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.plastic_bag) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCItems.plastic_bag) })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.plastic_bag) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCItems.plastic_bag) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
@@ -269,10 +269,10 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findRecipes(LCCItems.oil_bucket) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCItems.oil_bucket) })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(LCCItems.oil_bucket) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCItems.oil_bucket) })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
     }
@@ -350,7 +350,7 @@ object LCCKnowledgeData: BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 })
             )
             .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipeStore.findUsages(topic) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(topic) })
             )
     }
 

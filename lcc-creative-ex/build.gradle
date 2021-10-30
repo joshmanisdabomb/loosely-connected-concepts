@@ -1,5 +1,5 @@
 archivesBaseName = "lcc-creative-ex"
 
 dependencies {
-    api project(':lcc-infra')
+    modApi project(':lcc-infra')
 }

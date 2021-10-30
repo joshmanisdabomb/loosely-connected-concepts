@@ -12,9 +12,9 @@ open class StairsBlockAssetFactory(val texture: Identifier, val textureTop: Iden
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture().put(TextureKey.TOP, textureTop ?: idh.loc(entry)).put(TextureKey.SIDE, textureSide ?: idh.loc(entry)).put(TextureKey.BOTTOM, textureBottom ?: idh.loc(entry))
-        val stairs = Models.STAIRS.upload(idh.loc(entry), texture, data.modelStates::addModel)
-        val innerStairs = Models.INNER_STAIRS.upload(idh.locSuffix(entry, "inner"), texture, data.modelStates::addModel)
-        val outerStairs = Models.OUTER_STAIRS.upload(idh.locSuffix(entry, "outer"), texture, data.modelStates::addModel)
+        val stairs = Models.STAIRS.upload(idh.loc(entry), texture, data.models)
+        val innerStairs = Models.INNER_STAIRS.upload(idh.locSuffix(entry, "inner"), texture, data.models)
+        val outerStairs = Models.OUTER_STAIRS.upload(idh.locSuffix(entry, "outer"), texture, data.models)
         stateVariant(data, entry) { coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.BLOCK_HALF, Properties.STAIR_SHAPE).register { f, h, s ->
             var dir = f.rotateYClockwise()
             if (s == StairShape.INNER_LEFT || s == StairShape.OUTER_LEFT) dir = dir.rotateYCounterclockwise()

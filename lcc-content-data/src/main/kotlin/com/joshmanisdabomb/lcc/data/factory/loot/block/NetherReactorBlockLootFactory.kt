@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier
 object NetherReactorBlockLootFactory : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.lootTables.register(entry, LootTable.builder().pool(
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(
@@ -30,7 +30,7 @@ object NetherReactorBlockLootFactory : BlockDataFactory {
                     .conditionally(SurvivesExplosionLootCondition.builder())
                 )
         ))
-        data.lootTables.register(
+        data.lootTables.add(
             LootContextTypes.EMPTY, Identifier("lcc", "gameplay/nether_reactor"), LootTable.builder().pool(
             LootPool.builder()
                 .rolls(UniformLootNumberProvider.create(20.0f, 40.0f))

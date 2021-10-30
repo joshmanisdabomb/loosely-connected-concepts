@@ -1,21 +1,21 @@
 archivesBaseName = "lcc-content"
 
 dependencies {
-    api project(':lcc-creative-ex')
-    api project(':lcc-ct')
-    api project(':lcc-energy')
-    api project(':lcc-hooks')
-    api project(':lcc-infra')
-    api project(':lcc-subblock')
+    modApi project(':lcc-creative-ex')
+    modApi project(':lcc-ct')
+    modApi project(':lcc-energy')
+    modApi project(':lcc-hooks')
+    modApi project(':lcc-infra')
+    modApi project(':lcc-subblock')
 
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.21w19a"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.21w19a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.21w19a"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.21w19a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.21w19a"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.21w19a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w19a"
-    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w19a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
 }
 
 loom {

@@ -14,13 +14,13 @@ object BouncePadBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         val textures = Texture().put(LCCModelTextureKeys.t0, idh.locSuffix(entry, "base_h")).put(LCCModelTextureKeys.t1, idh.locSuffix(entry, "inner")).put(LCCModelTextureKeys.t2, idh.locSuffix(entry, "setting")).put(LCCModelTextureKeys.t3, idh.locSuffix(entry, "base_v")).put(TextureKey.PARTICLE, idh.locSuffix(entry, "base_v"))
-        val bounce_pad = LCCModelTemplates.template_bounce_pad.upload(idh.loc(entry), textures, data.modelStates::addModel)
+        val bounce_pad = LCCModelTemplates.template_bounce_pad.upload(idh.loc(entry), textures, data.models)
         val bounce_pad_settings = listOf(
-            LCCModelTemplates.template_bounce_pad_0.upload(idh.locSuffix(entry, "0"), textures, data.modelStates::addModel),
-            LCCModelTemplates.template_bounce_pad_1.upload(idh.locSuffix(entry, "1"), textures, data.modelStates::addModel),
-            LCCModelTemplates.template_bounce_pad_2.upload(idh.locSuffix(entry, "2"), textures, data.modelStates::addModel),
-            LCCModelTemplates.template_bounce_pad_3.upload(idh.locSuffix(entry, "3"), textures, data.modelStates::addModel),
-            LCCModelTemplates.template_bounce_pad_4.upload(idh.locSuffix(entry, "4"), textures, data.modelStates::addModel)
+            LCCModelTemplates.template_bounce_pad_0.upload(idh.locSuffix(entry, "0"), textures, data.models),
+            LCCModelTemplates.template_bounce_pad_1.upload(idh.locSuffix(entry, "1"), textures, data.models),
+            LCCModelTemplates.template_bounce_pad_2.upload(idh.locSuffix(entry, "2"), textures, data.models),
+            LCCModelTemplates.template_bounce_pad_3.upload(idh.locSuffix(entry, "3"), textures, data.models),
+            LCCModelTemplates.template_bounce_pad_4.upload(idh.locSuffix(entry, "4"), textures, data.models)
         )
 
         stateMultipart(data, entry) {

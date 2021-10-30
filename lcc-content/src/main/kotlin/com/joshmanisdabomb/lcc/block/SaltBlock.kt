@@ -30,7 +30,7 @@ class SaltBlock(settings: Settings) : Block(settings) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(LEVEL_3).let {}
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(35).plus(5))
+        world.method_39279(pos, this, world.random.nextInt(35).plus(5))
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
@@ -60,7 +60,7 @@ class SaltBlock(settings: Settings) : Block(settings) {
                 }
             }
         }
-        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(15).plus(5))
+        world.method_39279(pos, this, world.random.nextInt(15).plus(5))
     }
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shapes[state[LEVEL_3].minus(1)]

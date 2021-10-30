@@ -8,7 +8,7 @@ import net.minecraft.tag.Tag
 class BlockTagFactory(vararg val tags: Tag<Block>) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        tags.forEach { data.tags.block(it as Tag.Identified<Block>).append(entry) }
+        tags.forEach { data.tags.block(it).attach(entry) }
     }
 
 }

@@ -45,7 +45,7 @@ class LeavesBlockLootFactory(val sapling: ItemConvertible? = null, val apple: It
             )
         )
 
-        data.lootTables.register(entry, LootTable.builder().pool(builder))
+        data.lootTables.addBlock(entry, LootTable.builder().pool(builder))
     }
 
 }

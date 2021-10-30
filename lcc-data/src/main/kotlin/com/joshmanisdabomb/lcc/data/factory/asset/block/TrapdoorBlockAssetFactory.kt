@@ -11,9 +11,9 @@ open class TrapdoorBlockAssetFactory(val orientable: Boolean) : BlockAssetFactor
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture.texture(entry)
-        val bottom = Models.TEMPLATE_TRAPDOOR_BOTTOM.upload(idh.loc(entry), texture, data.modelStates::addModel)
-        val top = Models.TEMPLATE_TRAPDOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.modelStates::addModel)
-        val open = Models.TEMPLATE_TRAPDOOR_OPEN.upload(idh.locSuffix(entry, "open"), texture, data.modelStates::addModel)
+        val bottom = Models.TEMPLATE_TRAPDOOR_BOTTOM.upload(idh.loc(entry), texture, data.models)
+        val top = Models.TEMPLATE_TRAPDOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.models)
+        val open = Models.TEMPLATE_TRAPDOOR_OPEN.upload(idh.locSuffix(entry, "open"), texture, data.models)
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.OPEN, Properties.BLOCK_HALF).register { f, o, h ->
                 BlockStateVariant.create()

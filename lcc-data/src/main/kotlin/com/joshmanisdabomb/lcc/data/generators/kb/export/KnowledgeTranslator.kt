@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.export
 
 import com.google.gson.JsonObject
+import com.joshmanisdabomb.lcc.data.batches.LangBatch
 import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
-import com.joshmanisdabomb.lcc.data.generators.lang.LangData
 import com.joshmanisdabomb.lcc.extensions.identifier
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.data.server.recipe.RecipeJsonProvider
@@ -22,7 +22,7 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
 
     fun addI18nSource(locale: String = "en_us") = addSource { if (I18n.hasTranslation(it)) locale to I18n.translate(it) else null }
 
-    fun addLangDataSource(lang: LangData) = addSource { lang[it]?.let { lang.locale to it } }
+    fun addLangBatchSource(lang: LangBatch, locale: String = "en_us") = addSource { lang[locale, it]?.let { locale to it } }
 
     open fun getTranslations(key: String) = sources.mapNotNull { it(key) }.reversed().toMap()
 

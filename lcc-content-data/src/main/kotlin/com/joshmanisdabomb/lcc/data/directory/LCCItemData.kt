@@ -183,7 +183,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d) }
     }) }
 
-    val redstone_battery by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val redstone_battery by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.models) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory(i, 1)
             .pattern("iei")
             .pattern("crc")
@@ -267,7 +267,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .criterion("has_suit", InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(LCCTags.airlocked_suits).build()))
             .apply { offerShaped(this, d) }
     }) }
-    val hazmat_helmet by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(CustomRecipeFactory { d, i ->
+    val hazmat_helmet by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.models) }).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")
             .pattern("rvr")
@@ -277,7 +277,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .criterion("has_radiation", EffectsChangedCriterion.Conditions.create(EntityEffectPredicate.create().withEffect(LCCEffects.radiation)))
             .apply { offerShaped(this, d) }
     }).add(ItemTagFactory(LCCTags.airlocked_suits)) }
-    val hazmat_chestplate by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.modelStates::addModel) }).add(ComplexRecipeFactory(LCCRecipeSerializers.hazmat_chestplate)).add(ItemTagFactory(LCCTags.airlocked_suits)) }
+    val hazmat_chestplate by entry(::initialiser) { data().defaultLang().add(CustomItemAssetFactory { d, t, i -> LCCModelTemplates.generated1.upload(i(t) ?: idi.loc(t), Texture().put(TextureKey.LAYER0, idi.loc(t)).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "overlay")), d.models) }).add(ComplexRecipeFactory(LCCRecipeSerializers.hazmat_chestplate)).add(ItemTagFactory(LCCTags.airlocked_suits)) }
     val hazmat_leggings by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("rrr")
@@ -358,7 +358,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     }) }
 
     val iron_oxide_nugget by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(Nugget9RecipeFactory(LCCItems.iron_oxide)) }
-    val hearts by entry(::initialiser) { data().affects(LCCItems.all.values.filterIsInstance<HeartItem>()).defaultLang().defaultItemAsset().add(HeartRecipeFactory).add(HeartContainerRecipeFactory).add(HeartItemTagFactory).add(TransformTranslationFactory(*LCCData.locales.toTypedArray()) { it.replace(" Full", "") }) }
+    val hearts by entry(::initialiser) { data().affects(LCCItems.all.values.filterIsInstance<HeartItem>()).defaultLang().defaultItemAsset().add(HeartRecipeFactory).add(HeartContainerRecipeFactory).add(HeartItemTagFactory).add(TransformTranslationFactory(*LCCData.lang.getLocales().toTypedArray()) { it.replace(" Full", "") }) }
     val altar_challenge_key by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ii")

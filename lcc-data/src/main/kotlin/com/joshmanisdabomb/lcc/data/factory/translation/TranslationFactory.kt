@@ -14,7 +14,7 @@ interface TranslationFactory : BlockDataFactory, ItemDataFactory, EntityDataFact
     fun translate(data: DataAccessor, key: String, path: String, locale: String): String?
 
     fun apply(data: DataAccessor, key: String, path: String) {
-        data.lang.forEach { (k, v) -> translate(data, key, path, k)?.run { v[key] = this } }
+        data.lang.getLocales().forEach { translate(data, key, path, it)?.run { data.lang[it, key] = this } }
     }
 
     override fun apply(data: DataAccessor, entry: Block) {

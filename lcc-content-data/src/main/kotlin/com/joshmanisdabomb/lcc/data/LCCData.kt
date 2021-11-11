@@ -13,9 +13,14 @@ import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBu
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.data.knowledge.LCCKnowledgeTranslator
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.identifier
 import net.minecraft.Bootstrap
 import net.minecraft.SharedConstants
+import net.minecraft.tag.BlockTags
+import net.minecraft.tag.ItemTags
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import org.jetbrains.exposed.sql.Database
 import java.io.File
@@ -56,7 +61,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         LCCLootData.init()
         LCCSoundData.init()
 
-        /*println("Setting tag handlers for recipe exporting.")
+        println("Setting tag handlers for recipe exporting.")
         recipes.addTagHandlerFilter(BlockTags.PLANKS) { it.asItem().identifier.path.endsWith("_planks") }
         recipes.addTagHandlerFilter(BlockTags.LEAVES) { it.asItem().identifier.path.endsWith("_leaves") }
         recipes.addTagHandlerFilter(BlockTags.SAPLINGS) { it.asItem().identifier.path.endsWith("_sapling") }
@@ -69,10 +74,10 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         recipes.addTagHandlerFilter(LCCTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
 
         println("Setting up knowledge and exporters.")
-        recipes.init()
+        recipes.compile()
         LCCKnowledgeData.init()
         setupExports()
-        exporters.forEach { install(it, 2500) }*/
+        exporters.forEach { install(it, 2500) }
 
         install(CommitData(path, Paths.get("../lcc-content/src/main/resources"), commit) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
 

@@ -21,6 +21,8 @@ import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
+import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodType
 import java.nio.file.Path
 import java.util.*
 import kotlin.system.exitProcess
@@ -36,8 +38,8 @@ abstract class DataLauncher(override val modid: String, final override val path:
     open val sound_priority = 6000
     open val advancement_priority = 5000
 
-    protected val datagen = DataGenerator(path, emptyList())
-    protected val delayedDatagen = DataGenerator(path, emptyList())
+    protected val datagen by lazy { DataGenerator(path, emptyList()) }
+    protected val delayedDatagen by lazy { DataGenerator(path, emptyList()) }
 
     override val models by lazy { ModelBatch().also { install(ModelData(it, this), model_priority) } }
     override val states by lazy { BlockStateBatch().also { install(BlockStateData(it, this), state_priority) } }

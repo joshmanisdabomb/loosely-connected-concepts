@@ -4,7 +4,7 @@ import net.minecraft.world.gen.decorator.ConfiguredDecorator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(targets = "net.minecraft.world.gen.feature.ConfiguredFeatures.Decorators")
+@Mixin(targets = "net/minecraft/world/gen/feature/ConfiguredFeatures$Decorators")
 public interface DecoratorAccessor {
 
     @Accessor("SQUARE_HEIGHTMAP")

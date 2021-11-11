@@ -14,6 +14,8 @@ import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.data.knowledge.LCCKnowledgeTranslator
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
 import com.joshmanisdabomb.lcc.extensions.identifier
+import net.minecraft.Bootstrap
+import net.minecraft.SharedConstants
 import net.minecraft.util.registry.Registry
 import org.jetbrains.exposed.sql.Database
 import java.io.File
@@ -76,10 +78,10 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
 
         println("Setting up image exporter.")
         val path = imageExport ?: readString("Enter path to save image export, leave blank to not run:") { false }
-        if (path.isBlank()) exitProcess(0)
-
-        val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
-        delayedInstall(ImageExport(items, File(path), false), 0);
+        if (path.isNotBlank()) {
+            val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
+            delayedInstall(ImageExport(items, File(path), false), 0);
+        }
     }
 
     private fun setupExports() {

@@ -4,7 +4,14 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "PropertyConditionMixin",
-    "IngredientMixin"
+    "IngredientMixin",
+    "ItemEntryAccessor",
+    "LootPoolAccessor",
+    "LootPoolEntryAccessor",
+    "LootTableAccessor",
+    "RecipesProviderAccessor",
+    "TagBuilderAccessor",
+    "SharedConstantsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,12 +1,12 @@
 archivesBaseName = "lcc-content"
 
 dependencies {
-    modApi project(':lcc-creative-ex')
-    modApi project(':lcc-ct')
-    modApi project(':lcc-energy')
-    modApi project(':lcc-hooks')
-    modApi project(':lcc-infra')
-    modApi project(':lcc-subblock')
+    implementation project(path: ":lcc-creative-ex", configuration: "namedElements")
+    implementation project(path: ":lcc-ct", configuration: "namedElements")
+    implementation project(path: ":lcc-energy", configuration: "namedElements")
+    implementation project(path: ":lcc-hooks", configuration: "namedElements")
+    implementation project(path: ":lcc-infra", configuration: "namedElements")
+    implementation project(path: ":lcc-subblock", configuration: "namedElements")
 
     modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"

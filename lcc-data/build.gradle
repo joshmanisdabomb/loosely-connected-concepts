@@ -1,7 +1,7 @@
 archivesBaseName = "lcc-data"
 
 dependencies {
-    modApi project(':lcc-infra')
+    implementation project(path: ":lcc-infra", configuration: "namedElements")
 
     api "org.jetbrains.exposed:exposed-core:0.34.1"
     api "org.jetbrains.exposed:exposed-dao:0.34.1"

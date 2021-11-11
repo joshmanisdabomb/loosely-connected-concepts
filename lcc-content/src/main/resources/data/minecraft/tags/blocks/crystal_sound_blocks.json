@@ -1,12 +1,12 @@
 {
   "replace": false,
   "values": [
-    "lcc:topaz_block",
-    "lcc:topaz_cluster",
+    "lcc:budding_topaz",
+    "lcc:classic_crying_obsidian",
     "lcc:large_topaz_bud",
     "lcc:medium_topaz_bud",
     "lcc:small_topaz_bud",
-    "lcc:budding_topaz",
-    "lcc:classic_crying_obsidian"
+    "lcc:topaz_block",
+    "lcc:topaz_cluster"
   ]
 }

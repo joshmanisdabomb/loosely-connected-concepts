@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "lcc:ruby_hoe",
-    "lcc:topaz_hoe",
-    "lcc:emerald_hoe",
-    "lcc:sapphire_hoe",
     "lcc:amethyst_hoe",
     "lcc:deadwood_hoe",
+    "lcc:emerald_hoe",
     "lcc:fortstone_hoe",
-    "lcc:rusty_iron_hoe"
+    "lcc:ruby_hoe",
+    "lcc:rusty_iron_hoe",
+    "lcc:sapphire_hoe",
+    "lcc:topaz_hoe"
   ]
 }

@@ -50,7 +50,7 @@ class TagBatch {
         fun getId(entry: T) = registry.getKey(convert(entry)).get().value
         protected abstract fun convert(entry: T): U
 
-        override fun asString() = registry.key.value.path.lowercase()
+        override fun asString() = registry.key.value.path.lowercase().plus("s")
     }
 
     class TagBuilder<T, U>(val type: TagType<T, U>, val id: Identifier) : Tag.Builder() {

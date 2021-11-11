@@ -52,16 +52,16 @@ abstract class SimpleEnergyBlock(settings: Settings) : Block(settings), WorldEne
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
         super.onBlockAdded(state, world, pos, oldState, notify)
-        world.method_39279(pos, this, 1)
+        world.createAndScheduleBlockTick(pos, this, 1)
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         super.neighborUpdate(state, world, pos, block, fromPos, notify)
-        world.method_39279(pos, this, 1)
+        world.createAndScheduleBlockTick(pos, this, 1)
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        world.method_39279(pos, this, 1)
+        world.createAndScheduleBlockTick(pos, this, 1)
     }
 
 }

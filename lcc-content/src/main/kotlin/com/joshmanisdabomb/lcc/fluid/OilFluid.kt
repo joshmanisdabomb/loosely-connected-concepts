@@ -58,7 +58,7 @@ class OilFluid(val source: Boolean) : FlowableFluid(), LCCFluidTrait {
             state.isIn(BlockTags.FIRE) || state.fluidState.isIn(FluidTags.LAVA) -> {
                 val fire = AbstractFireBlock.getState(world, pos.offset(direction.opposite)).run { if (this == Blocks.FIRE) with(FireBlock.AGE, 15) else this }
                 world.setBlockState(pos.offset(direction.opposite), fire, 3)
-                world.method_39279(pos, fire.block, world.random.nextInt(5) + 2)
+                world.createAndScheduleBlockTick(pos, fire.block, world.random.nextInt(5) + 2)
             }
             state.block is FluidBlock -> return
             else -> return super.flow(world, pos, state, direction, fluidState)

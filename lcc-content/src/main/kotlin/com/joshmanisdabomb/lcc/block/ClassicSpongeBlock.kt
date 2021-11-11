@@ -31,7 +31,7 @@ class ClassicSpongeBlock(settings: Settings) : Block(settings) {
                     for (k in -3..3) {
                         val fluid = world.getFluidState(bp.set(pos).move(i, j, k))
                         if (((i == 3 || i == -3) || (j == 3 || j == -3) || (k == 3 || k == -3)) && fluid.isIn(FluidTags.WATER)) {
-                            world.method_39281(bp, fluid.fluid, fluid.fluid.getTickRate(world))
+                            world.createAndScheduleFluidTick(bp, fluid.fluid, fluid.fluid.getTickRate(world))
                         }
                     }
                 }

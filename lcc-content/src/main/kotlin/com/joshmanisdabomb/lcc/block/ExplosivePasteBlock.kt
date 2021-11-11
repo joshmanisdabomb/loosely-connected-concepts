@@ -62,8 +62,8 @@ class ExplosivePasteBlock(settings: Settings) : Block(settings) {
     override fun onDestroyedByExplosion(world: World, pos: BlockPos, explosion: Explosion) {
         if (world.isClient) return
         world.setBlockState(pos, getWireState(world, defaultState.with(LIT, true), pos))
-        if (!world.blockTickScheduler.isScheduled(pos, this)) {
-            world.method_39279(pos, this, world.random.nextInt(10).plus(10))
+        if (!world.blockTickScheduler.isQueued(pos, this)) {
+            world.createAndScheduleBlockTick(pos, this, world.random.nextInt(10).plus(10))
         }
         (explosion.causingEntity as? ServerPlayerEntity)?.also { LCCCriteria.explosive_paste.trigger(it, pos) }
     }
@@ -72,7 +72,7 @@ class ExplosivePasteBlock(settings: Settings) : Block(settings) {
         if (world.isClient) return
         if (state[LIT]) return
         if (!state.canPlaceAt(world, pos)) {
-            world.method_39279(pos, this, world.random.nextInt(10).plus(10))
+            world.createAndScheduleBlockTick(pos, this, world.random.nextInt(10).plus(10))
         }
     }
 

@@ -31,7 +31,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LC
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
-        world.method_39279(pos, this, 1)
+        world.createAndScheduleBlockTick(pos, this, 1)
         return state
     }
 

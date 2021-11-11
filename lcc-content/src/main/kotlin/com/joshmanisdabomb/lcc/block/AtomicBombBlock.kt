@@ -84,7 +84,7 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.method_39279(pos, this, 2)
+        world.createAndScheduleBlockTick(pos, this, 2)
         super.onBlockAdded(state, world, pos, oldState, notify)
     }
 
@@ -98,7 +98,7 @@ class AtomicBombBlock(settings: Settings) : BlockWithEntity(settings) {
                 if (current == direction.opposite && !isSegment(state2, direction.opposite, AtomicBombSegment.TAIL)) return Blocks.AIR.defaultState
             }
         }
-        world.method_39279(pos, this, 2)
+        world.createAndScheduleBlockTick(pos, this, 2)
         return state
     }
 

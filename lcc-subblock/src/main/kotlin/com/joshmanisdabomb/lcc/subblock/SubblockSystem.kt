@@ -23,7 +23,7 @@ interface SubblockSystem {
 
         run default@{
             if (context !is EntityShapeContext) return@default
-            val hit = getSubblocksFromTrace(state, world, pos, context.entity.orElse(null) ?: return@default, subblocks).map { it.shape }
+            val hit = getSubblocksFromTrace(state, world, pos, context.entity ?: return@default, subblocks).map { it.shape }
             if (hit.isEmpty()) return VoxelShapes.empty()
             return VoxelShapes.union(hit.first(), *hit.drop(1).toTypedArray())
         }

@@ -67,7 +67,7 @@ class ImageExport(items: List<ItemConvertible>, val folder: File, val test: Bool
 
             //Render and Screenshot
             val stack = item.stack()
-            val model = itemRenderer.getHeldItemModel(stack, null, MinecraftClient.getInstance().player, index)
+            val model = itemRenderer.getModel(stack, null, MinecraftClient.getInstance().player, index)
             if (!model.isSideLit) DiffuseLighting.disableGuiDepthLighting()
             itemRenderer.renderItem(stack, ModelTransformation.Mode.GUI, false, matrices, immediate, 15728880, OverlayTexture.DEFAULT_UV, model)
             immediate.draw()

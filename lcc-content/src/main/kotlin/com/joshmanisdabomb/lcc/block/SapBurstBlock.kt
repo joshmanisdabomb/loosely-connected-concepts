@@ -21,7 +21,7 @@ class SapBurstBlock(val liquid: AbstractTreetapBlock.TreetapLiquid, val transfor
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(sap).let {}
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        if (!world.isClient) world.method_39279(pos, this, rate(server_random))
+        if (!world.isClient) world.createAndScheduleBlockTick(pos, this, rate(server_random))
     }
 
     override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
@@ -36,7 +36,7 @@ class SapBurstBlock(val liquid: AbstractTreetapBlock.TreetapLiquid, val transfor
             1 -> world.setBlockState(pos, transform)
             else -> {
                 world.setBlockState(pos, state.with(sap, state[sap] - 1))
-                world.method_39279(pos, this, rate(random))
+                world.createAndScheduleBlockTick(pos, this, rate(random))
             }
         }
     }

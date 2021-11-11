@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:uranium_block"
+            "items": [
+              "lcc:uranium_block"
+            ]
           }
         ]
       }

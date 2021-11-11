@@ -14,7 +14,7 @@ class LootTableData(val batch: LootTableBatch, val da: DataAccessor) : DataProvi
         batch.getTables().forEach { (k, v) ->
             val outputPath = da.path.resolve("data/" + k.namespace + "/loot_tables/" + k.path + ".json")
             try {
-                DataProvider.writeToPath(GSON, cache, LootManager.toJson(v), outputPath)
+                DataProvider.writeToPath(da.gson, cache, LootManager.toJson(v), outputPath)
             } catch (e: IOException) {
                 da.logger.error("Couldn't save loot table {}", outputPath, e)
             }

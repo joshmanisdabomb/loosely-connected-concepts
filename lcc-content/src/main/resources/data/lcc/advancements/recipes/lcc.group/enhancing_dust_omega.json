@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:enhancing_dust_beta"
+            "items": [
+              "lcc:enhancing_dust_beta"
+            ]
           }
         ]
       }
@@ -21,7 +23,9 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:nether_star"
+            "items": [
+              "minecraft:nether_star"
+            ]
           }
         ]
       }

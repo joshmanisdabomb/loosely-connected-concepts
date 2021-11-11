@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.data.batches
 
 import com.google.common.collect.HashBasedTable
 
-class LangBatch {
+class LangBatch(vararg val locales: String = arrayOf(defaultLocale)) {
 
     private val table = HashBasedTable.create<String, String, String>()
 
@@ -14,10 +14,10 @@ class LangBatch {
 
     fun getFirst(locale: String, key: String, vararg fallbacks: String = arrayOf(defaultLocale)) = get(locale, key) ?: fallbacks.mapNotNull { get(it, key) }.firstOrNull()
 
-    fun getLocales() = table.rowKeySet()
+    fun getLocales() = table.rowKeySet().plus(locales)
     fun getKeys() = table.columnKeySet()
 
-    fun getTranslationsByLocale() = table.rowMap()
+    fun getTranslationsByLocale() = locales.associateWith { emptyMap<String, String>() }.plus(table.rowMap())
     fun getTranslationsByKey() = table.columnMap()
 
     fun getTranslationsIn(locale: String = defaultLocale) = table.row(locale)

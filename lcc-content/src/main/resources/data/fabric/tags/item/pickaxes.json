@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:amethyst_pickaxe",
+    "lcc:deadwood_pickaxe",
+    "lcc:emerald_pickaxe",
+    "lcc:fortstone_pickaxe",
+    "lcc:ruby_pickaxe",
+    "lcc:rusty_iron_pickaxe",
+    "lcc:sapphire_pickaxe",
+    "lcc:topaz_pickaxe"
+  ]
+}

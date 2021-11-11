@@ -1,0 +1,37 @@
+{
+  "parent": "lcc:main_root",
+  "display": {
+    "icon": {
+      "item": "lcc:topaz_shard"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.topaz.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.topaz.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "topaz_shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:topaz_shard"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "topaz_shard"
+    ]
+  ]
+}

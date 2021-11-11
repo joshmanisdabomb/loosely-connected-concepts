@@ -13,7 +13,7 @@ class ModelData(val batch: ModelBatch, val da: DataLauncher) : DataProvider {
         batch.getJson().forEach { (k, v) ->
             val outputPath = da.path.resolve("assets/" + k.namespace + "/models/" + k.path + ".json")
             try {
-                DataProvider.writeToPath(GSON, cache, v(), outputPath)
+                DataProvider.writeToPath(da.gson, cache, v(), outputPath)
             } catch (e: IOException) {
                 da.logger.error("Couldn't save block state {}", outputPath, e)
             }

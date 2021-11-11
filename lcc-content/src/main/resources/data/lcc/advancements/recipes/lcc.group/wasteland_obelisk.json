@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:cracked_mud"
+            "items": [
+              "lcc:cracked_mud"
+            ]
           }
         ]
       }
@@ -21,7 +23,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:topaz_shard"
+            "items": [
+              "lcc:topaz_shard"
+            ]
           }
         ]
       }

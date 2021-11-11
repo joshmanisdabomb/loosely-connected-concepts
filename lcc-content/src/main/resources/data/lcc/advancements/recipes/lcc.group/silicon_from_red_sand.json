@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:refiner"
+            "items": [
+              "lcc:refiner"
+            ]
           }
         ]
       }

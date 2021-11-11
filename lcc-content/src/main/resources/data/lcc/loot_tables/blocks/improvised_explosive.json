@@ -30,7 +30,9 @@
               "term": {
                 "condition": "minecraft:match_tool",
                 "predicate": {
-                  "item": "lcc:crowbar"
+                  "items": [
+                    "lcc:crowbar"
+                  ]
                 }
               }
             }
@@ -50,7 +52,9 @@
             {
               "condition": "minecraft:match_tool",
               "predicate": {
-                "item": "lcc:crowbar"
+                "items": [
+                  "lcc:crowbar"
+                ]
               }
             }
           ],

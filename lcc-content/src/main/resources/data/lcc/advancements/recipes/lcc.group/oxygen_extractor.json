@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:oxygen_tank"
+            "items": [
+              "lcc:oxygen_tank"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:cracked_mud"
+            "items": [
+              "lcc:cracked_mud"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:rubber_planks"
+            "items": [
+              "lcc:rubber_planks"
+            ]
           }
         ]
       }

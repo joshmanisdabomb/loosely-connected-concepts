@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "lcc:cracked_mud"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.root.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "lcc:textures/gui/advancements/backgrounds/wasteland.png"
+  },
+  "criteria": {
+    "enter": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "location": {
+          "biome": "lcc:wasteland_barrens"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "enter"
+    ]
+  ]
+}

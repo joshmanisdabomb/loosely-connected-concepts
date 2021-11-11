@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:soaking_soul_sand"
+            "items": [
+              "lcc:soaking_soul_sand"
+            ]
           }
         ]
       }

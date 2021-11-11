@@ -1,0 +1,50 @@
+{
+  "parent": "lcc:oil",
+  "display": {
+    "icon": {
+      "item": "lcc:flexible_plastic"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.plastic.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.plastic.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "rigid_plastic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:rigid_plastic"
+            ]
+          }
+        ]
+      }
+    },
+    "flexible_plastic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:flexible_plastic"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rigid_plastic",
+      "flexible_plastic"
+    ]
+  ]
+}

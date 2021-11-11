@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:stripped_deadwood_log"
+            "items": [
+              "lcc:stripped_deadwood_log"
+            ]
           }
         ]
       }

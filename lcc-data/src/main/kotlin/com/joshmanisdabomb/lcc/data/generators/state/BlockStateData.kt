@@ -13,7 +13,7 @@ class BlockStateData(val batch: BlockStateBatch, val da: DataLauncher) : DataPro
         batch.getJson().forEach { (k, v) ->
             val outputPath = da.path.resolve("assets/" + k.namespace + "/blockstates/" + k.path + ".json")
             try {
-                DataProvider.writeToPath(GSON, cache, v(), outputPath)
+                DataProvider.writeToPath(da.gson, cache, v(), outputPath)
             } catch (e: IOException) {
                 da.logger.error("Couldn't save block state {}", outputPath, e)
             }

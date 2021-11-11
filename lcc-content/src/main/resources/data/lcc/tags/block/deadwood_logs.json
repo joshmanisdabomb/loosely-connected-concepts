@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "lcc:deadwood",
+    "lcc:deadwood_log",
+    "lcc:stripped_deadwood",
+    "lcc:stripped_deadwood_log"
+  ]
+}

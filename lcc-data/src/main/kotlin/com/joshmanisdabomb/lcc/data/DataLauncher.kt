@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.data.generators.state.BlockStateData
 import com.joshmanisdabomb.lcc.data.generators.tag.TagData
 import com.joshmanisdabomb.lcc.data.storage.RecipeBatch
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint
 import net.minecraft.Bootstrap
 import net.minecraft.SharedConstants
@@ -39,7 +40,7 @@ abstract class DataLauncher(override val modid: String, final override val path:
     open val advancement_priority = 5000
 
     protected val datagen by lazy { DataGenerator(path, emptyList()) }
-    protected val delayedDatagen by lazy { DataGenerator(path, emptyList()) }
+    protected val delayedDatagen by lazy { WaitingDataGenerator(path, emptyList()) }
 
     override val models by lazy { ModelBatch().also { install(ModelData(it, this), model_priority) } }
     override val states by lazy { BlockStateBatch().also { install(BlockStateData(it, this), state_priority) } }
@@ -76,7 +77,10 @@ abstract class DataLauncher(override val modid: String, final override val path:
         }
         afterRun()
 
-        if (delayedInstalls.isNotEmpty()) ClientLifecycleEvents.CLIENT_STARTED.register(::onClientLaunch)
+        if (delayedInstalls.isNotEmpty()) {
+            ClientLifecycleEvents.CLIENT_STARTED.register(::onClientLaunch)
+            ClientTickEvents.START_CLIENT_TICK.register(::onClientTick)
+        }
         else exitProcess(0)
     }
 
@@ -107,8 +111,20 @@ abstract class DataLauncher(override val modid: String, final override val path:
         }
 
         afterDelayedRun()
+    }
 
-        exitProcess(0)
+    private fun onClientTick(client: MinecraftClient) {
+        beforeDelayedRun()
+
+        try {
+            if (delayedDatagen.run()) {
+                exitProcess(0)
+            }
+        } catch (e: IOException) {
+            throw RuntimeException(e)
+        }
+
+        afterDelayedRun()
     }
 
     companion object {

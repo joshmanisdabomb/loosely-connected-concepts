@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.data.knowledge
 
+import com.joshmanisdabomb.lcc.data.WaitingDataProvider
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.sqrt
 import com.joshmanisdabomb.lcc.extensions.stack
@@ -34,6 +35,7 @@ import net.minecraft.network.NetworkSide
 import net.minecraft.stat.StatHandler
 import net.minecraft.tag.BlockTags
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.Util
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.Difficulty
@@ -46,15 +48,18 @@ import kotlin.math.max
 import kotlin.math.pow
 import kotlin.system.exitProcess
 
-class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, val folder: File, val test: Long? = null) : DataProvider {
+class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, val folder: File, val test: Long? = null) : WaitingDataProvider {
 
     val items = items.map(ItemConvertible::asItem).distinctBy { it.identifier }
     val entities = entities.distinctBy { Registry.ENTITY_TYPE.getId(it) }
     var index = 0
 
+    private var screen: ExportOutput? = null
+
+    override var done = false
+
     override fun run(cache: DataCache) {
-        MinecraftClient.getInstance().setScreen(ExportOutput())
-        //TODO try wait for screen
+        if (screen == null) screen = ExportOutput().also { MinecraftClient.getInstance().setScreenAndRender(it) }
     }
 
     override fun getName() = "LCC Wiki Image Export"
@@ -96,8 +101,8 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
 
             //Exit When Done
             if (++index >= items.count() + entities.count()) {
-                println("Finished export of ${items.count()} items and ${entities.count()} entities to ${folder}. Exiting successfully.")
-                exitProcess(0)
+                println("Finished export of ${items.count()} items and ${entities.count()} entities to ${folder}.")
+                done = true
             }
         }
 

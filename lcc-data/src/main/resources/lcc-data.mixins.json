@@ -5,13 +5,7 @@
   "mixins": [
     "PropertyConditionMixin",
     "IngredientMixin",
-<<<<<<< HEAD
-    "LootTableAccessor",
-    "LootPoolAccessor",
-    "LootPoolEntryAccessor",
-    "ItemEntryAccessor",
-    "BlockStateAccessor"
-=======
+    "BlockStateAccessor",
     "ItemEntryAccessor",
     "LootPoolAccessor",
     "LootPoolEntryAccessor",
@@ -19,7 +13,6 @@
     "RecipesProviderAccessor",
     "TagBuilderAccessor",
     "SharedConstantsMixin"
->>>>>>> fabric-1.18
   ],
   "injectors": {
     "defaultRequire": 1

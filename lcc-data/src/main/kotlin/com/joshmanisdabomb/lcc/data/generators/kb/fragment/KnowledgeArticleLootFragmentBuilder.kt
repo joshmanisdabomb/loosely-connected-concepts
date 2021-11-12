@@ -32,11 +32,11 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val tables = JsonArray()
         this.tables = (this.tables ?: supplier(exporter)).onEach {
-            val id = exporter.da.lootTableStore[it]!!
-            val table = exporter.da.lootTableStore.getTable(id)!!
+            val id = exporter.da.lootTables[it]!!
+            val table = exporter.da.lootTables.getTable(id)!!
             val json = LootManager.toJson(table).asJsonObject
 
-            val items = exporter.da.lootTableStore.getItemsOf(id)
+            val items = exporter.da.lootTables.getItemsOf(id)
 
             val tjson = exporter.translator.lootTranslationsJson(it, *items.toTypedArray())
             json.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }

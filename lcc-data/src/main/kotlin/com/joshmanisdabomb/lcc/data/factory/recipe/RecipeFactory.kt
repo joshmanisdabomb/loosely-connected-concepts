@@ -64,11 +64,7 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
     private companion object {
         private fun accept(provider: RecipeJsonProvider, data: DataAccessor) {
-<<<<<<< HEAD
-            data.acceptRecipe(provider)
-=======
             data.recipes.accept(provider)
->>>>>>> fabric-1.18
         }
 
         private fun <R> offer(recipe: R, offer: R.((RecipeJsonProvider) -> Unit) -> Unit, offerId: R.((RecipeJsonProvider) -> Unit, Identifier) -> Unit, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {

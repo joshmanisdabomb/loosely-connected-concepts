@@ -44,9 +44,9 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
             recipe.add("links", ljson)
 
             val tags = JsonObject()
-            exporter.da.recipeStore.getTagIngredientsOf(it.recipeId).forEach {
+            exporter.da.recipes.getTagIngredientsOf(it.recipeId).forEach {
                 val items = JsonArray()
-                exporter.da.recipeStore.getItemsInTag(it).forEach { items.add(Ingredient.ofItems(it.asItem()).toJson()) }
+                exporter.da.recipes.getItemsInTag(it).forEach { items.add(Ingredient.ofItems(it.asItem()).toJson()) }
                 tags.add(it.toString(), items)
             }
             recipe.add("tags", tags)

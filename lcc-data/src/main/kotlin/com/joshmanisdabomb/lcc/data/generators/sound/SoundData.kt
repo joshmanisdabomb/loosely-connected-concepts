@@ -2,35 +2,35 @@ package com.joshmanisdabomb.lcc.data.generators.sound
 
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.DataAccessor
+import com.joshmanisdabomb.lcc.data.batches.SoundBatch
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
 import java.nio.file.Files
 
-class SoundData(val da: DataAccessor) : DataProvider {
-
-    val list = mutableListOf<SoundProperties>()
+class SoundData(val batch: SoundBatch, val da: DataAccessor) : DataProvider {
 
     override fun run(cache: DataCache) {
-        val string: String = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(list.map { it.name to it.serialise(JsonObject()) }.toMap()))
-        val string2 = DataProvider.SHA1.hashUnencodedChars(string).toString()
-        val path = da.dg.output.resolve("assets/${da.modid}/sounds.json")
-        if (cache.getOldSha1(path) != string2 || !Files.exists(path, *arrayOfNulls(0))) {
+        val json = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(batch.getSounds().mapValues { (k, v) -> v.serialise(JsonObject()) }.toMap()))
+        val hash = DataProvider.SHA1.hashUnencodedChars(json).toString()
+        val path = da.path.resolve("assets/${da.modid}/sounds.json")
+        if (cache.getOldSha1(path) != hash || !Files.exists(path)) {
             Files.createDirectories(path.parent)
             val bufferedWriter = Files.newBufferedWriter(path)
-            var var7: Throwable? = null
+
+            var e: Throwable? = null
             try {
-                bufferedWriter!!.write(string)
-            } catch (var16: Throwable) {
-                var7 = var16
-                throw var16
+                bufferedWriter!!.write(json)
+            } catch (e2: Throwable) {
+                e = e2
+                throw e2
             } finally {
                 if (bufferedWriter != null) {
-                    if (var7 != null) {
+                    if (e != null) {
                         try {
                             bufferedWriter.close()
                         } catch (var15: Throwable) {
-                            var7.addSuppressed(var15)
+                            e.addSuppressed(var15)
                         }
                     } else {
                         bufferedWriter.close()
@@ -39,7 +39,7 @@ class SoundData(val da: DataAccessor) : DataProvider {
             }
         }
 
-        cache.updateSha1(path, string2)
+        cache.updateSha1(path, hash)
     }
 
     override fun getName() = "${da.modid} Sound Data"

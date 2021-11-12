@@ -17,7 +17,7 @@ class NuclearGeneratorCriterion : AbstractCriterion<NuclearGeneratorCriterion.Co
     }
 
     fun trigger(player: ServerPlayerEntity) {
-        test(player) { it.matches() }
+        trigger(player) { it.matches() }
     }
 
     class Conditions(player: EntityPredicate.Extended) : AbstractCriterionConditions(id, player) {

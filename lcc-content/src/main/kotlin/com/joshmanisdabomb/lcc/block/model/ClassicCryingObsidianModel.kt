@@ -38,7 +38,7 @@ class ClassicCryingObsidianModel() : LCCModel({ mapOf("inactive" to SpriteIdenti
 
     }
 
-    override fun getSprite(): Sprite {
+    override fun getParticleSprite(): Sprite {
         return static
     }
 

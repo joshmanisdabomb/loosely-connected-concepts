@@ -11,8 +11,8 @@ open class SlabBlockAssetFactory(val texture: Identifier, val textureTop: Identi
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture().put(TextureKey.TOP, textureTop ?: idh.loc(entry)).put(TextureKey.SIDE, textureSide ?: idh.loc(entry)).put(TextureKey.BOTTOM, textureBottom ?: idh.loc(entry))
-        val slab = Models.SLAB.upload(idh.loc(entry), texture, data.modelStates::addModel)
-        val slabTop = Models.SLAB_TOP.upload(idh.locSuffix(entry, "top"), texture, data.modelStates::addModel)
+        val slab = Models.SLAB.upload(idh.loc(entry), texture, data.models)
+        val slabTop = Models.SLAB_TOP.upload(idh.locSuffix(entry, "top"), texture, data.models)
         stateVariant(data, entry) { coordinate(BlockStateVariantMap.create(Properties.SLAB_TYPE).register {
             BlockStateVariant.create().put(VariantSettings.MODEL, when (it) {
                 SlabType.TOP -> slabTop

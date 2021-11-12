@@ -15,7 +15,7 @@ object LCCPacketsToServer : PacketForServerDirectory() {
         val ability = GauntletDirectory.getOrNull(data.readString()) ?: return@PlayChannelHandler
         server.execute {
             if (player?.mainHandStack?.item == LCCItems.gauntlet) {
-                GauntletAction.putInTag(ability, player.mainHandStack.orCreateTag)
+                GauntletAction.putInTag(ability, player.mainHandStack.orCreateNbt)
             }
         }
     } }

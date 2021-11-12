@@ -24,18 +24,18 @@ class OilFiredGeneratorScreen(handler: FiredGeneratorScreenHandler, inventory: P
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
         super.drawBackground(matrices, delta, mouseX, mouseY)
 
-        renderBurn(matrices, handler.burnAmount(), handler.maxBurnAmount(), field_2776 + 102, field_2800 + 30)
+        renderBurn(matrices, handler.burnAmount(), handler.maxBurnAmount(), x + 102, y + 30)
 
-        renderAction(matrices, 0, handler.outputAmount(), handler.block.maxOutput, field_2776 + 122, field_2800 + 30)
+        renderAction(matrices, 0, handler.outputAmount(), handler.block.maxOutput, x + 122, y + 30)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(matrices, mouseX, mouseY, delta)
 
         if (handler.burnAmount() > 0 || handler.outputAmount() > 0) {
-            renderBurnTooltip(matrices, handler.burnAmount(), handler.maxBurnAmount(), mouseX, mouseY, field_2776 + 102..field_2776 + 116, field_2800 + 30..field_2800 + 44)
+            renderBurnTooltip(matrices, handler.burnAmount(), handler.maxBurnAmount(), mouseX, mouseY, x + 102..x + 116, y + 30..y + 44)
 
-            renderSteamTooltip(matrices, handler.outputAmount(), handler.outputCeilingAmount(), handler.waterAmount(), mouseX, mouseY, field_2776 + 122..field_2776 + 136, field_2800 + 30..field_2800 + 44)
+            renderSteamTooltip(matrices, handler.outputAmount(), handler.outputCeilingAmount(), handler.waterAmount(), mouseX, mouseY, x + 122..x + 136, y + 30..y + 44)
         }
     }
 

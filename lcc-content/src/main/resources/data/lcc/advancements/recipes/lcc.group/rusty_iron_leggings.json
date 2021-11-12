@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:iron_oxide"
+            "items": [
+              "lcc:iron_oxide"
+            ]
           }
         ]
       }

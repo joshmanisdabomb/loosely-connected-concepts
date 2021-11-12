@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:flexible_rubber"
+            "items": [
+              "lcc:flexible_rubber"
+            ]
           }
         ]
       }

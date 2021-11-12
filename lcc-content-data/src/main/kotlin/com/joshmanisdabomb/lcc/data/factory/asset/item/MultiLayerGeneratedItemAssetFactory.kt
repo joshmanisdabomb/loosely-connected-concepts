@@ -16,7 +16,7 @@ class MultiLayerGeneratedItemAssetFactory(vararg val layers: (entry: Item) -> Id
         layers.forEachIndexed { k, v ->
             texture.put(keys[k], v(entry))
         }
-        Companion.models[layers.size-1].upload(idh.loc(entry), texture, data.modelStates::addModel)
+        Companion.models[layers.size-1].upload(idh.loc(entry), texture, data.models)
     }
 
     companion object {

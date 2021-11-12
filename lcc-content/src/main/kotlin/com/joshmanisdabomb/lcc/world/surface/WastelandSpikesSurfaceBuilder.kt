@@ -1,17 +1,17 @@
 package com.joshmanisdabomb.lcc.world.surface
-
+/*
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.class_6557
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.chunk.Chunk
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig
 import java.util.*
 
 class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : WastelandSurfaceBuilder(codec) {
 
-    override fun generate(random: Random, chunk: Chunk, biome: Biome, x: Int, z: Int, height: Int, noise: Double, defaultBlock: BlockState, defaultFluid: BlockState, seaLevel: Int, i: Int, l: Long, surfaceConfig: TernarySurfaceConfig) {
+    override fun generate(random: Random, chunk: class_6557, biome: Biome, x: Int, z: Int, height: Int, noise: Double, defaultBlock: BlockState, defaultFluid: BlockState, seaLevel: Int, i: Int, seed: Long, config: TernarySurfaceConfig) {
         val mutable = BlockPos.Mutable()
         val j = (noise / 3.0 + 3.0 + random.nextDouble() * 0.25).toInt()
         var k: Int
@@ -21,7 +21,7 @@ class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Wastel
             k = height
             while (k >= i) {
                 mutable.set(x, k, z)
-                val blockState = chunk.getBlockState(mutable)
+                val blockState = chunk.getState(k)
                 if (blockState.isAir) {
                     bl = false
                 } else if (blockState.isOf(defaultBlock.block)) {
@@ -33,9 +33,9 @@ class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Wastel
                         } else if (k >= seaLevel - (7 + j)) {
                             blockState5 = defaultBlock
                         } else {
-                            blockState5 = surfaceConfig.underwaterMaterial
+                            blockState5 = config.underwaterMaterial
                         }
-                        chunk.setBlockState(mutable, blockState5, false)
+                        chunk.method_38092(k, blockState5)
                     }
                     bl = true
                 }
@@ -47,7 +47,7 @@ class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Wastel
             val dip = random.nextInt(j)
             for (m in height downTo i) {
                 mutable.set(x, m, z)
-                blockState5 = chunk.getBlockState(mutable)
+                blockState5 = chunk.getState(m)
                 if (blockState5.isAir) {
                     k = -1
                 } else if (blockState5.isOf(defaultBlock.block)) {
@@ -55,22 +55,22 @@ class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Wastel
                         k = j
                         var top: BlockState?
                         if (m >= seaLevel + 2) {
-                            top = null//surfaceConfig.topMaterial
+                            top = null//config.topMaterial
                         } else if (m >= seaLevel - 1) {
-                            ground = surfaceConfig.underMaterial
-                            top = surfaceConfig.topMaterial
+                            ground = config.underMaterial
+                            top = config.topMaterial
                         } else if (m >= seaLevel - (7 + j)) {
-                            ground = surfaceConfig.underMaterial
-                            top = surfaceConfig.underwaterMaterial
+                            ground = config.underMaterial
+                            top = config.underwaterMaterial
                         } else {
                             ground = defaultBlock
-                            top = surfaceConfig.underwaterMaterial
+                            top = config.underwaterMaterial
                         }
-                        chunk.setBlockState(mutable, top ?: if (dip == 0) surfaceConfig.topMaterial else Blocks.AIR.defaultState, false)
+                        chunk.method_38092(m, top ?: if (dip == 0) config.topMaterial else Blocks.AIR.defaultState)
                     } else if (k > 0) {
                         --k
-                        val ground2 = ground ?: if (j-k > dip) surfaceConfig.underMaterial else Blocks.AIR.defaultState
-                        chunk.setBlockState(mutable, ground2, false)
+                        val ground2 = ground ?: if (j-k > dip) config.underMaterial else Blocks.AIR.defaultState
+                        chunk.method_38092(m, ground2)
                         if (k == 0 && ground2.isOf(Blocks.SAND) && j > 1) {
                             k = random.nextInt(4) + Math.max(0, m - seaLevel)
                             ground = Blocks.SANDSTONE.defaultState
@@ -82,3 +82,4 @@ class WastelandSpikesSurfaceBuilder(codec: Codec<TernarySurfaceConfig>) : Wastel
     }
 
 }
+*/

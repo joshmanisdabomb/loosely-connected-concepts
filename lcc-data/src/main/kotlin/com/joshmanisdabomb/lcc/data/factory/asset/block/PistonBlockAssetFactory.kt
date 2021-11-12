@@ -17,7 +17,7 @@ open class PistonBlockAssetFactory(val base: Identifier = Identifier("block/pist
             .put(TextureKey.BOTTOM, textureBottom ?: Identifier("block/piston_bottom"))
             .put(TextureKey.SIDE, textureSide ?: idh.locSuffix(entry, "side").modify { it.replace("sticky_", "") })
             .put(TextureKey.PLATFORM, textureTop ?: idh.locSuffix(entry, "top"))
-        val piston = Models.TEMPLATE_PISTON.upload(idh.loc(entry), texture, data.modelStates::addModel)
+        val piston = Models.TEMPLATE_PISTON.upload(idh.loc(entry), texture, data.models)
 
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.EXTENDED, Properties.FACING).register { extended, dir ->

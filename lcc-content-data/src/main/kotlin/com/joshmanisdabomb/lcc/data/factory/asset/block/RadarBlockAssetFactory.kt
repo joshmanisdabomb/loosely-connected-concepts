@@ -17,7 +17,7 @@ object RadarBlockAssetFactory : BlockAssetFactory {
     override fun apply(data: DataAccessor, entry: Block) {
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.TRIGGERED, Properties.HORIZONTAL_FACING).register { t, f ->
-                BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_radar.upload(if (t) idh.locSuffix(entry, "on") else idh.loc(entry), if (t) texture(entry, "on", "active") else texture(entry, null, "inactive"), data.modelStates::addModel)).apply(ModelProvider.horizontalRotation(f))
+                BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_radar.upload(if (t) idh.locSuffix(entry, "on") else idh.loc(entry), if (t) texture(entry, "on", "active") else texture(entry, null, "inactive"), data.models)).apply(ModelProvider.horizontalRotation(f))
             })
         }
     }

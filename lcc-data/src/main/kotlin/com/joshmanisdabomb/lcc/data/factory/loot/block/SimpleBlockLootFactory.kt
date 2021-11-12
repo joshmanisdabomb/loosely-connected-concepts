@@ -13,11 +13,11 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 class SimpleBlockLootFactory(val drop: ItemConvertible) : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.acceptLootTable(entry, LootTable.builder().pool(
-            LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
+            LootPool.builder()
+                .rolls(ConstantLootNumberProvider.create(1.0f))
                 .with(ItemEntry.builder(drop))
-                .conditionally(SurvivesExplosionLootCondition.builder()))
-        )
+                .conditionally(SurvivesExplosionLootCondition.builder())))
     }
 
 }

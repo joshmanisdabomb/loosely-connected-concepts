@@ -21,8 +21,8 @@ class HeartContainerCriterion : AbstractCriterion<HeartContainerCriterion.Condit
         return Conditions(player, if (type.isNotEmpty()) type else null, maxValue)
     }
 
-    fun trigger(player: ServerPlayerEntity, type: HeartType, maxValue: Float) {
-        test(player) { it.matches(type, maxValue) }
+    fun trigger(player: ServerPlayerEntity, type: HeartType, maxValue: Double) {
+        trigger(player) { it.matches(type, maxValue) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val type: String?, val maxValue: NumberRange.FloatRange) : AbstractCriterionConditions(id, player) {
@@ -34,7 +34,7 @@ class HeartContainerCriterion : AbstractCriterion<HeartContainerCriterion.Condit
             return jsonObject
         }
 
-        fun matches(type: HeartType, maxValue: Float) = (this.type == null || type.asString() == this.type) && this.maxValue.test(maxValue)
+        fun matches(type: HeartType, maxValue: Double) = (this.type == null || type.asString() == this.type) && this.maxValue.test(maxValue)
 
     }
 

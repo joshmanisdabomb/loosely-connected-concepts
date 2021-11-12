@@ -25,20 +25,20 @@ class EnergyBankScreen(handler: BatteryScreenHandler, inventory: PlayerInventory
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
         super.drawBackground(matrices, delta, mouseX, mouseY)
 
-        renderPower(matrices, handler.powerAmount(), handler.block.max, field_2776 + 82, field_2800 + 38)
+        renderPower(matrices, handler.powerAmount(), handler.block.max, x + 82, y + 38)
 
-        renderPowerBar(matrices, handler.powerAmount(), handler.block.max, field_2776 + 25, field_2800 + 6, 126)
+        renderPowerBar(matrices, handler.powerAmount(), handler.block.max, x + 25, y + 6, 126)
 
-        if (inputting) renderArrow(matrices, field_2776 + 71, field_2800 + 42)
-        if (outputting) renderArrow(matrices, field_2776 + 96, field_2800 + 42)
+        if (inputting) renderArrow(matrices, x + 71, y + 42)
+        if (outputting) renderArrow(matrices, x + 96, y + 42)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(matrices, mouseX, mouseY, delta)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, field_2776 + 82..field_2776 + 93, field_2800 + 38..field_2800 + 52)
+        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 82..x + 93, y + 38..y + 52)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, field_2776 + 25..field_2776 + 151, field_2800 + 6..field_2800 + 16)
+        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 25..x + 151, y + 6..y + 16)
     }
 
 }

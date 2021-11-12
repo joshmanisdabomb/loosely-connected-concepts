@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:silicon"
+            "items": [
+              "lcc:silicon"
+            ]
           }
         ]
       }

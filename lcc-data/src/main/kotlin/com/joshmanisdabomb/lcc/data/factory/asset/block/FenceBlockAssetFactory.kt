@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier
 class FenceBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val post = Models.FENCE_POST.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.modelStates::addModel)
-        val side = Models.FENCE_SIDE.upload(idh.locSuffix(entry, "side"), Texture.texture(texture ?: idh.loc(entry)), data.modelStates::addModel)
+        val post = Models.FENCE_POST.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.models)
+        val side = Models.FENCE_SIDE.upload(idh.locSuffix(entry, "side"), Texture.texture(texture ?: idh.loc(entry)), data.models)
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, post))
             .with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.UVLOCK, true))

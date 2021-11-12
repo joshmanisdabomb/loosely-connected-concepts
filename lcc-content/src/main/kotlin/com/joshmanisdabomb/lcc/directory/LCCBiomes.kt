@@ -1,8 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import net.fabricmc.fabric.api.biome.v1.OverworldBiomes
-import net.fabricmc.fabric.api.biome.v1.OverworldClimate
 import net.minecraft.entity.SpawnGroup
 import net.minecraft.sound.BiomeMoodSound
 import net.minecraft.util.registry.BuiltinRegistries
@@ -25,8 +23,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
-            .depth(0.5f)
-            .scale(-0.105f)
+            /*.depth(0.5f)
+            .scale(-0.105f)*/
             .temperature(1.23F)
             .downfall(0.0f)
             .effects(BiomeEffects.Builder()
@@ -43,24 +41,21 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.consumer, 10, 1, 1))
                 .build())
             .generationSettings(GenerationSettings.Builder()
-                .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_barrens)
+                //.surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_barrens)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_LOWER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_LOWER)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_SMALL)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_MIDDLE)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_UPPER)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_copper)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_wasteland)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.oil_pockets)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deposits)
@@ -68,9 +63,9 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCConfiguredFeatures.spike_trap)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deadwood_logs)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
-                .structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
+                /*.structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
                 .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
-                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)
+                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)*/
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)
@@ -78,17 +73,17 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                     DefaultBiomeFeatures.addFossils(this)
                 }.build())
     }.addInitListener { context, params ->
-        val key = registry.getKey(context.entry).get();
-        OverworldBiomes.addContinentalBiome(key, OverworldClimate.DRY, 0.07)
-        OverworldBiomes.setRiverBiome(key, key)
+        val key = registry.getKey(context.entry).get()
+        //OverworldBiomes.addContinentalBiome(key, OverworldClimate.DRY, 0.07)
+        //OverworldBiomes.setRiverBiome(key, key)
     }.addTags("wasteland")
 
     val wasteland_spikes by entry(::biomeInitialiser) {
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
             .category(Biome.Category.DESERT)
-            .depth(1.5f)
-            .scale(0.01f)
+            /*.depth(1.5f)
+            .scale(0.01f)*/
             .temperature(1.23F)
             .downfall(0.0f)
             .effects(BiomeEffects.Builder()
@@ -105,30 +100,27 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.consumer, 20, 1, 3))
                 .build())
             .generationSettings(GenerationSettings.Builder()
-                .surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_spikes)
+                //.surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_spikes)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
                 .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_LOWER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COAL_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_coal)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_LOWER)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_SMALL)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_MIDDLE)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_IRON_UPPER)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_iron)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, ConfiguredFeatures.ORE_COPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.abundant_copper)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.uranium_wasteland)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_stone)
-                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten_deepslate)
+                .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.tungsten)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.deposits)
                 .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.fortstone_patches)
                 .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCConfiguredFeatures.wasteland_spikes)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.wasp_hive)
-                .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
-                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)
+                /*.structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
+                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)*/
                 .apply {
                     DefaultBiomeFeatures.addMineables(this)
                     DefaultBiomeFeatures.addDefaultDisks(this)
@@ -138,7 +130,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
     }.addInitListener { context, params ->
         val key = registry.getKey(context.entry).get();
         registry.getKey(wasteland_barrens).ifPresent {
-            OverworldBiomes.addHillsBiome(it, key, 1.0)
+            //OverworldBiomes.addHillsBiome(it, key, 1.0)
         }
     }.addTags("wasteland")
 

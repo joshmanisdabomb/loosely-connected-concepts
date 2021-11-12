@@ -163,7 +163,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
         Advancement.Task.create()
             .parent(rubber)
             .display(LCCItems.hazmat_chestplate, this)
-            .criterion("depleted", ContainedArmorDepletionCriterion.create(ItemPredicate(null, LCCItems.hazmat_chestplate, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)))
+            .criterion("depleted", ContainedArmorDepletionCriterion.create(ItemPredicate(null, setOf(LCCItems.hazmat_chestplate), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)))
             .criteriaMerger(CriterionMerger.OR)
             .translation("Safety First", "Protect yourself with an oxygenated hazmat suit", "en_us", this)
     }.addTags("main")
@@ -279,7 +279,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
             .display(LCCItems.heart_full[HeartType.RED]!!, this, frame = AdvancementFrame.GOAL)
             .criteriaMerger(CriterionMerger.AND)
             .apply {
-                for (i in 1..10) this.criterion("max_red_health_$i", HeartContainerCriterion.create(HeartType.RED, NumberRange.FloatRange.atLeast(i.times(2).toFloat())))
+                for (i in 1..10) this.criterion("max_red_health_$i", HeartContainerCriterion.create(HeartType.RED, NumberRange.FloatRange.atLeast(i.times(2.0))))
             }
             .translation("Healthy Gamer", "Use 10 red heart containers to achieve a maximum of 20 red hearts", "en_us", this)
     }.addTags("wasteland")
@@ -324,8 +324,8 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     private fun Advancement.Task.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Task {
         val name = context.tags.getOrNull(1) ?: context.name
-        LCCData.lang[locale]!!["advancements.lcc.${context.tags[0]}.$name.title"] = title
-        LCCData.lang[locale]!!["advancements.lcc.${context.tags[0]}.$name.description"] = description
+        LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.title"] = title
+        LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.description"] = description
         return this
     }
 
@@ -336,8 +336,10 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     fun initialiser(input: Advancement.Task, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
         val name = "${context.tags[0]}/${context.tags.getOrNull(1) ?: context.name}"
-        return input.build(LCC.id(name)).also { LCCData.advancements.list[name] = it }
+        return LCCData.advancements.add(input, context.id)
     }
+
+    override fun id(name: String) = LCC.id(name)
 
     override fun defaultProperties(name: String) = Unit
     override fun defaultContext() = Unit

@@ -6,15 +6,15 @@ import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.sound.ImprovisedExplosiveSoundInstance
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.client.MinecraftClient
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
-class ImprovisedExplosiveBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.improvised_explosive, pos, state), BlockEntityClientSerializable {
+class ImprovisedExplosiveBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.improvised_explosive, pos, state) {
 
     @Environment(EnvType.CLIENT)
     var sound: ImprovisedExplosiveSoundInstance? = null
@@ -26,20 +26,14 @@ class ImprovisedExplosiveBlockEntity(pos: BlockPos, state: BlockState) : BlockEn
         fuse = tag.getShort("Fuse").toInt()
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
         tag.putShort("Fuse", fuse.toShort())
-        return tag
     }
 
-    override fun fromClientTag(tag: NbtCompound) {
-        fuse = tag.getShort("Fuse").toInt()
-    }
+    override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)
 
-    override fun toClientTag(tag: NbtCompound): NbtCompound {
-        tag.putShort("Fuse", fuse.toShort())
-        return tag
-    }
+    override fun toInitialChunkDataNbt() = createNbt()
 
     @Environment(EnvType.CLIENT)
     fun refreshSound(constant: Boolean) {

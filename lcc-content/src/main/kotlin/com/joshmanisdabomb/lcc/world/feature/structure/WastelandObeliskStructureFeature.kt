@@ -1,13 +1,13 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
-
+/*
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
 import com.mojang.serialization.Codec
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
+import net.minecraft.structure.ShiftableStructurePiece
 import net.minecraft.structure.StructureManager
-import net.minecraft.structure.StructurePieceWithDimensions
 import net.minecraft.structure.StructureStart
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
@@ -26,11 +26,12 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.StructureFeature.StructureStartFactory
 import java.util.*
+import java.util.function.Predicate
 
 class WastelandObeliskStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(configCodec) {
 
-    override fun shouldStartAt(chunkGenerator: ChunkGenerator, biomeSource: BiomeSource, worldSeed: Long, random: ChunkRandom, pos: ChunkPos, biome: Biome, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView): Boolean {
-        return biomeSource.getBiomesInArea(pos.centerX, chunkGenerator.seaLevel, pos.centerZ, 48).all { it.generationSettings.hasStructureFeature(this) }
+    override fun shouldStartAt(gen: ChunkGenerator, biomeSource: BiomeSource, worldSeed: Long, random: ChunkRandom, pos: ChunkPos, pos2: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView): Boolean {
+        return true//TODO biomeSource.getBiomesInArea(pos.centerX, gen.seaLevel, pos.centerZ, 48, gen.method_38276()).all { it.generationSettings.isFeatureAllowed(this) }
     }
 
     override fun isUniformDistribution() = false
@@ -39,15 +40,15 @@ class WastelandObeliskStructureFeature(configCodec: Codec<DefaultFeatureConfig>)
 
     class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
 
-        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, biome: Biome, config: DefaultFeatureConfig, world: HeightLimitView) {
+        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView, predicate: Predicate<Biome>) {
             val y = gen.getHeight(chunkPos.startX, chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, world)
             val pos = BlockPos(chunkPos.startX, y-1, chunkPos.startZ)
-            method_35462(Piece(random, pos))
+            addPiece(Piece(random, pos))
         }
 
     }
 
-    class Piece : StructurePieceWithDimensions {
+    class Piece : ShiftableStructurePiece {
 
         constructor(random: Random, pos: BlockPos) : super(LCCStructurePieceTypes.wasteland_obelisk, pos.x, pos.y, pos.z, 5, 4, 5, Direction.NORTH)
 
@@ -72,4 +73,4 @@ class WastelandObeliskStructureFeature(configCodec: Codec<DefaultFeatureConfig>)
 
     }
 
-}
+}*/

@@ -40,7 +40,7 @@ class ClassicSaplingBlock(settings: Settings) : SaplingBlock(ClassicSaplingBlock
 
     companion object : SaplingGenerator() {
 
-        override fun createTreeFeature(random: Random, bl: Boolean) = LCCConfiguredFeatures.classic_tree
+        override fun getTreeFeature(random: Random, bl: Boolean) = LCCConfiguredFeatures.classic_tree
 
     }
 

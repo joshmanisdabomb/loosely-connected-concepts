@@ -13,7 +13,7 @@ object DungeonTableBlockAssetFactory : BlockAssetFactory {
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(DungeonTableBlock.ENTITY, Properties.BOTTOM).register { entity, bottom ->
                 if (bottom) BlockStateVariant.create().put(VariantSettings.MODEL, models.cubeBottomTop(textureSide = { idh.locSuffix(entry, entity.asString()) }).create(data, entry) { idh.locSuffix(entry, entity.asString()) })
-                else BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_spawner_table.upload(idh.loc(entry), Texture.sideTopBottom(entry).put(TextureKey.PARTICLE, idh.locSuffix(entry, "bottom")), data.modelStates::addModel))
+                else BlockStateVariant.create().put(VariantSettings.MODEL, LCCModelTemplates.template_spawner_table.upload(idh.loc(entry), Texture.sideTopBottom(entry).put(TextureKey.PARTICLE, idh.locSuffix(entry, "bottom")), data.models))
             })
         }
     }

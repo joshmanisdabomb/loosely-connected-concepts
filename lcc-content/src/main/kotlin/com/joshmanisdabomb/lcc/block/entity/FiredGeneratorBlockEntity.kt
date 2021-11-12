@@ -98,7 +98,7 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
@@ -111,8 +111,6 @@ class FiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
         tag.putBoolean("Working", working)
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     override fun clear() = inventory.clear()

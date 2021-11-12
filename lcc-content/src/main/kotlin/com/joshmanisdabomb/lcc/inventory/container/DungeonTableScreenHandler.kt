@@ -12,11 +12,12 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket
-import net.minecraft.recipe.*
+import net.minecraft.recipe.Recipe
+import net.minecraft.recipe.RecipeMatcher
+import net.minecraft.recipe.RecipeUnlocker
 import net.minecraft.screen.AbstractRecipeScreenHandler
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 import kotlin.math.min
 
 class DungeonTableScreenHandler(syncId: Int, private val playerInventory: PlayerInventory, val inventory: LCCInventory) : AbstractRecipeScreenHandler<Inventory>(LCCScreenHandlers.spawner_table, syncId) {
@@ -73,7 +74,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                     if (!itemStack2.isEmpty) {
                         if (itemStack.isEmpty) {
                             input.setStack(i, itemStack2)
-                        } else if (ItemStack.areItemsEqualIgnoreDamage(itemStack, itemStack2) && ItemStack.areTagsEqual(itemStack, itemStack2)) {
+                        } else if (ItemStack.areItemsEqualIgnoreDamage(itemStack, itemStack2) && ItemStack.areNbtEqual(itemStack, itemStack2)) {
                             itemStack2.increment(itemStack.count)
                             input.setStack(i, itemStack2)
                         } else if (!player.inventory.insertStack(itemStack2)) {
@@ -118,7 +119,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                 }
             }
             result.setStack(0, stack)
-            serverPlayer.networkHandler.sendPacket(ScreenHandlerSlotUpdateS2CPacket(syncId, 0, stack))
+            serverPlayer.networkHandler.sendPacket(ScreenHandlerSlotUpdateS2CPacket(syncId, nextRevision(), 0, stack))
         }
     }
 
@@ -135,7 +136,7 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
                 if (!insertItem(originalStack, inventory.size() + result.size(), slots.size, true)) {
                     return ItemStack.EMPTY
                 }
-                slot.onStackChanged(originalStack, newStack)
+                slot.onQuickTransfer(originalStack, newStack)
             } else if (index < inventory.size() + result.size()) {
                 if (!insertItem(originalStack, inventory.size() + result.size(), slots.size, true)) {
                     return ItemStack.EMPTY
@@ -184,6 +185,6 @@ class DungeonTableScreenHandler(syncId: Int, private val playerInventory: Player
 
     override fun getCategory() = null
 
-    override fun method_32339(i: Int) = i != craftingResultSlotIndex
+    override fun canInsertIntoSlot(i: Int) = i != craftingResultSlotIndex
 
 }

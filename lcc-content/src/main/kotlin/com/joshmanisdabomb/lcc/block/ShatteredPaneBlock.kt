@@ -18,11 +18,11 @@ open class ShatteredPaneBlock(val unbroken: Block, settings: Settings) : PaneBlo
         ShatteredGlassBlock.smash(world, hit.blockPos)
     }
 
-    override fun onLandedUpon(world: World, pos: BlockPos, entity: Entity, distance: Float) {
+    override fun onLandedUpon(world: World, state: BlockState, pos: BlockPos, entity: Entity, fallDistance: Float) {
         ShatteredGlassBlock.smash(world, pos)
     }
 
-    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+    override fun onSteppedOn(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
         ShatteredGlassBlock.smashOnWalk(world, pos, entity)
     }
 

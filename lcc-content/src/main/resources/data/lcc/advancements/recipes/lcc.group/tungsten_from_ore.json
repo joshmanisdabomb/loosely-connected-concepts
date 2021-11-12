@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:tungsten_ore"
+            "items": [
+              "lcc:tungsten_ore"
+            ]
           }
         ]
       }

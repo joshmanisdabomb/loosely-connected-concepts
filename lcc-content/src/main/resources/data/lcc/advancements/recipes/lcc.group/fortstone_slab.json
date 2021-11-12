@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:fortstone"
+            "items": [
+              "lcc:fortstone"
+            ]
           }
         ]
       }

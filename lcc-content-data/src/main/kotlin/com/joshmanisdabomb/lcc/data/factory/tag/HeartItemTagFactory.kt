@@ -14,7 +14,7 @@ object HeartItemTagFactory : ItemDataFactory {
     override fun apply(data: DataAccessor, entry: Item) {
         if (entry !is HeartItem) return
         if (entry is HeartContainerItem) return
-        data.tags.item(getTag(entry.heart) as Tag.Identified<Item>).append(entry)
+        data.tags.item(getTag(entry.heart)).attach(entry)
     }
 
     fun getTag(heart: HeartType) = LCCTags[heart.asString().plus("_hearts")] as Tag<Item>

@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "minecraft:gold_block",
+    "lcc:alpha_gold_block",
     "lcc:classic_gold_block",
-    "lcc:alpha_gold_block"
+    "minecraft:gold_block"
   ]
 }

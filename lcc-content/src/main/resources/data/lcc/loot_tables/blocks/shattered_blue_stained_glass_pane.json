@@ -7,22 +7,22 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:shattered_blue_stained_glass_pane"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:match_tool",
-          "predicate": {
-            "enchantments": [
-              {
-                "enchantment": "minecraft:silk_touch",
-                "levels": {
-                  "min": 1
-                }
+          "conditions": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
               }
-            ]
-          }
+            }
+          ],
+          "name": "lcc:shattered_blue_stained_glass_pane"
         }
       ]
     }

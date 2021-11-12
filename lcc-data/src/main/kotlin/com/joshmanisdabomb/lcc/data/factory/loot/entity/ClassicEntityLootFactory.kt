@@ -15,7 +15,7 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 class ClassicEntityLootFactory(val drop: Item) : EntityDataFactory {
 
     override fun apply(data: DataAccessor, entry: EntityType<*>) {
-        data.acceptLootTable(entry, LootTable.builder().pool(
+        data.lootTables.addEntity(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(ItemEntry.builder(drop)

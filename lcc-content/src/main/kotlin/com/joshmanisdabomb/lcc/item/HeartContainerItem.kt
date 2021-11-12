@@ -11,7 +11,7 @@ class HeartContainerItem(heart: HeartType, value: Float, settings: Settings) : H
 
     override fun useHeart(user: LivingEntity) {
         heart.addMaxHealth(user, value)
-        if (user is ServerPlayerEntity) LCCCriteria.heart_container.trigger(user, heart, heart.getMaxHealth(user))
+        if (user is ServerPlayerEntity) LCCCriteria.heart_container.trigger(user, heart, heart.getMaxHealth(user).toDouble())
     }
 
 }

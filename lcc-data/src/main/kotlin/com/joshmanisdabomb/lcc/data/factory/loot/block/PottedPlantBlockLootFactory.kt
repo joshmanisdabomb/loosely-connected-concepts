@@ -15,7 +15,7 @@ object PottedPlantBlockLootFactory : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
         if (entry !is FlowerPotBlock) return
-        data.acceptLootTable(entry, LootTable.builder()
+        data.lootTables.addBlock(entry, LootTable.builder()
             .pool(LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1.0f))
                 .with(ItemEntry.builder(Blocks.FLOWER_POT)

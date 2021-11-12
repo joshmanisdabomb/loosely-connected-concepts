@@ -21,7 +21,8 @@
     "ServerWorldMixin",
     "PistonBlockMixin",
     "AbstractBlockStateMixin",
-    "RecipeManagerMixin"
+    "RecipeManagerMixin",
+    "DecoratorAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

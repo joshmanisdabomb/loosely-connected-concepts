@@ -107,7 +107,7 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         rawEnergy?.apply { tag.putFloat("Energy", this) }
@@ -118,8 +118,6 @@ class RefiningBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         tag.putFloat("Boost", boost)
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     override fun clear() = inventory.clear()

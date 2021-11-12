@@ -33,7 +33,7 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
         val particles = (MinecraftClient.getInstance().options.particles == ParticlesMode.DECREASED).transformInt(5, 1)
         val lifetime = max(entity.lifetime, 1)
         val l = entity.radius / lifetime.toDouble()
-        val f = (entity.ticks / lifetime.toDouble()).let { MathHelper.sqrt(it) }
+        val f = (entity.ticks / lifetime.toDouble()).let { MathHelper.sqrt(it.toFloat()) }
         val range = (l * entity.ticks * (2.5 - f.times(1.6)))
         //fireball
         for (i in 0..particles.times(20)) {
@@ -41,7 +41,7 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
             val vec1 = vec.multiply(rand.nextDouble().times(0.02).plus(0.98)).add(entity.pos)
             MinecraftClient.getInstance().world?.addParticle(LCCParticles.nuclear, true, vec1.x, vec1.y, vec1.z, 0.0, 0.0, 0.0)
             if (i % 2 == 0) {
-                val vec2 = vec.multiply(1.0 - rand.nextDouble().let { MathHelper.sqrt(it) }).add(entity.pos)
+                val vec2 = vec.multiply(1.0 - rand.nextDouble().let { MathHelper.sqrt(it.toFloat()) }).add(entity.pos)
                 MinecraftClient.getInstance().world?.addParticle(LCCParticles.nuclear, true, vec2.x, vec2.y, vec2.z, 0.0, 0.0, 0.0)
             }
         }
@@ -62,7 +62,7 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
             val vec1 = vec0.multiply(rand.nextDouble().times(0.02).plus(0.98)).add(entity.pos).add(0.0, entity.ticks.times(32).times(rand.nextDouble().times(0.1).plus(0.9)), 0.0)
             MinecraftClient.getInstance().world?.addParticle(LCCParticles.nuclear, true, vec1.x, vec1.y, vec1.z, vec.x, -0.3, vec.z)
             if (i % 2 == 0) {
-                val vec2 = vec0.multiply(1.0 - rand.nextDouble().let { MathHelper.sqrt(it) }).add(entity.pos).add(0.0, entity.ticks.times(32).times(rand.nextDouble().times(0.1).plus(0.9)), 0.0)
+                val vec2 = vec0.multiply(1.0 - rand.nextDouble().let { MathHelper.sqrt(it.toFloat()) }).add(entity.pos).add(0.0, entity.ticks.times(32).times(rand.nextDouble().times(0.1).plus(0.9)), 0.0)
                 MinecraftClient.getInstance().world?.addParticle(LCCParticles.nuclear, true, vec2.x, vec2.y, vec2.z, vec.x, -0.3, vec.z)
             }
         }

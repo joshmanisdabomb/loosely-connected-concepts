@@ -30,7 +30,7 @@ object ExplodingNuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
             .put(LCCModelTextureKeys.t7, id.suffix("meltdown"))
             .put(LCCModelTextureKeys.t8, id.suffix("meltdown"))
             .put(LCCModelTextureKeys.t9, idh.loc(LCCBlocks.heavy_uranium_shielding))
-        , data.modelStates::addModel)
+        , data.models)
         stateVariantModel(data, entry, { d, t, i -> model }) { coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING).register {
             BlockStateVariant.create().apply(ModelProvider.horizontalRotation(it))
         }) }

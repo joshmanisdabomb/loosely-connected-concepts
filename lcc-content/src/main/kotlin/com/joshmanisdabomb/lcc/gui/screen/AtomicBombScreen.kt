@@ -22,7 +22,7 @@ import kotlin.math.cos
 class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<AtomicBombScreenHandler>(handler, inventory, title) {
 
     val listener = ::onChanged
-    val detonate: FunctionalButtonWidget by lazy { DetonateButton(field_2776 + 77, field_2800 + 47) {
+    val detonate: FunctionalButtonWidget by lazy { DetonateButton(x + 77, y + 47) {
         run {
             val world = MinecraftClient.getInstance().world?.registryKey ?: return@run
             val pos = handler.pos ?: return@run
@@ -42,14 +42,14 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         backgroundHeight = 171
         playerInventoryTitleX = 8
         playerInventoryTitleY = 77
-        addButton(detonate)
+        addDrawableChild(detonate)
         onChanged(handler.inventory)
     }
 
     override fun resize(client: MinecraftClient, width: Int, height: Int) {
         super.resize(client, width, height)
-        detonate.x = field_2776 + 77
-        detonate.y = field_2800 + 47
+        detonate.x = x + 77
+        detonate.y = y + 47
     }
 
     override fun onClose() {
@@ -61,17 +61,14 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         RenderSystem.setShader(GameRenderer::getPositionTexShader)
         RenderSystem.setShaderTexture(0, texture)
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
-        drawTexture(matrices, field_2776, field_2800, 0, 0, backgroundWidth, backgroundHeight)
+        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         renderBackground(matrices)
         super.render(matrices, mouseX, mouseY, delta)
         drawMouseoverTooltip(matrices, mouseX, mouseY)
-        for (widget in buttons) {
-            if (widget.isHovered) widget.renderToolTip(matrices, mouseX, mouseY)
-            break
-        }
+        if (detonate.isHovered) detonate.renderTooltip(matrices, mouseX, mouseY)
     }
 
     fun onChanged(inventory: Inventory) {

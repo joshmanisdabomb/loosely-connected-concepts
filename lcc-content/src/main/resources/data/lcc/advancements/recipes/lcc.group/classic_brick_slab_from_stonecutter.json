@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:classic_bricks"
+            "items": [
+              "lcc:classic_bricks"
+            ]
           }
         ]
       }

@@ -17,7 +17,7 @@ import net.minecraft.util.StringIdentifiable
 class TreetapBlockLootFactory<V1, V2>(val treetap: ItemConvertible, val container: EnumProperty<V1>, val containerGetter: (V1) -> ItemConvertible?, val liquid: EnumProperty<V2>? = null, val liquidGetter: ((V2) -> ItemConvertible?)? = null) : BlockDataFactory where V1 : Enum<V1>, V2 : Enum<V2>, V1 : StringIdentifiable, V2 : StringIdentifiable {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.acceptLootTable(entry, LootTable.builder()
+        data.lootTables.addBlock(entry, LootTable.builder()
             .pool(
                 LootPool.builder()
                     .rolls(ConstantLootNumberProvider.create(1.0f))

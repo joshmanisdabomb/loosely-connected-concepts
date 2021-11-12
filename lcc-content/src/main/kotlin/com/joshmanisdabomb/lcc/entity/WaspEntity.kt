@@ -10,7 +10,6 @@ import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.block.BlockState
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.AboveGroundTargeting
-import net.minecraft.entity.ai.Durations
 import net.minecraft.entity.ai.NoPenaltySolidTargeting
 import net.minecraft.entity.ai.NoWaterTargeting
 import net.minecraft.entity.ai.control.FlightMoveControl
@@ -43,6 +42,7 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.Tag
+import net.minecraft.util.TimeHelper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.MathHelper
@@ -53,7 +53,6 @@ import net.minecraft.world.WorldView
 import net.minecraft.world.poi.PointOfInterestStorage
 import java.util.*
 import kotlin.math.PI
-import kotlin.streams.toList
 
 open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : AnimalEntity(entityType, world), Monster, Angerable, Flutterer, LCCContentEntityTrait {
 
@@ -72,7 +71,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     constructor(world: World) : this(LCCEntities.wasp, world)
 
     init {
-        flyingSpeed = 0.09f
+        airStrafingSpeed = 0.09f
         setPathfindingPenalty(PathNodeType.WATER, -1.0f)
         setPathfindingPenalty(PathNodeType.LAVA, -1.0f)
     }
@@ -99,8 +98,8 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         goalSelector.add(6, LookAroundGoal(this))
         goalSelector.add(7, SwimGoal(this))
         targetSelector.add(1, WaspRevengeGoal(this).setGroupRevenge())
-        targetSelector.add(2, FollowTargetGoal(this, LivingEntity::class.java, 100, false, true, this::aggression))
-        targetSelector.add(3, FollowTargetGoal(this, BeeEntity::class.java, 100, false, true) { it.pos.squaredDistanceTo(this.pos) < 4096 })
+        targetSelector.add(2, ActiveTargetGoal(this, LivingEntity::class.java, 100, false, true, this::aggression))
+        targetSelector.add(3, ActiveTargetGoal(this, BeeEntity::class.java, 100, false, true) { it.pos.squaredDistanceTo(this.pos) < 4096 })
         targetSelector.add(4, UniversalAngerGoal(this, true))
     }
 
@@ -152,7 +151,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     override fun tryAttack(target: Entity): Boolean {
         val bl = target.damage(DamageSource.sting(this), getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE).toInt().toFloat())
         if (bl) {
-            dealDamage(this, target)
+            applyDamageEffects(this, target)
             if (target is LivingEntity) {
                 target.addStatusEffect(StatusEffectInstance(StatusEffects.POISON, when (world.difficulty) {
                     Difficulty.NORMAL -> 80
@@ -160,7 +159,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
                     else -> 40
                 }, 1))
             }
-            takeKnockback(1f, target.x - x, target.z - z)
+            takeKnockback(1.0, target.x - x, target.z - z)
             playSound(SoundEvents.ENTITY_BEE_STING, 1.0f, 1.0f)
         }
 
@@ -297,7 +296,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
     companion object {
 
         val anger = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        val angerRange = Durations.betweenSeconds(590, 600)
+        val angerRange = TimeHelper.betweenSeconds(590, 600)
 
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 

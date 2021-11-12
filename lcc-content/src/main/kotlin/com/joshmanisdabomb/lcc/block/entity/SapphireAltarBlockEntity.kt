@@ -34,7 +34,7 @@ class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
         }
     }
 
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+    override fun writeNbt(nbt: NbtCompound) {
         super.writeNbt(nbt)
         challenge?.also { nbt.putString("Challenge", it.id.toString()) }
         nbt.put("ChallengeData", data)
@@ -44,8 +44,6 @@ class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                 challengers?.forEach { this.add(NbtHelper.fromUuid(it)) }
             })
         }
-
-        return nbt
     }
 
     fun setChallenge(challenge: AltarChallenge, data: NbtCompound) {

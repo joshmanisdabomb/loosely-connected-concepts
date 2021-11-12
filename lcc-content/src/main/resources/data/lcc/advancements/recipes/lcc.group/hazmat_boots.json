@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:heavy_duty_rubber"
+            "items": [
+              "lcc:heavy_duty_rubber"
+            ]
           }
         ]
       }

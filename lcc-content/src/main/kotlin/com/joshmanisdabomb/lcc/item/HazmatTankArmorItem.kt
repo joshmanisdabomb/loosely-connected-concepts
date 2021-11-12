@@ -37,7 +37,7 @@ class HazmatTankArmorItem(slot: EquipmentSlot, settings: Settings) : HazmatArmor
 
             val after = this.getOxygen(stack)
             if (!world.isClient && after != before) {
-                LCCCriteria.oxygen.trigger(entity as ServerPlayerEntity, stack, before, before - after, after)
+                LCCCriteria.oxygen.trigger(entity as ServerPlayerEntity, stack, before.toDouble(), (before - after).toDouble(), after.toDouble())
             }
         }
     }

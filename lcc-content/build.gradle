@@ -1,30 +1,23 @@
 archivesBaseName = "lcc-content"
 
-repositories {
-    maven {
-        name = 'Ladysnake Mods'
-        url = 'https://ladysnake.jfrog.io/artifactory/mods'
-    }
-}
-
 dependencies {
-    compile project(':lcc-creative-ex')
-    compile project(':lcc-ct')
-    compile project(':lcc-energy')
-    compile project(':lcc-hooks')
-    compile project(':lcc-infra')
-    compile project(':lcc-subblock')
+    implementation project(path: ":lcc-creative-ex", configuration: "namedElements")
+    implementation project(path: ":lcc-ct", configuration: "namedElements")
+    implementation project(path: ":lcc-energy", configuration: "namedElements")
+    implementation project(path: ":lcc-hooks", configuration: "namedElements")
+    implementation project(path: ":lcc-infra", configuration: "namedElements")
+    implementation project(path: ":lcc-subblock", configuration: "namedElements")
 
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.21w06a"
-    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0-nightly.21w06a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.21w06a"
-    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:3.0.0-nightly.21w06a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.21w06a"
-    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:3.0.0-nightly.21w06a"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w06a"
-    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0-nightly.21w06a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.0-alpha.1+21w37a"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
 }
 
-minecraft {
-    accessWidener "src/main/resources/lcc.accesswidener"
+loom {
+    accessWidenerPath = file("src/main/resources/lcc.accesswidener")
 }

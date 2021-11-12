@@ -21,7 +21,6 @@
     "LivingEntityAccessor",
     "NuclearSpawnHelperInfoAccessor",
     "NuclearSpawnHelperMixin",
-    "WastelandBiomeModifierMixin",
     "ToolManagerMixin",
     "AbstractBlockMixin",
     "MovementEntityMixin",

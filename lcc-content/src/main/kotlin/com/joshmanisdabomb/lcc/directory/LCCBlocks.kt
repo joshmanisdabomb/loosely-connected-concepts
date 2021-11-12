@@ -82,13 +82,13 @@ object LCCBlocks : BlockDirectory() {
 
     val topaz_block by entry(::initialiser) { AmethystBlock(FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).strength(1.5f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueFrom(LCCItems::topaz_shard)))
-    val topaz_cluster by entry(::initialiser) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES).ticksRandomly().nonOpaque().strength(1.5f).luminance { it[Properties.LIT].transformInt(5) }.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
+    val topaz_cluster by entry(::initialiser) { AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).breakByTool(PICKAXES).ticksRandomly().nonOpaque().strength(1.5f).luminance { 5 }.sounds(BlockSoundGroup.AMETHYST_CLUSTER)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(105)).cutout())
-    val large_topaz_bud by entry(::initialiser) { AmethystClusterBlock(5, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(4) }.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
+    val large_topaz_bud by entry(::initialiser) { AmethystClusterBlock(5, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { 4 }.sounds(BlockSoundGroup.MEDIUM_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(104)).cutout())
-    val medium_topaz_bud by entry(::initialiser) { AmethystClusterBlock(4, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(2) }.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
+    val medium_topaz_bud by entry(::initialiser) { AmethystClusterBlock(4, 3, FabricBlockSettings.copyOf(topaz_cluster).luminance { 2 }.sounds(BlockSoundGroup.LARGE_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(103)).cutout())
-    val small_topaz_bud by entry(::initialiser) { AmethystClusterBlock(3, 4, FabricBlockSettings.copyOf(topaz_cluster).luminance { it[Properties.LIT].transformInt(1) }.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
+    val small_topaz_bud by entry(::initialiser) { AmethystClusterBlock(3, 4, FabricBlockSettings.copyOf(topaz_cluster).luminance { 1 }.sounds(BlockSoundGroup.SMALL_AMETHYST_BUD)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(102)).cutout())
     val budding_topaz by entry(::initialiser) { BuddingCrystalBlock(arrayOf(small_topaz_bud, medium_topaz_bud, large_topaz_bud, topaz_cluster), FabricBlockSettings.of(Material.AMETHYST, MapColor.TERRACOTTA_WHITE).ticksRandomly().strength(1.5f).breakByHand(false).sounds(BlockSoundGroup.AMETHYST_BLOCK)) }
         .setProperties(BlockExtraSettings().creativeEx(RESOURCES, sortValueInt(101)))
@@ -210,11 +210,11 @@ object LCCBlocks : BlockDirectory() {
     val oil by entry(::initialiser) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
         .setProperties(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE))
 
-    val deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+    val deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).breakByTool(SHOVELS).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(100, 1)).cutout())
-    val infested_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_LIGHT_GRAY).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+    val infested_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_LIGHT_GRAY).strength(1.0F, 3.0F).breakByTool(SHOVELS).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
-    val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).sounds(BlockSoundGroup.FUNGUS)) }
+    val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).breakByTool(SHOVELS).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
     val sapphire_altar by entry(::initialiser) { SapphireAltarBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(9.0F, 18000000F).breakByTool(PICKAXES, 3).requiresTool().sounds(BlockSoundGroup.STONE)) }

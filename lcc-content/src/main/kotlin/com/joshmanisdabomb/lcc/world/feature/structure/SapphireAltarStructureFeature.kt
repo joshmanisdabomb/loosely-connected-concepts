@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
 
+/*
 import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.block.SapphireAltarBlock
 import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
@@ -12,8 +13,8 @@ import net.minecraft.block.BlockState
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
+import net.minecraft.structure.ShiftableStructurePiece
 import net.minecraft.structure.StructureManager
-import net.minecraft.structure.StructurePieceWithDimensions
 import net.minecraft.structure.StructureStart
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockBox
@@ -31,17 +32,17 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig
 import net.minecraft.world.gen.feature.StructureFeature
 import net.minecraft.world.gen.feature.StructureFeature.StructureStartFactory
 import java.util.*
+import java.util.function.Predicate
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.asKotlinRandom
-
 class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(configCodec) {
 
     override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(SapphireAltarStructureFeature::Start)
 
     class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
 
-        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, biome: Biome, config: DefaultFeatureConfig, world: HeightLimitView) {
+        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView, predicate: Predicate<Biome>) {
             val y = gen.getHeight(chunkPos.startX, chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, world)
             val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
             val rot = horizontalDirections.random(random.asKotlinRandom())
@@ -49,12 +50,12 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             val data = challenge.initialData(random)
             val width = challenge.getAltarWidth(data) ?: 3
             val depth = challenge.getAltarDepth(data) ?: 3
-            method_35462(Piece(challenge, data, random, pos, width, depth, rot))
+            addPiece(Piece(challenge, data, random, pos, width, depth, rot))
         }
 
     }
 
-    class Piece : StructurePieceWithDimensions {
+    class Piece : ShiftableStructurePiece {
 
         val challenge: AltarChallenge
         val data: NbtCompound
@@ -140,4 +141,4 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
 
     }
 
-}
+}*/

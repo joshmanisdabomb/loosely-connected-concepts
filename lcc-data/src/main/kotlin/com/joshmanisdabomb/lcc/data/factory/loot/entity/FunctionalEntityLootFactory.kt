@@ -16,7 +16,7 @@ import net.minecraft.loot.provider.number.UniformLootNumberProvider
 class FunctionalEntityLootFactory(val map: Map<ItemConvertible, (LeafEntry.Builder<*>.() -> Unit)?>) : EntityDataFactory {
 
     override fun apply(data: DataAccessor, entry: EntityType<*>) {
-        data.acceptLootTable(entry, LootTable.builder().also {
+        data.lootTables.addEntity(entry, LootTable.builder().also {
             map.forEach { (k, v) ->
                 val func = v ?: { apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 2.0f))); apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f))); Unit }
                 it.pool(LootPool.builder()

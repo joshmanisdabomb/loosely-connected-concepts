@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.effect
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffect
-import net.minecraft.entity.effect.StatusEffectType
+import net.minecraft.entity.effect.StatusEffectCategory
 
-open class HurtResistanceStatusEffect(type: StatusEffectType, color: Int, private val resistance: (source: DamageSource, amplifier: Int) -> Float) : StatusEffect(type, color) {
+open class HurtResistanceStatusEffect(type: StatusEffectCategory, color: Int, private val resistance: (source: DamageSource, amplifier: Int) -> Float) : StatusEffect(type, color) {
 
     override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = false
 

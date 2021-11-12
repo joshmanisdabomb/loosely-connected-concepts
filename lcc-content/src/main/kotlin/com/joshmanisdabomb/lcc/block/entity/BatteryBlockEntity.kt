@@ -97,7 +97,7 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
         inventory.apply { clear(); Inventories.readNbt(tag, list) }
     }
 
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         super.writeNbt(tag)
 
         customName?.apply { tag.putString("CustomName", Text.Serializer.toJson(this)) }
@@ -105,8 +105,6 @@ class BatteryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBloc
         rawEnergy?.apply { tag.putFloat("Energy", this) }
 
         Inventories.writeNbt(tag, inventory.list)
-
-        return tag
     }
 
     override fun clear() = inventory.clear()

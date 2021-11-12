@@ -13,7 +13,7 @@ class IncludedTranslatableText(key: String, vararg args: Any) : TranslatableText
     }
 
     fun onExport(exporter: KnowledgeExporter) {
-        translations.forEach { (k, v) -> exporter.da.lang[k]?.set(key, v) }
+        translations.forEach { (k, v) -> exporter.da.lang[k, key] = v }
     }
 
 }

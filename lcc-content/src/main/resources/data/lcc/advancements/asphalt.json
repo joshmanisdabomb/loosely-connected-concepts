@@ -1,0 +1,37 @@
+{
+  "parent": "lcc:oil",
+  "display": {
+    "icon": {
+      "item": "lcc:asphalt_bucket"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.asphalt.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.asphalt.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "asphalt_bucket": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:asphalt_bucket"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "asphalt_bucket"
+    ]
+  ]
+}

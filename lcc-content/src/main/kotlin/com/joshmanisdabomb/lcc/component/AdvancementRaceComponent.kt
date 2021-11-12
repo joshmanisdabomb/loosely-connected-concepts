@@ -9,10 +9,11 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.world.WorldProperties
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class AdvancementRaceComponent(private val properties: WorldProperties) : ComponentV3 {
 
-    val map = mutableMapOf<Identifier, UUID>()
+    val map = ConcurrentHashMap<Identifier, UUID>()
 
     fun check(player: ServerPlayerEntity, advancement: Advancement) {
         map.computeIfAbsent(advancement.id) {

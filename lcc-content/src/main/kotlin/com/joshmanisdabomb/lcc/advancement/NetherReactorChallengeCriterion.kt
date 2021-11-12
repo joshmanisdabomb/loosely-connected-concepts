@@ -17,7 +17,7 @@ class NetherReactorChallengeCriterion : AbstractCriterion<NetherReactorChallenge
     }
 
     fun trigger(player: ServerPlayerEntity) {
-        test(player) { it.matches() }
+        trigger(player) { it.matches() }
     }
 
     class Conditions(player: EntityPredicate.Extended) : AbstractCriterionConditions(id, player) {

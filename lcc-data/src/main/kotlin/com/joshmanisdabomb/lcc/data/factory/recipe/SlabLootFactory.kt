@@ -17,7 +17,11 @@ import net.minecraft.predicate.StatePredicate
 object SlabLootFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
+<<<<<<< HEAD
         data.acceptLootTable(entry, LootTable.builder().pool(
+=======
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
+>>>>>>> fabric-1.18
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(

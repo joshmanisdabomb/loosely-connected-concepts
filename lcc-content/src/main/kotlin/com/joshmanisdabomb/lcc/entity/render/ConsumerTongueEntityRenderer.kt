@@ -39,10 +39,10 @@ class ConsumerTongueEntityRenderer(context: EntityRendererFactory.Context) : Ent
         val d = MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderX, owner.x) - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderX, origin.x)
         val e = entity.getTargetY(MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderY, owner.y))!! - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderY, origin.y).plus(if (origin === hooked) hooked.height.div(2f) else 0f)
         val f = MathHelper.lerp(tickDelta.toDouble(), owner.lastRenderZ, owner.z) - MathHelper.lerp(tickDelta.toDouble(), origin.lastRenderZ, origin.z)
-        val g = MathHelper.sqrt(d * d + f * f).toDouble()
+        val g = MathHelper.sqrt((d * d + f * f).toFloat()).toDouble()
         val h = MathHelper.wrapDegrees((-(MathHelper.atan2(e, g) * 57.2957763671875)).toFloat())
         val i = MathHelper.wrapDegrees((MathHelper.atan2(f, d) * 57.2957763671875).toFloat() - 90.0f)
-        val j = MathHelper.sqrt(d * d + e * e + f * f)
+        val j = MathHelper.sqrt((d * d + e * e + f * f).toFloat())
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180f - i))
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90f - h))
 

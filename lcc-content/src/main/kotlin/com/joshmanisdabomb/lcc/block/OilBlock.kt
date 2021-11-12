@@ -59,7 +59,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
             if (fluid.isIn(FluidTags.LAVA)) {
                 val fire = AbstractFireBlock.getState(world, pos).run { if (this == Blocks.FIRE) with(FireBlock.AGE, world.random.nextInt(2) + 13) else this }
                 world.setBlockState(pos, fire, 18)
-                world.blockTickScheduler.schedule(pos, fire.block, world.random.nextInt(5) + 2)
+                world.createAndScheduleBlockTick(pos, fire.block, world.random.nextInt(5) + 2)
                 return false
             }
         }
@@ -67,13 +67,13 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, isMoving: Boolean) {
-        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(5) + 2)
+        world.createAndScheduleBlockTick(pos, this, world.random.nextInt(5) + 2)
         if (!react(world, pos, state)) return
         super.onBlockAdded(state, world, pos, oldState, isMoving)
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
-        world.blockTickScheduler.schedule(pos, this, world.random.nextInt(5) + 2)
+        world.createAndScheduleBlockTick(pos, this, world.random.nextInt(5) + 2)
         if (!react(world, pos, state)) return
         super.neighborUpdate(state, world, pos, block, fromPos, notify)
     }
@@ -83,7 +83,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
 
         val fire = AbstractFireBlock.getState(world, pos).run { if (this == Blocks.FIRE) with(FireBlock.AGE, world.random.nextInt(2) + 13) else this }
         world.setBlockState(pos, fire, 18)
-        world.blockTickScheduler.schedule(pos, fire.block, world.random.nextInt(5) + 2)
+        world.createAndScheduleBlockTick(pos, fire.block, world.random.nextInt(5) + 2)
 
         if (world.gameRules.getBoolean(GameRules.DO_FIRE_TICK)) return
         Direction.values().forEach {
@@ -91,7 +91,7 @@ class OilBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, set
             val pos2 = pos.offset(it)
             val fire2 = AbstractFireBlock.getState(world, pos2).run { if (this == Blocks.FIRE) with(FireBlock.AGE, world.random.nextInt(2) + 13) else this }
             world.setBlockState(pos2, fire2, 18)
-            world.blockTickScheduler.schedule(pos2, fire2.block, world.random.nextInt(5) + 2)
+            world.createAndScheduleBlockTick(pos2, fire2.block, world.random.nextInt(5) + 2)
         }
     }
 

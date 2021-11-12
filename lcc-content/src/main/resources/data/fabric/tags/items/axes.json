@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "lcc:ruby_axe",
-    "lcc:topaz_axe",
-    "lcc:emerald_axe",
-    "lcc:sapphire_axe",
     "lcc:amethyst_axe",
     "lcc:deadwood_axe",
+    "lcc:emerald_axe",
     "lcc:fortstone_axe",
-    "lcc:rusty_iron_axe"
+    "lcc:ruby_axe",
+    "lcc:rusty_iron_axe",
+    "lcc:sapphire_axe",
+    "lcc:topaz_axe"
   ]
 }

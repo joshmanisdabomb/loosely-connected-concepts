@@ -7,22 +7,22 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "lcc:medium_topaz_bud"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:match_tool",
-          "predicate": {
-            "enchantments": [
-              {
-                "enchantment": "minecraft:silk_touch",
-                "levels": {
-                  "min": 1
-                }
+          "conditions": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
               }
-            ]
-          }
+            }
+          ],
+          "name": "lcc:medium_topaz_bud"
         }
       ]
     }

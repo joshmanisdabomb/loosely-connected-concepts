@@ -16,8 +16,8 @@ import com.joshmanisdabomb.lcc.gui.overlay.RadiationOverlay
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.item.ModelPredicateProvider
 import net.minecraft.client.item.TooltipContext
+import net.minecraft.client.item.UnclampedModelPredicateProvider
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
@@ -25,7 +25,10 @@ import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.*
+import net.minecraft.util.Formatting
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.util.UseAction
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
@@ -105,8 +108,8 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
     }
 
     @Environment(EnvType.CLIENT)
-    fun getWinterPredicate() = ModelPredicateProvider { stack, world, entity, _ ->
-        val w = world ?: entity?.world ?: MinecraftClient.getInstance().world ?: return@ModelPredicateProvider 0f
+    fun getWinterPredicate() = UnclampedModelPredicateProvider { stack, world, entity, _ ->
+        val w = world ?: entity?.world ?: MinecraftClient.getInstance().world ?: return@UnclampedModelPredicateProvider 0f
         val winter = LCCComponents.nuclear.getNullable(w)?.winter
         NuclearUtil.getWinterLevel(winter?.minus((!MinecraftClient.getInstance().isPaused && w.random.nextFloat() > 0.2f.plus(winter.rem(1f).times(0.8f))).transformInt())?.coerceAtLeast(0f) ?: 0f).toFloat()
     }

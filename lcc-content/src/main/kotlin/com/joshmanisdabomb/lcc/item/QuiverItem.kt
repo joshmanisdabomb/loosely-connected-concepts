@@ -6,7 +6,7 @@ import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.PersistentProjectileEntity
-import net.minecraft.inventory.CommandItemSlot
+import net.minecraft.inventory.StackReference
 import net.minecraft.item.ArrowItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
@@ -66,7 +66,7 @@ class QuiverItem(override val size: Int, settings: Settings) : Item(settings), L
 
     override fun onStackClicked(stack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity) = onStackClickedWithBag(stack, slot, clickType, player)
 
-    override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, commandItemSlot: CommandItemSlot) = onBagClicked(stack, otherStack, slot, clickType, player, commandItemSlot)
+    override fun onClicked(stack: ItemStack, otherStack: ItemStack, slot: Slot, clickType: ClickType, player: PlayerEntity, cursorStackReference: StackReference) = onBagClicked(stack, otherStack, slot, clickType, player, cursorStackReference)
 
     override fun use(world: World, user: PlayerEntity, hand: Hand) = useBag(world, user, hand)
 

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:temporary_heart_half",
-    "lcc:temporary_heart_full"
+    "lcc:temporary_heart_full",
+    "lcc:temporary_heart_half"
   ]
 }

@@ -82,9 +82,9 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(6, LookAroundGoal(this))
         targetSelector.add(1, RevengeGoal(this))
-        targetSelector.add(2, FollowTargetGoal(this, PlayerEntity::class.java, true))
-        targetSelector.add(3, FollowTargetGoal(this, IronGolemEntity::class.java, false, true))
-        targetSelector.add(4, FollowTargetGoal(this, VillagerEntity::class.java, false, true))
+        targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(3, ActiveTargetGoal(this, IronGolemEntity::class.java, false, true))
+        targetSelector.add(4, ActiveTargetGoal(this, VillagerEntity::class.java, false, true))
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
@@ -201,7 +201,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
                 val d = (hooked ?: tongue).x - this@ConsumerEntity.x
                 val e = (hooked?.y?.plus(hooked.height.div(2f)) ?: tongue.y) - tongue.getTargetY()!!
                 val f = (hooked ?: tongue).z - this@ConsumerEntity.z
-                val g = MathHelper.sqrt(d * d + f * f).toDouble()
+                val g = MathHelper.sqrt((d * d + f * f).toFloat()).toDouble()
                 val h = MathHelper.wrapDegrees((-(MathHelper.atan2(e, g) * 57.2957763671875)).toFloat())
                 val i = MathHelper.wrapDegrees((MathHelper.atan2(f, d) * 57.2957763671875).toFloat() - 90.0f)
                 entity.headYaw = this.changeAngle(entity.headYaw, i, 20.0f)

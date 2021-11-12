@@ -42,7 +42,7 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
     fun offerSingle(recipe: SingleItemRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> createStonecutting(s, c) }, item)
+    fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
     fun offerSmithing(recipe: SmithingRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
@@ -64,7 +64,11 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
     private companion object {
         private fun accept(provider: RecipeJsonProvider, data: DataAccessor) {
+<<<<<<< HEAD
             data.acceptRecipe(provider)
+=======
+            data.recipes.accept(provider)
+>>>>>>> fabric-1.18
         }
 
         private fun <R> offer(recipe: R, offer: R.((RecipeJsonProvider) -> Unit) -> Unit, offerId: R.((RecipeJsonProvider) -> Unit, Identifier) -> Unit, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) {
@@ -88,7 +92,7 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
         }
 
         private fun <R> criterion(recipe: R, criterion: R.(String, CriterionConditions) -> Unit, item: ItemConvertible) {
-            recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().item(item).build())))
+            recipe.criterion("has_${Registry.ITEM.getId(item.asItem()).path}", InventoryChangedCriterion.Conditions(EntityPredicate.Extended.EMPTY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, arrayOf(ItemPredicate.Builder.create().items(item).build())))
         }
     }
 

@@ -1,0 +1,29 @@
+{
+  "parent": "lcc:uranium",
+  "display": {
+    "icon": {
+      "item": "lcc:atomic_bomb"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.nuke.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.nuke.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "detonate": {
+      "trigger": "lcc:nuke",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "detonate"
+    ]
+  ]
+}

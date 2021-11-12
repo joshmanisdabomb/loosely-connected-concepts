@@ -48,7 +48,11 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
         facing.also { _facing = it; this.facing = it }
         updatePosition(x, y, z)
         velocity = Vec3d.ZERO
-        this.be = be?.writeNbt(NbtCompound())
+        this.be = be?.let {
+            val nbt = NbtCompound()
+            it.writeNbt(nbt)
+            nbt
+        }
         prevX = x
         prevY = y
         prevZ = z
@@ -162,7 +166,9 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
                             if (setBlockState) {
                                 be?.also {
                                     (world.getBlockEntity(bp) as? AtomicBombBlockEntity)?.apply {
-                                        val data = this.writeNbt(NbtCompound()).copyFrom(it)
+                                        val nbt = NbtCompound()
+                                        this.writeNbt(nbt)
+                                        val data = nbt.copyFrom(it)
                                         data.putInt("x", bp.x)
                                         data.putInt("y", bp.y)
                                         data.putInt("z", bp.z)

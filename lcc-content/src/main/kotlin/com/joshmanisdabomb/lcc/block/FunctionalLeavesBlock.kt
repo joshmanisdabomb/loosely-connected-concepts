@@ -19,7 +19,7 @@ class FunctionalLeavesBlock(settings: Settings, val trunk: (state: BlockState) -
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         val i = getDistance(newState) + 1
         if (i != 1 || state[DISTANCE] != i) {
-            world.blockTickScheduler.schedule(pos, this, 1)
+            world.createAndScheduleBlockTick(pos, this, 1)
         }
         return state
     }

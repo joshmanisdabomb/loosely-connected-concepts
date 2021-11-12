@@ -38,14 +38,14 @@ class PlasticRecipe(private val id: Identifier, group: String, width: Int, heigh
         }
         if (colors.isEmpty()) error("Plastic recipe with no plastic ingredients, a regular shaped recipe should be used instead.")
         val color = PlasticItem.getColorMix(colors.distinct())
-        return super.craft(craftingInventory).apply { putSubTag("display", NbtCompound().apply { putInt("color", color) }) }
+        return super.craft(craftingInventory).apply { setSubNbt("display", NbtCompound().apply { putInt("color", color) }) }
     }
 
     override fun getSerializer() = LCCRecipeSerializers.plastic_shaped
 
     class Serializer : RecipeSerializer<PlasticRecipe> {
         override fun read(id: Identifier, json: JsonObject): PlasticRecipe {
-            val group = JsonHelper.getString(json, "group", "")
+            val group = JsonHelper.getString(json, "group", "")!!
             val keys = getShapedKeys(JsonHelper.getObject(json, "key"))
             val pattern = getShapedPattern(JsonHelper.getArray(json, "pattern"), 3, 3)
             val w = pattern[0].length

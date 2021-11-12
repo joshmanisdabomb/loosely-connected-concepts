@@ -1,12 +1,13 @@
 package com.joshmanisdabomb.lcc.lib.gui
 
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.gui.widget.AbstractPressableButtonWidget
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.PressableWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
-open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, private val iconWidth: Int, private val iconHeight: Int, message: Text, protected val tooltip: (matrices: MatrixStack, x: Int, y: Int) -> Unit, protected val pressed: () -> Int?) : AbstractPressableButtonWidget(x, y, width, height, message) {
+open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, private val iconWidth: Int, private val iconHeight: Int, message: Text, protected val tooltip: (matrices: MatrixStack, x: Int, y: Int) -> Unit, protected val pressed: () -> Int?) : PressableWidget(x, y, width, height, message) {
 
     var texture: Identifier? = null
     var disabled = false
@@ -14,6 +15,11 @@ open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, priva
     var ix = 0
     var sx = 0
     var sy = 0
+
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+        this.appendDefaultNarrations(builder)
+        //TODO
+    }
 
     override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         texture?.also { RenderSystem.setShaderTexture(0, it) }
@@ -39,7 +45,7 @@ open class FunctionalButtonWidget(x: Int, y: Int, width: Int, height: Int, priva
         pressed()?.run { ix = this }
     }
 
-    override fun renderToolTip(matrices: MatrixStack, mouseX: Int, mouseY: Int) {
+    override fun renderTooltip(matrices: MatrixStack, mouseX: Int, mouseY: Int) {
         tooltip(matrices, mouseX, mouseY)
     }
 

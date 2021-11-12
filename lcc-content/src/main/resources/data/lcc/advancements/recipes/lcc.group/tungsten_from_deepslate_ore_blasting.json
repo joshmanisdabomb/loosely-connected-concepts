@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:deepslate_tungsten_ore"
+            "items": [
+              "lcc:deepslate_tungsten_ore"
+            ]
           }
         ]
       }

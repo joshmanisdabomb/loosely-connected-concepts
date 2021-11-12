@@ -17,6 +17,6 @@ class WastelandCaveCarver(codec: Codec<CaveCarverConfig>) : CaveCarver(codec) {
 
     override fun getTunnelSystemHeightWidthRatio() = 2.0
 
-    override fun canCarveBlock(state: BlockState, stateAbove: BlockState) = super.canCarveBlock(state, stateAbove) || state.isOf(LCCBlocks.cracked_mud)
+    override fun canAlwaysCarveBlock(state: BlockState) = super.canAlwaysCarveBlock(state) || state.isOf(LCCBlocks.cracked_mud)
 
 }

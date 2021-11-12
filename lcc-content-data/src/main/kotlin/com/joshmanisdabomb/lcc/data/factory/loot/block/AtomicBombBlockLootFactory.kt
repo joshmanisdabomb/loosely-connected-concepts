@@ -15,7 +15,7 @@ import net.minecraft.predicate.StatePredicate
 object AtomicBombBlockLootFactory : BlockDataFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        data.acceptLootTable(entry, LootTable.builder().pool(
+        data.lootTables.addBlock(entry, LootTable.builder().pool(
             LootPool.builder()
                 .rolls(ConstantLootNumberProvider.create(1f))
                 .with(

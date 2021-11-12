@@ -44,8 +44,8 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity {
             BlockState state2 = pos == null ? null : world2.getBlockState(pos);
             Block block = state == null ? null : state.getBlock();
             Block block2 = state2 == null ? null : state2.getBlock();
-            if (block instanceof LCCBlockTrait) ((LCCBlockTrait)block).lcc_spawnRemoved((ServerPlayerEntity)(Object)this, world, state, this.spawnPointPosition, world2, state2, pos, yaw, spawnPointSet, bl);
-            if (block2 instanceof LCCBlockTrait) ((LCCBlockTrait)block2).lcc_spawnSet((ServerPlayerEntity)(Object)this, world2, state2, pos, world, state, this.spawnPointPosition, yaw, spawnPointSet, bl);
+            if (block instanceof LCCBlockTrait) ((LCCBlockTrait)block).lcc_spawnRemoved((ServerPlayerEntity)(Object)this, world, state, this.spawnPointPosition, world2, state2, pos, bodyYaw, spawnPointSet, bl);
+            if (block2 instanceof LCCBlockTrait) ((LCCBlockTrait)block2).lcc_spawnSet((ServerPlayerEntity)(Object)this, world2, state2, pos, world, state, this.spawnPointPosition, bodyYaw, spawnPointSet, bl);
         }
     }
 

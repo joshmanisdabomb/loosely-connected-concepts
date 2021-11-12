@@ -103,9 +103,9 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
         }
     }
 
-    override fun shouldCopyForRespawn(lossless: Boolean, keepInventory: Boolean) = true
+    override fun shouldCopyForRespawn(lossless: Boolean, keepInventory: Boolean, sameCharacter: Boolean) = true
 
-    override fun copyForRespawn(original: HeartsComponent, lossless: Boolean, keepInventory: Boolean) {
+    override fun copyForRespawn(original: HeartsComponent, lossless: Boolean, keepInventory: Boolean, sameCharacter: Boolean) {
         if (lossless || keepInventory) {
             health.clear()
             health.putAll(original.health)

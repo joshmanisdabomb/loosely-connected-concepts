@@ -1,0 +1,37 @@
+{
+  "parent": "lcc:tungsten",
+  "display": {
+    "icon": {
+      "item": "lcc:radiation_detector"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.detector.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.detector.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "radiation_detector": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:radiation_detector"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "radiation_detector"
+    ]
+  ]
+}

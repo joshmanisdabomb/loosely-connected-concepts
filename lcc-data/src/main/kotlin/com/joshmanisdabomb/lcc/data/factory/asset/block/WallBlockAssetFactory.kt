@@ -11,9 +11,9 @@ class WallBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory
 
     override fun apply(data: DataAccessor, entry: Block) {
         val texture = Texture().put(TextureKey.WALL, texture ?: idh.loc(entry))
-        val post = Models.TEMPLATE_WALL_POST.upload(idh.loc(entry), texture, data.modelStates::addModel)
-        val low = Models.TEMPLATE_WALL_SIDE.upload(idh.locSuffix(entry, "side"), texture, data.modelStates::addModel)
-        val tall = Models.TEMPLATE_WALL_SIDE_TALL.upload(idh.locSuffix(entry, "side_tall"), texture, data.modelStates::addModel)
+        val post = Models.TEMPLATE_WALL_POST.upload(idh.loc(entry), texture, data.models)
+        val low = Models.TEMPLATE_WALL_SIDE.upload(idh.locSuffix(entry, "side"), texture, data.models)
+        val tall = Models.TEMPLATE_WALL_SIDE_TALL.upload(idh.locSuffix(entry, "side_tall"), texture, data.models)
         stateMultipart(data, entry) {
             with(When.create().set(Properties.UP, true), BlockStateVariant.create().put(VariantSettings.MODEL, post))
             .with(When.create().set(Properties.NORTH_WALL_SHAPE, WallShape.LOW), BlockStateVariant.create().put(VariantSettings.MODEL, low).put(VariantSettings.UVLOCK, true))

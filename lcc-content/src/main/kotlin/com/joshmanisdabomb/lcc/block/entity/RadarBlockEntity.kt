@@ -3,11 +3,11 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.entity.AtomicBombEntity
 import com.joshmanisdabomb.lcc.extensions.NBT_BYTE
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.TntEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.TRIGGERED
 import net.minecraft.util.math.BlockPos
@@ -15,7 +15,7 @@ import net.minecraft.world.World
 import kotlin.math.max
 import kotlin.math.sqrt
 
-class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.radar, pos, state), BlockEntityClientSerializable {
+class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.radar, pos, state) {
 
     val radius by lazy { 256 + pos.y.times(2) }
     val radius_sq by lazy { radius.times(radius) }
@@ -23,14 +23,17 @@ class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
     var level = 0
     var type: RadarDetection? = null
 
-    override fun fromClientTag(tag: NbtCompound) {
-        level = tag.getByte("Distance").toInt()
-        if (tag.contains("Type", NBT_BYTE)) {
-            type = RadarDetection.values()[tag.getByte("Type").toInt()]
+    override fun readNbt(nbt: NbtCompound) {
+        level = nbt.getByte("Distance").toInt()
+        if (nbt.contains("Type", NBT_BYTE)) {
+            type = RadarDetection.values()[nbt.getByte("Type").toInt()]
         }
     }
 
-    override fun toClientTag(tag: NbtCompound): NbtCompound {
+    override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        val tag = NbtCompound()
         tag.putByte("Distance", level.toByte())
         type?.also { tag.putByte("Type", it.ordinal.toByte()) }
         return tag
@@ -56,7 +59,7 @@ class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
                 }
             }
             if (level != entity.level || type != entity.type) {
-                entity.sync()
+                (world as ServerWorld).chunkManager.markForUpdate(pos)
                 world.updateNeighbors(pos, state.block)
             }
             if (state[TRIGGERED] == (entity.level == 0)) {

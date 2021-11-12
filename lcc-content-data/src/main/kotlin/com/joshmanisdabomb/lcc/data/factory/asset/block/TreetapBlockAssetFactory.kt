@@ -18,8 +18,8 @@ import net.minecraft.state.property.Properties
 object TreetapBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val tap = LCCModelTemplates.template_treetap.upload(idh.loc(entry), Texture().put(LCCModelTextureKeys.t0, idh.loc(entry)), data.modelStates::addModel)
-        val overflows = AbstractTreetapBlock.TreetapLiquid.values().map { l -> l to LCCModelTemplates.template_treetap_overflow.upload(idh.locSuffix(entry, "overflow_${l.asString()}"), Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString())), data.modelStates::addModel) }.toMap()
+        val tap = LCCModelTemplates.template_treetap.upload(idh.loc(entry), Texture().put(LCCModelTextureKeys.t0, idh.loc(entry)), data.models)
+        val overflows = AbstractTreetapBlock.TreetapLiquid.values().map { l -> l to LCCModelTemplates.template_treetap_overflow.upload(idh.locSuffix(entry, "overflow_${l.asString()}"), Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString())), data.models) }.toMap()
         stateMultipart(data, entry) {
             TreetapBlock.TreetapState.values().forEach { t ->
                 horizontalDirections.forEach { f ->

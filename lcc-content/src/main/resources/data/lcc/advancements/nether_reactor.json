@@ -1,0 +1,32 @@
+{
+  "parent": "lcc:simulation_fabric",
+  "display": {
+    "icon": {
+      "item": "lcc:nether_reactor"
+    },
+    "title": {
+      "translate": "advancements.lcc.main.nether_reactor.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.main.nether_reactor.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 500
+  },
+  "criteria": {
+    "challenge": {
+      "trigger": "lcc:nether_reactor",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "challenge"
+    ]
+  ]
+}

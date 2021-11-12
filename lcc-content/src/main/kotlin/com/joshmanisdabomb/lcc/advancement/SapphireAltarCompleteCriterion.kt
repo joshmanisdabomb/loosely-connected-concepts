@@ -24,7 +24,7 @@ class SapphireAltarCompleteCriterion : AbstractCriterion<SapphireAltarCompleteCr
     }
 
     fun trigger(player: ServerPlayerEntity, challenge: AltarChallenge, rewards: Int) {
-        test(player) { it.matches(challenge, rewards) }
+        trigger(player) { it.matches(challenge, rewards) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val challenge: Identifier?, val rewards: NumberRange.IntRange) : AbstractCriterionConditions(id, player) {

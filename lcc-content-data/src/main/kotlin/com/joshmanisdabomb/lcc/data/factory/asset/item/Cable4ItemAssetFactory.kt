@@ -9,7 +9,7 @@ import net.minecraft.item.Item
 object Cable4ItemAssetFactory : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        LCCModelTemplates.cable4_item.upload(idh.loc(entry), Texture().put(TextureKey.SIDE, idh.loc(entry, folder = "block")).put(TextureKey.END, idh.locSuffix(entry, "end", folder = "block")), data.modelStates::addModel)
+        LCCModelTemplates.cable4_item.upload(idh.loc(entry), Texture().put(TextureKey.SIDE, idh.loc(entry, folder = "block")).put(TextureKey.END, idh.locSuffix(entry, "end", folder = "block")), data.models)
     }
 
 }

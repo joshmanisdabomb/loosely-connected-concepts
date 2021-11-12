@@ -1,5 +1,5 @@
 archivesBaseName = "lcc-hooks"
 
-minecraft {
-    accessWidener "src/main/resources/lcc-hooks.accesswidener"
+loom {
+    accessWidenerPath = file("src/main/resources/lcc-hooks.accesswidener")
 }

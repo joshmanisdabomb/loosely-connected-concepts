@@ -45,7 +45,7 @@ class PocketZombiePigmanEntity(entityType: EntityType<out PocketZombiePigmanEnti
         goalSelector.add(2, ClassicMeleeAttackGoal(this, 1.1))
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         targetSelector.add(1, RevengeGoal(this, *arrayOfNulls(0)))
-        targetSelector.add(2, FollowTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
     }
 
     override fun initEquipment(difficulty: LocalDifficulty) {

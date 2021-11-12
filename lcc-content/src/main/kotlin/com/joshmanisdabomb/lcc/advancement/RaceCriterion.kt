@@ -23,7 +23,7 @@ class RaceCriterion : AbstractCriterion<RaceCriterion.Conditions>() {
     }
 
     fun trigger(player: ServerPlayerEntity, advancement: Advancement) {
-        test(player) { it.matches(advancement.id) }
+        trigger(player) { it.matches(advancement.id) }
     }
 
     class Conditions(player: EntityPredicate.Extended, val advancement: Identifier) : AbstractCriterionConditions(id, player) {

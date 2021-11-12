@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:machine_enclosure"
+            "items": [
+              "lcc:machine_enclosure"
+            ]
           }
         ]
       }

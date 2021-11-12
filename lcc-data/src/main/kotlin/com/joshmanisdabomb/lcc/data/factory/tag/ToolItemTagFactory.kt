@@ -18,7 +18,7 @@ open class ToolItemTagFactory(val type: String? = null, val sword: Tag<Item> = F
             "axe" -> axe
             "hoe" -> hoe
             else -> error("Could not determine tool type from path.")
-        } as Tag.Identified<Item>).append(entry)
+        }).attach(entry)
     }
 
     companion object : ToolItemTagFactory()

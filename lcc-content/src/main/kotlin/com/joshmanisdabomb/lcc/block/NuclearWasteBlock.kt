@@ -31,7 +31,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LC
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
-        world.blockTickScheduler.schedule(pos, this, 1)
+        world.createAndScheduleBlockTick(pos, this, 1)
         return state
     }
 
@@ -78,7 +78,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LC
         NuclearUtil.addRadiation(entity as? LivingEntity ?: return, 2.times((distSq < 1.3).transformInt(3, 1)), 0)
     }
 
-    override fun onSteppedOn(world: World, pos: BlockPos, entity: Entity) {
+    override fun onSteppedOn(world: World, pos: BlockPos, state: BlockState, entity: Entity) {
         if (entity is LivingEntity) {
             val stack = entity.getEquippedStack(EquipmentSlot.FEET)
             if ((stack.item as? HazmatArmorItem)?.hasFullSuit(stack, entity.armorItems) == true && ContainedArmor.getTotalOxygen<HazmatTankArmorItem>(entity.armorItems) > 0f) {

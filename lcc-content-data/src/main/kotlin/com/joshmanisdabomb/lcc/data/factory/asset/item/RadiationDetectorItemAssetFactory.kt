@@ -10,7 +10,7 @@ object RadiationDetectorItemAssetFactory : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
         val alts = (1..5).map { level -> idh.locSuffix(entry, "winter_$level") }
-        data.modelStates.addItemModel(entry) { data.parser.parse("""{
+        data.models[idh.loc(entry)] = { data.parser.parse("""{
     "parent": "lcc:item/template_radiation_detector",
     "textures": {
         "0": "${idh.loc(entry)}",
@@ -25,7 +25,7 @@ object RadiationDetectorItemAssetFactory : ItemAssetFactory {
     ]
 }""".trimMargin()) }
 
-        alts.forEach { LCCModelTemplates.template_radiation_detector.upload(it, Texture().put(LCCModelTextureKeys.t0, idh.loc(entry)).put(LCCModelTextureKeys.t1, it), data.modelStates::addModel) }
+        alts.forEach { LCCModelTemplates.template_radiation_detector.upload(it, Texture().put(LCCModelTextureKeys.t0, idh.loc(entry)).put(LCCModelTextureKeys.t1, it), data.models) }
     }
 
 }

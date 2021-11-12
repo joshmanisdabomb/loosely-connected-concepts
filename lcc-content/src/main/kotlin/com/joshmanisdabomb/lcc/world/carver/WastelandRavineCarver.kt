@@ -10,6 +10,6 @@ class WastelandRavineCarver(codec: Codec<RavineCarverConfig>) : RavineCarver(cod
 
     override fun getBranchFactor() = 8
 
-    override fun canCarveBlock(state: BlockState, stateAbove: BlockState) = super.canCarveBlock(state, stateAbove) || state.isOf(LCCBlocks.cracked_mud)
+    override fun canAlwaysCarveBlock(state: BlockState) = super.canAlwaysCarveBlock(state) || state.isOf(LCCBlocks.cracked_mud)
 
 }

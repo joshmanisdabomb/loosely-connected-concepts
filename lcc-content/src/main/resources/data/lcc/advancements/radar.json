@@ -1,0 +1,37 @@
+{
+  "parent": "lcc:tungsten",
+  "display": {
+    "icon": {
+      "item": "lcc:radar"
+    },
+    "title": {
+      "translate": "advancements.lcc.wasteland.radar.title"
+    },
+    "description": {
+      "translate": "advancements.lcc.wasteland.radar.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "radar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:radar"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "radar"
+    ]
+  ]
+}

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:raw_tungsten"
+            "items": [
+              "lcc:raw_tungsten"
+            ]
           }
         ]
       }

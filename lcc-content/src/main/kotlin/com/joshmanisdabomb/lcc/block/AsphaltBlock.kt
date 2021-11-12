@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.isHorizontal
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
-import net.minecraft.block.*
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.FluidBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.fluid.FlowableFluid
@@ -35,20 +37,20 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
     }
 
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+        world.createAndScheduleFluidTick(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, newState: BlockState, world: WorldAccess, pos: BlockPos, posFrom: BlockPos): BlockState {
         if (world.getBlockState(posFrom).isOf(LCCBlocks.road)) return state
         if (state.fluidState.isStill || newState.fluidState.isStill) {
-            world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+            world.createAndScheduleFluidTick(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
         }
         return state
     }
 
     override fun neighborUpdate(state: BlockState, world: World, pos: BlockPos, block: Block, fromPos: BlockPos, notify: Boolean) {
         if (world.getBlockState(fromPos).isOf(LCCBlocks.road)) return
-        world.fluidTickScheduler.schedule(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
+        world.createAndScheduleFluidTick(pos, state.fluidState.fluid, fluid.getTickRate(world).times(state[AGE_7].times(2).plus(1)))
     }
 
     override fun hasRandomTicks(state: BlockState) = true
@@ -58,7 +60,7 @@ class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid,
             if (world.getBlockState(pos.down()).isOf(this)) return
 
             val level = state.level
-            val surrounding = Direction.values().filter(Direction::isHorizontal).mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState[FALLING]) return@mapNotNull null }.level }.toIntArray().min()
+            val surrounding = Direction.values().filter(Direction::isHorizontal).mapNotNull { world.getBlockState(pos.offset(it)).apply { if (!this.isOf(this@AsphaltBlock) || this.fluidState[FALLING]) return@mapNotNull null }.level }.toIntArray().minOrNull()
 
             if (surrounding == null || surrounding >= level) {
                 world.setBlockState(pos, LCCBlocks.road.inner(world, LCCBlocks.road.defaultState.with(RoadBlock.SHAPE, RoadBlock.Companion.RoadShape.PATH), pos))

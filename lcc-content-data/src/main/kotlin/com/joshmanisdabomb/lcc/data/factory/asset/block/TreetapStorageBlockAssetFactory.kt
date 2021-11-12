@@ -24,11 +24,11 @@ class TreetapStorageBlockAssetFactory(val container: AbstractTreetapBlock.Treeta
                 AbstractTreetapBlock.TreetapLiquid.values().forEach { l ->
                     val texture = Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString()))
                     val liquids = liquids.dropLast(1).filterNotNull()
-                    val overflow = LCCModelTemplates.template_treetap_overflow.upload(idh.suffix(model, l.asString() + "_" + liquids.size.plus(1).toString()), texture, data.modelStates::addModel)
-                    this@TreetapStorageBlockAssetFactory.liquids.last()?.upload(idh.suffix(model, l.asString() + "_dried"), Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString()).suffix("dry")), data.modelStates::addModel)
+                    val overflow = LCCModelTemplates.template_treetap_overflow.upload(idh.suffix(model, l.asString() + "_" + liquids.size.plus(1).toString()), texture, data.models)
+                    this@TreetapStorageBlockAssetFactory.liquids.last()?.upload(idh.suffix(model, l.asString() + "_dried"), Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString()).suffix("dry")), data.models)
                     liquids.forEachIndexed { k, v ->
                         with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapStorageBlock.liquid, l).set(entry.progress, k.plus(1)),
-                            BlockStateVariant.create().put(VariantSettings.MODEL, v.upload(idh.suffix(model, l.asString() + "_" + k.plus(1).toString()), texture, data.modelStates::addModel)).apply(ModelProvider.horizontalRotation(f)))
+                            BlockStateVariant.create().put(VariantSettings.MODEL, v.upload(idh.suffix(model, l.asString() + "_" + k.plus(1).toString()), texture, data.models)).apply(ModelProvider.horizontalRotation(f)))
                     }
                     (entry.container.amount+1..entry.max).forEach {
                         with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapStorageBlock.liquid, l).set(entry.progress, it), BlockStateVariant.create().put(VariantSettings.MODEL, idh.suffix(model, l.asString() + "_" + liquids.size.toString())).apply(ModelProvider.horizontalRotation(f)))

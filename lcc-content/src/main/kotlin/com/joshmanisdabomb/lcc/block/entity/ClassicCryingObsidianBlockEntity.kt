@@ -2,17 +2,17 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.build
-import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import java.util.*
 
-class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.classic_crying_obsidian, pos, state), BlockEntityClientSerializable {
+class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.classic_crying_obsidian, pos, state) {
 
     private val spawns = mutableMapOf<UUID, Vec3d>()
 
@@ -27,21 +27,6 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
     }
 
     override fun readNbt(tag: NbtCompound) {
-        fromClientTag(tag)
-        super.readNbt(tag)
-    }
-
-    override fun writeNbt(tag: NbtCompound): NbtCompound {
-        return super.writeNbt(toClientTag(tag))
-    }
-
-    fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]
-
-    fun isActive(player: PlayerEntity): Boolean {
-        return spawns.contains(player.uuid)
-    }
-
-    override fun fromClientTag(tag: NbtCompound) {
         with (tag.getCompound("Spawns")) {
             keys.forEach {
                 with (this.getCompound(it)) {
@@ -49,9 +34,10 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
                 }
             }
         }
+        super.readNbt(tag)
     }
 
-    override fun toClientTag(tag: NbtCompound): NbtCompound {
+    override fun writeNbt(tag: NbtCompound) {
         tag.build("Spawns") {
             spawns.forEach { (k, v) ->
                 this.build(k.toString().toLowerCase()) {
@@ -61,7 +47,17 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
                 }
             }
         }
-        return tag
+        return super.writeNbt(tag)
+    }
+
+    override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)
+
+    override fun toInitialChunkDataNbt() = createNbt()
+
+    fun getLocation(player: ServerPlayerEntity) = spawns[player.uuid]
+
+    fun isActive(player: PlayerEntity): Boolean {
+        return spawns.contains(player.uuid)
     }
 
 }

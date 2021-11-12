@@ -8,7 +8,6 @@ import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.addString
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
-import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructureFeature
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -40,12 +39,12 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         return nbt
     }
 
-    override fun generate(world: StructureWorldAccess, piece: SapphireAltarStructureFeature.Piece, yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random) {
+    override fun generate(world: StructureWorldAccess, /*piece: SapphireAltarStructureFeature.Piece,*/ yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random) {
         val width = data.getInt("Width")
         val depth = data.getInt("Depth")
         for (i in 0 until width) {
             for (j in 0 until depth) {
-                piece.addBlock(world, LCCBlocks.bomb_board_block.defaultState.with(Properties.AXIS, Direction.Axis.Y).with(BombBoardBlock.mine_state, 0), i+1, yOffset, j+4, boundingBox)
+                //piece.addBlock(world, LCCBlocks.bomb_board_block.defaultState.with(Properties.AXIS, Direction.Axis.Y).with(BombBoardBlock.mine_state, 0), i+1, yOffset, j+4, boundingBox)
             }
         }
     }

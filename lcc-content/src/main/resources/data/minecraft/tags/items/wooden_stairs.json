@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "lcc:rubber_stairs",
-    "lcc:deadwood_stairs"
+    "lcc:deadwood_stairs",
+    "lcc:rubber_stairs"
   ]
 }

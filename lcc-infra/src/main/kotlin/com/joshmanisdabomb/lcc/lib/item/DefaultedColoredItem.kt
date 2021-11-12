@@ -7,7 +7,7 @@ interface DefaultedColoredItem {
     fun defaultColor(stack: ItemStack): Int
 
     fun getTintColor(stack: ItemStack): Int {
-        val nbtCompound = stack.getSubTag("display")
+        val nbtCompound = stack.getSubNbt("display")
         return if (nbtCompound != null && nbtCompound.contains("color", 99)) nbtCompound.getInt("color") else defaultColor(stack)
     }
 

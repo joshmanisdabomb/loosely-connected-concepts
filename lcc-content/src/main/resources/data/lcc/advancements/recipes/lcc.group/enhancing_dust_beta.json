@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "lcc:enhancing_dust_alpha"
+            "items": [
+              "lcc:enhancing_dust_alpha"
+            ]
           }
         ]
       }

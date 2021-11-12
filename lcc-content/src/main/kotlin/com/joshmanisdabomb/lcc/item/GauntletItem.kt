@@ -21,13 +21,13 @@ class GauntletItem(settings: Settings) : Item(settings), LCCItemTrait {
 
     override fun getMiningSpeedMultiplier(stack: ItemStack, state: BlockState): Float = Float.MAX_VALUE
 
-    override fun getMaxUseTime(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateTag).maxChargeTime
+    override fun getMaxUseTime(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateNbt).maxChargeTime
 
-    override fun getUseAction(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateTag).chargeAction
+    override fun getUseAction(stack: ItemStack) = GauntletAction.getFromTag(stack.orCreateNbt).chargeAction
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand) ?: return TypedActionResult.fail(ItemStack.EMPTY)
-        val ability = GauntletAction.getFromTag(stack.orCreateTag)
+        val ability = GauntletAction.getFromTag(stack.orCreateNbt)
         if (ability.canCharge) {
             if (!ability.hasInfo(user)) {
                 user.setCurrentHand(hand)
@@ -43,14 +43,14 @@ class GauntletItem(settings: Settings) : Item(settings), LCCItemTrait {
     override fun usageTick(world: World, user: LivingEntity, stack: ItemStack, remainingUseTicks: Int) {
         if (user.isSneaking) {
             user.clearActiveItem()
-            GauntletAction.getFromTag(stack.orCreateTag).cancel(user as? PlayerEntity ?: return, remainingUseTicks)
+            GauntletAction.getFromTag(stack.orCreateNbt).cancel(user as? PlayerEntity ?: return, remainingUseTicks)
         } else {
-            GauntletAction.getFromTag(stack.orCreateTag).chargeTick(user as? PlayerEntity ?: return, remainingUseTicks)
+            GauntletAction.getFromTag(stack.orCreateNbt).chargeTick(user as? PlayerEntity ?: return, remainingUseTicks)
         }
     }
 
     override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-        val ability = GauntletAction.getFromTag(stack.orCreateTag)
+        val ability = GauntletAction.getFromTag(stack.orCreateNbt)
         if (user is PlayerEntity && ability.canCharge) {
             if (ability.act(user, remainingUseTicks)) {
                 user.incrementStat(Stats.USED.getOrCreateStat(this))

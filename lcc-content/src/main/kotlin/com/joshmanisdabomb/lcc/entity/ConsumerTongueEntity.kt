@@ -94,7 +94,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                 val e = entity.x - this.x
                 val f = getTargetY()!! - this.y
                 val g = entity.z - this.z
-                this.setVelocity(e, f, g, speed.div(2f), 0f)
+                this.setVelocity(e, f, g, tongueSpeed.div(2f), 0f)
                 if (entity2 != null) {
                     val y = this.y + entity2.height.div(2.0)
 
@@ -185,7 +185,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
         val hooked_id = DataTracker.registerData(ConsumerTongueEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val retract = DataTracker.registerData(ConsumerTongueEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
-        val speed = 1.3f
+        val tongueSpeed = 1.3f
     }
 
 }

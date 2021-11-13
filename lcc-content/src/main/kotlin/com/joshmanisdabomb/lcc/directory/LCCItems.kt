@@ -299,6 +299,9 @@ object LCCItems : ItemDirectory() {
     val wasp_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.wasp, Item.Settings().defaults(), 0xEDC343, 0x43241B, 0x4E9331) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
+    val disciple_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.disciple, Item.Settings().defaults(), 0x444444, 0x6600BB, 0xED96FF) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
 
     //IDEA forget me not, forget villager trades and entity hostility
 

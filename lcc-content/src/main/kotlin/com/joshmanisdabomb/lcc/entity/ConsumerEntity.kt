@@ -23,6 +23,7 @@ import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.IronGolemEntity
+import net.minecraft.entity.passive.MerchantEntity
 import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.context.LootContextTypes
@@ -45,6 +46,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
 
     @Environment(EnvType.CLIENT)
     var jawPitch = 0f
+    @Environment(EnvType.CLIENT)
     var lastJawPitch = 0f
 
     init {
@@ -84,7 +86,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         targetSelector.add(1, RevengeGoal(this))
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
         targetSelector.add(3, ActiveTargetGoal(this, IronGolemEntity::class.java, false, true))
-        targetSelector.add(4, ActiveTargetGoal(this, VillagerEntity::class.java, false, true))
+        targetSelector.add(4, ActiveTargetGoal(this, MerchantEntity::class.java, false, true))
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
@@ -105,7 +107,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             val e = target.x - this.x
             val f = (target.eyeY - 0.1) - entity.y
             val g = target.z - this.z
-            entity.setVelocity(e, f, g, ConsumerTongueEntity.speed, 0.8f)
+            entity.setVelocity(e, f, g, ConsumerTongueEntity.tongueSpeed, 0.8f)
             val h = Vec3d(e, f, g).normalize().multiply(0.01)
             entity.setPosition(this.x + h.x, entity.getTargetY()!! + h.y, this.z + h.z)
             playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))

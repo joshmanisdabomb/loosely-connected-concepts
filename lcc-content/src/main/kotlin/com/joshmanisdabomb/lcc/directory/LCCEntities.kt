@@ -8,7 +8,7 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.minecraft.client.render.entity.BoatEntityRenderer
 import net.minecraft.client.render.entity.SkeletonEntityRenderer
 import net.minecraft.entity.*
@@ -39,6 +39,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, WaspEntity.createAttributes()) }
     val baby_skeleton by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<BabySkeletonEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::BabySkeletonEntity).dimensions(EntityDimensions.changing(0.6f, 1.99f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canSpawnInDark) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
+    val disciple by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<DiscipleEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::DiscipleEntity).dimensions(EntityDimensions.changing(0.8f, 1.95f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, DiscipleEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
     val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
@@ -52,21 +54,22 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
-        EntityRendererRegistry.INSTANCE.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
+        EntityRendererRegistry.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
 
-        EntityRendererRegistry.INSTANCE.register(consumer, ::ConsumerEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(wasp, ::WaspEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(baby_skeleton, ::SkeletonEntityRenderer)
+        EntityRendererRegistry.register(consumer, ::ConsumerEntityRenderer)
+        EntityRendererRegistry.register(wasp, ::WaspEntityRenderer)
+        EntityRendererRegistry.register(baby_skeleton, ::SkeletonEntityRenderer)
+        EntityRendererRegistry.register(disciple, ::DiscipleEntityRenderer)
 
-        EntityRendererRegistry.INSTANCE.register(atomic_bomb, ::AtomicBombEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(salt, ::SaltEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(consumer_tongue, ::ConsumerTongueEntityRenderer)
+        EntityRendererRegistry.register(atomic_bomb, ::AtomicBombEntityRenderer)
+        EntityRendererRegistry.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
+        EntityRendererRegistry.register(salt, ::SaltEntityRenderer)
+        EntityRendererRegistry.register(consumer_tongue, ::ConsumerTongueEntityRenderer)
 
-        EntityRendererRegistry.INSTANCE.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
+        EntityRendererRegistry.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 
-        EntityRendererRegistry.INSTANCE.register(rubber_boat, ::BoatEntityRenderer)
-        EntityRendererRegistry.INSTANCE.register(deadwood_boat, ::BoatEntityRenderer)
+        EntityRendererRegistry.register(rubber_boat, ::BoatEntityRenderer)
+        EntityRendererRegistry.register(deadwood_boat, ::BoatEntityRenderer)
     }
 
 }

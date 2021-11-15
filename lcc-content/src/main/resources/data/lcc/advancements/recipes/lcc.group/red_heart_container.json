@@ -6,13 +6,13 @@
     ]
   },
   "criteria": {
-    "has_enhancing_dust_beta": {
+    "has_enhancing_pyre_beta": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:enhancing_dust_beta"
+              "lcc:enhancing_pyre_beta"
             ]
           }
         ]
@@ -27,7 +27,7 @@
   },
   "requirements": [
     [
-      "has_enhancing_dust_beta",
+      "has_enhancing_pyre_beta",
       "has_the_recipe"
     ]
   ]

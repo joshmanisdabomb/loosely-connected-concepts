@@ -13,8 +13,8 @@ object HeartContainerRecipeFactory : RecipeFactory {
         if (entry !is HeartContainerItem) return
         ShapelessRecipeJsonFactory.create(entry)
             .input(LCCItems.heart_full[entry.heart], 10)
-            .input(LCCItems.enhancing_dust_beta)
-            .apply { hasCriterionShapeless(this, LCCItems.enhancing_dust_beta) }
+            .input(LCCItems.enhancing_pyre_beta)
+            .apply { hasCriterionShapeless(this, LCCItems.enhancing_pyre_beta) }
             .apply { offerShapeless(this, data, override = LCCRecipeSerializers.spawner_table_shapeless) }
     }
 

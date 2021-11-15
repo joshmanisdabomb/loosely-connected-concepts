@@ -53,7 +53,7 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
-        if (state[charge] == 0 && stack.isOf(LCCItems.enhancing_dust_beta)) {
+        if (state[charge] == 0 && stack.isOf(LCCItems.enhancing_pyre_beta)) {
             if (player.isSurvival) stack.decrement(1)
             setTallState(world, pos, state, 5)
             world.playSound(null, hit.pos.x, hit.pos.y, hit.pos.z, SoundEvents.BLOCK_END_PORTAL_FRAME_FILL, SoundCategory.BLOCKS, 1.0f, world.random.nextFloat().times(0.2f).plus(0.9f))

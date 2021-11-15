@@ -221,13 +221,13 @@ object LCCItems : ItemDirectory() {
     val rusty_iron_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
-    val enhancing_dust_alpha by entry(::initialiser) { Item(Item.Settings().defaults()) }
+    val enhancing_pyre_alpha by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val enhancing_dust_beta by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
+    val enhancing_pyre_beta by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
         override fun hasGlint(stack: ItemStack) = true
     } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val enhancing_dust_omega by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
+    val enhancing_pyre_omega by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
         override fun hasGlint(stack: ItemStack) = true
     } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))

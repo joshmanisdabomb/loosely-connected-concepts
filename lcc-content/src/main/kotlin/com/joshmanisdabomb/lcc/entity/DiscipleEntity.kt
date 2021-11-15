@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.sqrt
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
@@ -23,6 +25,9 @@ import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
 class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) : HostileEntity(entityType, world), RangedAttackMob {
+
+    @Environment(EnvType.CLIENT)
+    var wingAnimation = -1f
 
     init {
         airStrafingSpeed = 0.14f

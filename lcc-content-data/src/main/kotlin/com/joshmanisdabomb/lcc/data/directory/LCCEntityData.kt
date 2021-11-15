@@ -31,6 +31,7 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
         }
     ))).add(EntityTagFactory(LCCTags.wasteland_combat)) }
     val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCTags.wasteland_combat)).add(EntityTagFactory(LCCTags.salt_weakness)) }
+    val disciple by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.enhancing_pyre_alpha to null))).add(EntityTagFactory(LCCTags.wasteland_combat)) }
 
     fun initialiser(input: EntityDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

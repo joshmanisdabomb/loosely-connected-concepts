@@ -5,7 +5,6 @@ import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.entity.DiscipleEntity
 import com.joshmanisdabomb.lcc.entity.model.DiscipleEntityModel
 import com.joshmanisdabomb.lcc.entity.render.feature.DiscipleBrainFeatureRenderer
-import com.joshmanisdabomb.lcc.entity.render.feature.DiscipleEyesFeatureRenderer
 import com.joshmanisdabomb.lcc.extensions.exp
 import com.joshmanisdabomb.lcc.extensions.sqrt
 import com.joshmanisdabomb.lcc.extensions.square
@@ -21,7 +20,6 @@ import net.minecraft.util.math.Vec3f
 class DiscipleEntityRenderer(ctx: EntityRendererFactory.Context) : MobEntityRenderer<DiscipleEntity, DiscipleEntityModel>(ctx, DiscipleEntityModel(ctx.getPart(LCCModelLayers.disciple)), 0.5f) {
 
     init {
-        addFeature(DiscipleEyesFeatureRenderer(this))
         addFeature(DiscipleBrainFeatureRenderer(this))
     }
 

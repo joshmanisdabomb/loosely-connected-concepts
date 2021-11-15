@@ -376,9 +376,9 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .pattern(" e ")
             .pattern("ese")
             .pattern(" e ")
-            .input('e', LCCItems.enhancing_dust_alpha)
+            .input('e', LCCItems.enhancing_pyre_alpha)
             .input('s', LCCItems.sapphire)
-            .apply { hasCriterionShaped(this, LCCItems.enhancing_dust_alpha) }
+            .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
     val enhancing_dust_omega by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
@@ -386,9 +386,9 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .pattern(" e ")
             .pattern("ene")
             .pattern(" e ")
-            .input('e', LCCItems.enhancing_dust_beta)
+            .input('e', LCCItems.enhancing_pyre_beta)
             .input('n', Items.NETHER_STAR)
-            .apply { hasCriterionShaped(this, LCCItems.enhancing_dust_beta) }
+            .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_beta) }
             .apply { hasCriterionShaped(this, Items.NETHER_STAR) }
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttribute
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricEntityTypeBuilder
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.minecraft.client.render.entity.BoatEntityRenderer
+import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.SkeletonEntityRenderer
 import net.minecraft.entity.*
 import net.minecraft.entity.mob.HostileEntity
@@ -32,6 +33,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
     val consumer_tongue by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ConsumerTongueEntity).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
+    val disciple_dust by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::DiscipleDustEntity).dimensions(EntityDimensions.fixed(0.6f, 0.6f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
 
     val consumer by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<ConsumerEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::ConsumerEntity).dimensions(EntityDimensions.changing(0.8f, 1.1f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, ConsumerEntity.createAttributes()) }
@@ -65,6 +67,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         EntityRendererRegistry.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)
         EntityRendererRegistry.register(salt, ::SaltEntityRenderer)
         EntityRendererRegistry.register(consumer_tongue, ::ConsumerTongueEntityRenderer)
+        EntityRendererRegistry.register(disciple_dust, ::EmptyEntityRenderer)
 
         EntityRendererRegistry.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 

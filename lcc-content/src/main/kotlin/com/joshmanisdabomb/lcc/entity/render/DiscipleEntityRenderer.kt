@@ -5,18 +5,12 @@ import com.joshmanisdabomb.lcc.directory.LCCModelLayers
 import com.joshmanisdabomb.lcc.entity.DiscipleEntity
 import com.joshmanisdabomb.lcc.entity.model.DiscipleEntityModel
 import com.joshmanisdabomb.lcc.entity.render.feature.DiscipleBrainFeatureRenderer
-import com.joshmanisdabomb.lcc.extensions.exp
-import com.joshmanisdabomb.lcc.extensions.sqrt
-import com.joshmanisdabomb.lcc.extensions.square
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.VertexConsumerProvider
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.MobEntityRenderer
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.LivingEntity
-import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Vec3f
 
+@Environment(EnvType.CLIENT)
 class DiscipleEntityRenderer(ctx: EntityRendererFactory.Context) : MobEntityRenderer<DiscipleEntity, DiscipleEntityModel>(ctx, DiscipleEntityModel(ctx.getPart(LCCModelLayers.disciple)), 0.5f) {
 
     init {

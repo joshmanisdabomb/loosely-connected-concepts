@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.particle.effect.DiscipleDustBlastParticleEffect
 import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes
 import net.minecraft.particle.ParticleType
@@ -18,6 +19,8 @@ object LCCParticles : BasicDirectory<ParticleType<*>, Unit>(), RegistryDirectory
     val nuclear by entry(::initialiser) { FabricParticleTypes.simple(false) }
     val uranium by entry(::initialiser) { FabricParticleTypes.simple(false) }
     val nuke by entry(::initialiser) { FabricParticleTypes.simple(false) }
+    val disciple_dust by entry(::initialiser) { FabricParticleTypes.simple(false) }
+    val disciple_dust_blast by entry(::initialiser) { FabricParticleTypes.complex(true, DiscipleDustBlastParticleEffect.factory) }
 
     override fun defaultProperties(name: String) = Unit
 

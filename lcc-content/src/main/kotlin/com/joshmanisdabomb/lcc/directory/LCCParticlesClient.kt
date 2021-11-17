@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.particle.*
+import com.joshmanisdabomb.lcc.particle.effect.DiscipleDustBlastParticleEffect
 import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.minecraft.client.particle.Particle
@@ -24,6 +25,10 @@ object LCCParticlesClient : AdvancedDirectory<ParticleFactoryRegistry.PendingPar
         .setProperties(LCCParticles.uranium)
     val nuke by entry({ input, context, parameters -> initialiser(input, context, parameters) }) { ParticleFactoryRegistry.PendingParticleFactory { sp -> factoryS(properties, sp, ::RadiationDetectorParticle) } }
         .setProperties(LCCParticles.nuke)
+    val disciple_dust by entry({ input, context, parameters -> initialiser(input, context, parameters) }) { ParticleFactoryRegistry.PendingParticleFactory { sp -> factoryS(properties, sp, ::DiscipleDustParticle) } }
+        .setProperties(LCCParticles.disciple_dust)
+    val disciple_dust_blast by entry({ input, context, parameters -> initialiser(input, context, parameters) }) { ParticleFactoryRegistry.PendingParticleFactory { sp -> factoryP(properties, { p, w, x, y, z, dx, dy, dz -> DiscipleDustBlastParticle(p as DiscipleDustBlastParticleEffect, w, x, y, z, dx, dy, dz) }) } }
+        .setProperties(LCCParticles.disciple_dust_blast)
 
     fun <P : ParticleEffect> initialiser(input: ParticleFactoryRegistry.PendingParticleFactory<P>, context: DirectoryContext<ParticleType<out ParticleEffect>>, parameters: Unit): ParticleType<P> {
         val type = context.properties as ParticleType<P>

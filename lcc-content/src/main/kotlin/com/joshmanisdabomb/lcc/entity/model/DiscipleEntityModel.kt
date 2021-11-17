@@ -1,9 +1,10 @@
 package com.joshmanisdabomb.lcc.entity.model
 
 import com.joshmanisdabomb.lcc.entity.DiscipleEntity
-import com.joshmanisdabomb.lcc.extensions.sqrt
 import com.joshmanisdabomb.lcc.extensions.square
 import com.joshmanisdabomb.lcc.extensions.transform
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
 import net.minecraft.client.render.VertexConsumer
@@ -14,8 +15,8 @@ import net.minecraft.client.render.entity.model.SinglePartEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Arm
 import net.minecraft.util.math.MathHelper
-import kotlin.math.absoluteValue
 
+@Environment(EnvType.CLIENT)
 class DiscipleEntityModel(private val root: ModelPart) : SinglePartEntityModel<DiscipleEntity>(), ModelWithArms, ModelWithHead {
 
     private val head: ModelPart

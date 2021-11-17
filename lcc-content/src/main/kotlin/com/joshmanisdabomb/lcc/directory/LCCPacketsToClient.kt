@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.BouncePadBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.ClassicCryingObsidianBlockEntity
+import com.joshmanisdabomb.lcc.particle.effect.DiscipleDustBlastParticleEffect
 import com.joshmanisdabomb.lcc.particle.effect.SoakingSoulSandJumpParticleEffect
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.block.Blocks
@@ -49,6 +50,20 @@ object LCCPacketsToClient : PacketForClientDirectory() {
             val be = world.getBlockEntity(pos) as? ClassicCryingObsidianBlockEntity ?: return@execute
             if (activate) be.register(player, Vec3d.ZERO) else be.deregister(player)
             world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.defaultState, LCCBlocks.classic_crying_obsidian.defaultState)
+        }
+    } }
+
+    val disciple_dust_blast_particle by entry(::initialiser) { ClientPlayNetworking.PlayChannelHandler { client, handler, data, sender ->
+        val always = data.readBoolean()
+        val x = data.readDouble()
+        val y = data.readDouble()
+        val z = data.readDouble()
+        val dx = data.readDouble()
+        val dy = data.readDouble()
+        val dz = data.readDouble()
+        val size = data.readFloat()
+        client.execute {
+            client.world?.addParticle(DiscipleDustBlastParticleEffect(size), always, x, y, z, dx, dy, dz)
         }
     } }
 

@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.batches.LootTableBatch
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
-import net.minecraft.datafixer.fix.BlockEntitySignTextStrictJsonFix.GSON
 import net.minecraft.loot.LootManager
 import java.io.IOException
 

@@ -12,7 +12,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
 class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent, CopyableComponent<HeartsComponent>, PlayerComponent<HeartsComponent> {
 

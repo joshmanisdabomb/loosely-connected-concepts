@@ -19,15 +19,12 @@ import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.world.World
-
 import net.minecraft.client.world.ClientWorld
+import net.minecraft.data.DataCache
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
-import net.minecraft.data.DataCache
-import net.minecraft.data.DataProvider
 import net.minecraft.item.ItemConvertible
 import net.minecraft.item.Items
 import net.minecraft.network.ClientConnection
@@ -35,7 +32,6 @@ import net.minecraft.network.NetworkSide
 import net.minecraft.stat.StatHandler
 import net.minecraft.tag.BlockTags
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.Util
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.Difficulty
@@ -46,7 +42,6 @@ import java.util.*
 import kotlin.math.atan
 import kotlin.math.max
 import kotlin.math.pow
-import kotlin.system.exitProcess
 
 class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, val folder: File, val test: Long? = null) : WaitingDataProvider {
 

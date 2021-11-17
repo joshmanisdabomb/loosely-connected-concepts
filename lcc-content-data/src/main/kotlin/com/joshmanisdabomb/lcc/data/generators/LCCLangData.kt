@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.data.generators
 
 import com.joshmanisdabomb.lcc.data.LCCData
-import com.joshmanisdabomb.lcc.data.batches.LangBatch.Companion.defaultLocale
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 
 object LCCLangData {

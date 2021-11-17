@@ -24,7 +24,6 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.passive.IronGolemEntity
 import net.minecraft.entity.passive.MerchantEntity
-import net.minecraft.entity.passive.VillagerEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound

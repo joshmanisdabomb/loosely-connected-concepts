@@ -8,7 +8,10 @@ import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.server.PlayerStream
-import net.minecraft.block.*
+import net.minecraft.block.BlockRenderType
+import net.minecraft.block.BlockState
+import net.minecraft.block.BlockWithEntity
+import net.minecraft.block.RespawnAnchorBlock
 import net.minecraft.command.argument.EntityAnchorArgumentType
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.player.PlayerEntity

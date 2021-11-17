@@ -6,15 +6,16 @@ import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.LCCLangData
 import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
-import com.joshmanisdabomb.lcc.data.generators.kb.export.*
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeLinker
+import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeTranslator
+import com.joshmanisdabomb.lcc.data.generators.kb.export.LCCDatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleWebLinkBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.ImageExport
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCTags
 import com.joshmanisdabomb.lcc.extensions.identifier
-import net.minecraft.Bootstrap
-import net.minecraft.SharedConstants
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.util.Identifier
@@ -22,7 +23,6 @@ import net.minecraft.util.registry.Registry
 import org.jetbrains.exposed.sql.Database
 import java.io.File
 import java.nio.file.Paths
-import kotlin.system.exitProcess
 
 object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/resources")) {
 

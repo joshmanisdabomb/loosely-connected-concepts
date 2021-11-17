@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.data.DataLauncher
 import com.joshmanisdabomb.lcc.data.batches.BlockStateBatch
 import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
-import net.minecraft.datafixer.fix.BlockEntitySignTextStrictJsonFix.GSON
 import java.io.IOException
 
 class BlockStateData(val batch: BlockStateBatch, val da: DataLauncher) : DataProvider {

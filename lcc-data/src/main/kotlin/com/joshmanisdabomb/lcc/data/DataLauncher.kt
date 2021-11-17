@@ -22,8 +22,6 @@ import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
-import java.lang.invoke.MethodHandles
-import java.lang.invoke.MethodType
 import java.nio.file.Path
 import java.util.*
 import kotlin.system.exitProcess

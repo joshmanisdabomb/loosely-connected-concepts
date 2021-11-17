@@ -18,12 +18,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
 import net.minecraft.world.explosion.Explosion
-import java.lang.RuntimeException
 import java.util.*
-import kotlin.Boolean
-import kotlin.Int
-import kotlin.Unit
-import kotlin.repeat
 
 abstract class AltarChallenge {
 

@@ -43,6 +43,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, BabySkeletonEntity.createAttributes()) }
     val disciple by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<DiscipleEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::DiscipleEntity).dimensions(EntityDimensions.changing(0.8f, 2.15f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, DiscipleEntity.createAttributes()) }
+    val psycho_pig by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<PsychoPigEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::PsychoPigEntity).dimensions(EntityDimensions.changing(0.9f, 0.9f)).trackRangeChunks(10).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, PsychoPigEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
     val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
@@ -62,6 +64,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         EntityRendererRegistry.register(wasp, ::WaspEntityRenderer)
         EntityRendererRegistry.register(baby_skeleton, ::SkeletonEntityRenderer)
         EntityRendererRegistry.register(disciple, ::DiscipleEntityRenderer)
+        EntityRendererRegistry.register(psycho_pig, ::PsychoPigEntityRenderer)
 
         EntityRendererRegistry.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)

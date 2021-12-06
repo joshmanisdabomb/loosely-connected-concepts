@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.world.decorator
 
-import com.joshmanisdabomb.lcc.world.GenUtils
+/*import com.joshmanisdabomb.lcc.world.GenUtils
 import com.mojang.serialization.Codec
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos
@@ -33,4 +33,4 @@ class NearLavaLakeDecorator(codec: Codec<NopeDecoratorConfig>) : Decorator<NopeD
         return Stream.of(pos2.add(random.nextInt(2), random.nextInt(2), random.nextInt(2)))
     }
 
-}
+}*/

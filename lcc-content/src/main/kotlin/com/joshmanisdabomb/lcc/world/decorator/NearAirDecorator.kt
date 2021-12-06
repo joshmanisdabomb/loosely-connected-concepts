@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.world.decorator
 
-import com.mojang.serialization.Codec
+/*import com.mojang.serialization.Codec
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.gen.decorator.Decorator
@@ -18,4 +18,4 @@ class NearAirDecorator(codec: Codec<NopeDecoratorConfig>) : Decorator<NopeDecora
         return Stream.empty()
     }
 
-}
+}*/

@@ -67,7 +67,7 @@ class DiscipleDustEntity : ProjectileEntity {
         checkBlockCollision()
 
         val vec3d = velocity
-        ProjectileUtil.method_7484(this, 0.2f)
+        ProjectileUtil.setRotationFromVelocity(this, 0.2f)
         this.setPosition(this.x + vec3d.x, this.y + vec3d.y, this.z + vec3d.z)
 
         if (world.isClient) {

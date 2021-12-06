@@ -5,11 +5,8 @@ import com.joshmanisdabomb.lcc.world.feature.structure.WastelandObeliskStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature*/
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.mixin.hooks.common.DecoratorAccessor
 import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
 import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
-import com.joshmanisdabomb.lcc.world.decorator.NearAirDecorator
-import com.joshmanisdabomb.lcc.world.decorator.NearLavaLakeDecorator
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
@@ -27,10 +24,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.CountConfig
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.*
-import net.minecraft.world.gen.decorator.CountExtraDecoratorConfig
-import net.minecraft.world.gen.decorator.Decorator
-import net.minecraft.world.gen.decorator.DecoratorConfig
-import net.minecraft.world.gen.decorator.NopeDecoratorConfig
+import net.minecraft.world.gen.decorator.*
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
@@ -42,8 +36,9 @@ import net.minecraft.world.gen.trunk.StraightTrunkPlacer
 object LCCWorldgen {
     fun init() {
         LCCFeatures.init()
-        LCCDecorators.init()
+        //LCCDecorators.init()
         LCCConfiguredFeatures.init()
+        LCCPlacedFeatures.init()
         LCCCarvers.init()
         LCCConfiguredCarvers.init()
         /*LCCSurfaceBuilders.init()
@@ -105,50 +100,87 @@ object LCCConfiguredFeatures : BasicDirectory<ConfiguredFeature<out FeatureConfi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(ConfiguredFeatures.COAL_ORE_TARGETS, 14)).triangleRange(YOffset.fixed(0), YOffset.fixed(128)).spreadHorizontally().repeat(15) }
-    val abundant_iron by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(ConfiguredFeatures.IRON_ORE_TARGETS, 4)).triangleRange(YOffset.fixed(-64), YOffset.fixed(64)).spreadHorizontally().repeat(15) }
-    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(ConfiguredFeatures.COPPER_ORE_TARGETS, 14)).triangleRange(YOffset.fixed(18), YOffset.fixed(78)).spreadHorizontally().repeat(15) }
+    val abundant_coal by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreConfiguredFeatures.COAL_ORES, 14)) }
+    val abundant_iron by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreConfiguredFeatures.IRON_ORES, 4)) }
+    val abundant_copper by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(OreConfiguredFeatures.COPPER_ORES, 14)) }
 
-    val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmap()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.015f, 1))) }
-    val oil_pockets by entry(::initialiser) { LCCFeatures.oil_pockets.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(1))).applyChance(12) }
+    val oil_geyser by entry(::initialiser) { LCCFeatures.oil_geyser.configure(FeatureConfig.DEFAULT) }
+    val oil_pockets by entry(::initialiser) { LCCFeatures.oil_pockets.configure(FeatureConfig.DEFAULT) }
 
-    val uranium by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(uranium_targets, 4)).decorate(LCCDecorators.near_air.configure(DecoratorConfig.DEFAULT)).triangleRange(YOffset.aboveBottom(-116), YOffset.fixed(52)).spreadHorizontally() }
-    val uranium_wasteland by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(uranium_targets, 4)).decorate(LCCDecorators.near_air.configure(DecoratorConfig.DEFAULT)).triangleRange(YOffset.aboveBottom(-160), YOffset.fixed(96)).spreadHorizontally().repeat(5) }
+    val uranium by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(uranium_targets, 4)) }
 
-    val tungsten by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(tungsten_targets, 7)).uniformRange(YOffset.fixed(-10), YOffset.fixed(10)).spreadHorizontally().repeat(2) }
+    val tungsten by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(tungsten_targets, 7)) }
 
-    val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)).decorate(LCCDecorators.near_lava_lake.configure(DecoratorConfig.DEFAULT)).spreadHorizontally().applyChance(2) }
+    val topaz_geode by entry(::initialiser) { LCCFeatures.topaz_geode.configure(SmallGeodeFeatureConfig(37, LCCBlocks.topaz_block, LCCBlocks.budding_topaz, LCCBlocks.rhyolite.defaultState, LCCBlocks.pumice.defaultState)) }
 
     val classic_tree by entry(::initialiser) { Feature.TREE.configure((TreeFeatureConfig.Builder(BlockStateProvider.of(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), BlockStateProvider.of(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
     val rubber_tree by entry(::initialiser) { LCCFeatures.rubber_tree.configure(TreeFeatureConfig.Builder(BlockStateProvider.of(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), BlockStateProvider.of(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
-    val rubber_trees_rare by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.002F, 1))) }
-    val rubber_trees_uncommon by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.04F, 1))) }
-    val rubber_trees_common by entry(::initialiser) { rubber_tree.decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.35F, 1))) }
 
-    val salt by entry(::initialiser) { Feature.DISK.configure(DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))).spreadHorizontally().decorate(DecoratorAccessor.getSquareTopSolidHeightmap()).applyChance(13) }
+    val salt by entry(::initialiser) { Feature.DISK.configure(DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))) }
 
     val deposits by entry(::initialiser) { Feature.FLOWER.configure(RandomPatchFeatureConfig(96, 6, 2) {
-        Feature.SIMPLE_BLOCK.configure(SimpleBlockFeatureConfig(NoiseBlockStateProvider(2345L, DoublePerlinNoiseSampler.NoiseParameters(0, 1.0, *DoubleArray(0)), 0.020833334f, listOf(LCCBlocks.deposit.defaultState)))).onlyInAir()
-    }).decorate(DecoratorAccessor.getSquareHeightmap()) }
-    val landmines by entry(::initialiser) { LCCFeatures.landmines.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmap()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.15f, 1))) }
-    val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)).uniformRange(YOffset.fixed(75), YOffset.getTop()).spreadHorizontally().repeat(70) }
-    val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT).decorate(Decorator.COUNT_MULTILAYER.configure(CountConfig(8))) }
-    val deadwood_logs by entry(::initialiser) { LCCFeatures.deadwood_logs.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmapOceanFloorNoWater()).applyChance(14) }
-    val spike_trap by entry(::initialiser) { LCCFeatures.spike_trap.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmap()).decorate(Decorator.COUNT_EXTRA.configure(CountExtraDecoratorConfig(0, 0.4f, 1))) }
-    val wasp_hive by entry(::initialiser) { LCCFeatures.wasp_hive.configure(FeatureConfig.DEFAULT).decorate(DecoratorAccessor.getSquareHeightmap()).applyChance(90) }
+        Feature.SIMPLE_BLOCK.configure(SimpleBlockFeatureConfig(NoiseBlockStateProvider(2345L, DoublePerlinNoiseSampler.NoiseParameters(0, 1.0, *DoubleArray(0)), 0.020833334f, listOf(LCCBlocks.deposit.defaultState)))).withInAirFilter()
+    }) }
+    val landmines by entry(::initialiser) { LCCFeatures.landmines.configure(FeatureConfig.DEFAULT) }
+    val fortstone_patches by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)) }
+    val wasteland_spikes by entry(::initialiser) { LCCFeatures.wasteland_spikes.configure(FeatureConfig.DEFAULT) }
+    val deadwood_logs by entry(::initialiser) { LCCFeatures.deadwood_logs.configure(FeatureConfig.DEFAULT) }
+    val spike_trap by entry(::initialiser) { LCCFeatures.spike_trap.configure(FeatureConfig.DEFAULT) }
+    val wasp_hive by entry(::initialiser) { LCCFeatures.wasp_hive.configure(FeatureConfig.DEFAULT) }
 
-    val mud by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)).spreadHorizontally().decorate(DecoratorAccessor.getHeightmapWorldSurface()) }
+    val mud by entry(::initialiser) { Feature.ORE.configure(OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)) }
 
     override fun defaultProperties(name: String) = Unit
 
     val uranium_targets = ImmutableList.of(
-        OreFeatureConfig.createTarget(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.uranium_ore.defaultState),
-        OreFeatureConfig.createTarget(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState)
+        OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, LCCBlocks.uranium_ore.defaultState),
+        OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_uranium_ore.defaultState)
     )
     val tungsten_targets = ImmutableList.of(
-        OreFeatureConfig.createTarget(OreFeatureConfig.Rules.STONE_ORE_REPLACEABLES, LCCBlocks.tungsten_ore.defaultState),
-        OreFeatureConfig.createTarget(OreFeatureConfig.Rules.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_tungsten_ore.defaultState)
+        OreFeatureConfig.createTarget(OreConfiguredFeatures.STONE_ORE_REPLACEABLES, LCCBlocks.tungsten_ore.defaultState),
+        OreFeatureConfig.createTarget(OreConfiguredFeatures.DEEPSLATE_ORE_REPLACEABLES, LCCBlocks.deepslate_tungsten_ore.defaultState)
     )
+
+}
+
+object LCCPlacedFeatures : BasicDirectory<PlacedFeature, Unit>(), RegistryDirectory<PlacedFeature, Unit, Unit> {
+
+    override val registry by lazy { BuiltinRegistries.PLACED_FEATURE }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    //TODO review heightmap placements
+    val abundant_coal by entry(::initialiser) { LCCConfiguredFeatures.abundant_coal.withPlacement(listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(0), YOffset.fixed(128)), BiomePlacementModifier.of())) }
+    val abundant_iron by entry(::initialiser) { LCCConfiguredFeatures.abundant_iron.withPlacement(listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-64), YOffset.fixed(64)), BiomePlacementModifier.of())) }
+    val abundant_copper by entry(::initialiser) { LCCConfiguredFeatures.abundant_copper.withPlacement(listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(18), YOffset.fixed(78)), BiomePlacementModifier.of())) }
+
+    val oil_geyser by entry(::initialiser) { LCCConfiguredFeatures.oil_geyser.withPlacement(listOf(RarityFilterPlacementModifier.of(50), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val oil_pockets by entry(::initialiser) { LCCConfiguredFeatures.oil_pockets.withPlacement(listOf(RarityFilterPlacementModifier.of(12), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    val uranium by entry(::initialiser) { LCCConfiguredFeatures.uranium.withPlacement(listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-116), YOffset.fixed(52)), BiomePlacementModifier.of())) } //TODO near air
+    val uranium_wasteland by entry(::initialiser) { LCCConfiguredFeatures.uranium.withPlacement(listOf(CountPlacementModifier.of(5), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-160), YOffset.fixed(96)), BiomePlacementModifier.of())) } //TODO near air
+
+    val tungsten by entry(::initialiser) { LCCConfiguredFeatures.uranium.withPlacement(listOf(CountPlacementModifier.of(2), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(-10), YOffset.fixed(10)), BiomePlacementModifier.of())) }
+
+    val topaz_geode by entry(::initialiser) { LCCConfiguredFeatures.oil_pockets.withPlacement(listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) } //TODO near lava lake
+
+    val rubber_trees_rare by entry(::initialiser) { LCCConfiguredFeatures.rubber_tree.withPlacement(listOf(RarityFilterPlacementModifier.of(500), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val rubber_trees_uncommon by entry(::initialiser) { LCCConfiguredFeatures.rubber_tree.withPlacement(listOf(RarityFilterPlacementModifier.of(25), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val rubber_trees_common by entry(::initialiser) { LCCConfiguredFeatures.rubber_tree.withPlacement(listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    val salt by entry(::initialiser) { LCCConfiguredFeatures.salt.withPlacement(listOf(RarityFilterPlacementModifier.of(13), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    val deposits by entry(::initialiser) { LCCConfiguredFeatures.deposits.withPlacement(listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val landmines by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(RarityFilterPlacementModifier.of(7), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val fortstone_patches by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(CountPlacementModifier.of(70), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(75), YOffset.getTop()), BiomePlacementModifier.of())) }
+    val wasteland_spikes by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(CountPlacementModifier.of(8), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val deadwood_logs by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(RarityFilterPlacementModifier.of(14), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val spike_trap by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val wasp_hive by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(RarityFilterPlacementModifier.of(90), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    val mud by entry(::initialiser) { LCCConfiguredFeatures.landmines.withPlacement(listOf(RarityFilterPlacementModifier.of(90), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    override fun defaultProperties(name: String) = Unit
 
 }
 
@@ -227,7 +259,7 @@ object LCCConfiguredSurfaceBuilders : BasicDirectory<ConfiguredSurfaceBuilder<ou
 
 }*/
 
-object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), RegistryDirectory<Decorator<out DecoratorConfig>, Unit, Unit> {
+/*object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), RegistryDirectory<Decorator<out DecoratorConfig>, Unit, Unit> {
 
     override val registry by lazy { Registry.DECORATOR }
 
@@ -238,7 +270,7 @@ object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), R
 
     override fun defaultProperties(name: String) = Unit
 
-}
+}*/
 
 /*object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out FeatureConfig, out StructureFeature<out FeatureConfig>>, StructureFeature<out FeatureConfig>, GenerationStep.Feature, Unit>() {
 

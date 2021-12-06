@@ -20,7 +20,7 @@ class MultipleMatchRuleTest(private val blocks: List<Block>, private val states:
     companion object {
         val codec: Codec<MultipleMatchRuleTest> = RecordCodecBuilder.create {
             it.group(
-                Codec.list(Registry.BLOCK).fieldOf("blocks").forGetter { it.blocks },
+                Registry.BLOCK.codec.listOf().fieldOf("blocks").forGetter { it.blocks },
                 Codec.list(BlockState.CODEC).fieldOf("states").forGetter { it.states },
                 Codec.list(Tag.codec { ServerTagManagerHolder.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY) }).fieldOf("tags").forGetter { it.tags }
             ).apply(it) { b, s, t -> MultipleMatchRuleTest(b, s, t) }

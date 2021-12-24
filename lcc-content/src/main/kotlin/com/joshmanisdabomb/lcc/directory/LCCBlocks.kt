@@ -352,7 +352,9 @@ object LCCBlocks : BlockDirectory() {
 
     //TODO spreaders
 
-    //TODO computers
+    //Computing
+    val computing by entry(::initialiser) { ComputingBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE).breakByTool(PICKAXES, 1).requiresTool().strength(3.0F, 0.0F).sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(COMPUTING))
 
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 

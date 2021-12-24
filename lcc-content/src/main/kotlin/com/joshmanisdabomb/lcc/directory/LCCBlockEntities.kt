@@ -43,6 +43,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val improvised_explosive by entry(::beInitialiser) { BlockEntityType.Builder.create(::ImprovisedExplosiveBlockEntity, LCCBlocks.improvised_explosive) }
     val sapphire_altar by entry(::beInitialiser) { BlockEntityType.Builder.create(::SapphireAltarBlockEntity, LCCBlocks.sapphire_altar) }
     val wasteland_obelisk by entry(::beInitialiser) { BlockEntityType.Builder.create(::WastelandObeliskBlockEntity, LCCBlocks.wasteland_obelisk) }
+    val computing by entry(::beInitialiser) { BlockEntityType.Builder.create(::ComputingBlockEntity, LCCBlocks.computing) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
@@ -261,6 +262,22 @@ object LCCItems : ItemDirectory() {
 
     val radiation_detector by entry(::initialiser) { RadiationDetectorItem(LooseEnergy.toStandard(8000f), Item.Settings().defaults().maxCount(1)) }
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(1000)).modelPredicate(LCC.id("winter")) { (it as RadiationDetectorItem)::getWinterPredicate })
+
+    //Computing
+    val computer_casing by entry(::initialiser) { ComputingItem(LCCComputerModules.casing, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val computer by entry(::initialiser) { ComputingItem(LCCComputerModules.computer, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val floppy_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.floppy_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val cd_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.cd_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val card_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.card_reader, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val stick_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.stick_reader, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val drive_bay by entry(::initialiser) { ComputingItem(LCCComputerModules.drive_bay, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
 
     //Health
     val heart_half by entryMap(::initialiser, *HeartType.values()) { HeartItem(it, 1.0F, Item.Settings().defaults()) }

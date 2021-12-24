@@ -694,6 +694,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         })
     }
 
+    val computing by entry(::initialiser) { data().add(SpecialBlockAssetFactory) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

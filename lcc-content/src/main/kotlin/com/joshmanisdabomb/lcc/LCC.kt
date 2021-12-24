@@ -2,6 +2,9 @@ package com.joshmanisdabomb.lcc
 
 import com.google.common.base.CaseFormat
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
+import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
+import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
+import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitions
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
 import net.fabricmc.api.ModInitializer
@@ -16,6 +19,11 @@ object LCC : ModInitializer {
         if (initialised) return
 
         LCCRegistries.init()
+
+        LCCComputerModules.init()
+        LCCDigitalMediums.init()
+        LCCPartitions.init()
+
         LCCGroups.init()
         LCCSounds.init()
         LCCFluids.init()

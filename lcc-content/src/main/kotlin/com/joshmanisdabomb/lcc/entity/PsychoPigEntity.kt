@@ -1,33 +1,47 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.block.entity.WastelandObeliskBlockEntity.Companion.cooldown
 import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
-import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.SpawnReason
+import net.minecraft.entity.*
 import net.minecraft.entity.ai.goal.*
-import net.minecraft.entity.ai.pathing.EntityNavigation
 import net.minecraft.entity.ai.pathing.SpiderNavigation
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
-import net.minecraft.entity.mob.HostileEntity.createHostileAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
+import net.minecraft.world.*
 
 class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : HostileEntity(type, world), LCCContentEntityTrait {
+
+    var eyeLeft = false
+
+    override fun initialize(world: ServerWorldAccess, difficulty: LocalDifficulty, spawnReason: SpawnReason, entityData: EntityData?, entityNbt: NbtCompound?): EntityData? {
+        eyeLeft = random.nextBoolean()
+        dataTracker.set(eye_left, eyeLeft)
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt)
+    }
+
+    override fun initDataTracker() {
+        super.initDataTracker()
+        dataTracker.startTracking(eye_left, false)
+    }
+
+    override fun onTrackedDataSet(data: TrackedData<*>) {
+        super.onTrackedDataSet(data)
+        if (data == eye_left) {
+            eyeLeft = dataTracker.get(eye_left)
+        }
+    }
 
     override fun initGoals() {
         goalSelector.add(1, SwimGoal(this))
@@ -59,10 +73,12 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         super.writeCustomDataToNbt(nbt)
+        nbt.putBoolean("LeftEyed", this.eyeLeft)
     }
 
     override fun readCustomDataFromNbt(nbt: NbtCompound) {
         super.readCustomDataFromNbt(nbt)
+        nbt.getBoolean("LeftEyed").also { eyeLeft = it; dataTracker.set(eye_left, it) }
     }
 
     override fun getAmbientSound() = isAttacking.transform(LCCSounds.consumer_ambient, SoundEvents.ENTITY_PIG_AMBIENT)
@@ -82,6 +98,8 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
     }
 
     companion object {
+        val eye_left = DataTracker.registerData(PsychoPigEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+
         fun createAttributes(): DefaultAttributeContainer.Builder {
             return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 20.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0)
         }

@@ -10,6 +10,8 @@ import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.tag.BlockTags
@@ -21,7 +23,9 @@ import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.CountConfig
+import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset
 import net.minecraft.world.gen.carver.*
 import net.minecraft.world.gen.decorator.*
@@ -51,23 +55,22 @@ object LCCWorldgen {
     }
 
     fun biomeModifications() {
-        /*//Ores
+        //Ores
         with (BiomeSelectors.foundInOverworld().and { LCCBiomes.getOrNull(it.biome)?.tags?.contains("wasteland") != true }) {
-            BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.uranium))
-            BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.topaz_geode))
+            BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.uranium))
+            BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.topaz_geode))
         }
 
         //Rubber Tree
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.SAVANNA, Biome.Category.PLAINS -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_rare))
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.MESA -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_uncommon))
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.JUNGLE -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.rubber_trees_common))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.SAVANNA, Biome.Category.PLAINS -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.rubber_trees_rare))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.MESA -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.rubber_trees_uncommon))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { when (it.biome.category) { Biome.Category.JUNGLE -> true; else -> false } }, GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.rubber_trees_common))
 
         //Salt
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && it.biome.category == Biome.Category.OCEAN && it.biomeKey.value.path.contains("deep") }, GenerationStep.Feature.UNDERGROUND_ORES, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.salt))
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && it.biome.category == Biome.Category.OCEAN && it.biomeKey.value.path.contains("deep") }, GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.salt))
 
         //Mud
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && (it.biomeKey.value.path.contains("jungle") || it.biomeKey.value.path.contains("dark_forest") || it.biomeKey.value.path.contains("swamp")) }, GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCConfiguredFeatures.getRegistryKey(LCCConfiguredFeatures.mud))
-        */
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && (it.biomeKey.value.path.contains("jungle") || it.biomeKey.value.path.contains("dark_forest") || it.biomeKey.value.path.contains("swamp")) }, GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCPlacedFeatures.getRegistryKey(LCCPlacedFeatures.mud))
     }
 }
 

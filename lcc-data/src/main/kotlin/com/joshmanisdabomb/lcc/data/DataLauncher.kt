@@ -64,7 +64,7 @@ abstract class DataLauncher(override val modid: String, final override val path:
     final override fun onPreLaunch() {
         beforeRun()
 
-        installs.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> datagen.install(k) }
+        installs.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> datagen.addProvider(k) }
         delayedInstalls.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> delayedDatagen.install(k) }
 
         logger.info("Starting $modid data generator in path: $path")

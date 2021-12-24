@@ -94,7 +94,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
         matrix.pop()
     }
 
-    override fun isPauseScreen() = false
+    override fun shouldPause() = false
 
     fun hovered(mouseX: Int, mouseY: Int): GauntletAction<*>? {
         if (mouseX in sw.div(2).minus(7)..sw.div(2).plus(7) && mouseY in sh.div(2).minus(7)..sh.div(2).plus(7)) {

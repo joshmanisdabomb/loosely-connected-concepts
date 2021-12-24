@@ -14,12 +14,14 @@ import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.item.ItemStack
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
 import net.minecraft.world.BlockRenderView
 import java.util.*
+import java.util.function.Consumer
 import java.util.function.Function
 import java.util.function.Supplier
 
@@ -70,6 +72,8 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
             ?.material(RendererAccess.INSTANCE.renderer!!.materialFinder().find())
             ?.emit()
     }
+
+    open fun loadExtraModels(manager: ResourceManager, loader: Consumer<Identifier>) = Unit
 
     companion object {
         fun QuadEmitter.cubeFace(direction: Direction, pos1: Vec3f, pos2: Vec3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {

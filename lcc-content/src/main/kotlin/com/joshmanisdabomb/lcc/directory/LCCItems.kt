@@ -264,20 +264,20 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(1000)).modelPredicate(LCC.id("winter")) { (it as RadiationDetectorItem)::getWinterPredicate })
 
     //Computing
-    val computer_casing by entry(::initialiser) { ComputingItem(LCCComputerModules.casing, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+    val computer_casing by entry(::initialiser) { ComputingItem(LCCComputerModules.computer_casing, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val computer by entry(::initialiser) { ComputingItem(LCCComputerModules.computer, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val floppy_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.floppy_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val cd_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.cd_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val card_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.card_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val stick_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.stick_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
     val drive_bay by entry(::initialiser) { ComputingItem(LCCComputerModules.drive_bay, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DefaultedColoredItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
 
     //Health
     val heart_half by entryMap(::initialiser, *HeartType.values()) { HeartItem(it, 1.0F, Item.Settings().defaults()) }

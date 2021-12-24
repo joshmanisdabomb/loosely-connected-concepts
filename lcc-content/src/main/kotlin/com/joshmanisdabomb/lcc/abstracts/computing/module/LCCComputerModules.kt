@@ -11,7 +11,7 @@ object LCCComputerModules : BasicDirectory<ComputerModule, Unit>(), RegistryDire
 
     override fun regId(name: String) = LCC.id(name)
 
-    val casing by entry(::initialiser) { CasingComputerModule() }
+    val computer_casing by entry(::initialiser) { CasingComputerModule() }
     val computer by entry(::initialiser) { ComputerComputerModule() }
     val floppy_drive by entry(::initialiser) { DriveComputerModule() }
     val cd_drive by entry(::initialiser) { DriveComputerModule() }

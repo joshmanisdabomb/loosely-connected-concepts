@@ -3,18 +3,22 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.RoadBlock
 import com.joshmanisdabomb.lcc.block.model.ClassicCryingObsidianModel
+import com.joshmanisdabomb.lcc.block.model.ComputingModel
 import com.joshmanisdabomb.lcc.block.model.ConnectedTextureModel
 import com.joshmanisdabomb.lcc.block.model.RoadModel
 import com.joshmanisdabomb.lcc.lib.block.model.LCCModel
+import net.fabricmc.fabric.api.client.model.ExtraModelProvider
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry
 import net.fabricmc.fabric.api.client.model.ModelProviderContext
 import net.fabricmc.fabric.api.client.model.ModelResourceProvider
 import net.minecraft.client.render.model.UnbakedModel
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
+import java.util.function.Consumer
 
-object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
+object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider, ExtraModelProvider {
 
     val test_block_5 by entry(::initialiser) { ConnectedTextureModel(id) }
 
@@ -37,6 +41,8 @@ object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
 
     val polished_fortstone by entry(::initialiser) { ConnectedTextureModel(id) }
 
+    val computing by entry(::initialiser) { ComputingModel() }
+
     private val models by lazy { entries.map { (k, v) -> Identifier(v.context.id.namespace, "${v.tags.firstOrNull() ?: "block"}/${v.context.id.path}") to v.entry }.toMap() }
 
     private fun <M : LCCModel> initialiser(input: M, context: DirectoryContext<Unit>, parameters: Unit) = input
@@ -47,6 +53,7 @@ object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out LCCModel, out LCCModel>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
         ModelLoadingRegistry.INSTANCE.registerResourceProvider { LCCModels }
+        ModelLoadingRegistry.INSTANCE.registerModelProvider(LCCModels)
     }
 
     override fun loadModelResource(id: Identifier, context: ModelProviderContext): UnbakedModel? {
@@ -54,6 +61,10 @@ object LCCModels : BasicDirectory<LCCModel, Unit>(), ModelResourceProvider {
             return models[id]!!
         }
         return null
+    }
+
+    override fun provideExtraModels(manager: ResourceManager, loader: Consumer<Identifier>) {
+        all.values.forEach { it.loadExtraModels(manager, loader) }
     }
 
 }

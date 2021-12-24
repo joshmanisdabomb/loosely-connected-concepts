@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.computing.module
 
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.prefix
+import net.minecraft.util.StringIdentifiable
 
 abstract class ComputerModule {
 

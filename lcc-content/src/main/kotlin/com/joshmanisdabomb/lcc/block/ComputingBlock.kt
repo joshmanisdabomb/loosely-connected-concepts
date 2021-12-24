@@ -3,17 +3,15 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
+import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.item.ComputingItem
 import com.joshmanisdabomb.lcc.subblock.Subblock
 import com.joshmanisdabomb.lcc.subblock.SubblockSystem
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
-import net.minecraft.block.Block
+import net.minecraft.block.*
 import net.minecraft.block.Block.getDroppedStacks
-import net.minecraft.block.BlockState
-import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.ShapeContext
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.block.enums.SlabType
@@ -29,6 +27,7 @@ import net.minecraft.state.property.Properties.SLAB_TYPE
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShapes
+import net.minecraft.world.BlockRenderView
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 
@@ -94,6 +93,8 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
         }
     }
 
+    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+
     override fun getSubblocks(state: BlockState, world: BlockView, pos: BlockPos) = when (state[SLAB_TYPE]) {
         SlabType.DOUBLE -> listOf(sbTop, sbBottom)
         SlabType.BOTTOM -> listOf(sbBottom)
@@ -134,6 +135,12 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
     companion object {
         val shapeTop = createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0)
         val shapeBottom = createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0)
+
+        fun getTintColor(state: BlockState, world: BlockRenderView?, pos: BlockPos?, tintIndex: Int): Int {
+            if (tintIndex == 1 && state[SLAB_TYPE] != SlabType.TOP) return (world?.getBlockEntity(pos) as? ComputingBlockEntity)?.getHalf(false)?.color ?: -1
+            if (tintIndex == 2 && state[SLAB_TYPE] != SlabType.BOTTOM) return (world?.getBlockEntity(pos) as? ComputingBlockEntity)?.getHalf(true)?.color ?: -1
+            return -1
+        }
     }
 
 }

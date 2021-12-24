@@ -1,0 +1,9 @@
+{
+  "parent": "lcc:block/template_computing_top",
+  "textures": {
+    "top": "lcc:block/computer_casing_top",
+    "side": "lcc:block/computer_casing_both",
+    "front": "lcc:block/floppy_drive",
+    "white": "lcc:block/computer_casing_white"
+  }
+}

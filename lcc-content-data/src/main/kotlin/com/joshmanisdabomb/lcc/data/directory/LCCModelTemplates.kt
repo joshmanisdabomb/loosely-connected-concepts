@@ -85,6 +85,8 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_obelisk_bottom by templateEntry("block", template_obelisk_bottom_json, TextureKey.TEXTURE, TextureKey.INSIDE, TextureKey.PARTICLE)
     val template_obelisk_top by templateEntry("block", template_obelisk_top_json, TextureKey.TEXTURE, TextureKey.LANTERN, TextureKey.INSIDE, TextureKey.PARTICLE)
     val template_obelisk_item by templateEntry("item", template_obelisk_item_json, TextureKey.TEXTURE, TextureKey.LANTERN, TextureKey.INSIDE)
+    val template_computing by templateEntry("block", template_computing_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
+    val template_computing_top by templateEntry("block", template_computing_top_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
 
 }
 
@@ -9609,4 +9611,230 @@ private const val template_obelisk_item_json = """{
 			"scale": [0.5, 0.5, 0.5]
 		}
 	}
+}"""
+
+private const val template_computing_json = """{
+  "parent": "block/block",
+  "textures": {
+    "particle": "#top"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#top",
+          "cullface": "down",
+          "tintindex": 1
+        },
+        "up": {
+          "texture": "#top",
+          "tintindex": 1
+        },
+        "north": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            8.0
+          ],
+          "cullface": "north",
+          "tintindex": 1
+        },
+        "south": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            8.0
+          ],
+          "cullface": "south",
+          "tintindex": 1
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            8.0
+          ],
+          "cullface": "west",
+          "tintindex": 1
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            8.0
+          ],
+          "cullface": "east",
+          "tintindex": 1
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front",
+          "cullface": "north",
+          "tintindex": 1
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#white",
+          "cullface": "north"
+        }
+      }
+    }
+  ]
+}"""
+
+private const val template_computing_top_json = """{
+  "parent": "block/block",
+  "textures": {
+    "particle": "#top"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#top",
+          "tintindex": 2
+        },
+        "up": {
+          "texture": "#top",
+          "cullface": "up",
+          "tintindex": 2
+        },
+        "north": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            8.0,
+            16.0,
+            16.0
+          ],
+          "cullface": "north",
+          "tintindex": 2
+        },
+        "south": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            8.0,
+            16.0,
+            16.0
+          ],
+          "cullface": "south",
+          "tintindex": 2
+        },
+        "west": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            8.0,
+            16.0,
+            16.0
+          ],
+          "cullface": "west",
+          "tintindex": 2
+        },
+        "east": {
+          "texture": "#side",
+          "uv": [
+            0.0,
+            8.0,
+            16.0,
+            16.0
+          ],
+          "cullface": "east",
+          "tintindex": 2
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#front",
+          "cullface": "north",
+          "tintindex": 2
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#white",
+          "cullface": "north"
+        }
+      }
+    }
+  ]
 }"""

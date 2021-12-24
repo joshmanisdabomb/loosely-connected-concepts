@@ -31,4 +31,8 @@ class ComputingItem(val module: ComputerModule, settings: Settings) : BlockItem(
 
     fun getComputingHalf(stack: ItemStack, direction: Direction, top: Boolean) = ComputingBlockEntity.ComputingHalf(this.module, direction, this.getTintColor(stack), top)
 
+    companion object {
+        fun getTintColor(stack: ItemStack, tint: Int) = if (tint != 1) -1 else (stack.item as DefaultedColoredItem).getTintColor(stack)
+    }
+
 }

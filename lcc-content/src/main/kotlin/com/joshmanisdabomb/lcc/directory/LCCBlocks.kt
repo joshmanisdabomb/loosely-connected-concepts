@@ -151,7 +151,7 @@ object LCCBlocks : BlockDirectory() {
     val potted_rubber_sapling by entry(::initialiser) { FlowerPotBlock(rubber_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().cutout())
     val rubber_leaves by entry(::initialiser) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2F).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isIn(BlockTags.LOGS) } }
-        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutoutMipped().blockColor { { BlockColorProvider { _, _, _, _ -> ColorConstants.rubber_leaves } } }.stackColor { _, _ -> ColorConstants.rubber_leaves })
+        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutoutMipped().blockColor { _, _, _, _ -> ColorConstants.rubber_leaves }.stackColor { _, _ -> ColorConstants.rubber_leaves })
     val stripped_rubber_log by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val sappy_stripped_rubber_log by entry(::initialiser) { SapBurstBlock(AbstractTreetapBlock.TreetapLiquid.LATEX, stripped_rubber_log.defaultState, FabricBlockSettings.copyOf(stripped_rubber_log)) { it.nextInt(10).plus(10) } }
@@ -354,7 +354,7 @@ object LCCBlocks : BlockDirectory() {
 
     //Computing
     val computing by entry(::initialiser) { ComputingBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE).breakByTool(PICKAXES, 1).requiresTool().strength(3.0F, 0.0F).sounds(BlockSoundGroup.METAL)) }
-        .setProperties(BlockExtraSettings().creativeEx(COMPUTING))
+        .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(ComputingBlock::getTintColor))
 
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 

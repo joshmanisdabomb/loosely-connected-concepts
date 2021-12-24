@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:computer_casing"
+    ]
+  },
+  "criteria": {
+    "has_rigid_plastic": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:rigid_plastic"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:computer_casing"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_rigid_plastic",
+      "has_the_recipe"
+    ]
+  ]
+}

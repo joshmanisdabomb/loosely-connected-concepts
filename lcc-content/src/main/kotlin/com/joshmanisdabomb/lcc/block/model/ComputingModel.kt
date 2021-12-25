@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.state.property.Properties
 import net.minecraft.tag.RequiredTagListRegistry.forEach
+import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -46,7 +47,9 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
             val modelId = half.module.id.prefix("block/", "").suffix("top")
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
+            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))
             (model as? FabricBakedModel)?.emitBlockQuads(renderView, state, pos, random, renderContext)
+            renderContext.popTransform()
         }
 
         if (state[Properties.SLAB_TYPE] != SlabType.TOP) {
@@ -56,7 +59,9 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
             val modelId = half.module.id.prefix("block/", "")
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
+            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))
             (model as? FabricBakedModel)?.emitBlockQuads(renderView, state, pos, random, renderContext)
+            renderContext.popTransform()
         }
     }
 

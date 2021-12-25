@@ -172,9 +172,20 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
                     }
                 }
                 for (i in 0..3) {
-                    //TODO if rotation applied on axis, rotate vertice indexes
-                    it.pos(i, positions[i])
-                    if (normals[i] != null) it.normal(i, normals[i])
+                    when (nominal.axis) {
+                        Direction.Axis.X -> {
+                            it.pos(i, positions[i.plus(x.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(x.ordinal).rem(4)])
+                        }
+                        Direction.Axis.Z -> {
+                            it.pos(i, positions[i.plus(z.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(z.ordinal).rem(4)])
+                        }
+                        else -> {
+                            it.pos(i, positions[i.plus(y.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(y.ordinal).rem(4)])
+                        }
+                    }
                 }
                 true
             }

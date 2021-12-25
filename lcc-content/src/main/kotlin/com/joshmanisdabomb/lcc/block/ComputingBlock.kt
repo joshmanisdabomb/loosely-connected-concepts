@@ -107,9 +107,9 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
         if (state[SLAB_TYPE] == SlabType.DOUBLE) {
             if (!world.isClient) {
                 be?.getHalf(subblock == sbTop)?.drop(world as ServerWorld, pos)
-                be?.removeHalf(subblock == sbTop)
-                world.setBlockState(pos, state.with(SLAB_TYPE, (subblock == sbTop).transform(SlabType.BOTTOM, SlabType.TOP)), 3)
             }
+            be?.removeHalf(subblock == sbTop)
+            world.setBlockState(pos, state.with(SLAB_TYPE, (subblock == sbTop).transform(SlabType.BOTTOM, SlabType.TOP)), 7)
         } else {
             world.removeBlock(pos, false)
         }

@@ -32,19 +32,24 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 import kotlin.text.Typography.half
 
-class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/computer_casing"))) }) {
+class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/computer_casing_top"))) }) {
 
     private val particle by lazy { bakedSprites["particle"]!! }
 
     override fun emitBlockQuads(renderView: BlockRenderView, state: BlockState, pos: BlockPos, random: Supplier<Random>, renderContext: RenderContext) {
         val be = renderView.getBlockEntity(pos) as? ComputingBlockEntity
-        val rand = random.get()
 
         if (state[Properties.SLAB_TYPE] != SlabType.BOTTOM) {
-            val cUp = false //TODO connections
-            val cDown = false
             val half = be?.getHalf(true) ?: topDefault
-            val modelId = half.module.id.prefix("block/", "").suffix("top")
+            val cUp = if (be != null) half.connectsAbove(be) else false
+            val cDown = if (be != null) half.connectsBelow(be) else false
+            val suffix = when {
+                cUp && cDown -> "both"
+                cUp -> "up"
+                cDown -> "down"
+                else -> null
+            }
+            val modelId = half.module.id.prefix("block/", "").suffix("top").suffix(suffix)
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
             renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))
@@ -53,10 +58,16 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
         }
 
         if (state[Properties.SLAB_TYPE] != SlabType.TOP) {
-            val cUp = false //TODO connections
-            val cDown = false
             val half = be?.getHalf(false) ?: bottomDefault
-            val modelId = half.module.id.prefix("block/", "")
+            val cUp = if (be != null) half.connectsAbove(be) else false
+            val cDown = if (be != null) half.connectsBelow(be) else false
+            val suffix = when {
+                cUp && cDown -> "both"
+                cUp -> "up"
+                cDown -> "down"
+                else -> null
+            }
+            val modelId = half.module.id.prefix("block/", "").suffix(suffix)
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
             renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))

@@ -92,6 +92,28 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             }
         }
 
+        fun connectsTo(other: ComputingHalf) = this.color == other.color
+
+        fun connectsAbove(be: ComputingBlockEntity): Boolean {
+            if (top) {
+                val above = (be.world?.getBlockEntity(be.pos.up()) as? ComputingBlockEntity)?.getHalf(false) ?: return false
+                return connectsTo(above)
+            } else {
+                val above = be.getHalf(true) ?: return false
+                return connectsTo(above)
+            }
+        }
+
+        fun connectsBelow(be: ComputingBlockEntity): Boolean {
+            if (top) {
+                val below = be.getHalf(false) ?: return false
+                return connectsTo(below)
+            } else {
+                val below = (be.world?.getBlockEntity(be.pos.down()) as? ComputingBlockEntity)?.getHalf(true) ?: return false
+                return connectsTo(below)
+            }
+        }
+
     }
 
 }

@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.gui.screen.*
+import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider
@@ -27,6 +29,8 @@ object LCCScreens : AdvancedDirectory<Any, ScreenRegistry.Factory<out ScreenHand
 
     val kiln by entry(::initialiser) { ::KilnScreen }
     val nuclear_generator by entry(::initialiser) { ::NuclearFiredGeneratorScreen }
+
+    val computing by entry(::initialiser) { { h: ComputingScreenHandler, pi: PlayerInventory, text: Text -> h.half.module.createScreen(h, pi, text)!! } }
 
     fun <S, H : ScreenHandler> initialiser(input: (H, PlayerInventory, Text) -> S, context: DirectoryContext<ScreenHandlerType<out ScreenHandler>>, parameters: Unit) where S : Screen, S : ScreenHandlerProvider<H> = ScreenRegistry.Factory(input).also { ScreenRegistry.register(context.properties as ScreenHandlerType<H>, input) }
 

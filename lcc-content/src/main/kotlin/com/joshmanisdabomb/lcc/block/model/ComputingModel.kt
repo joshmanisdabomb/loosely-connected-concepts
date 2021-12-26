@@ -40,37 +40,41 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
         val be = renderView.getBlockEntity(pos) as? ComputingBlockEntity
 
         if (state[Properties.SLAB_TYPE] != SlabType.BOTTOM) {
-            val half = be?.getHalf(true) ?: topDefault
-            val cUp = if (be != null) half.connectsAbove(be) else false
-            val cDown = if (be != null) half.connectsBelow(be) else false
+            val half = be?.getHalf(true)
+            val cUp = half?.connectsAbove(be) ?: false
+            val cDown = half?.connectsBelow(be) ?: false
             val suffix = when {
                 cUp && cDown -> "both"
                 cUp -> "up"
                 cDown -> "down"
                 else -> null
             }
-            val modelId = half.module.id.prefix("block/", "").suffix("top").suffix(suffix)
+            val module = half?.module ?: LCCComputerModules.computer_casing
+            val modelId = module.id.prefix("block/", "").suffix("top").suffix(suffix)
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
-            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))
+            val direction = half?.direction ?: Direction.NORTH
+            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[direction.horizontal.plus(2).rem(4)]))
             (model as? FabricBakedModel)?.emitBlockQuads(renderView, state, pos, random, renderContext)
             renderContext.popTransform()
         }
 
         if (state[Properties.SLAB_TYPE] != SlabType.TOP) {
-            val half = be?.getHalf(false) ?: bottomDefault
-            val cUp = if (be != null) half.connectsAbove(be) else false
-            val cDown = if (be != null) half.connectsBelow(be) else false
+            val half = be?.getHalf(false)
+            val cUp = half?.connectsAbove(be) ?: false
+            val cDown = half?.connectsBelow(be) ?: false
             val suffix = when {
                 cUp && cDown -> "both"
                 cUp -> "up"
                 cDown -> "down"
                 else -> null
             }
-            val modelId = half.module.id.prefix("block/", "").suffix(suffix)
+            val module = half?.module ?: LCCComputerModules.computer_casing
+            val modelId = module.id.prefix("block/", "").suffix(suffix)
 
             val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, modelId)
-            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[(half.direction.horizontal + 2) % 4]))
+            val direction = half?.direction ?: Direction.NORTH
+            renderContext.pushTransform(quadRotate(y = BlockRotation.values()[direction.horizontal.plus(2).rem(4)]))
             (model as? FabricBakedModel)?.emitBlockQuads(renderView, state, pos, random, renderContext)
             renderContext.popTransform()
         }
@@ -96,11 +100,6 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
             loader.accept(id.suffix("top_down"))
             loader.accept(id.suffix("top_both"))
         }
-    }
-
-    companion object {
-        val topDefault = ComputingBlockEntity.ComputingHalf(LCCComputerModules.computer_casing, Direction.NORTH, 0xFFF7EE, true)
-        val bottomDefault = ComputingBlockEntity.ComputingHalf(LCCComputerModules.computer_casing, Direction.NORTH, 0xFFF7EE, false)
     }
 
 }

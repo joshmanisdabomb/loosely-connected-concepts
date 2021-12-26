@@ -4,22 +4,29 @@ import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
+import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe.Companion.state
+import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.enums.SlabType
-import net.minecraft.inventory.Inventories.writeNbt
-import net.minecraft.item.ItemStack
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.inventory.Inventories
 import net.minecraft.loot.context.LootContext
-import net.minecraft.loot.context.LootContextParameters
 import net.minecraft.loot.context.LootContextTypes
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.tag.RequiredTagListRegistry.forEach
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
@@ -76,14 +83,34 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         }
     }
 
-    data class ComputingHalf(var module: ComputerModule, var direction: Direction, var color: Int, val top: Boolean) {
+    inner class ComputingHalf(var module: ComputerModule, var direction: Direction, var color: Int, val top: Boolean) {
 
-        constructor(nbt: NbtCompound, top: Boolean) : this(LCCRegistries.computer_modules[Identifier(nbt.getString("Module"))], Direction.fromHorizontal(nbt.getByte("Direction").toInt()), nbt.getInt("Color"), top)
+        val inventory = module.createInventory()?.apply { addListener { this@ComputingBlockEntity.markDirty() } }
+
+        var customName: Text? = null
+
+        constructor(nbt: NbtCompound, top: Boolean) : this(LCCRegistries.computer_modules[Identifier(nbt.getString("Module"))], Direction.fromHorizontal(nbt.getByte("Direction").toInt()), nbt.getInt("Color"), top) {
+            if (nbt.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(nbt.getString("CustomName"))
+            inventory?.apply { clear(); Inventories.readNbt(nbt, list) }
+        }
 
         fun writeNbt(nbt: NbtCompound) {
             nbt.putString("Module", module.id.toString())
             nbt.putByte("Direction", direction.horizontal.toByte())
             nbt.putInt("Color", color)
+            if (customName != null) nbt.putString("CustomName", Text.Serializer.toJson(customName))
+            inventory?.apply { Inventories.writeNbt(nbt, list) }
+        }
+
+        fun createScreenHandlerFactory(be: ComputingBlockEntity) = object : ExtendedScreenHandlerFactory {
+            override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = ComputingScreenHandler(syncId, inv).initHalf(be, this@ComputingHalf)
+
+            override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${module.id.path}")
+
+            override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
+                buf.writeBlockPos(be.pos)
+                buf.writeBoolean(top)
+            }
         }
 
         fun drop(world: ServerWorld, pos: BlockPos) {
@@ -113,6 +140,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
                 return connectsTo(below)
             }
         }
+
+        fun onUse(be: ComputingBlockEntity, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = module.onUse(be, this, state, player, hand, hit)
 
     }
 

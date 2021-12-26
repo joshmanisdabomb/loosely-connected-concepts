@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.DungeonTableBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.trait.LCCItemTrait
@@ -29,7 +30,11 @@ class ComputingItem(val module: ComputerModule, settings: Settings) : BlockItem(
         stacks.add(ItemStack(this))
     }
 
-    fun getComputingHalf(stack: ItemStack, direction: Direction, top: Boolean) = ComputingBlockEntity.ComputingHalf(this.module, direction, this.getTintColor(stack), top)
+    fun getComputingHalf(be: ComputingBlockEntity, stack: ItemStack, direction: Direction, top: Boolean): ComputingBlockEntity.ComputingHalf {
+        val half = be.ComputingHalf(this.module, direction, this.getTintColor(stack), top)
+        if (stack.hasCustomName()) half.customName = stack.name
+        return half
+    }
 
     companion object {
         fun getTintColor(stack: ItemStack, tint: Int) = if (tint != 1) -1 else (stack.item as DefaultedColoredItem).getTintColor(stack)

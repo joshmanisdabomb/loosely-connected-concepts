@@ -34,6 +34,12 @@ object LCCLangData {
         lang["container.lcc.oxygen_extractor"] = "Oxygen Extractor"
         lang["container.lcc.kiln"] = "Kiln"
         lang["container.lcc.nuclear_generator"] = "Nuclear Generator"
+        lang["container.lcc.computer"] = "Computer"
+        lang["container.lcc.floppy_drive"] = "Floppy Disk Drive"
+        lang["container.lcc.cd_drive"] = "Compact Disc Drive"
+        lang["container.lcc.card_reader"] = "Memory Card Reader"
+        lang["container.lcc.stick_reader"] = "Memory Stick Reader"
+        lang["container.lcc.drive_bay"] = "Drive Bay"
 
         lang["container.lcc.refining.power"] = "Power: %1\$s"
         lang["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"

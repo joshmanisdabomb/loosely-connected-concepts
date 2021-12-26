@@ -401,10 +401,10 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.plastic_shaped) }
     }) }
     val computer by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(true)) }
-    val floppy_drive by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
-    val cd_drive by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
-    val card_reader by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
-    val stick_reader by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
+    val floppy_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Floppy Disk Drive")).add(ComputingItemAssetFactory(false)) }
+    val cd_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Compact Disc Drive")).add(ComputingItemAssetFactory(false)) }
+    val card_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Card Reader")).add(ComputingItemAssetFactory(false)) }
+    val stick_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Stick Reader")).add(ComputingItemAssetFactory(false)) }
     val drive_bay by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input

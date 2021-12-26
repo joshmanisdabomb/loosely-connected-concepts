@@ -83,7 +83,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         }
     }
 
-    inner class ComputingHalf(var module: ComputerModule, var direction: Direction, var color: Int, val top: Boolean) {
+    inner class ComputingHalf(var module: ComputerModule, var direction: Direction, var color: Int, val top: Boolean) : ExtendedScreenHandlerFactory {
 
         val inventory = module.createInventory()?.apply { addListener { this@ComputingBlockEntity.markDirty() } }
 
@@ -102,18 +102,16 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             inventory?.apply { Inventories.writeNbt(nbt, list) }
         }
 
-        fun createScreenHandlerFactory(be: ComputingBlockEntity) = object : ExtendedScreenHandlerFactory {
-            override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = ComputingScreenHandler(syncId, inv).initHalf(be, this@ComputingHalf)
+        override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = ComputingScreenHandler(syncId, inv).initHalf(this)
 
-            override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${module.id.path}")
+        override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${module.id.path}")
 
-            override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
-                buf.writeBlockPos(be.pos)
-                buf.writeBoolean(top)
-            }
+        override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
+            buf.writeBlockPos(pos)
+            buf.writeBoolean(top)
         }
 
-        fun drop(world: ServerWorld, pos: BlockPos) {
+        fun drop(world: ServerWorld) {
             world.server.lootManager.getTable(module.lootTableId).generateLoot(LootContext.Builder(world).random(world.random).build(LootContextTypes.EMPTY)).forEach {
                 Block.dropStack(world, pos, it)
             }
@@ -121,27 +119,27 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
         fun connectsTo(other: ComputingHalf) = this.color == other.color
 
-        fun connectsAbove(be: ComputingBlockEntity): Boolean {
+        fun connectsAbove(): Boolean {
             if (top) {
-                val above = (be.world?.getBlockEntity(be.pos.up()) as? ComputingBlockEntity)?.getHalf(false) ?: return false
+                val above = (world?.getBlockEntity(pos.up()) as? ComputingBlockEntity)?.getHalf(false) ?: return false
                 return connectsTo(above)
             } else {
-                val above = be.getHalf(true) ?: return false
+                val above = getHalf(true) ?: return false
                 return connectsTo(above)
             }
         }
 
-        fun connectsBelow(be: ComputingBlockEntity): Boolean {
+        fun connectsBelow(): Boolean {
             if (top) {
-                val below = be.getHalf(false) ?: return false
+                val below = getHalf(false) ?: return false
                 return connectsTo(below)
             } else {
-                val below = (be.world?.getBlockEntity(be.pos.down()) as? ComputingBlockEntity)?.getHalf(true) ?: return false
+                val below = (world?.getBlockEntity(pos.down()) as? ComputingBlockEntity)?.getHalf(true) ?: return false
                 return connectsTo(below)
             }
         }
 
-        fun onUse(be: ComputingBlockEntity, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = module.onUse(be, this, state, player, hand, hit)
+        fun onUse(state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = module.onUse(this, state, player, hand, hit)
 
     }
 

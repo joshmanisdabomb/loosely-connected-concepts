@@ -12,9 +12,7 @@ import net.minecraft.screen.ScreenHandler
 
 class ComputingScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory) : ScreenHandler(LCCScreenHandlers.computing, syncId) {
 
-    private var _be: ComputingBlockEntity? = null
     private var _half: ComputingBlockEntity.ComputingHalf? = null
-    val be get() = _be!!
     val half get() = _half!!
 
     val listener = InventoryChangedListener(::onContentChanged)
@@ -24,11 +22,11 @@ class ComputingScreenHandler(syncId: Int, protected val playerInventory: PlayerI
         val top = buf.readBoolean()
 
         val be = playerInventory.player.world.getBlockEntity(pos) as? ComputingBlockEntity ?: return
-        val half = (playerInventory.player.world.getBlockEntity(pos) as? ComputingBlockEntity)?.getHalf(top) ?: return
-        initHalf(be, half)
+        val half = be.getHalf(top) ?: return
+        initHalf(half)
     }
 
-    fun initHalf(be: ComputingBlockEntity, half: ComputingBlockEntity.ComputingHalf) : ComputingScreenHandler {
+    fun initHalf(half: ComputingBlockEntity.ComputingHalf) : ComputingScreenHandler {
         _half = half
         val inventory = half.inventory!!
 

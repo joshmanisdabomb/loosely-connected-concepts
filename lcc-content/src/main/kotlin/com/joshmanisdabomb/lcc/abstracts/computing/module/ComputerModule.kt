@@ -30,8 +30,8 @@ abstract class ComputerModule {
 
     abstract val expectedInventorySize: Int
 
-    open fun onUse(be: ComputingBlockEntity, half: ComputingBlockEntity.ComputingHalf, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) : ActionResult? {
-        player.openHandledScreen(half.createScreenHandlerFactory(be))
+    open fun onUse(half: ComputingBlockEntity.ComputingHalf, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) : ActionResult? {
+        player.openHandledScreen(half)
         return ActionResult.SUCCESS
     }
 

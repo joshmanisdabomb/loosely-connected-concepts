@@ -393,19 +393,25 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
 
-    val computer_casing by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)).add(CustomRecipeFactory { d, i ->
+    val computer_casing by entry(::initialiser) { data().defaultLang().add(ComputingBlockItemAssetFactory(false)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern("ppp")
             .input('p', LCCItems.rigid_plastic)
             .apply { hasCriterionShaped(this, LCCItems.rigid_plastic) }
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.plastic_shaped) }
     }) }
-    val computer by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(true)) }
-    val floppy_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Floppy Disk Drive")).add(ComputingItemAssetFactory(false)) }
-    val cd_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Compact Disc Drive")).add(ComputingItemAssetFactory(false)) }
-    val card_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Card Reader")).add(ComputingItemAssetFactory(false)) }
-    val stick_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Stick Reader")).add(ComputingItemAssetFactory(false)) }
-    val drive_bay by entry(::initialiser) { data().defaultLang().add(ComputingItemAssetFactory(false)) }
+    val computer by entry(::initialiser) { data().defaultLang().add(ComputingBlockItemAssetFactory(true)) }
+    val floppy_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Floppy Disk Drive")).add(ComputingBlockItemAssetFactory(false)) }
+    val cd_drive by entry(::initialiser) { data().add(LiteralTranslationFactory("Compact Disc Drive")).add(ComputingBlockItemAssetFactory(false)) }
+    val card_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Card Reader")).add(ComputingBlockItemAssetFactory(false)) }
+    val stick_reader by entry(::initialiser) { data().add(LiteralTranslationFactory("Memory Stick Reader")).add(ComputingBlockItemAssetFactory(false)) }
+    val drive_bay by entry(::initialiser) { data().defaultLang().add(ComputingBlockItemAssetFactory(false)) }
+
+    val microchip by entry(::initialiser) { data().defaultLang().add(VisualStackItemAssetFactory({ c -> mi.generated { idi.locSuffix(it, c.toString()) } }, 9)) }
+
+    val cpu by entry(::initialiser) { data().add(LiteralTranslationFactory("Central Processing Unit")).add(ComputingLog2ItemAssetFactory(intArrayOf(16, 32, 128, 512)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
+    val ram by entry(::initialiser) { data().add(LiteralTranslationFactory("Random Access Memory")).add(ComputingLog2ItemAssetFactory(intArrayOf(64, 256, 1024, 2048, 8192)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
+    val gpu by entry(::initialiser) { data().add(LiteralTranslationFactory("Graphics Processing Unit")).add(ComputingLog2ItemAssetFactory(intArrayOf(256, 512, 1024, 2048, 4096)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

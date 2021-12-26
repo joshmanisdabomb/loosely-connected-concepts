@@ -41,8 +41,8 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
 
         if (state[Properties.SLAB_TYPE] != SlabType.BOTTOM) {
             val half = be?.getHalf(true)
-            val cUp = half?.connectsAbove(be) ?: false
-            val cDown = half?.connectsBelow(be) ?: false
+            val cUp = half?.connectsAbove() ?: false
+            val cDown = half?.connectsBelow() ?: false
             val suffix = when {
                 cUp && cDown -> "both"
                 cUp -> "up"
@@ -61,8 +61,8 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
 
         if (state[Properties.SLAB_TYPE] != SlabType.TOP) {
             val half = be?.getHalf(false)
-            val cUp = half?.connectsAbove(be) ?: false
-            val cDown = half?.connectsBelow(be) ?: false
+            val cUp = half?.connectsAbove() ?: false
+            val cDown = half?.connectsBelow() ?: false
             val suffix = when {
                 cUp && cDown -> "both"
                 cUp -> "up"

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
@@ -11,6 +12,7 @@ import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.item.ShovelItem
 import com.joshmanisdabomb.lcc.item.SwordItem
+import com.joshmanisdabomb.lcc.item.render.predicate.VisualStackPredicate
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
@@ -264,20 +266,57 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(NUCLEAR, sortValueInt(1000)).modelPredicate(LCC.id("winter")) { (it as RadiationDetectorItem)::getWinterPredicate })
 
     //Computing
-    val computer_casing by entry(::initialiser) { ComputingItem(LCCComputerModules.computer_casing, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val computer by entry(::initialiser) { ComputingItem(LCCComputerModules.computer, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val floppy_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.floppy_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val cd_drive by entry(::initialiser) { ComputingItem(LCCComputerModules.cd_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val card_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.card_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val stick_reader by entry(::initialiser) { ComputingItem(LCCComputerModules.stick_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
-    val drive_bay by entry(::initialiser) { ComputingItem(LCCComputerModules.drive_bay, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingItem::getTintColor))
+    val microchip by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("visual_stack")) { { VisualStackPredicate(9) } })
+    val graphics_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val input_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val storage_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val calculation_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val networking_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val output_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+
+    val cpu by entry(::initialiser) { ComputingItem(16, 512, Item.Settings().defaults()) { it.plus(16) } }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
+    val ram by entry(::initialiser) { ComputingItem(64, 8192, Item.Settings().defaults()) { it.plus(64) } }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
+    val gpu by entry(::initialiser) { ComputingItem(256, 4096, Item.Settings().defaults()) { it.times(2) } }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
+
+    val floppy_disk by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.floppy_disk, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val compact_disc by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.compact_disc, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
+    val memory_card by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_card, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val memory_stick by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_stick, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val hard_disk_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.hard_disk_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val solid_state_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.solid_state_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val m2 by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.m2, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+
+    val computer_casing by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.computer_casing, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val computer by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.computer, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val floppy_drive by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.floppy_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val cd_drive by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.cd_drive, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val card_reader by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.card_reader, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val stick_reader by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.stick_reader, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+    val drive_bay by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.drive_bay, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
 
     //Health
     val heart_half by entryMap(::initialiser, *HeartType.values()) { HeartItem(it, 1.0F, Item.Settings().defaults()) }

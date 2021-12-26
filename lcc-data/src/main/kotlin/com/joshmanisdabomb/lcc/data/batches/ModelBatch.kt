@@ -9,6 +9,7 @@ class ModelBatch : BiConsumer<Identifier, Supplier<JsonElement>> {
 
     val map = mutableMapOf<Identifier, () -> JsonElement>()
 
+    operator fun get(key: Identifier) = map[key]
     operator fun set(key: Identifier, json: () -> JsonElement) = map.put(key, json)
 
     override fun accept(key: Identifier, json: Supplier<JsonElement>) {

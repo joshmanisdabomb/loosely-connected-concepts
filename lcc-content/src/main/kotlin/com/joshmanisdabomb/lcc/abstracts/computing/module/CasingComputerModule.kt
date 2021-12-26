@@ -16,7 +16,7 @@ class CasingComputerModule : ComputerModule() {
 
     override val expectedInventorySize = 0
 
-    override fun onUse(be: ComputingBlockEntity, half: ComputingBlockEntity.ComputingHalf, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = ActionResult.PASS
+    override fun onUse(half: ComputingBlockEntity.ComputingHalf, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = ActionResult.PASS
 
     override fun initScreenHandler(handler: ComputingScreenHandler, slotAdder: (slot: Slot) -> Unit, half: ComputingBlockEntity.ComputingHalf, inv: LCCInventory, playerInv: PlayerInventory) = Unit
 

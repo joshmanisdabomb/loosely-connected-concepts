@@ -20,8 +20,8 @@ object LCC : ModInitializer {
 
         LCCRegistries.init()
 
-        LCCComputerModules.init()
         LCCDigitalMediums.init()
+        LCCComputerModules.init()
         LCCPartitions.init()
 
         LCCGroups.init()

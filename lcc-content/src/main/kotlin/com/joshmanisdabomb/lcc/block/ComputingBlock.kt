@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.joshmanisdabomb.lcc.item.ComputingItem
+import com.joshmanisdabomb.lcc.item.ComputingBlockItem
 import com.joshmanisdabomb.lcc.subblock.Subblock
 import com.joshmanisdabomb.lcc.subblock.SubblockSystem
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
@@ -47,12 +47,12 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val subblock = getSubblockFromTrace(state, world, pos, hit.pos) ?: return ActionResult.SUCCESS
         val be = world.getBlockEntity(pos) as? ComputingBlockEntity ?: return ActionResult.SUCCESS
-        return be.getHalf(subblock == sbTop)?.onUse(be, state, player, hand, hit) ?: super.onUse(state, world, pos, player, hand, hit)
+        return be.getHalf(subblock == sbTop)?.onUse(state, player, hand, hit) ?: super.onUse(state, world, pos, player, hand, hit)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
         val state = ctx.world.getBlockState(ctx.blockPos)
-        val item = ctx.stack.item as ComputingItem
+        val item = ctx.stack.item as ComputingBlockItem
         if (state.block == this) {
             val be = ctx.world.getBlockEntity(ctx.blockPos) as? ComputingBlockEntity
             be?.setHalf(item.getComputingHalf(be, ctx.stack, ctx.playerFacing.opposite, state[SLAB_TYPE] != SlabType.TOP))
@@ -67,7 +67,7 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
     }
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
-        val item = stack.item as ComputingItem
+        val item = stack.item as ComputingBlockItem
         if (state[SLAB_TYPE] != SlabType.DOUBLE) {
             val top = state[SLAB_TYPE] == SlabType.TOP
             val be = world.getBlockEntity(pos) as? ComputingBlockEntity
@@ -77,7 +77,7 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
     }
 
     override fun canReplace(state: BlockState, context: ItemPlacementContext): Boolean {
-        if (state[SLAB_TYPE] != SlabType.DOUBLE && context.stack.item is ComputingItem) {
+        if (state[SLAB_TYPE] != SlabType.DOUBLE && context.stack.item is ComputingBlockItem) {
             if (context.canReplaceExisting()) {
                 val flag = context.hitPos.y - context.blockPos.y > 0.5
                 if (state[SLAB_TYPE] == SlabType.BOTTOM) {
@@ -113,7 +113,7 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
         val be = world.getBlockEntity(pos) as? ComputingBlockEntity
         if (state[SLAB_TYPE] == SlabType.DOUBLE) {
             if (!world.isClient) {
-                be?.getHalf(subblock == sbTop)?.drop(world as ServerWorld, pos)
+                be?.getHalf(subblock == sbTop)?.drop(world as ServerWorld)
             }
             be?.removeHalf(subblock == sbTop)
             world.setBlockState(pos, state.with(SLAB_TYPE, (subblock == sbTop).transform(SlabType.BOTTOM, SlabType.TOP)), 7)

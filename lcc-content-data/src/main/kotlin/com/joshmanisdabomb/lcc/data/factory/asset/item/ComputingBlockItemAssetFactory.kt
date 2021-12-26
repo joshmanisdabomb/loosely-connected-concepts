@@ -10,7 +10,7 @@ import net.minecraft.data.client.model.Texture
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.item.Item
 
-class ComputingItemAssetFactory(val whiteLayer: Boolean) : ItemAssetFactory {
+class ComputingBlockItemAssetFactory(val whiteLayer: Boolean) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
         variations.forEach {

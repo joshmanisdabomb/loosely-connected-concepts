@@ -168,6 +168,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
         val be get() = this@ComputingBlockEntity
 
+        var extra: NbtCompound? = module.createExtraData()
         val inventory = module.createInventory()?.apply { addListener { this@ComputingBlockEntity.markDirty() } }
         val rawEnergyMaximum get() = module.rawEnergyMaximum
         var rawEnergy: Float? = rawEnergyMaximum?.times(0)
@@ -197,6 +198,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         constructor(nbt: NbtCompound, top: Boolean) : this(LCCRegistries.computer_modules[Identifier(nbt.getString("Module"))], Direction.fromHorizontal(nbt.getByte("Direction").toInt()), nbt.getInt("Color"), top) {
             if (nbt.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(nbt.getString("CustomName"))
             if (nbt.contains("Energy", NBT_FLOAT)) rawEnergy = nbt.getFloat("Energy")
+            if (nbt.contains("Extra", NBT_COMPOUND)) extra = nbt.getCompound("Extra")
             inventory?.apply { clear(); Inventories.readNbt(nbt, list) }
         }
 
@@ -206,6 +208,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             nbt.putInt("Color", color)
             if (customName != null) nbt.putString("CustomName", Text.Serializer.toJson(customName))
             rawEnergy?.apply { nbt.putFloat("Energy", this) }
+            extra?.apply { nbt.put("Extra", this) }
             inventory?.apply { Inventories.writeNbt(nbt, list) }
         }
 

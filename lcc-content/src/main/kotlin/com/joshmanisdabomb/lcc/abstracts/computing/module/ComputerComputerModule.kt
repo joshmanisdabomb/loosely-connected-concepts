@@ -2,9 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.computing.module
 
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.block.entity.RefiningBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext
@@ -14,16 +12,15 @@ import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.extensions.addSlots
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.gui.screen.ComputerScreen
-import com.joshmanisdabomb.lcc.gui.screen.DriveScreen
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
-import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.Items
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.Direction
 
@@ -40,14 +37,35 @@ class ComputerComputerModule : ComputerModule() {
             .run(50f)
     }
 
-    fun power(half: ComputingBlockEntity.ComputingHalf, player: ServerPlayerEntity) : Boolean {
-        println("test1")
-        val inventory = half.inventory ?: return false
-        println("test2")
-        if (!canPower(inventory)) return false
-        println("test3")
+    override fun createExtraData() = NbtCompound()
+
+    fun power(half: ComputingBlockEntity.ComputingHalf, player: ServerPlayerEntity) : Boolean? {
+        val sworld = half.be.world as? ServerWorld ?: return null
+        val inventory = half.inventory ?: return null
+        val power = half.rawEnergy ?: 0f
+
+        val errCode = startupErrorCode(inventory, power)
+        if (errCode != 0) {
+            half.extra?.putInt("ErrorCode", errCode)
+            half.be.markDirty()
+            sworld.chunkManager.markForUpdate(half.be.pos)
+            return false
+        }
+
+        half.extra?.putBoolean("Working", true)
+        half.be.markDirty()
+        sworld.chunkManager.markForUpdate(half.be.pos)
         return true
     }
+
+    fun getErrorCode(half: ComputingBlockEntity.ComputingHalf): Int? {
+        val data = half.extra ?: return null
+        val error = data.getInt("ErrorCode")
+        if (error > 0) return error
+        return data.getBoolean("Working").transform(0, null)
+    }
+
+    fun isReading(half: ComputingBlockEntity.ComputingHalf) = half.extra?.getBoolean("Reading") ?: false
 
     override fun initScreenHandler(handler: ComputingScreenHandler, slotAdder: (slot: Slot) -> Unit, half: ComputingBlockEntity.ComputingHalf, inv: LCCInventory, playerInv: PlayerInventory) {
         slotAdder(object : PredicatedSlot(inv, 0, 17, 27, { it.isOf(LCCItems.cpu) }) {
@@ -81,7 +99,12 @@ class ComputerComputerModule : ComputerModule() {
     override fun createScreen(handler: ComputingScreenHandler, playerInv: PlayerInventory, text: Text) = ComputerScreen(handler, playerInv, text)
 
     companion object {
-        fun canPower(inventory: LCCInventory) = inventory[0].isOf(LCCItems.cpu) && inventory.list.subList(1,4).any { it.isOf(LCCItems.ram) }
+        fun startupErrorCode(inventory: LCCInventory, power: Float) = when {
+            power <= 0f -> 1
+            !inventory[0].isOf(LCCItems.cpu) -> 2
+            inventory.list.subList(1,4).none { it.isOf(LCCItems.ram) } -> 2
+            else -> 0
+        }
     }
 
 }

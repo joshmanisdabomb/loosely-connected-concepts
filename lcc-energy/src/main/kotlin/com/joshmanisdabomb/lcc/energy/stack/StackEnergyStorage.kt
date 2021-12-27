@@ -6,6 +6,6 @@ interface StackEnergyStorage : StackEnergyHandler, EnergyStorage<StackEnergyCont
 
     override fun getRawEnergy(context: StackEnergyContext) = context.stack.getSubNbt("lcc-energy")?.getFloat("amount") ?: 0f
 
-    override fun setRawEnergy(context: StackEnergyContext, amount: Float) { context.stack.getSubNbt("lcc-energy")?.putFloat("amount", amount) }
+    override fun setRawEnergy(context: StackEnergyContext, amount: Float) { context.stack.getOrCreateSubNbt("lcc-energy").putFloat("amount", amount) }
 
 }

@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
@@ -37,6 +38,8 @@ abstract class ComputerModule {
     }
 
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
+
+    open fun createExtraData(): NbtCompound? = null
 
     open fun createInventory() = if (expectedInventorySize > 0) LCCInventory(expectedInventorySize) else null
 

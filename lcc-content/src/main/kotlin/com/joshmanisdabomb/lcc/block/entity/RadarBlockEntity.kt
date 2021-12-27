@@ -59,7 +59,7 @@ class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
                 }
             }
             if (level != entity.level || type != entity.type) {
-                (world as ServerWorld).chunkManager.markForUpdate(pos)
+                sworld.chunkManager.markForUpdate(pos)
                 world.updateNeighbors(pos, state.block)
             }
             if (state[TRIGGERED] == (entity.level == 0)) {

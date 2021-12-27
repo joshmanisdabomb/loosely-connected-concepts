@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.gui.screen
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
-import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.lib.gui.FunctionalButtonWidget
@@ -11,7 +10,6 @@ import com.mojang.blaze3d.systems.RenderSystem
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
@@ -20,11 +18,9 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
-import kotlin.text.Typography.half
 
 class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<ComputingScreenHandler>(handler, inventory, title), PowerScreenUtils {
 
-    val listener = ::onChanged
     val power: FunctionalButtonWidget by lazy { PowerButton(x + 23, y + 58) {
         run {
             val world = MinecraftClient.getInstance().world?.registryKey ?: return@run
@@ -45,10 +41,6 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
 
     override val translationKey = "container.lcc.computer"
 
-    init {
-        handler.half.inventory?.addListener(listener)
-    }
-
     override fun init() {
         super.init()
         backgroundWidth = 176
@@ -56,7 +48,6 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         playerInventoryTitleX = 8
         playerInventoryTitleY = 84
         addDrawableChild(power)
-        onChanged(handler.half.inventory!!)
     }
 
     override fun resize(client: MinecraftClient, width: Int, height: Int) {
@@ -65,14 +56,13 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         power.y = y + 58
     }
 
-    override fun onClose() {
-        handler.half.inventory?.removeListener(listener)
-        super.onClose()
-    }
-
     override fun handledScreenTick() {
         super.handledScreenTick()
         _ticks += 1
+
+        power.active = ComputerComputerModule.startupErrorCode(handler.half.inventory!!, handler.powerAmount()) == 0
+
+        println(handler.half.extra)
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
@@ -97,10 +87,6 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         this.renderOrderedTooltip(matrices,
             textRenderer.wrapLines(TranslatableText("gui.lcc.computer.activate"), Int.MAX_VALUE)
         , x, y)
-    }
-
-    fun onChanged(inventory: Inventory) {
-        power.active = ComputerComputerModule.canPower(handler.half.inventory!!)
     }
 
     companion object {

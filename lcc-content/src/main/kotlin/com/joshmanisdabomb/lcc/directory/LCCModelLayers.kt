@@ -2,10 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.google.common.collect.ImmutableMap
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.block.entity.render.AlarmBlockEntityRenderer
-import com.joshmanisdabomb.lcc.block.entity.render.BouncePadBlockEntityRenderer
-import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEntityRenderer
-import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
+import com.joshmanisdabomb.lcc.block.entity.render.*
 import com.joshmanisdabomb.lcc.entity.model.*
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import net.minecraft.client.model.TexturedModelData
@@ -34,6 +31,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(NuclearFiredGeneratorBlockEntityRenderer::data)
     val alarm by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(AlarmBlockEntityRenderer::data)
+    val computing by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(ComputingBlockEntityRenderer::data)
 
     private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 

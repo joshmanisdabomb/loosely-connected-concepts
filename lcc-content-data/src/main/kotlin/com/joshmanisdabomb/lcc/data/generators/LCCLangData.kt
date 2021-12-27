@@ -78,11 +78,18 @@ object LCCLangData {
         lang["container.lcc.oxygen_extractor.oxygen.advanced"] = "Total Oxygen Outflow: %1\$s/t\n • From Top: %2\$s/t\n • From North: %3\$s/t\n • From East: %4\$s/t\n • From South: %5\$s/t\n • From West: %6\$s/t\n • Dimension Modifier: %7\$s%%"
 
         lang["container.lcc.computer.power"] = "Power: %1\$s"
+        lang["container.lcc.computer.error.1"] = "Error Code 01: Power Failure"
+        lang["container.lcc.computer.error.2"] = "Error Code 02: CPU or RAM Failure"
+        lang["container.lcc.computer.error.3"] = "Error Code 03: Multiple Computers in Stack"
+        lang["container.lcc.computer.error.4"] = "Error Code 04: Missing Boot Partition"
+        lang["container.lcc.computer.error.5"] = "Error Code 05: Removed Boot Partition"
 
         lang["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"
         lang["gui.lcc.nuclear_generator.activate"] = "Power On"
         lang["gui.lcc.computer.activate"] = "Power On"
+        lang["gui.lcc.computer.deactivate"] = "Power Off"
+        lang["gui.lcc.computer.toggle"] = "Power Toggle"
 
         lang["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

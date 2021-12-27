@@ -3,29 +3,18 @@ package com.joshmanisdabomb.lcc.block.entity.render
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCModelLayers
-import com.joshmanisdabomb.lcc.directory.LCCRenderLayers
-import com.joshmanisdabomb.lcc.extensions.blockEntityTransform
-import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
-import net.minecraft.block.enums.SlabType
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
 import net.minecraft.client.render.RenderLayer
-import net.minecraft.client.render.RenderLayer.getEntityAlpha
-import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.scoreboard.ScoreboardCriterion
 import net.minecraft.util.math.Vec3f
 import java.util.*
-import kotlin.math.ceil
 
 
 class ComputingBlockEntityRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<ComputingBlockEntity> {
@@ -46,7 +35,7 @@ class ComputingBlockEntityRenderer(context: BlockEntityRendererFactory.Context) 
     override fun render(entity: ComputingBlockEntity, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
         for (half in entity.getHalves()) {
             val computer = half.module as? ComputerComputerModule ?: continue
-            val code = computer.getErrorCode(half) ?: continue
+            val code = computer.getCurrentErrorCode(half) ?: continue
 
             val vertexConsumer = texture.getVertexConsumer(vertexConsumers, RenderLayer::getEntityAlpha)
 

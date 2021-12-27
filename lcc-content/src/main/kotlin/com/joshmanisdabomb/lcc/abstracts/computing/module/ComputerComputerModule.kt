@@ -31,6 +31,15 @@ class ComputerComputerModule : ComputerModule() {
     override val rawEnergyMaximum = LooseEnergy.toStandard(2000f)
 
     override fun serverTick(half: ComputingBlockEntity.ComputingHalf) {
+        if (getCurrentErrorCode(half) == 0) {
+            val inventory = half.inventory ?: return
+            val removed = half.be.removeEnergyDirect(9f, LooseEnergy, WorldEnergyContext(half.be.world, half.be.pos, null, half.top.transform(Direction.UP, Direction.DOWN)))
+            val code = generateErrorCode(inventory, removed)
+            if (code > 0) {
+                half.extra?.putInt("ErrorCode", code)
+            }
+        }
+
         EnergyTransaction()
             .apply { half.inventory?.slotsIn("fuels")?.also { includeAll(it.filter { (it.item as? StackEnergyHandler)?.isEnergyUsable(StackEnergyContext(it)) == true }.map { stack -> { half.be.extractEnergy(stack.item as StackEnergyHandler, it, LooseEnergy, WorldEnergyContext(half.be.world, half.be.pos, null, null)) { StackEnergyContext(stack) } } }) } }
             .include { half.be.requestEnergy(WorldEnergyContext(half.be.world, half.be.pos, null, null), it, LooseEnergy, *Direction.values().filterNot { it == half.top.transform(Direction.DOWN, Direction.UP) }.toTypedArray()) }
@@ -44,9 +53,19 @@ class ComputerComputerModule : ComputerModule() {
         val inventory = half.inventory ?: return null
         val power = half.rawEnergy ?: 0f
 
-        val errCode = startupErrorCode(inventory, power)
-        if (errCode != 0) {
-            half.extra?.putInt("ErrorCode", errCode)
+        val current = getCurrentErrorCode(half)
+        if (current != null) {
+            half.extra?.remove("Working")
+            half.extra?.remove("ErrorCode")
+            half.extra?.remove("Reading")
+            half.be.markDirty()
+            sworld.chunkManager.markForUpdate(half.be.pos)
+            return true
+        }
+
+        val potential = generateErrorCode(inventory, power)
+        if (potential != 0) {
+            half.extra?.putInt("ErrorCode", potential)
             half.be.markDirty()
             sworld.chunkManager.markForUpdate(half.be.pos)
             return false
@@ -58,11 +77,18 @@ class ComputerComputerModule : ComputerModule() {
         return true
     }
 
-    fun getErrorCode(half: ComputingBlockEntity.ComputingHalf): Int? {
+    fun getCurrentErrorCode(half: ComputingBlockEntity.ComputingHalf): Int? {
         val data = half.extra ?: return null
         val error = data.getInt("ErrorCode")
         if (error > 0) return error
         return data.getBoolean("Working").transform(0, null)
+    }
+
+    fun generateErrorCode(inventory: LCCInventory, power: Float) = when {
+        power < 9f -> 1
+        !inventory[0].isOf(LCCItems.cpu) -> 2
+        inventory.list.subList(1,4).none { it.isOf(LCCItems.ram) } -> 2
+        else -> 0
     }
 
     fun isReading(half: ComputingBlockEntity.ComputingHalf) = half.extra?.getBoolean("Reading") ?: false
@@ -97,14 +123,5 @@ class ComputerComputerModule : ComputerModule() {
     }
 
     override fun createScreen(handler: ComputingScreenHandler, playerInv: PlayerInventory, text: Text) = ComputerScreen(handler, playerInv, text)
-
-    companion object {
-        fun startupErrorCode(inventory: LCCInventory, power: Float) = when {
-            power <= 0f -> 1
-            !inventory[0].isOf(LCCItems.cpu) -> 2
-            inventory.list.subList(1,4).none { it.isOf(LCCItems.ram) } -> 2
-            else -> 0
-        }
-    }
 
 }

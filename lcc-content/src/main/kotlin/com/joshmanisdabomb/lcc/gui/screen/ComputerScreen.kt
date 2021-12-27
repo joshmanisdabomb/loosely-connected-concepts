@@ -14,12 +14,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.inventory.Inventory
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
 class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<ComputingScreenHandler>(handler, inventory, title), PowerScreenUtils {
+
+    private val module: ComputerComputerModule get() = handler.half.module as ComputerComputerModule
 
     val power: FunctionalButtonWidget by lazy { PowerButton(x + 23, y + 58) {
         run {
@@ -28,7 +29,6 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
             val top = handler.half.top
             ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::computer_power].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos); writeBoolean(top) })
         }
-        this.onClose()
         return@PowerButton null
     } }
 
@@ -60,9 +60,18 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         super.handledScreenTick()
         _ticks += 1
 
-        power.active = ComputerComputerModule.startupErrorCode(handler.half.inventory!!, handler.powerAmount()) == 0
+        power.ix = power.width.times(4)
+        power.active = true
+        val code = module.getCurrentErrorCode(handler.half)
+        if (code == 0) {
+            power.ix = power.width.times(5)
+        } else if (code != null) {
+            power.ix = power.width.times(6)
+        } else if (module.generateErrorCode(handler.half.inventory!!, handler.powerAmount()) == 0) {
 
-        println(handler.half.extra)
+        } else {
+            power.active = false
+        }
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {
@@ -72,6 +81,11 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
 
         renderPower(matrices, handler.powerAmount(), handler.half.rawEnergyMaximum!!, x + 51, y + 62)
+
+        val code = module.getCurrentErrorCode(handler.half) ?: 0
+        if (code > 0 && System.currentTimeMillis().rem(2000) > 1000) {
+            drawTexture(matrices, x + 138, y + 53, backgroundWidth, 12.times(code).plus(14), 22, 12)
+        }
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -81,19 +95,23 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         if (power.isHovered) power.renderTooltip(matrices, mouseX, mouseY)
 
         renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 51..x + 62, y + 62..y + 76)
+
+        val code = module.getCurrentErrorCode(handler.half) ?: 0
+        if (code > 0 && mouseX in x+137..x+161 && mouseY in y+53..y+66) {
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.computer.error.$code"), Int.MAX_VALUE), mouseX, mouseY)
+        }
     }
 
     private fun renderButtonTooltip(matrices: MatrixStack, x: Int, y: Int) {
-        this.renderOrderedTooltip(matrices,
-            textRenderer.wrapLines(TranslatableText("gui.lcc.computer.activate"), Int.MAX_VALUE)
-        , x, y)
+        val tooltip = if (module.getCurrentErrorCode(handler.half) == null) "activate" else "deactivate"
+        this.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.computer.$tooltip"), Int.MAX_VALUE), x, y)
     }
 
     companion object {
         val texture = LCC.id("textures/gui/container/computer.png")
     }
 
-    private inner class PowerButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.computer.activate"), ::renderButtonTooltip, pressed) {
+    private inner class PowerButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.computer.toggle"), ::renderButtonTooltip, pressed) {
 
         init {
             active = false

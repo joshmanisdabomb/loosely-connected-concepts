@@ -16,6 +16,7 @@ import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
+import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.NbtCompound
@@ -23,7 +24,9 @@ import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import kotlin.text.Typography.half
 
 class ComputerComputerModule : ComputerModule() {
 
@@ -48,11 +51,24 @@ class ComputerComputerModule : ComputerModule() {
 
     override fun createExtraData() = NbtCompound()
 
+    override fun onUpdateNetwork(half: ComputingBlockEntity.ComputingHalf, network: BlockNetwork<Pair<BlockPos, Boolean?>>.NetworkResult) {
+        if (getCurrentErrorCode(half) == 0) {
+            val size = network.nodes["active_computer"]?.size ?: 0
+            if (size > 1) {
+                half.extra?.putInt("ErrorCode", 3)
+                val sworld = half.be.world as? ServerWorld ?: return
+                half.be.markDirty()
+                sworld.chunkManager.markForUpdate(half.be.pos)
+            }
+        }
+    }
+
     override fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf): Set<String> {
         val set = mutableSetOf<String>()
-        if (half.extra?.getBoolean("Working") == true) {
+        if (getCurrentErrorCode(half) == 0) {
             set.add("active_computer")
         }
+
         return set
     }
 

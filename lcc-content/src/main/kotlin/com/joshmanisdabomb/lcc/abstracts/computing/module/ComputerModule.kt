@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.prefix
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
+import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe.Companion.state
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -40,6 +41,8 @@ abstract class ComputerModule {
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
     open fun createExtraData(): NbtCompound? = null
+
+    open fun onUpdateNetwork(half: ComputingBlockEntity.ComputingHalf, network: BlockNetwork<Pair<BlockPos, Boolean?>>.NetworkResult) = Unit
 
     open fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf) = emptySet<String>()
 

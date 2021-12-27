@@ -69,11 +69,14 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
         val item = stack.item as ComputingBlockItem
+        val be = world.getBlockEntity(pos) as? ComputingBlockEntity ?: return
         if (state[SLAB_TYPE] != SlabType.DOUBLE) {
             val top = state[SLAB_TYPE] == SlabType.TOP
-            val be = world.getBlockEntity(pos) as? ComputingBlockEntity
-            be?.setHalf(item.getComputingHalf(be, stack, placer?.horizontalFacing?.opposite ?: Direction.SOUTH, top))
+            be.setHalf(item.getComputingHalf(be, stack, placer?.horizontalFacing?.opposite ?: Direction.SOUTH, top))
         }
+        //update all in local network
+        val result = ComputingNetwork.local.discover(world, pos to be.getHalves()[0].top)
+        ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
         super.onPlaced(world, pos, state, placer, stack)
     }
 
@@ -95,7 +98,22 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
     override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
         if (state.block !== newState.block) {
             if (!world.isClient) {
-                (world.getBlockEntity(pos) as? ComputingBlockEntity)?.getHalves()
+                val be = world.getBlockEntity(pos) as? ComputingBlockEntity ?: return super.onStateReplaced(state, world, pos, newState, moved)
+                be.getHalves().forEach {
+                    if (it.top) {
+                        val above = it.connectsAbove()
+                        if (above != null) {
+                            val result = ComputingNetwork.local.discover(world, above.be.pos to above.top)
+                            ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                        }
+                    } else {
+                        val below = it.connectsBelow()
+                        if (below != null) {
+                            val result = ComputingNetwork.local.discover(world, below.be.pos to below.top)
+                            ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                        }
+                    }
+                }
             }
             super.onStateReplaced(state, world, pos, newState, moved)
         }
@@ -114,7 +132,21 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
         val be = world.getBlockEntity(pos) as? ComputingBlockEntity
         if (state[SLAB_TYPE] == SlabType.DOUBLE) {
             if (!world.isClient) {
-                be?.getHalf(subblock == sbTop)?.drop(world as ServerWorld)
+                val half = be?.getHalf(subblock == sbTop)
+
+                half?.drop(world as ServerWorld)
+
+                val above = half?.connectsAbove()
+                if (above != null) {
+                    val result = ComputingNetwork.local.discover(world, above.be.pos to above.top)
+                    ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                }
+
+                val below = half?.connectsBelow()
+                if (below != null) {
+                    val result = ComputingNetwork.local.discover(world, below.be.pos to below.top)
+                    ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                }
             }
             be?.removeHalf(subblock == sbTop)
             world.setBlockState(pos, state.with(SLAB_TYPE, (subblock == sbTop).transform(SlabType.BOTTOM, SlabType.TOP)), 7)

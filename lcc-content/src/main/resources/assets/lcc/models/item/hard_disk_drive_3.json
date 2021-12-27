@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lcc:item/hard_disk_drive_base_3",
+    "layer1": "lcc:item/hard_disk_drive_plastic_3",
+    "layer2": "lcc:item/hard_disk_drive_label_3"
+  }
+}

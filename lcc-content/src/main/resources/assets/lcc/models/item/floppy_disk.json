@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/floppy_disk"
+    "layer0": "lcc:item/floppy_disk_base",
+    "layer1": "lcc:item/floppy_disk_plastic",
+    "layer2": "lcc:item/floppy_disk_label"
   }
 }

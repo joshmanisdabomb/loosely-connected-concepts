@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "lcc:item/memory_stick_base_2",
+    "layer1": "lcc:item/memory_stick_plastic_2",
+    "layer2": "lcc:item/memory_stick_label_2"
+  }
+}

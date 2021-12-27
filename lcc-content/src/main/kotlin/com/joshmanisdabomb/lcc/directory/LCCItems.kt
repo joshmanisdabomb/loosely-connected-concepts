@@ -12,6 +12,7 @@ import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.item.ShovelItem
 import com.joshmanisdabomb.lcc.item.SwordItem
+import com.joshmanisdabomb.lcc.item.block.ComputingBlockItem
 import com.joshmanisdabomb.lcc.item.render.predicate.VisualStackPredicate
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
@@ -281,27 +282,27 @@ object LCCItems : ItemDirectory() {
     val output_chipset by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
 
-    val cpu by entry(::initialiser) { ComputingItem(16, 512, Item.Settings().defaults()) { it.plus(16) } }
+    val cpu by entry(::initialiser) { ComputingItem(16, 512, Item.Settings().defaults().maxCount(1)) { it.plus(16) } }
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
-    val ram by entry(::initialiser) { ComputingItem(64, 8192, Item.Settings().defaults()) { it.plus(64) } }
+    val ram by entry(::initialiser) { ComputingItem(64, 8192, Item.Settings().defaults().maxCount(1)) { it.plus(64) } }
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
-    val gpu by entry(::initialiser) { ComputingItem(256, 4096, Item.Settings().defaults()) { it.times(2) } }
+    val gpu by entry(::initialiser) { ComputingItem(256, 4096, Item.Settings().defaults().maxCount(1)) { it.times(2) } }
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getLog2Predicate })
 
-    val floppy_disk by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.floppy_disk, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
-    val compact_disc by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.compact_disc, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING))
-    val memory_card by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_card, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
-    val memory_stick by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_stick, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
-    val hard_disk_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.hard_disk_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
-    val solid_state_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.solid_state_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
-    val m2 by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.m2, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val floppy_disk by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.floppy_disk, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
+    val compact_disc by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.compact_disc, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
+    val memory_card by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_card, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
+    val memory_stick by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.memory_stick, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val hard_disk_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.hard_disk_drive, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor).modelPredicate(LCC.id("computing")) { (it as ComputingItem)::getDivPredicate })
+    val solid_state_drive by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.solid_state_drive, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
+    val m2 by entry(::initialiser) { DigitalMediumItem(LCCDigitalMediums.m2, Item.Settings().defaults().maxCount(1)) }
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
 
     val computer_casing by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.computer_casing, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))

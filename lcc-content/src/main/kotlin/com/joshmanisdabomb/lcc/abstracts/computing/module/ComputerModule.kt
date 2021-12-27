@@ -29,11 +29,14 @@ abstract class ComputerModule {
     val lootTableId get() = id.prefix("lcc/computer_module/", "")
 
     abstract val expectedInventorySize: Int
+    open val rawEnergyMaximum: Float? = null
 
     open fun onUse(half: ComputingBlockEntity.ComputingHalf, state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) : ActionResult? {
         player.openHandledScreen(half)
         return ActionResult.SUCCESS
     }
+
+    open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
     open fun createInventory() = if (expectedInventorySize > 0) LCCInventory(expectedInventorySize) else null
 

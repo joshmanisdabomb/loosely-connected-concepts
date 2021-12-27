@@ -77,9 +77,12 @@ object LCCLangData {
         lang["container.lcc.oxygen_extractor.oxygen"] = "Oxygen Outflow: %1\$s/t\nHold SHIFT for details"
         lang["container.lcc.oxygen_extractor.oxygen.advanced"] = "Total Oxygen Outflow: %1\$s/t\n • From Top: %2\$s/t\n • From North: %3\$s/t\n • From East: %4\$s/t\n • From South: %5\$s/t\n • From West: %6\$s/t\n • Dimension Modifier: %7\$s%%"
 
+        lang["container.lcc.computer.power"] = "Power: %1\$s"
+
         lang["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"
         lang["gui.lcc.nuclear_generator.activate"] = "Power On"
+        lang["gui.lcc.computer.activate"] = "Power On"
 
         lang["death.attack.lcc.gauntlet_punch"] = "%1\$s was obliterated by %2\$s using Punch"
         lang["death.attack.lcc.gauntlet_punch.item"] = "%1\$s was obliterated by %2\$s using Punch of %3\$s"

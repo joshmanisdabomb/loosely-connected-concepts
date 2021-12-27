@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/memory_card"
+    "layer0": "lcc:item/memory_card_base",
+    "layer1": "lcc:item/memory_card_plastic",
+    "layer2": "lcc:item/memory_card_label"
   }
 }

@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.item
+package com.joshmanisdabomb.lcc.item.block
 
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity

@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/m2"
+    "layer0": "lcc:item/m2_base",
+    "layer1": "lcc:item/m2_plastic",
+    "layer2": "lcc:item/m2_label"
   }
 }

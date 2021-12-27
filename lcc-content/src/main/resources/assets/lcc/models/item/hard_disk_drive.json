@@ -1,6 +1,22 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/hard_disk_drive"
-  }
+    "layer0": "lcc:item/hard_disk_drive_base_1",
+    "layer1": "lcc:item/hard_disk_drive_plastic_1",
+    "layer2": "lcc:item/hard_disk_drive_label_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "lcc:computing": 0.09090909361839294
+      },
+      "model": "lcc:item/hard_disk_drive_2"
+    },
+    {
+      "predicate": {
+        "lcc:computing": 1.0
+      },
+      "model": "lcc:item/hard_disk_drive_3"
+    }
+  ]
 }

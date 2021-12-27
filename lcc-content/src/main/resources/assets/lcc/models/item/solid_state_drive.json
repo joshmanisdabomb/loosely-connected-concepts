@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "lcc:item/solid_state_drive"
+    "layer0": "lcc:item/solid_state_drive_base",
+    "layer1": "lcc:item/solid_state_drive_plastic",
+    "layer2": "lcc:item/solid_state_drive_label"
   }
 }

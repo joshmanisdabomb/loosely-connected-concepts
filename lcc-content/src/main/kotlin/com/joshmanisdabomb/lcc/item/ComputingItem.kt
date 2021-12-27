@@ -12,14 +12,10 @@ import kotlin.math.log2
 
 open class ComputingItem(val initialLevel: Int, val maxLevel: Int, settings: Settings, val upgrader: ((space: Int) -> Int?)? = null) : Item(settings) {
 
-    init {
-        settings.maxCount(1)
-    }
-
     @Environment(EnvType.CLIENT)
     fun getDivPredicate() = UnclampedModelPredicateProvider { stack, _, _, _ ->
         val level = stack.getSubNbt("lcc-computing")?.getInt("level") ?: return@UnclampedModelPredicateProvider 0f
-        return@UnclampedModelPredicateProvider level.toFloat().div(initialLevel)//
+        return@UnclampedModelPredicateProvider level.toFloat().minus(initialLevel).div(maxLevel-initialLevel)
     }
 
     @Environment(EnvType.CLIENT)

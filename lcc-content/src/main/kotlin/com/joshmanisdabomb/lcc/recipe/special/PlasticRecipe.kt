@@ -8,10 +8,10 @@ import com.joshmanisdabomb.lcc.extensions.getShapedKeys
 import com.joshmanisdabomb.lcc.extensions.getShapedPattern
 import com.joshmanisdabomb.lcc.extensions.getStack
 import com.joshmanisdabomb.lcc.item.ColoredItem
+import com.joshmanisdabomb.lcc.item.PlasticCraftingResult
 import com.joshmanisdabomb.lcc.item.PlasticItem
 import net.minecraft.inventory.CraftingInventory
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
@@ -38,7 +38,7 @@ class PlasticRecipe(private val id: Identifier, group: String, width: Int, heigh
         }
         if (colors.isEmpty()) error("Plastic recipe with no plastic ingredients, a regular shaped recipe should be used instead.")
         val color = PlasticItem.getColorMix(colors.distinct())
-        return super.craft(craftingInventory).apply { setSubNbt("display", NbtCompound().apply { putInt("color", color) }) }
+        return super.craft(craftingInventory).apply { (item as? PlasticCraftingResult)?.modifyPlasticOutputStack(this, color) }
     }
 
     override fun getSerializer() = LCCRecipeSerializers.plastic_shaped

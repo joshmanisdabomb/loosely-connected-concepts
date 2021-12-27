@@ -5,13 +5,15 @@ import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.entity.ItemEntity
 import net.minecraft.item.ItemStack
 
-open class PlasticItem(settings: Settings) : ColoredItem(settings), LCCItemTrait {
+open class PlasticItem(settings: Settings) : ColoredItem(settings), LCCItemTrait, PlasticCraftingResult {
 
-    override fun defaultColor(stack: ItemStack) = 0xFFF7EE
+    override fun defaultColor(stack: ItemStack) = defaultColor
 
     override fun lcc_doesDespawn(stack: ItemStack, entity: ItemEntity) = false
 
     companion object {
+
+        val defaultColor = 0xFFF7EE
 
         fun getColorBlend(vararg colors: LCCExtendedDyeColor): Int {
             val floats = colors.map { LCCExtendedDyeColor.getComponents(it.plasticColor) }.fold(FloatArray(3) { 0f }) { a, b -> a.zip(b) { c, d -> c.plus(d.div(colors.count())) }.toFloatArray() }

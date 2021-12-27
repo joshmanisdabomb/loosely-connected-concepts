@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.joshmanisdabomb.lcc.item.ComputingBlockItem
+import com.joshmanisdabomb.lcc.item.block.ComputingBlockItem
 import com.joshmanisdabomb.lcc.subblock.Subblock
 import com.joshmanisdabomb.lcc.subblock.SubblockSystem
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait

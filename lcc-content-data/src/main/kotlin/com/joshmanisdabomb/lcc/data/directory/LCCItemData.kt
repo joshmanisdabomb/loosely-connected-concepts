@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.RefiningBlock
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.container.ItemDataContainer
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelAccess
+import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.data.factory.asset.item.*
 import com.joshmanisdabomb.lcc.data.factory.recipe.*
 import com.joshmanisdabomb.lcc.data.factory.tag.HeartItemTagFactory
@@ -18,6 +19,7 @@ import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFacto
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.extensions.suffix
 import com.joshmanisdabomb.lcc.item.HeartItem
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
@@ -412,6 +414,14 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     val cpu by entry(::initialiser) { data().add(LiteralTranslationFactory("Central Processing Unit")).add(ComputingLog2ItemAssetFactory(intArrayOf(16, 32, 128, 512)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
     val ram by entry(::initialiser) { data().add(LiteralTranslationFactory("Random Access Memory")).add(ComputingLog2ItemAssetFactory(intArrayOf(64, 256, 1024, 2048, 8192)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
     val gpu by entry(::initialiser) { data().add(LiteralTranslationFactory("Graphics Processing Unit")).add(ComputingLog2ItemAssetFactory(intArrayOf(256, 512, 1024, 2048, 4096)) { c -> mi.generated { idi.locSuffix(it, c.toString()) } }) }
+
+    val floppy_disk by entry(::initialiser) { data().defaultLang().add(MultiLayerGeneratedItemAssetFactory({ idi.locSuffix(it, "base") }, { idi.locSuffix(it, "plastic") }, { idi.locSuffix(it, "label") })) }
+    val compact_disc by entry(::initialiser) { data().defaultLang().add(MultiLayerGeneratedItemAssetFactory({ idi.locSuffix(it, "base") }, { idi.locSuffix(it, "plastic") }, { idi.locSuffix(it, "label") })) }
+    val memory_card by entry(::initialiser) { data().defaultLang().add(MultiLayerGeneratedItemAssetFactory({ idi.locSuffix(it, "base") }, { idi.locSuffix(it, "plastic") }, { idi.locSuffix(it, "label") })) }
+    val memory_stick by entry(::initialiser) { data().defaultLang().add(ComputingDivItemAssetFactory(intArrayOf(100, 1000, 10000)) { c -> ModelProvider.ModelFactory { d, t, i -> LCCModelTemplates.generated2.upload(i(t) ?: idi.locSuffix(t, c.toString()), Texture().put(TextureKey.LAYER0, idi.locSuffix(t, "base").suffix(c.toString())).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "plastic").suffix(c.toString())).put(LCCModelTextureKeys.layer2, idi.locSuffix(t, "label").suffix(c.toString())), d.models) } }) }
+    val hard_disk_drive by entry(::initialiser) { data().defaultLang().add(ComputingDivItemAssetFactory(intArrayOf(1000, 10000, 100000)) { c -> ModelProvider.ModelFactory { d, t, i -> LCCModelTemplates.generated2.upload(i(t) ?: idi.locSuffix(t, c.toString()), Texture().put(TextureKey.LAYER0, idi.locSuffix(t, "base").suffix(c.toString())).put(LCCModelTextureKeys.layer1, idi.locSuffix(t, "plastic").suffix(c.toString())).put(LCCModelTextureKeys.layer2, idi.locSuffix(t, "label").suffix(c.toString())), d.models) } }) }
+    val solid_state_drive by entry(::initialiser) { data().defaultLang().add(MultiLayerGeneratedItemAssetFactory({ idi.locSuffix(it, "base") }, { idi.locSuffix(it, "plastic") }, { idi.locSuffix(it, "label") })) }
+    val m2 by entry(::initialiser) { data().add(LiteralTranslationFactory("M.2 Solid State Drive")).add(MultiLayerGeneratedItemAssetFactory({ idi.locSuffix(it, "base") }, { idi.locSuffix(it, "plastic") }, { idi.locSuffix(it, "label") })) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

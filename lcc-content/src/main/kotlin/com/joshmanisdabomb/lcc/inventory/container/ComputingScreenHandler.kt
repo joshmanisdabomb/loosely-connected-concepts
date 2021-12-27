@@ -3,27 +3,38 @@ package com.joshmanisdabomb.lcc.inventory.container
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.insertItemWithInventoryMaxStack
+import com.joshmanisdabomb.lcc.utils.DecimalTransport
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.screen.ArrayPropertyDelegate
+import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 
-class ComputingScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory) : ScreenHandler(LCCScreenHandlers.computing, syncId) {
+class ComputingScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val properties: PropertyDelegate) : ScreenHandler(LCCScreenHandlers.computing, syncId) {
 
     private var _half: ComputingBlockEntity.ComputingHalf? = null
     val half get() = _half!!
 
     val listener = InventoryChangedListener(::onContentChanged)
 
-    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory) {
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, ArrayPropertyDelegate(2)) {
         val pos = buf.readBlockPos()
         val top = buf.readBoolean()
 
         val be = playerInventory.player.world.getBlockEntity(pos) as? ComputingBlockEntity ?: return
         val half = be.getHalf(top) ?: return
         initHalf(half)
+    }
+
+    init {
+        checkDataCount(properties, 2)
+
+        addProperties(properties)
     }
 
     fun initHalf(half: ComputingBlockEntity.ComputingHalf) : ComputingScreenHandler {
@@ -73,5 +84,8 @@ class ComputingScreenHandler(syncId: Int, protected val playerInventory: PlayerI
     }
 
     override fun insertItem(stack: ItemStack, startIndex: Int, endIndex: Int, fromLast: Boolean) = insertItemWithInventoryMaxStack(stack, startIndex, endIndex, fromLast)
+
+    @Environment(EnvType.CLIENT)
+    fun powerAmount() = DecimalTransport.from(properties.get(0), properties.get(1))
 
 }

@@ -67,7 +67,7 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
             power.ix = power.width.times(5)
         } else if (code != null) {
             power.ix = power.width.times(6)
-        } else if (module.generateErrorCode(handler.half.inventory!!, handler.powerAmount()) == 0) {
+        } else if (module.generateErrorCode(handler.half, power = handler.powerAmount()) == 0) {
 
         } else {
             power.active = false

@@ -16,6 +16,7 @@ import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
+import com.joshmanisdabomb.lcc.network.ComputingNetwork
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
@@ -32,9 +33,8 @@ class ComputerComputerModule : ComputerModule() {
 
     override fun serverTick(half: ComputingBlockEntity.ComputingHalf) {
         if (getCurrentErrorCode(half) == 0) {
-            val inventory = half.inventory ?: return
             val removed = half.be.removeEnergyDirect(9f, LooseEnergy, WorldEnergyContext(half.be.world, half.be.pos, null, half.top.transform(Direction.UP, Direction.DOWN)))
-            val code = generateErrorCode(inventory, removed)
+            val code = generateErrorCode(half, power = removed)
             if (code > 0) {
                 half.extra?.putInt("ErrorCode", code)
             }
@@ -48,10 +48,16 @@ class ComputerComputerModule : ComputerModule() {
 
     override fun createExtraData() = NbtCompound()
 
+    override fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf): Set<String> {
+        val set = mutableSetOf<String>()
+        if (half.extra?.getBoolean("Working") == true) {
+            set.add("active_computer")
+        }
+        return set
+    }
+
     fun power(half: ComputingBlockEntity.ComputingHalf, player: ServerPlayerEntity) : Boolean? {
         val sworld = half.be.world as? ServerWorld ?: return null
-        val inventory = half.inventory ?: return null
-        val power = half.rawEnergy ?: 0f
 
         val current = getCurrentErrorCode(half)
         if (current != null) {
@@ -63,9 +69,17 @@ class ComputerComputerModule : ComputerModule() {
             return true
         }
 
-        val potential = generateErrorCode(inventory, power)
+        val potential = generateErrorCode(half)
         if (potential != 0) {
             half.extra?.putInt("ErrorCode", potential)
+            half.be.markDirty()
+            sworld.chunkManager.markForUpdate(half.be.pos)
+            return false
+        }
+
+        val result = ComputingNetwork.local.discover(sworld, half.be.pos to half.top)
+        if (result.nodes["active_computer"]?.isNotEmpty() == true) {
+            half.extra?.putInt("ErrorCode", 3)
             half.be.markDirty()
             sworld.chunkManager.markForUpdate(half.be.pos)
             return false
@@ -84,10 +98,11 @@ class ComputerComputerModule : ComputerModule() {
         return data.getBoolean("Working").transform(0, null)
     }
 
-    fun generateErrorCode(inventory: LCCInventory, power: Float) = when {
+    fun generateErrorCode(half: ComputingBlockEntity.ComputingHalf, inventory: LCCInventory = half.inventory!!, power: Float = LooseEnergy.fromStandard(half.rawEnergy!!)) = when {
         power < 9f -> 1
         !inventory[0].isOf(LCCItems.cpu) -> 2
         inventory.list.subList(1,4).none { it.isOf(LCCItems.ram) } -> 2
+
         else -> 0
     }
 

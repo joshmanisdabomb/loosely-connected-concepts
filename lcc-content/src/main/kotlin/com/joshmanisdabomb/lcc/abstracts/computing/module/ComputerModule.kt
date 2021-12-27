@@ -41,6 +41,8 @@ abstract class ComputerModule {
 
     open fun createExtraData(): NbtCompound? = null
 
+    open fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf) = emptySet<String>()
+
     open fun createInventory() = if (expectedInventorySize > 0) LCCInventory(expectedInventorySize) else null
 
     abstract fun initScreenHandler(handler: ComputingScreenHandler, slotAdder: (slot: Slot) -> Unit, half: ComputingBlockEntity.ComputingHalf, inv: LCCInventory, playerInv: PlayerInventory)

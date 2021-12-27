@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.energy.world.WorldEnergyHandler
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
+import com.joshmanisdabomb.lcc.network.ComputingNetwork
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.Block
@@ -229,23 +230,23 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
         fun connectsTo(other: ComputingHalf) = this.color == other.color
 
-        fun connectsAbove(): Boolean {
+        fun connectsAbove(): ComputingHalf? {
             if (top) {
-                val above = (world?.getBlockEntity(pos.up()) as? ComputingBlockEntity)?.getHalf(false) ?: return false
-                return connectsTo(above)
+                val above = (world?.getBlockEntity(pos.up()) as? ComputingBlockEntity)?.getHalf(false) ?: return null
+                return if (connectsTo(above)) above else null
             } else {
-                val above = getHalf(true) ?: return false
-                return connectsTo(above)
+                val above = getHalf(true) ?: return null
+                return if (connectsTo(above)) above else null
             }
         }
 
-        fun connectsBelow(): Boolean {
+        fun connectsBelow(): ComputingHalf? {
             if (top) {
-                val below = getHalf(false) ?: return false
-                return connectsTo(below)
+                val below = getHalf(false) ?: return null
+                return if (connectsTo(below)) below else null
             } else {
-                val below = (world?.getBlockEntity(pos.down()) as? ComputingBlockEntity)?.getHalf(true) ?: return false
-                return connectsTo(below)
+                val below = (world?.getBlockEntity(pos.down()) as? ComputingBlockEntity)?.getHalf(true) ?: return null
+                return if (connectsTo(below)) below else null
             }
         }
 

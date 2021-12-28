@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.data.generators
 
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCItems
 
 object LCCLangData {
 
@@ -11,6 +12,15 @@ object LCCLangData {
         lang["tooltip.lcc.energy"] = "Energy: %1\$s / %2\$s%3\$s"
         lang["tooltip.lcc.oxygen"] = "Oxygen: %1\$s / %2\$s"
         lang["tooltip.lcc.contained_armor.consume"] = "Your helmet is preventing you from using this item"
+        lang["tooltip.lcc.computing.disk.id"] = "ID: %1\$s"
+        lang["tooltip.lcc.computing.disk.id.null"] = "not yet set"
+        lang["tooltip.lcc.computing.disk.space"] = "Capacity: %1\$s used / %2\$s total"
+        lang["tooltip.lcc.computing.disk.space.advanced"] = "Capacity: %1\$s used / %2\$s allocated / %3\$s total"
+        lang["tooltip.lcc.computing.partitions"] = "Partitions:"
+        lang["tooltip.lcc.computing.partition.name"] = "  %1\$s"
+        lang["tooltip.lcc.computing.partition.id"] = "    ID: %1\$s"
+        lang["tooltip.lcc.computing.partition.id.null"] = "not yet set"
+        lang["tooltip.lcc.computing.partition.space"] = "    Capacity: %1\$s used / %2\$s total"
 
         lang["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["itemGroup.lcc.group.set.amount"] = "%s item"
@@ -154,6 +164,17 @@ object LCCLangData {
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.malformed"] = "The sapphire altar has been tampered with."
 
         lang[LCCBlocks.wasteland_obelisk.translationKey.toString() + ".cooldown"] = "The obelisks asks you to be patient."
+
+        lang[LCCItems.cpu.translationKey.toString() + ".level"] = "Speed: %1\$s"
+        lang[LCCItems.ram.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.gpu.translationKey.toString() + ".level"] = "Speed: %1\$s"
+        lang[LCCItems.floppy_disk.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.compact_disc.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.memory_card.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.memory_stick.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.hard_disk_drive.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.solid_state_drive.translationKey.toString() + ".level"] = "Capacity: %1\$s"
+        lang[LCCItems.m2.translationKey.toString() + ".level"] = "Capacity: %1\$s"
 
         lang["commands.lcc.radiation.add.success.single"] = "Added %s to the radiation sickness of %s"
         lang["commands.lcc.radiation.add.success.multiple"] = "Added %s to the radiation sickness of %s players"

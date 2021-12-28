@@ -695,6 +695,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     }
 
     val computing by entry(::initialiser) { data().add(SpecialBlockAssetFactory) }
+    val terminal by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_terminal.upload(i(t) ?: idb.loc(t), Texture().put(TextureKey.TOP, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.SIDE, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.FRONT, idb.loc(t)).put(LCCModelTextureKeys.white, idb.locSuffix(t, "white")), d.models) })) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

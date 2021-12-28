@@ -15,6 +15,8 @@ interface PowerScreenUtils {
     val offsetX: Int
     val offsetY: Int
     val ticks: Int
+    val textureWidth: Int get() = 256
+    val textureHeight: Int get() = 256
 
     val textRenderer: TextRenderer
 
@@ -94,7 +96,7 @@ interface PowerScreenUtils {
     }
 
     @JvmDefault
-    private fun draw(matrices: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int) = (this as DrawableHelper).drawTexture(matrices, x, y, u, v, width, height)
+    private fun draw(matrices: MatrixStack, x: Int, y: Int, u: Int, v: Int, width: Int, height: Int) = DrawableHelper.drawTexture(matrices, x, y, u.toFloat(), v.toFloat(), width, height, textureWidth, textureHeight)
 
     private fun tooltip(matrices: MatrixStack, wrapLines: List<OrderedText>, mouseX: Int, mouseY: Int) = (this as Screen).renderOrderedTooltip(matrices, wrapLines, mouseX, mouseY)
 

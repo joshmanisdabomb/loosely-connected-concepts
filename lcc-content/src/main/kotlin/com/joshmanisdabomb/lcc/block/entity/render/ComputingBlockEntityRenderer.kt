@@ -16,7 +16,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Vec3f
 import java.util.*
 
-
 class ComputingBlockEntityRenderer(context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<ComputingBlockEntity> {
 
     val rand = Random()

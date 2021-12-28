@@ -29,6 +29,7 @@ class SapphireAltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
         challenge = LCCRegistries.altar_challenges[Identifier(nbt.getString("Challenge"))]
         data = nbt.getCompound("ChallengeData")
 
+        challengers?.clear()
         if (nbt.contains("Challengers", NBT_LIST)) {
             challengers = nbt.getList("Challengers", NBT_INT_ARRAY).map { NbtHelper.toUuid(it) }.toMutableList()
         }

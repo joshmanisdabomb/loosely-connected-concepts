@@ -25,9 +25,7 @@ class RadarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockE
 
     override fun readNbt(nbt: NbtCompound) {
         level = nbt.getByte("Distance").toInt()
-        if (nbt.contains("Type", NBT_BYTE)) {
-            type = RadarDetection.values()[nbt.getByte("Type").toInt()]
-        }
+        type = if (nbt.contains("Type", NBT_BYTE)) RadarDetection.values()[nbt.getByte("Type").toInt()] else null
     }
 
     override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)

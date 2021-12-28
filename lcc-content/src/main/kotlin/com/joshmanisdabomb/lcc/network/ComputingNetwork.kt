@@ -1,20 +1,16 @@
 package com.joshmanisdabomb.lcc.network
 
-import com.joshmanisdabomb.lcc.block.CogBlock
-import com.joshmanisdabomb.lcc.block.CogBlock.Companion.cog_states
 import com.joshmanisdabomb.lcc.block.ComputingBlock
+import com.joshmanisdabomb.lcc.block.TerminalBlock
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.extensions.perpendiculars
-import net.minecraft.block.SideShapeType
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 
 class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : BlockNetwork<Pair<BlockPos, Boolean?>>(distance) {
 
     override fun traverse(world: BlockView, current: Pair<BlockPos, Boolean?>, nodes: MutableMap<String, MutableSet<Pair<BlockPos, Boolean?>>>): Set<Pair<BlockPos, Boolean?>> {
         val pos = toPosition(current)
+        val positions = mutableSetOf<Pair<BlockPos, Boolean?>>()
         val state = world.getBlockState(pos)
         val top = current.second
         if (top != null) {
@@ -23,36 +19,68 @@ class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : Bloc
             val half = be.getHalf(top) ?: return emptySet()
 
             val me = pos to top
-
-            from(nodes, half.module.id.toString()).add(me)
+            addComputerNodes(nodes, half, me)
 
             //check connected modules
-            val positions = mutableSetOf<Pair<BlockPos, Boolean?>>()
             val above = half.connectsAbove()
             if (above != null) {
                 val pair = above.be.pos to above.top
                 positions.add(pair)
-                from(nodes, above.module.id.toString()).add(pair)
-                for (node in above.module.getNetworkNodeTags(above)) {
-                    from(nodes, node).add(pair)
-                }
+                addComputerNodes(nodes, above, pair)
             }
             val below = half.connectsBelow()
             if (below != null) {
                 val pair = below.be.pos to below.top
                 positions.add(pair)
-                from(nodes, below.module.id.toString()).add(pair)
-                for (node in below.module.getNetworkNodeTags(below)) {
-                    from(nodes, node).add(pair)
+                addComputerNodes(nodes, below, pair)
+            }
+
+            //check for terminals and cables (when wired) above and below
+            if (top) {
+                val up = pos.up()
+                val stateAbove = world.getBlockState(up)
+                when (stateAbove.block) {
+                    is TerminalBlock -> from(nodes, "terminal").add(up to null)
+                }
+            } else {
+                val down = pos.down()
+                val stateBelow = world.getBlockState(down)
+                when (stateBelow.block) {
+                    is TerminalBlock -> from(nodes, "terminal").add(down to null)
                 }
             }
 
-            return positions
-        } else if (cables) {
-            //TODO cables
-            return emptySet()
-        } else {
-            return emptySet()
+            //check for cables on sides when wired
+
+        } else if (state.block is TerminalBlock) {
+            val me = pos to top
+            from(nodes, "terminal").add(me)
+
+            //check computer modules above and below
+            val up = pos.up()
+            val halfAbove = (world.getBlockEntity(up) as? ComputingBlockEntity)?.getHalf(false)
+            if (halfAbove != null) {
+                val pair = up to false
+                positions.add(pair)
+                addComputerNodes(nodes, halfAbove, pair)
+            }
+            val down = pos.down()
+            val halfBelow = (world.getBlockEntity(down) as? ComputingBlockEntity)?.getHalf(true)
+            if (halfBelow != null) {
+                val pair = down to true
+                positions.add(pair)
+                addComputerNodes(nodes, halfBelow, pair)
+            }
+
+            //check for cables on all sides when wired
+        }
+        return positions
+    }
+
+    private fun addComputerNodes(nodes: MutableMap<String, MutableSet<Pair<BlockPos, Boolean?>>>, half: ComputingBlockEntity.ComputingHalf, loc: Pair<BlockPos, Boolean>) {
+        from(nodes, half.module.id.toString()).add(loc)
+        for (node in half.module.getNetworkNodeTags(half)) {
+            from(nodes, node).add(loc)
         }
     }
 

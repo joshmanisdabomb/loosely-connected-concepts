@@ -50,6 +50,7 @@ object LCCLangData {
         lang["container.lcc.card_reader"] = "Memory Card Reader"
         lang["container.lcc.stick_reader"] = "Memory Stick Reader"
         lang["container.lcc.drive_bay"] = "Drive Bay"
+        lang["container.lcc.terminal"] = "Terminal"
 
         lang["container.lcc.refining.power"] = "Power: %1\$s"
         lang["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"
@@ -93,6 +94,8 @@ object LCCLangData {
         lang["container.lcc.computer.error.3"] = "Error Code 03: Multiple Computers in Stack"
         lang["container.lcc.computer.error.4"] = "Error Code 04: Missing Boot Partition"
         lang["container.lcc.computer.error.5"] = "Error Code 05: Removed Boot Partition"
+
+        lang["container.lcc.terminal.power"] = "Power: %1\$s"
 
         lang["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"

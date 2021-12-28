@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.item.ShovelItem
 import com.joshmanisdabomb.lcc.item.SwordItem
 import com.joshmanisdabomb.lcc.item.block.ComputingBlockItem
+import com.joshmanisdabomb.lcc.item.block.PlasticBlockItem
 import com.joshmanisdabomb.lcc.item.render.predicate.VisualStackPredicate
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
@@ -305,19 +306,19 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(DigitalMediumItem::getTintColor))
 
     val computer_casing by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.computer_casing, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val computer by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.computer, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val floppy_drive by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.floppy_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val cd_drive by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.cd_drive, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val card_reader by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.card_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val stick_reader by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.stick_reader, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
     val drive_bay by entry(::initialiser) { ComputingBlockItem(LCCComputerModules.drive_bay, Item.Settings().defaults()) }
-        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(ComputingBlockItem::getTintColor))
+        .setProperties(ItemExtraSettings().creativeEx(COMPUTING).stackColor(PlasticBlockItem::getTintColor))
 
     //Health
     val heart_half by entryMap(::initialiser, *HeartType.values()) { HeartItem(it, 1.0F, Item.Settings().defaults()) }

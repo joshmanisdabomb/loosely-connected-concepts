@@ -31,6 +31,7 @@ object LCCScreens : AdvancedDirectory<Any, ScreenRegistry.Factory<out ScreenHand
     val nuclear_generator by entry(::initialiser) { ::NuclearFiredGeneratorScreen }
 
     val computing by entry(::initialiser) { { h: ComputingScreenHandler, pi: PlayerInventory, text: Text -> h.half.module.createScreen(h, pi, text)!! } }
+    val terminal by entry(::initialiser) { ::TerminalScreen }
 
     fun <S, H : ScreenHandler> initialiser(input: (H, PlayerInventory, Text) -> S, context: DirectoryContext<ScreenHandlerType<out ScreenHandler>>, parameters: Unit) where S : Screen, S : ScreenHandlerProvider<H> = ScreenRegistry.Factory(input).also { ScreenRegistry.register(context.properties as ScreenHandlerType<H>, input) }
 

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCItems.defaults
+import com.joshmanisdabomb.lcc.item.block.PlasticBlockItem
 import com.joshmanisdabomb.lcc.item.block.PowerSourceBlockItem
 import com.joshmanisdabomb.lcc.item.block.RadioactiveBlockItem
 import net.minecraft.block.Block
@@ -48,6 +49,7 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val deadwood_wall_sign by entry(::initialiser) { Replacement() }
 
     val computing by entry(::initialiser) { Replacement() }
+    val terminal by entry(::initialiser) { Replacement(PlasticBlockItem(properties, Item.Settings().defaults())) }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out Replacement, out BlockItem?>>, filter: (context: DirectoryContext<Block>) -> Boolean) {
         LCCBlocks.all.forEach { (k, v) ->

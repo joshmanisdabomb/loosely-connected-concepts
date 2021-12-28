@@ -41,6 +41,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val sapphire_altar by entry(::beInitialiser) { BlockEntityType.Builder.create(::SapphireAltarBlockEntity, LCCBlocks.sapphire_altar) }
     val wasteland_obelisk by entry(::beInitialiser) { BlockEntityType.Builder.create(::WastelandObeliskBlockEntity, LCCBlocks.wasteland_obelisk) }
     val computing by entry(::beInitialiser) { BlockEntityType.Builder.create(::ComputingBlockEntity, LCCBlocks.computing) }
+    val terminal by entry(::beInitialiser) { BlockEntityType.Builder.create(::TerminalBlockEntity, LCCBlocks.terminal) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)
@@ -61,6 +62,8 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(AlarmBlockEntityRenderer)
         BlockEntityRendererRegistry.INSTANCE.register(computing, ::ComputingBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(ComputingBlockEntityRenderer)
+        BlockEntityRendererRegistry.INSTANCE.register(terminal, ::TerminalBlockEntityRenderer)
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TerminalBlockEntityRenderer)
     }
 
 }

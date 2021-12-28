@@ -28,6 +28,7 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
     val nuclear_generator by entry(::extendedInitialiser) { ::NuclearFiredGeneratorScreenHandler }
 
     val computing by entry(::extendedInitialiser) { ::ComputingScreenHandler }
+    val terminal by entry(::extendedInitialiser) { ::TerminalScreenHandler }
 
     override fun id(name: String) = LCC.id(name)
 

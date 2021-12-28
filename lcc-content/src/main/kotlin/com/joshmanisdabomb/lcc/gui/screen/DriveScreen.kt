@@ -16,11 +16,11 @@ class DriveScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, t
     val texture = Identifier(handler.half.module.id.namespace, "textures/gui/container/${handler.half.module.id.path}.png")
 
     override fun init() {
-        super.init()
         backgroundWidth = 176
         backgroundHeight = 140
         playerInventoryTitleX = 8
         playerInventoryTitleY = 46
+        super.init()
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {

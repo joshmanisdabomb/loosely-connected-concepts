@@ -42,11 +42,11 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
     override val translationKey = "container.lcc.computer"
 
     override fun init() {
-        super.init()
         backgroundWidth = 176
         backgroundHeight = 178
         playerInventoryTitleX = 8
         playerInventoryTitleY = 84
+        super.init()
         addDrawableChild(power)
     }
 
@@ -94,7 +94,7 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         drawMouseoverTooltip(matrices, mouseX, mouseY)
         if (power.isHovered) power.renderTooltip(matrices, mouseX, mouseY)
 
-        renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 51..x + 62, y + 62..y + 76)
+        renderPowerTooltip(matrices, handler.powerAmount(), null/* TODO */, mouseX, mouseY, x + 51..x + 62, y + 62..y + 76)
 
         val code = module.getCurrentErrorCode(handler.half) ?: 0
         if (code > 0 && mouseX in x+137..x+161 && mouseY in y+53..y+66) {

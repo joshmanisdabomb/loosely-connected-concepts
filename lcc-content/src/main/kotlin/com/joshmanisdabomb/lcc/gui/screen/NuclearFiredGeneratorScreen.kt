@@ -66,11 +66,11 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
     }
 
     override fun init() {
-        super.init()
         backgroundWidth = 196
         backgroundHeight = 176
         playerInventoryTitleX = 18
         playerInventoryTitleY = 83
+        super.init()
         addDrawableChild(activate)
         onChanged(handler.inventory)
     }

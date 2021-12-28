@@ -15,11 +15,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.util.math.Direction
 
-class ComputingBlockItem(val module: ComputerModule, settings: Settings) : BlockItem(LCCBlocks.computing, settings), DefaultedColoredItem, LCCItemTrait {
-
-    override fun defaultColor(stack: ItemStack) = 0xFFF7EE
-
-    override fun lcc_doesDespawn(stack: ItemStack, entity: ItemEntity) = false
+class ComputingBlockItem(val module: ComputerModule, settings: Settings) : PlasticBlockItem(LCCBlocks.computing, settings), DefaultedColoredItem, LCCItemTrait {
 
     override fun getTranslationKey() = getOrCreateTranslationKey()
 
@@ -34,10 +30,6 @@ class ComputingBlockItem(val module: ComputerModule, settings: Settings) : Block
         val half = be.ComputingHalf(this.module, direction, this.getTintColor(stack), top)
         if (stack.hasCustomName()) half.customName = stack.name
         return half
-    }
-
-    companion object {
-        fun getTintColor(stack: ItemStack, tint: Int) = if (tint != 1) -1 else (stack.item as DefaultedColoredItem).getTintColor(stack)
     }
 
 }

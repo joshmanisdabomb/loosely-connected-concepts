@@ -19,6 +19,7 @@ import com.joshmanisdabomb.lcc.entity.ClassicTNTEntity
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.facade.piston.AbstractPistonHeadBlock
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
+import com.joshmanisdabomb.lcc.item.block.PlasticBlockItem
 import com.joshmanisdabomb.lcc.settings.BlockColorExtraSetting.Companion.blockColor
 import com.joshmanisdabomb.lcc.settings.BlockExtraSettings
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
@@ -355,6 +356,8 @@ object LCCBlocks : BlockDirectory() {
     //Computing
     val computing by entry(::initialiser) { ComputingBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE).breakByTool(PICKAXES, 1).requiresTool().strength(3.0F, 0.0F).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(ComputingBlock::getTintColor))
+    val terminal by entry(::initialiser) { TerminalBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE).breakByTool(PICKAXES, 1).requiresTool().strength(3.0F, 0.0F).sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(TerminalBlock::getTintColor).stackColor(PlasticBlockItem::getTintColor))
 
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 

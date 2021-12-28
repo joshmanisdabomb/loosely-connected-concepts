@@ -33,6 +33,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(AlarmBlockEntityRenderer::data)
     val computing by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(ComputingBlockEntityRenderer::data)
+    val terminal by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(TerminalBlockEntityRenderer::data)
 
     private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 

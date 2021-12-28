@@ -37,11 +37,11 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
     }
 
     override fun init() {
-        super.init()
         backgroundWidth = 176
         backgroundHeight = 171
         playerInventoryTitleX = 8
         playerInventoryTitleY = 77
+        super.init()
         addDrawableChild(detonate)
         onChanged(handler.inventory)
     }

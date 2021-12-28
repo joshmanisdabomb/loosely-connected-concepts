@@ -61,8 +61,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
 
-        if (nbt.contains("Top", NBT_COMPOUND)) top = ComputingHalf(nbt.getCompound("Top"), true)
-        if (nbt.contains("Bottom", NBT_COMPOUND)) bottom = ComputingHalf(nbt.getCompound("Bottom"), false)
+        top =  if (nbt.contains("Top", NBT_COMPOUND)) ComputingHalf(nbt.getCompound("Top"), true) else null
+        bottom = if (nbt.contains("Bottom", NBT_COMPOUND)) ComputingHalf(nbt.getCompound("Bottom"), false) else null
     }
 
     override fun writeNbt(nbt: NbtCompound) {

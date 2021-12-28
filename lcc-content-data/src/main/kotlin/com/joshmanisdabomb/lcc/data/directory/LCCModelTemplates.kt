@@ -87,6 +87,7 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_obelisk_item by templateEntry("item", template_obelisk_item_json, TextureKey.TEXTURE, TextureKey.LANTERN, TextureKey.INSIDE)
     val template_computing by templateEntry("block", template_computing_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
     val template_computing_top by templateEntry("block", template_computing_top_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
+    val template_terminal by templateEntry("block", template_terminal_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
 
 }
 
@@ -9822,6 +9823,77 @@ private const val template_computing_top_json = """{
       "from": [
         0,
         8,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#white",
+          "cullface": "north"
+        }
+      }
+    }
+  ]
+}"""
+
+private const val template_terminal_json = """{
+  "parent": "block/block",
+  "textures": {
+    "particle": "#top"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#top",
+          "cullface": "down",
+          "tintindex": 1
+        },
+        "up": {
+          "texture": "#top",
+          "cullface": "up",
+          "tintindex": 1
+        },
+        "north": {
+          "texture": "#front",
+          "cullface": "north",
+          "tintindex": 1
+        },
+        "south": {
+          "texture": "#side",
+          "cullface": "south",
+          "tintindex": 1
+        },
+        "west": {
+          "texture": "#side",
+          "cullface": "west",
+          "tintindex": 1
+        },
+        "east": {
+          "texture": "#side",
+          "cullface": "east",
+          "tintindex": 1
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        0,
         0
       ],
       "to": [

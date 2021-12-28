@@ -30,6 +30,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.world.World
 import java.util.*
 import kotlin.text.Typography.half
 
@@ -47,10 +48,7 @@ class ComputerComputerModule : ComputerModule() {
                 setErrorCode(half, code)
                 half.dirtyUpdate()
             } else {
-                val sworld = half.be.world as? ServerWorld
-                if (sworld != null) {
-                    getSession(sworld, half)?.serverTick(half)
-                }
+                getSession(half)?.serverTick(half)
             }
             half.be.markDirty()
         }
@@ -143,9 +141,10 @@ class ComputerComputerModule : ComputerModule() {
         half.extra?.putInt("ErrorCode", code)
     }
 
-    fun getSession(world: ServerWorld, half: ComputingBlockEntity.ComputingHalf): ComputingSession? {
+    fun getSession(half: ComputingBlockEntity.ComputingHalf): ComputingSession? {
         val id = half.extra?.getUuid("Session") ?: return null
-        val sessions = LCCComponents.computing_sessions.maybeGet(world.levelProperties).orElse(null) ?: return null
+        val level = half.be.world?.levelProperties ?: return null
+        val sessions = LCCComponents.computing_sessions.maybeGet(level).orElse(null) ?: return null
         return sessions.getSession(id)
     }
 

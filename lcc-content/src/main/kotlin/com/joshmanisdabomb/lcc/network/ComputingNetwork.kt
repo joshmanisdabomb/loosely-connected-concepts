@@ -1,9 +1,14 @@
 package com.joshmanisdabomb.lcc.network
 
+import com.joshmanisdabomb.lcc.block.ComputerCableBlock
 import com.joshmanisdabomb.lcc.block.ComputingBlock
+import com.joshmanisdabomb.lcc.block.ExplosivePasteBlock.Companion.up
 import com.joshmanisdabomb.lcc.block.TerminalBlock
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
+import com.joshmanisdabomb.lcc.extensions.horizontalDirections
+import net.minecraft.block.enums.SlabType
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
 import net.minecraft.world.BlockView
 
 class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : BlockNetwork<Pair<BlockPos, Boolean?>>(distance) {
@@ -41,16 +46,27 @@ class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : Bloc
                 val stateAbove = world.getBlockState(up)
                 when (stateAbove.block) {
                     is TerminalBlock -> from(nodes, "terminal").add(up to null)
+                    is ComputerCableBlock -> if (cables) positions.add(up to null)
                 }
             } else {
                 val down = pos.down()
                 val stateBelow = world.getBlockState(down)
                 when (stateBelow.block) {
                     is TerminalBlock -> from(nodes, "terminal").add(down to null)
+                    is ComputerCableBlock -> if (cables) positions.add(down to null)
                 }
             }
 
             //check for cables on sides when wired
+            if (cables) {
+                for (d in horizontalDirections) {
+                    val pos2 = pos.offset(d)
+                    val state2 = world.getBlockState(pos2)
+                    when (state2.block) {
+                        is ComputerCableBlock -> if (cables) positions.add(pos2 to null)
+                    }
+                }
+            }
 
         } else if (state.block is TerminalBlock) {
             val me = pos to top
@@ -73,6 +89,41 @@ class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : Bloc
             }
 
             //check for cables on all sides when wired
+            if (cables) {
+                for (d in Direction.values()) {
+                    val pos2 = pos.offset(d)
+                    val state2 = world.getBlockState(pos2)
+                    when (state2.block) {
+                        is ComputerCableBlock -> if (cables) positions.add(pos2 to null)
+                    }
+                }
+            }
+        } else if (cables && state.block is ComputerCableBlock) {
+            for (d in Direction.values()) {
+                val pos2 = pos.offset(d)
+                val state2 = world.getBlockState(pos2)
+                when (state2.block) {
+                    is ComputerCableBlock -> positions.add(pos2 to null)
+                    is TerminalBlock -> {
+                        positions.add(pos2 to null)
+                        from(nodes, "terminal").add(pos2 to null)
+                    }
+                    is ComputingBlock -> {
+                        val halves = (world.getBlockEntity(pos2) as? ComputingBlockEntity)?.getHalves(when (d) {
+                            Direction.UP -> SlabType.BOTTOM
+                            Direction.DOWN -> SlabType.TOP
+                            else -> SlabType.DOUBLE
+                        })
+                        if (halves?.isNotEmpty() == true) {
+                            for (half in halves) {
+                                val pair = pos2 to half.top
+                                positions.add(pair)
+                                addComputerNodes(nodes, half, pair)
+                            }
+                        }
+                    }
+                }
+            }
         }
         return positions
     }

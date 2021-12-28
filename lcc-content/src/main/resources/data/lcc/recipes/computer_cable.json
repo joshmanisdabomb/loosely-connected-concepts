@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mgm"
+  ],
+  "key": {
+    "m": {
+      "item": "lcc:microchip"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "lcc:computer_cable",
+    "count": 2
+  }
+}

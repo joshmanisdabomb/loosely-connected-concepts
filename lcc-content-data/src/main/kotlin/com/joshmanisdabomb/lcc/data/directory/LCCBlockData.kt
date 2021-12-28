@@ -214,7 +214,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         })
     }
     val power_cable by entry(::initialiser) {
-        data().defaultLang().defaultLootTable().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        data().defaultLang().defaultLootTable().add(BooleanCable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
             ShapedRecipeJsonFactory(i, 3)
                 .pattern("ccc")
                 .input('c', Items.COPPER_INGOT)
@@ -696,6 +696,14 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val computing by entry(::initialiser) { data().add(SpecialBlockAssetFactory) }
     val terminal by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_terminal.upload(i(t) ?: idb.loc(t), Texture().put(TextureKey.TOP, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.SIDE, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.FRONT, idb.loc(t)).put(LCCModelTextureKeys.white, idb.locSuffix(t, "white")), d.models) })) }
+    val computer_cable by entry(::initialiser) { data().defaultLang().defaultLootTable().add(ComputerCableBlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory(i, 2)
+            .pattern("mgm")
+            .input('m', LCCItems.microchip)
+            .input('g', Items.GOLD_INGOT)
+            .apply { hasCriterionShaped(this, LCCItems.microchip) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

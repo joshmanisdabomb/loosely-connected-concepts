@@ -35,6 +35,7 @@ class TerminalScreen(handler: TerminalScreenHandler, inventory: PlayerInventory,
         backgroundHeight = 231
         playerInventoryTitleX = 8
         playerInventoryTitleY = 137
+        titleY = 7
         super.init()
     }
 

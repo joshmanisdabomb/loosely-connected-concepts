@@ -88,6 +88,9 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_computing by templateEntry("block", template_computing_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
     val template_computing_top by templateEntry("block", template_computing_top_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
     val template_terminal by templateEntry("block", template_terminal_json, TextureKey.TOP, TextureKey.SIDE, TextureKey.FRONT, LCCModelTextureKeys.white)
+    val template_computer_cable_elbow by templateEntry("block", template_computer_cable_elbow_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
+    val template_computer_cable_top by templateEntry("block", template_computer_cable_top_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
+    val template_computer_cable_bottom by templateEntry("block", template_computer_cable_bottom_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
 
 }
 
@@ -9909,4 +9912,58 @@ private const val template_terminal_json = """{
       }
     }
   ]
+}"""
+
+private const val template_computer_cable_elbow_json = """{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"elements": [
+		{
+			"from": [6, 10, 6],
+			"to": [10, 14, 10],
+			"faces": {
+				"north": {"uv": [6, 2, 10, 6], "texture": "#side"},
+				"east": {"uv": [6, 2, 10, 6], "texture": "#side"},
+				"south": {"uv": [6, 2, 10, 6], "texture": "#side"},
+				"west": {"uv": [6, 2, 10, 6], "texture": "#side"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#end"}
+			}
+		}
+	]
+}"""
+
+private const val template_computer_cable_top_json = """{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"elements": [
+		{
+			"from": [6, 10, 10],
+			"to": [10, 16, 14],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"east": {"uv": [2, 0, 6, 6], "texture": "#side"},
+				"south": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"west": {"uv": [10, 0, 14, 6], "texture": "#side"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#end", "cullface": "up"}
+			}
+		}
+	]
+}"""
+
+private const val template_computer_cable_bottom_json = """{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"elements": [
+		{
+			"from": [6, 10, 2],
+			"to": [10, 16, 6],
+			"faces": {
+				"north": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"east": {"uv": [10, 0, 14, 6], "texture": "#side"},
+				"south": {"uv": [6, 0, 10, 6], "texture": "#side"},
+				"west": {"uv": [2, 0, 6, 6], "texture": "#side"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#end", "cullface": "up"}
+			}
+		}
+	]
 }"""

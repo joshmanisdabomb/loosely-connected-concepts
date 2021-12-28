@@ -9,7 +9,7 @@ import net.minecraft.client.util.math.MatrixStack
 class BIOSComputingController : ComputingController() {
 
     override fun serverTick(session: ComputingSession, context: ComputingSessionContext) {
-
+        println("session ${session.id} with disks ${context.getAccessibleDisks()}")
     }
 
     @Environment(EnvType.CLIENT)

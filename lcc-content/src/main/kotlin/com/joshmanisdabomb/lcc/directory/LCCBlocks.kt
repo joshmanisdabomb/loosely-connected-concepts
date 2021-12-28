@@ -358,6 +358,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(ComputingBlock::getTintColor))
     val terminal by entry(::initialiser) { TerminalBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE).breakByTool(PICKAXES, 1).requiresTool().strength(3.0F, 0.0F).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(TerminalBlock::getTintColor).stackColor(PlasticBlockItem::getTintColor))
+    val computer_cable by entry(::initialiser) { ComputerCableBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE_GRAY).strength(1.1F, 1.0F).breakByTool(PICKAXES, 1).requiresTool().sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(COMPUTING))
 
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 

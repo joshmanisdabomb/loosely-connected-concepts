@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.energy.world.WorldEnergyHandler
 import com.joshmanisdabomb.lcc.network.FullBlockNetwork
 import net.minecraft.util.math.Direction
 
-class PowerCableBlock(settings: Settings) : CableBlock(settings, { world, state, pos, side, state2, pos2 -> state2.block is PowerCableBlock || WorldEnergyHandler.getHandlerAt(world, pos2) != null }), WorldEnergyHandler {
+class PowerCableBlock(settings: Settings) : BooleanCableBlock(settings, { world, state, pos, side, state2, pos2 -> state2.block is PowerCableBlock || WorldEnergyHandler.getHandlerAt(world, pos2) != null }), WorldEnergyHandler {
 
     val network = FullBlockNetwork({ world, pos, state, side -> state.block is PowerCableBlock }, { world, pos, state, side -> if (WorldEnergyHandler.getHandlerAt(world, pos) != null && state.block !is PowerCableBlock) arrayOf("all", side.toString()) else emptyArray() }, 64)
 

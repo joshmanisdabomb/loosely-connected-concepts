@@ -1,0 +1,7 @@
+{
+  "parent": "lcc:block/cable4_item",
+  "textures": {
+    "side": "lcc:block/computer_cable",
+    "end": "lcc:block/computer_cable_end"
+  }
+}

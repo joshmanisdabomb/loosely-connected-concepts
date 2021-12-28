@@ -1,0 +1,216 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "lcc:block/computer_cable"
+      }
+    },
+    {
+      "when": {
+        "up": "true"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 180
+      }
+    },
+    {
+      "when": {
+        "north": "full"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "north": "top"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "north": "bottom"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90
+      }
+    },
+    {
+      "when": {
+        "east": "full"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "top"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "east": "bottom"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "south": "full"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south": "top"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "south": "bottom"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90,
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "west": "full"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "west": "top"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "west": "bottom"
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90,
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "up": "false"
+          },
+          {
+            "OR": [
+              {
+                "north": "top"
+              },
+              {
+                "east": "top"
+              },
+              {
+                "south": "top"
+              },
+              {
+                "west": "top"
+              }
+            ]
+          }
+        ]
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_elbow",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "AND": [
+          {
+            "down": "false"
+          },
+          {
+            "OR": [
+              {
+                "north": "bottom"
+              },
+              {
+                "east": "bottom"
+              },
+              {
+                "south": "bottom"
+              },
+              {
+                "west": "bottom"
+              }
+            ]
+          }
+        ]
+      },
+      "apply": {
+        "model": "lcc:block/computer_cable_elbow",
+        "uvlock": true,
+        "x": 180
+      }
+    }
+  ]
+}

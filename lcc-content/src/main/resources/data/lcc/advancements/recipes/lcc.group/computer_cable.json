@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:computer_cable"
+    ]
+  },
+  "criteria": {
+    "has_microchip": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:microchip"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:computer_cable"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_microchip",
+      "has_the_recipe"
+    ]
+  ]
+}

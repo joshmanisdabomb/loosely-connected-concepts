@@ -71,7 +71,9 @@
       "lcc:advancement_race",
       "lcc:gauntlet_actor",
       "lcc:gauntlet_target",
-      "lcc:hearts"
+      "lcc:hearts",
+      "lcc:computing_storage",
+      "lcc:computing_sessions"
     ]
   },
   "accessWidener": "lcc.accesswidener"

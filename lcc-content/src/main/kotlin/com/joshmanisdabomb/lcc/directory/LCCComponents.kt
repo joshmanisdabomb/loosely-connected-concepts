@@ -34,6 +34,11 @@ object LCCComponents : AdvancedDirectory<Class<out ComponentV3>, ComponentKey<ou
     val advancement_race by entry({ i, c, p -> levelInitialiser(i, c, p, ::AdvancementRaceComponent) }) { AdvancementRaceComponent::class.java }
         .addTags("level")
 
+    val computing_storage by entry({ i, c, p -> levelInitialiser(i, c, p, ::ComputingStorageComponent) }) { ComputingStorageComponent::class.java }
+        .addTags("level")
+    val computing_sessions by entry({ i, c, p -> levelInitialiser(i, c, p, ::ComputingSessionComponent) }) { ComputingSessionComponent::class.java }
+        .addTags("level")
+
     fun <C : ComponentV3> worldInitialiser(input: Class<C>, context: DirectoryContext<Unit>, parameters: Any, factory: ComponentFactory<World, C>): ComponentKey<C> {
         if (parameters !is WorldComponentFactoryRegistry) error("Incorrect registry type given as parameters for world initialiser.")
         val key = ComponentRegistryV3.INSTANCE.getOrCreate(LCC.id(context.name), input)

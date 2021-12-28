@@ -62,7 +62,7 @@ class ComputingNetwork(distance: Int = 64, protected val cables: Boolean) : Bloc
         val local = ComputingNetwork(64, false)
         val wired = ComputingNetwork(64, true)
 
-        fun retrieveHalves(world: BlockView, result: BlockNetwork<Pair<BlockPos, Boolean?>>.NetworkResult) = result.traversablesAssoc.flatMap { (k, v) ->
+        fun retrieveHalves(world: BlockView, map: Map<BlockPos, List<Pair<BlockPos, Boolean?>>>) = map.flatMap { (k, v) ->
             val other = world.getBlockEntity(k) as? ComputingBlockEntity ?: return@flatMap emptyList()
             return@flatMap v.mapNotNull {
                 val top = it.second ?: return@mapNotNull null

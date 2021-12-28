@@ -76,7 +76,7 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
         }
         //update all in local network
         val result = ComputingNetwork.local.discover(world, pos to be.getHalves()[0].top)
-        ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+        ComputingNetwork.retrieveHalves(world, result.traversablesAssoc).forEach { it.module.onUpdateNetwork(it, result) }
         super.onPlaced(world, pos, state, placer, stack)
     }
 
@@ -104,13 +104,13 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
                         val above = it.connectsAbove()
                         if (above != null) {
                             val result = ComputingNetwork.local.discover(world, above.be.pos to above.top)
-                            ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                            ComputingNetwork.retrieveHalves(world, result.traversablesAssoc).forEach { it.module.onUpdateNetwork(it, result) }
                         }
                     } else {
                         val below = it.connectsBelow()
                         if (below != null) {
                             val result = ComputingNetwork.local.discover(world, below.be.pos to below.top)
-                            ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                            ComputingNetwork.retrieveHalves(world, result.traversablesAssoc).forEach { it.module.onUpdateNetwork(it, result) }
                         }
                     }
                 }
@@ -139,13 +139,13 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
                 val above = half?.connectsAbove()
                 if (above != null) {
                     val result = ComputingNetwork.local.discover(world, above.be.pos to above.top)
-                    ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                    ComputingNetwork.retrieveHalves(world, result.traversablesAssoc).forEach { it.module.onUpdateNetwork(it, result) }
                 }
 
                 val below = half?.connectsBelow()
                 if (below != null) {
                     val result = ComputingNetwork.local.discover(world, below.be.pos to below.top)
-                    ComputingNetwork.retrieveHalves(world, result).forEach { it.module.onUpdateNetwork(it, result) }
+                    ComputingNetwork.retrieveHalves(world, result.traversablesAssoc).forEach { it.module.onUpdateNetwork(it, result) }
                 }
             }
             be?.removeHalf(subblock == sbTop)

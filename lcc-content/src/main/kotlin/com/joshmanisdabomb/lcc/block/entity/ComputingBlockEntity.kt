@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.TooltipConstants.energy
+import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSessionContext
+import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
@@ -165,7 +166,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
     override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 
-    inner class ComputingHalf(val module: ComputerModule, val direction: Direction, val color: Int, val top: Boolean) : ExtendedScreenHandlerFactory {
+    inner class ComputingHalf(val module: ComputerModule, val direction: Direction, val color: Int, val top: Boolean) : ExtendedScreenHandlerFactory, ComputingSessionContext {
 
         val be get() = this@ComputingBlockEntity
 
@@ -253,6 +254,34 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         fun onUse(state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = module.onUse(this, state, player, hand, hit)
 
         fun serverTick() = module.serverTick(this)
+
+        fun dirtyUpdate() {
+            be.markDirty()
+            if (world?.isClient == false) {
+                val sworld = be.world as? ServerWorld ?: return
+                sworld.chunkManager.markForUpdate(be.pos)
+            }
+        }
+
+        fun getInternalDisks(): Set<ItemStack> {
+            val inv = inventory ?: return emptySet()
+            return module.getInternalDisks(inv)
+        }
+
+        override fun setErrorCode(code: Int) {
+            (module as? ComputerComputerModule)?.setErrorCode(this, code)
+        }
+
+        override fun getAccessibleDisks(): Set<ItemStack> {
+            val world = be.world ?: return emptySet()
+            val result = ComputingNetwork.wired.discover(world, be.pos to top)
+
+            val list = mutableSetOf<ItemStack>()
+            for (half in ComputingNetwork.retrieveHalves(world, result.traversablesAssoc)) {
+                list.addAll(half.getInternalDisks())
+            }
+            return list
+        }
 
     }
 

@@ -1,7 +1,10 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
+import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
+import com.joshmanisdabomb.lcc.component.RadiationComponent.Companion.uuid
+import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
@@ -19,6 +22,7 @@ import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
@@ -26,6 +30,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import java.util.*
 import kotlin.text.Typography.half
 
 class ComputerComputerModule : ComputerModule() {
@@ -39,8 +44,15 @@ class ComputerComputerModule : ComputerModule() {
             val removed = half.be.removeEnergyDirect(9f, LooseEnergy, WorldEnergyContext(half.be.world, half.be.pos, null, half.top.transform(Direction.UP, Direction.DOWN)))
             val code = generateErrorCode(half, power = removed)
             if (code > 0) {
-                half.extra?.putInt("ErrorCode", code)
+                setErrorCode(half, code)
+                half.dirtyUpdate()
+            } else {
+                val sworld = half.be.world as? ServerWorld
+                if (sworld != null) {
+                    getSession(sworld, half)?.serverTick(half)
+                }
             }
+            half.be.markDirty()
         }
 
         EnergyTransaction()
@@ -51,59 +63,65 @@ class ComputerComputerModule : ComputerModule() {
 
     override fun createExtraData() = NbtCompound()
 
+    override fun getInternalDisks(inv: LCCInventory): Set<ItemStack> {
+        val set = mutableSetOf<ItemStack>()
+        val m2 = inv[6]
+        if (m2.isOf(LCCItems.m2)) set.add(m2)
+        return set
+    }
+
     override fun onUpdateNetwork(half: ComputingBlockEntity.ComputingHalf, network: BlockNetwork<Pair<BlockPos, Boolean?>>.NetworkResult) {
         if (getCurrentErrorCode(half) == 0) {
             val size = network.nodes["active_computer"]?.size ?: 0
             if (size > 1) {
-                half.extra?.putInt("ErrorCode", 3)
-                val sworld = half.be.world as? ServerWorld ?: return
-                half.be.markDirty()
-                sworld.chunkManager.markForUpdate(half.be.pos)
+                setErrorCode(half, 3)
+                half.dirtyUpdate()
             }
         }
     }
 
     override fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf): Set<String> {
-        val set = mutableSetOf<String>()
+        val set = super.getNetworkNodeTags(half).toMutableSet()
         if (getCurrentErrorCode(half) == 0) {
             set.add("active_computer")
         }
-
         return set
     }
 
     fun power(half: ComputingBlockEntity.ComputingHalf, player: ServerPlayerEntity) : Boolean? {
         val sworld = half.be.world as? ServerWorld ?: return null
+        val data = half.extra ?: return null
+        val sessions = LCCComponents.computing_sessions.maybeGet(sworld.levelProperties).orElse(null) ?: return null
 
         val current = getCurrentErrorCode(half)
         if (current != null) {
-            half.extra?.remove("Working")
-            half.extra?.remove("ErrorCode")
-            half.extra?.remove("Reading")
-            half.be.markDirty()
-            sworld.chunkManager.markForUpdate(half.be.pos)
+            if (data.containsUuid("Session")) {
+                sessions.closeSession(data.getUuid("Session"))
+            }
+            data.remove("Session")
+            data.remove("ErrorCode")
+            data.remove("Reading")
+            half.dirtyUpdate()
             return true
         }
 
         val potential = generateErrorCode(half)
         if (potential != 0) {
-            half.extra?.putInt("ErrorCode", potential)
-            half.be.markDirty()
-            sworld.chunkManager.markForUpdate(half.be.pos)
+            setErrorCode(half, potential)
+            half.dirtyUpdate()
             return false
         }
 
         val result = ComputingNetwork.local.discover(sworld, half.be.pos to half.top)
         if (result.nodes["active_computer"]?.isNotEmpty() == true) {
-            half.extra?.putInt("ErrorCode", 3)
-            half.be.markDirty()
-            sworld.chunkManager.markForUpdate(half.be.pos)
+            setErrorCode(half, 3)
+            half.dirtyUpdate()
             return false
         }
 
-        half.extra?.putBoolean("Working", true)
-        half.be.markDirty()
-        sworld.chunkManager.markForUpdate(half.be.pos)
+        val session = sessions.startSession(UUID.randomUUID())
+        data.putUuid("Session", session.id)
+        half.dirtyUpdate()
         return true
     }
 
@@ -111,15 +129,24 @@ class ComputerComputerModule : ComputerModule() {
         val data = half.extra ?: return null
         val error = data.getInt("ErrorCode")
         if (error > 0) return error
-        return data.getBoolean("Working").transform(0, null)
+        return data.containsUuid("Session").transform(0, null)
     }
 
     fun generateErrorCode(half: ComputingBlockEntity.ComputingHalf, inventory: LCCInventory = half.inventory!!, power: Float = LooseEnergy.fromStandard(half.rawEnergy!!)) = when {
         power < 9f -> 1
         !inventory[0].isOf(LCCItems.cpu) -> 2
         inventory.list.subList(1,4).none { it.isOf(LCCItems.ram) } -> 2
-
         else -> 0
+    }
+
+    fun setErrorCode(half: ComputingBlockEntity.ComputingHalf, code: Int) {
+        half.extra?.putInt("ErrorCode", code)
+    }
+
+    fun getSession(world: ServerWorld, half: ComputingBlockEntity.ComputingHalf): ComputingSession? {
+        val id = half.extra?.getUuid("Session") ?: return null
+        val sessions = LCCComponents.computing_sessions.maybeGet(world.levelProperties).orElse(null) ?: return null
+        return sessions.getSession(id)
     }
 
     fun isReading(half: ComputingBlockEntity.ComputingHalf) = half.extra?.getBoolean("Reading") ?: false

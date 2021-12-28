@@ -56,7 +56,6 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
                 }
             }
         }
-
     }
 
     override fun defaultColor(stack: ItemStack) = 0xFFFFFF

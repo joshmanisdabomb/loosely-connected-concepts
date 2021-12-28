@@ -13,7 +13,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
     private val stackDictionaryFlip = mutableMapOf<Long, ItemStack>()
     private var stackDictionaryLast = 0L
 
-    private val disks = mutableMapOf<UUID, Unit>()
+    private val partitions = mutableMapOf<UUID, Unit>()
 
     fun getDictionaryStackId(stack: ItemStack): Long {
         val entry = stack.copy().apply { count = 1 }

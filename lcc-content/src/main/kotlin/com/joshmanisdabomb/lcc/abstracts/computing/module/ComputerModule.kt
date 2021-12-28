@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
+import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.prefix
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
@@ -40,11 +42,34 @@ abstract class ComputerModule {
 
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
+    open fun getInternalDisks(inv: LCCInventory): Set<ItemStack> = emptySet()
+
     open fun createExtraData(): NbtCompound? = null
 
     open fun onUpdateNetwork(half: ComputingBlockEntity.ComputingHalf, network: BlockNetwork<Pair<BlockPos, Boolean?>>.NetworkResult) = Unit
 
-    open fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf) = emptySet<String>()
+    open fun getNetworkNodeTags(half: ComputingBlockEntity.ComputingHalf): Set<String> {
+        val inv = half.inventory ?: return emptySet()
+        val set = mutableSetOf<String>()
+        for (disk in getInternalDisks(inv)) {
+            val info = DiskInfo(disk)
+            val id = info.id
+            if (id != null) {
+                set.add("disk-$id")
+            } else {
+                set.add("disk-null")
+            }
+            for (partition in info.partitions) {
+                val pid = partition.id
+                if (pid != null) {
+                    set.add("diskpart-$pid")
+                } else {
+                    set.add("diskpart-null")
+                }
+            }
+        }
+        return set
+    }
 
     open fun createInventory() = if (expectedInventorySize > 0) LCCInventory(expectedInventorySize) else null
 

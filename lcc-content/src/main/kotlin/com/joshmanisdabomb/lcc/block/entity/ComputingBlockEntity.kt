@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSessionContext
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
@@ -11,7 +11,6 @@ import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
 import com.joshmanisdabomb.lcc.energy.base.EnergyStorage
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyContext
 import com.joshmanisdabomb.lcc.energy.world.WorldEnergyHandler
-import com.joshmanisdabomb.lcc.energy.world.WorldEnergyStorage
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
@@ -35,7 +34,6 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Hand
@@ -99,8 +97,12 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
     }
 
     companion object {
+        fun clientTick(world: World, pos: BlockPos, state: BlockState, entity: ComputingBlockEntity) {
+            entity.getHalves().forEach { it.module.clientTick(it) }
+        }
+
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: ComputingBlockEntity) {
-            entity.getHalves().forEach { it.serverTick() }
+            entity.getHalves().forEach { it.module.serverTick(it) }
         }
     }
 
@@ -166,7 +168,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
     override fun removeEnergy(target: EnergyHandler<*>, amount: Float, unit: EnergyUnit, context: WorldEnergyContext) = 0f
 
-    inner class ComputingHalf(val module: ComputerModule, val direction: Direction, val color: Int, val top: Boolean) : ExtendedScreenHandlerFactory, ComputingSessionContext {
+    inner class ComputingHalf(val module: ComputerModule, val direction: Direction, val color: Int, val top: Boolean) : ExtendedScreenHandlerFactory, ComputingSessionExecuteContext {
 
         val be get() = this@ComputingBlockEntity
 
@@ -253,8 +255,6 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
         fun onUse(state: BlockState, player: PlayerEntity, hand: Hand, hit: BlockHitResult) = module.onUse(this, state, player, hand, hit)
 
-        fun serverTick() = module.serverTick(this)
-
         fun dirtyUpdate() {
             be.markDirty()
             if (world?.isClient == false) {
@@ -282,6 +282,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             }
             return list
         }
+
+        override fun getWorldFromContext() = world!!
 
     }
 

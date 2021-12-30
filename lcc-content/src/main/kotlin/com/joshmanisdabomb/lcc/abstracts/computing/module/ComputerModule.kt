@@ -7,11 +7,9 @@ import com.joshmanisdabomb.lcc.extensions.prefix
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.network.BlockNetwork
-import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe.Companion.state
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
-import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
@@ -21,10 +19,8 @@ import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 
 abstract class ComputerModule {
 
@@ -39,6 +35,8 @@ abstract class ComputerModule {
         player.openHandledScreen(half)
         return ActionResult.SUCCESS
     }
+
+    open fun clientTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 

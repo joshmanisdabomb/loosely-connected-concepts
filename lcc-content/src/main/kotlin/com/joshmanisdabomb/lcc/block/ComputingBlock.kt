@@ -170,7 +170,7 @@ class ComputingBlock(settings: Settings) : BlockWithEntity(settings), LCCBlockTr
 
     override fun getCameraCollisionShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = getSubblockVisualShape(state, world, pos)
 
-    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.computing, ComputingBlockEntity::serverTick) else null
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.computing, ComputingBlockEntity::clientTick) else checkType(type, LCCBlockEntities.computing, ComputingBlockEntity::serverTick)
 
     companion object {
         val shapeTop = createCuboidShape(0.0, 8.0, 0.0, 16.0, 16.0, 16.0)

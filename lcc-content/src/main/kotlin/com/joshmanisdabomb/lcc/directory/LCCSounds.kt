@@ -56,6 +56,9 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val consumer_tongue_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.loop")) }
     val consumer_tongue_attach by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.attach")) }
 
+    val computer_short_beep by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.computer.short")) }
+    val computer_long_beep by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.computer.long")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

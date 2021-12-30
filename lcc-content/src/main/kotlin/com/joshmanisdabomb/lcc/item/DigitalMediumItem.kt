@@ -3,19 +3,15 @@ package com.joshmanisdabomb.lcc.item
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.DigitalMedium
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskPartition
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.NBT_INT
-import com.joshmanisdabomb.lcc.extensions.getCompoundList
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.lib.item.DefaultedDyeableItem
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtList
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
@@ -29,7 +25,7 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
         if (this == LCCItems.floppy_disk) {
             if (isIn(group)) {
                 stacks.add(ItemStack(this))
-                stacks.add(ItemStack(this).also { DiskInfo(it).addPartition(DiskPartition(null, "Test Partition", LCCPartitionTypes.text, 100, 0)) })
+                stacks.add(ItemStack(this).also { DiskInfo(it).DiskPartition(null, "Test Partition", LCCPartitionTypes.text, 100, 0).append() })
             }
         } else {
             return super.appendStacks(group, stacks)
@@ -49,7 +45,7 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
             tooltip.add(LiteralText(""))
             tooltip.add(TranslatableText(TooltipConstants.computing_partitions).formatted(Formatting.GRAY))
             for (partition in partitions) {
-                tooltip.add(TranslatableText(TooltipConstants.computing_partition_name, partition.name).formatted(partition.type.nameColor))
+                tooltip.add(TranslatableText(TooltipConstants.computing_partition_name, partition.label).formatted(partition.type.nameColor))
                 tooltip.add(TranslatableText(TooltipConstants.computing_partition_space, partition.usedSpace, partition.size).formatted(Formatting.DARK_AQUA))
                 if (Screen.hasShiftDown()) {
                     tooltip.add(TranslatableText(TooltipConstants.computing_partition_id, partition.id?.toString() ?: TranslatableText(TooltipConstants.computing_partition_id_null)).formatted(Formatting.DARK_GRAY))

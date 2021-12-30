@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
@@ -16,9 +18,12 @@ import com.joshmanisdabomb.lcc.item.PlasticItem
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import dev.onyxstudios.cca.api.v3.component.ComponentProvider
+import io.netty.buffer.Unpooled
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.nbt.NbtCompound
@@ -34,11 +39,13 @@ import net.minecraft.util.math.Direction
 import net.minecraft.world.World
 import java.util.*
 
-class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.terminal, pos, state), ExtendedScreenHandlerFactory, WorldEnergyStorage {
+class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.terminal, pos, state), ExtendedScreenHandlerFactory, WorldEnergyStorage, ComputingSessionViewContext {
 
     var color: Int = PlasticItem.defaultColor
     var customName: Text? = null
+
     var session: UUID? = null
+    var sessionAccess: UUID? = null
 
     override var rawEnergy: Float? = 0f
     override val rawEnergyMaximum = LooseEnergy.toStandard(100f)
@@ -69,6 +76,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         color = nbt.getInt("Color")
         rawEnergy = nbt.getFloat("Energy")
         session = if (nbt.containsUuid("Session")) nbt.getUuid("Session") else null
+        sessionAccess = if (nbt.containsUuid("Access")) nbt.getUuid("Access") else null
 
         if (nbt.contains("CustomName", NBT_STRING)) customName = Text.Serializer.fromJson(nbt.getString("CustomName"))
     }
@@ -79,6 +87,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         nbt.putInt("Color", color)
         rawEnergy?.apply { nbt.putFloat("Energy", this) }
         session?.apply { nbt.putUuid("Session", this) }
+        sessionAccess?.apply { nbt.putUuid("Access", this) }
 
         if (customName != null) nbt.putString("CustomName", Text.Serializer.toJson(customName))
     }
@@ -91,7 +100,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         val splayer = player as? ServerPlayerEntity ?: return null
         val level = player.world.levelProperties
         val sessions = LCCComponents.computing_sessions.maybeGet(level).orElse(null) ?: return null
-        LCCComponents.computing_sessions.syncWith(splayer, level as ComponentProvider, sessions.syncSession(session)) { true }
+        LCCComponents.computing_sessions.syncWith(splayer, level as ComponentProvider, sessions.syncSingle(session) { sessionAccess }) { true }
         return TerminalScreenHandler(syncId, inv, propertyDelegate)
     }
 
@@ -124,6 +133,22 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         return sessions.getSession(session)
     }
 
+    override fun sendControlEvent(event: ComputingSessionViewContext.ControlEvent, builder: (packet: PacketByteBuf) -> Unit) {
+        val world = MinecraftClient.getInstance().world?.registryKey ?: return
+        ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::terminal_control].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos); writeByte(event.ordinal); builder(this) })
+    }
+
+    override fun handleControlEvent(packet: PacketByteBuf, player: ServerPlayerEntity) {
+        val type = ComputingSessionViewContext.ControlEvent.values()[packet.readByte().toInt()]
+        val session = this.getSession() ?: return
+    }
+
+    override fun getViewToken() = sessionAccess!!
+
+    override fun generateViewToken() { sessionAccess = UUID.randomUUID() }
+
+    override fun getWorldFromContext() = world!!
+
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: TerminalBlockEntity) {
             val energy = entity.getEnergy(LooseEnergy, WorldEnergyContext(world, pos, null, null)) ?: 0f
@@ -139,6 +164,9 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
                 if (entity.session != session?.id) {
                     entity.session = session?.id
+                    if (session != null) {
+                        entity.generateViewToken()
+                    }
                     (world as? ServerWorld)?.chunkManager?.markForUpdate(pos)
                 }
             }

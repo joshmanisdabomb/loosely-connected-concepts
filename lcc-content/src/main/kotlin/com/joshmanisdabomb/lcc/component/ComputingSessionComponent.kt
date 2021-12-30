@@ -1,10 +1,13 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
+import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.inventory.container.TerminalScreenHandler
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.sync.ComponentPacketWriter
+import dev.onyxstudios.cca.api.v3.component.sync.PlayerSyncPredicate
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -56,15 +59,30 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
         }
     }
 
-    fun syncSession(id: UUID?) = ComponentPacketWriter { b, p ->
+    fun syncSingle(id: UUID?, terminal: (player: ServerPlayerEntity) -> UUID? = { getOpenTerminal(it)?.sessionAccess }) = ComponentPacketWriter { b, p ->
+        val term = terminal(p)
         val tag = NbtCompound()
         tag.build("Data", NbtCompound()) {
             if (id != null) {
-                put(id.toString(), NbtCompound().also { sessions[id]?.writeNbt(it) })
+                val nbt = NbtCompound()
+                sessions[id]?.writeNbt(nbt, term)
+                nbt.remove("ServerData")
+                if (term != null) {
+                    nbt.remove("TerminalData")
+                }
+                put(id.toString(), nbt)
             }
         }
         b.writeBoolean(true)
         b.writeNbt(tag)
+    }
+
+    fun playersViewing(id: UUID) = PlayerSyncPredicate { getOpenTerminal(it)?.session == id }
+
+    //TODO generify with interfaces
+    private fun getOpenTerminal(player: ServerPlayerEntity): TerminalBlockEntity? {
+        val handler = player.currentScreenHandler as? TerminalScreenHandler ?: return null
+        return player.getWorld().getBlockEntity(handler.pos) as? TerminalBlockEntity
     }
 
 }

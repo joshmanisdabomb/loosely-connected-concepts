@@ -124,6 +124,13 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/attach${it+1}")
     }) }
 
+    val computer_short_beep by entry(::initialiser) { SoundProperties("block", LCC.modid, "computer.short", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/computer/short")
+    }) }
+    val computer_long_beep by entry(::initialiser) { SoundProperties("block", LCC.modid, "computer.long", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:block/computer/long")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

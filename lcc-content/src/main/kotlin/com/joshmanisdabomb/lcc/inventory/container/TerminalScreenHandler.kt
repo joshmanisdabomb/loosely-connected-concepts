@@ -1,10 +1,7 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
-import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
-import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

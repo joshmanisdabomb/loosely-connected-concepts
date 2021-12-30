@@ -2,15 +2,16 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.block.entity.AtomicBombBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.block.entity.NuclearFiredGeneratorBlockEntity
+import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
-import kotlin.text.Typography.half
 
 object LCCPacketsToServer : PacketForServerDirectory() {
 
@@ -55,6 +56,21 @@ object LCCPacketsToServer : PacketForServerDirectory() {
             if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
             val half = (world.getBlockEntity(pos) as? ComputingBlockEntity)?.getHalf(top) ?: return@execute
             (half.module as? ComputerComputerModule)?.power(half, player)
+        }
+    } }
+
+    val terminal_control by entry(::initialiser) { ServerPlayNetworking.PlayChannelHandler { server, player, handler, data, sender ->
+        val dim = data.readIdentifier()
+        val pos = data.readBlockPos()
+        val event = ComputingSessionViewContext.ControlEvent.values()[data.readByte().toInt()]
+        val eventHandler = event.getHandler(data)
+        server.execute {
+            val world = server.getWorld(RegistryKey.of(Registry.WORLD_KEY, dim)) ?: return@execute
+            if (!world.isChunkLoaded(pos)) return@execute
+            if ((player ?: return@execute).squaredDistanceTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()) > 200f) return@execute
+            val terminal = world.getBlockEntity(pos) as? TerminalBlockEntity ?: return@execute
+            val session = terminal.getSession() ?: return@execute
+            eventHandler(session, terminal, player)
         }
     } }
 

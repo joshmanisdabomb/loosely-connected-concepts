@@ -1,9 +1,8 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.component.RadiationComponent.Companion.uuid
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -30,9 +29,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.world.World
 import java.util.*
-import kotlin.text.Typography.half
 
 class ComputerComputerModule : ComputerModule() {
 

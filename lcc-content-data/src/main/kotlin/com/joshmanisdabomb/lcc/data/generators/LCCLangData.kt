@@ -190,6 +190,15 @@ object LCCLangData {
         lang["commands.lcc.nuclearwinter.add.success"] = "Added %s to the nuclear winter level of %s"
         lang["commands.lcc.nuclearwinter.set.success"] = "Set the nuclear winter level of %s to %s"
         lang["commands.lcc.nuclearwinter.query"] = "%s has a nuclear winter level of %s"
+
+        lang["computing.lcc.partition.text"] = "Text"
+        lang["computing.lcc.partition.item"] = "Item"
+        lang["computing.lcc.partition.console"] = "Console OS"
+        lang["computing.lcc.partition.graphical"] = "Graphical OS"
+
+        lang["terminal.lcc.bios.version"] = "Loose BIOS v%1\$s"
+        lang["terminal.lcc.bios.pass"] = ":%1\$s (#%2\$s) not bootable."
+        lang["terminal.lcc.bios.bootable"] = "%1\$s on :%2\$s (#%3\$s)"
     }
 
 }

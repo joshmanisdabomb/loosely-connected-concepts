@@ -6,8 +6,9 @@ import net.minecraft.util.Formatting
 abstract class PartitionType {
 
     abstract val nameColor: Formatting
-    open val useAllSpace: Boolean = false
+    open val noFreeSpace: Boolean = false
 
     val id get() = LCCRegistries.computer_partitions.getKey(this).orElseThrow(::RuntimeException).value
+    open val translationKey get() = "computing.${id.namespace}.partition.${id.path}"
 
 }

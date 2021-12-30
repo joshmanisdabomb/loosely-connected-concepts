@@ -14,14 +14,9 @@ import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.util.math.BlockPos
 
-class TerminalScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val properties: PropertyDelegate) : ScreenHandler(LCCScreenHandlers.terminal, syncId) {
+class TerminalScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val properties: PropertyDelegate, val pos: BlockPos) : ScreenHandler(LCCScreenHandlers.terminal, syncId) {
 
-    private var _pos: BlockPos? = null
-    val pos get() = _pos!!
-
-    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, ArrayPropertyDelegate(2)) {
-        _pos = buf.readBlockPos()
-    }
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, ArrayPropertyDelegate(2), buf.readBlockPos())
 
     init {
         checkDataCount(properties, 2)

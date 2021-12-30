@@ -1,9 +1,11 @@
 package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.inventory.container.AtomicBombScreenHandler
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
 import com.mojang.blaze3d.systems.RenderSystem
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.render.GameRenderer
 import net.minecraft.client.util.math.MatrixStack
@@ -13,7 +15,10 @@ import net.minecraft.util.Identifier
 
 class DriveScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<ComputingScreenHandler>(handler, inventory, title) {
 
-    val texture = Identifier(handler.half.module.id.namespace, "textures/gui/container/${handler.half.module.id.path}.png")
+    val texture by lazy {
+        val half = (MinecraftClient.getInstance().world?.getBlockEntity(handler.pos) as? ComputingBlockEntity)?.getHalf(handler.top)
+        Identifier(half?.module?.id?.namespace, "textures/gui/container/${half?.module?.id?.path}.png")
+    }
 
     override fun init() {
         backgroundWidth = 176

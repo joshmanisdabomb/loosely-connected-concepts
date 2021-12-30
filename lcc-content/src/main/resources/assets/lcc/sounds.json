@@ -305,5 +305,17 @@
       "lcc:entity/consumer/attach2"
     ],
     "subtitle": "subtitles.lcc.entity.consumer.tongue.attach"
+  },
+  "block.lcc.computer.short": {
+    "sounds": [
+      "lcc:block/computer/short"
+    ],
+    "subtitle": "subtitles.lcc.block.computer.short"
+  },
+  "block.lcc.computer.long": {
+    "sounds": [
+      "lcc:block/computer/long"
+    ],
+    "subtitle": "subtitles.lcc.block.computer.long"
   }
 }

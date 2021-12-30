@@ -14,7 +14,7 @@ object LCCSessionControllers : BasicDirectory<ComputingController, Unit>(), Regi
     override fun regId(name: String) = LCC.id(name)
 
     val bios by entry(::initialiser) { BIOSComputingController() }
-//    val console by entry(::initialiser) { ConsoleComputingController() }
+    val console by entry(::initialiser) { ConsoleComputingController() }
 //    val graphical by entry(::initialiser) { GraphicalComputingController() }
 
     override fun defaultProperties(name: String) = Unit

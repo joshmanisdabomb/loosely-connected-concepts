@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.gui.screen
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
+import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
 import com.joshmanisdabomb.lcc.gui.utils.PowerScreenUtils
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
@@ -20,13 +21,13 @@ import net.minecraft.text.TranslatableText
 
 class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<ComputingScreenHandler>(handler, inventory, title), PowerScreenUtils {
 
-    private val module: ComputerComputerModule get() = handler.half.module as ComputerComputerModule
+    private val half get() = (MinecraftClient.getInstance().world?.getBlockEntity(handler.pos) as? ComputingBlockEntity)?.getHalf(handler.top)
 
     val power: FunctionalButtonWidget by lazy { PowerButton(x + 23, y + 58) {
         run {
             val world = MinecraftClient.getInstance().world?.registryKey ?: return@run
-            val pos = handler.half.be.pos ?: return@run
-            val top = handler.half.top
+            val pos = handler.pos
+            val top = handler.top
             ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::computer_power].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos); writeBoolean(top) })
         }
         return@PowerButton null
@@ -62,12 +63,14 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
 
         power.ix = power.width.times(4)
         power.active = true
-        val code = module.getCurrentErrorCode(handler.half)
+        val half = half
+        val module = half?.module as? ComputerComputerModule
+        val code = module?.getCurrentErrorCode(half)
         if (code == 0) {
             power.ix = power.width.times(5)
         } else if (code != null) {
             power.ix = power.width.times(6)
-        } else if (module.generateErrorCode(handler.half, power = handler.powerAmount()) == 0) {
+        } else if (module?.generateErrorCode(half, power = handler.powerAmount()) == 0) {
 
         } else {
             power.active = false
@@ -80,9 +83,13 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight)
 
-        renderPower(matrices, handler.powerAmount(), handler.half.rawEnergyMaximum!!, x + 51, y + 62)
+        val half = half
+        val energy = half?.module?.rawEnergyMaximum
+        if (energy != null) {
+            renderPower(matrices, handler.powerAmount(), energy, x+51, y+62)
+        }
 
-        val code = module.getCurrentErrorCode(handler.half) ?: 0
+        val code = (half?.module as? ComputerComputerModule)?.getCurrentErrorCode(half) ?: 0
         if (code > 0 && System.currentTimeMillis().rem(2000) > 1000) {
             drawTexture(matrices, x + 138, y + 53, backgroundWidth, 12.times(code).plus(14), 22, 12)
         }
@@ -96,14 +103,16 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
 
         renderPowerTooltip(matrices, handler.powerAmount(), null/* TODO */, mouseX, mouseY, x + 51..x + 62, y + 62..y + 76)
 
-        val code = module.getCurrentErrorCode(handler.half) ?: 0
+        val half = half
+        val code = (half?.module as? ComputerComputerModule)?.getCurrentErrorCode(half) ?: 0
         if (code > 0 && mouseX in x+137..x+161 && mouseY in y+53..y+66) {
             renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.computer.error.$code"), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     private fun renderButtonTooltip(matrices: MatrixStack, x: Int, y: Int) {
-        val tooltip = if (module.getCurrentErrorCode(handler.half) == null) "activate" else "deactivate"
+        val half = half
+        val tooltip = if ((half?.module as? ComputerComputerModule)?.getCurrentErrorCode(half) == null) "activate" else "deactivate"
         this.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.computer.$tooltip"), Int.MAX_VALUE), x, y)
     }
 

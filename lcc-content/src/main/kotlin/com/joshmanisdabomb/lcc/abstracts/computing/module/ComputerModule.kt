@@ -13,7 +13,6 @@ import net.minecraft.block.BlockState
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
@@ -40,7 +39,7 @@ abstract class ComputerModule {
 
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
-    open fun getInternalDisks(inv: LCCInventory): Set<ItemStack> = emptySet()
+    open fun getInternalDisks(inv: LCCInventory): Set<DiskInfo> = emptySet()
 
     open fun createExtraData(): NbtCompound? = null
 
@@ -50,14 +49,13 @@ abstract class ComputerModule {
         val inv = half.inventory ?: return emptySet()
         val set = mutableSetOf<String>()
         for (disk in getInternalDisks(inv)) {
-            val info = DiskInfo(disk)
-            val id = info.id
+            val id = disk.id
             if (id != null) {
                 set.add("disk-$id")
             } else {
                 set.add("disk-null")
             }
-            for (partition in info.partitions) {
+            for (partition in disk.partitions) {
                 val pid = partition.id
                 if (pid != null) {
                     set.add("diskpart-$pid")

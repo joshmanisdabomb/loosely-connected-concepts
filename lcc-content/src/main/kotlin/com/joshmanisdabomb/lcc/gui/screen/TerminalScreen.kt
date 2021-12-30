@@ -28,7 +28,7 @@ class TerminalScreen(handler: TerminalScreenHandler, inventory: PlayerInventory,
 
     override val translationKey = "container.lcc.terminal"
 
-    val be get() = MinecraftClient.getInstance().world?.getBlockEntity(handler.pos) as? TerminalBlockEntity
+    val be: TerminalBlockEntity? get() = MinecraftClient.getInstance().world?.getBlockEntity(handler.pos) as? TerminalBlockEntity
 
     override fun init() {
         backgroundWidth = 256

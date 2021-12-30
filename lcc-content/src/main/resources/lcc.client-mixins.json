@@ -12,7 +12,8 @@
     "StunMouseMixin",
     "EntityModelsMixin",
     "ContainedHudMixin",
-    "DebugHudMixin"
+    "DebugHudMixin",
+    "FontStorageMixin"
   ],
   "injectors": {
     "defaultRequire": 1

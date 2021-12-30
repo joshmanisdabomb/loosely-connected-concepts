@@ -67,7 +67,7 @@ class ComputingBlockEntityRenderer(context: BlockEntityRendererFactory.Context) 
             modelPartData.addChild("error_light", ModelPartBuilder.create().uv(0, 4).cuboid(0f, 0f, 0f, 2f, 3f, 1f), ModelTransform.of(2.0f, 2.0f, -1.0f, 0.0f, 0.0f, 0.0f))
             modelPartData.addChild("read_light", ModelPartBuilder.create().uv(0, 8).cuboid(0f, 0f, 0f, 2f, 3f, 1f), ModelTransform.of(2.0f, 2.0f, -1.0f, 0.0f, 0.0f, 0.0f))
 
-            return TexturedModelData.of(modelData, 8, 16)
+            return TexturedModelData.of(modelData, 16, 16)
         }
 
         override fun registerSprites(sprite: SpriteAtlasTexture, registry: ClientSpriteRegistryCallback.Registry) {

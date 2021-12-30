@@ -79,7 +79,7 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
 
     fun playersViewing(id: UUID) = PlayerSyncPredicate { getOpenTerminal(it)?.session == id }
 
-    //TODO generify with interfaces
+    //TODO make screen handler an interface which checks if it is providing access to the session
     private fun getOpenTerminal(player: ServerPlayerEntity): TerminalBlockEntity? {
         val handler = player.currentScreenHandler as? TerminalScreenHandler ?: return null
         return player.getWorld().getBlockEntity(handler.pos) as? TerminalBlockEntity

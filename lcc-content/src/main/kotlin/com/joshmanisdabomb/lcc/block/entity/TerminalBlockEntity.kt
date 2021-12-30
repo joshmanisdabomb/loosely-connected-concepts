@@ -101,7 +101,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         val level = player.world.levelProperties
         val sessions = LCCComponents.computing_sessions.maybeGet(level).orElse(null) ?: return null
         LCCComponents.computing_sessions.syncWith(splayer, level as ComponentProvider, sessions.syncSingle(session) { sessionAccess }) { true }
-        return TerminalScreenHandler(syncId, inv, propertyDelegate)
+        return TerminalScreenHandler(syncId, inv, propertyDelegate, pos)
     }
 
     override fun getDisplayName() = customName ?: TranslatableText("container.lcc.terminal")

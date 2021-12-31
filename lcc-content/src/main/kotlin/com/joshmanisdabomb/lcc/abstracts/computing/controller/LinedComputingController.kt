@@ -45,7 +45,7 @@ abstract class LinedComputingController : ComputingController() {
 
     @Environment(EnvType.CLIENT)
     fun renderHighlight(matrices: MatrixStack, sx: Int, sy: Int, ty: Int, color: Long, x1: Float = 0f, x2: Float = 1f) {
-        DrawableHelper.fill(matrices, sx + console_width.times(x1).toInt(), sy + ty.times(row_height) + console_offset, sx + console_width.times(x2).toInt(), sy + ty.plus(1).times(row_height) + console_offset, color.toInt())
+        DrawableHelper.fill(matrices, sx + console_width.times(x1.coerceIn(0f, 1f)).toInt(), sy + ty.times(row_height) + console_offset, sx + console_width.times(x2.coerceIn(0f, 1f)).toInt(), sy + ty.plus(1).times(row_height) + console_offset, color.toInt())
     }
 
     companion object {

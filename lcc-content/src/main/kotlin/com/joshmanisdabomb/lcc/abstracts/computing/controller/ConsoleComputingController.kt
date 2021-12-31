@@ -25,6 +25,10 @@ class ConsoleComputingController : LinedComputingController() {
 
     }
 
+    override fun clientTick(session: ComputingSession, context: ComputingSessionExecuteContext) {
+
+    }
+
     override fun onClose(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext) {
 
     }

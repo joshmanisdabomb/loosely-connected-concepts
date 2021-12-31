@@ -151,6 +151,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
 
     companion object {
         fun serverTick(world: World, pos: BlockPos, state: BlockState, entity: TerminalBlockEntity) {
+            val sworld = world as? ServerWorld ?: return
             val energy = entity.getEnergy(LooseEnergy, WorldEnergyContext(world, pos, null, null)) ?: 0f
             if (entity.session != null || energy > 0f) {
                 var session = entity.findSession(world, pos, ComputingNetwork.local, ComputingNetwork.wired)
@@ -166,8 +167,9 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                     entity.session = session?.id
                     if (session != null) {
                         entity.generateViewToken()
+                        entity.getSession()?.syncToAllWatching(sworld.server)
                     }
-                    (world as? ServerWorld)?.chunkManager?.markForUpdate(pos)
+                    sworld.chunkManager.markForUpdate(pos)
                 }
             }
 

@@ -13,6 +13,7 @@ abstract class ComputingController {
 
     val id get() = LCCRegistries.computer_controllers.getKey(this).orElseThrow(::RuntimeException).value
 
+    abstract fun clientTick(session: ComputingSession, context: ComputingSessionExecuteContext)
     abstract fun serverTick(session: ComputingSession, context: ComputingSessionExecuteContext)
 
     abstract fun onClose(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext)

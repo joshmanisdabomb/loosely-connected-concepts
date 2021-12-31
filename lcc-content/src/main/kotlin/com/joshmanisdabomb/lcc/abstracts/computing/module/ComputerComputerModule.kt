@@ -38,6 +38,12 @@ class ComputerComputerModule : ComputerModule() {
 
     override val rawEnergyMaximum = LooseEnergy.toStandard(2000f)
 
+    override fun clientTick(half: ComputingBlockEntity.ComputingHalf) {
+        if (getCurrentErrorCode(half) == 0) {
+            getSession(half)?.clientTick(half)
+        }
+    }
+
     override fun serverTick(half: ComputingBlockEntity.ComputingHalf) {
         if (getCurrentErrorCode(half) == 0) {
             val removed = half.be.removeEnergyDirect(9f, LooseEnergy, WorldEnergyContext(half.be.world, half.be.pos, null, half.top.transform(Direction.UP, Direction.DOWN)))

@@ -33,6 +33,7 @@ class ComputingSession(id: UUID) {
     private var sync = false
 
     fun clientTick(context: ComputingSessionExecuteContext) {
+        controller.clientTick(this, context)
         _ticks += 1
     }
 
@@ -80,7 +81,7 @@ class ComputingSession(id: UUID) {
 
     fun sync() { sync = true }
 
-    private fun syncToAllWatching(server: MinecraftServer) {
+    fun syncToAllWatching(server: MinecraftServer) {
         val sessions = LCCComponents.computing_sessions.maybeGet(server.saveProperties.mainWorldProperties).orElse(null) ?: return
         LevelComponents.sync(LCCComponents.computing_sessions, server, sessions.syncSingle(id), sessions.playersViewing(id))
     }

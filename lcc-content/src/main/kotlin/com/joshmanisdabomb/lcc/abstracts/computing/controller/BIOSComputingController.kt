@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewC
 import com.joshmanisdabomb.lcc.extensions.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
@@ -16,6 +17,7 @@ import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
+import java.awt.SystemColor.menu
 import java.util.*
 
 class BIOSComputingController : LinedComputingController() {
@@ -72,6 +74,8 @@ class BIOSComputingController : LinedComputingController() {
         session.sync()
     }
 
+    override fun clientTick(session: ComputingSession, context: ComputingSessionExecuteContext) = Unit
+
     override fun onClose(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext) = Unit
 
     override fun keyPressed(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int) {
@@ -115,6 +119,7 @@ class BIOSComputingController : LinedComputingController() {
         val data = session.getSharedData()
         val selector = data.getInt("Selector")
         val scroll = data.getInt("Scroll")
+        val autoload = if (data.contains("Autoload", NBT_INT)) data.getInt("Autoload") else null
         val menu = data.getStringList("Menu")
         if (menu.isEmpty()) {
             renderOutput(readOutput(data.getStringList("Output")), matrices, x, y, 1)
@@ -122,6 +127,9 @@ class BIOSComputingController : LinedComputingController() {
             val output = readOutput(menu).drop(scroll).take(total_rows-1)
             renderOutput(output, matrices, x, y, 1) { it }
             renderHighlight(matrices, x, y, selector+1, 0xFFFFFFFF)
+            if (autoload != null) {
+                renderHighlight(matrices, x, y, selector + 1, 0xFF66BBFF, x2 = (session.ticks - autoload + MinecraftClient.getInstance().tickDelta).div(100f))
+            }
             renderLine(matrices, x, y, selector+1, output[selector], color = 0x202020)
         }
     }

@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -38,9 +38,9 @@ class ClassicCryingObsidianBlockEntity(pos: BlockPos, state: BlockState) : Block
     }
 
     override fun writeNbt(tag: NbtCompound) {
-        tag.build("Spawns") {
+        tag.modifyCompound("Spawns") {
             spawns.forEach { (k, v) ->
-                this.build(k.toString().toLowerCase()) {
+                this.modifyCompound(k.toString().toLowerCase()) {
                     this.putDouble("SpawnX", v.x)
                     this.putDouble("SpawnY", v.y)
                     this.putDouble("SpawnZ", v.z)

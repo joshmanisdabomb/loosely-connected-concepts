@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCComponents
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.CopyableComponent
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
@@ -61,10 +61,10 @@ class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSynce
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.build("Values", ref = NbtCompound()) {
+        tag.modifyCompound("Values", ref = NbtCompound()) {
             health.forEach { (k, v) -> putFloat(k.tag, v) }
         }
-        tag.build("MaxValues", ref = NbtCompound()) {
+        tag.modifyCompound("MaxValues", ref = NbtCompound()) {
             maxHealth.forEach { (k, v) -> putFloat(k.tag, v) }
         }
         tag.putFloat("CrystalRegenAmount", crystalRegenAmount)

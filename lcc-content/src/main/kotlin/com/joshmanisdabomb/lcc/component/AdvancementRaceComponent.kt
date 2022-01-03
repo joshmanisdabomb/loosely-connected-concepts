@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.directory.LCCCriteria
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import net.minecraft.advancement.Advancement
 import net.minecraft.nbt.NbtCompound
@@ -30,7 +30,7 @@ class AdvancementRaceComponent(private val properties: WorldProperties) : Compon
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.build("Advancements", NbtCompound()) {
+        tag.modifyCompound("Advancements", NbtCompound()) {
             map.forEach { (k, v) -> putUuid(k.toString(), v) }
         }
     }

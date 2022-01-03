@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.component
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletActorInstance
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent
@@ -28,7 +28,7 @@ class GauntletActorComponent(val entity: PlayerEntity) : ComponentV3, AutoSynced
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.build("Instances", NbtCompound()) {
+        tag.modifyCompound("Instances", NbtCompound()) {
             _instances.forEach { (k, v) ->
                 put(GauntletDirectory[k].name, NbtCompound().also { v.write(it) })
             }

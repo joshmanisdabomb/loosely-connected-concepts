@@ -2,9 +2,12 @@ package com.joshmanisdabomb.lcc.abstracts.computing.session
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.ComputingController
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.LCCSessionControllers
+import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.forEachCompound
+import com.joshmanisdabomb.lcc.extensions.getCompoundList
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.level.LevelComponents
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -14,7 +17,6 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
-import net.minecraft.world.WorldProperties
 import java.util.*
 
 class ComputingSession(id: UUID) {
@@ -28,7 +30,7 @@ class ComputingSession(id: UUID) {
 
     private var data = NbtCompound()
     private var serverData = NbtCompound()
-    private var viewData = mutableMapOf<UUID, NbtCompound>()
+    private val viewData = mutableMapOf<UUID, NbtCompound>()
 
     private var sync = false
 
@@ -44,11 +46,24 @@ class ComputingSession(id: UUID) {
         _ticks += 1
     }
 
+    fun serverTickView(context: ComputingSessionViewContext) {
+        val world = context.getWorldFromContext() as? ServerWorld ?: return
+        controller.serverTickView(this, context)
+        if (sync) { syncToAllWatching(world.server); sync = false }
+    }
+
     fun getSharedData() = data
 
     fun getServerData() = serverData
 
+    fun getViewData(): Map<UUID, NbtCompound> = viewData
+
     fun getViewData(id: UUID) = viewData.getOrPut(id) { NbtCompound() }
+
+    fun onOpen(player: ServerPlayerEntity, view: ComputingSessionViewContext) {
+        controller.onOpen(this, player, view)
+        if (sync) { syncToAllWatching(player.server); sync = false }
+    }
 
     fun onClose(player: ServerPlayerEntity, view: ComputingSessionViewContext) {
         controller.onClose(this, player, view)
@@ -94,14 +109,11 @@ class ComputingSession(id: UUID) {
         data = nbt.getCompound("Data")
         serverData = nbt.getCompound("ServerData")
         viewData.clear()
-        nbt.getCompound("ViewData").apply {
-            keys.forEach { id ->
-                try {
-                    val uuid = UUID.fromString(id)
-                    viewData[uuid] = getCompound(id)
-                } catch (e: IllegalArgumentException) {
-                    return@forEach
-                }
+        nbt.getCompound("ViewData").forEachCompound { k, v ->
+            try {
+                viewData[UUID.fromString(k)] = v
+            } catch (e: IllegalArgumentException) {
+                return@forEachCompound
             }
         }
     }
@@ -113,13 +125,21 @@ class ComputingSession(id: UUID) {
 
         nbt.put("Data", data)
         nbt.put("ServerData", serverData)
-        nbt.build("ViewData", NbtCompound()) {
+        nbt.modifyCompound("ViewData", NbtCompound()) {
             if (terminal != null) {
                 viewData[terminal]?.also { put(terminal.toString(), it) }
             } else {
                 for ((k, v) in viewData) put(k.toString(), v)
             }
         }
+    }
+
+    fun setController(controller: ComputingController, sworld: ServerWorld) {
+        data = NbtCompound()
+        serverData = NbtCompound()
+        viewData.clear()
+        this.controller = controller
+        syncToAllWatching(sworld.server)
     }
 
     @Environment(EnvType.CLIENT)

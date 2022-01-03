@@ -12,50 +12,70 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
-import java.awt.SystemColor.menu
 import java.util.*
 
 class BIOSComputingController : LinedComputingController() {
 
     override fun serverTick(session: ComputingSession, context: ComputingSessionExecuteContext) {
+        val sworld = context.getWorldFromContext() as? ServerWorld ?: return
         val data = session.getSharedData()
         val sdata = session.getServerData()
         val disks = context.getAccessibleDisks()
 
-        val checked = sdata.getList("CheckedPartitions", NBT_STRING)
-        val bootable = sdata.getList("Bootable", NBT_STRING)
-        val menu = data.getList("Menu", NBT_STRING)
+        val checked = sdata.getStringList("CheckedPartitions")
+        val bootable = sdata.getStringList("Bootable")
+        val menu = data.getStringList("Menu")
+        val autoload = data.getIntOrNull("Autoload")
+
+        if (autoload != null && session.ticks - autoload > 100) {
+            val partition = UUID.fromString(bootable.first())
+            val type = context.findPartition(partition, disks)?.type as? SystemPartitionType
+            if (type != null) {
+                session.setController(type.controller, sworld)
+            }
+        }
+
+        if (sdata.contains("Choice", NBT_INT)) {
+            val choice = sdata.getInt("Choice")
+            val scroll = data.getInt("Scroll")
+            val partition = UUID.fromString(bootable[scroll + choice])
+            val type = context.findPartition(partition, disks)?.type as? SystemPartitionType
+            if (type != null) {
+                session.setController(type.controller, sworld)
+            }
+        }
+
         for (disk in disks) {
             disk.initialise()
             for (partition in disk.partitions) {
                 val partitionId = partition.id?.toString() ?: continue
-                if (!checked.map(NbtElement::asString).contains(partitionId)) {
-                    checked.addString(partitionId)
-                    sdata.put("CheckedPartitions", checked)
+                if (!checked.contains(partitionId)) {
+                    sdata.putStringList("CheckedPartitions", checked).addString(partitionId)
 
                     val shortId = partition.getShortId(disks)
                     val system = partition.type as? SystemPartitionType
                     if (system == null) {
                         write(session, TranslatableText("terminal.lcc.bios.pass", partition.label, shortId))
                     } else {
-                        bootable.addString(partitionId)
-                        sdata.put("Bootable", bootable)
+                        sdata.putStringList("Bootable", checked).addString(partitionId)
                         if (menu.isEmpty()) {
                             data.putInt("Autoload", session.ticks)
                         }
-                        menu.addString(Text.Serializer.toJson(TranslatableText("terminal.lcc.bios.bootable", TranslatableText(partition.type.translationKey), partition.label, shortId).fillStyle(style)))
-                        data.put("Menu", menu)
+                        data.putStringList("Menu", menu).addString(Text.Serializer.toJson(TranslatableText("terminal.lcc.bios.bootable", TranslatableText(partition.type.translationKey), partition.label, shortId).fillStyle(style)))
                         session.sync()
                     }
                 }
             }
         }
     }
+
+    override fun serverTickView(session: ComputingSession, context: ComputingSessionViewContext) = Unit
 
     override fun write(session: ComputingSession, text: MutableText, view: UUID?) {
         val data = session.getSharedData()
@@ -76,10 +96,13 @@ class BIOSComputingController : LinedComputingController() {
 
     override fun clientTick(session: ComputingSession, context: ComputingSessionExecuteContext) = Unit
 
+    override fun onOpen(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext) = Unit
+
     override fun onClose(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext) = Unit
 
     override fun keyPressed(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int) {
         val data = session.getSharedData()
+        val sdata = session.getServerData()
         val selector = data.getInt("Selector")
         when (keyCode) {
             GLFW.GLFW_KEY_UP -> {
@@ -95,10 +118,9 @@ class BIOSComputingController : LinedComputingController() {
                     data.remove("Autoload")
                     session.sync()
                 }
-
             }
             GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
-                println("enter")
+                sdata.putInt("Choice", selector)
             }
             else -> return
         }

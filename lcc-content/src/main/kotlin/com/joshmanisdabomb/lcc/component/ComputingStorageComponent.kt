@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -44,7 +44,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.build("ItemDictionary", NbtCompound()) {
+        tag.modifyCompound("ItemDictionary", NbtCompound()) {
             stackDictionary.forEach { (k, v) -> put(v.toString(36), k.writeNbt(NbtCompound()).also { it.remove("Count") }) }
         }
     }

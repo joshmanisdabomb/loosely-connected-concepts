@@ -633,5 +633,8 @@
   "computing.lcc.partition.graphical": "Graphical OS",
   "terminal.lcc.bios.version": "Loose BIOS v%1$s",
   "terminal.lcc.bios.pass": ":%1$s (#%2$s) not bootable.",
-  "terminal.lcc.bios.bootable": "%1$s on :%2$s (#%3$s)"
+  "terminal.lcc.bios.bootable": "%1$s on :%2$s (#%3$s)",
+  "terminal.lcc.console.version": "Console OS %1$s",
+  "terminal.lcc.console.buffer": "> %1$s%2$s",
+  "terminal.lcc.console.unknown": "Unknown command at character %1$s"
 }

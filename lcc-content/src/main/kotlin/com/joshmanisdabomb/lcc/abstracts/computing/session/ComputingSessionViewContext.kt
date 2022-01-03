@@ -1,12 +1,16 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.session
 
-import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.World
 import java.util.*
 
 interface ComputingSessionViewContext {
+
+    fun getSession(): ComputingSession?
+
+    fun getSessionToken(): UUID?
 
     fun getWorldFromContext(): World
 
@@ -14,11 +18,26 @@ interface ComputingSessionViewContext {
 
     fun handleControlEvent(packet: PacketByteBuf, player: ServerPlayerEntity)
 
-    fun getViewToken(): UUID
+    fun getViewToken(): UUID?
 
     fun generateViewToken()
 
+    fun isWatching(player: ServerPlayerEntity): Boolean {
+        val sessionId = getSessionToken() ?: return false
+        val viewId = getViewToken() ?: return false
+        val handler = player.currentScreenHandler as? ComputingSessionViewContextProvider ?: return false
+        val currentView = handler.getView(player, player.getWorld())
+        return currentView.getSessionToken() == sessionId && currentView.getViewToken() == viewId
+    }
+
+    fun getWatching(server: MinecraftServer) = server.playerManager.playerList.filter { isWatching(it) }
+
     enum class ControlEvent {
+        OPEN {
+            override fun getHandler(packet: PacketByteBuf): (session: ComputingSession, view: ComputingSessionViewContext, player: ServerPlayerEntity) -> Unit {
+                return { session, view, player -> session.onOpen(player, view) }
+            }
+        },
         CLOSE {
             override fun getHandler(packet: PacketByteBuf): (session: ComputingSession, view: ComputingSessionViewContext, player: ServerPlayerEntity) -> Unit {
                 return { session, view, player -> session.onClose(player, view) }

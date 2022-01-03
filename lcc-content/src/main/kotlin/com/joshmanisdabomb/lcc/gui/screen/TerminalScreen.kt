@@ -37,6 +37,7 @@ class TerminalScreen(handler: TerminalScreenHandler, inventory: PlayerInventory,
         playerInventoryTitleY = 137
         titleY = 7
         super.init()
+        be?.sendControlEvent(ComputingSessionViewContext.ControlEvent.OPEN) {}
     }
 
     override fun handledScreenTick() {

@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc
 import com.google.common.base.CaseFormat
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.LCCSessionControllers
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.LCCConsoleCommands
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
@@ -25,6 +26,7 @@ object LCC : ModInitializer {
         LCCComputerModules.init()
         LCCSessionControllers.init()
         LCCPartitionTypes.init()
+        LCCConsoleCommands.init()
 
         LCCGroups.init()
         LCCSounds.init()

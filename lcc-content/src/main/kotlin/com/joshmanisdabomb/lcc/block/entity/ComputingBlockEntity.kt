@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -268,6 +269,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             val inv = inventory ?: return emptySet()
             return module.getInternalDisks(inv)
         }
+
+        override fun getSession() = (module as? ComputerComputerModule)?.getSession(this)
 
         override fun setErrorCode(code: Int) {
             (module as? ComputerComputerModule)?.setErrorCode(this, code)

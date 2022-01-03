@@ -1,8 +1,9 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
 import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
-import com.joshmanisdabomb.lcc.extensions.build
+import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import com.joshmanisdabomb.lcc.inventory.container.TerminalScreenHandler
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
@@ -42,7 +43,7 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
     }
 
     override fun writeToNbt(tag: NbtCompound) {
-        tag.build("Data", NbtCompound()) {
+        tag.modifyCompound("Data", NbtCompound()) {
             sessions.forEach { (k, v) -> put(k.toString(), NbtCompound().also { v.writeNbt(it) }) }
         }
     }
@@ -59,10 +60,10 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
         }
     }
 
-    fun syncSingle(id: UUID?, terminal: (player: ServerPlayerEntity) -> UUID? = { getOpenTerminal(it)?.sessionAccess }) = ComponentPacketWriter { b, p ->
+    fun syncSingle(id: UUID?, terminal: (player: ServerPlayerEntity) -> UUID? = { ComputingSessionViewContextProvider.getCurrentView(it, it.getWorld())?.getSessionToken() }) = ComponentPacketWriter { b, p ->
         val term = terminal(p)
         val tag = NbtCompound()
-        tag.build("Data", NbtCompound()) {
+        tag.modifyCompound("Data", NbtCompound()) {
             if (id != null) {
                 val nbt = NbtCompound()
                 sessions[id]?.writeNbt(nbt, term)
@@ -77,12 +78,6 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
         b.writeNbt(tag)
     }
 
-    fun playersViewing(id: UUID) = PlayerSyncPredicate { getOpenTerminal(it)?.session == id }
-
-    //TODO make screen handler an interface which checks if it is providing access to the session
-    private fun getOpenTerminal(player: ServerPlayerEntity): TerminalBlockEntity? {
-        val handler = player.currentScreenHandler as? TerminalScreenHandler ?: return null
-        return player.getWorld().getBlockEntity(handler.pos) as? TerminalBlockEntity
-    }
+    fun playersViewing(id: UUID) = PlayerSyncPredicate { ComputingSessionViewContextProvider.getCurrentView(it, it.getWorld())?.getSessionToken() == id }
 
 }

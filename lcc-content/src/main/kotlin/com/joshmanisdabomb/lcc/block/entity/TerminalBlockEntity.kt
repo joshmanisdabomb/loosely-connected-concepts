@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.block.entity
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
@@ -30,6 +31,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.screen.PropertyDelegate
+import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
@@ -126,12 +128,14 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         return null
     }
 
-    fun getSession(): ComputingSession? {
+    override fun getSession(): ComputingSession? {
         val session = session ?: return null
         val level = world?.levelProperties ?: return null
         val sessions = LCCComponents.computing_sessions.maybeGet(level).orElse(null) ?: return null
         return sessions.getSession(session)
     }
+
+    override fun getSessionToken() = session
 
     override fun sendControlEvent(event: ComputingSessionViewContext.ControlEvent, builder: (packet: PacketByteBuf) -> Unit) {
         val world = MinecraftClient.getInstance().world?.registryKey ?: return
@@ -143,7 +147,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         val session = this.getSession() ?: return
     }
 
-    override fun getViewToken() = sessionAccess!!
+    override fun getViewToken() = sessionAccess
 
     override fun generateViewToken() { sessionAccess = UUID.randomUUID() }
 
@@ -170,6 +174,8 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
                         entity.getSession()?.syncToAllWatching(sworld.server)
                     }
                     sworld.chunkManager.markForUpdate(pos)
+                } else if (session != null) {
+                    session.serverTickView(entity)
                 }
             }
 

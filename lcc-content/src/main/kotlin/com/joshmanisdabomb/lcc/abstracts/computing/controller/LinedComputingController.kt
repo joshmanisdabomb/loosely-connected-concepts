@@ -37,10 +37,12 @@ abstract class LinedComputingController : ComputingController() {
     }
 
     @Environment(EnvType.CLIENT)
-    fun renderOutput(output: List<Text>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB, wrapper: (text: Text) -> List<OrderedText> = { MinecraftClient.getInstance().textRenderer.wrapLines(it, console_width) }, portion: (output: List<OrderedText>) -> List<OrderedText> = { it.takeLast(total_rows - ty) }) {
-        output.flatMap(wrapper).let(portion).forEachIndexed { k, v ->
+    fun renderOutput(output: List<Text>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB, wrapper: (text: Text) -> List<OrderedText> = { MinecraftClient.getInstance().textRenderer.wrapLines(it, console_width) }, portion: (output: List<OrderedText>) -> List<OrderedText> = { it.takeLast(total_rows - ty) }): Int {
+        val lines = output.flatMap(wrapper).let(portion)
+        lines.forEachIndexed { k, v ->
             renderLine(matrices, sx, sy, k+ty, v, color)
         }
+        return lines.size
     }
 
     @Environment(EnvType.CLIENT)
@@ -57,8 +59,8 @@ abstract class LinedComputingController : ComputingController() {
         val console_offset = 4
         val char_width = 6
         val row_height = 9
-        val total_rows = console_height / row_height
-        val total_columns = console_width / char_width
+        val total_rows = console_height.minus(console_offset).div(row_height)
+        val total_columns = console_width.minus(console_offset).div(char_width)
     }
 
 }

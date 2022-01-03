@@ -15,7 +15,9 @@ abstract class ComputingController {
 
     abstract fun clientTick(session: ComputingSession, context: ComputingSessionExecuteContext)
     abstract fun serverTick(session: ComputingSession, context: ComputingSessionExecuteContext)
+    abstract fun serverTickView(session: ComputingSession, context: ComputingSessionViewContext)
 
+    abstract fun onOpen(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext)
     abstract fun onClose(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext)
     abstract fun keyPressed(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int)
     abstract fun keyReleased(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int)

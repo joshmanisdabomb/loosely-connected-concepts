@@ -199,6 +199,9 @@ object LCCLangData {
         lang["terminal.lcc.bios.version"] = "Loose BIOS v%1\$s"
         lang["terminal.lcc.bios.pass"] = ":%1\$s (#%2\$s) not bootable."
         lang["terminal.lcc.bios.bootable"] = "%1\$s on :%2\$s (#%3\$s)"
+        lang["terminal.lcc.console.version"] = "Console OS %1\$s"
+        lang["terminal.lcc.console.buffer"] = "> %1\$s%2\$s"
+        lang["terminal.lcc.console.unknown"] = "Invalid command at character %1\$s"
     }
 
 }

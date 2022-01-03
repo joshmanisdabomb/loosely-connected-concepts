@@ -1,5 +1,7 @@
 package com.joshmanisdabomb.lcc.inventory.container
 
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
+import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCScreenHandlers
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.utils.DecimalTransport
@@ -12,9 +14,11 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.screen.ArrayPropertyDelegate
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 
-class TerminalScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val properties: PropertyDelegate, val pos: BlockPos) : ScreenHandler(LCCScreenHandlers.terminal, syncId) {
+class TerminalScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val properties: PropertyDelegate, val pos: BlockPos) : ScreenHandler(LCCScreenHandlers.terminal, syncId), ComputingSessionViewContextProvider {
 
     constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, ArrayPropertyDelegate(2), buf.readBlockPos())
 
@@ -50,6 +54,8 @@ class TerminalScreenHandler(syncId: Int, protected val playerInventory: PlayerIn
         }
         return newStack
     }
+
+    override fun getView(player: ServerPlayerEntity, world: ServerWorld) = world.getBlockEntity(pos) as TerminalBlockEntity
 
     @Environment(EnvType.CLIENT)
     fun powerAmount() = DecimalTransport.from(properties.get(0), properties.get(1))

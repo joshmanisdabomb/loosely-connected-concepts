@@ -202,6 +202,8 @@ object LCCLangData {
         lang["terminal.lcc.console.version"] = "Console OS %1\$s"
         lang["terminal.lcc.console.buffer"] = "> %1\$s%2\$s"
         lang["terminal.lcc.console.unknown"] = "Invalid command at character %1\$s"
+        lang["terminal.lcc.console.help.commands"] = "Available commands:"
+        lang["terminal.lcc.console.help.usage"] = "Usage: %1\$s"
     }
 
 }

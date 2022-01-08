@@ -2,9 +2,7 @@ package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
-import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
 import com.joshmanisdabomb.lcc.extensions.modifyCompound
-import com.joshmanisdabomb.lcc.inventory.container.TerminalScreenHandler
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.sync.ComponentPacketWriter
@@ -60,8 +58,8 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
         }
     }
 
-    fun syncSingle(id: UUID?, terminal: (player: ServerPlayerEntity) -> UUID? = { ComputingSessionViewContextProvider.getCurrentView(it, it.getWorld())?.getSessionToken() }) = ComponentPacketWriter { b, p ->
-        val term = terminal(p)
+    fun syncSingle(id: UUID?, view: (player: ServerPlayerEntity) -> UUID? = { ComputingSessionViewContextProvider.getCurrentView(it, it.getWorld())?.getViewToken() }) = ComponentPacketWriter { b, p ->
+        val term = view(p)
         val tag = NbtCompound()
         tag.modifyCompound("Data", NbtCompound()) {
             if (id != null) {

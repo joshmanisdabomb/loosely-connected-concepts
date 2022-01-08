@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller
 
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.LinedComputingController.Companion.style
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.LinedComputingController.Companion.total_columns
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.LinedComputingController.Companion.total_rows
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
@@ -17,11 +18,13 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.tag.RequiredTagListRegistry.forEach
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.openal.ALUtil.getStringList
+import java.lang.IllegalArgumentException
 import java.util.*
 
 class ConsoleComputingController : LinedComputingController() {
@@ -33,10 +36,13 @@ class ConsoleComputingController : LinedComputingController() {
                 val player = sworld.server.playerManager.getPlayer(it.getUuid("Player")) ?: return@forEach
                 val view = it.getUuid("View")
                 val source = ConsoleCommandSource(session, context, view, player)
+                val buffer = it.getString("Buffer")
                 try {
-                    LCCConsoleCommands.dispatcher.execute(it.getString("Buffer"), source)
+                    LCCConsoleCommands.dispatcher.execute(buffer, source)
                 } catch (e: CommandSyntaxException) {
                     write(session, TranslatableText("terminal.lcc.console.unknown", e.cursor), view)
+                } catch (e: IllegalArgumentException) {
+                    write(session, TranslatableText("terminal.lcc.console.unknown", buffer.length), view)
                 }
             }
             v.remove("Queue")
@@ -58,10 +64,15 @@ class ConsoleComputingController : LinedComputingController() {
     }
 
     override fun write(session: ComputingSession, text: MutableText, view: UUID?) {
-        val viewId = view ?: return
-        session.getViewData(viewId).modifyStringList("Output") {
-            this.add(Text.Serializer.toJson(text.fillStyle(style)))
-            this.take(50)
+        var map = session.getViewData()
+        if (view != null) {
+            map = mapOf(view to session.getViewData(view))
+        }
+        map.forEach { (k, v) ->
+            v.modifyStringList("Output") {
+                this.add(Text.Serializer.toJson(text.fillStyle(style)))
+                this.takeLast(50)
+            }
         }
         session.sync()
     }
@@ -105,7 +116,7 @@ class ConsoleComputingController : LinedComputingController() {
             GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 val buffer = vdata.getString("Buffer")
 
-                write(session, TranslatableText("terminal.lcc.console.buffer", buffer), viewId)
+                write(session, TranslatableText("terminal.lcc.console.buffer", buffer.takeLast(total_columns - 3)), viewId)
                 vdata.putStringList("History", history.takeLast(49)).addString(buffer, 0)
                 vdata.putString("Buffer", "")
                 vdata.putInt("HistorySeek", 0)

@@ -1,10 +1,8 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
-
 class ClearConsoleCommand(val name: String) {
 
-    val command = LiteralArgumentBuilder.literal<ConsoleCommandSource>(name)
+    val command = LCCConsoleCommands.literal(name)
         .executes {
             clear(it.source)
         }

@@ -54,7 +54,7 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         val info = DiskInfo(stack)
         if (info.label != null) {
-            tooltip.add(LiteralText(info.label).formatted(Formatting.WHITE))
+            tooltip.add(LiteralText(info.label).formatted(Formatting.GRAY))
         }
         if (Screen.hasShiftDown()) {
             tooltip.add(TranslatableText(TooltipConstants.computing_disk_space_advanced, info.usedSpace, info.allocatedSpace, getLevel(stack)).formatted(Formatting.AQUA))

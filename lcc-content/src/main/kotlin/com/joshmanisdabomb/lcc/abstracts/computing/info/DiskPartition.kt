@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.abstracts.computing
+package com.joshmanisdabomb.lcc.abstracts.computing.info
 
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.PartitionType
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
@@ -32,7 +32,7 @@ class DiskPartition(val nbt: NbtCompound) {
     val usedSpace get() = type.noFreeSpace.transformInt(size, usedCache)
     val freeSpace get() = size - usedSpace
 
-    constructor(id: UUID?, name: String, type: PartitionType, size: Int, sector: Int? = null) : this(NbtCompound()) {
+    constructor(id: UUID?, name: String, type: PartitionType, size: Int) : this(NbtCompound()) {
         this.id = id
         this.label = name
         this.type = type

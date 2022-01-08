@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.DigitalMedium
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
@@ -10,7 +10,6 @@ import com.joshmanisdabomb.lcc.item.DigitalMediumItem
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
 import net.minecraft.screen.slot.Slot
 import net.minecraft.text.Text
 

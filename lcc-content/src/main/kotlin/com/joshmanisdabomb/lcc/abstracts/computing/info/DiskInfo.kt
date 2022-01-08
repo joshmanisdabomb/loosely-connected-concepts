@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.abstracts.computing
+package com.joshmanisdabomb.lcc.abstracts.computing.info
 
 import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.getCompoundList
@@ -42,6 +42,18 @@ data class DiskInfo(val stack: ItemStack) {
 
     fun addPartition(partition: DiskPartition) {
         partitions = partitions.plus(partition)
+    }
+
+    fun getShortId(disks: Iterable<DiskInfo>): String? {
+        val me = id?.toString()?.replace("-", "") ?: return null
+        val others = disks.mapNotNull { val id = it.id?.toString()?.replace("-", ""); if (id != me) id else null }.toSet()
+        for (i in me.indices) {
+            val meShort = me.substring(0, i + 1)
+            if (others.none { it.startsWith(meShort) }) {
+                return meShort
+            }
+        }
+        return me
     }
 
 }

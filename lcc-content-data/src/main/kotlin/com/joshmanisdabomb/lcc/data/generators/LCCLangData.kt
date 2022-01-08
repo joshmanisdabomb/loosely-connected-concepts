@@ -202,8 +202,13 @@ object LCCLangData {
         lang["terminal.lcc.console.version"] = "Console OS %1\$s"
         lang["terminal.lcc.console.buffer"] = "> %1\$s%2\$s"
         lang["terminal.lcc.console.error.command"] = "Invalid command at position %1\$s\nType 'help' for a list of commands."
-        lang["terminal.lcc.console.error.argument"] = "%s at position %1\$s\nType 'help %2\$s' for usage."
+        lang["terminal.lcc.console.error.argument"] = "%1\$s at position %2\$s\nType 'help %3\$s' for usage."
         lang["terminal.lcc.console.argument.command.invalid"] = "Unknown command '%1\$s'"
+        lang["terminal.lcc.console.argument.disk.prefix.partition"] = "Double colon must be used to refer to a disk"
+        lang["terminal.lcc.console.argument.disk.id.invalid"] = "#%1\$s contains invalid characters for a disk ID"
+        lang["terminal.lcc.console.argument.disk.results.none"] = "No disks found matching '%1\$s'"
+        lang["terminal.lcc.console.argument.disk.results.multiple"] = "Multiple disks match '%1\$s', please refine your argument"
+        lang["terminal.lcc.console.argument.disk.success"] = "OS partition '%1\$s' (#%2\$s) of size %3\$s added to disk '%4\$s' (#%5\$s)."
         lang["terminal.lcc.console.exception.syntax"] = "Java command syntax exception, please see Minecraft server logs for details."
         lang["terminal.lcc.console.exception.argument"] = "Java illegal argument exception, please see Minecraft server logs for details."
         lang["terminal.lcc.console.help.commands"] = "Available commands:"
@@ -217,6 +222,8 @@ object LCCLangData {
         lang["terminal.lcc.console.help.echo"] = "Prints the given message to the terminal screen."
         lang["terminal.lcc.console.help.shout"] = "Prints the given message to all the terminals connected to the computer."
         lang["terminal.lcc.console.help.time"] = "Displays the world time."
+        lang["terminal.lcc.console.help.reboot"] = "Restarts the computer."
+        lang["terminal.lcc.console.help.shutdown"] = "Shuts down the computer."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

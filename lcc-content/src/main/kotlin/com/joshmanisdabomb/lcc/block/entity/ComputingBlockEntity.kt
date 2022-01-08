@@ -1,10 +1,9 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
-import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -44,7 +43,6 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
-import java.util.*
 
 class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.computing, pos, state), SidedInventory, WorldEnergyHandler, EnergyStorage<WorldEnergyContext> {
 
@@ -297,6 +295,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             }
             return list
         }
+
+        override fun markDirty() = be.markDirty()
 
         override fun getWorldFromContext() = world!!
 

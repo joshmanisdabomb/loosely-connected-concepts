@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.DigitalMedium
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.directory.LCCItems

@@ -78,6 +78,10 @@ class ConsoleComputingController : LinedComputingController() {
             v.remove("Queue")
             session.sync()
         }
+        val disks = context.getAccessibleDisks()
+        for (disk in disks) {
+            disk.initialise()
+        }
     }
 
     override fun serverTickView(session: ComputingSession, context: ComputingSessionViewContext) {

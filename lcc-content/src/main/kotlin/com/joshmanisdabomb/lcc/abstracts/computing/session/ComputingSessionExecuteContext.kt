@@ -1,9 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.session
 
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskPartition
-import net.minecraft.item.ItemStack
-import net.minecraft.nbt.NbtElement
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.World
@@ -24,6 +22,8 @@ interface ComputingSessionExecuteContext {
     fun shutdown()
 
     fun getAccessibleDisks(): Set<DiskInfo>
+
+    fun markDirty()
 
     fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()): DiskPartition? {
         return disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == partition } }

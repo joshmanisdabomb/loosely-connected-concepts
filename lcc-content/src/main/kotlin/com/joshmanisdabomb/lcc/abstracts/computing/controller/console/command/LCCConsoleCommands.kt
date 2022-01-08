@@ -25,6 +25,8 @@ object LCCConsoleCommands : BasicDirectory<LiteralArgumentBuilder<ConsoleCommand
         .setProperties(arrayOf("?", "man", "manual", "usage", "describe", "explain", "how", "howto"))
     val time by entry(::initialiser) { TimeConsoleCommand(name).command }
         .setProperties(arrayOf("day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp"))
+    val install by entry(::initialiser) { InstallConsoleCommand(name).command }
+        .setProperties(arrayOf("install", "image", "setup", "os", "console", "consoleos"))
     val reboot by entry(::initialiser) { PowerConsoleCommand(name, ComputingSessionExecuteContext::reboot).command }
         .setProperties(arrayOf("restart", "reset", "powercycle"))
     val shutdown by entry(::initialiser) { PowerConsoleCommand(name, ComputingSessionExecuteContext::shutdown).command }

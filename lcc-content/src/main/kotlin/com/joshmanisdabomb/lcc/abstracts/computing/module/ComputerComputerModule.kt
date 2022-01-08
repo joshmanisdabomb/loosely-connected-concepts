@@ -1,10 +1,9 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.component.ComputingSessionComponent
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -22,9 +21,7 @@ import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
-import net.minecraft.command.argument.UuidArgumentType.getUuid
 import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity

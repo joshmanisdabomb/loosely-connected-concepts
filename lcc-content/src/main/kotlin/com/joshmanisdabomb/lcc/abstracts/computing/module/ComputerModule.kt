@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.prefix

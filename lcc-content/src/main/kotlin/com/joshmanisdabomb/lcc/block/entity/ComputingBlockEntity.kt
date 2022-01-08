@@ -279,6 +279,14 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             (module as? ComputerComputerModule)?.setErrorCode(this, code)
         }
 
+        override fun reboot() {
+            (module as? ComputerComputerModule)?.reboot(this)
+        }
+
+        override fun shutdown() {
+            (module as? ComputerComputerModule)?.shutdown(this)
+        }
+
         override fun getAccessibleDisks(): Set<DiskInfo> {
             val world = be.world ?: return emptySet()
             val result = ComputingNetwork.wired.discover(world, be.pos to top)

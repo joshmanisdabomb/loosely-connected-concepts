@@ -19,6 +19,10 @@ interface ComputingSessionExecuteContext {
 
     fun setErrorCode(code: Int)
 
+    fun reboot()
+
+    fun shutdown()
+
     fun getAccessibleDisks(): Set<DiskInfo>
 
     fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()): DiskPartition? {

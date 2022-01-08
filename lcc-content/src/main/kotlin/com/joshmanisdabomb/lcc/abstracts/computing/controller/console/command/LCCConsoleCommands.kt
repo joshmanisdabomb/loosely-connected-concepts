@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.ArgumentType
@@ -24,6 +25,10 @@ object LCCConsoleCommands : BasicDirectory<LiteralArgumentBuilder<ConsoleCommand
         .setProperties(arrayOf("?", "man", "manual", "usage", "describe", "explain", "how", "howto"))
     val time by entry(::initialiser) { TimeConsoleCommand(name).command }
         .setProperties(arrayOf("day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp"))
+    val reboot by entry(::initialiser) { PowerConsoleCommand(name, ComputingSessionExecuteContext::reboot).command }
+        .setProperties(arrayOf("restart", "reset", "powercycle"))
+    val shutdown by entry(::initialiser) { PowerConsoleCommand(name, ComputingSessionExecuteContext::shutdown).command }
+        .setProperties(arrayOf("end", "exit", "close", "off", "poweroff"))
 
     fun initialiser(input: LiteralArgumentBuilder<ConsoleCommandSource>, context: DirectoryContext<Array<String>>, parameters: Unit) = input
 

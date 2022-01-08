@@ -2,11 +2,13 @@ package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
+import com.joshmanisdabomb.lcc.extensions.forEachCompound
 import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.sync.ComponentPacketWriter
 import dev.onyxstudios.cca.api.v3.component.sync.PlayerSyncPredicate
+import net.minecraft.inventory.Inventories.readNbt
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
@@ -28,14 +30,14 @@ class ComputingSessionComponent(private val properties: WorldProperties) : Compo
     fun closeSession(id: UUID) = sessions.remove(id)
 
     override fun readFromNbt(tag: NbtCompound) {
-        tag.getCompound("Data").apply {
-            keys.forEach { id ->
-                try {
-                    val uuid = UUID.fromString(id)
-                    sessions[uuid] = ComputingSession(uuid).also { it.readNbt(getCompound(id)) }
-                } catch (e: IllegalArgumentException) {
-                    return@forEach
+        tag.getCompound("Data").forEachCompound { k, v ->
+            try {
+                val uuid = UUID.fromString(k)
+                if (!v.isEmpty) {
+                    sessions[uuid] = ComputingSession(uuid).also { it.readNbt(v) }
                 }
+            } catch (e: IllegalArgumentException) {
+                return@forEachCompound
             }
         }
     }

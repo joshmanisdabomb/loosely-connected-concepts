@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
+import com.joshmanisdabomb.lcc.component.ComputingSessionComponent
 import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
@@ -21,6 +22,7 @@ import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
 import com.joshmanisdabomb.lcc.network.BlockNetwork
 import com.joshmanisdabomb.lcc.network.ComputingNetwork
+import net.minecraft.command.argument.UuidArgumentType.getUuid
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
@@ -91,20 +93,9 @@ class ComputerComputerModule : ComputerModule() {
     }
 
     fun power(half: ComputingBlockEntity.ComputingHalf, player: ServerPlayerEntity) : Boolean? {
-        val sworld = half.be.world as? ServerWorld ?: return null
-        val data = half.extra ?: return null
-        val sessions = LCCComponents.computing_sessions.maybeGet(sworld.levelProperties).orElse(null) ?: return null
-
         val current = getCurrentErrorCode(half)
         if (current != null) {
-            if (data.containsUuid("Session")) {
-                sessions.closeSession(data.getUuid("Session"))
-            }
-            data.remove("Session")
-            data.remove("ErrorCode")
-            data.remove("Reading")
-            half.dirtyUpdate()
-            return true
+            return shutdown(half).transform(true, null)
         }
 
         val potential = generateErrorCode(half)
@@ -114,6 +105,7 @@ class ComputerComputerModule : ComputerModule() {
             return false
         }
 
+        val sworld = half.be.world as? ServerWorld ?: return null
         val result = ComputingNetwork.local.discover(sworld, half.be.pos to half.top)
         if (result.nodes["active_computer"]?.isNotEmpty() == true) {
             setErrorCode(half, 3)
@@ -121,8 +113,47 @@ class ComputerComputerModule : ComputerModule() {
             return false
         }
 
+        return boot(half).transform(true, null)
+    }
+
+    fun boot(half: ComputingBlockEntity.ComputingHalf): Boolean {
+        val sworld = half.be.world as? ServerWorld ?: return false
+        val data = half.extra ?: return false
+        val sessions = LCCComponents.computing_sessions.maybeGet(sworld.levelProperties).orElse(null) ?: return false
+
         val session = sessions.startSession(UUID.randomUUID())
         data.putUuid("Session", session.id)
+        half.dirtyUpdate()
+        return true
+    }
+
+    fun reboot(half: ComputingBlockEntity.ComputingHalf): Boolean {
+        val sworld = half.be.world as? ServerWorld ?: return false
+        val data = half.extra ?: return false
+        val sessions = LCCComponents.computing_sessions.maybeGet(sworld.levelProperties).orElse(null) ?: return false
+
+        if (data.containsUuid("Session")) {
+            sessions.closeSession(data.getUuid("Session"))
+        }
+        val session = sessions.startSession(UUID.randomUUID())
+        data.putUuid("Session", session.id)
+        data.remove("ErrorCode")
+        data.remove("Reading")
+        half.dirtyUpdate()
+        return true
+    }
+
+    fun shutdown(half: ComputingBlockEntity.ComputingHalf): Boolean {
+        val sworld = half.be.world as? ServerWorld ?: return false
+        val data = half.extra ?: return false
+        val sessions = LCCComponents.computing_sessions.maybeGet(sworld.levelProperties).orElse(null) ?: return false
+
+        if (data.containsUuid("Session")) {
+            sessions.closeSession(data.getUuid("Session"))
+        }
+        data.remove("Session")
+        data.remove("ErrorCode")
+        data.remove("Reading")
         half.dirtyUpdate()
         return true
     }

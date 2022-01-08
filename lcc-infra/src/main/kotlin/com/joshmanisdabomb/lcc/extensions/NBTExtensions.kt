@@ -52,6 +52,7 @@ fun NbtCompound.getFloatOrNull(key: String) = if (this.contains(key, NBT_FLOAT))
 fun NbtCompound.getDoubleOrNull(key: String) = if (this.contains(key, NBT_DOUBLE)) this.getDouble(key) else null
 fun NbtCompound.getListOrNull(key: String, type: Int) = if (this.contains(key, NBT_LIST)) this.getList(key, type) else null
 fun NbtCompound.getCompoundOrNull(key: String) = if (this.contains(key, NBT_COMPOUND)) this.getCompound(key) else null
+fun NbtCompound.getUuidOrNull(key: String) = if (this.containsUuid(key)) this.getUuid(key) else null
 
 fun <T> NbtCompound.getObject(key: String, read: (nbt: NbtCompound) -> T, ref: NbtCompound = this.getCompound(key)) = read(ref)
 fun <T> NbtCompound.getObjectOrNull(key: String, read: (nbt: NbtCompound) -> T) = if (this.contains(key, NBT_COMPOUND)) read(this.getCompound(key)) else null

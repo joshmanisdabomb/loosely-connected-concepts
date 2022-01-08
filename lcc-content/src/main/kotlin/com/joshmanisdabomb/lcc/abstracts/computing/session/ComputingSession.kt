@@ -148,4 +148,14 @@ class ComputingSession(id: UUID) {
     @Environment(EnvType.CLIENT)
     fun render(view: ComputingSessionViewContext, matrices: MatrixStack, delta: Float, x: Int, y: Int) = controller.render(this, view, matrices, delta, x, y)
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        val session = other as? ComputingSession ?: return false
+        return _id == session._id
+    }
+
+    override fun hashCode(): Int {
+        return _id.hashCode()
+    }
+
 }

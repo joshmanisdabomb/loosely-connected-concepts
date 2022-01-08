@@ -44,6 +44,7 @@ import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
+import java.util.*
 
 class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlockEntities.computing, pos, state), SidedInventory, WorldEnergyHandler, EnergyStorage<WorldEnergyContext> {
 
@@ -271,6 +272,8 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
         }
 
         override fun getSession() = (module as? ComputerComputerModule)?.getSession(this)
+
+        override fun getSessionToken() = extra?.getUuidOrNull("Session")
 
         override fun setErrorCode(code: Int) {
             (module as? ComputerComputerModule)?.setErrorCode(this, code)

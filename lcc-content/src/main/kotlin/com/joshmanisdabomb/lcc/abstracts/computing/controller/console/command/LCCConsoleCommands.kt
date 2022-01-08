@@ -1,27 +1,29 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.controller.console
+package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command
 
-import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.LCCConsoleCommands.dispatcher
-import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import net.minecraft.command.CommandSource
-import java.util.*
 
 object LCCConsoleCommands : BasicDirectory<LiteralArgumentBuilder<ConsoleCommandSource>, Array<String>>() {
 
     val dispatcher = CommandDispatcher<ConsoleCommandSource>()
 
+    private val _aliases = mutableMapOf<String, String>()
+    val aliases by lazy { _aliases.toMap() }
+
     val clear by entry(::initialiser) { ClearConsoleCommand(name).command }
-        .setProperties(arrayOf("cls", "clr", "clean"))
+        .setProperties(arrayOf("cls", "clr", "clean", "wipe"))
     val echo by entry(::initialiser) { EchoConsoleCommand(name, ConsoleCommandSource::view).command }
         .setProperties(arrayOf("out", "output", "print", "write", "println", "writeln"))
     val shout by entry(::initialiser) { EchoConsoleCommand(name) { null }.command }
         .setProperties(arrayOf("say", "speak", "announce", "toall", "everyone", "loud").plus(arrayOf("echoa", "outa", "outputa", "printa", "writea", "printlna", "writelna").flatMap { listOf(it, it.plus("ll")) }))
     val help by entry(::initialiser) { HelpConsoleCommand(name).command }
         .setProperties(arrayOf("?", "man", "manual", "usage", "describe", "explain", "how", "howto"))
+    val time by entry(::initialiser) { TimeConsoleCommand(name).command }
+        .setProperties(arrayOf("day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp"))
 
     fun initialiser(input: LiteralArgumentBuilder<ConsoleCommandSource>, context: DirectoryContext<Array<String>>, parameters: Unit) = input
 
@@ -37,6 +39,7 @@ object LCCConsoleCommands : BasicDirectory<LiteralArgumentBuilder<ConsoleCommand
                     .executes(destination.command)
                 for (child in destination.children) redirect.then(child)
                 dispatcher.register(redirect)
+                _aliases[alias] = it.entry.literal
             }
         }
     }

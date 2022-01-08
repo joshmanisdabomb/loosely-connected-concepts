@@ -1,7 +1,7 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.controller.console
+package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command
 
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.mojang.brigadier.arguments.StringArgumentType
-import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import net.minecraft.text.LiteralText
 import java.util.*
 

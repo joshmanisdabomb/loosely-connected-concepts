@@ -30,7 +30,7 @@ class DiskArgumentType : ArgumentType<DiskInfoSearch> {
             return DiskInfoSearch().diskIdStartsWith(id).apply { string = "#$id" }
         } else {
             val label = reader.readString()
-            return DiskInfoSearch().diskLabelStartsWith(label).apply { string = "$label" }
+            return DiskInfoSearch().diskLabelStartsWith(label).apply { string = label }
         }
     }
 
@@ -39,7 +39,12 @@ class DiskArgumentType : ArgumentType<DiskInfoSearch> {
         val disks = source.context.getAccessibleDisks()
         val ids = disks.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
         val labels = disks.mapNotNull { it.label?.let { "\"$it\"" } }
-        return CommandSource.suggestMatching((labels + ids).flatMap { listOf(it, "::$it") }, builder)
+
+        var suggestions = labels + ids
+        if (builder.remaining.startsWith(':')) {
+            suggestions = suggestions.map { "::$it" }
+        }
+        return CommandSource.suggestMatching(suggestions, builder)
     }
 
     companion object {

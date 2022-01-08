@@ -1,10 +1,14 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.info
 
-import com.joshmanisdabomb.lcc.extensions.NBT_STRING
-import com.joshmanisdabomb.lcc.extensions.getCompoundList
+import com.joshmanisdabomb.lcc.extensions.*
+import com.joshmanisdabomb.lcc.item.DigitalMediumItem
+import net.minecraft.inventory.Inventories.writeNbt
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
+import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import java.util.*
 
 data class DiskInfo(val stack: ItemStack) {
@@ -12,24 +16,33 @@ data class DiskInfo(val stack: ItemStack) {
     val tag get() = stack.getSubNbt("lcc-computing")
     private val _tag get() = stack.getOrCreateSubNbt("lcc-computing")
 
+    val medium = stack.item as DigitalMediumItem
+    val totalSpace = medium.getLevel(stack)
+
     var id: UUID?
-        get() = if (tag?.containsUuid("id") == true) tag?.getUuid("id") else null
-        set(value) = _tag.putUuid("id", value)
+        get() = tag?.getUuidOrNull("id")
+        set(value) = if (value != null) _tag.putUuid("id", value) else _tag.remove("id")
 
     var label: String?
-        get() = if (tag?.contains("name", NBT_STRING) == true) tag?.getString("name") else null
+        get() = tag?.getStringOrNull("name")
         set(value) = _tag.putString("name", value)
 
     var partitions: List<DiskPartition>
-        get() = tag?.getCompoundList("partitions")?.map(::DiskPartition) ?: emptyList()
+        get() = tag?.getCompoundObjectList("partitions", map = ::DiskPartition) ?: emptyList()
         set(value) {
-            val list = NbtList()
-            value.forEach { val nbt = NbtCompound(); it.writeNbt(nbt); list.add(nbt) }
-            stack.getOrCreateSubNbt("lcc-computing").put("partitions", list)
+            _tag.putCompoundObjectList("partitions", value) {
+                val nbt = NbtCompound()
+                it.writeNbt(nbt)
+                nbt
+            }
         }
 
+    val name get() = label?.let { LiteralText(it) } ?: stack.name
+
     val usedSpace get() = partitions.sumOf { it.usedSpace }
+    val freeSpace get() = totalSpace - usedSpace
     val allocatedSpace get() = partitions.sumOf { it.size }
+    val allocableSpace get() = totalSpace - allocatedSpace
 
     fun initialise(): DiskInfo {
         id = id ?: UUID.randomUUID()

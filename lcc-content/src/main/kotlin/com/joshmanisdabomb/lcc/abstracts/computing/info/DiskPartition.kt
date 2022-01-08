@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.computing.info
 
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.PartitionType
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
+import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
@@ -10,8 +11,8 @@ import java.util.*
 class DiskPartition(val nbt: NbtCompound) {
 
     var id: UUID?
-        get() = if (nbt.containsUuid("id")) nbt.getUuid("id") else null
-        set(value) = if (value != null) nbt.putUuid("id", value) else Unit
+        get() = nbt.getUuidOrNull("id")
+        set(value) = if (value != null) nbt.putUuid("id", value) else nbt.remove("id")
 
     var label: String
         get() = nbt.getString("name")

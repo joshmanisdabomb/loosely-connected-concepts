@@ -63,8 +63,8 @@ class ConsoleComputingController : LinedComputingController() {
                     if (text != null) {
                         write(session, when (text.key) {
                             "command.unknown.command" -> TranslatableText("terminal.lcc.console.error.command", e.cursor)
-                            "command.unknown.argument" -> TranslatableText("terminal.lcc.console.error.argument", e.cursor)
-                            else -> { text }
+                            "command.unknown.argument" -> TranslatableText("terminal.lcc.console.error.argument", TranslatableText("command.unknown.argument"), e.cursor)
+                            else -> if (e.cursor < 0) text else TranslatableText("terminal.lcc.console.error.argument", text, e.cursor, e.input.split(' ').first())
                         }, k)
                     } else {
                         write(session, TranslatableText("terminal.lcc.console.exception.syntax"), k)

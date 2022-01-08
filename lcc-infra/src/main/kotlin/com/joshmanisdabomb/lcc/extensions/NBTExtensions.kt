@@ -1,6 +1,9 @@
 package com.joshmanisdabomb.lcc.extensions
 
 import net.minecraft.nbt.*
+import net.minecraft.text.Text
+import java.lang.IllegalArgumentException
+import java.util.*
 
 const val NBT_BYTE = 1
 const val NBT_SHORT = 2
@@ -16,33 +19,6 @@ const val NBT_INT_ARRAY = 11
 const val NBT_LONG_ARRAY = 12
 const val NBT_NUMERIC = 99
 
-fun NbtList.asStringList() = this.map(NbtElement::asString)
-fun NbtList.asByteList() = this.mapNotNull { (it as? AbstractNbtNumber)?.byteValue() }
-fun NbtList.asShortList() = this.mapNotNull { (it as? AbstractNbtNumber)?.shortValue() }
-fun NbtList.asIntList() = this.mapNotNull { (it as? AbstractNbtNumber)?.intValue() }
-fun NbtList.asLongList() = this.mapNotNull { (it as? AbstractNbtNumber)?.longValue() }
-fun NbtList.asFloatList() = this.mapNotNull { (it as? AbstractNbtNumber)?.floatValue() }
-fun NbtList.asDoubleList() = this.mapNotNull { (it as? AbstractNbtNumber)?.doubleValue() }
-fun NbtList.asListList() = this.mapNotNull { it as? NbtList }
-fun NbtList.asCompoundList() = this.mapNotNull { it as? NbtCompound }
-fun <T> NbtList.asObjectList(map: (nbt: NbtCompound) -> T?) = this.mapNotNull { (it as? NbtCompound)?.let(map) }
-
-fun NbtList.addString(value: String, position: Int = size) = this.add(position, NbtString.of(value))
-fun NbtList.addByte(value: Byte, position: Int = size) = this.add(position, NbtByte.of(value))
-fun NbtList.addShort(value: Short, position: Int = size) = this.add(position, NbtShort.of(value))
-fun NbtList.addInt(value: Int, position: Int = size) = this.add(position, NbtInt.of(value))
-fun NbtList.addLong(value: Long, position: Int = size) = this.add(position, NbtLong.of(value))
-fun NbtList.addFloat(value: Float, position: Int = size) = this.add(position, NbtFloat.of(value))
-fun NbtList.addDouble(value: Double, position: Int = size) = this.add(position, NbtDouble.of(value))
-
-fun NbtList.addStrings(values: Iterable<String>) = this.addAll(values.map(NbtString::of))
-fun NbtList.addBytes(values: Iterable<Byte>) = this.addAll(values.map(NbtByte::of))
-fun NbtList.addShorts(values: Iterable<Short>) = this.addAll(values.map(NbtShort::of))
-fun NbtList.addInts(values: Iterable<Int>) = this.addAll(values.map(NbtInt::of))
-fun NbtList.addLongs(values: Iterable<Long>) = this.addAll(values.map(NbtLong::of))
-fun NbtList.addFloats(values: Iterable<Float>) = this.addAll(values.map(NbtFloat::of))
-fun NbtList.addDoubles(values: Iterable<Double>) = this.addAll(values.map(NbtDouble::of))
-
 fun NbtCompound.getStringOrNull(key: String) = if (this.contains(key, NBT_STRING)) this.getString(key) else null
 fun NbtCompound.getByteOrNull(key: String) = if (this.contains(key, NBT_BYTE)) this.getByte(key) else null
 fun NbtCompound.getShortOrNull(key: String) = if (this.contains(key, NBT_SHORT)) this.getShort(key) else null
@@ -54,13 +30,71 @@ fun NbtCompound.getListOrNull(key: String, type: Int) = if (this.contains(key, N
 fun NbtCompound.getCompoundOrNull(key: String) = if (this.contains(key, NBT_COMPOUND)) this.getCompound(key) else null
 fun NbtCompound.getUuidOrNull(key: String) = if (this.containsUuid(key)) this.getUuid(key) else null
 
-fun <T> NbtCompound.getObject(key: String, read: (nbt: NbtCompound) -> T, ref: NbtCompound = this.getCompound(key)) = read(ref)
-fun <T> NbtCompound.getObjectOrNull(key: String, read: (nbt: NbtCompound) -> T) = if (this.contains(key, NBT_COMPOUND)) read(this.getCompound(key)) else null
-fun <T> NbtCompound.putObject(key: String, obj: T, write: (obj: T) -> NbtCompound): NbtCompound {
+fun <T> NbtCompound.getCompoundObject(key: String, read: (nbt: NbtCompound) -> T) = read(this.getCompound(key))
+fun <T> NbtCompound.getCompoundObjectOrNull(key: String, read: (nbt: NbtCompound) -> T?) = if (this.contains(key, NBT_COMPOUND)) read(this.getCompound(key)) else null
+fun <T> NbtCompound.putCompoundObject(key: String, obj: T, write: (obj: T) -> NbtCompound): NbtCompound {
     val nbt = write(obj)
     put(key, nbt)
     return nbt
 }
+fun <T> NbtCompound.getStringObject(key: String, read: (string: String) -> T) = read(this.getString(key))
+fun <T> NbtCompound.getStringObjectOrNull(key: String, read: (string: String) -> T?) = if (this.contains(key, NBT_STRING)) read(this.getString(key)) else null
+fun <T> NbtCompound.putStringObject(key: String, obj: T, write: (obj: T) -> String): String {
+    val str = write(obj)
+    putString(key, str)
+    return str
+}
+
+fun NbtCompound.getText(key: String) = getStringObject(key, Text.Serializer::fromJson)
+fun NbtCompound.getTextOrNull(key: String) = getStringObjectOrNull(key, Text.Serializer::fromJson)
+fun NbtCompound.putText(key: String, text: Text) = putStringObject(key, text, Text.Serializer::toJson)
+fun NbtCompound.getStringUuid(key: String) = getStringObject(key, UUID::fromString)
+fun NbtCompound.getStringUuidOrNull(key: String) = getStringObjectOrNull(key) {
+    try {
+        UUID.fromString(it)
+    } catch (e: IllegalArgumentException) {
+        null
+    }
+}
+fun NbtCompound.putStringUuid(key: String, uuid: UUID) = putStringObject(key, uuid, UUID::toString)
+
+fun NbtList.asStringList() = this.map(NbtElement::asString)
+fun NbtList.asByteList() = this.mapNotNull { (it as? AbstractNbtNumber)?.byteValue() }
+fun NbtList.asShortList() = this.mapNotNull { (it as? AbstractNbtNumber)?.shortValue() }
+fun NbtList.asIntList() = this.mapNotNull { (it as? AbstractNbtNumber)?.intValue() }
+fun NbtList.asLongList() = this.mapNotNull { (it as? AbstractNbtNumber)?.longValue() }
+fun NbtList.asFloatList() = this.mapNotNull { (it as? AbstractNbtNumber)?.floatValue() }
+fun NbtList.asDoubleList() = this.mapNotNull { (it as? AbstractNbtNumber)?.doubleValue() }
+fun NbtList.asListList() = this.mapNotNull { it as? NbtList }
+fun NbtList.asCompoundList() = this.mapNotNull { it as? NbtCompound }
+fun <T> NbtList.asCompoundObjectList(map: (nbt: NbtCompound) -> T?) = this.mapNotNull { (it as? NbtCompound)?.let(map) }
+fun <T> NbtList.asStringObjectList(map: (nbt: String) -> T?) = this.mapNotNull { it.asString()?.let(map) }
+fun NbtList.asStringUuidList() = this.asStringObjectList(UUID::fromString)
+fun NbtList.asTextList() = this.asStringObjectList(Text.Serializer::fromJson)
+
+fun NbtList.addString(value: String, position: Int = size) = this.add(position, NbtString.of(value))
+fun NbtList.addByte(value: Byte, position: Int = size) = this.add(position, NbtByte.of(value))
+fun NbtList.addShort(value: Short, position: Int = size) = this.add(position, NbtShort.of(value))
+fun NbtList.addInt(value: Int, position: Int = size) = this.add(position, NbtInt.of(value))
+fun NbtList.addLong(value: Long, position: Int = size) = this.add(position, NbtLong.of(value))
+fun NbtList.addFloat(value: Float, position: Int = size) = this.add(position, NbtFloat.of(value))
+fun NbtList.addDouble(value: Double, position: Int = size) = this.add(position, NbtDouble.of(value))
+fun <T> NbtList.addCompoundObject(value: T, write: (obj: T) -> NbtCompound, position: Int = size) = this.add(position, write(value))
+fun <T> NbtList.addStringObject(value: T, write: (obj: T) -> String, position: Int = size) = this.addString(write(value), position)
+fun NbtList.addStringUuid(value: UUID, position: Int = size) = this.addStringObject(value, UUID::toString, position)
+fun NbtList.addText(value: Text, position: Int = size) = this.addStringObject(value, Text.Serializer::toJson, position)
+
+fun NbtList.addStrings(values: Iterable<String>) = this.addAll(values.map(NbtString::of))
+fun NbtList.addBytes(values: Iterable<Byte>) = this.addAll(values.map(NbtByte::of))
+fun NbtList.addShorts(values: Iterable<Short>) = this.addAll(values.map(NbtShort::of))
+fun NbtList.addInts(values: Iterable<Int>) = this.addAll(values.map(NbtInt::of))
+fun NbtList.addLongs(values: Iterable<Long>) = this.addAll(values.map(NbtLong::of))
+fun NbtList.addFloats(values: Iterable<Float>) = this.addAll(values.map(NbtFloat::of))
+fun NbtList.addDoubles(values: Iterable<Double>) = this.addAll(values.map(NbtDouble::of))
+fun <T> NbtList.addCompoundObjects(values: Iterable<T>, map: (obj: T) -> NbtCompound?) = this.addAll(values.mapNotNull(map))
+fun <T> NbtList.addStringObjects(values: Iterable<T>, map: (obj: T) -> String?) = this.addStrings(values.mapNotNull(map))
+fun NbtList.addStringUuid(values: Iterable<UUID>) = this.addStringObjects(values, UUID::toString)
+fun NbtList.addText(values: Iterable<Text>) = this.addStringObjects(values, Text.Serializer::toJson)
 
 fun NbtCompound.modifyString(key: String, ref: String = this.getString(key), modify: String.() -> String): String {
     val new = modify(ref)
@@ -102,11 +136,23 @@ fun NbtCompound.modifyCompound(key: String, ref: NbtCompound = this.getCompound(
     this.put(key, ref)
     return ref
 }
-fun <T> NbtCompound.modifyObject(key: String, read: (nbt: NbtCompound) -> T, write: (obj: T) -> NbtCompound, ref: NbtCompound = this.getCompound(key), modify: T.() -> Unit): NbtCompound {
-    val new = getObject(key, read)
-    modify(new)
-    return putObject(key, new, write)
+fun NbtCompound.modifyUuid(key: String, ref: UUID = this.getUuid(key), modify: UUID.() -> Unit): UUID {
+    modify(ref)
+    this.putUuid(key, ref)
+    return ref
 }
+fun <T> NbtCompound.modifyCompoundObject(key: String, read: (nbt: NbtCompound) -> T, write: (obj: T) -> NbtCompound, modify: T.() -> Unit): NbtCompound {
+    val new = getCompoundObject(key, read)
+    modify(new)
+    return putCompoundObject(key, new, write)
+}
+fun <T> NbtCompound.modifyStringObject(key: String, read: (string: String) -> T, write: (obj: T) -> String, modify: T.() -> Unit): String {
+    val new = getStringObject(key, read)
+    modify(new)
+    return putStringObject(key, new, write)
+}
+fun NbtCompound.modifyStringUuid(key: String, modify: UUID.() -> Unit) = modifyStringObject(key, UUID::fromString, UUID::toString, modify)
+fun NbtCompound.modifyText(key: String, modify: Text.() -> Unit) = modifyStringObject(key, { Text.Serializer.fromJson(it)!! }, Text.Serializer::toJson, modify)
 
 fun NbtCompound.getStringList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = ref.asStringList()
 fun NbtCompound.getByteList(key: String, ref: NbtList = this.getList(key, NBT_BYTE)) = ref.asByteList()
@@ -117,7 +163,10 @@ fun NbtCompound.getFloatList(key: String, ref: NbtList = this.getList(key, NBT_F
 fun NbtCompound.getDoubleList(key: String, ref: NbtList = this.getList(key, NBT_DOUBLE)) = ref.asDoubleList()
 fun NbtCompound.getListList(key: String, ref: NbtList = this.getList(key, NBT_LIST)) = ref.asListList()
 fun NbtCompound.getCompoundList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND)) = ref.asCompoundList()
-fun <T> NbtCompound.getObjectList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), map: (nbt: NbtCompound) -> T?) = ref.asObjectList(map)
+fun <T> NbtCompound.getCompoundObjectList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), map: (nbt: NbtCompound) -> T?) = ref.asCompoundObjectList(map)
+fun <T> NbtCompound.getStringObjectList(key: String, ref: NbtList = this.getList(key, NBT_STRING), map: (string: String) -> T?) = ref.asStringObjectList(map)
+fun <T> NbtCompound.getStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, UUID::fromString)
+fun <T> NbtCompound.getTextList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, Text.Serializer::fromJson)
 
 fun NbtCompound.putStringList(key: String, list: List<String>) = NbtList().apply { addAll(list.map(NbtString::of)); this@putStringList.put(key, this) }
 fun NbtCompound.putByteList(key: String, list: List<Byte>) = NbtList().apply { addAll(list.map(NbtByte::of)); this@putByteList.put(key, this) }
@@ -128,7 +177,10 @@ fun NbtCompound.putFloatList(key: String, list: List<Float>) = NbtList().apply {
 fun NbtCompound.putDoubleList(key: String, list: List<Double>) = NbtList().apply { addAll(list.map(NbtDouble::of)); this@putDoubleList.put(key, this) }
 fun NbtCompound.putListList(key: String, list: List<NbtList>) = NbtList().apply { addAll(list); this@putListList.put(key, this) }
 fun NbtCompound.putCompoundList(key: String, list: List<NbtCompound>) = NbtList().apply { addAll(list); this@putCompoundList.put(key, this) }
-fun <T> NbtCompound.putObjectList(key: String, list: List<T>, write: (obj: T) -> NbtCompound?) = NbtList().apply { addAll(list.mapNotNull(write)); this@putObjectList.put(key, this) }
+fun <T> NbtCompound.putCompoundObjectList(key: String, list: List<T>, write: (obj: T) -> NbtCompound?) = NbtList().apply { addAll(list.mapNotNull(write)); this@putCompoundObjectList.put(key, this) }
+fun <T> NbtCompound.putStringObjectList(key: String, list: List<T>, write: (obj: T) -> String?) = putStringList(key, list.mapNotNull(write))
+fun NbtCompound.putStringUuidList(key: String, list: List<UUID>) = putStringObjectList(key, list, UUID::toString)
+fun NbtCompound.putTextList(key: String, list: List<Text>) = putStringObjectList(key, list, Text.Serializer::toJson)
 
 fun NbtCompound.modifyStringList(key: String, ref: NbtList = this.getList(key, NBT_STRING), modify: MutableList<String>.() -> List<String>?): NbtList {
     val objects = getStringList(key, ref).toMutableList()
@@ -175,11 +227,18 @@ fun NbtCompound.modifyCompoundList(key: String, ref: NbtList = this.getList(key,
     val new = modify(objects) ?: objects
     return putCompoundList(key, new)
 }
-fun <T> NbtCompound.modifyObjectList(key: String, read: (el: NbtCompound) -> T?, write: (el: T) -> NbtCompound?, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<T>.() -> List<T>?): NbtList {
-    val objects: MutableList<T> = getObjectList(key, ref, read).toMutableList()
+fun <T> NbtCompound.modifyCompoundObjectList(key: String, read: (el: NbtCompound) -> T?, write: (el: T) -> NbtCompound?, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<T>.() -> List<T>?): NbtList {
+    val objects: MutableList<T> = getCompoundObjectList(key, ref, read).toMutableList()
     val new = modify(objects) ?: objects
-    return putObjectList(key, new, write)
+    return putCompoundObjectList(key, new, write)
 }
+fun <T> NbtCompound.modifyStringObjectList(key: String, read: (el: String) -> T?, write: (el: T) -> String?, ref: NbtList = this.getList(key, NBT_STRING), modify: MutableList<T>.() -> List<T>?): NbtList {
+    val objects: MutableList<T> = getStringObjectList(key, ref, read).toMutableList()
+    val new = modify(objects) ?: objects
+    return putStringObjectList(key, new, write)
+}
+fun NbtCompound.modifyStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<UUID>.() -> List<UUID>?) = modifyStringObjectList(key, UUID::fromString, UUID::toString, ref, modify)
+fun NbtCompound.modifyTextList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<Text>.() -> List<Text>?) = modifyStringObjectList(key, Text.Serializer::fromJson, Text.Serializer::toJson, ref, modify)
 
 fun NbtCompound.forEach(consumer: (key: String, value: NbtElement) -> Unit) = this.keys.forEach { consumer(it, this.get(it)!!) }
 fun NbtCompound.forEachString(consumer: (key: String, value: String) -> Unit) = this.keys.forEach { consumer(it, this.getString(it)) }
@@ -189,7 +248,14 @@ fun NbtCompound.forEachInt(consumer: (key: String, value: Int) -> Unit) = this.k
 fun NbtCompound.forEachLong(consumer: (key: String, value: Long) -> Unit) = this.keys.forEach { consumer(it, this.getLong(it)) }
 fun NbtCompound.forEachFloat(consumer: (key: String, value: Float) -> Unit) = this.keys.forEach { consumer(it, this.getFloat(it)) }
 fun NbtCompound.forEachDouble(consumer: (key: String, value: Double) -> Unit) = this.keys.forEach { consumer(it, this.getDouble(it)) }
+fun NbtCompound.forEachUuid(consumer: (key: String, value: UUID) -> Unit) = this.keys.forEach { consumer(it, this.getUuid(it)) }
 fun NbtCompound.forEachList(type: Int, consumer: (key: String, value: NbtList) -> Unit) = this.keys.forEach { consumer(it, this.getList(it, type)) }
+fun NbtCompound.forEachCompound(consumer: (key: String, value: NbtCompound) -> Unit) = this.keys.forEach { consumer(it, this.getCompound(it)) }
+fun <T> NbtCompound.forEachCompoundObject(read: (el: NbtCompound) -> T?, consumer: (key: String, value: T) -> Unit) = this.keys.forEach { consumer(it, read(this.getCompound(it)) ?: return@forEach) }
+fun <T> NbtCompound.forEachStringObject(read: (el: String) -> T?, consumer: (key: String, value: T) -> Unit) = this.keys.forEach { consumer(it, read(this.getString(it)) ?: return@forEach) }
+fun NbtCompound.forEachStringUuid(consumer: (key: String, value: UUID) -> Unit) = forEachStringObject(UUID::fromString, consumer)
+fun NbtCompound.forEachText(consumer: (key: String, value: Text) -> Unit) = forEachStringObject(Text.Serializer::fromJson, consumer)
+
 fun NbtCompound.forEachStringList(consumer: (key: String, value: List<String>) -> Unit) = this.keys.forEach { consumer(it, this.getStringList(it)) }
 fun NbtCompound.forEachByteList(consumer: (key: String, value: List<Byte>) -> Unit) = this.keys.forEach { consumer(it, this.getByteList(it)) }
 fun NbtCompound.forEachShortList(consumer: (key: String, value: List<Short>) -> Unit) = this.keys.forEach { consumer(it, this.getShortList(it)) }
@@ -199,6 +265,7 @@ fun NbtCompound.forEachFloatList(consumer: (key: String, value: List<Float>) -> 
 fun NbtCompound.forEachDoubleList(consumer: (key: String, value: List<Double>) -> Unit) = this.keys.forEach { consumer(it, this.getDoubleList(it)) }
 fun NbtCompound.forEachListList(consumer: (key: String, value: List<NbtList>) -> Unit) = this.keys.forEach { consumer(it, this.getListList(it)) }
 fun NbtCompound.forEachCompoundList(consumer: (key: String, value: List<NbtCompound>) -> Unit) = this.keys.forEach { consumer(it, this.getCompoundList(it)) }
-fun <T> NbtCompound.forEachObjectList(read: (el: NbtCompound) -> T?, consumer: (key: String, value: List<T>) -> Unit) = this.keys.forEach { consumer(it, this.getObjectList(it, map = read)) }
-fun NbtCompound.forEachCompound(consumer: (key: String, value: NbtCompound) -> Unit) = this.keys.forEach { consumer(it, this.getCompound(it)) }
-fun <T> NbtCompound.forEachObject(read: (el: NbtCompound) -> T?, consumer: (key: String, value: T) -> Unit) = this.keys.forEach { consumer(it, read(this.getCompound(it)) ?: return@forEach) }
+fun <T> NbtCompound.forEachCompoundObjectList(read: (el: NbtCompound) -> T?, consumer: (key: String, value: List<T>) -> Unit) = this.keys.forEach { consumer(it, this.getCompoundObjectList(it, map = read)) }
+fun <T> NbtCompound.forEachStringObjectList(read: (el: String) -> T?, consumer: (key: String, value: List<T>) -> Unit) = this.keys.forEach { consumer(it, this.getStringObjectList(it, map = read)) }
+fun NbtCompound.forEachStringUuidList(consumer: (key: String, value: List<UUID>) -> Unit) = forEachStringObjectList(UUID::fromString, consumer)
+fun NbtCompound.forEachTextList(consumer: (key: String, value: List<Text>) -> Unit) = forEachStringObjectList(Text.Serializer::fromJson, consumer)

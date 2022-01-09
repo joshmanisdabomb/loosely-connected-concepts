@@ -236,9 +236,15 @@ object LCCLangData {
         lang["terminal.lcc.console.help.shutdown"] = "Shuts down the computer."
         lang["terminal.lcc.console.install.space_total"] = "Not enough total space on disk '%1\$s' (#%2\$s) to hold system install: %3\$s < %4\$s\nConsider using a larger disk."
         lang["terminal.lcc.console.install.space_allocable"] = "Not enough allocable space on disk '%1\$s' (#%2\$s) to hold system install: %3\$s < %4\$s\nConsider using the 'resize' command."
+        lang["terminal.lcc.console.install.label_empty"] = "You must specify a label for this partition"
+        lang["terminal.lcc.console.install.label_invalid"] = "Partition labels cannot contain colons, hashes or forward slashes"
         lang["terminal.lcc.console.install.success"] = "OS partition '%1\$s' (#%2\$s) of size %3\$s added to disk '%4\$s' (#%5\$s)."
+        lang["terminal.lcc.console.label.empty"] = "You must specify a label for this partition."
+        lang["terminal.lcc.console.label.invalid.disk"] = "Disk labels cannot contain colons, hashes or forward slashes."
+        lang["terminal.lcc.console.label.invalid.partition"] = "Partition labels cannot contain colons, hashes or forward slashes."
         lang["terminal.lcc.console.label.success.disk"] = "Label of disk '%1\$s' (#%2\$s) changed to '%3\$s'."
         lang["terminal.lcc.console.label.success.partition"] = "Label of partition '%1\$s' (#%2\$s) changed to '%3\$s'."
+        lang["terminal.lcc.console.label.removed"] = "Label of disk '%1\$s' (#%2\$s) removed."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

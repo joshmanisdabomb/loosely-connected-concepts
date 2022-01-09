@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command.LCCConsoleCommands.label
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
@@ -38,6 +39,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
         if (diskToken >= 0 && partitionToken < 0 && !allowed.contains(DiskInfoArgumentResult.DISK)) throw diskDisabled.createWithContext(reader, input)
         if (partitionToken >= 0 && !allowed.contains(DiskInfoArgumentResult.PARTITION)) throw partitionDisabled.createWithContext(reader, input)
 
+        //TODO support dual id format e.g. #4#c
         var diskInput = if (diskToken > -1) input.substring(diskToken+2, if (partitionToken > diskToken) partitionToken else input.length) else if (preference == DiskInfoArgumentResult.DISK) input else null
         var partitionInput = if (partitionToken > -1) input.substring(partitionToken+1, if (diskToken > partitionToken) diskToken else input.length) else if (preference == DiskInfoArgumentResult.PARTITION) input else null
         if (diskInput == null && partitionInput == null) {
@@ -70,20 +72,12 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
     }
 
     override fun <S> listSuggestions(context: CommandContext<S>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
-        val source = context.source as? ConsoleCommandSource ?: return Suggestions.empty()
-        val disks = source.context.getAccessibleDisks()
-        val ids = disks.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
-        val labels = disks.mapNotNull { it.label?.let { "\"$it\"" } }
-
-        var suggestions = labels + ids
-        if (builder.remaining.startsWith(':')) {
-            suggestions = suggestions.map { "::$it" }
-        }
-        return CommandSource.suggestMatching(suggestions, builder)
+        return Suggestions.empty()
     }
 
     companion object {
         private val idRegex = Regex("^([-A-Fa-f0-9]+)$")
+        private val idSuggestRegex = Regex("^:*#")
 
         val diskDisabled = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.disabled", it) }
         val partitionDisabled = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.disabled", it) }
@@ -101,6 +95,35 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
         val noPartitions = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.results.none", it) }
         val multiplePartitions = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.results.multiple", it) }
         val conflict = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.results.conflict", it) }
+
+        fun suggestDisks(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
+            val input = builder.remaining
+            var suggestions = if (input.matches(idSuggestRegex)) {
+                disks.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
+            } else {
+                disks.mapNotNull { it.label?.let { "\"$it\"" } }
+            }
+            if (input.startsWith(':')) {
+                suggestions = suggestions.map { "::$it" }
+            }
+            return suggestions
+        }
+
+        fun suggestPartitions(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
+            val input = builder.remaining
+            val partitions = disks.flatMap { it.partitions }
+            var suggestions = if (input.matches(idSuggestRegex)) {
+                partitions.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
+            } else {
+                partitions.map { it.label.let { "\"$it\"" } }
+            }
+            if (input.startsWith(':')) {
+                suggestions = suggestions.map { ":$it" }
+            }
+            return suggestions
+        }
+
+        fun suggestAll(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder) = suggestDisks(disks, builder) + suggestPartitions(disks, builder)
 
         fun get(context: CommandContext<ConsoleCommandSource>, argument: String): DiskInfoSearch = context.getArgument(argument, DiskInfoSearch::class.java)
 

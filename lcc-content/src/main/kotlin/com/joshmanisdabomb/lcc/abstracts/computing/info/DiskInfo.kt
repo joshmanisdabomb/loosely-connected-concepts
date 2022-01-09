@@ -21,11 +21,11 @@ data class DiskInfo(val stack: ItemStack) {
 
     var id: UUID?
         get() = tag?.getUuidOrNull("id")
-        set(value) = if (value != null) _tag.putUuid("id", value) else _tag.remove("id")
+        set(value) = _tag.putUuidOrRemove("id", value)
 
     var label: String?
         get() = tag?.getStringOrNull("name")
-        set(value) = _tag.putString("name", value)
+        set(value) = _tag.putStringOrRemove("name", value)
 
     var partitions: List<DiskPartition>
         get() = tag?.getCompoundObjectList("partitions", map = ::DiskPartition) ?: emptyList()

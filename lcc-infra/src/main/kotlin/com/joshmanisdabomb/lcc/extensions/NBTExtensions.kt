@@ -30,6 +30,17 @@ fun NbtCompound.getListOrNull(key: String, type: Int) = if (this.contains(key, N
 fun NbtCompound.getCompoundOrNull(key: String) = if (this.contains(key, NBT_COMPOUND)) this.getCompound(key) else null
 fun NbtCompound.getUuidOrNull(key: String) = if (this.containsUuid(key)) this.getUuid(key) else null
 
+fun NbtCompound.putStringOrRemove(key: String, value: String?) = if (value != null) this.putString(key, value) else this.remove(key)
+fun NbtCompound.putByteOrRemove(key: String, value: Byte?) = if (value != null) this.putByte(key, value) else this.remove(key)
+fun NbtCompound.putShortOrRemove(key: String, value: Short?) = if (value != null) this.putShort(key, value) else this.remove(key)
+fun NbtCompound.putIntOrRemove(key: String, value: Int?) = if (value != null) this.putInt(key, value) else this.remove(key)
+fun NbtCompound.putLongOrRemove(key: String, value: Long?) = if (value != null) this.putLong(key, value) else this.remove(key)
+fun NbtCompound.putFloatOrRemove(key: String, value: Float?) = if (value != null) this.putFloat(key, value) else this.remove(key)
+fun NbtCompound.putDoubleOrRemove(key: String, value: Double?) = if (value != null) this.putDouble(key, value) else this.remove(key)
+fun NbtCompound.putListOrRemove(key: String, value: NbtList?) { if (value != null) this.put(key, value) else this.remove(key) }
+fun NbtCompound.putCompoundOrRemove(key: String, value: NbtCompound?) { if (value != null) this.put(key, value) else this.remove(key) }
+fun NbtCompound.putUuidOrRemove(key: String, value: UUID?) = if (value != null) this.putUuid(key, value) else this.remove(key)
+
 fun <T> NbtCompound.getCompoundObject(key: String, read: (nbt: NbtCompound) -> T) = read(this.getCompound(key))
 fun <T> NbtCompound.getCompoundObjectOrNull(key: String, read: (nbt: NbtCompound) -> T?) = if (this.contains(key, NBT_COMPOUND)) read(this.getCompound(key)) else null
 fun <T> NbtCompound.putCompoundObject(key: String, obj: T, write: (obj: T) -> NbtCompound): NbtCompound {
@@ -37,6 +48,7 @@ fun <T> NbtCompound.putCompoundObject(key: String, obj: T, write: (obj: T) -> Nb
     put(key, nbt)
     return nbt
 }
+fun <T> NbtCompound.putCompoundObjectOrRemove(key: String, obj: T?, write: (obj: T) -> NbtCompound) { if (obj != null) this.putCompoundObject(key, obj, write) else this.remove(key) }
 fun <T> NbtCompound.getStringObject(key: String, read: (string: String) -> T) = read(this.getString(key))
 fun <T> NbtCompound.getStringObjectOrNull(key: String, read: (string: String) -> T?) = if (this.contains(key, NBT_STRING)) read(this.getString(key)) else null
 fun <T> NbtCompound.putStringObject(key: String, obj: T, write: (obj: T) -> String): String {
@@ -44,10 +56,12 @@ fun <T> NbtCompound.putStringObject(key: String, obj: T, write: (obj: T) -> Stri
     putString(key, str)
     return str
 }
+fun <T> NbtCompound.putStringObjectOrRemove(key: String, obj: T?, write: (obj: T) -> String) { if (obj != null) this.putStringObject(key, obj, write) else this.remove(key) }
 
 fun NbtCompound.getText(key: String) = getStringObject(key, Text.Serializer::fromJson)
 fun NbtCompound.getTextOrNull(key: String) = getStringObjectOrNull(key, Text.Serializer::fromJson)
 fun NbtCompound.putText(key: String, text: Text) = putStringObject(key, text, Text.Serializer::toJson)
+fun NbtCompound.putTextOrRemove(key: String, value: Text?) { if (value != null) this.putText(key, value) else this.remove(key) }
 fun NbtCompound.getStringUuid(key: String) = getStringObject(key, UUID::fromString)
 fun NbtCompound.getStringUuidOrNull(key: String) = getStringObjectOrNull(key) {
     try {
@@ -57,6 +71,7 @@ fun NbtCompound.getStringUuidOrNull(key: String) = getStringObjectOrNull(key) {
     }
 }
 fun NbtCompound.putStringUuid(key: String, uuid: UUID) = putStringObject(key, uuid, UUID::toString)
+fun NbtCompound.putStringUuidOrRemove(key: String, value: UUID?) { if (value != null) this.putStringUuid(key, value) else this.remove(key) }
 
 fun NbtList.asStringList() = this.map(NbtElement::asString)
 fun NbtList.asByteList() = this.mapNotNull { (it as? AbstractNbtNumber)?.byteValue() }

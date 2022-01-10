@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.extensions.IdentifierHelper
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
 
@@ -50,6 +51,7 @@ object LCC : ModInitializer {
     }
 
     fun id(path: String) = Identifier(modid, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, path))
+    fun idDefaultNamespace(path: String) = IdentifierHelper.createWithDefaultNamespace(path, modid)
 
     fun block(name: String) = id("block/$name")
     fun item(name: String) = id("item/$name")

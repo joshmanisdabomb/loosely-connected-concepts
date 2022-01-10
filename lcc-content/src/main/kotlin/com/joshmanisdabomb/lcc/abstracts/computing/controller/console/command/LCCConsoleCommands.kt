@@ -27,6 +27,8 @@ object LCCConsoleCommands : BasicDirectory<LiteralArgumentBuilder<ConsoleCommand
         .setProperties(arrayOf("day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp"))
     val install by entry(::initialiser) { InstallConsoleCommand(name).command }
         .setProperties(arrayOf("image", "setup", "os", "console", "consoleos"))
+    val mkpart by entry(::initialiser) { MakePartitionConsoleCommand(name).command }
+        .setProperties(arrayOf("mp", "np", "createpart", "makepart", "part", "partition"))
     val label by entry(::initialiser) { LabelConsoleCommand(name).command }
         .setProperties(arrayOf("labelpart", "rnpart", "mvpart", "renamepart", "movepart", "lp"))
     val reboot by entry(::initialiser) { PowerConsoleCommand(name, ComputingSessionExecuteContext::reboot).command }

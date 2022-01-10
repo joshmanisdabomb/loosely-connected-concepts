@@ -3,24 +3,42 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
-import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.Dynamic4CommandExceptionType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.text.TranslatableText
-import java.util.*
 
 class LabelConsoleCommand(val name: String) {
 
     val command = LCCConsoleCommands.literal(name)
-        .then(LCCConsoleCommands.required("disk", DiskInfoArgumentType(DiskInfoArgumentType.DiskInfoArgumentResult.DISK, DiskInfoArgumentType.DiskInfoArgumentResult.PARTITION)).suggests { context, builder -> CommandSource.suggestMatching(DiskInfoArgumentType.suggestAll(context.source.context.getAccessibleDisks(), builder), builder) }.then(LCCConsoleCommands.required("label", StringArgumentType.string()).executes {
-            label(it, DiskInfoArgumentType.get(it, "disk"), StringArgumentType.getString(it, "label"))
+        .then(LCCConsoleCommands.required("disk", DiskInfoArgumentType(DiskInfoArgumentType.DiskInfoArgumentResult.DISK, DiskInfoArgumentType.DiskInfoArgumentResult.PARTITION)).suggests { context, builder -> CommandSource.suggestMatching(DiskInfoArgumentType.suggestAll(context.source.context.getAccessibleDisks(), builder), builder) }.executes {
+            get(it, DiskInfoArgumentType.get(it, "disk"))
+        }.then(LCCConsoleCommands.required("label", StringArgumentType.string()).executes {
+            set(it, DiskInfoArgumentType.get(it, "disk"), StringArgumentType.getString(it, "label"))
         }))
 
-    fun label(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch, label: String): Int {
+    fun get(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch): Int {
+        val disks = context.source.context.getAccessibleDisks()
+        val (disk, partition) = DiskInfoArgumentType.getSingleDiskOrPartition(search.search(disks), search)
+        when {
+            partition != null && disk != null -> throw DiskInfoArgumentType.conflict.create(search)
+            disk != null -> {
+                if (disk.label != null) {
+                    context.source.controller.write(context.source.session, TranslatableText("terminal.lcc.console.label.found.disk", disk.stack.name, disk.getShortId(disks), disk.label))
+                } else {
+                    context.source.controller.write(context.source.session, TranslatableText("terminal.lcc.console.label.none.disk", disk.stack.name, disk.getShortId(disks)))
+                }
+            }
+            partition != null -> {
+                context.source.controller.write(context.source.session, TranslatableText("terminal.lcc.console.label.found.partition", partition.getShortId(disks), partition.label))
+            }
+            else -> throw DiskInfoArgumentType.genericEmpty.create(search)
+        }
+        return 1
+    }
+
+    fun set(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch, label: String): Int {
         val disks = context.source.context.getAccessibleDisks()
         val (disk, partition) = DiskInfoArgumentType.getSingleDiskOrPartition(search.search(disks), search)
         when {

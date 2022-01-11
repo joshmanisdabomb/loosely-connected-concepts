@@ -2,13 +2,9 @@ package com.joshmanisdabomb.lcc.abstracts.computing.info
 
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
-import net.minecraft.inventory.Inventories.writeNbt
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.nbt.NbtHelper
-import net.minecraft.nbt.NbtList
 import net.minecraft.text.LiteralText
-import net.minecraft.text.Text
 import java.util.*
 
 data class DiskInfo(val stack: ItemStack) {
@@ -53,20 +49,38 @@ data class DiskInfo(val stack: ItemStack) {
         return this
     }
 
-    fun addPartition(partition: DiskPartition) {
-        partitions = partitions.plus(partition)
-    }
+    fun addPartition(partition: DiskPartition) { partitions = partitions.plus(partition) }
+
+    fun removePartition(id: UUID) { partitions = partitions.filter { it.id != id } }
+
+    fun removePartition(partition: DiskPartition) { removePartition(partition.id ?: return) }
 
     fun getShortId(disks: Iterable<DiskInfo>): String? {
-        val me = id?.toString()?.replace("-", "") ?: return null
-        val others = disks.mapNotNull { val id = it.id?.toString()?.replace("-", ""); if (id != me) id else null }.toSet()
-        for (i in me.indices) {
-            val meShort = me.substring(0, i + 1)
-            if (others.none { it.startsWith(meShort) }) {
-                return meShort
+        return getShortId(disks, id ?: return null)
+    }
+
+    companion object {
+        fun getPartitions(disks: Iterable<DiskInfo>) = disks.flatMap { it.partitions }.toSet()
+
+        fun getDisk(disks: Iterable<DiskInfo>, id: UUID) = disks.firstOrNull { it.id == id }
+
+        fun getDiskWithPartition(disks: Iterable<DiskInfo>, id: UUID) = disks.firstOrNull { it.partitions.any { it.id == id } }
+
+        fun getPartition(partitions: Iterable<DiskPartition>, id: UUID) = partitions.firstOrNull { it.id == id }
+
+        fun findPartition(disks: Iterable<DiskInfo>, id: UUID) = disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == id } }
+
+        fun getShortId(disks: Iterable<DiskInfo>, id: UUID): String {
+            val me = id.toString().replace("-", "")
+            val others = disks.mapNotNull { val i = it.id?.toString()?.replace("-", ""); if (i != me) i else null }.toSet()
+            for (i in me.indices) {
+                val meShort = me.substring(0, i + 1)
+                if (others.none { it.startsWith(meShort) }) {
+                    return meShort
+                }
             }
+            return me
         }
-        return me
     }
 
 }

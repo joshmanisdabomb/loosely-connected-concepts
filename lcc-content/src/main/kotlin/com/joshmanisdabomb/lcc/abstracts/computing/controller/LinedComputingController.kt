@@ -13,15 +13,12 @@ import net.minecraft.text.OrderedText
 import net.minecraft.text.Style
 import net.minecraft.text.Text
 import java.util.*
-import kotlin.math.floor
 
 abstract class LinedComputingController : ComputingController() {
 
     abstract fun write(session: ComputingSession, text: MutableText, view: UUID? = null)
 
     abstract fun clear(session: ComputingSession, view: UUID? = null)
-
-    fun readOutput(feed: List<String>) = feed.mapNotNull { Text.Serializer.fromJson(it) }
 
     @Environment(EnvType.CLIENT)
     override fun getBackgroundColor(session: ComputingSession, view: ComputingSessionViewContext) = 0xFF161616

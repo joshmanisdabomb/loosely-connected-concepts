@@ -1,17 +1,17 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
-import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command.LCCConsoleCommands.label
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.extensions.putText
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import net.minecraft.command.CommandSource
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 
@@ -147,6 +147,24 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
                 0 -> throw noGeneric.create(search)
                 1 -> diskResults?.firstOrNull()?.let { it to null } ?: partitionResults?.firstOrNull()?.let { null to it } ?: throw noGeneric.create(search)
                 else -> throw multipleGeneric.create(search)
+            }
+        }
+
+        fun attachResultsToNbt(disks: Iterable<DiskInfo>, results: Pair<DiskInfo?, DiskPartition?>, search: DiskInfoSearch, nbt: NbtCompound) {
+            val (disk, partition) = results
+            when {
+                partition != null && disk != null -> throw conflict.create(search)
+                disk != null -> {
+                    nbt.putUuid("Disk", disk.id)
+                    nbt.putString("DiskShort", disk.getShortId(disks))
+                    nbt.putText("DiskLabel", disk.name)
+                }
+                partition != null -> {
+                    nbt.putUuid("Partition", partition.id)
+                    nbt.putString("PartitionShort", partition.getShortId(disks))
+                    nbt.putString("PartitionLabel", partition.label)
+                }
+                else -> throw genericEmpty.create(search)
             }
         }
     }

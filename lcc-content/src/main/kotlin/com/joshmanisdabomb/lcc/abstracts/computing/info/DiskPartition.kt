@@ -49,15 +49,7 @@ class DiskPartition(val nbt: NbtCompound) {
     }
 
     fun getShortId(disks: Iterable<DiskInfo>): String? {
-        val me = id?.toString()?.replace("-", "") ?: return null
-        val others = disks.flatMap { it.partitions }.mapNotNull { val id = it.id?.toString()?.replace("-", ""); if (id != me) id else null }.toSet()
-        for (i in me.indices) {
-            val meShort = me.substring(0, i + 1)
-            if (others.none { it.startsWith(meShort) }) {
-                return meShort
-            }
-        }
-        return me
+        return DiskInfo.getShortId(disks, id ?: return null)
     }
 
 }

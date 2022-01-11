@@ -23,6 +23,14 @@ interface ComputingSessionExecuteContext {
 
     fun getAccessibleDisks(): Set<DiskInfo>
 
+    fun getAccessiblePartitions() = getAccessibleDisks().flatMap { it.partitions }.toSet()
+
+    fun getDisk(id: UUID) = getAccessibleDisks().firstOrNull { it.id == id }
+
+    fun getDiskWithPartition(id: UUID) = getAccessibleDisks().firstOrNull { it.partitions.any { it.id == id } }
+
+    fun getPartition(id: UUID) = getAccessiblePartitions().firstOrNull { it.id == id }
+
     fun markDirty()
 
     fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()): DiskPartition? {

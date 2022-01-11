@@ -1,20 +1,16 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
-import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command.LCCConsoleCommands
-import com.joshmanisdabomb.lcc.energy.LooseEnergy.name
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program.LCCConsolePrograms
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import com.mojang.brigadier.tree.CommandNode
-import kotlinx.coroutines.NonCancellable.children
 import net.minecraft.command.CommandSource
-import net.minecraft.command.argument.BlockArgumentParser.INVALID_BLOCK_ID_EXCEPTION
 import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 
@@ -27,15 +23,15 @@ class CommandArgumentType(val type: StringArgumentType.StringType) : ArgumentTyp
             else -> reader.readString()
         }
         val command = string.split(" ").firstOrNull() ?: ""
-        return LCCConsoleCommands.dispatcher.root.getChild(command) ?: throw commandInvalid.createWithContext(reader, command)
+        return LCCConsolePrograms.dispatcher.root.getChild(command) ?: throw commandInvalid.createWithContext(reader, command)
     }
 
     override fun <S> listSuggestions(context: CommandContext<S>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
         val children: Iterable<String>
         if (builder.remaining.isEmpty()) {
-            children = LCCConsoleCommands.all.keys
+            children = LCCConsolePrograms.all.keys
         } else {
-            children = LCCConsoleCommands.dispatcher.root.children.map { it.name }
+            children = LCCConsolePrograms.dispatcher.root.children.map { it.name }
         }
         return CommandSource.suggestMatching(children, builder)
     }

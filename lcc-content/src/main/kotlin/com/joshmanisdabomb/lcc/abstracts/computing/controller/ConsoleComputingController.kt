@@ -1,8 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller
 
-import com.joshmanisdabomb.lcc.abstracts.computing.controller.LinedComputingController.Companion.console_offset
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
-import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.command.LCCConsoleCommands
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program.LCCConsolePrograms
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
@@ -18,12 +17,10 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
+import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
-import java.lang.IllegalArgumentException
 import java.util.*
-import kotlin.math.absoluteValue
 import kotlin.math.max
 
 class ConsoleComputingController : LinedComputingController() {
@@ -33,6 +30,42 @@ class ConsoleComputingController : LinedComputingController() {
     override fun serverTick(session: ComputingSession, context: ComputingSessionExecuteContext) {
         val sworld = context.getWorldFromContext() as? ServerWorld ?: return
         for ((k, v) in session.getViewData()) {
+            //Process queue of tasks from each terminal.
+            v.putBoolean("Blocking", false)
+            v.modifyCompoundList("Tasks") {
+                var blocking = false
+                val ret = this.filter {
+                    if (blocking) return@filter true
+                    val player = sworld.server.playerManager.getPlayer(it.getUuid("Player")) ?: return@filter false
+                    val source = ConsoleCommandSource(session, context, k, player)
+                    val program = LCCConsolePrograms.registry.get(Identifier(it.getString("Program"))) ?: return@filter false
+                    try {
+                        val nbt = it.getCompound("Data")
+                        val ret = when (program.runTask(source, nbt)) {
+                            true -> {
+                                blocking = true
+                                true
+                            }
+                            false -> true
+                            null -> false
+                        }
+                        nbt.modifyInt("Ticks") { inc() }
+                        it.put("Data", nbt)
+                        ret
+                    } catch (e: CommandSyntaxException) {
+                        val text = e.rawMessage as? TranslatableText
+                        if (text != null) {
+                            write(session, text, k)
+                        } else {
+                            write(session, TranslatableText("terminal.lcc.console.exception.task"), k)
+                            e.printStackTrace()
+                        }
+                        false
+                    }
+                }
+                if (blocking) v.putBoolean("Blocking", true)
+                ret
+            }
             //Cache parse results per command source per buffer.
             val buffer = v.getString("Buffer")
             val watching = context.getWatching(sworld.server, k)
@@ -40,7 +73,7 @@ class ConsoleComputingController : LinedComputingController() {
             watching.forEach {
                 val source = ConsoleCommandSource(session, context, k, it)
                 val results = useParseCache(buffer, source)
-                val future = LCCConsoleCommands.dispatcher.getCompletionSuggestions(results)
+                val future = LCCConsolePrograms.dispatcher.getCompletionSuggestions(results)
                 future.thenRun {
                     if (!future.isDone) return@thenRun
                     v.putCompoundList("Suggestions", future.join().list.map {
@@ -57,7 +90,7 @@ class ConsoleComputingController : LinedComputingController() {
                 val source = ConsoleCommandSource(session, context, k, player)
                 val next = it.getString("Buffer")
                 try {
-                    LCCConsoleCommands.dispatcher.execute(useParseCache(next, source))
+                    LCCConsolePrograms.dispatcher.execute(useParseCache(next, source))
                 } catch (e: CommandSyntaxException) {
                     val text = e.rawMessage as? TranslatableText
                     if (text != null) {
@@ -103,9 +136,9 @@ class ConsoleComputingController : LinedComputingController() {
             map = mapOf(view to session.getViewData(view))
         }
         map.forEach { (k, v) ->
-            v.modifyStringList("Output") {
-                this.add(Text.Serializer.toJson(text.fillStyle(style)))
-                this.takeLast(50)
+            v.modifyTextList("Output") {
+                add(text.fillStyle(style))
+                takeLast(50)
             }
         }
         session.sync()
@@ -126,6 +159,7 @@ class ConsoleComputingController : LinedComputingController() {
     override fun keyPressed(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int) {
         val viewId = view.getViewToken()!!
         val vdata = session.getViewData(viewId)
+        val blocking = vdata.getBoolean("Blocking")
         val history = vdata.getStringList("History").distinct()
         val historySeek = vdata.getInt("HistorySeek")
         when (keyCode) {
@@ -215,12 +249,13 @@ class ConsoleComputingController : LinedComputingController() {
     override fun render(session: ComputingSession, view: ComputingSessionViewContext, matrices: MatrixStack, delta: Float, x: Int, y: Int) {
         val viewId = view.getViewToken()!!
         val vdata = session.getViewData(viewId)
-        val output = vdata.getStringList("Output")
+        val output = vdata.getTextList("Output")
         val buffer = vdata.getString("Buffer")
         val queue = vdata.getList("Queue", NBT_COMPOUND)
+        val blocking = vdata.getBoolean("Blocking")
 
-        val ty = renderOutput(readOutput(output), matrices, x, y) { it.takeLast(total_rows - 1) }
-        if (queue.isEmpty()) {
+        val ty = renderOutput(output, matrices, x, y) { it.takeLast(total_rows - 1) }
+        if (queue.isEmpty() && !blocking) {
             val slice = buffer.takeLast(total_columns - 3)
             renderLine(matrices, x, y, ty, TranslatableText("terminal.lcc.console.buffer", slice, (System.currentTimeMillis().rem(2000) > 1000).transform("_", "")).fillStyle(style))
 
@@ -265,7 +300,7 @@ class ConsoleComputingController : LinedComputingController() {
     }
 
     private fun useParseCache(buffer: String, source: ConsoleCommandSource): ParseResults<ConsoleCommandSource> {
-        return resultsCache.getOrPut(source) { mutableMapOf() }.getOrPut(buffer) { LCCConsoleCommands.dispatcher.parse(buffer, source) }
+        return resultsCache.getOrPut(source) { mutableMapOf() }.getOrPut(buffer) { LCCConsolePrograms.dispatcher.parse(buffer, source) }
     }
 
 }

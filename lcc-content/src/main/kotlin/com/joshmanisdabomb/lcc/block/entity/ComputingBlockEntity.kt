@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction

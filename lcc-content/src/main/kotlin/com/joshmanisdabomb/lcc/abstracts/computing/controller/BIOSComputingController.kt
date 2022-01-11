@@ -9,12 +9,10 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
@@ -28,9 +26,9 @@ class BIOSComputingController : LinedComputingController() {
         val sdata = session.getServerData()
         val disks = context.getAccessibleDisks()
 
-        val checked = sdata.getStringList("CheckedPartitions")
-        val bootable = sdata.getStringList("Bootable")
-        val menu = data.getStringList("Menu")
+        var checked = sdata.getStringList("CheckedPartitions")
+        var bootable = sdata.getStringList("Bootable")
+        var menu = data.getTextList("Menu")
         val autoload = data.getIntOrNull("Autoload")
 
         if (autoload != null && session.ticks - autoload > 100) {
@@ -56,18 +54,21 @@ class BIOSComputingController : LinedComputingController() {
             for (partition in disk.partitions) {
                 val partitionId = partition.id?.toString() ?: continue
                 if (!checked.contains(partitionId)) {
-                    sdata.putStringList("CheckedPartitions", checked).addString(partitionId)
+                    checked = checked + partitionId
+                    sdata.putStringList("CheckedPartitions", checked)
 
                     val shortId = partition.getShortId(disks)
                     val system = partition.type as? SystemPartitionType
                     if (system == null) {
                         write(session, TranslatableText("terminal.lcc.bios.pass", partition.label, shortId))
                     } else {
-                        sdata.putStringList("Bootable", checked).addString(partitionId)
+                        bootable = bootable + partitionId
+                        sdata.putStringList("Bootable", bootable).addString(partitionId)
                         if (menu.isEmpty()) {
                             data.putInt("Autoload", session.ticks)
                         }
-                        data.putStringList("Menu", menu).addString(Text.Serializer.toJson(TranslatableText("terminal.lcc.bios.bootable", TranslatableText(partition.type.translationKey), partition.label, shortId).fillStyle(style)))
+                        menu = menu + TranslatableText("terminal.lcc.bios.bootable", TranslatableText(partition.type.translationKey), partition.label, shortId).fillStyle(style)
+                        data.putTextList("Menu", menu)
                         session.sync()
                     }
                 }
@@ -79,13 +80,9 @@ class BIOSComputingController : LinedComputingController() {
 
     override fun write(session: ComputingSession, text: MutableText, view: UUID?) {
         val data = session.getSharedData()
-        val output = data.getStringList("Output")
-        val list = NbtList()
-
-        list.addStrings(output.take(49))
-        list.addString(Text.Serializer.toJson(text.fillStyle(style)))
-
-        data.put("Output", list)
+        data.modifyTextList("Output") {
+            take(49).plus(text.fillStyle(style))
+        }
         session.sync()
     }
 
@@ -142,11 +139,11 @@ class BIOSComputingController : LinedComputingController() {
         val selector = data.getInt("Selector")
         val scroll = data.getInt("Scroll")
         val autoload = if (data.contains("Autoload", NBT_INT)) data.getInt("Autoload") else null
-        val menu = data.getStringList("Menu")
+        val menu = data.getTextList("Menu")
         if (menu.isEmpty()) {
-            renderOutput(readOutput(data.getStringList("Output")), matrices, x, y, 1)
+            renderOutput(data.getTextList("Output"), matrices, x, y, 1)
         } else {
-            val output = readOutput(menu).drop(scroll).take(total_rows-1)
+            val output = menu.drop(scroll).take(total_rows-1)
             renderOutput(output, matrices, x, y, 1) { it }
             renderHighlight(matrices, x, y, selector+1, 0xFFFFFFFF)
             if (autoload != null) {

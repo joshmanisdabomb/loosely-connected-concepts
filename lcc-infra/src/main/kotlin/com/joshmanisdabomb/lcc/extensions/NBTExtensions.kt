@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.extensions
 
 import net.minecraft.nbt.*
 import net.minecraft.text.Text
-import java.lang.IllegalArgumentException
 import java.util.*
 
 const val NBT_BYTE = 1
@@ -180,8 +179,8 @@ fun NbtCompound.getListList(key: String, ref: NbtList = this.getList(key, NBT_LI
 fun NbtCompound.getCompoundList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND)) = ref.asCompoundList()
 fun <T> NbtCompound.getCompoundObjectList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), map: (nbt: NbtCompound) -> T?) = ref.asCompoundObjectList(map)
 fun <T> NbtCompound.getStringObjectList(key: String, ref: NbtList = this.getList(key, NBT_STRING), map: (string: String) -> T?) = ref.asStringObjectList(map)
-fun <T> NbtCompound.getStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, UUID::fromString)
-fun <T> NbtCompound.getTextList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, Text.Serializer::fromJson)
+fun NbtCompound.getStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, UUID::fromString)
+fun NbtCompound.getTextList(key: String, ref: NbtList = this.getList(key, NBT_STRING)) = getStringObjectList(key, ref, Text.Serializer::fromJson)
 
 fun NbtCompound.putStringList(key: String, list: List<String>) = NbtList().apply { addAll(list.map(NbtString::of)); this@putStringList.put(key, this) }
 fun NbtCompound.putByteList(key: String, list: List<Byte>) = NbtList().apply { addAll(list.map(NbtByte::of)); this@putByteList.put(key, this) }
@@ -252,8 +251,8 @@ fun <T> NbtCompound.modifyStringObjectList(key: String, read: (el: String) -> T?
     val new = modify(objects) ?: objects
     return putStringObjectList(key, new, write)
 }
-fun NbtCompound.modifyStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<UUID>.() -> List<UUID>?) = modifyStringObjectList(key, UUID::fromString, UUID::toString, ref, modify)
-fun NbtCompound.modifyTextList(key: String, ref: NbtList = this.getList(key, NBT_COMPOUND), modify: MutableList<Text>.() -> List<Text>?) = modifyStringObjectList(key, Text.Serializer::fromJson, Text.Serializer::toJson, ref, modify)
+fun NbtCompound.modifyStringUuidList(key: String, ref: NbtList = this.getList(key, NBT_STRING), modify: MutableList<UUID>.() -> List<UUID>?) = modifyStringObjectList(key, UUID::fromString, UUID::toString, ref, modify)
+fun NbtCompound.modifyTextList(key: String, ref: NbtList = this.getList(key, NBT_STRING), modify: MutableList<Text>.() -> List<Text>?) = modifyStringObjectList(key, Text.Serializer::fromJson, Text.Serializer::toJson, ref, modify)
 
 fun NbtCompound.forEach(consumer: (key: String, value: NbtElement) -> Unit) = this.keys.forEach { consumer(it, this.get(it)!!) }
 fun NbtCompound.forEachString(consumer: (key: String, value: String) -> Unit) = this.keys.forEach { consumer(it, this.getString(it)) }

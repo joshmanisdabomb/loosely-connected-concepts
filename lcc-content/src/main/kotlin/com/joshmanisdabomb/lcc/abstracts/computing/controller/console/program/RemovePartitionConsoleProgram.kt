@@ -4,13 +4,18 @@ import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCom
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
+import com.joshmanisdabomb.lcc.extensions.getBooleanOrNull
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import com.mojang.brigadier.exceptions.Dynamic4CommandExceptionType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.TranslatableText
+import org.lwjgl.glfw.GLFW
 
 class RemovePartitionConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
 
@@ -31,10 +36,35 @@ class RemovePartitionConsoleProgram(literal: String, override vararg val aliases
         }
 
         if (data.getInt("Ticks") <= 0) source.controller.write(source.session, TranslatableText("terminal.lcc.console.rmpart.prompt", partitionLabel, partitionShort), source.view)
-        return true
-        /*disk.removePartition(partitionId)
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.rmpart.success", partitionLabel, partitionShort), source.view)*/
-        return null
+        return when (data.getBooleanOrNull("Prompt")) {
+            true -> {
+                disk.removePartition(partitionId)
+                source.controller.write(source.session, TranslatableText("terminal.lcc.console.rmpart.success", partitionLabel, partitionShort), source.view)
+                null
+            }
+            false -> {
+                source.controller.write(source.session, TranslatableText("terminal.lcc.console.rmpart.aborted"), source.view)
+                null
+            }
+            else -> true
+        }
+    }
+
+    override fun keyPressed(session: ComputingSession, data: NbtCompound, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int): Boolean {
+        if (!data.contains("Prompt")) {
+            return when (keyCode) {
+                GLFW.GLFW_KEY_Y -> {
+                    data.putBoolean("Prompt", true)
+                    true
+                }
+                GLFW.GLFW_KEY_N -> {
+                    data.putBoolean("Prompt", false)
+                    true
+                }
+                else -> false
+            }
+        }
+        return false
     }
 
     fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch): Int {

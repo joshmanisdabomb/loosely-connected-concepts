@@ -1,10 +1,13 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
+import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.modifyCompoundList
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.network.ServerPlayerEntity
 
 abstract class ConsoleProgram {
 
@@ -28,5 +31,7 @@ abstract class ConsoleProgram {
     }
 
     abstract fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean?
+
+    open fun keyPressed(session: ComputingSession, data: NbtCompound, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int): Boolean = false
 
 }

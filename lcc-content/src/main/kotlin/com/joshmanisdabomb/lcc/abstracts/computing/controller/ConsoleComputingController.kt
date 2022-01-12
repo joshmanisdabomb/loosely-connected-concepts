@@ -162,6 +162,18 @@ class ConsoleComputingController : LinedComputingController() {
         val blocking = vdata.getBoolean("Blocking")
         val history = vdata.getStringList("History").distinct()
         val historySeek = vdata.getInt("HistorySeek")
+        if (blocking) {
+            vdata.modifyCompoundList("Tasks") {
+                for (task in this) {
+                    val program = LCCConsolePrograms.registry.get(Identifier(task.getString("Program"))) ?: break
+                    val nbt = task.getCompound("Data")
+                    if (program.keyPressed(session, nbt, player, view, keyCode)) break
+                    nbt.put("Data", nbt)
+                }
+                null
+            }
+            return
+        }
         when (keyCode) {
             GLFW.GLFW_KEY_UP -> {
                 if (historySeek < history.size) {
@@ -237,6 +249,7 @@ class ConsoleComputingController : LinedComputingController() {
     override fun charTyped(session: ComputingSession, player: ServerPlayerEntity, view: ComputingSessionViewContext, char: Char) {
         val viewId = view.getViewToken()!!
         val vdata = session.getViewData(viewId)
+        if (vdata.getBoolean("Blocking")) return
         vdata.modifyString("Buffer") { this + char }
 
         vdata.remove("Suggestions")

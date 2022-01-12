@@ -264,6 +264,7 @@ object LCCLangData {
         lang["terminal.lcc.console.mkpart.success"] = "Created %1\$s partition '%2\$s' (#%3\$s) of size %4\$s on disk '%5\$s' (#%6\$s)."
         lang["terminal.lcc.console.rmpart.prompt"] = "This will destroy all data on partition '%1\$s' (#%2\$s)! Are you sure? (y/n)"
         lang["terminal.lcc.console.rmpart.interrupt"] = "Failed deleting partition on disk '%1\$s' (#%2\$s) - disk removed."
+        lang["terminal.lcc.console.rmpart.aborted"] = "User aborted partition removal."
         lang["terminal.lcc.console.rmpart.success"] = "Deleted partition '%1\$s' (#%2\$s) from disk '%3\$s' (#%4\$s)."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }

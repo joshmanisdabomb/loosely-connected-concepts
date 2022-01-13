@@ -24,7 +24,7 @@ data class DiskInfo(val stack: ItemStack) {
         set(value) = _tag.putStringOrRemove("name", value)
 
     var partitions: List<DiskPartition>
-        get() = tag?.getCompoundObjectList("partitions", map = ::DiskPartition) ?: emptyList()
+        get() = tag?.getCompoundObjectList("partitions") { DiskPartition(it, this) } ?: emptyList()
         set(value) {
             _tag.putCompoundObjectList("partitions", value) {
                 val nbt = NbtCompound()
@@ -49,7 +49,12 @@ data class DiskInfo(val stack: ItemStack) {
         return this
     }
 
-    fun addPartition(partition: DiskPartition) { partitions = partitions.plus(partition) }
+    fun addPartition(partition: DiskPartition) {
+        partition.disk = this
+        partitions = partitions.plus(partition)
+    }
+
+    fun getPartition(id: UUID) = partitions.firstOrNull { it.id == id }
 
     fun removePartition(id: UUID) { partitions = partitions.filter { it.id != id } }
 

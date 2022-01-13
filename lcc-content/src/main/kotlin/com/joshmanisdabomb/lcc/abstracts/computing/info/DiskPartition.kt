@@ -9,7 +9,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import java.util.*
 
-class DiskPartition(val nbt: NbtCompound) {
+class DiskPartition(val nbt: NbtCompound, var disk: DiskInfo? = null) {
 
     var id: UUID?
         get() = nbt.getUuidOrNull("id")
@@ -34,7 +34,7 @@ class DiskPartition(val nbt: NbtCompound) {
     val usedSpace get() = type.noFreeSpace.transformInt(size, usedCache)
     val freeSpace get() = size - usedSpace
 
-    constructor(id: UUID?, name: String, type: PartitionType, size: Int) : this(NbtCompound()) {
+    constructor(id: UUID?, name: String, type: PartitionType, size: Int, disk: DiskInfo? = null) : this(NbtCompound(), disk) {
         this.id = id
         this.label = name
         this.type = type

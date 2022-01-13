@@ -23,19 +23,17 @@ interface ComputingSessionExecuteContext {
 
     fun getAccessibleDisks(): Set<DiskInfo>
 
-    fun getAccessiblePartitions() = getAccessibleDisks().flatMap { it.partitions }.toSet()
+    fun getAccessiblePartitions() = DiskInfo.getPartitions(getAccessibleDisks())
 
-    fun getDisk(id: UUID) = getAccessibleDisks().firstOrNull { it.id == id }
+    fun getDisk(id: UUID) = DiskInfo.getDisk(getAccessibleDisks(), id)
 
-    fun getDiskWithPartition(id: UUID) = getAccessibleDisks().firstOrNull { it.partitions.any { it.id == id } }
+    fun getDiskWithPartition(id: UUID) = DiskInfo.getDiskWithPartition(getAccessibleDisks(), id)
 
-    fun getPartition(id: UUID) = getAccessiblePartitions().firstOrNull { it.id == id }
+    fun getPartition(id: UUID) = DiskInfo.getPartition(getAccessiblePartitions(), id)
 
     fun markDirty()
 
-    fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()): DiskPartition? {
-        return disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == partition } }
-    }
+    fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()) = DiskInfo.findPartition(disks, partition)
 
     fun isWatching(player: ServerPlayerEntity, view: UUID? = null): Boolean {
         val sessionId = getSessionToken() ?: return false

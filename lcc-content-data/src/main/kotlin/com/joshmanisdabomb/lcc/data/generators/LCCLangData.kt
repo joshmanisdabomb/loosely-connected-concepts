@@ -266,6 +266,15 @@ object LCCLangData {
         lang["terminal.lcc.console.rmpart.interrupt"] = "Failed deleting partition on disk '%1\$s' (#%2\$s) - disk removed."
         lang["terminal.lcc.console.rmpart.aborted"] = "User aborted partition removal."
         lang["terminal.lcc.console.rmpart.success"] = "Deleted partition '%1\$s' (#%2\$s) from disk '%3\$s' (#%4\$s)."
+        lang["terminal.lcc.console.resize.space_total"] = "Not enough total space on disk '%1\$s' (#%2\$s) to hold resized partition: %3\$s < %4\$s\nConsider reducing the requested size."
+        lang["terminal.lcc.console.resize.space_allocable"] = "Not enough allocable space on disk '%1\$s' (#%2\$s) to hold resized partition: %3\$s < %4\$s\nConsider reducing the requested size."
+        lang["terminal.lcc.console.resize.no_allocable"] = "No allocable space on disk '%1\$s' (#%2\$s) for resized partition."
+        lang["terminal.lcc.console.resize.system"] = "Operating system partitions cannot be resized."
+        lang["terminal.lcc.console.resize.equal"] = "Requested size is equal to current size of partition '%1\$s' (#%2\$s), left unchanged."
+        lang["terminal.lcc.console.resize.no_used"] = "Used space on partition '%1\$s' (#%2\$s) exceeds requested size: %3\$s > %4\$s\nConsider removing files on this partition."
+        lang["terminal.lcc.console.resize.interrupt"] = "Failed resizing partition '%1\$s' (#%2\$s) - disk removed."
+        lang["terminal.lcc.console.resize.extend"] = "Extended size of partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s) from %5\$s to %6\$s."
+        lang["terminal.lcc.console.resize.shrink"] = "Reduced size of partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s) from %5\$s to %6\$s."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

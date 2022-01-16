@@ -49,7 +49,7 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
 
     fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch, size: Int? = null): Int {
         val disks = context.source.context.getAccessibleDisks()
-        val results = search.searchPartitions(disks.flatMap { it.partitions })
+        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
         val partition = DiskInfoArgumentType.getSinglePartition(results, search) ?: throw DiskInfoArgumentType.noPartitions.create(search)
         val shortId = partition.getShortId(disks)
 

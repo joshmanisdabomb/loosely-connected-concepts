@@ -34,7 +34,7 @@ abstract class LinedComputingController : ComputingController() {
     }
 
     @Environment(EnvType.CLIENT)
-    fun renderOutput(output: List<Text>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB, wrapper: (text: Text) -> List<OrderedText> = { MinecraftClient.getInstance().textRenderer.wrapLines(it, total_columns*char_width) }, portion: (output: List<OrderedText>) -> List<OrderedText> = { it.takeLast(total_rows - ty) }): Int {
+    fun renderOutput(output: List<Text>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB, wrapper: (text: Text) -> List<OrderedText> = { val list = MinecraftClient.getInstance().textRenderer.wrapLines(it, total_columns*char_width); if (list.isEmpty()) listOf(OrderedText.EMPTY) else list }, portion: (output: List<OrderedText>) -> List<OrderedText> = { it.takeLast(total_rows - ty) }): Int {
         val lines = output.flatMap(wrapper).let(portion)
         lines.forEachIndexed { k, v ->
             renderLine(matrices, sx, sy, k+ty, v, color)

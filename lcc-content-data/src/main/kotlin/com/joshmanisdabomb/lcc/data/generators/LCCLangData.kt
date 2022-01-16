@@ -275,6 +275,10 @@ object LCCLangData {
         lang["terminal.lcc.console.resize.interrupt"] = "Failed resizing partition '%1\$s' (#%2\$s) - disk removed."
         lang["terminal.lcc.console.resize.extend"] = "Extended size of partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s) from %5\$s to %6\$s."
         lang["terminal.lcc.console.resize.shrink"] = "Reduced size of partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s) from %5\$s to %6\$s."
+        lang["terminal.lcc.console.map.disk.left"] = "::%1\$s (#%2\$s)"
+        lang["terminal.lcc.console.map.disk.right"] = "%1\$s/%2\$s"
+        lang["terminal.lcc.console.map.partition.left"] = " :%1\$s (#%2\$s)"
+        lang["terminal.lcc.console.map.partition.right"] = "%1\$s"
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

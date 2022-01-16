@@ -1,14 +1,13 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.info
 
-class DiskInfoSearch {
+class DiskInfoSearch(private val input: String) {
 
-    lateinit var input: String
     var diskFilter = true
 
     private val diskFilters = mutableListOf<(DiskInfo) -> Boolean>()
     private val partitionFilters = mutableListOf<(DiskPartition) -> Boolean>()
 
-    fun search(disks: Iterable<DiskInfo>) = (if (diskFilters.isNotEmpty() && (partitionFilters.isEmpty() || !diskFilter)) searchDisks(disks) else null) to (if (partitionFilters.isEmpty()) null else if (diskFilter) searchPartitionsIn(disks) else searchPartitions(disks.flatMap { it.partitions }))
+    fun search(disks: Iterable<DiskInfo>) = (if (diskFilters.isNotEmpty() && (partitionFilters.isEmpty() || !diskFilter)) searchDisks(disks) else null) to (if (partitionFilters.isEmpty()) null else if (diskFilter) searchPartitionsIn(disks) else searchPartitions(DiskInfo.getPartitions(disks)))
 
     fun searchDisks(disks: Iterable<DiskInfo>) = diskFilters.fold(disks, Iterable<DiskInfo>::filter).toSet()
 
@@ -25,6 +24,10 @@ class DiskInfoSearch {
         partitionFilters.add(filter)
         return this
     }
+
+    fun diskDefaultInclusion() = addDiskFilter { true }
+
+    fun partitionDefaultInclusion() = addPartitionFilter { true }
 
     fun diskIdStartsWith(term: String): DiskInfoSearch {
         val id = term.replace("-", "").lowercase()

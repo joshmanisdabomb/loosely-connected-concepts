@@ -27,6 +27,7 @@ object LCCConsolePrograms : BasicDirectory<ConsoleProgram, Unit>(), RegistryDire
     val shout by entry(::initialiser) { EchoConsoleProgram(name, { null }, "say", "speak", "announce", "toall", "everyone", "loud", *arrayOf("echoa", "outa", "outputa", "printa", "writea", "printlna", "writelna").flatMap { listOf(it, it.plus("ll")) }.toTypedArray()) }
     val help by entry(::initialiser) { HelpConsoleProgram(name, "?", "man", "manual", "usage", "describe", "explain", "how", "howto") }
     val time by entry(::initialiser) { TimeConsoleProgram(name, "day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp") }
+    val map by entry(::initialiser) { MapConsoleProgram(name, "map", "usable", "usables", "parts", "partitions", "disks", "drives", "tree") }
     val install by entry(::initialiser) { InstallConsoleProgram(name, "image", "setup", "os", "console", "consoleos") }
     val mkpart by entry(::initialiser) { MakePartitionConsoleProgram(name, "createpart", "makepart", "newpart", "part", "partition", "mp", "mkp", "np") }
     val rmpart by entry(::initialiser) { RemovePartitionConsoleProgram(name, "removepart", "rempart", "deletepart", "delpart", "rp", "rmp", "dp") }

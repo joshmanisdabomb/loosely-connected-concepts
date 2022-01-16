@@ -10,6 +10,7 @@ import com.mojang.brigadier.ParseResults
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -17,6 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
+import net.minecraft.text.OrderedText
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
@@ -140,6 +142,24 @@ class ConsoleComputingController : LinedComputingController() {
                 add(text.fillStyle(style))
                 takeLast(50)
             }
+            v.modifyTextList("OutputRight") {
+                add(LiteralText.EMPTY)
+                takeLast(50)
+            }
+        }
+        session.sync()
+    }
+
+    fun writeOnRight(session: ComputingSession, text: MutableText, view: UUID?) {
+        var map = session.getViewData()
+        if (view != null) {
+            map = mapOf(view to session.getViewData(view))
+        }
+        map.forEach { (k, v) ->
+            v.modifyTextList("OutputRight") {
+                this[lastIndex] = text.fillStyle(style)
+                null
+            }
         }
         session.sync()
     }
@@ -147,6 +167,7 @@ class ConsoleComputingController : LinedComputingController() {
     override fun clear(session: ComputingSession, view: UUID?) {
         val viewId = view ?: return
         session.getViewData(viewId).put("Output", NbtList())
+        session.getViewData(viewId).put("OutputRight", NbtList())
         session.sync()
     }
 
@@ -263,11 +284,13 @@ class ConsoleComputingController : LinedComputingController() {
         val viewId = view.getViewToken()!!
         val vdata = session.getViewData(viewId)
         val output = vdata.getTextList("Output")
+        val outputr = vdata.getTextList("OutputRight")
         val buffer = vdata.getString("Buffer")
         val queue = vdata.getList("Queue", NBT_COMPOUND)
         val blocking = vdata.getBoolean("Blocking")
 
         val ty = renderOutput(output, matrices, x, y) { it.takeLast(total_rows - 1) }
+        renderOutput(outputr, matrices, x, y) { it.takeLast(total_rows - 1).map { OrderedText.concat(LiteralText(" ".repeat(total_columns.minus(MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width)).coerceIn(0, total_columns.times(char_width).minus(1)))).fillStyle(style).asOrderedText(), it) } }
         if (queue.isEmpty() && !blocking) {
             val slice = buffer.takeLast(total_columns - 3)
             renderLine(matrices, x, y, ty, TranslatableText("terminal.lcc.console.buffer", slice, (System.currentTimeMillis().rem(2000) > 1000).transform("_", "")).fillStyle(style))

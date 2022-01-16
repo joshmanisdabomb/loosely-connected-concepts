@@ -18,7 +18,6 @@ import java.util.concurrent.CompletableFuture
 class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val preference: DiskInfoArgumentResult? = null) : ArgumentType<DiskInfoSearch> {
 
     override fun parse(reader: StringReader): DiskInfoSearch {
-        val search = DiskInfoSearch()
         val cursor = reader.cursor
         val input = if (reader.canRead() && (reader.peek() == '"' || reader.peek() == '\'')) {
             reader.readQuotedString()
@@ -27,7 +26,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
             while (reader.canRead() && reader.peek() != ' ') string += reader.read()
             string
         }
-        search.input = input
+        val search = DiskInfoSearch(input)
 
         val diskToken = input.indexOf("::")
         val partitionToken = if (diskToken >= 0) {
@@ -111,7 +110,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
 
         fun suggestPartitions(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining
-            val partitions = disks.flatMap { it.partitions }
+            val partitions = DiskInfo.getPartitions(disks)
             var suggestions = if (input.matches(idSuggestRegex)) {
                 partitions.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
             } else {

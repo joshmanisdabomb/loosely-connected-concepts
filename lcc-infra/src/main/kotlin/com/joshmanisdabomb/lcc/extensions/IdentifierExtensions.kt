@@ -45,6 +45,8 @@ abstract class IdentifierHelper<T>(val defaultFolder: String?) {
     }
 
     companion object {
+        fun createWithDefaultNamespace(id: String, namespace: String) = if (!id.contains(':')) Identifier(namespace, id) else Identifier(id)
+
         fun create(path: String, namespace: String, pathMod: (name: String) -> String = { it }) = Identifier(namespace, pathMod(path))
 
         fun modify(resource: Identifier, pathMod: (name: String) -> String) = create(resource.path, resource.namespace, pathMod)

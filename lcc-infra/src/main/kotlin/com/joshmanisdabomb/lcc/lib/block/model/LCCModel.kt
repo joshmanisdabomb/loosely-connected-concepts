@@ -14,12 +14,16 @@ import net.minecraft.client.render.model.UnbakedModel
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.item.ItemStack
+import net.minecraft.resource.ResourceManager
+import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Vec3f
 import net.minecraft.world.BlockRenderView
 import java.util.*
+import java.util.function.Consumer
 import java.util.function.Function
 import java.util.function.Supplier
 
@@ -70,6 +74,8 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
             ?.material(RendererAccess.INSTANCE.renderer!!.materialFinder().find())
             ?.emit()
     }
+
+    open fun loadExtraModels(manager: ResourceManager, loader: Consumer<Identifier>) = Unit
 
     companion object {
         fun QuadEmitter.cubeFace(direction: Direction, pos1: Vec3f, pos2: Vec3f, faceTransform: (FloatArray) -> Unit = {}): QuadEmitter? {
@@ -126,6 +132,63 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
             val parameters = floatArrayOf(left, bottom, right, top, depth).also(faceTransform)
             if (parameters[2] <= parameters[0] || parameters[3] <= parameters[1]) return null
             return square(direction, parameters[0], parameters[1], parameters[2], parameters[3], parameters[4])
+        }
+
+        fun quadRotate(x: BlockRotation = BlockRotation.NONE, y: BlockRotation = BlockRotation.NONE, z: BlockRotation = BlockRotation.NONE) : RenderContext.QuadTransform {
+            return RenderContext.QuadTransform {
+                val nominal = it.nominalFace()
+                val nominalDir = nominal.unitVector
+                nominalDir.rotate(Vec3f.NEGATIVE_X.getDegreesQuaternion(x.ordinal * 90.0f))
+                nominalDir.rotate(Vec3f.NEGATIVE_Y.getDegreesQuaternion(y.ordinal * 90.0f))
+                nominalDir.rotate(Vec3f.NEGATIVE_Z.getDegreesQuaternion(z.ordinal * 90.0f))
+                it.nominalFace(Direction.getFacing(nominalDir.x, nominalDir.y, nominalDir.z))
+
+                val cull = it.cullFace()
+                if (cull != null) {
+                    val cullDir = cull.unitVector
+                    cullDir.rotate(Vec3f.NEGATIVE_X.getDegreesQuaternion(x.ordinal * 90.0f))
+                    cullDir.rotate(Vec3f.NEGATIVE_Y.getDegreesQuaternion(y.ordinal * 90.0f))
+                    cullDir.rotate(Vec3f.NEGATIVE_Z.getDegreesQuaternion(z.ordinal * 90.0f))
+                    it.cullFace(Direction.getFacing(cullDir.x, cullDir.y, cullDir.z))
+                }
+
+                val positions = arrayOfNulls<Vec3f>(4)
+                val normals = arrayOfNulls<Vec3f>(4)
+                for (i in 0..3) {
+                    val pos = it.copyPos(i, null)
+                    pos.add(-0.5f, -0.5f, -0.5f)
+                    pos.rotate(Vec3f.NEGATIVE_X.getDegreesQuaternion(x.ordinal * 90.0f))
+                    pos.rotate(Vec3f.NEGATIVE_Y.getDegreesQuaternion(y.ordinal * 90.0f))
+                    pos.rotate(Vec3f.NEGATIVE_Z.getDegreesQuaternion(z.ordinal * 90.0f))
+                    pos.add(0.5f, 0.5f, 0.5f)
+                    positions[(i)%4] = pos
+
+                    val normal = it.copyNormal(i, null)
+                    if (normal != null) {
+                        normal.rotate(Vec3f.NEGATIVE_X.getDegreesQuaternion(x.ordinal * 90.0f))
+                        normal.rotate(Vec3f.NEGATIVE_Y.getDegreesQuaternion(y.ordinal * 90.0f))
+                        normal.rotate(Vec3f.NEGATIVE_Z.getDegreesQuaternion(z.ordinal * 90.0f))
+                        normals[(i)%4] = normal
+                    }
+                }
+                for (i in 0..3) {
+                    when (nominal.axis) {
+                        Direction.Axis.X -> {
+                            it.pos(i, positions[i.plus(x.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(x.ordinal).rem(4)])
+                        }
+                        Direction.Axis.Z -> {
+                            it.pos(i, positions[i.plus(z.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(z.ordinal).rem(4)])
+                        }
+                        else -> {
+                            it.pos(i, positions[i.plus(y.ordinal).rem(4)])
+                            if (normals[i] != null) it.normal(i, normals[i.plus(y.ordinal).rem(4)])
+                        }
+                    }
+                }
+                true
+            }
         }
     }
 

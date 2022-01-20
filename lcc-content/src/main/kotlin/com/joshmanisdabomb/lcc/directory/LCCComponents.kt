@@ -34,6 +34,9 @@ object LCCComponents : AdvancedDirectory<Class<out ComponentV3>, ComponentKey<ou
     val advancement_race by entry({ i, c, p -> levelInitialiser(i, c, p, ::AdvancementRaceComponent) }) { AdvancementRaceComponent::class.java }
         .addTags("level")
 
+    val targeted_effects by entry({ i, c, p -> entityInitialiser(i, c, p, ::TargetedEffectComponent, null) }) { TargetedEffectComponent::class.java }
+        .addTags("entity")
+
     fun <C : ComponentV3> worldInitialiser(input: Class<C>, context: DirectoryContext<Unit>, parameters: Any, factory: ComponentFactory<World, C>): ComponentKey<C> {
         if (parameters !is WorldComponentFactoryRegistry) error("Incorrect registry type given as parameters for world initialiser.")
         val key = ComponentRegistryV3.INSTANCE.getOrCreate(LCC.id(context.name), input)

@@ -1,9 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.directory.LCCBiomes
-import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.enchantment.EnchantmentHelper
@@ -17,6 +15,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -73,8 +72,15 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
         goalSelector.add(7, LookAroundGoal(this))
         targetSelector.add(1, RevengeGoal(this))
-        targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
+        targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, 100, true, false, this::aggression))
         targetSelector.add(2, RevengeGoal(this))
+    }
+
+    private fun aggression(entity: LivingEntity): Boolean {
+        if (entity.uuid == target?.uuid) return true
+        val vec = Vec3d(entity.x - this.x, entity.eyeY - this.eyeY, entity.z - this.z)
+        if (vec.lengthSquared() > 256.0) return false
+        return this.getRotationVec(1.0f).normalize().dotProduct(vec.normalize()) > 0.6
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
@@ -94,8 +100,16 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun tick() {
         super.tick()
+        calculateDimensions()
         val target = aggroTarget
         if (target != null) {
+            if (isAlive) {
+                if (!target.hasStatusEffect(LCCEffects.fear) && !world.isClient) {
+                    LCCComponents.targeted_effects.maybeGet(target).ifPresent { it.add(LCCEffects.fear, this) }
+                    LCCComponents.targeted_effects.sync(target)
+                }
+                target.addStatusEffect(StatusEffectInstance(LCCEffects.fear, Int.MAX_VALUE, 0))
+            }
             lookControl.lookAt(target)
             if (!onGround && isTouchingWater && isAttacking) {
                 val x = target.x - this.x
@@ -114,6 +128,8 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
     }
 
     override fun calculateBoundingBox() = super.calculateBoundingBox().stretch(0.0, isAggro.transform(0.8, 0.0), 0.0)
+
+    override fun getActiveEyeHeight(pose: EntityPose, dimensions: EntityDimensions) = super.getActiveEyeHeight(pose, dimensions).plus(isAggro.transform(0.7f, 0.0f))
 
     override fun writeCustomDataToNbt(nbt: NbtCompound) {
         super.writeCustomDataToNbt(nbt)

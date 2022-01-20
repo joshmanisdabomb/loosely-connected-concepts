@@ -280,6 +280,8 @@ object LCCItems : ItemDirectory() {
 
     val crowbar by entry(::initialiser) { CrowbarItem(Item.Settings().maxDamage(72).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4050, 1)))
+    val knife by entry(::initialiser) { KnifeItem(Item.Settings().maxDamage(72).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
     val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(80000, 1)))

@@ -393,6 +393,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
 
+    val knife by entry(::initialiser) { data().defaultLang().add(DurabilityItemAssetFactory({ c -> mi.handheld { idi.locSuffix(it, c.toString()) } }, doubleArrayOf(0.0, 0.25, 0.5, 0.75))) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

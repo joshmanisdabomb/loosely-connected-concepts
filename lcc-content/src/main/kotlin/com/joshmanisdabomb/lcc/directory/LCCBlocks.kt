@@ -38,7 +38,6 @@ import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.PressurePlateBlock.ActivationRule
 import net.minecraft.block.enums.PistonType
-import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.sound.BlockSoundGroup
@@ -151,7 +150,7 @@ object LCCBlocks : BlockDirectory() {
     val potted_rubber_sapling by entry(::initialiser) { FlowerPotBlock(rubber_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().cutout())
     val rubber_leaves by entry(::initialiser) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2F).breakByTool(HOES).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isIn(BlockTags.LOGS) } }
-        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutoutMipped().blockColor { { BlockColorProvider { _, _, _, _ -> ColorConstants.rubber_leaves } } }.stackColor { _, _ -> ColorConstants.rubber_leaves })
+        .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION).cutoutMipped().blockColor { _, _, _, _ -> ColorConstants.rubber_leaves }.stackColor { _, _ -> ColorConstants.rubber_leaves })
     val stripped_rubber_log by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(SAP_PRODUCTION))
     val sappy_stripped_rubber_log by entry(::initialiser) { SapBurstBlock(AbstractTreetapBlock.TreetapLiquid.LATEX, stripped_rubber_log.defaultState, FabricBlockSettings.copyOf(stripped_rubber_log)) { it.nextInt(10).plus(10) } }

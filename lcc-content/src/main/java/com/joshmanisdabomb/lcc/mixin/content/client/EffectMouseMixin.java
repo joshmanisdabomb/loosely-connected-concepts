@@ -24,11 +24,13 @@ public abstract class EffectMouseMixin {
     public void changeLookDelta(Args args) {
         if (client.player == null) return;
         Collection<StatusEffectInstance> effects = client.player.getStatusEffects();
-        for (StatusEffectInstance effect : effects) {
+        if (effects == null) return;
+        StatusEffectInstance[] array = effects.toArray(StatusEffectInstance[]::new);
+        for (StatusEffectInstance effect : array) {
             if (effect.getEffectType() instanceof LCCContentEffectTrait leffect) {
-                Object[] values = leffect.lcc_content_modifyLookSpeed(client.player, args.get(0), args.get(1));
-                if (values != null) {
-                    args.setAll(values);
+                Double[] doubles = leffect.lcc_content_modifyLookSpeed(client.player, args.get(0), args.get(1));
+                if (doubles != null) {
+                    args.setAll((Object[])doubles);
                 }
             }
         }

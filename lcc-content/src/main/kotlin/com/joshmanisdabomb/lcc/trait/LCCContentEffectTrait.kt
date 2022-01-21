@@ -4,6 +4,8 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.input.Input
 import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.entity.Entity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.mob.MobEntity
 
@@ -11,6 +13,9 @@ interface LCCContentEffectTrait {
 
     @JvmDefault
     fun lcc_content_handleMobAi(entity: MobEntity, directMovement: MoveControl) = false
+
+    @JvmDefault
+    fun lcc_content_canTarget(entity: LivingEntity, target: Entity) = false
 
     @Environment(EnvType.CLIENT)
     @JvmDefault

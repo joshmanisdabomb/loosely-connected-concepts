@@ -7,9 +7,13 @@ import com.joshmanisdabomb.lcc.event.DamageEntityCallback
 import com.joshmanisdabomb.lcc.event.InteractEntityCallback
 import com.joshmanisdabomb.lcc.event.MobSpawnCallback
 import com.joshmanisdabomb.lcc.event.RandomTickCallback
+import com.joshmanisdabomb.lcc.item.KnifeItem
 import net.fabricmc.fabric.api.event.Event
 import net.fabricmc.fabric.api.event.player.*
 import net.minecraft.block.Blocks
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.util.ActionResult
 import net.minecraft.util.TypedActionResult
 
@@ -44,6 +48,16 @@ object LCCEvents : BasicDirectory<Any, Unit>() {
     val iron_rust by entry(RandomTickCallback.EVENT.initialiser) { RandomTickCallback { world, state, pos, random ->
         if (state.isOf(Blocks.IRON_BLOCK)) return@RandomTickCallback LCCBlocks.rusted_iron_blocks.values.filterIsInstance<WastelandRustingBlock>().first().rust(state, world, pos, random)?.also { world.setBlockState(pos, it) } != null
         return@RandomTickCallback false
+    } }
+
+    val knifeAttackKnockback by entry(AttackEntityCallback.EVENT.initialiser) { AttackEntityCallback { player, world, hand, entity, entityHitResult ->
+        if (player.getStackInHand(hand).isOf(LCCItems.knife)) {
+            val kbResistance = (entity as? LivingEntity)?.getAttributeInstance(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE) ?: return@AttackEntityCallback ActionResult.PASS
+            if (kbResistance.getModifier(KnifeItem.knockback_resistance_modifier_uuid) == null) {
+                kbResistance.addTemporaryModifier(EntityAttributeModifier(KnifeItem.knockback_resistance_modifier_uuid, "Knife knockback resistance", 1.0, EntityAttributeModifier.Operation.ADDITION))
+            }
+        }
+        ActionResult.PASS
     } }
 
     val <E> Event<E>.initialiser get() = { i: E, c: DirectoryContext<Unit>, p: Any -> i.also { this.register(i) } }

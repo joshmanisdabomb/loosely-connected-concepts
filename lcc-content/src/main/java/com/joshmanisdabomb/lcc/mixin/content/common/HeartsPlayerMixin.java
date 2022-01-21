@@ -24,6 +24,7 @@ public abstract class HeartsPlayerMixin extends LivingEntity {
 
     @ModifyVariable(method = "applyDamage", at = @At(value = "STORE", ordinal = 1), ordinal = 0)
     private float setDamageAmount(float amount) {
+        //TODO eventify
         return HeartType.calculateDamageAll(this, amount);
     }
 

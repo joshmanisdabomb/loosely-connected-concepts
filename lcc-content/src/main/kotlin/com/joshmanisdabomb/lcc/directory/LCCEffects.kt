@@ -18,6 +18,7 @@ object LCCEffects : BasicDirectory<StatusEffect, Unit>(), RegistryDirectory<Stat
     val flammable by entry(::initialiser) { FlammableStatusEffect(HARMFUL, 0x825933) }
     val radiation by entry(::initialiser) { RadiationStatusEffect(HARMFUL, 0xc3db9a) }
     val fear by entry(::initialiser) { FearStatusEffect(HARMFUL, 0xd8bae8) }
+    val bleeding by entry(::initialiser) { NoopStatusEffect(HARMFUL, 0x550022) }
 
     override fun defaultProperties(name: String) = Unit
 

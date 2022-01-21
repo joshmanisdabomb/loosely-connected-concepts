@@ -456,6 +456,8 @@
   "effect.lcc.vulnerable": "Vulnerable",
   "effect.lcc.flammable": "Flammable",
   "effect.lcc.radiation": "Radiation",
+  "effect.lcc.fear": "Fear",
+  "effect.lcc.bleeding": "Bleeding",
   "biome.lcc.wasteland": "Wasteland",
   "container.lcc.spawner_table": "Arcane Table",
   "container.lcc.refiner": "Refiner",

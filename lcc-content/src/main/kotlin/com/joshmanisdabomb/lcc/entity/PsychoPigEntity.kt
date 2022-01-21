@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.item.KnifeItem.Companion.knockback_resistance_modifier_uuid
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.*
@@ -10,6 +11,7 @@ import net.minecraft.entity.ai.control.LookControl
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.ai.pathing.SpiderNavigation
 import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
@@ -155,6 +157,20 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
 
+    override fun tryAttack(target: Entity): Boolean {
+        val kbResistance = (target as? LivingEntity)?.getAttributeInstance(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)
+        if (kbResistance?.getModifier(knockback_resistance_modifier_uuid) == null) {
+            kbResistance?.addTemporaryModifier(EntityAttributeModifier(knockback_resistance_modifier_uuid, "Knife knockback resistance", 1.0, EntityAttributeModifier.Operation.ADDITION))
+        }
+        val ret = super.tryAttack(target)
+        if (ret && this.mainHandStack.isOf(LCCItems.knife) && target is LivingEntity) {
+            val difficulty = world.getLocalDifficulty(blockPos).localDifficulty
+            target.addStatusEffect(StatusEffectInstance(LCCEffects.bleeding, 120 * difficulty.toInt().plus(1)), this)
+            kbResistance?.removeModifier(knockback_resistance_modifier_uuid)
+        }
+        return ret
+    }
+
     override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
         return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
     }
@@ -184,7 +200,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         val aggro_id = DataTracker.registerData(PsychoPigEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
         }
     }
 

@@ -21,7 +21,9 @@
     "ServerWorldMixin",
     "PistonBlockMixin",
     "AbstractBlockStateMixin",
-    "RecipeManagerMixin"
+    "RecipeManagerMixin",
+    "EnchantmentMixin",
+    "EnchantmentHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1

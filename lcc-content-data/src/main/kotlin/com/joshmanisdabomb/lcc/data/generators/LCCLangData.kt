@@ -21,6 +21,8 @@ object LCCLangData {
         lang["effect.lcc.vulnerable"] = "Vulnerable"
         lang["effect.lcc.flammable"] = "Flammable"
         lang["effect.lcc.radiation"] = "Radiation"
+        lang["effect.lcc.fear"] = "Fear"
+        lang["effect.lcc.bleeding"] = "Bleeding"
 
         lang["biome.lcc.wasteland"] = "Wasteland"
 

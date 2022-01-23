@@ -694,6 +694,11 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         })
     }
 
+    val three_leaf_clover by entry(::initialiser) { data().defaultLang().defaultLootTable().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.textured_cross.upload(idb.loc(t), Texture().put(LCCModelTextureKeys.t0, idb.loc(t)).put(LCCModelTextureKeys.t1, idb.locSuffix(t, "alt")), d.models) }).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
+    val potted_three_leaf_clover by entry(::initialiser) { data().defaultLang().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.flower_pot_textured_cross.upload(idb.loc(t), Texture().put(LCCModelTextureKeys.t0, idb.loc(LCCBlocks.three_leaf_clover)).put(LCCModelTextureKeys.t1, idb.locSuffix(LCCBlocks.three_leaf_clover, "alt")), d.models) }).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
+    val four_leaf_clover by entry(::initialiser) { data().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
+    val potted_four_leaf_clover by entry(::initialiser) { data().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

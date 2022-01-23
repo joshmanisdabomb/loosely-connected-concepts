@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "lcc:classic_rose",
-    "lcc:cyan_flower"
+    "lcc:cyan_flower",
+    "lcc:four_leaf_clover",
+    "lcc:three_leaf_clover"
   ]
 }

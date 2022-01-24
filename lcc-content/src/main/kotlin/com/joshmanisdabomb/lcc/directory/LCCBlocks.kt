@@ -327,13 +327,17 @@ object LCCBlocks : BlockDirectory() {
     val wasteland_obelisk by entry(::initialiser) { WastelandObeliskBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 5.0F).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
-    val three_leaf_clover by entry(::initialiser) { CloverBlock(StatusEffects.UNLUCK, 210, FabricBlockSettings.copyOf(Blocks.DANDELION), stewDuration = 18) }
+    val three_leaf_clover by entry(::initialiser) { CloverBlock(StatusEffects.UNLUCK, 210, FabricBlockSettings.copyOf(Blocks.DANDELION).ticksRandomly(), stewDuration = 18) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val potted_three_leaf_clover by entry(::initialiser) { FlowerPotBlock(three_leaf_clover, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().cutout())
     val four_leaf_clover by entry(::initialiser) { CloverBlock(StatusEffects.LUCK, 210, FabricBlockSettings.copyOf(three_leaf_clover), stewDuration = 18) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val potted_four_leaf_clover by entry(::initialiser) { FlowerPotBlock(four_leaf_clover, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().cutout())
+    val forget_me_not by entry(::initialiser) { FlowerBlock(StatusEffects.INVISIBILITY, 3, FabricBlockSettings.copyOf(Blocks.DANDELION)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val potted_forget_me_not by entry(::initialiser) { FlowerPotBlock(forget_me_not, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().cutout())
 
     //TODO reinforced stone or similar for nuke protection

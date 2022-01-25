@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.facade.piston.LCCPiston;
 import com.joshmanisdabomb.lcc.facade.piston.LCCPistonHead;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.PistonHeadBlock;
 import net.minecraft.block.entity.PistonBlockEntity;
 import net.minecraft.client.render.block.entity.PistonBlockEntityRenderer;
@@ -18,7 +19,7 @@ public abstract class PistonBlockEntityRendererMixin {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z", ordinal = 0))
     private boolean extend(BlockState pushed, Block head) {
         Block block = pushed.getBlock();
-        return block instanceof PistonHeadBlock && block instanceof LCCPistonHead;
+        return pushed.isOf(head) || (block instanceof PistonHeadBlock && block instanceof LCCPistonHead);
     }
 
     @ModifyVariable(method = "render", at = @At(value = "STORE", ordinal = 1), ordinal = 1)

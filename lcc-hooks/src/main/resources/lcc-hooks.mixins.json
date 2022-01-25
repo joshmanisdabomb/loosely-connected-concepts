@@ -23,7 +23,8 @@
     "AbstractBlockStateMixin",
     "RecipeManagerMixin",
     "EnchantmentMixin",
-    "EnchantmentHelperMixin"
+    "EnchantmentHelperMixin",
+    "PistonBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

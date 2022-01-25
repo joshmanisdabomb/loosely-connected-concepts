@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: String, val group: LCCVersionGroup, val order: Short, val released: LocalDateTime, val title: String? = null) {
+enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: String, val group: LCCVersionGroup, val order: Short, val released: LocalDateTime?, val title: String? = null) {
 
     YAM_1("Update 1", "1.7.2", "u1", LCCVersionGroup.YAM, 0, LocalDateTime.of(2015, 2, 15, 19, 9, 2)) {
         override val description = "First version uploaded, reports itself as Beta 1.3."
@@ -21,6 +21,7 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     },
@@ -220,6 +221,7 @@ Updated textures of neon equipment."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             return map.toSortedMap()
         }
     },
@@ -296,7 +298,10 @@ Added road block and updated connected texture methods to support different stat
 Added bounce pads and updated working for multiplayer. Particles trigger in singleplayer. Code cleanup and spreader interface texture update.
 Added hydrated soul sand and rewrote my tab sorting system from 3 years ago!"""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            return map.toSortedMap()
+        }
     },
     LCC_FORGE_BETA_1_0("Beta 1.0", "1.15.2", "b1.0", LCCVersionGroup.LCC_FORGE, 2000, LocalDateTime.of(2020, 5, 8, 12, 48, 31)) {
         override val description = """Beginning creation of computers. Added digital storage items.
@@ -335,6 +340,7 @@ Time rift functionality and ruby recipes."""
             map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             return map.toSortedMap()
         }
     },
@@ -360,7 +366,10 @@ Added textures and functionality to many classic blocks previously added."""
 Added classic chest, nether reactor, crying obsidian.
 Fixed topaz geode casing not generating enough topaz."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder("Crafting output changed from 8 to 1 due to a bug in data generation.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_2_1("0.2.1", "20w51a", "0.2.1", LCCVersionGroup.LCC_FABRIC, 110, LocalDateTime.of(2021, 1, 3, 14, 35, 23)) {
         override val description = """Added classic foods and the quiver.
@@ -433,7 +442,10 @@ Rewriting gauntlet functionality for components, uppercut done - punch next.
 Blocks, items and nullable blockitems now working with new directory system.
 Race advancement for nuclear detonation. Fixed bug with nuclear explosion log not displaying name of player."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder("Crafting output increased from 1 to 6.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_4_3("0.4.3", "21w11a", "0.4.3", LCCVersionGroup.LCC_FABRIC, 330, LocalDateTime.of(2021, 3, 29, 1, 30, 5)) {
         override val description = """Added nuclear power generation and heavy uranium shielding to protect against nuclear explosions.
@@ -551,17 +563,18 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_tongue_tissue] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
-    }/*,
-    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, LocalDateTime.of(TBD)) {
+    },
+    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, null) {
         override val description = ""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
-            map[LCCKnowledgeData.cracked_mud] = KnowledgeArticleTextFragmentBuilder("Can now be hydrated into %s.")
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder("Can now be hydrated into %s.")
                 .insertLink(LCCBlocks.mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.mud).link)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder("Recipe changed.")
             return map.toSortedMap()
         }
-    }*/;
+    };
 
     abstract val description: String
 
@@ -573,7 +586,11 @@ Content datagen now launching and matches 0.4.4 datagen."""
     val page = KnowledgeArticleIdentifier(LCC.id("version"), Identifier(group.namespace, code))
 
     fun getIntroduction(): String {
-        val sentence1 = "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."
+        val sentence1 = if (released != null) {
+            "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."
+        } else {
+            "%s is the upcoming %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names."
+        }
         var sentence2: String? = null
         if (ordinal > 1) {
             sentence2 = " The previous release was %s"

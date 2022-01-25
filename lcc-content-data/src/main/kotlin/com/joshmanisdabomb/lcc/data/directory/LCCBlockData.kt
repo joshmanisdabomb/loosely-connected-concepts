@@ -92,14 +92,12 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     }
     val bounce_pad by entry(::initialiser) {
         data().defaultLang().defaultLootTable().add(BouncePadBlockAssetFactory).add(BouncePadItemAssetFactory).add(CustomRecipeFactory { d, i ->
-            ShapedRecipeJsonFactory.create(i, 6)
-                .pattern("rwr")
+            ShapedRecipeJsonFactory.create(i, 2)
                 .pattern("ipi")
-                .pattern("sss")
+                .pattern("rsr")
                 .input('r', Items.REPEATER)
-                .input('w', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
-                .input('i', Blocks.IRON_BLOCK)
-                .input('p', Blocks.PISTON)
+                .input('i', Items.IRON_INGOT)
+                .input('p', LCCBlocks.rubber_piston)
                 .input('s', LCCBlocks.soaking_soul_sand)
                 .apply { hasCriterionShaped(this, LCCBlocks.soaking_soul_sand) }
                 .apply { offerShaped(this, d) }

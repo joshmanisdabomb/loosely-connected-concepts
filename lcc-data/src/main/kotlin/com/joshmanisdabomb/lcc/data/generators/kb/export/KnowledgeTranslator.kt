@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.LootTable
 import net.minecraft.text.Text
@@ -57,10 +58,10 @@ open class KnowledgeTranslator(val defaultLocale: String = "en_us") {
         else -> text.asString()
     }
 
-    open fun itemTranslationsJson(vararg items: Item) : JsonObject {
+    open fun itemTranslationsJson(vararg items: ItemConvertible) : JsonObject {
         val tjson = JsonObject()
         items.forEach {
-            tjson.add(it.identifier.toString(), withTranslationJson(it.translationKey))
+            tjson.add(it.asItem().identifier.toString(), withTranslationJson(it.asItem().translationKey))
         }
         return tjson
     }

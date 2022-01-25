@@ -22,11 +22,14 @@ import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
+import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
+import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.*
 import net.minecraft.recipe.Ingredient
+import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
@@ -1062,7 +1065,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleSectionBuilder("Interactions")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("In %s, %s can be converted into %s by being placed in or adjacent to %s.")
-                    .insertLink("LCC 0.5.1", KnowledgeArticleIdentifier(LCC.id("version"), LCC.id("0.5.1")).link)
+                    .insertLink(LCCVersion.LCC_FABRIC_0_5_1.label, LCCVersion.LCC_FABRIC_0_5_1.page.link)
                     .insert(LCCBlocks.cracked_mud.name)
                     .insert(LCCBlocks.mud.name)
                     .insertLink(Blocks.WATER.name, KnowledgeArticleIdentifier.ofBlock(Blocks.WATER).link)
@@ -1094,14 +1097,14 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleTextFragmentBuilder("%s is a block originally introduced in %s and reintroduced in %s which drastically changes the movement of mobs and players walking on it. %s can be dried into %s, a process which can be reversed.")
                     .insert(LCCBlocks.mud.name)
                     .insertLink(LCCVersion.YAM_1.label, LCCVersion.YAM_1.page.link)
-                    .insertLink("LCC 0.5.1", KnowledgeArticleIdentifier(LCC.id("version"), LCC.id("0.5.1")).link)
+                    .insertLink(LCCVersion.LCC_FABRIC_0_5_1.label, LCCVersion.LCC_FABRIC_0_5_1.page.link)
                     .insert(LCCBlocks.mud.name)
                     .insertLink(LCCBlocks.cracked_mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud).link)
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Movement")
                 .addFragment(KnowledgeArticleTextFragmentBuilder("In %s, %s is a slippery block similar to %s. The speed of an entity walking on this block changes over time, giving the effect of wading through the block.")
-                    .insert("LCC 0.5.1")
+                    .insert(LCCVersion.LCC_FABRIC_0_5_1.label)
                     .insert(LCCBlocks.mud.name)
                     .insertLink(Blocks.ICE.name, KnowledgeArticleIdentifier.ofBlock(Blocks.ICE).link)
                 )
@@ -1139,7 +1142,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false).alterStats { it.put(it.keys.elementAt(5), listOf(KnowledgeArticleTextFragmentBuilder("Varies"))) })
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Shovel Recommended", "Mud")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Shovel Recommended", "Mud", "Movement")
     }
 
     val block_cracked_mud_pressure_plate by entry(::initialiser) {
@@ -1324,6 +1327,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Rusted Iron", "Sapphire Altar")
     }
 
+    //TODO
     val structure_sapphire_altar by entry(::initialiser) {
         KnowledgeArticleBuilder(/*KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.sapphire_altar)*/KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar")
             .addSection(KnowledgeArticleSectionBuilder(introduction)
@@ -1353,6 +1357,175 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .tags("Wasteland", "Sapphire Altar")
+    }
+
+    val block_bounce_pad by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.bounce_pad)
+            .addSection(KnowledgeArticleSectionBuilder(introduction)
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The %s is a block originally introduced in %s and reintroduced in %s that launches players and other entities in the direction it is placed. %ss combine the bouncing mechanics of the %s with the propulsion properties of the %s used to craft them.")
+                    .insert(LCCBlocks.bounce_pad.name)
+                    .insertLink(LCCVersion.YAM_1.label, LCCVersion.YAM_1.page.link)
+                    .insertLink(LCCVersion.LCC_FABRIC_0_1_0.label, LCCVersion.LCC_FABRIC_0_1_0.page.link)
+                    .insert(LCCBlocks.bounce_pad.name)
+                    .insertLink(LCCBlocks.rubber_piston.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rubber_piston).link)
+                    .insertLink(LCCBlocks.soaking_soul_sand.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.soaking_soul_sand).link)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Movement")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("When an entity enters the activation zone, which is the size of a full block, they are snapped into the center of the %s and all previous momentum is removed. The entity is then launched in the direction the pad was placed.")
+                    .insert(LCCBlocks.bounce_pad.name)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("The speed of the launch depends on the red notch on the side of the %s. This setting has a range of 1 to 5 and can be changed by right clicking the %s. Below is a table showing the strength of each setting:")
+                    .insert(LCCBlocks.bounce_pad.name)
+                    .insert(LCCBlocks.bounce_pad.name)
+                )
+                .addFragment(KnowledgeArticleTableFragmentBuilder()
+                    .addRow {
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Setting"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Velocity"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Approximate Height (in m)"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("1"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("1.0"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("6.5"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("2"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("1.4"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("11.5"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("3"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("1.8"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("17.5"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("4"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("2.2"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("24.5"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("5"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("2.6"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("32.0"))
+                    }
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Legacy")
+                .addFragment(KnowledgeArticleTextFragmentBuilder("In %s, there were five %s varieties of %s ranging from blue to red. They could only be placed facing upwards. Strength values for these are shown below:")
+                    .insert(LCCVersion.YAM_1.label)
+                    .insert({ IncludedTranslatableText(it).translation("colored", "en_us").translation("coloured", "en_gb") })
+                    .insert(LCCBlocks.bounce_pad.name)
+                )
+                .addFragment(KnowledgeArticleTableFragmentBuilder()
+                    .addRow {
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("%s")
+                            .insert({ IncludedTranslatableText(it).translation("Color", "en_us").translation("Colour", "en_gb") })
+                        )
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Velocity"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Approximate Height (in m)"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("Blue"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("0.8"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("5.5"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("Green"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("1.2"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("9.0"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("Yellow"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("1.6"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("14.0"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("Orange"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("2.0"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("20.0"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleTextFragmentBuilder("Red"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("3.0"))
+                        addCell(KnowledgeArticleTextFragmentBuilder("39.0"))
+                    }
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("In %s, a %s could be placed directionally and had a GUI with a single slot that could be accessed by right clicking. The GUI also contained a slider that adjusted the power of the thrust and two others sliders underneath which controlled the lean in the other two directions. The range of these sliders were dictated by the amount of %s placed in the inventory of the %s.")
+                    .insertLink(LCCVersion.AIMAGG_ALPHA_1_6.label, LCCVersion.AIMAGG_ALPHA_1_6.page.link)
+                    .insert(LCCBlocks.bounce_pad.name)
+                    .insertLink("Iron Springs", KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("aimagg", "iron_spring")).link)
+                    .insert(LCCBlocks.bounce_pad.name)
+                )
+                .addFragment(KnowledgeArticleTextFragmentBuilder("In %s, %ss function similarly to their Fabric renditions. However, they can only be placed facing upwards.")
+                    .insertLink(LCCVersion.LCC_FORGE_ALPHA_1_0.label, LCCVersion.LCC_FORGE_ALPHA_1_0.page.link)
+                    .insert(LCCBlocks.bounce_pad.name)
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Recipes")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.bounce_pad) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("Recipe before %s.")
+                    .insertLink(LCCVersion.LCC_FABRIC_0_5_1.label, LCCVersion.LCC_FABRIC_0_5_1.page.link), obsolete = true) { e ->
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad, 6)
+                            .pattern("rwr")
+                            .pattern("ipi")
+                            .pattern("sss")
+                            .input('r', Items.REPEATER)
+                            .input('w', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
+                            .input('i', Blocks.IRON_BLOCK)
+                            .input('p', Blocks.PISTON)
+                            .input('s', LCCBlocks.soaking_soul_sand)
+                            .criterion("has_soaking_soul_sand", InventoryChangedCriterion.Conditions.items(LCCBlocks.soaking_soul_sand))
+                        , { offerTo(it) }) {
+                            val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                            it.add("translations", e.translator.itemTranslationsJson(*items))
+                            it.add("links", e.linker.itemLinksJson(*items))
+                        })
+                })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("Recipe before %s.")
+                    .insertLink(LCCVersion.LCC_FABRIC_0_4_2.label, LCCVersion.LCC_FABRIC_0_4_2.page.link), obsolete = true) { e ->
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad)
+                            .pattern("rwr")
+                            .pattern("ipi")
+                            .pattern("sss")
+                            .input('r', Items.REPEATER)
+                            .input('w', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
+                            .input('i', Blocks.IRON_BLOCK)
+                            .input('p', Blocks.PISTON)
+                            .input('s', LCCBlocks.soaking_soul_sand)
+                            .criterion("has_soaking_soul_sand", InventoryChangedCriterion.Conditions.items(LCCBlocks.soaking_soul_sand))
+                        , { offerTo(it) }) {
+                            val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                            it.add("translations", e.translator.itemTranslationsJson(*items))
+                            it.add("links", e.linker.itemLinksJson(*items))
+                        })
+                    })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleTextFragmentBuilder("Recipe before %s.")
+                    .insertLink(LCCVersion.LCC_FABRIC_0_2_0.label, LCCVersion.LCC_FABRIC_0_2_0.page.link), obsolete = true) { e ->
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad, 8)
+                            .pattern("rwr")
+                            .pattern("ipi")
+                            .pattern("sss")
+                            .input('r', Items.REPEATER)
+                            .input('w', Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE)
+                            .input('i', Blocks.IRON_BLOCK)
+                            .input('p', Blocks.PISTON)
+                            .input('s', LCCBlocks.soaking_soul_sand)
+                            .criterion("has_soaking_soul_sand", InventoryChangedCriterion.Conditions.items(LCCBlocks.soaking_soul_sand))
+                        , { offerTo(it) }) {
+                            val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                            it.add("translations", e.translator.itemTranslationsJson(*items))
+                            it.add("links", e.linker.itemLinksJson(*items))
+                        })
+                    })
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Crafting Usages")
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.bounce_pad) })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
+            .tags("Movement", "Rubber", "Soaking Soul Sand", "Tools")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

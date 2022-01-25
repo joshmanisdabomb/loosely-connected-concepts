@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
+import net.minecraft.item.ItemConvertible
 import net.minecraft.item.ItemStack
 import net.minecraft.loot.LootTable
 
@@ -40,11 +41,11 @@ open class KnowledgeLinker {
         return null
     }
 
-    fun itemLinksJson(vararg items: Item) : JsonObject {
+    fun itemLinksJson(vararg items: ItemConvertible) : JsonObject {
         val ljson = JsonObject()
         items.forEach { i ->
-            val article = exporter.articles.firstOrNull { it.about.contains(i) || (i as? BlockItem)?.block?.run { it.about.contains(this) } == true }?.location ?: KnowledgeArticleIdentifier.ofItem(i)
-            generateLink(article)?.apply { ljson.add(i.identifier.toString(), this.toJsonFinal(exporter)) }
+            val article = exporter.articles.firstOrNull { it.about.contains(i) || (i as? BlockItem)?.block?.run { it.about.contains(this) } == true }?.location ?: KnowledgeArticleIdentifier.ofItem(i.asItem())
+            generateLink(article)?.apply { ljson.add(i.asItem().identifier.toString(), this.toJsonFinal(exporter)) }
         }
         return ljson
     }

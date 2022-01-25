@@ -185,7 +185,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings())
     val soaking_soul_sand by entry(::initialiser) { SoakingSoulSandBlock(FabricBlockSettings.of(Material.AGGREGATE, MapColor.TERRACOTTA_BROWN).breakByTool(SHOVELS).strength(0.75F, 2.5F).sounds(LCCSounds.soaking_soul_sand)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
-    val bounce_pad by entry(::initialiser) { BouncePadBlock(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES, 2).requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.COPPER), doubleArrayOf(1.0, 1.4, 1.8, 2.2, 2.6)) }
+    val bounce_pad by entry(::initialiser) { BouncePadBlock(FabricBlockSettings.of(Material.METAL, MapColor.GRAY).breakByTool(PICKAXES, 2).requiresTool().strength(5.0F, 6.0F).sounds(BlockSoundGroup.COPPER), doubleArrayOf(1.0, 1.4, 1.8, 2.2, 2.6)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     val alarm by entry(::initialiser) { AlarmBlock(FabricBlockSettings.of(Material.METAL, MapColor.GOLD).breakByTool(PICKAXES).requiresTool().strength(3.0f).sounds(BlockSoundGroup.ANVIL)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))

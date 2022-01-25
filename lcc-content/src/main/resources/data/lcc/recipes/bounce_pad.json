@@ -1,22 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "rwr",
     "ipi",
-    "sss"
+    "rsr"
   ],
   "key": {
     "r": {
       "item": "minecraft:repeater"
     },
-    "w": {
-      "item": "minecraft:light_weighted_pressure_plate"
-    },
     "i": {
-      "item": "minecraft:iron_block"
+      "item": "minecraft:iron_ingot"
     },
     "p": {
-      "item": "minecraft:piston"
+      "item": "lcc:rubber_piston"
     },
     "s": {
       "item": "lcc:soaking_soul_sand"
@@ -24,6 +20,6 @@
   },
   "result": {
     "item": "lcc:bounce_pad",
-    "count": 6
+    "count": 2
   }
 }

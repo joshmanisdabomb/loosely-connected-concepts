@@ -34,6 +34,7 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val potted_rubber_sapling by entry(::initialiser) { Replacement() }
     val potted_three_leaf_clover by entry(::initialiser) { Replacement() }
     val potted_four_leaf_clover by entry(::initialiser) { Replacement() }
+    val potted_forget_me_not by entry(::initialiser) { Replacement() }
 
     val nuclear_fire by entry(::initialiser) { Replacement() }
 

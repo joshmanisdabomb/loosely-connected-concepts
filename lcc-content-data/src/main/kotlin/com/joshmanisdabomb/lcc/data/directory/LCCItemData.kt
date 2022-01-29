@@ -23,6 +23,7 @@ import com.joshmanisdabomb.lcc.recipe.refining.RefiningSimpleRecipe
 import net.minecraft.advancement.criterion.EffectsChangedCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
+import net.minecraft.data.client.model.Models
 import net.minecraft.data.client.model.Texture
 import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
@@ -394,6 +395,16 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     }) }
 
     val knife by entry(::initialiser) { data().defaultLang().add(DurabilityItemAssetFactory({ c -> mi.handheld { idi.locSuffix(it, c.toString()) } }, doubleArrayOf(0.0, 0.0001, 0.3333, 0.6666))) }
+    val calendar by entry(::initialiser) { data().defaultLang().add(DynamicItemAssetFactory(DynamicItemAssetFactory.item, "front")).add(CustomItemAssetFactory { d, t, i -> Models.GENERATED.upload(idi.locSuffix(t, "base"), Texture.layer0(idi.loc(t)), d.models) }).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("ppp")
+            .pattern("prp")
+            .pattern("ppp")
+            .input('p', Items.PAPER)
+            .input('r', Items.REDSTONE)
+            .apply { hasCriterionShaped(this, Items.REDSTONE) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

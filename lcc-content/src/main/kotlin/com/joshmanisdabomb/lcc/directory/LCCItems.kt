@@ -10,10 +10,12 @@ import com.joshmanisdabomb.lcc.item.HoeItem
 import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.item.ShovelItem
 import com.joshmanisdabomb.lcc.item.SwordItem
+import com.joshmanisdabomb.lcc.item.render.CalendarItemRenderer
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
+import com.joshmanisdabomb.lcc.settings.DynamicItemRenderExtraSetting.Companion.dynamicItemRender
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
@@ -52,6 +54,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
     val plastic_bag by entry(::initialiser) { PlasticBagItem(128, Item.Settings().defaults().maxCount(1)) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS).stackColor(DefaultedColoredItem::getTintColor))
+    val calendar by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(150)).dynamicItemRender { ::CalendarItemRenderer })
 
     //Materials
     val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
@@ -346,8 +350,6 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(NOSTALGIA).modelPredicate(LCC.id("filled")) { (it as BagItem)::getBagPredicate })
 
     //TODO pills
-
-    //IDEA calendar that can be put on item frame
 
     fun Item.Settings.defaults(): Item.Settings = this.group(LCCGroups.group)
 

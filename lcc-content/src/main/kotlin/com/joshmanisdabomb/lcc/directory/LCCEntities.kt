@@ -47,6 +47,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, PsychoPigEntity.createAttributes()) }
     val rotwitch by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<RotwitchEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::RotwitchEntity).dimensions(EntityDimensions.changing(1.2f, 0.8f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, RotwitchEntity.createAttributes()) }
+    val fly by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<FlyEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::FlyEntity).dimensions(EntityDimensions.changing(0.3f, 0.3f)).trackRangeChunks(5).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, FlyEntity.createAttributes()) }
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
     val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
@@ -68,6 +70,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
         EntityRendererRegistry.register(disciple, ::DiscipleEntityRenderer)
         EntityRendererRegistry.register(psycho_pig, ::PsychoPigEntityRenderer)
         EntityRendererRegistry.register(rotwitch, ::RotwitchEntityRenderer)
+        EntityRendererRegistry.register(fly, ::FlyEntityRenderer)
 
         EntityRendererRegistry.register(atomic_bomb, ::AtomicBombEntityRenderer)
         EntityRendererRegistry.register(nuclear_explosion, ::NuclearExplosionEntityRenderer)

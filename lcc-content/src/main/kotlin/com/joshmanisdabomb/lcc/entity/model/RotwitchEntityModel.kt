@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.entity.RotwitchEntity
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.*
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.model.ModelWithArms
@@ -37,13 +38,15 @@ class RotwitchEntityModel(private val root: ModelPart) : SinglePartEntityModel<R
     }
 
     override fun animateModel(entity: RotwitchEntity, limbAngle: Float, limbDistance: Float, tickDelta: Float) {
-        super.animateModel(entity, limbAngle, limbDistance, tickDelta)
+        if (!MinecraftClient.getInstance().isPaused && entity.random.nextInt(1000) == 0) {
+            entity.limbDistance = 1.0f
+        }
     }
 
     override fun setAngles(entity: RotwitchEntity, limbAngle: Float, limbDistance: Float, animationProgress: Float, headYaw: Float, headPitch: Float) {
         head.yaw = MathHelper.sin(MathHelper.clampAngle(headYaw, 0f, 180f).div(180f).times(Math.PI.toFloat()))
 
-        head.pitch = 0.3f
+        head.pitch = 0.3f - MathHelper.sin(limbAngle.times(limbDistance.coerceAtMost(1f)).times(0.5f)).times(0.1f)
         rightArm.pitch = 3.6f + MathHelper.cos(limbAngle.times(0.4f)).times(0.45f)
         rightArm.yaw = -1.75f + MathHelper.sin(limbAngle.minus(0.4f).times(0.7f)).times(0.15f)
         rightArm.roll = -2.35f + MathHelper.cos(limbAngle.minus(0.7f).times(0.2f)).times(0.45f)

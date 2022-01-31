@@ -27,6 +27,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(PsychoPigEntityModel.Companion::data)
     val rotwitch by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(RotwitchEntityModel.Companion::data)
+    val fly by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(FlyEntityModel.Companion::data)
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

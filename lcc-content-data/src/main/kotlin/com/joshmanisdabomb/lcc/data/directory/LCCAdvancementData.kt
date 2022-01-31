@@ -286,6 +286,8 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //IDEA ultimate tank, all 3 health pools +10
 
+    //IDEA you know im super fly - have 20 flies at once
+
     //Wasteland Progression > Alternative Metal
     val tungsten by entry(::initialiser) {
         Advancement.Task.create()

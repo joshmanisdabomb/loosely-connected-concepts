@@ -311,7 +311,10 @@ object LCCItems : ItemDirectory() {
     val psycho_pig_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.psycho_pig, Item.Settings().defaults(), 0xF0A5A2, 0xDB635F, 0xCC6655) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
-    val rotwitch_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.rotwitch, Item.Settings().defaults(), 0xACAAAB, 0x665F33, 0x500F03) }
+    val rotwitch_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.rotwitch, Item.Settings().defaults(), 0x665F33, 0xACAAAB, 0x500F03) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
+    val fly_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.fly, Item.Settings().defaults(), 0x222222, 0xBDBBA0, 0x0077FF) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
 

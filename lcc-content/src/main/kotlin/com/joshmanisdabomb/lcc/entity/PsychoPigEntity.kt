@@ -163,10 +163,10 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
             kbResistance?.addTemporaryModifier(EntityAttributeModifier(knockback_resistance_modifier_uuid, "Knife knockback resistance", 1.0, EntityAttributeModifier.Operation.ADDITION))
         }
         val ret = super.tryAttack(target)
+        kbResistance?.removeModifier(knockback_resistance_modifier_uuid)
         if (ret && this.mainHandStack.isOf(LCCItems.knife) && target is LivingEntity) {
             val difficulty = world.getLocalDifficulty(blockPos).localDifficulty
             target.addStatusEffect(StatusEffectInstance(LCCEffects.bleeding, 120 * difficulty.toInt().plus(1)), this)
-            kbResistance?.removeModifier(knockback_resistance_modifier_uuid)
         }
         return ret
     }

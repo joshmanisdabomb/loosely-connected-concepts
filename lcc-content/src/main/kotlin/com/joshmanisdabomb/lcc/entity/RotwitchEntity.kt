@@ -1,48 +1,49 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.entity.EntityData
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnReason
+import net.minecraft.entity.ai.RangedAttackMob
 import net.minecraft.entity.ai.control.LookControl
-import net.minecraft.entity.ai.goal.ActiveTargetGoal
-import net.minecraft.entity.ai.goal.LookAroundGoal
-import net.minecraft.entity.ai.goal.LookAtEntityGoal
-import net.minecraft.entity.ai.goal.RevengeGoal
+import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.packet.s2c.play.MobSpawnS2CPacket
+import net.minecraft.sound.SoundCategory
+import net.minecraft.sound.SoundEvents
 import net.minecraft.world.LocalDifficulty
 import net.minecraft.world.ServerWorldAccess
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import java.util.*
 
-class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : HostileEntity(type, world), LCCContentEntityTrait {
+class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : HostileEntity(type, world), LCCContentEntityTrait, RangedAttackMob {
 
     init {
         lookControl = RotwitchLookControl()
     }
 
     override fun initialize(world: ServerWorldAccess, difficulty: LocalDifficulty, spawnReason: SpawnReason, entityData: EntityData?, entityNbt: NbtCompound?): EntityData? {
-        yaw = 0.0f
+        yaw = world.random.nextFloat().times(360f).minus(180f)
         headYaw = yaw
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt)
     }
 
     override fun initGoals() {
-        goalSelector.add(6, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
-        goalSelector.add(7, LookAroundGoal(this))
+        goalSelector.add(1, ProjectileAttackGoal(this, 1.0, 8, 60, 40.0f))
+        goalSelector.add(2, LookAtEntityGoal(this, PlayerEntity::class.java, 8.0f))
+        goalSelector.add(3, LookAroundGoal(this))
         targetSelector.add(1, RevengeGoal(this))
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true, false))
-        targetSelector.add(2, RevengeGoal(this))
     }
 
     override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
@@ -51,20 +52,27 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
 
     override fun getBaseMovementSpeedMultiplier() = 0.0f
 
-    override fun stopRiding() {
-        super.stopRiding()
-        prevBodyYaw = 0.0f
-        bodyYaw = 0.0f
-    }
-
-    override fun readFromPacket(packet: MobSpawnS2CPacket) {
-        super.readFromPacket(packet)
-        bodyYaw = 0.0f
-        prevBodyYaw = 0.0f
-    }
-
     override fun tick() {
         super.tick()
+    }
+
+    override fun attack(target: LivingEntity, pullProgress: Float) {
+        if (onGround) velocity = velocity.add(0.0, 0.4, 0.0)
+
+        if (!world.isClient) {
+            val difficulty = world.getLocalDifficulty(blockPos)
+            val flies = random.nextInt(3.plus(difficulty.localDifficulty.toInt())).plus(difficulty.isAtLeastHard.transformInt(2, 1))
+            repeat (flies) {
+                val fly = LCCEntities.fly.create(world) ?: return@repeat
+                fly.setPosition(pos.x, pos.y + height.div(2.0), pos.z)
+                fly.setVelocity(random.nextDouble().minus(0.5).times(2.0), 0.1, random.nextDouble().minus(0.5).times(2.0))
+                world.spawnEntity(fly)
+                fly.ownerUuid = uuid
+                fly.target = target
+            }
+            //TODO custom sound
+            world.playSound(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BAMBOO_BREAK, SoundCategory.HOSTILE, 1.0f, 1.0f, false)
+        }
     }
 
     override fun turnHead(bodyRotation: Float, headRotation: Float) = headRotation
@@ -77,13 +85,7 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
         super.takeKnockback(strength.div(2.0), x, z)
     }
 
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
-    }
+    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
 
     override fun getAmbientSound() = LCCSounds.consumer_ambient
 
@@ -112,7 +114,7 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
         }
 
         override fun getTargetPitch() = Optional.of(0.0f)
-        
+
     }
 
 }

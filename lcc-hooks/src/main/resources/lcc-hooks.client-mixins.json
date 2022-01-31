@@ -12,7 +12,8 @@
     "SignEditScreenMixin",
     "BoatEntityRendererMixin",
     "GameRendererAccessor",
-    "PistonBlockEntityRendererMixin"
+    "PistonBlockEntityRendererMixin",
+    "PlayerSkinTextureMixin"
   ],
   "injectors": {
     "defaultRequire": 1

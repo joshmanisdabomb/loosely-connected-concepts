@@ -36,6 +36,7 @@ object LCC : ModInitializer {
         LCCRecipeSerializers.init()
         LCCDamage.init()
         LCCEffects.init()
+        LCCEnchants.init()
         LCCRuleTests.init()
         LCCWorldgen.init()
         LCCBiomes.init()

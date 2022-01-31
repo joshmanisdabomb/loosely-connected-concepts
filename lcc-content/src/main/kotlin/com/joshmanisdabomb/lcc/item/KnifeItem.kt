@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.directory.LCCEnchants
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait
 import com.joshmanisdabomb.lcc.trait.LCCItemTrait
@@ -50,7 +51,7 @@ class KnifeItem(settings: Settings) : Item(settings), LCCContentItemTrait, LCCIt
     override fun getEnchantability() = LCCToolMaterials.RUSTY_IRON.enchantability
 
     override fun lcc_canHaveEnchantment(stack: ItemStack, enchantment: Enchantment) = when (enchantment) {
-        Enchantments.SHARPNESS, Enchantments.SMITE, Enchantments.BANE_OF_ARTHROPODS, Enchantments.LOOTING -> true
+        Enchantments.SHARPNESS, Enchantments.SMITE, Enchantments.BANE_OF_ARTHROPODS, Enchantments.LOOTING, LCCEnchants.infested -> true
         else -> null
     }
 

@@ -19,6 +19,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
+import net.minecraft.entity.damage.EntityDamageSource
 import net.minecraft.entity.mob.HostileEntity.createHostileAttributes
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableEntity
@@ -45,14 +46,22 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
 
     override fun initGoals() {
         goalSelector.add(0, object : MeleeAttackGoal(this, 1.1, false) {
-            override fun getSquaredMaxAttackDistance(entity: LivingEntity) = 0.5
+            override fun canStart() = super.canStart() && this@FlyEntity.lifetime >= 3
+
+            override fun getSquaredMaxAttackDistance(entity: LivingEntity) = 0.7
         })
-        goalSelector.add(1, FollowOwnerGoal(this, 1.0, 30.0f, 0.0f, false))
+        goalSelector.add(1, FollowOwnerGoal(this, 1.0, 1.0f, 0.0f, false))
         goalSelector.add(2, FlyWanderGoal(this))
         goalSelector.add(3, LookAroundGoal(this))
-        targetSelector.add(1, TrackOwnerAttackerGoal(this))
-        targetSelector.add(2, TrackOwnerTargetGoal(this))
-        targetSelector.add(3, AttackWithOwnerGoal(this))
+        targetSelector.add(1, object : AttackWithOwnerGoal(this) {
+            override fun canStart() = super.canStart() && this@FlyEntity.lifetime >= 3
+        })
+        targetSelector.add(2, object : TrackOwnerAttackerGoal(this) {
+            override fun canStart() = super.canStart() && this@FlyEntity.lifetime >= 3
+        })
+        targetSelector.add(3, object : TrackOwnerTargetGoal(this) {
+            override fun canStart() = super.canStart() && this@FlyEntity.lifetime >= 3
+        })
         targetSelector.add(4, RevengeGoal(this))
     }
 
@@ -91,7 +100,9 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
     override fun tick() {
         if (isTouchingWaterOrRain) dropDead(DamageSource.DROWN)
         super.tick()
-        if (lifetime++ >= 600) dropDead(DamageSource.STARVE)
+        if (!world.isClient) {
+            if (lifetime++ >= 600 && random.nextInt(10) == 0) dropDead(DamageSource.STARVE)
+        }
     }
 
     override fun tryAttack(target: Entity): Boolean {
@@ -107,6 +118,15 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
             target.timeUntilRegen = 1
         }
         return ret
+    }
+
+    override fun damage(source: DamageSource, amount: Float): Boolean {
+        if (source == DamageSource.GENERIC) return false
+        val owner = (source as? EntityDamageSource)?.source
+        if (owner != null && owner.uuid == ownerUuid) {
+            return false
+        }
+        return super.damage(source, amount)
     }
 
     override fun getOwner() = (world as? ServerWorld)?.getEntity(ownerUuid) as? LivingEntity ?: super.getOwner()
@@ -129,6 +149,8 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
 
     override fun takeKnockback(strength: Double, x: Double, z: Double) = Unit
 
+    override fun playStepSound(pos: BlockPos, state: BlockState) = Unit
+
     override fun getAmbientSound() = LCCSounds.consumer_ambient
 
     override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
@@ -140,6 +162,13 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
     private fun dropDead(source: DamageSource) {
         damage(source, Float.MAX_VALUE)
         velocity = velocity.add(0.0, -1.0, 0.0)
+    }
+
+    override fun onDeath(source: DamageSource) {
+        val uuid = ownerUuid
+        ownerUuid = null
+        super.onDeath(source)
+        ownerUuid = uuid
     }
 
     class FlyWanderGoal(private val fly: FlyEntity) : Goal() {

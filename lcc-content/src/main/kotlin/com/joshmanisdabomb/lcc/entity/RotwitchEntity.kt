@@ -67,12 +67,12 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
                 fly.setPosition(pos.x, pos.y + height.div(2.0), pos.z)
                 fly.setVelocity(random.nextDouble().minus(0.5).times(2.0), 0.1, random.nextDouble().minus(0.5).times(2.0))
                 world.spawnEntity(fly)
+                fly.isTamed = true
                 fly.ownerUuid = uuid
                 fly.target = target
             }
-            //TODO custom sound
-            world.playSound(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BAMBOO_BREAK, SoundCategory.HOSTILE, 1.0f, 1.0f, false)
         }
+        world.playSound(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BAMBOO_BREAK, SoundCategory.HOSTILE, 1.0f, 1.0f, false)
     }
 
     override fun turnHead(bodyRotation: Float, headRotation: Float) = headRotation

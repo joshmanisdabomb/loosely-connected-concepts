@@ -5,7 +5,7 @@ import net.minecraft.entity.ai.goal.TrackTargetGoal
 import net.minecraft.entity.mob.MobEntity
 import net.minecraft.entity.passive.TameableEntity
 
-class TrackOwnerTargetGoal(private val tameable: TameableEntity, val predicate: TargetPredicate = TargetPredicate.createAttackable(), checkVisibility: Boolean = false) : TrackTargetGoal(tameable, checkVisibility) {
+open class TrackOwnerTargetGoal(private val tameable: TameableEntity, val predicate: TargetPredicate = TargetPredicate.createAttackable(), checkVisibility: Boolean = false) : TrackTargetGoal(tameable, checkVisibility) {
 
     private var owner: MobEntity? = null
 

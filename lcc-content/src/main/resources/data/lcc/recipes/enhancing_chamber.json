@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "w w",
+    "w w",
+    "www"
+  ],
+  "key": {
+    "w": {
+      "item": "lcc:deadwood_planks"
+    }
+  },
+  "result": {
+    "item": "lcc:enhancing_chamber"
+  }
+}

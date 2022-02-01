@@ -17,7 +17,7 @@ import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
 
-class FlySpawnEggItem(type: EntityType<out MobEntity>, settings: Settings) : VariableTintSpawnEggItem(type, settings, 0x222222, 0xBDBBA0, 0x222222) {
+class FlySpawnEggItem(type: EntityType<out MobEntity>, settings: Settings) : VariableTintSpawnEggItem(type, settings, 0x222222, 0xBDBBA0, 0xCCE0B4) {
 
     override fun use(world: World, user: PlayerEntity, hand: Hand): TypedActionResult<ItemStack> {
         val stack = user.getStackInHand(hand)

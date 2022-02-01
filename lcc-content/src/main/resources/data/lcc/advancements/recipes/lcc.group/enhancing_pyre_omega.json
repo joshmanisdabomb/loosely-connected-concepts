@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enhancing_pyre_omega"
+    ]
+  },
+  "criteria": {
+    "has_enhancing_pyre_beta": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:enhancing_pyre_beta"
+            ]
+          }
+        ]
+      }
+    },
+    "has_nether_star": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:nether_star"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enhancing_pyre_omega"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enhancing_pyre_beta",
+      "has_nether_star",
+      "has_the_recipe"
+    ]
+  ]
+}

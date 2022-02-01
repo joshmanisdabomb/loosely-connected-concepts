@@ -372,7 +372,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
-    val enhancing_dust_beta by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val enhancing_pyre_alpha by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enhancing_pyre)) }
+    val enhancing_pyre_beta by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enhancing_pyre)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern(" e ")
             .pattern("ese")
@@ -382,7 +383,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
             .apply { offerShaped(this, d, override = LCCRecipeSerializers.spawner_table_shaped) }
     }) }
-    val enhancing_dust_omega by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val enhancing_pyre_omega by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCTags.enhancing_pyre)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonFactory.create(i)
             .pattern(" e ")
             .pattern("ene")

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.recipe.EnhancingRecipe
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapelessRecipe
@@ -37,6 +38,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
 
     val polymerization by entry(::initialiser) { SpecialRecipeSerializer(::PolymerRefiningRecipe) }
     val plastic_shaped by entry(::initialiser) { PlasticRecipe.Serializer() }
+
+    val enhancing by entry(::initialiser) { EnhancingRecipe.Serializer() }
 
     override fun defaultProperties(name: String) = Unit
 

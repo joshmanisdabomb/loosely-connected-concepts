@@ -699,6 +699,17 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val forget_me_not by entry(::initialiser) { data().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
     val potted_forget_me_not by entry(::initialiser) { data().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
 
+    val enhancing_chamber by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_enhancing_chamber.upload(i(t) ?: idb.loc(t), Texture().put(TextureKey.TOP, idb.locSuffix(t, "top")).put(TextureKey.SIDE, idb.locSuffix(t, "side")).put(TextureKey.BOTTOM, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "side")), d.models) }).add(BlockTagFactory(LCCTags.wasteland_effective)).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("w w")
+            .pattern("w w")
+            .pattern("www")
+            .input('w', LCCBlocks.deadwood_planks)
+            .apply { hasCriterionShaped(this, LCCBlocks.deadwood_planks) }
+            .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

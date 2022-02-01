@@ -708,7 +708,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShaped(this, LCCBlocks.deadwood_planks) }
             .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
             .apply { offerShaped(this, d) }
-    }) }
+    }).add(ComplexRecipeFactory(LCCRecipeSerializers.overlevel_enchants, LCC.id("overlevel_enchants"))) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

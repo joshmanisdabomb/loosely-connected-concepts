@@ -1,11 +1,12 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.recipe.EnhancingRecipe
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapelessRecipe
 import com.joshmanisdabomb.lcc.recipe.cooking.KilnRecipe
+import com.joshmanisdabomb.lcc.recipe.enhancing.EnhancingSimpleRecipe
+import com.joshmanisdabomb.lcc.recipe.enhancing.special.OverlevelEnchantRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningShapelessRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
@@ -39,7 +40,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
     val polymerization by entry(::initialiser) { SpecialRecipeSerializer(::PolymerRefiningRecipe) }
     val plastic_shaped by entry(::initialiser) { PlasticRecipe.Serializer() }
 
-    val enhancing by entry(::initialiser) { EnhancingRecipe.Serializer() }
+    val enhancing by entry(::initialiser) { EnhancingSimpleRecipe.Serializer() }
+    val overlevel_enchants by entry(::initialiser) { SpecialRecipeSerializer(::OverlevelEnchantRecipe) }
 
     override fun defaultProperties(name: String) = Unit
 

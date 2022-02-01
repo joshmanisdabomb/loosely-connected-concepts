@@ -10,6 +10,7 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.inventory.SidedInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
@@ -38,6 +39,10 @@ class EnhancingChamberBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
         inventory.removeStack(1)
         Inventories.writeNbt(tag, inventory.list)
     }
+
+    override fun toUpdatePacket() = BlockEntityUpdateS2CPacket.create(this)
+
+    override fun toInitialChunkDataNbt() = createNbt()
 
     override fun clear() = inventory.clear()
     override fun size() = inventory.size()

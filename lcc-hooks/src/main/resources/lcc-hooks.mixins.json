@@ -24,7 +24,8 @@
     "RecipeManagerMixin",
     "EnchantmentMixin",
     "EnchantmentHelperMixin",
-    "PistonBlockEntityMixin"
+    "PistonBlockEntityMixin",
+    "ProjectileUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1

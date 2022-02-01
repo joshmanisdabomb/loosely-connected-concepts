@@ -24,7 +24,11 @@ object LCCLangData {
         lang["effect.lcc.fear"] = "Fear"
         lang["effect.lcc.bleeding"] = "Bleeding"
 
+        lang["enchantment.lcc.infested"] = "Infested"
+
         lang["biome.lcc.wasteland"] = "Wasteland"
+        lang["biome.lcc.wasteland_barrens"] = "Wasteland Barrens"
+        lang["biome.lcc.wasteland_spikes"] = "Wasteland Spikes"
 
         lang["container.lcc.spawner_table"] = "Arcane Table"
         lang["container.lcc.refiner"] = "Refiner"

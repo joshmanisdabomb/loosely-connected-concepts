@@ -3,6 +3,8 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.entity.ai.TrackOwnerTargetGoal
 import com.joshmanisdabomb.lcc.extensions.getIntOrNull
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
+import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityGroup
@@ -33,7 +35,7 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldView
 import java.util.*
 
-class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(type, world) {
+class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(type, world), LCCEntityTrait {
 
     var lifetime = 0
 
@@ -98,10 +100,10 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
     override fun fall(heightDifference: Double, onGround: Boolean, landedState: BlockState, landedPosition: BlockPos) = Unit
 
     override fun tick() {
-        if (isTouchingWaterOrRain) dropDead(DamageSource.DROWN)
+        if (isTouchingWaterOrRain) damage(DamageSource.DROWN, Float.MAX_VALUE)
         super.tick()
         if (!world.isClient) {
-            if (lifetime++ >= 600 && random.nextInt(10) == 0) dropDead(DamageSource.STARVE)
+            if (lifetime++ >= 600 && random.nextInt(10) == 0) damage(DamageSource.STARVE, Float.MAX_VALUE)
         }
     }
 
@@ -112,21 +114,28 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
         }
         val ret = super.tryAttack(target)
         kbResistance?.removeModifier(knockback_resistance_modifier_uuid)
-        dropDead(DamageSource.WITHER)
+        damage(DamageSource.WITHER, Float.MAX_VALUE)
         if (ret) {
             (target as? LivingEntity)?.hurtTime = 1
             target.timeUntilRegen = 1
+            val owner = owner
+            if (owner is PlayerEntity) {
+                (target as? LivingEntity)?.setAttacking(owner)
+                (target as? LivingEntity)?.attacker = owner
+            }
         }
         return ret
     }
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
-        if (source == DamageSource.GENERIC) return false
-        val owner = (source as? EntityDamageSource)?.source
-        if (owner != null && owner.uuid == ownerUuid) {
-            return false
+        val attacker = (source as? EntityDamageSource)?.source
+        var new = amount
+        if (attacker != null) {
+            if (attacker.uuid == ownerUuid) return false
+            new = Float.MAX_VALUE
         }
-        return super.damage(source, amount)
+        if (new == Float.MAX_VALUE) replaceVelocity(y = -1.0)
+        return super.damage(source, new)
     }
 
     override fun getOwner() = (world as? ServerWorld)?.getEntity(ownerUuid) as? LivingEntity ?: super.getOwner()
@@ -143,6 +152,26 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
 
     override fun pushAway(entity: Entity) = Unit
 
+    override fun shouldDropXp() = owner !is PlayerEntity
+
+    override fun getXpToDrop(player: PlayerEntity) = 1
+
+    override fun lcc_raycastIgnore(caster: Entity): Boolean {
+        if (caster.uuid == ownerUuid) return true
+        return super.lcc_raycastIgnore(caster)
+    }
+
+    override fun handleAttack(attacker: Entity): Boolean {
+        if (attacker.uuid == ownerUuid) return true
+        return super.handleAttack(attacker)
+    }
+
+    override fun isInvulnerableTo(source: DamageSource): Boolean {
+        val attacker = (source as? EntityDamageSource)?.source
+        if (attacker != null && attacker.uuid == ownerUuid) return true
+        return super.isInvulnerableTo(source)
+    }
+
     override fun getPathfindingFavor(pos: BlockPos?, world: WorldView): Float {
         return if (world.getBlockState(pos).isAir) 10.0f else 0.0f
     }
@@ -158,11 +187,6 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
     override fun getDeathSound() = LCCSounds.consumer_death
 
     override fun getGroup() = EntityGroup.ARTHROPOD
-
-    private fun dropDead(source: DamageSource) {
-        damage(source, Float.MAX_VALUE)
-        velocity = velocity.add(0.0, -1.0, 0.0)
-    }
 
     override fun onDeath(source: DamageSource) {
         val uuid = ownerUuid
@@ -205,7 +229,7 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
         val knockback_resistance_modifier_uuid = UUID.fromString("4c626433-490e-4f15-b358-5f09a74e1854")
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 0.01).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 1.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 1.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 1.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0)
         }
 
     }

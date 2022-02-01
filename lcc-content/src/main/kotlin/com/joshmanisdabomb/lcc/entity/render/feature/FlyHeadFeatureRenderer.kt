@@ -21,7 +21,7 @@ class FlyHeadFeatureRenderer(context: FeatureRendererContext<FlyEntity, FlyEntit
             if (flyColor != null) {
                 contextModel.renderHead(matrices, renderLayer, light, MobEntityRenderer.getOverlay(entity, 0.0f), (flyColor shr 16 and 255).div(255f), (flyColor shr 8 and 255).div(255f), (flyColor and 255).div(255f), 1.0f)
             } else {
-                contextModel.renderHead(matrices, renderLayer, light, MobEntityRenderer.getOverlay(entity, 0.0f), 1.0f, 1.0f, 1.0f, 1.0f)
+                contextModel.renderHead(matrices, renderLayer, light, MobEntityRenderer.getOverlay(entity, 0.0f), 0.0f, 0.75f, 1.0f, 1.0f)
             }
         } else {
             contextModel.renderHead(matrices, renderLayer, light, MobEntityRenderer.getOverlay(entity, 0.0f), 0.0f, 0.0f, 0.0f, 1.0f)

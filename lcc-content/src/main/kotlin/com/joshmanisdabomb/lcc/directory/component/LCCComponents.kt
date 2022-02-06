@@ -1,7 +1,8 @@
-package com.joshmanisdabomb.lcc.directory
+package com.joshmanisdabomb.lcc.directory.component
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.component.*
+import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
 import dev.onyxstudios.cca.api.v3.component.*
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer
@@ -16,6 +17,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.world.World
 import net.minecraft.world.WorldProperties
 
+//TODO split
 object LCCComponents : AdvancedDirectory<Class<out ComponentV3>, ComponentKey<out ComponentV3>, Unit, Any>(), WorldComponentInitializer, LevelComponentInitializer, EntityComponentInitializer {
 
     val gauntlet_actor by entry({ i, c, p -> playerInitialiser(i, c, p, ::GauntletActorComponent) }) { GauntletActorComponent::class.java }

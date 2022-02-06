@@ -16,6 +16,8 @@ dependencies {
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.1"
     modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
+    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:4.0.1"
+    modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:4.0.1"
 }
 
 loom {

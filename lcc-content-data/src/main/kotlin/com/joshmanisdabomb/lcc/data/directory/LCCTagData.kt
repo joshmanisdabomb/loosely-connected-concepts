@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.data.directory
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.batches.TagBatch
 import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
+import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCTags
+import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Items
@@ -49,6 +51,8 @@ object LCCTagData : AdvancedDirectory<Unit, TagBatch.TagBuilder<*, *>, Unit, Uni
     val asphalt by entry(::fluidInitialiser) {}
 
     val hearts by entry(::itemInitialiser) {}.addInitListener { context, _ -> context.entry.attachTag(LCCTags.red_hearts.cast()).attachTag(LCCTags.iron_hearts.cast()).attachTag(LCCTags.crystal_hearts.cast()).attachTag(LCCTags.temporary_hearts.cast()) }
+
+    val imbuable by entry(::itemInitialiser) {}.addInitListener { context, _ -> context.entry.attachTag(FabricToolTags.SWORDS.cast()).attach(LCCItems.knife) }
 
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(LCCTags[context.name].cast().id)
     fun itemInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.item(LCCTags[context.name].cast().id)

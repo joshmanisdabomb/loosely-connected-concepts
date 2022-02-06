@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.content.client;
 
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType;
 import com.joshmanisdabomb.lcc.component.HeartsComponent;
-import com.joshmanisdabomb.lcc.directory.LCCComponents;
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:stinger"
+    ]
+  },
+  "criteria": {
+    "has_stinger": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:stinger"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:stinger"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_stinger",
+      "has_the_recipe"
+    ]
+  ]
+}

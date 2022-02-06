@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapelessRecipe
 import com.joshmanisdabomb.lcc.recipe.cooking.KilnRecipe
 import com.joshmanisdabomb.lcc.recipe.enhancing.EnhancingSimpleRecipe
 import com.joshmanisdabomb.lcc.recipe.enhancing.special.OverlevelEnchantRecipe
+import com.joshmanisdabomb.lcc.recipe.imbuing.ImbuingSimpleRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningShapelessRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe
@@ -42,6 +43,8 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
 
     val enhancing by entry(::initialiser) { EnhancingSimpleRecipe.Serializer() }
     val overlevel_enchants by entry(::initialiser) { SpecialRecipeSerializer(::OverlevelEnchantRecipe) }
+
+    val imbuing by entry(::initialiser) { ImbuingSimpleRecipe.Serializer() }
 
     override fun defaultProperties(name: String) = Unit
 

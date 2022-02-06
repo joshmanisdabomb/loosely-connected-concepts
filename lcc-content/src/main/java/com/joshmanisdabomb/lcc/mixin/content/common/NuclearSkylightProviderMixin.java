@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.content.common;
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil;
 import com.joshmanisdabomb.lcc.component.NuclearComponent;
-import com.joshmanisdabomb.lcc.directory.LCCComponents;
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;

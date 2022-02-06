@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.block
 import com.joshmanisdabomb.lcc.block.entity.EnhancingChamberBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.LCCTags
-import com.joshmanisdabomb.lcc.extensions.directionalPlayerPlacement
+import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
 import net.minecraft.block.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
@@ -29,7 +29,7 @@ class EnhancingChamberBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(FACING).let {}
 
-    override fun getPlacementState(context: ItemPlacementContext) = directionalPlayerPlacement(context)
+    override fun getPlacementState(context: ItemPlacementContext) = directionalFacePlacement(context)
 
     override fun rotate(state: BlockState, rot: BlockRotation) = state.with(FACING, rot.rotate(state[FACING]))
 
@@ -44,7 +44,6 @@ class EnhancingChamberBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun getCullingShape(state: BlockState, world: BlockView, pos: BlockPos) = cull_shape[state[FACING]]
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        //use dust on contents
         val stack = player.getStackInHand(hand)
         val be = world.getBlockEntity(pos) as? EnhancingChamberBlockEntity ?: return ActionResult.PASS
         if (stack.isIn(LCCTags.enhancing_pyre)) {

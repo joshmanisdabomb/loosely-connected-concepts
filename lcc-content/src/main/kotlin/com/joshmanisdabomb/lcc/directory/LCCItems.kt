@@ -290,7 +290,7 @@ object LCCItems : ItemDirectory() {
     val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(80000, 1)))
 
-    val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
+    val stinger by entry(::initialiser) { StingerItem(Item.Settings().maxDamage(3).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(90100, 1)))
 
     val altar_challenge_key by entry(::initialiser) { Item(Item.Settings().defaults()) }

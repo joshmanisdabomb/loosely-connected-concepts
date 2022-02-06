@@ -2,8 +2,11 @@ package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.effect.*
+import com.joshmanisdabomb.lcc.trait.LCCEffectTrait
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectCategory.HARMFUL
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.mob.CreeperEntity
 import net.minecraft.util.registry.Registry
 import kotlin.math.pow
 
@@ -18,7 +21,9 @@ object LCCEffects : BasicDirectory<StatusEffect, Unit>(), RegistryDirectory<Stat
     val flammable by entry(::initialiser) { FlammableStatusEffect(HARMFUL, 0x825933) }
     val radiation by entry(::initialiser) { RadiationStatusEffect(HARMFUL, 0xc3db9a) }
     val fear by entry(::initialiser) { FearStatusEffect(HARMFUL, 0xd8bae8) }
-    val bleeding by entry(::initialiser) { NoopStatusEffect(HARMFUL, 0x550022) }
+    val bleeding: NoopStatusEffect by entry(::initialiser) { object : NoopStatusEffect(HARMFUL, 0x550022), LCCEffectTrait {
+        override fun lcc_canIncludeInExplosion(effect: StatusEffectInstance, creeper: CreeperEntity) = false
+    } }
 
     override fun defaultProperties(name: String) = Unit
 

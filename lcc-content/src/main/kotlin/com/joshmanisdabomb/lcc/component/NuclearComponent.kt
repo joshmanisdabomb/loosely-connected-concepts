@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
 import dev.onyxstudios.cca.api.v3.component.ComponentV3

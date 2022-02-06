@@ -20,6 +20,7 @@ object LCCClient : ClientModInitializer {
         LCCScreens.init()
         LCCPacketsToClient.init()
         LCCParticlesClient.init()
+        LCCEventsClient.init()
 
         ClientSpriteRegistryCallback.event(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE).register(LCCSignTypes)
     }

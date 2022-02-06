@@ -709,6 +709,18 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
             .apply { offerShaped(this, d) }
     }).add(ComplexRecipeFactory(LCCRecipeSerializers.overlevel_enchants, LCC.id("overlevel_enchants"))) }
+    val imbuing_press by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_imbuing_press.upload(i(t) ?: idb.loc(t), Texture().put(LCCModelTextureKeys.t0, idb.locSuffix(t, "spike")).put(LCCModelTextureKeys.t1, idb.loc(t)).put(LCCModelTextureKeys.t2, idb.locSuffix(t, "side")).put(LCCModelTextureKeys.t3, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "bottom")), d.models) })).add(BlockTagFactory(LCCTags.wasteland_required)).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonFactory.create(i)
+            .pattern("fsf")
+            .pattern("fpf")
+            .pattern("fff")
+            .input('f', LCCBlocks.cobbled_fortstone)
+            .input('s', LCCBlocks.cobbled_fortstone_slab)
+            .input('p', Blocks.POINTED_DRIPSTONE)
+            .apply { hasCriterionShaped(this, LCCBlocks.cobbled_fortstone) }
+            .apply { hasCriterionShaped(this, LCCBlocks.cobbled_fortstone_slab) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.forEachStringUuidList
 import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import com.joshmanisdabomb.lcc.extensions.putStringUuidList

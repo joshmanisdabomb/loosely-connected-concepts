@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.command
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.mojang.brigadier.arguments.FloatArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource

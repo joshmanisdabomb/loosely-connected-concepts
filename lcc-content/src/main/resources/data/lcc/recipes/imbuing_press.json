@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "fsf",
+    "fpf",
+    "fff"
+  ],
+  "key": {
+    "f": {
+      "item": "lcc:cobbled_fortstone"
+    },
+    "s": {
+      "item": "lcc:cobbled_fortstone_slab"
+    },
+    "p": {
+      "item": "minecraft:pointed_dripstone"
+    }
+  },
+  "result": {
+    "item": "lcc:imbuing_press"
+  }
+}

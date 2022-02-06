@@ -12,6 +12,8 @@ object LCCLangData {
         lang["tooltip.lcc.oxygen"] = "Oxygen: %1\$s / %2\$s"
         lang["tooltip.lcc.contained_armor.consume"] = "Your helmet is preventing you from using this item"
 
+        lang["tooltip.lcc.imbue.lcc.stinger"] = "Stinger Imbue (%1\$s / %2\$s hits)"
+
         lang["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["itemGroup.lcc.group.set.amount"] = "%s item"
         lang["itemGroup.lcc.group.set.amount.s"] = "s"
@@ -40,6 +42,7 @@ object LCCLangData {
         lang["container.lcc.oxygen_extractor"] = "Oxygen Extractor"
         lang["container.lcc.kiln"] = "Kiln"
         lang["container.lcc.nuclear_generator"] = "Nuclear Generator"
+        lang["container.lcc.imbuing"] = "Imbue Weapon"
 
         lang["container.lcc.refining.power"] = "Power: %1\$s"
         lang["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"

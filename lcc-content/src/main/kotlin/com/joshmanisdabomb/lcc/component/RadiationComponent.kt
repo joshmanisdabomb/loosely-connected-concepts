@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCDamage
 import com.joshmanisdabomb.lcc.effect.RadiationStatusEffect
 import com.joshmanisdabomb.lcc.extensions.isSurvival

@@ -1,9 +1,10 @@
 package com.joshmanisdabomb.lcc.effect
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.entity.PsychoPigEntity
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.trait.LCCContentEffectTrait
+import com.joshmanisdabomb.lcc.trait.LCCEffectTrait
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
@@ -12,10 +13,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectCategory
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.mob.CreeperEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper
 
-class FearStatusEffect(type: StatusEffectCategory, color: Int) : StatusEffect(type, color), LCCContentEffectTrait {
+class FearStatusEffect(type: StatusEffectCategory, color: Int) : StatusEffect(type, color), LCCContentEffectTrait, LCCEffectTrait {
 
     override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
 
@@ -35,6 +38,8 @@ class FearStatusEffect(type: StatusEffectCategory, color: Int) : StatusEffect(ty
         }
         return null
     }
+
+    override fun lcc_canIncludeInExplosion(effect: StatusEffectInstance, creeper: CreeperEntity) = false
 
     private fun lookAtTarget(entity: LivingEntity, lerp: Float = 1.0f) {
         val target = LCCComponents.targeted_effects.maybeGet(entity).orElse(null)?.getFirstTarget(this) ?: return entity.removeStatusEffect(this).let {}

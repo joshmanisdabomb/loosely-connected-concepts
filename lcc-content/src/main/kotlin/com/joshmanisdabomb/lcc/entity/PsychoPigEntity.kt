@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.item.KnifeItem.Companion.knockback_resistance_modifier_uuid
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait

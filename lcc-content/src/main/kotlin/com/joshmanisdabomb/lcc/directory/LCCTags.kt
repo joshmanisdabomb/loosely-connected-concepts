@@ -60,6 +60,7 @@ object LCCTags : AdvancedDirectory<Unit, Tag<*>, Unit, Unit>() {
     val hearts by entry(::itemInitialiser) {}
 
     val enhancing_pyre by entry(::itemInitialiser) {}
+    val imbuable by entry(::itemInitialiser) {}
 
     fun blockInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.block(context.id)
     fun entityTypeInitialiser(input: Unit, context: DirectoryContext<Unit>, parameters: Unit) = TagRegistry.entityType(context.id)

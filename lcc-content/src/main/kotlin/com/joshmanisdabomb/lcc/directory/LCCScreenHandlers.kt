@@ -27,6 +27,8 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
     val kiln by entry(::simpleInitialiser) { ::KilnScreenHandler }
     val nuclear_generator by entry(::extendedInitialiser) { ::NuclearFiredGeneratorScreenHandler }
 
+    val imbuing by entry(::simpleInitialiser) { ::ImbuingScreenHandler }
+
     override fun id(name: String) = LCC.id(name)
 
     fun <S : ScreenHandler> simpleInitialiser(input: (Int, PlayerInventory) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {

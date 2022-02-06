@@ -342,6 +342,8 @@ object LCCBlocks : BlockDirectory() {
 
     val enhancing_chamber by entry(::initialiser) { EnhancingChamberBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_GREEN).strength(2.0f).breakByTool(AXES).sounds(BlockSoundGroup.WOOD)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val imbuing_press by entry(::initialiser) { ImbuingPressBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).breakByTool(PICKAXES).requiresTool().sounds(BlockSoundGroup.BASALT)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
     //TODO reinforced stone or similar for nuke protection
 

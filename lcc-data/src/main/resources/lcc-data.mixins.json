@@ -12,7 +12,8 @@
     "LootTableAccessor",
     "RecipesProviderAccessor",
     "TagBuilderAccessor",
-    "SharedConstantsMixin"
+    "SharedConstantsMixin",
+    "IngredientTagEntryAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

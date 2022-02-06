@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.recipe.enhancing.special
 
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
-import com.joshmanisdabomb.lcc.extensions.modifyInt
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.recipe.enhancing.EnhancingSpecialRecipe
 import net.minecraft.enchantment.EnchantmentLevelEntry
@@ -24,7 +23,7 @@ class OverlevelEnchantRecipe(id: Identifier) : EnhancingSpecialRecipe(id) {
         if (enchantments.size != 1) return false
         val data = enchantments.firstOrNull() as? NbtCompound ?: return false
         val enchantment = Registry.ENCHANTMENT[Identifier(data.getString("id"))] ?: return false
-        return data.getShort("lvl").toInt() == enchantment.maxLevel
+        return enchantment.maxLevel > 1 && data.getShort("lvl").toInt() == enchantment.maxLevel
     }
 
     override fun craft(inventory: LCCInventory): ItemStack {

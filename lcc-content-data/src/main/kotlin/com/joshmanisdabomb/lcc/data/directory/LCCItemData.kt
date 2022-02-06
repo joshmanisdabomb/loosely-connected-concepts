@@ -14,6 +14,7 @@ import com.joshmanisdabomb.lcc.data.factory.translation.BasicTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.LiteralTranslationFactory
 import com.joshmanisdabomb.lcc.data.factory.translation.TransformTranslationFactory
+import com.joshmanisdabomb.lcc.data.json.recipe.ImbuingRecipeJsonFactory
 import com.joshmanisdabomb.lcc.data.json.recipe.RefiningShapelessRecipeJsonFactory
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
@@ -29,6 +30,8 @@ import net.minecraft.data.client.model.TextureKey
 import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonFactory
 import net.minecraft.data.server.recipe.SmithingRecipeJsonFactory
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.ArmorItem
 import net.minecraft.item.Items
 import net.minecraft.item.ToolItem
@@ -405,6 +408,13 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .input('r', Items.REDSTONE)
             .apply { hasCriterionShaped(this, Items.REDSTONE) }
             .apply { offerShaped(this, d) }
+    }) }
+
+    val stinger by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ImbuingRecipeJsonFactory(Ingredient.ofItems(i), 30)
+            .addEffect(StatusEffectInstance(StatusEffects.POISON, 100, 1))
+            .apply { hasCriterionInterface(this, i) }
+            .apply { offerInterface(this, d, LCC.id("stinger")) }
     }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input

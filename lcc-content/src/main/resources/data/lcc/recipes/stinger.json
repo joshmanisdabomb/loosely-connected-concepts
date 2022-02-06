@@ -1,0 +1,17 @@
+{
+  "type": "lcc:imbuing",
+  "ingredient": {
+    "item": "lcc:stinger"
+  },
+  "effects": [
+    {
+      "effect": "minecraft:poison",
+      "duration": 100,
+      "amplifier": 1,
+      "ambient": false,
+      "particles": true,
+      "icon": true
+    }
+  ],
+  "hits": 30
+}

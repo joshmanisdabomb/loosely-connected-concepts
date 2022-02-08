@@ -32,8 +32,10 @@ class KnowledgeArticleBulletedFragmentBuilder : KnowledgeArticleFragmentBuilder(
         return json
     }
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        list.forEach { it.onExport(exporter) }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + list.flatMap { it.exporterWalked(exporter) }
+
+    override fun afterInit() {
+        list.forEach { it.afterInit() }
     }
 
 }

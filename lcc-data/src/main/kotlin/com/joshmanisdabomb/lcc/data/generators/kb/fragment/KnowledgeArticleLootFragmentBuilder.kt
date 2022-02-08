@@ -20,9 +20,7 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
 
     override val section get() = container.section
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        note?.onExport(exporter)
-    }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + (note?.exporterWalked(exporter) ?: emptyList())
 
     override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
         this.tables = (this.tables ?: supplier(exporter))
@@ -35,16 +33,6 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
             val id = exporter.da.lootTables[it]!!
             val table = exporter.da.lootTables.getTable(id)!!
             val json = LootManager.toJson(table).asJsonObject
-
-            val items = exporter.da.lootTables.getItemsOf(id)
-
-            val tjson = exporter.translator.lootTranslationsJson(it, *items.toTypedArray())
-            json.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }
-            json.add("translations", tjson)
-
-            val ljson = exporter.linker.lootLinksJson(it, *items.toTypedArray())
-            json.get("links")?.asJsonObject?.entrySet()?.forEach { (k, v) -> ljson.add(k, v) }
-            json.add("links", ljson)
 
             json.addProperty("id", id.toString())
 

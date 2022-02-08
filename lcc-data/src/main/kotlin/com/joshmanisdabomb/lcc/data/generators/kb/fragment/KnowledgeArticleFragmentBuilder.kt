@@ -10,7 +10,7 @@ abstract class KnowledgeArticleFragmentBuilder {
 
     val defaultTranslationKey get() = "${container.defaultTranslationKey}.${container.getTranslationKeyAppend(this)}"
 
-    open fun onExport(exporter: KnowledgeExporter) = Unit
+    open fun exporterWalked(exporter: KnowledgeExporter) : List<KnowledgeArticleFragmentBuilder> = listOf(this)
 
     protected abstract fun toJson(exporter: KnowledgeExporter): JsonObject
 

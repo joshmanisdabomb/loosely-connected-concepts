@@ -20,9 +20,7 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
 
     override val section get() = container.section
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        note?.onExport(exporter)
-    }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + (note?.exporterWalked(exporter) ?: emptyList())
 
     override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
         this.recipes = (this.recipes ?: supplier(exporter))
@@ -33,15 +31,6 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
         val recipes = JsonArray()
         this.recipes = (this.recipes ?: supplier(exporter)).onEach {
             val recipe = it.toJson()
-            val items = exporter.da.recipes.getItemsOf(it.recipeId)
-
-            val tjson = exporter.translator.recipeTranslationsJson(it, *items.toTypedArray())
-            recipe.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }
-            recipe.add("translations", tjson)
-
-            val ljson = exporter.linker.recipeLinksJson(it, *items.toTypedArray())
-            recipe.get("links")?.asJsonObject?.entrySet()?.forEach { (k, v) -> ljson.add(k, v) }
-            recipe.add("links", ljson)
 
             val tags = JsonObject()
             exporter.da.recipes.getTagIngredientsOf(it.recipeId).forEach {

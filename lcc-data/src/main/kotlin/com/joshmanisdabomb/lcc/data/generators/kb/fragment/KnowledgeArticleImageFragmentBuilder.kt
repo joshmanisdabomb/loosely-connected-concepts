@@ -18,7 +18,7 @@ class KnowledgeArticleImageFragmentBuilder() : KnowledgeArticleFragmentBuilder()
 
     fun addStatic(relativePath: String, caption: KnowledgeArticleFragmentBuilder? = null) = add(StaticImage(relativePath), caption)
 
-    fun addArticle(article: KnowledgeArticleIdentifier, caption: KnowledgeArticleFragmentBuilder? = null) = add(ArticleImage(article), caption)
+    fun addModel(article: KnowledgeArticleIdentifier, caption: KnowledgeArticleFragmentBuilder? = null) = add(ModelImage(article), caption)
 
     override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = images.values.indexOf(fragment).toString()
 
@@ -40,15 +40,13 @@ class KnowledgeArticleImageFragmentBuilder() : KnowledgeArticleFragmentBuilder()
         return json
     }
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        images.values.forEach { it?.onExport(exporter) }
-    }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + images.values.mapNotNull { it?.exporterWalked(exporter) }.flatten()
 
     private abstract class Image {
         abstract fun toJson(): JsonObject
     }
 
-    private class ArticleImage(val location: KnowledgeArticleIdentifier) : Image() {
+    private class ModelImage(val location: KnowledgeArticleIdentifier) : Image() {
 
         override fun toJson(): JsonObject {
             val json = JsonObject()

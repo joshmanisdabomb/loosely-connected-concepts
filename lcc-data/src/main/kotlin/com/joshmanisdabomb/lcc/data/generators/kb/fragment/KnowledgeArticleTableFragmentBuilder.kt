@@ -20,8 +20,10 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
         return this
     }
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        for (row in rows) row.onExport(exporter)
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + rows.flatMap { it.exporterWalked(exporter) }
+
+    override fun afterInit() {
+        for (row in rows) row.afterInit()
     }
 
     override fun shouldInclude(exporter: KnowledgeExporter) = rows.any { it.shouldInclude(exporter) }
@@ -69,8 +71,10 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
             return this
         }
 
-        internal fun onExport(exporter: KnowledgeExporter) {
-            for (cell in cells) cell.onExport(exporter)
+        internal fun exporterWalked(exporter: KnowledgeExporter) = cells.flatMap { it.exporterWalked(exporter) }
+
+        internal fun afterInit() {
+            for (cell in cells) cell.afterInit()
         }
 
         internal fun toJson(exporter: KnowledgeExporter): JsonObject {
@@ -101,8 +105,10 @@ class KnowledgeArticleTableFragmentBuilder : KnowledgeArticleFragmentBuilder() {
 
             override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = list.indexOf(fragment).toString()
 
-            internal fun onExport(exporter: KnowledgeExporter) {
-                list.forEach { it.onExport(exporter) }
+            internal fun exporterWalked(exporter: KnowledgeExporter) = list.flatMap { it.exporterWalked(exporter) }
+
+            internal fun afterInit() {
+                list.forEach { it.afterInit() }
             }
 
             internal fun toJson(exporter: KnowledgeExporter): JsonObject {

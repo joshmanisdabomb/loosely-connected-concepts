@@ -659,7 +659,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val rhyolite_wall by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().add(WallBlockAssetFactory(LCCBlocks.rhyolite.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), Texture().put(TextureKey.WALL, LCCBlocks.rhyolite.identifierLoc()), d.models) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.rhyolite)).add(StonecutterItemRecipeFactory(LCCBlocks.rhyolite)) }
 
-    val sapphire_altar by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(SapphireAltarBlockAssetFactory).add(SilkBlockLootFactory(LCCBlocks.sapphire_altar_brick, UniformLootNumberProvider.create(8f, 16f))) }
+    val sapphire_altar by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(SapphireAltarBlockAssetFactory).add(SilkBlockLootFactory(LCCBlocks.sapphire_altar_brick, UniformLootNumberProvider.create(8f, 16f))).add(BlockTagFactory(LCCTags.wasteland_required)) }
     val bomb_board_block by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(BombBoardBlockAssetFactory).add(BombBoardBlockLootFactory).add(BlockTagFactory(LCCTags.wasteland_required)) }
 
     val sapphire_altar_brick by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().add(BlockTagFactory(LCCTags.wasteland_required)) }

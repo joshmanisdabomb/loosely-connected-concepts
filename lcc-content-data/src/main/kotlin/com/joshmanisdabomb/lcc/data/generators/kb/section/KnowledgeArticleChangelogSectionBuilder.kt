@@ -1,14 +1,13 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.section
 
-import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleLinkFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
+import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeConstants
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import net.minecraft.text.LiteralText
-import net.minecraft.text.Text
 
-class KnowledgeArticleChangelogSectionBuilder(name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Changelog") }, type: String = "main") : KnowledgeArticleSectionBuilder(name, type) {
+class KnowledgeArticleChangelogSectionBuilder() : KnowledgeArticleSectionBuilder(KnowledgeConstants.changelog) {
 
     override fun afterInit() {
         val f = KnowledgeArticleTableFragmentBuilder()
@@ -16,7 +15,7 @@ class KnowledgeArticleChangelogSectionBuilder(name: (defaultKey: String) -> Text
         if (versions.isNotEmpty()) {
             versions.forEach { (ver, fragment) ->
                 f.addRow {
-                    addCell(KnowledgeArticleTextFragmentBuilder("%s").insertLink(LiteralText(ver.shortname), ver.page.link))
+                    addCell(KnowledgeArticleLinkFragmentBuilder(ver.page).addFragment(KnowledgeArticleTextFragmentBuilder(LiteralText(ver.shortname))))
                     addCell(fragment)
                 }
             }

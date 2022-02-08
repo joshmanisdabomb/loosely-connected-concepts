@@ -1,9 +1,8 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.section
 
 import com.joshmanisdabomb.lcc.LCC
-import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
-import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
+import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeConstants
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.extensions.transform
@@ -16,34 +15,33 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.FireBlock
 import net.minecraft.client.resource.language.I18n
 import net.minecraft.item.*
-import net.minecraft.text.Text
 import net.minecraft.util.registry.Registry
 
-class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Information") }, type: String = "info", val renewable: Boolean = false) : KnowledgeArticleInfoSectionBuilder<Block, Block>(*models, name = name, type = type) {
+class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, val renewable: Boolean = false) : KnowledgeArticleInfoSectionBuilder<Block, Block>(*models) {
 
     override fun getList(provided: List<Block>) = if (provided.isNotEmpty()) provided.toList() else article.about.filterIsInstance<Block>()
 
     override fun getName(model: Block) = model.name
 
     override fun getStats(map: MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>): MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>> {
-        map[KnowledgeArticleTextFragmentBuilder("Image")] = listOf(KnowledgeArticleImageFragmentBuilder().apply { items.forEach { addArticle(KnowledgeArticleIdentifier.ofBlock(it)) } })
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.image)] = listOf(KnowledgeArticleImageFragmentBuilder().apply { items.forEach { addModel(KnowledgeArticleIdentifier.ofBlock(it)) } })
 
         map += addToolStat()
-        map[KnowledgeArticleTextFragmentBuilder("Hardness")] = getTextStatFrom { (it.defaultState as BlockStateAccessor).hardness.toString() }
-        map[KnowledgeArticleTextFragmentBuilder("Blast Resistance")] = getTextStatFrom { it.blastResistance.toString() }
-        map[KnowledgeArticleTextFragmentBuilder("Luminance")] = getTextStatFrom {
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.hardness)] = getTextStatFrom { (it.defaultState as BlockStateAccessor).hardness.toString() }
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.blastResistance)] = getTextStatFrom { it.blastResistance.toString() }
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.luminance)] = getTextStatFrom {
             val array = it.stateManager.states.map { it.luminance }.toIntArray()
             val min = array.minOrNull()!!
             val max = array.maxOrNull()!!
             if (min == max) min.toString() else "$min-$max"
         }
-        map[KnowledgeArticleTextFragmentBuilder("Friction")] = getTextStatFrom { if (it.slipperiness == 0.6f) "Normal" else it.slipperiness.toString() }
-        map[KnowledgeArticleTextFragmentBuilder("Flammability")] = getFlammability()
-        map[KnowledgeArticleTextFragmentBuilder("Random Ticks")] = getTextStatFrom { it.stateManager.states.map(BlockState::hasRandomTicks).any().transform("Yes", "No") }
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.friction)] = getTextStatFrom { if (it.slipperiness == 0.6f) "Normal" else it.slipperiness.toString() }
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.flammability)] = getFlammability()
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.randomTicks)] = getTextStatFrom { it.stateManager.states.map(BlockState::hasRandomTicks).any().transform("Yes", "No") }
 
         map += KnowledgeArticleItemInfoSectionBuilder(*items.map(Block::asItem).toTypedArray(), renewable = renewable).getStats().toList().drop(1)
 
-        map[KnowledgeArticleTextFragmentBuilder { IncludedTranslatableText(it).translation("Map Colors", "en_us").translation("Map Colours", "en_gb") }] = getStatFrom({ it.values.flatMap { it }.distinct().map(::KnowledgeArticleColorFragmentBuilder) }) { it.stateManager.states.map { (it as BlockStateAccessor).mapColor.color } }
+        map[KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.mapColors)] = getStatFrom({ it.values.flatMap { it }.distinct().map(::KnowledgeArticleColorFragmentBuilder) }) { it.stateManager.states.map { (it as BlockStateAccessor).mapColor.color } }
         return map
     }
 
@@ -53,17 +51,17 @@ class KnowledgeArticleBlockInfoSectionBuilder(vararg models: Block, name: (defau
                 LCC.modid -> tool.identifier.path.split("_").joinToString(" ") { it.capitalize() }
                 else -> I18n.translate(tool.translationKey)
             }
-            if (article.tags.contains("$name Recommended")) return KnowledgeArticleTextFragmentBuilder("Recommended Tool") to listOf(KnowledgeArticleStackFragmentBuilder(tool.stack()) { it.addProperty("tool_recommended", true) })
-            else if (article.tags.contains("$name Required")) return KnowledgeArticleTextFragmentBuilder("Required Tool") to listOf(KnowledgeArticleStackFragmentBuilder(tool.stack()) { it.addProperty("tool_required", true) })
+            if (article.tags.contains("$name Recommended")) return KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.recommendedTool) to listOf(KnowledgeArticleStackFragmentBuilder(tool.stack()) { it.addProperty("tool_recommended", true) })
+            else if (article.tags.contains("$name Required")) return KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.requiredTool) to listOf(KnowledgeArticleStackFragmentBuilder(tool.stack()) { it.addProperty("tool_required", true) })
         }
-        return KnowledgeArticleTextFragmentBuilder("Required Tool") to listOf(KnowledgeArticleTextFragmentBuilder("Any"))
+        return KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.requiredTool) to listOf(KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.anyTool))
     }
 
     private fun getFlammability(): List<KnowledgeArticleFragmentBuilder> {
         val fires = Registry.BLOCK.filterIsInstance<FireBlock>().filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
         val effective = fires.filter { items.any { b -> val entry = FlammableBlockRegistry.getInstance(it).get(b) ?: return@any false; entry.burnChance > 0 || entry.spreadChance > 0 } }
-        return if (effective.isEmpty()) return listOf(KnowledgeArticleTextFragmentBuilder("No"))
-        else effective.map { KnowledgeArticleTextFragmentBuilder("%s").insertLink(it.name, KnowledgeArticleIdentifier.ofBlock(it).link) }
+        return if (effective.isEmpty()) return listOf(KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.notFlammable))
+        else effective.map { KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBlock(it)).addFragment(KnowledgeArticleTextFragmentBuilder(it.name)) }
     }
 
     companion object {

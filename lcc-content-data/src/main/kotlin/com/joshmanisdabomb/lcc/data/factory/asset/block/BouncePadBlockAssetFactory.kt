@@ -6,14 +6,14 @@ import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
 
 object BouncePadBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val textures = Texture().put(LCCModelTextureKeys.t0, idh.locSuffix(entry, "base_h")).put(LCCModelTextureKeys.t1, idh.locSuffix(entry, "inner")).put(LCCModelTextureKeys.t2, idh.locSuffix(entry, "setting")).put(LCCModelTextureKeys.t3, idh.locSuffix(entry, "base_v")).put(TextureKey.PARTICLE, idh.locSuffix(entry, "base_v"))
+        val textures = TextureMap().put(LCCModelTextureKeys.t0, idh.locSuffix(entry, "base_h")).put(LCCModelTextureKeys.t1, idh.locSuffix(entry, "inner")).put(LCCModelTextureKeys.t2, idh.locSuffix(entry, "setting")).put(LCCModelTextureKeys.t3, idh.locSuffix(entry, "base_v")).put(TextureKey.PARTICLE, idh.locSuffix(entry, "base_v"))
         val bounce_pad = LCCModelTemplates.template_bounce_pad.upload(idh.loc(entry), textures, data.models)
         val bounce_pad_settings = listOf(
             LCCModelTemplates.template_bounce_pad_0.upload(idh.locSuffix(entry, "0"), textures, data.models),

@@ -6,14 +6,14 @@ import com.joshmanisdabomb.lcc.extensions.booleanProperty
 import com.joshmanisdabomb.lcc.extensions.modify
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 
 open class GlassPaneBlockAssetFactory(val top: (entry: Block) -> Identifier? = { null }) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val texture = Texture().put(TextureKey.PANE, idh.loc(entry).modify { it.replace("_pane", "") }).put(TextureKey.EDGE, top(entry) ?: idh.locSuffix(entry, "top"))
+        val texture = TextureMap().put(TextureKey.PANE, idh.loc(entry).modify { it.replace("_pane", "") }).put(TextureKey.EDGE, top(entry) ?: idh.locSuffix(entry, "top"))
         val post = Models.TEMPLATE_GLASS_PANE_POST.upload(idh.locSuffix(entry, "post"), texture, data.models)
         val side = Models.TEMPLATE_GLASS_PANE_SIDE.upload(idh.locSuffix(entry, "side"), texture, data.models)
         val side_alt = Models.TEMPLATE_GLASS_PANE_SIDE_ALT.upload(idh.locSuffix(entry, "side_alt"), texture, data.models)

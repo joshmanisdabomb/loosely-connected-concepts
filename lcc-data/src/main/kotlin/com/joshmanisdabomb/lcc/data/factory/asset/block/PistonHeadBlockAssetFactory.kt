@@ -7,7 +7,7 @@ import com.joshmanisdabomb.lcc.extensions.prefix
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
 import net.minecraft.block.enums.PistonType
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
@@ -16,7 +16,7 @@ open class PistonHeadBlockAssetFactory(val textureTopSticky: Identifier? = null,
 
     override fun apply(data: DataAccessor, entry: Block) {
         val top = textureTop ?: idh.locSuffix(entry, "top").modify { it.replace("_head", "") }
-        val texture = Texture()
+        val texture = TextureMap()
             .put(TextureKey.SIDE, textureSide ?: idh.locSuffix(entry, "side").modify { it.replace("_head", "") })
             .put(TextureKey.UNSTICKY, top)
         val head = Models.TEMPLATE_PISTON_HEAD.upload(idh.loc(entry), texture.copyAndAdd(TextureKey.PLATFORM, top), data.models)

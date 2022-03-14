@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat
 import com.joshmanisdabomb.lcc.abstracts.challenges.LCCAltarChallenges
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.tags.*
 import com.joshmanisdabomb.lcc.extensions.IdentifierHelper
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
@@ -21,7 +22,11 @@ object LCC : ModInitializer {
         LCCSounds.init()
         LCCFluids.init()
         LCCSignTypes.init()
-        LCCTags.init()
+        LCCBlockTags.init()
+        LCCItemTags.init()
+        LCCEntityTags.init()
+        LCCFluidTags.init()
+        LCCBiomeTags.init()
         LCCBlocks.init()
         LCCEntities.init()
         LCCBoatTypes.init()

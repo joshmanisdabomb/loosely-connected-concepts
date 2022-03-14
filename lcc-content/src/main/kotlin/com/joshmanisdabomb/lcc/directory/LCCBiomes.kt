@@ -10,7 +10,6 @@ import net.minecraft.world.biome.GenerationSettings
 import net.minecraft.world.biome.SpawnSettings
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry
 import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.ConfiguredFeatures
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures
 import net.minecraft.world.gen.feature.OrePlacedFeatures
 
@@ -59,7 +58,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.tungsten)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.oil_pockets)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deposits)
+                //.feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deposits)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.landmines)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.spike_trap)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deadwood_logs)
@@ -116,7 +115,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium_wasteland)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.tungsten)
-                .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deposits)
+                //.feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deposits)
                 .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCPlacedFeatures.fortstone_patches)
                 .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCPlacedFeatures.wasteland_spikes)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.wasp_hive)

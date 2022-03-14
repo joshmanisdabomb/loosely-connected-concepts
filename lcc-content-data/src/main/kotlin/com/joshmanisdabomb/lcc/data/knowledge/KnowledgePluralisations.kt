@@ -11,29 +11,28 @@ import org.apache.http.client.methods.HttpPost
 import org.apache.http.impl.client.HttpClientBuilder
 import java.io.InputStreamReader
 
-
 object KnowledgePluralisations {
 
     val converts = mutableMapOf<String, String>()
 
     fun injectTranslations(lang: LangBatch) {
-        Registry.BLOCK.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            converts[v.translationKey] = lang[v.translationKey] ?: I18n.translate(v.translationKey)
+        Registry.BLOCK.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            converts[it.value().translationKey] = lang[it.value().translationKey] ?: I18n.translate(it.value().translationKey)
         }
-        Registry.ITEM.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            converts[v.translationKey] = lang[v.translationKey] ?: I18n.translate(v.translationKey)
+        Registry.ITEM.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            converts[it.value().translationKey] = lang[it.value().translationKey] ?: I18n.translate(it.value().translationKey)
         }
-        Registry.ENTITY_TYPE.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            converts[v.translationKey] = lang[v.translationKey] ?: I18n.translate(v.translationKey)
+        Registry.ENTITY_TYPE.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            converts[it.value().translationKey] = lang[it.value().translationKey] ?: I18n.translate(it.value().translationKey)
         }
-        Registry.ENCHANTMENT.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            converts[v.translationKey] = lang[v.translationKey] ?: I18n.translate(v.translationKey)
+        Registry.ENCHANTMENT.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            converts[it.value().translationKey] = lang[it.value().translationKey] ?: I18n.translate(it.value().translationKey)
         }
-        Registry.STATUS_EFFECT.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            converts[v.translationKey] = lang[v.translationKey] ?: I18n.translate(v.translationKey)
+        Registry.STATUS_EFFECT.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            converts[it.value().translationKey] = lang[it.value().translationKey] ?: I18n.translate(it.value().translationKey)
         }
-        BuiltinRegistries.BIOME.entries.filter { (k, v) -> k.value.namespace == "lcc" || k.value.namespace == "minecraft" }.forEach { (k, v) ->
-            val key = "biome.${k.value.toString().replace(":", ".")}"
+        BuiltinRegistries.BIOME.indexedEntries.filter { it.key.get().value.namespace == "lcc" || it.key.get().value.namespace == "minecraft" }.forEach {
+            val key = "biome.${it.key.get().value.toString().replace(":", ".")}"
             converts[key] = lang[key] ?: I18n.translate(key)
         }
 

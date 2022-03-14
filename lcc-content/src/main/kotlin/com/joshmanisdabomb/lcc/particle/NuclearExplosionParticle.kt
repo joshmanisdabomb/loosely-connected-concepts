@@ -11,9 +11,9 @@ class NuclearExplosionParticle(world: ClientWorld, x: Double, y: Double, z: Doub
 
     init {
         val f = 1.0f
-        colorRed = f
-        colorGreen = f
-        colorBlue = f
+        red = f
+        green = f
+        blue = f
         maxAge = 32
     }
 

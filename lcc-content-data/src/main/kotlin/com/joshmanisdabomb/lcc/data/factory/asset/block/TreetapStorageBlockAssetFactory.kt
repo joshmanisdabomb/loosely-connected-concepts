@@ -10,7 +10,7 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 
 class TreetapStorageBlockAssetFactory(val container: AbstractTreetapBlock.TreetapContainer, vararg val liquids: Model?, val model: ModelProvider.ModelFactory<Block>) : BlockAssetFactory {
@@ -22,10 +22,10 @@ class TreetapStorageBlockAssetFactory(val container: AbstractTreetapBlock.Treeta
             horizontalDirections.forEach { f ->
                 with(When.create().set(Properties.HORIZONTAL_FACING, f), BlockStateVariant.create().put(VariantSettings.MODEL, model).apply(ModelProvider.horizontalRotation(f)))
                 AbstractTreetapBlock.TreetapLiquid.values().forEach { l ->
-                    val texture = Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString()))
+                    val texture = TextureMap().put(LCCModelTextureKeys.t2, LCC.block(l.asString()))
                     val liquids = liquids.dropLast(1).filterNotNull()
                     val overflow = LCCModelTemplates.template_treetap_overflow.upload(idh.suffix(model, l.asString() + "_" + liquids.size.plus(1).toString()), texture, data.models)
-                    this@TreetapStorageBlockAssetFactory.liquids.last()?.upload(idh.suffix(model, l.asString() + "_dried"), Texture().put(LCCModelTextureKeys.t2, LCC.block(l.asString()).suffix("dry")), data.models)
+                    this@TreetapStorageBlockAssetFactory.liquids.last()?.upload(idh.suffix(model, l.asString() + "_dried"), TextureMap().put(LCCModelTextureKeys.t2, LCC.block(l.asString()).suffix("dry")), data.models)
                     liquids.forEachIndexed { k, v ->
                         with(When.create().set(Properties.HORIZONTAL_FACING, f).set(TreetapStorageBlock.liquid, l).set(entry.progress, k.plus(1)),
                             BlockStateVariant.create().put(VariantSettings.MODEL, v.upload(idh.suffix(model, l.asString() + "_" + k.plus(1).toString()), texture, data.models)).apply(ModelProvider.horizontalRotation(f)))

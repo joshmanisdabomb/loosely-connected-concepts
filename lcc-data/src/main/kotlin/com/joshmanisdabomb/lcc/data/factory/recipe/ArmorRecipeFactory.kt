@@ -1,29 +1,29 @@
 package com.joshmanisdabomb.lcc.data.factory.recipe
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
-import net.minecraft.data.server.recipe.ShapedRecipeJsonFactory
+import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 
-class ArmorRecipeFactory(val ingot: ItemConvertible, criterion: (ShapedRecipeJsonFactory.(entry: Item) -> Unit)? = null, val type: String? = null) : RecipeFactory {
+class ArmorRecipeFactory(val ingot: ItemConvertible, criterion: (ShapedRecipeJsonBuilder.(entry: Item) -> Unit)? = null, val type: String? = null) : RecipeFactory {
 
     val criterion = criterion ?: { hasCriterionShaped(this, it) }
 
     override fun apply(data: DataAccessor, entry: Item) {
         val path = assetPath(entry)
         when (type ?: path.split('_').last()) {
-            "helmet" -> ShapedRecipeJsonFactory.create(entry)
+            "helmet" -> ShapedRecipeJsonBuilder.create(entry)
                 .pattern("iii")
                 .pattern("i i")
-            "chestplate" -> ShapedRecipeJsonFactory.create(entry)
+            "chestplate" -> ShapedRecipeJsonBuilder.create(entry)
                 .pattern("i i")
                 .pattern("iii")
                 .pattern("iii")
-            "leggings" -> ShapedRecipeJsonFactory.create(entry)
+            "leggings" -> ShapedRecipeJsonBuilder.create(entry)
                 .pattern("iii")
                 .pattern("i i")
                 .pattern("i i")
-            "boots" -> ShapedRecipeJsonFactory.create(entry)
+            "boots" -> ShapedRecipeJsonBuilder.create(entry)
                 .pattern("i i")
                 .pattern("i i")
             else -> error("Could not determine armor type from path.")

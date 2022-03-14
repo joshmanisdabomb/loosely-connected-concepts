@@ -1451,7 +1451,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.bounce_pad) })
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder("Recipe before %s.")
                     .insertLink(LCCVersion.LCC_FABRIC_0_5_1.label, LCCVersion.LCC_FABRIC_0_5_1.page.link), obsolete = true) { e ->
-                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad, 6)
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad, 6)
                             .pattern("rwr")
                             .pattern("ipi")
                             .pattern("sss")
@@ -1469,7 +1469,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 })
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder("Recipe before %s.")
                     .insertLink(LCCVersion.LCC_FABRIC_0_4_2.label, LCCVersion.LCC_FABRIC_0_4_2.page.link), obsolete = true) { e ->
-                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad)
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad)
                             .pattern("rwr")
                             .pattern("ipi")
                             .pattern("sss")
@@ -1487,7 +1487,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     })
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder("Recipe before %s.")
                     .insertLink(LCCVersion.LCC_FABRIC_0_2_0.label, LCCVersion.LCC_FABRIC_0_2_0.page.link), obsolete = true) { e ->
-                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonFactory.create(LCCBlocks.bounce_pad, 8)
+                        listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad, 8)
                             .pattern("rwr")
                             .pattern("ipi")
                             .pattern("sss")

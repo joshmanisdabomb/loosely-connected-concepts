@@ -8,6 +8,7 @@ import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.StringIdentifiable
 import net.minecraft.util.registry.Registry
@@ -26,10 +27,10 @@ class TagBatch {
     fun entity(id: Identifier) = tag(TagType.ENTITY, id)
     fun fluid(id: Identifier) = tag(TagType.FLUID, id)
 
-    fun block(tag: Tag<Block>) = block((tag as Tag.Identified<Block>).id)
-    fun item(tag: Tag<Item>) = item((tag as Tag.Identified<Item>).id)
-    fun entity(tag: Tag<EntityType<*>>) = entity((tag as Tag.Identified<EntityType<*>>).id)
-    fun fluid(tag: Tag<Fluid>) = fluid((tag as Tag.Identified<Fluid>).id)
+    fun block(tag: TagKey<Block>) = block(tag.id)
+    fun item(tag: TagKey<Item>) = item(tag.id)
+    fun entity(tag: TagKey<EntityType<*>>) = entity(tag.id)
+    fun fluid(tag: TagKey<Fluid>) = fluid(tag.id)
 
     fun getBuilders() = table.cellSet().onEach { (it.value as TagBuilderAccessor).entries.sortWith(it.value.sorter) }
 
@@ -81,9 +82,9 @@ class TagBatch {
 
         fun optional(vararg items: T) = optionalId(*items.map(type::getId).toTypedArray())
 
-        fun attachTag(vararg tags: Tag.Identified<U>) = attachTagId(*tags.map { it.id }.toTypedArray())
+        fun attachTag(vararg tags: TagKey<U>) = attachTagId(*tags.map { it.id }.toTypedArray())
 
-        fun optionalTag(vararg tags: Tag.Identified<U>) = optionalTagId(*tags.map { it.id }.toTypedArray())
+        fun optionalTag(vararg tags: TagKey<U>) = optionalTagId(*tags.map { it.id }.toTypedArray())
 
         fun attachTag(vararg tags: TagBuilder<*, U>) = attachTagId(*tags.map { it.id }.toTypedArray())
 

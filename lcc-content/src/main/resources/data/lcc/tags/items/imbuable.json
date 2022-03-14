@@ -1,7 +1,20 @@
 {
   "replace": false,
   "values": [
+    "lcc:amethyst_sword",
+    "lcc:deadwood_sword",
+    "lcc:emerald_sword",
+    "lcc:fortstone_sword",
     "lcc:knife",
-    "#fabric:swords"
+    "lcc:ruby_sword",
+    "lcc:rusty_iron_sword",
+    "lcc:sapphire_sword",
+    "lcc:topaz_sword",
+    "minecraft:diamond_sword",
+    "minecraft:golden_sword",
+    "minecraft:iron_sword",
+    "minecraft:netherite_sword",
+    "minecraft:stone_sword",
+    "minecraft:wooden_sword"
   ]
 }

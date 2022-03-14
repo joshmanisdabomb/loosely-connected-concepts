@@ -7,7 +7,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.Recipe
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.util.function.Consumer
@@ -103,15 +103,15 @@ class RecipeBatch : Consumer<RecipeJsonProvider> {
 
     override fun accept(provider: RecipeJsonProvider) = add(provider)
 
-    fun <T> addTagHandler(tag: Tag<T>, items: Tag<T>.() -> Iterable<ItemConvertible>) {
-        tagHandlers[(tag as Tag.Identified<T>).id] = tag.items()
+    fun <T> addTagHandler(tag: TagKey<T>, items: TagKey<T>.() -> Iterable<ItemConvertible>) {
+        tagHandlers[tag.id] = tag.items()
     }
 
-    fun <T> addTagHandlerList(tag: Tag<T>, vararg items: ItemConvertible) {
+    fun <T> addTagHandlerList(tag: TagKey<T>, vararg items: ItemConvertible) {
         addTagHandler(tag) { items.toList() }
     }
 
-    fun <T> addTagHandlerFilter(tag: Tag<T>, filter: Tag<T>.(item: ItemConvertible) -> Boolean) {
+    fun <T> addTagHandlerFilter(tag: TagKey<T>, filter: TagKey<T>.(item: ItemConvertible) -> Boolean) {
         addTagHandler(tag) { Registry.ITEM.filter { tag.filter(it) } }
     }
 

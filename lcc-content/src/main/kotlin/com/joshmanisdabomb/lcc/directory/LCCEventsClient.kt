@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.extensions.forEachInt
 import com.joshmanisdabomb.lcc.recipe.imbuing.ImbuingRecipe
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
@@ -16,7 +17,7 @@ object LCCEventsClient : BasicDirectory<Any, Unit>() {
 
     val imbueTooltip by entry(ItemTooltipCallback.EVENT.initialiser) { ItemTooltipCallback { stack, context, lines ->
         val world = MinecraftClient.getInstance().world ?: return@ItemTooltipCallback
-        if (!stack.isIn(LCCTags.imbuable)) return@ItemTooltipCallback
+        if (!stack.isIn(LCCItemTags.imbuable)) return@ItemTooltipCallback
         stack.getSubNbt("lcc-imbue")?.forEachInt { k, v ->
             val recipe = world.recipeManager.get(Identifier(k)).orElse(null) as? ImbuingRecipe ?: return@forEachInt
             lines.add(TranslatableText("tooltip.lcc.imbue.${k.replace(":", ".")}", v, recipe.getMaxHits(stack)).formatted(Formatting.DARK_GREEN))

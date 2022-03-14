@@ -6,10 +6,10 @@ import com.joshmanisdabomb.lcc.data.factory.asset.AssetFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.extensions.identifier
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.MultipartBlockStateSupplier
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.VariantsBlockStateSupplier
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.MultipartBlockStateSupplier
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.VariantsBlockStateSupplier
 
 interface BlockAssetFactory : BlockDataFactory, AssetFactory<Block> {
 

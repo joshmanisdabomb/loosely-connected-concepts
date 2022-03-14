@@ -8,9 +8,9 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.BlockStateVariantMap
-import net.minecraft.data.client.model.Texture
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.BlockStateVariantMap
+import net.minecraft.data.client.TextureMap
 import net.minecraft.state.property.Properties
 
 object ExplodingNuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
@@ -19,7 +19,7 @@ object ExplodingNuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
         val id = idh.loc(LCCBlocks.nuclear_generator)
         val top = LCC.block("generator")
         val machine = idh.loc(LCCBlocks.machine_enclosure)
-        val model = LCCModelTemplates.template_nuclear_generator_full.upload(idh.loc(entry), Texture.particle(machine.suffix("side"))
+        val model = LCCModelTemplates.template_nuclear_generator_full.upload(idh.loc(entry), TextureMap.particle(machine.suffix("side"))
             .put(LCCModelTextureKeys.t0, top.suffix("on"))
             .put(LCCModelTextureKeys.t1, id.suffix("bottom_side"))
             .put(LCCModelTextureKeys.t2, id.suffix("top_side"))

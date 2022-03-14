@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.block.WastelandRustingBlock
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.effect.HurtResistanceStatusEffect
 import com.joshmanisdabomb.lcc.event.DamageEntityCallback
 import com.joshmanisdabomb.lcc.event.InteractEntityCallback
@@ -69,7 +70,7 @@ object LCCEvents : BasicDirectory<Any, Unit>() {
     val imbueAttack by entry(AttackEntityCallback.EVENT.initialiser) { AttackEntityCallback { player, world, hand, entity, entityHitResult ->
         if (entity !is LivingEntity) return@AttackEntityCallback ActionResult.PASS
         val stack = player.getStackInHand(hand)
-        if (!stack.isIn(LCCTags.imbuable)) return@AttackEntityCallback ActionResult.PASS
+        if (!stack.isIn(LCCItemTags.imbuable)) return@AttackEntityCallback ActionResult.PASS
         val imbue = stack.getSubNbt("lcc-imbue")
         imbue?.keys?.forEach {
             val recipe = world.recipeManager.get(Identifier(it)).orElse(null) as? ImbuingRecipe ?: return@forEach imbue.remove(it)

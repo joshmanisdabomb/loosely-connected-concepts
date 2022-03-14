@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.recipe.imbuing
 
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
@@ -23,7 +23,7 @@ class ImbuingSimpleRecipe(id: Identifier, protected val _group: String, protecte
 
     override fun getIngredients() = DefaultedList.copyOf(Ingredient.EMPTY, input)
 
-    override fun matches(inventory: Inventory, world: World) = inventory.getStack(0).isIn(LCCTags.imbuable) && input.test(inventory.getStack(1))
+    override fun matches(inventory: Inventory, world: World) = inventory.getStack(0).isIn(LCCItemTags.imbuable) && input.test(inventory.getStack(1))
 
     override fun craft(inventory: Inventory): ItemStack {
         val stack = inventory.getStack(0).copy()

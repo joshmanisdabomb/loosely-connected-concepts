@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.data.DataUtils
 import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
-import net.minecraft.data.client.model.TextureKey
+import net.minecraft.data.client.TextureKey
 
 object LCCModelTextureKeys : AdvancedDirectory<String, TextureKey, Unit, Unit>() {
 

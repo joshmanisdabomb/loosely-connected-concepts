@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.NetherReactorBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
@@ -60,9 +60,9 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
                 val bottom = world.getBlockState(bp.set(pos).move(i, -1, k))
                 val middle = world.getBlockState(bp.move(Direction.UP))
                 val top = world.getBlockState(bp.move(Direction.UP))
-                if (i != 0 && k != 0 && (!bottom.isIn(LCCTags.nether_reactor_base) || !middle.isIn(LCCTags.nether_reactor_shell) || !top.isAir)) return false
-                if ((i != 0 && k == 0 || i == 0 && k != 0) && (!bottom.isIn(LCCTags.nether_reactor_shell) || !middle.isAir || !top.isIn(LCCTags.nether_reactor_shell))) return false
-                if (i == 0 && k == 0 && (!bottom.isIn(LCCTags.nether_reactor_shell) || !top.isIn(LCCTags.nether_reactor_shell))) return false
+                if (i != 0 && k != 0 && (!bottom.isIn(LCCBlockTags.nether_reactor_base) || !middle.isIn(LCCBlockTags.nether_reactor_shell) || !top.isAir)) return false
+                if ((i != 0 && k == 0 || i == 0 && k != 0) && (!bottom.isIn(LCCBlockTags.nether_reactor_shell) || !middle.isAir || !top.isIn(LCCBlockTags.nether_reactor_shell))) return false
+                if (i == 0 && k == 0 && (!bottom.isIn(LCCBlockTags.nether_reactor_shell) || !top.isIn(LCCBlockTags.nether_reactor_shell))) return false
             }
         }
         return true

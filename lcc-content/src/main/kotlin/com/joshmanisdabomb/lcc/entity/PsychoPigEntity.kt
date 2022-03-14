@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.entity
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
+import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.item.KnifeItem.Companion.knockback_resistance_modifier_uuid
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
@@ -91,7 +92,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (LCCBiomes.getOrNull(world.getBiome(pos))?.tags?.contains("wasteland") != true) return -100.0f
+        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 

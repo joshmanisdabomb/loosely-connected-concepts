@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 
 object SaltBlockAssetFactory : BlockAssetFactory {
@@ -18,7 +18,7 @@ object SaltBlockAssetFactory : BlockAssetFactory {
     }
 
     private fun getVariantsList(data: DataAccessor, entry: Block, level: Int, vararg variants: Model) = variants.flatMapIndexed { i, m ->
-        val model = m.upload(idh.locSuffix(entry, "${level}_${i.plus(1)}"), Texture.texture(LCC.block("salt")), data.models)
+        val model = m.upload(idh.locSuffix(entry, "${level}_${i.plus(1)}"), TextureMap.texture(LCC.block("salt")), data.models)
         VariantSettings.Rotation.values().map {
             BlockStateVariant.create().put(VariantSettings.MODEL, model).put(VariantSettings.Y, it)
         }

@@ -61,7 +61,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
     }
 
     override fun lcc_onEntityCollisionGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: Entity) {
-        with(pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return) {
+        with(pos.minByOrNull { it.getSquaredDistanceFromCenter(entity.x, entity.y, entity.z) } ?: return) {
             bounce(world, this, states[pos.indexOf(this)], entity)
         }
     }

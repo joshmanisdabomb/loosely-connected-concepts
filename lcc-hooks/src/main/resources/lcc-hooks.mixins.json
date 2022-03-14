@@ -26,7 +26,8 @@
     "EnchantmentHelperMixin",
     "PistonBlockEntityMixin",
     "ProjectileUtilMixin",
-    "CreeperEntityMixin"
+    "CreeperEntityMixin",
+    "FallingBlockEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -30,15 +30,12 @@ import net.minecraft.item.Items
 import net.minecraft.network.ClientConnection
 import net.minecraft.network.NetworkSide
 import net.minecraft.stat.StatHandler
-import net.minecraft.tag.BlockTags
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.Difficulty
 import net.minecraft.world.dimension.DimensionType
-import net.minecraft.world.dimension.DimensionType.OVERWORLD_ID
 import java.io.File
-import java.util.*
 import kotlin.math.atan
 import kotlin.math.max
 import kotlin.math.pow
@@ -240,7 +237,7 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
 
     }
 
-    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, DimensionType.create(OptionalLong.empty(), true, false, false, false, 1.0, false, false, false, false, false, -16, 32, 32, BlockTags.INFINIBURN_OVERWORLD.id, OVERWORLD_ID, 1f), 0, 0, { null }, null, false, 0L) {
+    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, MinecraftClient.getInstance().networkHandler!!.registryManager.get(Registry.DIMENSION_TYPE_KEY).getEntry(DimensionType.OVERWORLD_REGISTRY_KEY).orElseThrow(), 0, 0, { null }, null, false, 0L) {
 
     }
 

@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry
 class ImbuingRecipeJsonFactory(private val input: Ingredient, private val hits: Int) : JsonFactoryAccess {
 
     private val effects = mutableListOf<StatusEffectInstance>()
-    private val builder = Advancement.Task.create()
+    private val builder = Advancement.Builder.create()
     private var group: String? = null
 
     fun addEffect(vararg effects: StatusEffectInstance): ImbuingRecipeJsonFactory {
@@ -55,7 +55,7 @@ class ImbuingRecipeJsonFactory(private val input: Ingredient, private val hits: 
         return this
     }
 
-    class ImbuingRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val input: Ingredient, private val effects: List<StatusEffectInstance>, private val hits: Int, private val builder: Advancement.Task, private val advancementId: Identifier) : RecipeJsonProvider {
+    class ImbuingRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val input: Ingredient, private val effects: List<StatusEffectInstance>, private val hits: Int, private val builder: Advancement.Builder, private val advancementId: Identifier) : RecipeJsonProvider {
 
         override fun serialize(json: JsonObject) {
 

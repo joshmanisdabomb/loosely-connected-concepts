@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.inventory.container.CoalFiredGeneratorScreenHandler
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
@@ -21,7 +21,7 @@ class CoalFiredGeneratorBlock(settings: Settings) : FiredGeneratorBlock(settings
         return FuelRegistry.INSTANCE[stack.item]?.div(1.5)?.let { ceil(it) }
     }
 
-    override fun getSteam(stack: ItemStack) = stack.isIn(LCCTags.furnace_generator_double).transform(9f, 7.5f)
+    override fun getSteam(stack: ItemStack) = stack.isIn(LCCItemTags.furnace_generator_double).transform(9f, 7.5f)
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, inventory: LCCInventory, player: PlayerEntity, propertyDelegate: PropertyDelegate) = CoalFiredGeneratorScreenHandler(syncId, inv, inventory, propertyDelegate)
 

@@ -42,9 +42,9 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
         onChanged(handler.inventory)
     }
 
-    override fun onClose() {
+    override fun close() {
         handler.inventory.removeListener(listener)
-        super.onClose()
+        super.close()
     }
 
     override fun init() {

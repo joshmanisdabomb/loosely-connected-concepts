@@ -60,9 +60,9 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         handler.inventory.addListener(listener)
     }
 
-    override fun onClose() {
+    override fun close() {
         handler.inventory.removeListener(listener)
-        super.onClose()
+        super.close()
     }
 
     override fun init() {

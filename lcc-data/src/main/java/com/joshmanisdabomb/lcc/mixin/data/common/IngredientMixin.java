@@ -1,12 +1,11 @@
 package com.joshmanisdabomb.lcc.mixin.data.common;
 
 import com.joshmanisdabomb.lcc.data.recipe.IdentifiableIngredient;
-import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.tag.Tag;
-import net.minecraft.tag.TagManager;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
@@ -27,15 +26,6 @@ public abstract class IngredientMixin implements IdentifiableIngredient {
     @Shadow @Final
     private Ingredient.Entry[] entries;
 
-    @Redirect(method = "entryFromJson", at = @At(value = "INVOKE", target = "Lnet/minecraft/tag/TagManager;getTag(Lnet/minecraft/util/registry/RegistryKey;Lnet/minecraft/util/Identifier;Ljava/util/function/Function;)Lnet/minecraft/tag/Tag;"))
-    private static <T, E extends Exception> Tag<T> ignoreUninitialisedTags(TagManager tm, RegistryKey<? extends Registry<T>> key, Identifier id, Function<Identifier, E> exception) {
-        try {
-            return tm.getTag(key, id, exception);
-        } catch (Exception e) {
-            return TagFactory.of(() -> tm.getOrCreateTagGroup(key)).create(id);
-        }
-    }
-
     @NotNull
     @Override
     public List<ItemStack> getItemStacks() {
@@ -44,8 +34,14 @@ public abstract class IngredientMixin implements IdentifiableIngredient {
 
     @NotNull
     @Override
-    public List<Tag<Item>> getTags() {
+    public List<TagKey<Item>> getTags() {
         return Arrays.stream(entries).filter(e -> e instanceof Ingredient.TagEntry).map(t -> ((IngredientTagEntryAccessor)t).getTag()).toList();
+    }
+
+    @NotNull
+    @Override
+    public List<ItemStack> getTagStacks() {
+        return Arrays.stream(entries).filter(e -> e instanceof Ingredient.TagEntry).flatMap(s -> s.getStacks().stream()).toList();
     }
 
 }

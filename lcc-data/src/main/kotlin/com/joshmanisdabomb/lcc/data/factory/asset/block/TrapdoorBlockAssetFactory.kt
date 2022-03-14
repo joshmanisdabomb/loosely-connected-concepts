@@ -3,14 +3,14 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
 import net.minecraft.block.enums.BlockHalf
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.math.Direction
 
 open class TrapdoorBlockAssetFactory(val orientable: Boolean) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val texture = Texture.texture(entry)
+        val texture = TextureMap.texture(entry)
         val bottom = Models.TEMPLATE_TRAPDOOR_BOTTOM.upload(idh.loc(entry), texture, data.models)
         val top = Models.TEMPLATE_TRAPDOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.models)
         val open = Models.TEMPLATE_TRAPDOOR_OPEN.upload(idh.locSuffix(entry, "open"), texture, data.models)

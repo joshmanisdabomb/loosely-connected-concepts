@@ -118,7 +118,7 @@ public abstract class EntityMixin {
                         Block block = state.getBlock();
                         if (block instanceof LCCBlockTrait) {
                             Vec3d vec = ((Entity)(Object)this).getPos();
-                            ((LCCBlockTrait)block).lcc_onEntityNearby(world, state, bp, (Entity)(Object)this, bp.getSquaredDistance(vec.x, vec.y, vec.z, true));
+                            ((LCCBlockTrait)block).lcc_onEntityNearby(world, state, bp, (Entity)(Object)this, bp.getSquaredDistanceFromCenter(vec.x, vec.y, vec.z));
                         }
                     }
                 }

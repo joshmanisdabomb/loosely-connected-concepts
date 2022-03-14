@@ -10,7 +10,6 @@ import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.inventory.AtomicBombInventory
 import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -24,6 +23,7 @@ import net.minecraft.inventory.Inventories
 import net.minecraft.item.AutomaticItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
+import net.minecraft.item.ShearsItem
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
@@ -203,7 +203,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
             if (!player.isSurvival && stack.isOf(Items.FLINT_AND_STEEL)) {
                 if (!world.isClient) explode(inventory?.uraniumCount ?: return ActionResult.PASS)
                 return ActionResult.SUCCESS
-            } else if (stack.isIn(FabricToolTags.SHEARS)) {
+            } else if (stack.item is ShearsItem) {
                 world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.atomic_bomb_defuse, SoundCategory.BLOCKS, 1.0F, 1.0F)
                 player.swingHand(hand)
                 if (!world.isClient) {

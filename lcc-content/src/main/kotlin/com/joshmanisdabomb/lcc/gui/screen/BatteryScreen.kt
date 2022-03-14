@@ -41,9 +41,9 @@ abstract class BatteryScreen(handler: BatteryScreenHandler, inventory: PlayerInv
         onChanged(handler.inventory)
     }
 
-    override fun onClose() {
+    override fun close() {
         handler.inventory.removeListener(listener)
-        super.onClose()
+        super.close()
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {

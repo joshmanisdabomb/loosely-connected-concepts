@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.data.LCCData
-import net.minecraft.data.client.model.TextureKey
+import net.minecraft.data.client.TextureKey
 import net.minecraft.util.Identifier
 
 object LCCModelTemplates : ModelTemplateDirectory() {

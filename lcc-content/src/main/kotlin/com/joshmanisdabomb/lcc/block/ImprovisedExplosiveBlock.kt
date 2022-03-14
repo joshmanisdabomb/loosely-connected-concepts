@@ -4,7 +4,6 @@ import com.joshmanisdabomb.lcc.block.entity.ImprovisedExplosiveBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.item.CrowbarItem
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags
 import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
@@ -16,6 +15,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.thrown.ThrownEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ShearsItem
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
@@ -61,7 +61,7 @@ class ImprovisedExplosiveBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        if (state[ie_state] != ImprovisedExplosiveState.INACTIVE && player.getStackInHand(hand).isIn(FabricToolTags.SHEARS)) {
+        if (state[ie_state] != ImprovisedExplosiveState.INACTIVE && player.getStackInHand(hand).item is ShearsItem) {
             world.breakBlock(pos, true)
             world.playSound(null, pos, LCCSounds.improvised_explosive_defuse, SoundCategory.BLOCKS, 1.0f, 1.0f)
             return ActionResult.SUCCESS

@@ -4,16 +4,16 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import com.joshmanisdabomb.lcc.extensions.booleanProperty
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 
 class BooleanHorizontalSideBlockAssetFactory(val on: Identifier, val off: Identifier, val end: Identifier, val particle: Identifier = off) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val base = LCCModelTemplates.template_face_up_down.upload(idh.loc(entry), Texture.texture(end).put(TextureKey.PARTICLE, particle), data.models)
-        val off = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, k.asString()), Texture.texture(off), data.models) }
-        val on = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, "${k.asString()}_on"), Texture.texture(on), data.models) }
+        val base = LCCModelTemplates.template_face_up_down.upload(idh.loc(entry), TextureMap.texture(end).put(TextureKey.PARTICLE, particle), data.models)
+        val off = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, k.asString()), TextureMap.texture(off), data.models) }
+        val on = map.mapValues { (k, v) -> v.upload(idh.locSuffix(entry, "${k.asString()}_on"), TextureMap.texture(on), data.models) }
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, base))
             map.keys.forEach {

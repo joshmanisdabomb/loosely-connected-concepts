@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.EnhancingChamberBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
 import net.minecraft.block.*
 import net.minecraft.entity.player.PlayerEntity
@@ -46,7 +46,7 @@ class EnhancingChamberBlock(settings: Settings) : BlockWithEntity(settings) {
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         val stack = player.getStackInHand(hand)
         val be = world.getBlockEntity(pos) as? EnhancingChamberBlockEntity ?: return ActionResult.PASS
-        if (stack.isIn(LCCTags.enhancing_pyre)) {
+        if (stack.isIn(LCCItemTags.enhancing_pyre)) {
             be.enhance(stack)
             return ActionResult.SUCCESS
         } else if (stack.item !is BlockItem) {

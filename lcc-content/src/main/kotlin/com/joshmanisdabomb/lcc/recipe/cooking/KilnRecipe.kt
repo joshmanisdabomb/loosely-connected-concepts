@@ -9,7 +9,7 @@ import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import it.unimi.dsi.fastutil.ints.IntList
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.data.server.recipe.CookingRecipeJsonFactory
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.AbstractCookingRecipe
@@ -44,7 +44,7 @@ class KilnRecipe(id: Identifier, group: String, input: Ingredient, output: ItemS
                 val id = LCC.id(it.id.namespace + "_" + it.id.path + "_kiln")
                 val json = JsonObject()
                 json.addProperty("type", "lcc:kiln")
-                CookingRecipeJsonFactory.CookingRecipeJsonProvider(id, "", it.ingredients.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
+                CookingRecipeJsonBuilder.CookingRecipeJsonProvider(id, "", it.ingredients.first(), it.output.item, it.experience, it.cookTime.div(2), null, null, null).serialize(json)
                 map[id] = json
             }
         }

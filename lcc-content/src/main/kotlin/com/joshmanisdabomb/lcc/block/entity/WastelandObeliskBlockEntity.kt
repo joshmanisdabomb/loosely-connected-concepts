@@ -69,7 +69,7 @@ class WastelandObeliskBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
             if (entity.step > 8) {
                 val positions = entity.positions.filterNotNull().distinct()
                 if (positions.isNotEmpty()) {
-                    entity.distance = positions.map { pos.getSquaredDistance(it, true).sqrt().toFloat() }
+                    entity.distance = positions.map { pos.getSquaredDistance(it).sqrt().toFloat() }
                     entity.yaw = positions.map {
                         val vec = it.subtract(pos)
                         -MathHelper.atan2(vec.x.toDouble(), vec.z.toDouble()).toFloat() * 57.295776f

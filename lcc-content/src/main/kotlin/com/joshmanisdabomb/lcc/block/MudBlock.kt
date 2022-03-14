@@ -29,8 +29,7 @@ class MudBlock(settings: Settings) : Block(settings) {
     override fun canPathfindThrough(state: BlockState, world: BlockView, pos: BlockPos, type: NavigationType) = false
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        //TODO is temperature >= 1.21f
-        if (world.getBiome(pos).isHot(pos) && !LCCBlocks.cracked_mud.hardensOnAnySide(world, pos)) {
+        if (world.getBiome(pos).value().temperature >= 1.21f && !LCCBlocks.cracked_mud.hardensOnAnySide(world, pos)) {
             world.setBlockState(pos, LCCBlocks.cracked_mud.defaultState)
         }
     }

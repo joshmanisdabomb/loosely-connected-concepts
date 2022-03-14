@@ -3,15 +3,15 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
 import net.minecraft.block.enums.WallMountLocation
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 
 class ButtonBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val button = Models.BUTTON.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.models)
-        val buttonDown = Models.BUTTON_PRESSED.upload(idh.locSuffix(entry, "down"), Texture.texture(texture ?: idh.loc(entry)), data.models)
+        val button = Models.BUTTON.upload(idh.loc(entry), TextureMap.texture(texture ?: idh.loc(entry)), data.models)
+        val buttonDown = Models.BUTTON_PRESSED.upload(idh.locSuffix(entry, "down"), TextureMap.texture(texture ?: idh.loc(entry)), data.models)
 
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.WALL_MOUNT_LOCATION, Properties.HORIZONTAL_FACING, Properties.POWERED).register { w, f, p ->

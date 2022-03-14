@@ -5,10 +5,10 @@ import net.minecraft.util.Identifier
 
 class AdvancementBatch {
 
-    private val map = mutableMapOf<Identifier, Advancement.Task>()
+    private val map = mutableMapOf<Identifier, Advancement.Builder>()
     private val builds = mutableMapOf<Identifier, Advancement>()
 
-    fun add(builder: Advancement.Task, id: Identifier) : Advancement {
+    fun add(builder: Advancement.Builder, id: Identifier) : Advancement {
         map[id] = builder
 
         val build = builder.build(id)

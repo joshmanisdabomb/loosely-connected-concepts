@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.VariantsBlockStateSupplier
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.VariantsBlockStateSupplier
 
 open class RotationBlockAssetFactory(val x: List<Int> = listOf(0), val y: List<Int> = (0..3).toList(), val model: ModelProvider.ModelFactory<Block> = ModelProvider.block.cubeAll()) : BlockAssetFactory {
 

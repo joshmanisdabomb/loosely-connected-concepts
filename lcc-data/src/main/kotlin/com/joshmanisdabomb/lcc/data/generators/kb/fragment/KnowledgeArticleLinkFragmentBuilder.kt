@@ -5,7 +5,7 @@ import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 
-class KnowledgeArticleLinkFragmentBuilder(val to: KnowledgeArticleIdentifier) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
+class KnowledgeArticleLinkFragmentBuilder(val to: KnowledgeArticleIdentifier, val target: String? = null) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
     override val type = "link"
 
@@ -35,6 +35,7 @@ class KnowledgeArticleLinkFragmentBuilder(val to: KnowledgeArticleIdentifier) : 
         val json = JsonObject()
         json.add("fragments", fjson)
         json.addProperty("link", exporter.normaliseLink(to).toString())
+        if (target != null) json.addProperty("target", target)
         return json
     }
 

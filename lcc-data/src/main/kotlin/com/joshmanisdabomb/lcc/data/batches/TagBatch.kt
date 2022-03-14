@@ -11,7 +11,9 @@ import net.minecraft.tag.Tag
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.StringIdentifiable
+import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 
 class TagBatch {
 
@@ -26,11 +28,13 @@ class TagBatch {
     fun item(id: Identifier) = tag(TagType.ITEM, id)
     fun entity(id: Identifier) = tag(TagType.ENTITY, id)
     fun fluid(id: Identifier) = tag(TagType.FLUID, id)
+    fun biome(id: Identifier) = tag(TagType.BIOME, id)
 
     fun block(tag: TagKey<Block>) = block(tag.id)
     fun item(tag: TagKey<Item>) = item(tag.id)
     fun entity(tag: TagKey<EntityType<*>>) = entity(tag.id)
     fun fluid(tag: TagKey<Fluid>) = fluid(tag.id)
+    fun biome(tag: TagKey<Biome>) = biome(tag.id)
 
     fun getBuilders() = table.cellSet().onEach { (it.value as TagBuilderAccessor).entries.sortWith(it.value.sorter) }
 
@@ -46,6 +50,9 @@ class TagBatch {
         }
         object FLUID : TagType<Fluid, Fluid>(Registry.FLUID) {
             override fun convert(entry: Fluid) = entry
+        }
+        object BIOME : TagType<Biome, Biome>(BuiltinRegistries.BIOME) {
+            override fun convert(entry: Biome) = entry
         }
 
         fun getId(entry: T) = registry.getKey(convert(entry)).get().value

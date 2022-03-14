@@ -3,8 +3,11 @@ package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.recipe.Ingredient
+import net.minecraft.text.Text
 
 class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
@@ -32,10 +35,16 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
         this.recipes = (this.recipes ?: supplier(exporter)).onEach {
             val recipe = it.toJson()
 
+            val translations = exporter.da.recipes.getItemsOf(it.recipeId).associate { it.identifier.toString() to Text.Serializer.toJsonTree(it.name) }
+            recipe.add("translations", exporter.da.gson.toJsonTree(translations))
+
+            val links = exporter.da.recipes.getItemsOf(it.recipeId).associate { it.identifier.toString() to KnowledgeArticleIdentifier.ofItemConvertible(it).toString() }
+            recipe.add("links", exporter.da.gson.toJsonTree(links))
+
             val tags = JsonObject()
             exporter.da.recipes.getTagIngredientsOf(it.recipeId).forEach {
                 val items = JsonArray()
-                exporter.da.recipes.getItemsInTag(it).forEach { items.add(Ingredient.ofItems(it.asItem()).toJson()) }
+                exporter.da.recipes.getItemsInTag(it).forEach { items.add(Ingredient.ofItems().toJson()) }
                 tags.add(it.toString(), items)
             }
             recipe.add("tags", tags)

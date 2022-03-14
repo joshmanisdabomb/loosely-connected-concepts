@@ -237,7 +237,7 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
 
     }
 
-    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, MinecraftClient.getInstance().networkHandler!!.registryManager.get(Registry.DIMENSION_TYPE_KEY).getEntry(DimensionType.OVERWORLD_REGISTRY_KEY).orElseThrow(), 0, 0, { null }, null, false, 0L) {
+    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, NetworkHandler.registryManager.get(Registry.DIMENSION_TYPE_KEY).getEntry(DimensionType.OVERWORLD_REGISTRY_KEY).orElseThrow(), 0, 0, { null }, null, false, 0L) {
 
     }
 

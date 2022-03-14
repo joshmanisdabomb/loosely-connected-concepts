@@ -44,8 +44,9 @@ open class KnowledgeArticleSectionBuilder(name: (defaultKey: String) -> Text) : 
         return addFragment(paragraph)
     }
 
-    fun setLayout(type: String) {
+    fun setLayout(type: String): KnowledgeArticleSectionBuilder {
         this.type = type
+        return this
     }
 
     fun exporterWalked(exporter: KnowledgeExporter) {

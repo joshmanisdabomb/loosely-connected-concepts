@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.batches.TagBatch
 import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
+import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
 import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
@@ -17,6 +18,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Unit, Unit>() {
+
+    val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland_barrens).attach(LCCBiomes.wasteland_spikes) }
 
     val wasteland_effective by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attachTag(LCCBlockTags.wasteland_required) }
     val wasteland_required by entry(::blockInitialiser) { null }
@@ -58,6 +61,7 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
     val imbuable by entry(::itemInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(*Registry.ITEM.filterIsInstance<SwordItem>().toTypedArray()).attach(LCCItems.knife) }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
+    fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)
     fun itemInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.item(input ?: context.id)
     fun entityInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.entity(input ?: context.id)
     fun fluidInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.fluid(input ?: context.id)

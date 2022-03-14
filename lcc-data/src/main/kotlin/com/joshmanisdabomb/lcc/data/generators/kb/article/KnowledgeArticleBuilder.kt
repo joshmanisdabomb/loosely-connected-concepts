@@ -71,7 +71,7 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
-    fun status(author: String): KnowledgeArticleBuilder {
+    fun author(author: String?): KnowledgeArticleBuilder {
         this.author = author
         return this
     }
@@ -81,17 +81,18 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
-    fun published(time: LocalDateTime): KnowledgeArticleBuilder {
+    fun published(time: LocalDateTime?): KnowledgeArticleBuilder {
         published = time
         return this
     }
 
-    fun edited(time: LocalDateTime): KnowledgeArticleBuilder {
+    fun edited(time: LocalDateTime?): KnowledgeArticleBuilder {
         edited = time
         return this
     }
 
-    fun timestamps(published: LocalDateTime, edited: LocalDateTime): KnowledgeArticleBuilder {
+    fun meta(author: String? = null, published: LocalDateTime? = null, edited: LocalDateTime? = null): KnowledgeArticleBuilder {
+        author(author)
         published(published)
         edited(edited)
         return this

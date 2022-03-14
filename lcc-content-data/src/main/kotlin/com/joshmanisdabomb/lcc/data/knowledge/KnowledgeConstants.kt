@@ -5,10 +5,21 @@ import net.minecraft.text.TranslatableText
 
 object KnowledgeConstants {
 
+    val me = "joshmanisdabomb"
+
     val introduction = TranslatableText("knowledge.lcc.meta.section.introduction")
     val usage = TranslatableText("knowledge.lcc.meta.section.usage")
     val changelog = TranslatableText("knowledge.lcc.meta.section.changelog")
     val versionChangelog = TranslatableText("knowledge.lcc.meta.section.version_changelog")
+    val recipes = TranslatableText("knowledge.lcc.meta.section.recipes")
+    val usages = TranslatableText("knowledge.lcc.meta.section.usages")
+    val despawning = TranslatableText("knowledge.lcc.meta.section.despawning")
+    val repairing = TranslatableText("knowledge.lcc.meta.section.repairing")
+    val coloring = TranslatableText("knowledge.lcc.meta.section.coloring")
+    val combat = TranslatableText("knowledge.lcc.meta.section.combat")
+    val mining = TranslatableText("knowledge.lcc.meta.section.mining")
+    val obtaining = TranslatableText("knowledge.lcc.meta.section.obtaining")
+
     val information = TranslatableText("knowledge.lcc.meta.section.info")
     val image = TranslatableText("knowledge.lcc.meta.section.info.image")
     val stackSize = TranslatableText("knowledge.lcc.meta.section.info.stack_size")
@@ -31,14 +42,30 @@ object KnowledgeConstants {
     val requiredTool = TranslatableText("knowledge.lcc.meta.section.info.required_tool")
     val anyTool = TranslatableText("knowledge.lcc.meta.section.info.any_tool")
     val notFlammable = TranslatableText("knowledge.lcc.meta.section.info.not_flammable")
+
     val introduced = TranslatableText("knowledge.lcc.meta.text.introduced")
     val reintroduced = TranslatableText("knowledge.lcc.meta.text.reintroduced")
+
+    val color = TranslatableText("knowledge.lcc.meta.text.color")
+    val colors = TranslatableText("knowledge.lcc.meta.text.colors")
+    val armor = TranslatableText("knowledge.lcc.meta.text.armor")
+    val colorCode = TranslatableText("knowledge.lcc.meta.text.color_code")
+    val colored = TranslatableText("knowledge.lcc.meta.text.colored")
 
     fun injectTranslations(batch: LangBatch) {
         batch[introduction.key] = "Introduction"
         batch[usage.key] = "Usage"
         batch[changelog.key] = "Changelog"
         batch[versionChangelog.key] = "Full Changelog"
+        batch[recipes.key] = "Crafting Recipes"
+        batch[usages.key] = "Crafting Usages"
+        batch[despawning.key] = "Despawning"
+        batch[repairing.key] = "Repairing"
+        batch[coloring.key] = "Coloring"
+        batch["en_gb", coloring.key] = "Colouring"
+        batch[combat.key] = "Combat"
+        batch[mining.key] = "Mining"
+        batch[obtaining.key] = "Obtaining"
         batch[information.key] = "Information"
         batch[image.key] = "Image"
         batch[stackSize.key] = "Stack Size"
@@ -62,8 +89,18 @@ object KnowledgeConstants {
         batch[requiredTool.key] = "Required Tool"
         batch[anyTool.key] = "Any"
         batch[notFlammable.key] = "No"
-        batch[introduced.key] = "Introduced"
-        batch[reintroduced.key] = "Reintroduced"
+        batch[introduced.key] = "Introduced."
+        batch[reintroduced.key] = "Reintroduced."
+        batch[color.key] = "color"
+        batch["en_gb", color.key] = "colour"
+        batch[colors.key] = "colors"
+        batch["en_gb", colors.key] = "colours"
+        batch[armor.key] = "armor"
+        batch["en_gb", armor.key] = "armour"
+        batch[colorCode.key] = "Color Code"
+        batch["en_gb", colorCode.key] = "Colour Code"
+        batch[colored.key] = "colored"
+        batch["en_gb", colored.key] = "coloured"
     }
 
 }

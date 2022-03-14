@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import com.joshmanisdabomb.lcc.utils.ItemStackUtils
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
@@ -21,6 +22,7 @@ class KnowledgeArticleStackFragmentBuilder(vararg stacks: ItemStack, val alter: 
             val stack = ItemStackUtils.toJson(it)
             stack.add("item", stack.remove("id"))
             stack.add("name", Text.Serializer.toJsonTree(it.name))
+            stack.addProperty("link", KnowledgeArticleIdentifier.ofItemConvertible(it.item).toString())
             alter(stack)
             stacks.add(stack)
         }

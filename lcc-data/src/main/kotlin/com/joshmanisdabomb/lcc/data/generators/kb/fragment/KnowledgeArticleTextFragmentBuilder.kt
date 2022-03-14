@@ -33,8 +33,9 @@ class KnowledgeArticleTextFragmentBuilder(content: (defaultKey: String) -> Text)
     override val type = "text"
     val content by lazy { content(defaultTranslationKey) }
 
-    fun addTranslation(content: String, locale: String = "en_us") {
+    fun addTranslation(content: String, locale: String = "en_us"): KnowledgeArticleTextFragmentBuilder {
         _translations[locale] = content
+        return this
     }
 
     override fun toJson(exporter: KnowledgeExporter): JsonObject {

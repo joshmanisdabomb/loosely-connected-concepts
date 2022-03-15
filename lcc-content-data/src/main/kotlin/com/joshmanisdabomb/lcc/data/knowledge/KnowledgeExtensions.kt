@@ -19,9 +19,9 @@ object KnowledgeExtensions {
     }
 
     fun craftingRecipes(item: ItemConvertible) = KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-        .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) })
+        .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } })
     fun craftingUsages(item: ItemConvertible) = KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-        .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(item) })
+        .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(item).map { it.provider } })
 
     fun KnowledgeArticleBuilder.boilerplate(subject: Any? = null, renewable: Boolean = false) : KnowledgeArticleBuilder {
         this.addSection(KnowledgeArticleChangelogSectionBuilder())

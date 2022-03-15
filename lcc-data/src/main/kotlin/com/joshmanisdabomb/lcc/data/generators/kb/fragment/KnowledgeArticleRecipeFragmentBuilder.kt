@@ -9,13 +9,12 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.recipe.Ingredient
 import net.minecraft.text.Text
 
-class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
+class KnowledgeArticleRecipeFragmentBuilder(val supplier: KnowledgeArticleRecipeFragmentBuilder.(exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
+
+    private var note: KnowledgeArticleFragmentBuilder? = null
+    private var obsolete = false
 
     private var recipes: List<RecipeJsonProvider>? = null
-
-    init {
-        note?.container = this
-    }
 
     override val type = "recipe"
 
@@ -30,31 +29,43 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
         return this.recipes?.isNotEmpty() == true
     }
 
+    fun markObsolete(): KnowledgeArticleRecipeFragmentBuilder {
+        obsolete = true
+        return this
+    }
+
+    fun setNote(note: KnowledgeArticleFragmentBuilder): KnowledgeArticleRecipeFragmentBuilder {
+        note.container = this
+        this.note = note
+        return this
+    }
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val recipes = JsonArray()
         this.recipes = (this.recipes ?: supplier(exporter)).onEach {
-            val recipe = it.toJson()
+            val analysis = exporter.da.recipes.analyse(it)
+            val json = analysis.json.deepCopy()
 
-            val translations = exporter.da.recipes.getItemsOf(it.recipeId).associate { it.identifier.toString() to Text.Serializer.toJsonTree(it.name) }
-            recipe.add("translations", exporter.da.gson.toJsonTree(translations))
+            val translations = analysis.items.associate { it.identifier.toString() to Text.Serializer.toJsonTree(it.name) }
+            json.add("translations", exporter.da.gson.toJsonTree(translations))
 
-            val links = exporter.da.recipes.getItemsOf(it.recipeId).associate { it.identifier.toString() to KnowledgeArticleIdentifier.ofItemConvertible(it).toString() }
-            recipe.add("links", exporter.da.gson.toJsonTree(links))
+            val links = analysis.items.associate { it.identifier.toString() to KnowledgeArticleIdentifier.ofItemConvertible(it).toString() }
+            json.add("links", exporter.da.gson.toJsonTree(links))
 
             val tags = JsonObject()
-            exporter.da.recipes.getTagIngredientsOf(it.recipeId).forEach {
+            analysis.inputTags.forEach {
                 val items = JsonArray()
-                exporter.da.recipes.getItemsInTag(it).forEach { items.add(Ingredient.ofItems().toJson()) }
-                tags.add(it.toString(), items)
+                exporter.da.recipes.getItemsInTag(it.id).forEach { items.add(Ingredient.ofItems(it).toJson()) }
+                tags.add(it.id.toString(), items)
             }
-            recipe.add("tags", tags)
+            json.add("tags", tags)
 
-            recipes.add(recipe)
+            recipes.add(json)
         }
 
         val json = JsonObject()
         json.add("recipes", recipes)
-        if (note != null) json.add("note", note.toJsonFinal(exporter))
+        note?.also { json.add("note", it.toJsonFinal(exporter)) }
         if (obsolete) json.addProperty("obsolete", obsolete)
         return json
     }

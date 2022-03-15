@@ -516,7 +516,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("log")), "Crafting_ingredient").addFragment(KnowledgeArticleTextFragmentBuilder("any recipe"))) }
                     )
                 }
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.deadwood_log) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.deadwood_log).map { it.provider } })
             )
             .boilerplate(LCCBlocks.deadwood_log, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 24, 22, 3, 0), LocalDateTime.of(2022, 2, 10, 22, 59, 9))
@@ -554,7 +554,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("log")), "Crafting_ingredient").addFragment(KnowledgeArticleTextFragmentBuilder("any recipe"))) }
                     )
                 }
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.stripped_deadwood_log) })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.stripped_deadwood_log).map { it.provider } })
             )
             .boilerplate(LCCBlocks.stripped_deadwood_log, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 25, 14, 28, 0), LocalDateTime.of(2022, 2, 11, 17, 1, 22))
@@ -597,9 +597,9 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeContentExtensions.getRecipe(LCCItems.deadwood_shovel.identifier, KnowledgeContentExtensions.getDeadwoodToolNote(Items.WOODEN_SHOVEL)))
                 .addFragment(KnowledgeContentExtensions.getRecipe(LCCItems.deadwood_axe.identifier, KnowledgeContentExtensions.getDeadwoodToolNote(Items.WOODEN_AXE)))
                 .addFragment(KnowledgeContentExtensions.getRecipe(LCCItems.deadwood_hoe.identifier, KnowledgeContentExtensions.getDeadwoodToolNote(Items.WOODEN_HOE)))
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.deadwood_planks).filter { r ->
-                    r.recipeId != LCCItems.deadwood_sword.identifier && r.recipeId != LCCItems.deadwood_pickaxe.identifier && r.recipeId != LCCItems.deadwood_shovel.identifier && r.recipeId != LCCItems.deadwood_axe.identifier && r.recipeId != LCCItems.deadwood_hoe.identifier
-                } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.deadwood_planks).filter { a ->
+                    a.id != LCCItems.deadwood_sword.identifier && a.id != LCCItems.deadwood_pickaxe.identifier && a.id != LCCItems.deadwood_shovel.identifier && a.id != LCCItems.deadwood_axe.identifier && a.id != LCCItems.deadwood_hoe.identifier
+                }.map { it.provider } })
             )
             .boilerplate(LCCBlocks.stripped_deadwood_log, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 25, 14, 28, 0), LocalDateTime.of(2022, 2, 11, 17, 28, 33))
@@ -883,10 +883,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipes.findRecipes(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipes.findRecipes(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipes.findUsages(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.rusted_iron_blocks.values.flatMap { b -> it.da.recipes.findUsages(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
@@ -1075,14 +1075,14 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_glass) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_tinted_glass) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipes.findRecipes(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_glass).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_tinted_glass).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipes.findRecipes(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_glass) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_tinted_glass) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipes.findUsages(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_glass).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_tinted_glass).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass.values.flatMap { b -> it.da.recipes.findUsages(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
@@ -1122,12 +1122,12 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_glass_pane) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass_pane.values.flatMap { b -> it.da.recipes.findRecipes(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.shattered_glass_pane).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass_pane.values.flatMap { b -> it.da.recipes.findRecipes(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_glass_pane) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass_pane.values.flatMap { b -> it.da.recipes.findUsages(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.shattered_glass_pane).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.stained_shattered_glass_pane.values.flatMap { b -> it.da.recipes.findUsages(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
@@ -1359,10 +1359,10 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findRecipes(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findRecipes(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findUsages(b) } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findUsages(b).map { it.provider } } })
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
@@ -1591,12 +1591,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 }
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.bounce_pad) })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder()
-                    .addText("Recipe before ")
-                    .addLink(LCCVersion.LCC_FABRIC_0_5_1)
-                    .addText(".")
-                , obsolete = true) { e ->
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.bounce_pad).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
                     listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad, 6)
                         .pattern("rwr")
                         .pattern("ipi")
@@ -1612,12 +1608,13 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         it.add("translations", e.translator.itemTranslationsJson(*items))
                         it.add("links", e.linker.itemLinksJson(*items))*/
                     })
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder()
-                    .addText("Recipe before ")
-                    .addLink(LCCVersion.LCC_FABRIC_0_4_2)
-                    .addText(".")
-                , obsolete = true) { e ->
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe before ")
+                        .addLink(LCCVersion.LCC_FABRIC_0_5_1)
+                        .addText(".")
+                ))
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
                     listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad)
                         .pattern("rwr")
                         .pattern("ipi")
@@ -1633,12 +1630,13 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         it.add("translations", e.translator.itemTranslationsJson(*items))
                         it.add("links", e.linker.itemLinksJson(*items))*/
                     })
-                })
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder()
-                    .addText("Recipe before ")
-                    .addLink(LCCVersion.LCC_FABRIC_0_2_0)
-                    .addText(".")
-                , obsolete = true) { e ->
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe before ")
+                        .addLink(LCCVersion.LCC_FABRIC_0_4_2)
+                        .addText(".")
+                ))
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
                     listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPED, ShapedRecipeJsonBuilder.create(LCCBlocks.bounce_pad, 8)
                         .pattern("rwr")
                         .pattern("ipi")
@@ -1654,7 +1652,12 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         it.add("translations", e.translator.itemTranslationsJson(*items))
                         it.add("links", e.linker.itemLinksJson(*items))*/
                     })
-                })
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe before ")
+                        .addLink(LCCVersion.LCC_FABRIC_0_2_0)
+                        .addText(".")
+                ))
             )
             .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.bounce_pad))
             .boilerplate(LCCBlocks.bounce_pad, renewable = true)

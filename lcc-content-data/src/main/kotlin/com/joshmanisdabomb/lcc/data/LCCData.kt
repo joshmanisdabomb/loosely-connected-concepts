@@ -73,7 +73,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         recipes.addTagHandlerFilter(LCCItemTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
 
         println("Setting up knowledge and exporters.")
-        recipes.compile()
+        recipes.index()
         LCCKnowledgeData.init()
         val lpath = langExport ?: readString("Enter path to save lang export, leave blank to not run:") { false }
         if (lpath.isNotBlank()) {

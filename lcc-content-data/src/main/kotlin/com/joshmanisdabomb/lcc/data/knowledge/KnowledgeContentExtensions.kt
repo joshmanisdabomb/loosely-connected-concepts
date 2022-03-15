@@ -99,12 +99,8 @@ object KnowledgeContentExtensions {
         it.add("links", exporter.linker.itemLinksJson(*items))*/
     }
 
-    fun legacyOilRecipe() = KnowledgeArticleRecipeFragmentBuilder(KnowledgeArticleParagraphFragmentBuilder()
-        .addText("Recipe before ")
-        .addLink(LCCVersion.LCC_FABRIC_0_5_0)
-        .addText(".")
-    , obsolete = true) { e ->
-        listOf(OverrideRecipeJsonProvider(LCCRecipeSerializers.refining_shapeless, e.da.recipes.findRecipes(LCCItems.asphalt_bucket).first()) {
+    fun legacyOilRecipe() = KnowledgeArticleRecipeFragmentBuilder { e ->
+        listOf(OverrideRecipeJsonProvider(LCCRecipeSerializers.refining_shapeless, e.da.recipes.findRecipes(LCCItems.asphalt_bucket).first().provider) {
             val ingredients = it.get("ingredients").asJsonArray
             val tar = ingredients[0].asJsonObject
             tar.addProperty("item", LCCItems.oil_bucket.identifier.toString())
@@ -115,10 +111,18 @@ object KnowledgeContentExtensions {
             it.add("translations", e.translator.itemTranslationsJson(*items))
             it.add("links", e.linker.itemLinksJson(*items))*/
         })
-    }
+    }.markObsolete().setNote(
+        KnowledgeArticleParagraphFragmentBuilder()
+            .addText("Recipe before ")
+            .addLink(LCCVersion.LCC_FABRIC_0_5_0)
+            .addText(".")
+    )
 
-    fun getRecipe(recipe: Identifier, note: KnowledgeArticleFragmentBuilder? = null, obsolete: Boolean = false) = KnowledgeArticleRecipeFragmentBuilder(note, obsolete) {
-        listOf(it.da.recipes.get(recipe)!!)
+    fun getRecipe(recipe: Identifier, note: KnowledgeArticleFragmentBuilder? = null, obsolete: Boolean = false) = KnowledgeArticleRecipeFragmentBuilder {
+        listOf(it.da.recipes[recipe]!!)
+    }.apply {
+        if (note != null) setNote(note)
+        if (obsolete) markObsolete()
     }
 
     fun getDeadwoodToolNote(fallback: Item) = KnowledgeArticleParagraphFragmentBuilder().addFormatText("If not all planks provided are %s, a standard %s will be crafted instead.",
@@ -137,7 +141,7 @@ object KnowledgeContentExtensions {
             )
         }
 
-    fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, damage: String = "dealing ${(item as SwordItem).attackDamage.div(2.0).plus(0.5).decimalFormat(1)} hearts of damage.", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    fun generateWastelandSwordArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, damage: String = "dealing ${(item as SwordItem).attackDamage.div(2.0).plus(0.5).decimalFormat(1)} hearts of damage.", recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addParagraph {
@@ -166,7 +170,7 @@ object KnowledgeContentExtensions {
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools")
 
-    fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, example2: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, example2: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addParagraph {
@@ -202,7 +206,7 @@ object KnowledgeContentExtensions {
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", tag, "Pickaxes", "Tools")
 
-    fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    fun generateWastelandShovelArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addParagraph {
@@ -232,7 +236,7 @@ object KnowledgeContentExtensions {
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Shovels", "Tools")
 
-    fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    fun generateWastelandAxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addParagraph {
@@ -262,7 +266,7 @@ object KnowledgeContentExtensions {
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", tag, "Axes", "Tools")
 
-    fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item) }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
+    fun generateWastelandHoeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
             .addSection(KnowledgeArticleSectionBuilder(introduction)
                 .addParagraph {

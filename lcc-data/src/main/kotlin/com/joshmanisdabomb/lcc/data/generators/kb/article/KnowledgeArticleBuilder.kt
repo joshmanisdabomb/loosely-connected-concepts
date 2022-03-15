@@ -66,6 +66,21 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
+    fun redirectsHere(block: Block): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofBlock(block), block.name)
+        return redirectsHere(KnowledgeArticleIdentifier.ofItem(block.asItem()))
+    }
+
+    fun redirectsHere(item: Item): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofItem(item), item.name)
+        return this
+    }
+
+    fun redirectsHere(entity: EntityType<*>): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofEntity(entity), entity.name)
+        return this
+    }
+
     fun tags(vararg tags: String): KnowledgeArticleBuilder {
         _tags.addAll(tags)
         return this

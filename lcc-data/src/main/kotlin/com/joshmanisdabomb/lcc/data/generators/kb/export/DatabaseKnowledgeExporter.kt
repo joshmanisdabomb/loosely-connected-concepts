@@ -90,7 +90,7 @@ open class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor,
                     it[article_id] = articleId
                     it[registry] = i.registry.toString()
                     it[key] = i.key.toString()
-                    it[name] = Text.Serializer.toJsonTree(r).toString()
+                    it[name] = r?.let { Text.Serializer.toJsonTree(r).toString() }
                     it[slug1] = i.registry.path
                     it[slug2] = i.key.path
                     it[created_at] = LocalDateTime.now()

@@ -12,6 +12,8 @@ class LCCDatabaseKnowledgeExporter(db: Database, da: DataAccessor, articles: Ite
     override fun transaction(db: Transaction) {
         super.transaction(db)
 
+        db.exec("DELETE FROM article_indices;")
+
         Versions.deleteAll()
         VersionGroups.deleteAll()
 

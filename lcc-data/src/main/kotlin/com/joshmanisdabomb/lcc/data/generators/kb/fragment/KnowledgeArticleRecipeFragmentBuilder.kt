@@ -13,10 +13,10 @@ import net.minecraft.text.Text
 
 class KnowledgeArticleRecipeFragmentBuilder(val supplier: KnowledgeArticleRecipeFragmentBuilder.(exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
+    private var recipes: List<RecipeJsonProvider>? = null
+
     private var note: KnowledgeArticleFragmentBuilder? = null
     private var obsolete = false
-
-    private var recipes: List<RecipeJsonProvider>? = null
 
     override val type = "recipe"
 
@@ -41,8 +41,6 @@ class KnowledgeArticleRecipeFragmentBuilder(val supplier: KnowledgeArticleRecipe
         this.note = note
         return this
     }
-
-
 
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val recipes = JsonArray()

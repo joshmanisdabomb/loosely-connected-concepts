@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
-import com.joshmanisdabomb.lcc.abstracts.types.IronRustType
 import com.joshmanisdabomb.lcc.block.SpikesBlock
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
@@ -521,7 +520,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCBlocks.deadwood_log, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 24, 22, 3, 0), LocalDateTime.of(2022, 2, 10, 22, 59, 9))
             .about(LCCBlocks.deadwood)
-            .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood))
+            .redirectsHere(LCCBlocks.deadwood)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
@@ -559,7 +558,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCBlocks.stripped_deadwood_log, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 25, 14, 28, 0), LocalDateTime.of(2022, 2, 11, 17, 1, 22))
             .about(LCCBlocks.stripped_deadwood)
-            .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.stripped_deadwood), LCCBlocks.stripped_deadwood.name)
+            .redirectsHere(LCCBlocks.stripped_deadwood)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Axe Recommended", "Deadwood", "Wood")
     }
 
@@ -641,14 +640,14 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleSectionBuilder("Drops")
                 .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.consumer]!!) })
-                .addFragment(KnowledgeArticleLootFragmentBuilder(
-                    KnowledgeArticleParagraphFragmentBuilder().addFormatText("Can only drop when the %s's tongue is extended.", { addText(LCCEntities.consumer) })
-                ) { listOf(it.da.lootTables[LCCEntities.consumer_tongue]!!) })
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.consumer_tongue]!!) }
+                    .setNote(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Can only drop when the %s's tongue is extended.", { addText(LCCEntities.consumer) }))
+                )
             )
             .boilerplate(LCCEntities.consumer)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 1, 19, 45, 0), LocalDateTime.of(2021, 11, 12, 2, 22, 0))
             .about(LCCEntities.consumer_tongue)
-            .redirectsHere(KnowledgeArticleIdentifier.ofEntity(LCCEntities.consumer_tongue), LCCEntities.consumer_tongue.name)
+            .redirectsHere(LCCEntities.consumer_tongue)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
     }
 
@@ -892,7 +891,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 12, 1, 24, 0), LocalDateTime.of(2021, 11, 12, 2, 22, 0))
             .about(*LCCBlocks.rusted_iron_blocks.values.toTypedArray())
-            .apply { IronRustType.values().forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks[it]!!), LCCBlocks.rusted_iron_blocks[it]!!.name) } }
+            .apply { LCCBlocks.rusted_iron_blocks.values.forEach { redirectsHere(it) } }
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Rusted Iron", "Resources")
     }
 
@@ -1088,8 +1087,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
             .about(LCCBlocks.shattered_tinted_glass, *LCCBlocks.stained_shattered_glass.values.toTypedArray())
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 20, 22, 5, 0), LocalDateTime.of(2022, 3, 14, 21, 28, 17))
-            .redirectsHere(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.shattered_tinted_glass), LCCBlocks.shattered_tinted_glass.name)
-            .apply { LCCBlocks.stained_shattered_glass.values.forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(it), it.name) } }
+            .redirectsHere(LCCBlocks.shattered_tinted_glass)
+            .apply { LCCBlocks.stained_shattered_glass.values.forEach { redirectsHere(it) } }
             .tags("Shattered Glass", "Colored", "Glass")
     }
 
@@ -1133,7 +1132,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
             .about(*LCCBlocks.stained_shattered_glass_pane.values.toTypedArray())
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 21, 2, 56, 0), LocalDateTime.of(2022, 3, 14, 21, 28, 17))
-            .apply { LCCBlocks.stained_shattered_glass_pane.values.forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(it), it.name) } }
+            .apply { LCCBlocks.stained_shattered_glass_pane.values.forEach { redirectsHere(it) } }
             .tags("Shattered Glass", "Colored", "Glass", "Glass Panes")
     }
 
@@ -1278,7 +1277,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCItems.iron_oxide_nugget)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s are a crafting material introduced in %s. It can be crafted in groups of 9 by placing a %s in a crafting table.",
+                    addFormatText("%s are a crafting material introduced in %s. It can be crafted in groups of 9 by placing an %s in a crafting table.",
                         { addPluralisedText(LCCItems.iron_oxide_nugget) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
                         { addLink(LCCItems.iron_oxide) },
@@ -1288,7 +1287,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.iron_oxide_nugget))
             .addSection(KnowledgeExtensions.craftingUsages(LCCItems.iron_oxide_nugget))
             .boilerplate(LCCItems.iron_oxide_nugget, renewable = true)
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 27, 17, 32, 0), LocalDateTime.of(2022, 2, 8, 19, 52, 0))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 27, 17, 32, 0), LocalDateTime.of(2022, 3, 15, 19, 39, 0))
             .tags("Wasteland", "Materials", "Rusted Iron", "Resources")
     }
 
@@ -1361,14 +1360,11 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findRecipes(b).map { it.provider } } })
             )
-            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
-                .addFragment(KnowledgeArticleRecipeFragmentBuilder { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().flatMap { b -> it.da.recipes.findUsages(b).map { it.provider } } })
-            )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 27, 17, 32, 0), LocalDateTime.of(2022, 2, 8, 19, 52, 0))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 27, 17, 32, 0), LocalDateTime.of(2022, 3, 15, 18, 37, 25))
             .about(*LCCBlocks.all.values.filterIsInstance<SpikesBlock>().toTypedArray())
-            .apply { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().forEach { redirectsHere(KnowledgeArticleIdentifier.ofBlock(it), it.name) } }
+            .apply { LCCBlocks.all.values.filterIsInstance<SpikesBlock>().forEach { redirectsHere(it) } }
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Rusted Iron")
     }
 

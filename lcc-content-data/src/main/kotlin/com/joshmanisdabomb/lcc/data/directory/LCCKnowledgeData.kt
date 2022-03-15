@@ -623,7 +623,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
                 .addParagraph {
-                    addFormatText("When %ss are out of close combat range, they will advance slowly and frequently extend their tongue at their target. This tongue will latch on to the first entity it hits and the %s will retract its tongue, pulling the attached mob or player back with it. Once the tongue is fully retracted, the %s will also land a bite attack.",
+                    addFormatText("When %s are out of close combat range, they will advance slowly and frequently extend their tongue at their target. This tongue will latch on to the first entity it hits and the %s will retract its tongue, pulling the attached mob or player back with it. Once the tongue is fully retracted, the %s will also land a bite attack.",
                         { addPluralisedText(LCCEntities.consumer) },
                         { addText(LCCEntities.consumer) },
                         { addText(LCCEntities.consumer) }

@@ -94,9 +94,10 @@ object KnowledgeContentExtensions {
         }
         ingredients.set(2, dyeStack)
         it.add("ingredients", ingredients)
-        /*val items = arrayOf(LCCItems.refined_oil_bucket, plasticiser, *Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray(), output)
-        it.add("translations", exporter.translator.itemTranslationsJson(*items))
-        it.add("links", exporter.linker.itemLinksJson(*items))*/
+        val items = arrayOf(LCCItems.refined_oil_bucket, plasticiser, *Registry.ITEM.filterIsInstance<DyeItem>().toTypedArray(), output)
+        it.add("translations", KnowledgeArticleRecipeFragmentBuilder.getTranslationTree(exporter, *items))
+        it.add("links", KnowledgeArticleRecipeFragmentBuilder.getLinkTree(exporter, *items))
+        it.remove("tags")
     }
 
     fun legacyOilRecipe() = KnowledgeArticleRecipeFragmentBuilder { e ->

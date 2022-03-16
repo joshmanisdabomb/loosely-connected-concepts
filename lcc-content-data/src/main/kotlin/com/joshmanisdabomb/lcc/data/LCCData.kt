@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.data.directory.*
 import com.joshmanisdabomb.lcc.data.generators.LCCLangData
 import com.joshmanisdabomb.lcc.data.generators.LCCLootData
 import com.joshmanisdabomb.lcc.data.generators.commit.CommitData
+import com.joshmanisdabomb.lcc.data.generators.file.WinscpFileExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.LCCDatabaseKnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.export.LangBatchKnowledgeExporter
@@ -30,14 +31,18 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
     val environmentJson = System.getProperty("com.joshmanisdabomb.lcc.data.Environment")?.let { JsonParser.parseReader(FileReader(it)).asJsonObject }
 
     val commit: Char? = environmentJson?.getAsJsonPrimitive("commit")?.asString?.get(0)
-    val dbExports: List<Pair<String, String?>>? = environmentJson?.getAsJsonArray("knowledge_db")?.let {
-        it.map {
-            val obj = it.asJsonObject
-            obj.get("url").asString to obj.get("password")?.asString
-        }
+    val dbExports: List<Pair<String, String?>>? = environmentJson?.getAsJsonArray("knowledge_db")?.map {
+        val obj = it.asJsonObject
+        obj.get("url").asString to obj.get("password")?.asString
     }
     val imageExport: String? = environmentJson?.getAsJsonPrimitive("knowledge_images")?.asString
     val langExport: String? = environmentJson?.getAsJsonPrimitive("knowledge_lang")?.asString
+    val ftpExports: Map<String, List<Pair<String, String>>>? = environmentJson?.getAsJsonObject("knowledge_ftp")?.entrySet()?.associate { (k, v) ->
+        k to v.asJsonArray.map {
+            val obj = it.asJsonObject
+            obj.get("from").asString to obj.get("to").asString
+        }
+    }
 
     override fun beforeRun() {
         println("Initialising content mod.")
@@ -96,8 +101,11 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         if (ipath.isNotBlank()) {
             val items = Registry.BLOCK.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" } + Registry.ITEM.filter { it.identifier.namespace == LCC.modid || it.identifier.namespace == "minecraft" }
             val entities = Registry.ENTITY_TYPE.filter { val identifier = Registry.ENTITY_TYPE.getId(it); identifier.namespace == LCC.modid || identifier.namespace == "minecraft" }
-            delayedInstall(ImageExport(items, entities, File(ipath)), 1);
+            delayedInstall(ImageExport(items, entities, File(ipath)), 900)
         }
+
+        println("Setting up FTP exporters.")
+        setupFtpExports().forEach { delayedInstall(it, 1000) }
     }
 
     private fun setupDatabaseExports(): MutableList<KnowledgeExporter> {
@@ -116,11 +124,46 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
                 }
             } while (loop)
         } else {
-            println("Setting database exports from passed property array.")
+            println("Setting database exports from passed property.")
             dbExports.forEach {
                 val password = it.second ?: readString("Enter password for user 'lcc' on url '${it.first}':") { false }
                 val exporter = LCCDatabaseKnowledgeExporter(Database.connect("jdbc:mysql://${it.first}/lcc?useSSL=false", driver = "com.mysql.jdbc.Driver", user = "lcc", password = password), this, LCCKnowledgeData.all.values)
                 exporters.add(exporter)
+            }
+        }
+        return exporters
+    }
+
+    private fun setupFtpExports(): MutableList<WinscpFileExporter> {
+
+        val exporters = mutableListOf<WinscpFileExporter>()
+        if (ftpExports == null) {
+            do {
+                var loop = true
+                readString("${exporters.count()} FTP exports currently installed, enter site name or leave blank to finish:") { site ->
+                    if (site.isBlank()) loop = false
+                    else {
+                        do {
+                            var loop2 = true
+                            readString("Enter source folder on local machine to copy to remote '$site' or leave blank to finish:") { from ->
+                                if (site.isBlank()) loop2 = false
+                                else readString("Enter destination folder on remote machine '$site' (source '$from'):") {
+                                    exporters.add(WinscpFileExporter(site, from, it, this))
+                                    false
+                                }
+                                false
+                            }
+                        } while (loop2)
+                    }
+                    false
+                }
+            } while (loop)
+        } else {
+            println("Setting FTP exports from passed property.")
+            ftpExports.forEach { (site, copies) ->
+                copies.forEach { (from, to) ->
+                    exporters.add(WinscpFileExporter(site, from, to, this))
+                }
             }
         }
         return exporters

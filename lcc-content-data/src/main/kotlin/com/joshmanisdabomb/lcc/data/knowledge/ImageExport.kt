@@ -65,6 +65,8 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
         }
 
         override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+            if (done) return
+
             //Setup
             val m = RenderSystem.getModelViewStack()
             m.push()

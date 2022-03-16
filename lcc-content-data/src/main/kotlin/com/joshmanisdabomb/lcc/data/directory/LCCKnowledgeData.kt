@@ -1432,7 +1432,6 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Rusted Iron", "Sapphire Altar")
     }
 
-    //TODO
     val structure_sapphire_altar by entry(::initialiser) {
         KnowledgeArticleBuilder(/*KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.sapphire_altar)*/KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
@@ -1454,10 +1453,15 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
                 .addParagraph {
-                    addFormatText("The top of the structure is entirely dependent on the challenge posed by the altar, but they will all generate with one %s block. This block provides an interface to the structure itself.",
+                    addFormatText("The top of the structure is entirely dependent on the challenge posed by the altar, but they will all generate with one %s block. This block serves as an interface to the generated challenge.",
                         { addLink(LCCBlocks.sapphire_altar) },
                     )
                 }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Challenges")
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
+                    .addRegistryCriteria(LCCRegistries.altar_challenges.key.value)
+                )
             )
             .addSection(KnowledgeArticleChangelogSectionBuilder())
             .addSection(KnowledgeArticleSectionBuilder("Image").setLayout( "info")
@@ -1469,6 +1473,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 )
             )
+            .boilerplate(null)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 3, 15, 23, 32, 25))
             .tags("Wasteland", "Sapphire Altar")
     }
 
@@ -1659,6 +1665,35 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCBlocks.bounce_pad, renewable = true)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 1, 25, 20, 45, 0), LocalDateTime.of(2022, 2, 8, 19, 52, 0))
             .tags("Movement", "Rubber", "Soaking Soul Sand", "Tools")
+    }
+
+    val biome_wasteland by entry(::initialiser) {
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Identifier("biome"), LCC.id("wasteland")), "Wasteland")
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The Wasteland is a rare biome introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the map with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
+                        { addLink(LCCVersion.YAM_1) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(KnowledgeArticleIdentifier(Registry.DIMENSION_KEY.value, Identifier("overworld")), "Overworld") },
+                        { addLink(LCCBlocks.cracked_mud) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Types")
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
+                    .addTagCriteria("Wasteland Variants")
+                    .addRegistryCriteria(Identifier("biome"))
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Related Content")
+                .addFragment(KnowledgeArticleQueryFragmentBuilder()
+                    .addTagCriteria("Wasteland")
+                    .addRegistryCriteria(Identifier("block"), Identifier("item"), Identifier("entity"))
+                )
+            )
+            .boilerplate(null)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 3, 15, 23, 29, 28))
+            .tags("Wasteland", "Progression")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

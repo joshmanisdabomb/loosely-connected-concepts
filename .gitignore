@@ -38,6 +38,7 @@ bin/
 /assets/
 lcc-content/src/main/resources/.cache/
 lcc-content/src/generated/
+lcc-content-data/*.env.json
 TODO.md
 
 # fabric

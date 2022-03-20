@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.api.EnvType

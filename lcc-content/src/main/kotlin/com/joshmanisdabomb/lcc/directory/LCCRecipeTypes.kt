@@ -4,6 +4,8 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableRecipe
 import com.joshmanisdabomb.lcc.recipe.cooking.KilnRecipe
+import com.joshmanisdabomb.lcc.recipe.enhancing.EnhancingRecipe
+import com.joshmanisdabomb.lcc.recipe.imbuing.ImbuingRecipe
 import com.joshmanisdabomb.lcc.recipe.refining.RefiningRecipe
 import com.joshmanisdabomb.lcc.recipe.special.PlasticRecipe
 import net.minecraft.recipe.Recipe
@@ -24,6 +26,9 @@ object LCCRecipeTypes : AdvancedDirectory<KClass<out Recipe<*>>, RecipeType<out 
     val kiln by entry(::recipeInitialiser) { KilnRecipe::class }
 
     val plastic_shaped by entry(::recipeInitialiser) { PlasticRecipe::class }
+
+    val enhancing by entry(::recipeInitialiser) { EnhancingRecipe::class }
+    val imbuing by entry(::recipeInitialiser) { ImbuingRecipe::class }
 
     fun <T : Recipe<*>> recipeInitialiser(input: KClass<T>, context: DirectoryContext<Unit>, parameters: Unit) = this.initialiser(object : RecipeType<T> { override fun toString() = context.name }, context, parameters)
 

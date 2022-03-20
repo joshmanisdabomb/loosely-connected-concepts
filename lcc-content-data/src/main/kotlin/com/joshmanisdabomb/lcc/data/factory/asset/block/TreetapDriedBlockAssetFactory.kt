@@ -7,9 +7,9 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.When
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.When
 import net.minecraft.state.property.Properties
 
 object TreetapDriedBlockAssetFactory : BlockAssetFactory {

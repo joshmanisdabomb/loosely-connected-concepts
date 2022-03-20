@@ -6,10 +6,10 @@ import net.minecraft.client.render.model.json.Transformation
 import net.minecraft.item.Item
 import net.minecraft.util.math.Vec3f
 
-open class DynamicItemAssetFactory(val transform: ModelTransformation = ModelTransformation.NONE) : ItemAssetFactory {
+open class DynamicItemAssetFactory(val transform: ModelTransformation = ModelTransformation.NONE, val light: String? = null) : ItemAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Item) {
-        data.models[idh.loc(entry)] = { data.parser.parse(getTemplate(transform)) }
+        data.models[idh.loc(entry)] = { data.parser.parse(getTemplate(transform, light)) }
     }
 
     companion object : DynamicItemAssetFactory() {
@@ -24,15 +24,27 @@ open class DynamicItemAssetFactory(val transform: ModelTransformation = ModelTra
             Transformation(Vec3f(0f, 0f, 0f), Vec3f(0f, 0f, 0f), Vec3f(0.5f, 0.5f, 0.5f))
         )
 
+        val item = ModelTransformation(
+            Transformation(Vec3f(0f, 0f, 0f), Vec3f(0f, 3f, 1f), Vec3f(0.55f, 0.55f, 0.55f)),
+            Transformation(Vec3f(0f, 0f, 0f), Vec3f(0f, 3f, 1f), Vec3f(0.55f, 0.55f, 0.55f)),
+            Transformation(Vec3f(0f, -90f, 25f), Vec3f(1.13f, 3.2f, 1.13f), Vec3f(0.68f, 0.68f, 0.68f)),
+            Transformation(Vec3f(0f, -90f, 25f), Vec3f(1.13f, 3.2f, 1.13f), Vec3f(0.68f, 0.68f, 0.68f)),
+            Transformation(Vec3f(0f, 180f, 0f), Vec3f(0f, 13f, 7f), Vec3f(1f, 1f, 1f)),
+            Transformation.IDENTITY,
+            Transformation(Vec3f(0f, 0f, 0f), Vec3f(0f, 2f, 0f), Vec3f(0.5f, 0.5f, 0.5f)),
+            Transformation(Vec3f(0f, 180f, 0f), Vec3f(0f, 0f, 0f), Vec3f(1f, 1f, 1f))
+        )
+
         private fun serializeTransform(transform: Transformation): String {
             return """"rotation": [${transform.rotation.x}, ${transform.rotation.y}, ${transform.rotation.z}],
       "translation": [${transform.translation.x}, ${transform.translation.y}, ${transform.translation.z}],
       "scale": [${transform.scale.x}, ${transform.scale.y}, ${transform.scale.z}]"""
         }
 
-        private fun getTemplate(transform: ModelTransformation): String {
+        private fun getTemplate(transform: ModelTransformation, light: String?): String {
             return """{
   "parent": "minecraft:builtin/entity",
+  ${if (light != null) "\"gui_light\": \"$light\"," else ""}
   "display": {
     "thirdperson_righthand": {
       ${serializeTransform(transform.thirdPersonRightHand)}

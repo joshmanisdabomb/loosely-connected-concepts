@@ -2,15 +2,15 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 
 class FenceBlockAssetFactory(val texture: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val post = Models.FENCE_POST.upload(idh.loc(entry), Texture.texture(texture ?: idh.loc(entry)), data.models)
-        val side = Models.FENCE_SIDE.upload(idh.locSuffix(entry, "side"), Texture.texture(texture ?: idh.loc(entry)), data.models)
+        val post = Models.FENCE_POST.upload(idh.loc(entry), TextureMap.texture(texture ?: idh.loc(entry)), data.models)
+        val side = Models.FENCE_SIDE.upload(idh.locSuffix(entry, "side"), TextureMap.texture(texture ?: idh.loc(entry)), data.models)
         stateMultipart(data, entry) {
             with(BlockStateVariant.create().put(VariantSettings.MODEL, post))
             .with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.UVLOCK, true))

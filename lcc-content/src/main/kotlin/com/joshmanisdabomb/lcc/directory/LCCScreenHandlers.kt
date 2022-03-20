@@ -30,6 +30,8 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
     val computing by entry(::extendedInitialiser) { ::ComputingScreenHandler }
     val terminal by entry(::extendedInitialiser) { ::TerminalScreenHandler }
 
+    val imbuing by entry(::simpleInitialiser) { ::ImbuingScreenHandler }
+
     override fun id(name: String) = LCC.id(name)
 
     fun <S : ScreenHandler> simpleInitialiser(input: (Int, PlayerInventory) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {

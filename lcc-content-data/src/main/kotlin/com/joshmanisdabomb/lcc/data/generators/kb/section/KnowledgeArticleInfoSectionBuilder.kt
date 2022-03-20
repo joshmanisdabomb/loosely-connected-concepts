@@ -1,12 +1,17 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.section
 
-import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleParagraphFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTableFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
+import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeConstants
 import net.minecraft.text.Text
 
-abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U, name: (defaultKey: String) -> Text = { IncludedTranslatableText(it).translation("Information") }, type: String = "info") : KnowledgeArticleSectionBuilder(name, type) {
+abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U) : KnowledgeArticleSectionBuilder(KnowledgeConstants.information) {
+
+    init {
+        setLayout("info")
+    }
 
     protected val items by lazy { getList(models.toList()).distinct() }
     private var alter: (MutableMap<KnowledgeArticleTextFragmentBuilder, List<KnowledgeArticleFragmentBuilder>>) -> Unit = {}
@@ -25,9 +30,9 @@ abstract class KnowledgeArticleInfoSectionBuilder<T, U>(vararg models: U, name: 
         }
     }
 
-    protected fun getTextStatFrom(from: (model: T) -> String?): List<KnowledgeArticleTextFragmentBuilder> {
+    protected fun getTextStatFrom(from: (model: T) -> String?): List<KnowledgeArticleParagraphFragmentBuilder> {
         return getStatFrom({
-            it[null]?.let { listOf(KnowledgeArticleTextFragmentBuilder(it)) } ?: it.map { (k, v) -> KnowledgeArticleTextFragmentBuilder("%s: $v").insert(getName(k!!)) }
+            it[null]?.let { listOf(KnowledgeArticleParagraphFragmentBuilder().addText(it)) } ?: it.map { (k, v) -> KnowledgeArticleParagraphFragmentBuilder().addText(getName(k!!)).addText(": $v") }
         }, from)
     }
 

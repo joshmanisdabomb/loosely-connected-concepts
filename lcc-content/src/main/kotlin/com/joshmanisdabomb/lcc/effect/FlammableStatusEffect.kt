@@ -1,14 +1,17 @@
 package com.joshmanisdabomb.lcc.effect
 
+import com.joshmanisdabomb.lcc.trait.LCCEffectTrait
 import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.AttributeContainer
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.effect.StatusEffectCategory
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.mob.CreeperEntity
 import net.minecraft.tag.BlockTags
 import kotlin.math.pow
 
-class FlammableStatusEffect(type: StatusEffectCategory, color: Int) : HurtResistanceStatusEffect(type, color, { source, amplifier -> if (source.isFire) 0.9f.pow(amplifier.plus(1)) else 1f }) {
+class FlammableStatusEffect(type: StatusEffectCategory, color: Int) : HurtResistanceStatusEffect(type, color, { source, amplifier -> if (source.isFire) 0.9f.pow(amplifier.plus(1)) else 1f }), LCCEffectTrait {
 
     override fun canApplyUpdateEffect(duration: Int, amplifier: Int) = true
 
@@ -31,5 +34,7 @@ class FlammableStatusEffect(type: StatusEffectCategory, color: Int) : HurtResist
         }
         super.onApplied(entity, attributes, amplifier)
     }
+
+    override fun lcc_canIncludeInExplosion(effect: StatusEffectInstance, creeper: CreeperEntity) = false
 
 }

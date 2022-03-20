@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.recipe.special
 
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.extensions.getShapedIngredients
 import com.joshmanisdabomb.lcc.extensions.getShapedKeys
 import com.joshmanisdabomb.lcc.extensions.getShapedPattern
@@ -31,7 +31,7 @@ class PlasticRecipe(private val id: Identifier, group: String, width: Int, heigh
         for (i in 0..craftingInventory.width) {
             for (j in 0..craftingInventory.height) {
                 val stack = craftingInventory.getStack(i + j.times(width))
-                if (stack.isIn(LCCTags.plastic)) {
+                if (stack.isIn(LCCItemTags.plastic)) {
                     colors += (stack.item as? ColoredItem)?.getTintColor(stack) ?: continue
                 }
             }

@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.advancement.*
 import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.AdvancementFrame
 import net.minecraft.advancement.AdvancementRewards
@@ -22,15 +23,15 @@ import net.minecraft.predicate.entity.EntityPredicate
 import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.registry.Registry
 
-object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Unit, Unit>() {
+object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, Unit, Unit>() {
 
     //Main Progression
     val main_root by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .display(LCCBlocks.test_block, this, toast = false, chat = false)
             .has(LCCItems.ruby).has(LCCItems.topaz_shard).has(Items.EMERALD).has(Items.DIAMOND).has(LCCItems.sapphire).has(Items.AMETHYST_SHARD)
             .criteriaMerger(CriterionMerger.OR)
@@ -39,7 +40,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Arcane Table
     val spawner_table by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(main_root)
             .display(LCCBlocks.spawner_table, this)
             .criterion("place", PlacedBlockCriterion.Conditions.block(LCCBlocks.spawner_table))
@@ -49,7 +50,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Arcane Table > Simulation Fabric
     val simulation_fabric by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(spawner_table)
             .display(LCCItems.simulation_fabric, this)
             .has(LCCItems.simulation_fabric)
@@ -58,7 +59,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Arcane Table > Simulation Fabric > Rubies
     val ruby by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(simulation_fabric)
             .display(LCCItems.ruby, this)
             .has(LCCItems.ruby).has(LCCBlocks.ruby_ore).has(LCCBlocks.ruby_block)
@@ -68,7 +69,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Arcane Table > Simulation Fabric > Nether Reactor
     val nether_reactor by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(simulation_fabric)
             .display(LCCBlocks.nether_reactor, this, frame = AdvancementFrame.CHALLENGE)
             .criterion("challenge", NetherReactorChallengeCriterion.create())
@@ -82,7 +83,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Topaz
     val topaz by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(main_root)
             .display(LCCItems.topaz_shard, this)
             .has(LCCItems.topaz_shard)
@@ -91,7 +92,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Refiner
     val refiner by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(main_root)
             .display(LCCBlocks.refiner, this)
             .has(LCCBlocks.refiner)
@@ -100,16 +101,16 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Refiner > Uranium Enrichment
     val uranium by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(refiner)
             .display(LCCItems.enriched_uranium, this)
-            .has(LCCTags.enriched_uranium, "has_enriched_uranium")
+            .has(LCCItemTags.enriched_uranium, "has_enriched_uranium")
             .translation("Enrichment Activities", "Refine the uranium into a different shade of green", "en_us", this)
     }.addTags("main")
 
     //Main Progression > Refiner > Uranium Enrichment > Nuke
     val nuke by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(uranium)
             .display(LCCBlocks.atomic_bomb, this)
             .criterion("detonate", NuclearExplosionCriterion.create(NumberRange.IntRange.ANY))
@@ -118,7 +119,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Refiner > Uranium Enrichment > Nuke First
     val nuke_first by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(nuke)
             .display(LCCBlocks.atomic_bomb, this, frame = AdvancementFrame.CHALLENGE, hidden = true)
             .criterion("race", RaceCriterion.create(nuke.id))
@@ -131,7 +132,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Refiner > Uranium Enrichment > Nuclear Power
     val nuclear by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(uranium)
             .display(LCCBlocks.nuclear_generator, this, frame = AdvancementFrame.GOAL)
             .criterion("activate", NuclearGeneratorCriterion.create())
@@ -140,7 +141,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Throw Salt
     val salt by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(main_root)
             .display(LCCItems.salt, this)
             .criterion("salted", PlayerHurtEntityCriterion.Conditions.create(DamagePredicate.Builder.create().type(DamageSourcePredicate.Builder.create().projectile(true).directEntity(EntityPredicate.Builder.create().type(LCCEntities.salt)))))
@@ -150,7 +151,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Extract Rubber
     val rubber by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(main_root)
             .display(LCCItems.flexible_rubber, this)
             .has(LCCItems.latex_bottle).has(LCCItems.flexible_rubber)
@@ -160,7 +161,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Main Progression > Extract Rubber > Hazmat Suit
     val hazmat by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(rubber)
             .display(LCCItems.hazmat_chestplate, this)
             .criterion("depleted", ContainedArmorDepletionCriterion.create(ItemPredicate(null, setOf(LCCItems.hazmat_chestplate), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)))
@@ -170,7 +171,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression
     val wasteland_root by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .display(LCCBlocks.cracked_mud, this, toast = false, chat = false)
             .criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland_barrens))))
             .translation("LCC: Wasteland", "Perambulate into the haze of the wasteland", "en_us", this)
@@ -178,7 +179,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Extract Oil
     val oil by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(wasteland_root)
             .display(LCCItems.oil_bucket, this)
             .has(LCCItems.oil_bucket)
@@ -187,7 +188,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Extract Oil > Asphalt
     val asphalt by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(oil)
             .display(LCCItems.asphalt_bucket, this)
             .has(LCCItems.asphalt_bucket)
@@ -198,7 +199,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Extract Oil > Plastics
     val plastic by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(oil)
             .display(LCCItems.flexible_plastic, this)
             .has(LCCItems.rigid_plastic).has(LCCItems.flexible_plastic)
@@ -208,7 +209,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Extract Oil > Chain Reaction
     val explosive_paste by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(oil)
             .display(LCCBlocks.explosive_paste, this, frame = AdvancementFrame.GOAL)
             .criterion("triggered_paste", ExplosivePasteTriggeredCriterion.create(StatePredicate.ANY, LocationPredicate.ANY))
@@ -217,10 +218,10 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Deader than my Trim
     val deadwood by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(wasteland_root)
             .display(LCCBlocks.deadwood_log, this)
-            .has(LCCTags.deadwood_logs_i, "has_deadwood")
+            .has(LCCItemTags.deadwood_logs, "has_deadwood")
             .has(LCCBlocks.deadwood_planks)
             .criteriaMerger(CriterionMerger.OR)
             .translation("Deader than my Trim", "Find the remains of a once living tree", "en_us", this)
@@ -228,7 +229,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Deader than my Trim > Hold the Fort
     val fortstone by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(deadwood)
             .display(LCCBlocks.cobbled_fortstone, this)
             .has(LCCBlocks.fortstone).has(LCCBlocks.cobbled_fortstone)
@@ -238,7 +239,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Deader than my Trim > Hold the Fort > 1v1 Me Rust
     val rusty_iron by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(fortstone)
             .display(LCCItems.iron_oxide, this)
             .has(LCCBlocks.rusted_iron_blocks.values.last())
@@ -247,7 +248,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Deader than my Trim > Hold the Fort > 1v1 Me Rust > Challenge Accepted
     val sapphire by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(rusty_iron)
             .display(LCCItems.sapphire, this)
             .criterion("challenge", SapphireAltarCompleteCriterion.create(null, NumberRange.IntRange.ANY))
@@ -256,7 +257,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Deader than my Trim > Hold the Fort > 1v1 Me Rust > Challenge Accepted > Staking Rewards
     val sapphire_10 by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(sapphire)
             .display(LCCBlocks.sapphire_block, this)
             .criterion("challenge", SapphireAltarCompleteCriterion.create(null, NumberRange.IntRange.atLeast(10)))
@@ -265,7 +266,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > A Hearty Meal
     val heart_container by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(wasteland_root)
             .display(LCCItems.heart_container[HeartType.RED]!!, this)
             .criterion("add_red_health", HeartContainerCriterion.create(null, NumberRange.FloatRange.ANY))
@@ -274,7 +275,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > A Hearty Meal > Healthy Gamer
     val heart_container_max by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(heart_container)
             .display(LCCItems.heart_full[HeartType.RED]!!, this, frame = AdvancementFrame.GOAL)
             .criteriaMerger(CriterionMerger.AND)
@@ -286,9 +287,11 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //IDEA ultimate tank, all 3 health pools +10
 
+    //IDEA you know im super fly - have 20 flies at once
+
     //Wasteland Progression > Alternative Metal
     val tungsten by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(wasteland_root)
             .display(LCCItems.tungsten_ingot, this)
             .has(LCCItems.tungsten_ingot)
@@ -297,7 +300,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Alternative Metal > Radar
     val radar by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(tungsten)
             .display(LCCBlocks.radar, this)
             .has(LCCBlocks.radar)
@@ -306,7 +309,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //Wasteland Progression > Alternative Metal > Radar
     val detector by entry(::initialiser) {
-        Advancement.Task.create()
+        Advancement.Builder.create()
             .parent(tungsten)
             .display(LCCItems.radiation_detector, this)
             .has(LCCItems.radiation_detector)
@@ -317,24 +320,24 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Task, Advancement, Uni
 
     //IDEA crowbar only hit stuns, smash glass, salvage something
 
-    private fun Advancement.Task.display(item: ItemConvertible, context: DirectoryContext<Unit>, frame: AdvancementFrame = AdvancementFrame.TASK, toast: Boolean = true, chat: Boolean = true, hidden: Boolean = false): Advancement.Task {
+    private fun Advancement.Builder.display(item: ItemConvertible, context: DirectoryContext<Unit>, frame: AdvancementFrame = AdvancementFrame.TASK, toast: Boolean = true, chat: Boolean = true, hidden: Boolean = false): Advancement.Builder {
         val name = context.tags.getOrNull(1) ?: context.name
         return this.display(item, TranslatableText("advancements.lcc.${context.tags[0]}.$name.title"), TranslatableText("advancements.lcc.${context.tags[0]}.$name.description"), if (context.tags.size < 2) null else LCC.id("textures/gui/advancements/backgrounds/${context.tags[0]}.png"), frame, toast, chat, hidden)
     }
 
-    private fun Advancement.Task.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Task {
+    private fun Advancement.Builder.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Builder {
         val name = context.tags.getOrNull(1) ?: context.name
         LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.title"] = title
         LCCData.lang[locale, "advancements.lcc.${context.tags[0]}.$name.description"] = description
         return this
     }
 
-    private fun Advancement.Task.has(item: ItemConvertible) = this.criterion(Registry.ITEM.getId(item.asItem()).path, InventoryChangedCriterion.Conditions.items(item))
-    private fun Advancement.Task.has(tag: Tag<Item>, name: String = "has_"+Registry.ITEM.getId(tag.values().first()).path) = this.criterion(name, InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag).build()))
+    private fun Advancement.Builder.has(item: ItemConvertible) = this.criterion(Registry.ITEM.getId(item.asItem()).path, InventoryChangedCriterion.Conditions.items(item))
+    private fun Advancement.Builder.has(tag: TagKey<Item>, name: String = "has_"+tag.id.path) = this.criterion(name, InventoryChangedCriterion.Conditions.items(ItemPredicate.Builder.create().tag(tag).build()))
 
-    private fun emptyAdvancement(parent: Advancement?, context: DirectoryContext<Unit>) = Advancement.Task.create().apply { parent?.let { parent(it) } }.display(Items.AIR, context).criterion("nope", ImpossibleCriterion.Conditions())
+    private fun emptyAdvancement(parent: Advancement?, context: DirectoryContext<Unit>) = Advancement.Builder.create().apply { parent?.let { parent(it) } }.display(Items.AIR, context).criterion("nope", ImpossibleCriterion.Conditions())
 
-    fun initialiser(input: Advancement.Task, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
+    fun initialiser(input: Advancement.Builder, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
         val name = "${context.tags[0]}/${context.tags.getOrNull(1) ?: context.name}"
         return LCCData.advancements.add(input, context.id)
     }

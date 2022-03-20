@@ -1,6 +1,10 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.LCCDamage
+import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
@@ -39,12 +43,12 @@ class SaltEntity : ThrownItemEntity, LCCEntityTrait {
         }
     }
 
-    override fun canHit(entity: Entity) = entity.type.isIn(LCCTags.salt_weakness) || (entity as? PlayerEntity)?.isSurvival == true
+    override fun canHit(entity: Entity) = entity.type.isIn(LCCEntityTags.salt_weakness) || (entity as? PlayerEntity)?.isSurvival == true
 
     override fun onEntityHit(result: EntityHitResult) {
         super.onEntityHit(result)
         val entity = result.entity
-        if (entity is LivingEntity && entity.type.isIn(LCCTags.salt_weakness)) {
+        if (entity is LivingEntity && entity.type.isIn(LCCEntityTags.salt_weakness)) {
             entity.addStatusEffect(StatusEffectInstance(StatusEffects.BLINDNESS, 50))
             entity.hurtTime = 0
             entity.timeUntilRegen = 0

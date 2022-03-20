@@ -7,10 +7,8 @@ import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.fabricmc.fabric.api.server.PlayerStream
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
@@ -41,7 +39,7 @@ class SoakingSoulSandBlock(settings: Settings) : Block(settings), LCCBlockTrait 
     }
 
     override fun lcc_onEntityJumpGroupedByBlock(world: World, pos: Array<BlockPos>, states: Array<BlockState>, entity: LivingEntity): Boolean {
-        with (pos.minByOrNull { it.getSquaredDistance(entity.x, entity.y, entity.z, true) } ?: return false) {
+        with (pos.minByOrNull { it.getSquaredDistanceFromCenter(entity.x, entity.y, entity.z) } ?: return false) {
             entity.addVelocity(0.0, 0.78, 0.0)
             entity.fallDistance = -1.0F
             if (!world.isClient) {

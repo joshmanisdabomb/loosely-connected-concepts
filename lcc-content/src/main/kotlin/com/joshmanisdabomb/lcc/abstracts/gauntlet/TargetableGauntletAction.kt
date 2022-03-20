@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.gauntlet
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity

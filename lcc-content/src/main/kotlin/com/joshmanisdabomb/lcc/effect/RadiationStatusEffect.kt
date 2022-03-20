@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.effect
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.effect.StatusEffectCategory

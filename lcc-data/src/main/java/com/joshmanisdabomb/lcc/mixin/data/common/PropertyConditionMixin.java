@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.data.common;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.data.client.model.When;
+import net.minecraft.data.client.When;
 import net.minecraft.state.property.Property;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

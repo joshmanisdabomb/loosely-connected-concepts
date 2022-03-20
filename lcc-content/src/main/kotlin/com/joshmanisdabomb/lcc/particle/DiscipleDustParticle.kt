@@ -25,9 +25,9 @@ class DiscipleDustParticle(world: ClientWorld, x: Double, y: Double, z: Double, 
         gravityStrength = 0.0f
         collidesWithWorld = false
 
-        colorRed = redFirst.transform(finalColor1, finalColor2)
-        colorBlue = redFirst.transform(finalColor2, finalColor1)
-        colorGreen = finalColor3
+        red = redFirst.transform(finalColor1, finalColor2)
+        blue = redFirst.transform(finalColor2, finalColor1)
+        green = finalColor3
 
         velocityX = dx
         velocityY = dy
@@ -40,9 +40,9 @@ class DiscipleDustParticle(world: ClientWorld, x: Double, y: Double, z: Double, 
         super.tick()
         setSpriteForAge(sp)
         val lerp = age.div(maxAge.toFloat())
-        colorRed = redFirst.transform(finalColor1, finalColor2) * MathHelper.lerp(lerp, 1.0f, 0.6f)
-        colorBlue =  redFirst.transform(finalColor2, finalColor1) * MathHelper.lerp(lerp, 1.0f, 0.6f)
-        colorGreen = finalColor3 * MathHelper.lerp(lerp, 1.0f, 0.4f)
+        red = redFirst.transform(finalColor1, finalColor2) * MathHelper.lerp(lerp, 1.0f, 0.6f)
+        blue =  redFirst.transform(finalColor2, finalColor1) * MathHelper.lerp(lerp, 1.0f, 0.6f)
+        green = finalColor3 * MathHelper.lerp(lerp, 1.0f, 0.4f)
         scale *= 0.9f
         velocityMultiplier = MathHelper.lerp(lerp, 1.0f, 0.5f)
     }

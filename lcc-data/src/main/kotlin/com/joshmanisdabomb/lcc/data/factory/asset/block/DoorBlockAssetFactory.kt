@@ -4,13 +4,13 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
 import net.minecraft.block.enums.DoorHinge
 import net.minecraft.block.enums.DoubleBlockHalf
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 
 object DoorBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val texture = Texture().put(TextureKey.TOP, idh.locSuffix(entry, "top")).put(TextureKey.BOTTOM, idh.locSuffix(entry, "bottom"))
+        val texture = TextureMap().put(TextureKey.TOP, idh.locSuffix(entry, "top")).put(TextureKey.BOTTOM, idh.locSuffix(entry, "bottom"))
         val bottom = Models.DOOR_BOTTOM.upload(idh.locSuffix(entry, "bottom"), texture, data.models)
         val bottomHinge = Models.DOOR_BOTTOM_RH.upload(idh.locSuffix(entry, "bottom_hinge"), texture, data.models)
         val top = Models.DOOR_TOP.upload(idh.locSuffix(entry, "top"), texture, data.models)

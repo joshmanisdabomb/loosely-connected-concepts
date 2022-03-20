@@ -34,4 +34,7 @@ interface LCCEntityTrait {
 
     }
 
+    @JvmDefault
+    fun lcc_raycastIgnore(caster: Entity) = false
+
 }

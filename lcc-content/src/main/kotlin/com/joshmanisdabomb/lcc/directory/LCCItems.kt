@@ -15,10 +15,12 @@ import com.joshmanisdabomb.lcc.item.SwordItem
 import com.joshmanisdabomb.lcc.item.block.ComputingBlockItem
 import com.joshmanisdabomb.lcc.item.block.PlasticBlockItem
 import com.joshmanisdabomb.lcc.item.render.predicate.VisualStackPredicate
+import com.joshmanisdabomb.lcc.item.render.CalendarItemRenderer
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueInt
+import com.joshmanisdabomb.lcc.settings.DynamicItemRenderExtraSetting.Companion.dynamicItemRender
 import com.joshmanisdabomb.lcc.settings.ItemExtraSettings
 import com.joshmanisdabomb.lcc.settings.ModelPredicateExtraSetting.Companion.modelPredicate
 import com.joshmanisdabomb.lcc.settings.StackColorExtraSetting.Companion.stackColor
@@ -57,6 +59,8 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(200)))
     val plastic_bag by entry(::initialiser) { PlasticBagItem(128, Item.Settings().defaults().maxCount(1)) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS).stackColor(DefaultedColoredItem::getTintColor))
+    val calendar by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(150)).dynamicItemRender { ::CalendarItemRenderer })
 
     //Materials
     val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
@@ -338,11 +342,13 @@ object LCCItems : ItemDirectory() {
 
     val crowbar by entry(::initialiser) { CrowbarItem(Item.Settings().maxDamage(72).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4050, 1)))
+    val knife by entry(::initialiser) { KnifeItem(Item.Settings().maxDamage(72).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
     val tongue_tissue by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(80000, 1)))
 
-    val stinger by entry(::initialiser) { StingerItem(Item.Settings().defaults()) }
+    val stinger by entry(::initialiser) { StingerItem(Item.Settings().maxDamage(3).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(90100, 1)))
 
     val altar_challenge_key by entry(::initialiser) { Item(Item.Settings().defaults()) }
@@ -361,6 +367,12 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
     val psycho_pig_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.psycho_pig, Item.Settings().defaults(), 0xF0A5A2, 0xDB635F, 0xCC6655) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
+    val rotwitch_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.rotwitch, Item.Settings().defaults(), 0x665F33, 0xACAAAB, 0x500F03) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
+    val fly_spawn_egg by entry(::initialiser) { FlySpawnEggItem(LCCEntities.fly, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
 
@@ -402,8 +414,6 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(NOSTALGIA).modelPredicate(LCC.id("filled")) { (it as BagItem)::getBagPredicate })
 
     //TODO pills
-
-    //IDEA calendar that can be put on item frame
 
     fun Item.Settings.defaults(): Item.Settings = this.group(LCCGroups.group)
 

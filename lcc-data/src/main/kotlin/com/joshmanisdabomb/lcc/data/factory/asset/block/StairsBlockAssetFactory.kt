@@ -4,14 +4,14 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import net.minecraft.block.Block
 import net.minecraft.block.enums.BlockHalf
 import net.minecraft.block.enums.StairShape
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 
 open class StairsBlockAssetFactory(val texture: Identifier, val textureTop: Identifier? = texture, val textureSide: Identifier? = texture, val textureBottom: Identifier? = texture) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val texture = Texture().put(TextureKey.TOP, textureTop ?: idh.loc(entry)).put(TextureKey.SIDE, textureSide ?: idh.loc(entry)).put(TextureKey.BOTTOM, textureBottom ?: idh.loc(entry))
+        val texture = TextureMap().put(TextureKey.TOP, textureTop ?: idh.loc(entry)).put(TextureKey.SIDE, textureSide ?: idh.loc(entry)).put(TextureKey.BOTTOM, textureBottom ?: idh.loc(entry))
         val stairs = Models.STAIRS.upload(idh.loc(entry), texture, data.models)
         val innerStairs = Models.INNER_STAIRS.upload(idh.locSuffix(entry, "inner"), texture, data.models)
         val outerStairs = Models.OUTER_STAIRS.upload(idh.locSuffix(entry, "outer"), texture, data.models)

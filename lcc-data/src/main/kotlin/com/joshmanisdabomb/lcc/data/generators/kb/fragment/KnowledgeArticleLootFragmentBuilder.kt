@@ -6,13 +6,12 @@ import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import net.minecraft.loot.LootManager
 import net.minecraft.loot.LootTable
 
-class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<LootTable.Builder>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
+class KnowledgeArticleLootFragmentBuilder(val supplier: (exporter: KnowledgeExporter) -> List<LootTable.Builder>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
     private var tables: List<LootTable.Builder>? = null
 
-    init {
-        note?.container = this
-    }
+    private var note: KnowledgeArticleFragmentBuilder? = null
+    private var obsolete = false
 
     override val type = "loot"
 
@@ -20,13 +19,22 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
 
     override val section get() = container.section
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        note?.onExport(exporter)
-    }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + (note?.exporterWalked(exporter) ?: emptyList())
 
     override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
         this.tables = (this.tables ?: supplier(exporter))
         return this.tables?.isNotEmpty() == true
+    }
+
+    fun markObsolete(): KnowledgeArticleLootFragmentBuilder {
+        obsolete = true
+        return this
+    }
+
+    fun setNote(note: KnowledgeArticleFragmentBuilder): KnowledgeArticleLootFragmentBuilder {
+        note.container = this
+        this.note = note
+        return this
     }
 
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
@@ -38,13 +46,8 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
 
             val items = exporter.da.lootTables.getItemsOf(id)
 
-            val tjson = exporter.translator.lootTranslationsJson(it, *items.toTypedArray())
-            json.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }
-            json.add("translations", tjson)
-
-            val ljson = exporter.linker.lootLinksJson(it, *items.toTypedArray())
-            json.get("links")?.asJsonObject?.entrySet()?.forEach { (k, v) -> ljson.add(k, v) }
-            json.add("links", ljson)
+            if (!json.has("translations")) json.add("translations", KnowledgeArticleRecipeFragmentBuilder.getTranslationTree(exporter, *items.toTypedArray()))
+            if (!json.has("links")) json.add("links", KnowledgeArticleRecipeFragmentBuilder.getLinkTree(exporter, *items.toTypedArray()))
 
             json.addProperty("id", id.toString())
 
@@ -53,7 +56,7 @@ class KnowledgeArticleLootFragmentBuilder(val note: KnowledgeArticleFragmentBuil
 
         val json = JsonObject()
         json.add("tables", tables)
-        if (note != null) json.add("note", note.toJsonFinal(exporter))
+        note?.also { json.add("note", it.toJsonFinal(exporter)) }
         if (obsolete) json.addProperty("obsolete", obsolete)
         return json
     }

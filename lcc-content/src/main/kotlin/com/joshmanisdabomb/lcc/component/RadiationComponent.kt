@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCDamage
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.effect.RadiationStatusEffect
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
@@ -62,7 +62,7 @@ class RadiationComponent(private val entity: LivingEntity) : ComponentV3, Server
             var time = 1
             for ((p, r, t) in it.strikes) {
                 if (p.isWithinDistance(entity.pos, r+20.0)) {
-                    val distance = sqrt(p.getSquaredDistance(entity.pos, false))
+                    val distance = sqrt(p.getSquaredDistance(entity.pos))
                     amp = max(amp, 1.minus(distance / r.plus(20.0)).times(5).toInt())
                     time += 4.minus((time - t).div(1000000)).coerceIn(0, 4).toInt()
                 }

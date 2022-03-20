@@ -48,7 +48,7 @@ class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRender
 
         val hovered = hovered(mouseX, mouseY)
 
-        if (!client!!.options.keyAttack.isPressed) {
+        if (!client!!.options.attackKey.isPressed) {
             if (hovered != null) {
                 GauntletAction.putInTag(hovered, camera.mainHandStack.orCreateNbt)
                 ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::gauntlet_switch].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeString(GauntletDirectory[hovered].name) })

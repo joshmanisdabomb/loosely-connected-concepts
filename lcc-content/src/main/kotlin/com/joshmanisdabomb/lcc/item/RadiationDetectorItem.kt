@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCParticles
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
+import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.base.EnergyHandler
@@ -64,7 +64,7 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
                 for (j in -20..20) {
                     for (k in -20..20) {
                         val state = world.getBlockState(bp.set(user.blockPos, i, j, k))
-                        if (state.isIn(LCCTags.radioactive)) {
+                        if (state.isIn(LCCBlockTags.radioactive)) {
                             if (maxOf(abs(i), abs(j), abs(k)) > world.random.nextDouble().pow(16).times(21)) continue
                             list.add(bp.toImmutable())
                         }

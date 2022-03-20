@@ -8,19 +8,19 @@ import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 
 object SapphireAltarBlockAssetFactory : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val altar = LCCModelTemplates.template_sapphire_altar.upload(idh.loc(entry), Texture().put(TextureKey.FRONT, idh.locSuffix(entry, "front")).put(TextureKey.SIDE, idh.loc(entry)).put(TextureKey.INSIDE, idh.locSuffix(entry, "top")).put(TextureKey.BOTTOM, idh.locSuffix(entry, "gems")).put(TextureKey.PARTICLE, idh.loc(entry)), data.models)
-        val key = LCCModelTemplates.template_sapphire_altar_key.upload(idh.locSuffix(entry, "key"), Texture.texture(idh.loc(LCCBlocks.rusted_iron_blocks.values.last())), data.models)
+        val altar = LCCModelTemplates.template_sapphire_altar.upload(idh.loc(entry), TextureMap().put(TextureKey.FRONT, idh.locSuffix(entry, "front")).put(TextureKey.SIDE, idh.loc(entry)).put(TextureKey.INSIDE, idh.locSuffix(entry, "top")).put(TextureKey.BOTTOM, idh.locSuffix(entry, "gems")).put(TextureKey.PARTICLE, idh.loc(entry)), data.models)
+        val key = LCCModelTemplates.template_sapphire_altar_key.upload(idh.locSuffix(entry, "key"), TextureMap.texture(idh.loc(LCCBlocks.rusted_iron_blocks.values.last())), data.models)
         stateMultipart(data, entry) {
             horizontalDirections.forEach {
                 with(When.create().set(Properties.HORIZONTAL_FACING, it), BlockStateVariant.create().put(VariantSettings.MODEL, altar).apply(ModelProvider.horizontalRotation(it)))
                 SapphireAltarBlock.SapphireState.values().filter { it != SapphireAltarBlock.SapphireState.EMPTY }.forEach { s ->
-                    val texture = Texture.texture(idh.locSuffix(entry, if (s == SapphireAltarBlock.SapphireState.DULL) "dull" else "gems"))
+                    val texture = TextureMap.texture(idh.locSuffix(entry, if (s == SapphireAltarBlock.SapphireState.DULL) "dull" else "gems"))
                     val tl = LCCModelTemplates.template_sapphire_altar_tl.upload(idh.locSuffix(entry, "tl").suffix(if (s == SapphireAltarBlock.SapphireState.DULL) "dull" else null), texture, data.models)
                     val tr = LCCModelTemplates.template_sapphire_altar_tr.upload(idh.locSuffix(entry, "tr").suffix(if (s == SapphireAltarBlock.SapphireState.DULL) "dull" else null), texture, data.models)
                     val middle = LCCModelTemplates.template_sapphire_altar_middle.upload(idh.locSuffix(entry, "middle").suffix(if (s == SapphireAltarBlock.SapphireState.DULL) "dull" else null), texture, data.models)

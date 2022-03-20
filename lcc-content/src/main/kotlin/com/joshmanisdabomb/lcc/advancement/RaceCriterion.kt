@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.advancement;
 
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCCriteria
 import net.minecraft.advancement.Advancement
 import net.minecraft.advancement.criterion.AbstractCriterion

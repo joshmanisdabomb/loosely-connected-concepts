@@ -41,7 +41,7 @@ import net.minecraft.nbt.NbtHelper
 import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvents
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.util.TimeHelper
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -254,7 +254,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun isInAir() = !this.onGround
 
-    override fun swimUpward(fluid: Tag<Fluid>) {
+    override fun swimUpward(fluid: TagKey<Fluid>) {
         velocity = velocity.add(0.0, 0.02, 0.0)
     }
 

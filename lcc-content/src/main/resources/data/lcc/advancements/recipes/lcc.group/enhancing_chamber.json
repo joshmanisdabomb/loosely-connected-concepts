@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enhancing_chamber"
+    ]
+  },
+  "criteria": {
+    "has_deadwood_planks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:deadwood_planks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_enhancing_pyre_alpha": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:enhancing_pyre_alpha"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enhancing_chamber"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_deadwood_planks",
+      "has_enhancing_pyre_alpha",
+      "has_the_recipe"
+    ]
+  ]
+}

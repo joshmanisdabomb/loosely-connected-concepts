@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.data.factory.asset.block
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.VariantsBlockStateSupplier
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.VariantsBlockStateSupplier
 
 class MultipleBlockAssetFactory(val y: List<Int> = listOf(0), val ids: List<ModelProvider.ModelFactory<Block>>) : BlockAssetFactory {
 

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.nuclear
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.isSurvival

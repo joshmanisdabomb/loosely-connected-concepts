@@ -3,7 +3,7 @@
   "group": "planks",
   "ingredients": [
     {
-      "tag": "lcc:deadwood_logs_i"
+      "tag": "lcc:deadwood_logs"
     }
   ],
   "result": {

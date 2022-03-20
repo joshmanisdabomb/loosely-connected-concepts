@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "lcc:item/knife_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "minecraft:damage": 1.0E-4,
+        "minecraft:damaged": 1
+      },
+      "model": "lcc:item/knife_2"
+    },
+    {
+      "predicate": {
+        "minecraft:damage": 0.3333,
+        "minecraft:damaged": 1
+      },
+      "model": "lcc:item/knife_3"
+    },
+    {
+      "predicate": {
+        "minecraft:damage": 0.6666,
+        "minecraft:damaged": 1
+      },
+      "model": "lcc:item/knife_4"
+    }
+  ]
+}

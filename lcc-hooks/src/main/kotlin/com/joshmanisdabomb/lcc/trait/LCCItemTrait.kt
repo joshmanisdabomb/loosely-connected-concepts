@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.trait
 
+import net.minecraft.enchantment.Enchantment
 import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -54,6 +55,12 @@ interface LCCItemTrait {
 
     @JvmDefault
     fun lcc_doesDespawn(stack: ItemStack, entity: ItemEntity) = true
+
+    @JvmDefault
+    fun lcc_canHaveEnchantment(stack: ItemStack, enchantment: Enchantment): Boolean? = null
+
+    @JvmDefault
+    fun lcc_canGainExtraEnchantments(stack: ItemStack): List<Enchantment> = emptyList()
 
     @JvmDefault
     fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = 0

@@ -27,7 +27,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
     private val pattern = mutableListOf<String>()
     private val inputs = mutableMapOf<Char, Ingredient>()
     private val inputCounts = mutableMapOf<Char, Int>()
-    private val builder = Advancement.Task.create()
+    private val builder = Advancement.Builder.create()
     private var group: String? = null
 
     private val blocks = mutableListOf<RefiningBlock>()
@@ -123,7 +123,7 @@ class RefiningShapedRecipeJsonFactory : JsonFactoryAccess {
         return this
     }
 
-    class RefiningShapedRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val pattern: List<String>, private val inputs: Map<Char, Ingredient>, private val builder: Advancement.Task, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val inputCounts: MutableMap<Char, Int>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
+    class RefiningShapedRecipeJsonProvider(private val recipeId: Identifier, private val group: String, private val pattern: List<String>, private val inputs: Map<Char, Ingredient>, private val builder: Advancement.Builder, private val advancementId: Identifier, private val outputs: MutableList<ItemStack>, private val outputFunctions: MutableList<RefiningSimpleRecipe.OutputFunction?>, private val inputCounts: MutableMap<Char, Int>, private val blocks: MutableList<RefiningBlock>, private val lang: String, private val icon: Int, private val state: RefiningBlock.RefiningProcess, private val energy: Float, private val ticks: Int, private val gain: Float, private val maxGain: Float) : RecipeJsonProvider {
 
         override fun serialize(json: JsonObject) {
 

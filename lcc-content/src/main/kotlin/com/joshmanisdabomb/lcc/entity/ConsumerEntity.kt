@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.suffix
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.fabricmc.api.EnvType
@@ -93,7 +93,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (LCCBiomes.getOrNull(world.getBiome(pos))?.tags?.contains("wasteland") != true) return -100.0f
+        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 

@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
+import com.mojang.logging.LogUtils
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
@@ -65,7 +66,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         if (!world.isClient) {
             if (ticks == 0) {
                 NuclearUtil.strike(world, this)
-                LOGGER.info("A nuclear explosion occurred at $blockPos of radius $radius, detonated by ${causedBy?.name?.asString()}.")
+                logger.info("A nuclear explosion occurred at $blockPos of radius $radius, detonated by ${causedBy?.name?.asString()}.")
                 world.playSound(null, pos.x + 0.5, pos.y + 0.5, pos.z + 0.5, LCCSounds.nuclear_explosion_explode, SoundCategory.BLOCKS, 20.0F, 1.0F)
                 (world as? ServerWorld)?.also {
                     //Change spawn if too close to blast.
@@ -73,7 +74,7 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
                     if (blockPos.isWithinDistance(spawn, radius+25.0)) {
                         val new = it.getTopPosition(Heightmap.Type.MOTION_BLOCKING, BlockPos(Vec3d(random.nextDouble() - 0.5, 0.0, random.nextDouble() - 0.5).normalize().multiply(radius+25.0).add(spawn.x.toDouble(), 0.0, spawn.z.toDouble())))
                         it.setSpawnPos(new, it.spawnAngle)
-                        LOGGER.info("The world spawnpoint was moved from $spawn to $new due to being too close to the nuclear explosion.")
+                        logger.info("The world spawnpoint was moved from $spawn to $new due to being too close to the nuclear explosion.")
                     }
                     //Advancement trigger.
                     (causedBy as? ServerPlayerEntity)?.also { LCCCriteria.nuke.trigger(it, NuclearUtil.getUraniumFromExplosionRadius(radius).toInt()) }
@@ -241,6 +242,8 @@ class NuclearExplosionEntity(type: EntityType<out NuclearExplosionEntity>, world
         val tick_data = DataTracker.registerData(NuclearExplosionEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val lifetime_data = DataTracker.registerData(NuclearExplosionEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val radius_data = DataTracker.registerData(NuclearExplosionEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+
+        private val logger = LogUtils.getLogger()
     }
 
 }

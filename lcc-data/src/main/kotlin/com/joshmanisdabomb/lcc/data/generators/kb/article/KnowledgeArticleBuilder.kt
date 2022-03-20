@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.article
 
-import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
@@ -8,11 +7,16 @@ import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import java.time.LocalDateTime
 
 open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, name: (defaultKey: String) -> Text) : Comparable<KnowledgeArticleBuilder> {
 
-    constructor(location: KnowledgeArticleIdentifier, name: String, locale: String = "en_us") : this(location, { IncludedTranslatableText(it).translation(name, locale) })
-    constructor(location: KnowledgeArticleIdentifier, name: Text) : this(location, { name })
+    constructor(location: KnowledgeArticleIdentifier, content: Text) : this(location, { content })
+    constructor(location: KnowledgeArticleIdentifier, content: String, locale: String = "en_us") : this(location, locale to content)
+    constructor(location: KnowledgeArticleIdentifier, vararg translations: Pair<String, String>) : this(location, { TranslatableText(it) }) {
+        _translations += translations
+    }
 
     constructor(block: Block, name: Text = block.name) : this(KnowledgeArticleIdentifier.ofBlock(block), { name }) {
         about(block, block.asItem())
@@ -25,10 +29,17 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         about(entity)
     }
 
+    var author: String? = null
+    var published: LocalDateTime? = null
+    var edited: LocalDateTime? = null
+    var status = ArticleStatus.COMPLETE
+
+    private val _translations: MutableMap<String, String> = mutableMapOf()
+    val translations by lazy { _translations.toMap() }
+
     val defaultTranslationKey get() = "knowledge.lcc.${location.registry}.${location.key}"
 
     val name by lazy { name(defaultTranslationKey) }
-    lateinit var finalName: String
 
     private val list = mutableListOf<KnowledgeArticleSectionBuilder>()
     val sections by lazy { list.toList() }
@@ -55,8 +66,50 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
+    fun redirectsHere(block: Block): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofBlock(block), block.name)
+        return redirectsHere(KnowledgeArticleIdentifier.ofItem(block.asItem()))
+    }
+
+    fun redirectsHere(item: Item): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofItem(item), item.name)
+        return this
+    }
+
+    fun redirectsHere(entity: EntityType<*>): KnowledgeArticleBuilder {
+        redirectsHere(KnowledgeArticleIdentifier.ofEntity(entity), entity.name)
+        return this
+    }
+
     fun tags(vararg tags: String): KnowledgeArticleBuilder {
         _tags.addAll(tags)
+        return this
+    }
+
+    fun author(author: String?): KnowledgeArticleBuilder {
+        this.author = author
+        return this
+    }
+
+    fun status(status: ArticleStatus): KnowledgeArticleBuilder {
+        this.status = status
+        return this
+    }
+
+    fun published(time: LocalDateTime?): KnowledgeArticleBuilder {
+        published = time
+        return this
+    }
+
+    fun edited(time: LocalDateTime?): KnowledgeArticleBuilder {
+        edited = time
+        return this
+    }
+
+    fun meta(author: String? = null, published: LocalDateTime? = null, edited: LocalDateTime? = null): KnowledgeArticleBuilder {
+        author(author)
+        published(published)
+        edited(edited)
         return this
     }
 
@@ -66,9 +119,8 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
         return this
     }
 
-    fun onExport(exporter: KnowledgeExporter) {
-        val name = exporter.translator.textResolve(name)
-        finalName = name.plus(if (exporter.articles.count { it.location.key.path == this.location.key.path } > 1) " ${location.registry.path.split('_').joinToString(" ", " (", ")") { it.capitalize() }}" else "")
+    fun exporterWalked(exporter: KnowledgeExporter) {
+
     }
 
     open fun afterInit() {
@@ -76,5 +128,11 @@ open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, nam
     }
 
     override fun compareTo(other: KnowledgeArticleBuilder) = location.compareTo(other.location)
+
+    enum class ArticleStatus {
+        COMPLETE,
+        INCOMPLETE,
+        STUB;
+    }
 
 }

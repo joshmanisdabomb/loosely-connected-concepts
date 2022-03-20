@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.extensions.modify
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.*
+import net.minecraft.data.client.*
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
@@ -13,7 +13,7 @@ import net.minecraft.util.math.Direction
 open class PistonBlockAssetFactory(val base: Identifier = Identifier("block/piston_base"), val textureBottom: Identifier? = null, val textureSide: Identifier? = null, val textureTop: Identifier? = null, val textureTop2: Identifier? = null) : BlockAssetFactory {
 
     override fun apply(data: DataAccessor, entry: Block) {
-        val texture = Texture()
+        val texture = TextureMap()
             .put(TextureKey.BOTTOM, textureBottom ?: Identifier("block/piston_bottom"))
             .put(TextureKey.SIDE, textureSide ?: idh.locSuffix(entry, "side").modify { it.replace("sticky_", "") })
             .put(TextureKey.PLATFORM, textureTop ?: idh.locSuffix(entry, "top"))

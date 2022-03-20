@@ -6,12 +6,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.structure.rule.RuleTest
-import net.minecraft.tag.ServerTagManagerHolder
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.util.registry.Registry
 import java.util.*
 
-class MultipleMatchRuleTest(private val blocks: List<Block>, private val states: List<BlockState>, private val tags: List<Tag<Block>>) : RuleTest() {
+class MultipleMatchRuleTest(private val blocks: List<Block>, private val states: List<BlockState>, private val tags: List<TagKey<Block>>) : RuleTest() {
 
     override fun test(state: BlockState, random: Random) = blocks.any { state.isOf(it) } || states.any { state == it } || tags.any { state.isIn(it) }
 
@@ -22,7 +21,7 @@ class MultipleMatchRuleTest(private val blocks: List<Block>, private val states:
             it.group(
                 Registry.BLOCK.codec.listOf().fieldOf("blocks").forGetter { it.blocks },
                 Codec.list(BlockState.CODEC).fieldOf("states").forGetter { it.states },
-                Codec.list(Tag.codec { ServerTagManagerHolder.getTagManager().getOrCreateTagGroup(Registry.BLOCK_KEY) }).fieldOf("tags").forGetter { it.tags }
+                Codec.list(TagKey.identifierCodec(Registry.BLOCK_KEY)).fieldOf("tags").forGetter { it.tags }
             ).apply(it) { b, s, t -> MultipleMatchRuleTest(b, s, t) }
         }
     }

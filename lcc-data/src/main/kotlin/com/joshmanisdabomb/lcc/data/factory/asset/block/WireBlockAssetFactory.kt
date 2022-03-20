@@ -7,9 +7,9 @@ import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import net.minecraft.block.Block
 import net.minecraft.block.enums.WireConnection
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.When
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.When
 import net.minecraft.util.math.Direction
 import net.minecraft.block.RedstoneWireBlock.DIRECTION_TO_WIRE_CONNECTION_PROPERTY as directionProperties
 

@@ -11,7 +11,7 @@ import com.joshmanisdabomb.lcc.data.factory.translation.BritishTranslationFactor
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCItems
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
 import net.minecraft.item.Items
 import net.minecraft.loot.condition.KilledByPlayerLootCondition
 import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition
@@ -22,16 +22,16 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
 
     val pocket_zombie_pigman by entry(::initialiser) { data().defaultLang().add(ClassicEntityLootFactory(Items.GOLD_NUGGET)) }
 
-    val baby_skeleton by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(Items.ARROW to null, Items.BONE to null))).add(EntityTagFactory(LCCTags.wasteland_resistant)) }
+    val baby_skeleton by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(Items.ARROW to null, Items.BONE to null))).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
     val wasp by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(
         LCCItems.stinger to {
             apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
             conditionally(KilledByPlayerLootCondition.builder())
             conditionally(RandomChanceWithLootingLootCondition.builder(0.3F, 0.1F))
         }
-    ))).add(EntityTagFactory(LCCTags.wasteland_combat)) }
-    val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCTags.wasteland_combat)).add(EntityTagFactory(LCCTags.salt_weakness)) }
-    val disciple by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.enhancing_pyre_alpha to null))).add(EntityTagFactory(LCCTags.wasteland_combat)) }
+    ))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
+    val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)).add(EntityTagFactory(LCCEntityTags.salt_weakness)) }
+    val disciple by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.enhancing_pyre_alpha to null))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
 
     fun initialiser(input: EntityDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

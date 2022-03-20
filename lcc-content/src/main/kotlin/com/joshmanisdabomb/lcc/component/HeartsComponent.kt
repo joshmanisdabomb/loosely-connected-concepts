@@ -1,10 +1,9 @@
 package com.joshmanisdabomb.lcc.component
 
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import dev.onyxstudios.cca.api.v3.component.ComponentV3
-import dev.onyxstudios.cca.api.v3.component.CopyableComponent
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent
 import dev.onyxstudios.cca.api.v3.component.tick.CommonTickingComponent
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent
@@ -13,7 +12,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 
-class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent, CopyableComponent<HeartsComponent>, PlayerComponent<HeartsComponent> {
+class HeartsComponent(private val entity: LivingEntity) : ComponentV3, AutoSyncedComponent, CommonTickingComponent, PlayerComponent<HeartsComponent> {
 
     protected val health = mutableMapOf<HeartType, Float>()
     protected val maxHealth = mutableMapOf<HeartType, Float>()

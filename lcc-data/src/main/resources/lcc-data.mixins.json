@@ -10,9 +10,10 @@
     "LootPoolAccessor",
     "LootPoolEntryAccessor",
     "LootTableAccessor",
-    "RecipesProviderAccessor",
+    "RecipeProviderAccessor",
     "TagBuilderAccessor",
-    "SharedConstantsMixin"
+    "SharedConstantsMixin",
+    "IngredientTagEntryAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

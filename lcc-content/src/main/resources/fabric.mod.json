@@ -30,9 +30,10 @@
         "value": "com.joshmanisdabomb.lcc.LCCClient"
       }
     ],
-    "cardinal-components-world": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }],
-    "cardinal-components-level": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }],
-    "cardinal-components-entity": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCComponents" }]
+    "cardinal-components-world": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
+    "cardinal-components-level": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
+    "cardinal-components-entity": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
+    "cardinal-components-item": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCItemComponents" }]
   },
   "mixins": [
     "lcc.mixins.json",
@@ -73,7 +74,8 @@
       "lcc:gauntlet_target",
       "lcc:hearts",
       "lcc:computing_storage",
-      "lcc:computing_sessions"
+      "lcc:computing_sessions",
+      "lcc:targeted_effects"
     ]
   },
   "accessWidener": "lcc.accesswidener"

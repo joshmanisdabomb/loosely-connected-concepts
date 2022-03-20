@@ -8,10 +8,10 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.BlockStateVariantMap
-import net.minecraft.data.client.model.Texture
-import net.minecraft.data.client.model.VariantSettings
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.BlockStateVariantMap
+import net.minecraft.data.client.TextureMap
+import net.minecraft.data.client.VariantSettings
 import net.minecraft.state.property.Properties
 
 object NuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
@@ -22,7 +22,7 @@ object NuclearFiredGeneratorBlockAssetFactory : BlockAssetFactory {
 
         stateVariant(data, entry) {
             coordinate(BlockStateVariantMap.create(Properties.HORIZONTAL_FACING, Properties.LIT).register { d, l ->
-                val texture = Texture.particle(machine.suffix("side"))
+                val texture = TextureMap.particle(machine.suffix("side"))
                     .put(LCCModelTextureKeys.t0, top.suffix(if (l) "on" else null))
                     .put(LCCModelTextureKeys.t1, idh.locSuffix(entry, "bottom_side"))
                     .put(LCCModelTextureKeys.t2, idh.locSuffix(entry, "top_side"))

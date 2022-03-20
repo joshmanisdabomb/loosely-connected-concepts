@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.heart
 
-import com.joshmanisdabomb.lcc.directory.LCCComponents
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment

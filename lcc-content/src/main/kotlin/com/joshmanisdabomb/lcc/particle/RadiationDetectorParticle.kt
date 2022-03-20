@@ -13,7 +13,7 @@ class RadiationDetectorParticle(world: ClientWorld, x: Double, y: Double, z: Dou
     }
 
     override fun tick() {
-        colorAlpha = maxAge.minus(age).toFloat().div(maxAge)
+        alpha = maxAge.minus(age).toFloat().div(maxAge)
         super.tick()
     }
 

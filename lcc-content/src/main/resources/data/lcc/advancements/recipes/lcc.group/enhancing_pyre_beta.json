@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:enhancing_pyre_beta"
+    ]
+  },
+  "criteria": {
+    "has_enhancing_pyre_alpha": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:enhancing_pyre_alpha"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:enhancing_pyre_beta"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_enhancing_pyre_alpha",
+      "has_the_recipe"
+    ]
+  ]
+}

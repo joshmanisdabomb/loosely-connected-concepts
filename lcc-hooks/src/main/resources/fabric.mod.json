@@ -18,12 +18,19 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.joshmanisdabomb.lcc.LCCHooks"
+      }
+    ],
     "client": [
       {
         "adapter": "kotlin",
         "value": "com.joshmanisdabomb.lcc.LCCHooksClient"
       }
-    ]
+    ],
+    "cardinal-components-block": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.LCCHooks" }]
   },
   "mixins": [
     "lcc-hooks.mixins.json",
@@ -37,7 +44,9 @@
     "fabricloader": ">=0.11.1",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.4.21",
-    "minecraft": "1.18.x"
+    "minecraft": "1.18.x",
+    "cardinal-components-base": "*",
+    "cardinal-components-block": "*"
   },
   "suggests": {
     "lcc-mod": "*"
@@ -46,7 +55,10 @@
     "modmenu": {
       "parent": "lcc-mod",
       "badges": [ "library" ]
-    }
+    },
+    "cardinal-components": [
+      "lcc-hooks:piston_cause"
+    ]
   },
   "accessWidener": "lcc-hooks.accesswidener"
 }

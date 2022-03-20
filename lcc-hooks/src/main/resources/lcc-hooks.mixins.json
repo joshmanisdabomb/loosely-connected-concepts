@@ -21,7 +21,13 @@
     "ServerWorldMixin",
     "PistonBlockMixin",
     "AbstractBlockStateMixin",
-    "RecipeManagerMixin"
+    "RecipeManagerMixin",
+    "EnchantmentMixin",
+    "EnchantmentHelperMixin",
+    "PistonBlockEntityMixin",
+    "ProjectileUtilMixin",
+    "CreeperEntityMixin",
+    "FallingBlockEntityAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

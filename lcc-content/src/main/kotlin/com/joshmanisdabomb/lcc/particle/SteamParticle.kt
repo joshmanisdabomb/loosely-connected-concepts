@@ -16,9 +16,9 @@ class SteamParticle(world: ClientWorld, x: Double, y: Double, z: Double, dx: Dou
 
     init {
         val f = random.nextFloat() * 0.2f + 0.8f
-        colorRed = f
-        colorGreen = f
-        colorBlue = f
+        red = f
+        green = f
+        blue = f
     }
 
     override fun buildGeometry(vertexConsumer: VertexConsumer, camera: Camera, tickDelta: Float) {
@@ -27,7 +27,7 @@ class SteamParticle(world: ClientWorld, x: Double, y: Double, z: Double, dx: Dou
     }
 
     override fun tick() {
-        setColorAlpha(0.3f.plus(1f.minus(age.toFloat().div(maxAge)).times(0.2f)))
+        setAlpha(0.3f.plus(1f.minus(age.toFloat().div(maxAge)).times(0.2f)))
 
         prevPosX = x
         prevPosY = y

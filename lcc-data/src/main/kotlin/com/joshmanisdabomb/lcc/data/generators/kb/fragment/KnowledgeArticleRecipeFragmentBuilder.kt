@@ -3,16 +3,20 @@ package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import com.joshmanisdabomb.lcc.extensions.identifier
+import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.data.server.recipe.RecipeJsonProvider
+import net.minecraft.item.Item
 import net.minecraft.recipe.Ingredient
+import net.minecraft.tag.TagKey
+import net.minecraft.text.Text
 
-class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBuilder? = null, val obsolete: Boolean = false, val supplier: (exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
+class KnowledgeArticleRecipeFragmentBuilder(val supplier: KnowledgeArticleRecipeFragmentBuilder.(exporter: KnowledgeExporter) -> List<RecipeJsonProvider>) : KnowledgeArticleFragmentBuilder(), KnowledgeArticleFragmentContainer {
 
     private var recipes: List<RecipeJsonProvider>? = null
 
-    init {
-        note?.container = this
-    }
+    private var note: KnowledgeArticleFragmentBuilder? = null
+    private var obsolete = false
 
     override val type = "recipe"
 
@@ -20,45 +24,56 @@ class KnowledgeArticleRecipeFragmentBuilder(val note: KnowledgeArticleFragmentBu
 
     override val section get() = container.section
 
-    override fun onExport(exporter: KnowledgeExporter) {
-        note?.onExport(exporter)
-    }
+    override fun exporterWalked(exporter: KnowledgeExporter) = super.exporterWalked(exporter) + (note?.exporterWalked(exporter) ?: emptyList())
 
     override fun shouldInclude(exporter: KnowledgeExporter): Boolean {
         this.recipes = (this.recipes ?: supplier(exporter))
         return this.recipes?.isNotEmpty() == true
     }
 
+    fun markObsolete(): KnowledgeArticleRecipeFragmentBuilder {
+        obsolete = true
+        return this
+    }
+
+    fun setNote(note: KnowledgeArticleFragmentBuilder): KnowledgeArticleRecipeFragmentBuilder {
+        note.container = this
+        this.note = note
+        return this
+    }
+
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val recipes = JsonArray()
         this.recipes = (this.recipes ?: supplier(exporter)).onEach {
-            val recipe = it.toJson()
-            val items = exporter.da.recipes.getItemsOf(it.recipeId)
+            val analysis = exporter.da.recipes.analyse(it)
+            val json = analysis.json.deepCopy()
 
-            val tjson = exporter.translator.recipeTranslationsJson(it, *items.toTypedArray())
-            recipe.get("translations")?.asJsonObject?.entrySet()?.forEach { (k, v) -> tjson.add(k, v) }
-            recipe.add("translations", tjson)
+            if (!json.has("translations")) json.add("translations", getTranslationTree(exporter, *analysis.items.toTypedArray()))
+            if (!json.has("links")) json.add("links", getLinkTree(exporter, *analysis.items.toTypedArray()))
+            if (!json.has("tags")) json.add("tags", getTagTree(exporter, *analysis.inputTags.toTypedArray()))
 
-            val ljson = exporter.linker.recipeLinksJson(it, *items.toTypedArray())
-            recipe.get("links")?.asJsonObject?.entrySet()?.forEach { (k, v) -> ljson.add(k, v) }
-            recipe.add("links", ljson)
-
-            val tags = JsonObject()
-            exporter.da.recipes.getTagIngredientsOf(it.recipeId).forEach {
-                val items = JsonArray()
-                exporter.da.recipes.getItemsInTag(it).forEach { items.add(Ingredient.ofItems(it.asItem()).toJson()) }
-                tags.add(it.toString(), items)
-            }
-            recipe.add("tags", tags)
-
-            recipes.add(recipe)
+            recipes.add(json)
         }
 
         val json = JsonObject()
         json.add("recipes", recipes)
-        if (note != null) json.add("note", note.toJsonFinal(exporter))
+        note?.also { json.add("note", it.toJsonFinal(exporter)) }
         if (obsolete) json.addProperty("obsolete", obsolete)
         return json
+    }
+
+    companion object {
+        fun getTranslationTree(exporter: KnowledgeExporter, vararg items: Item) = exporter.da.gson.toJsonTree(items.associate { it.identifier.toString() to Text.Serializer.toJsonTree(it.name) })
+        fun getLinkTree(exporter: KnowledgeExporter, vararg items: Item) = exporter.da.gson.toJsonTree(items.associate { it.identifier.toString() to KnowledgeArticleIdentifier.ofItemConvertible(it).toString() })
+        fun getTagTree(exporter: KnowledgeExporter, vararg tags: TagKey<Item>): JsonObject {
+            val json = JsonObject()
+            tags.forEach {
+                val items = JsonArray()
+                exporter.da.recipes.getItemsInTag(it.id).forEach { items.add(Ingredient.ofItems(it).toJson()) }
+                json.add(it.id.toString(), items)
+            }
+            return json
+        }
     }
 
 }

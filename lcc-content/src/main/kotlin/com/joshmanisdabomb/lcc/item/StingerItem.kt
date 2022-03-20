@@ -3,7 +3,6 @@ package com.joshmanisdabomb.lcc.item
 import com.google.common.collect.ImmutableMultimap
 import com.google.common.collect.Multimap
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -23,7 +22,7 @@ import net.minecraft.world.World
 class StingerItem(settings: Settings) : Item(settings), LCCContentItemTrait {
 
     val modifiers = ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>()
-        .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", 2.0, EntityAttributeModifier.Operation.ADDITION))
+        .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADDITION))
         .put(EntityAttributes.GENERIC_ATTACK_SPEED, EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", 0.0, EntityAttributeModifier.Operation.ADDITION))
         .build()
 
@@ -41,11 +40,8 @@ class StingerItem(settings: Settings) : Item(settings), LCCContentItemTrait {
     }
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
-        if ((attacker as? PlayerEntity)?.isSurvival == true) {
-            stack.decrement(1)
-            attacker.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)
-        }
-        target.addStatusEffect(StatusEffectInstance(StatusEffects.POISON, 100, 1))
+        stack.damage(1, attacker) { e: LivingEntity -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }
+        target.addStatusEffect(StatusEffectInstance(StatusEffects.POISON, 50, 1))
         return true
     }
 

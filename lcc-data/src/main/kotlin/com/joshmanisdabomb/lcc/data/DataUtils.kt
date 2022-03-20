@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.data
 
-import net.minecraft.data.client.model.TextureKey
+import net.minecraft.data.client.TextureKey
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.item.Items
 import net.minecraft.loot.condition.MatchToolLootCondition

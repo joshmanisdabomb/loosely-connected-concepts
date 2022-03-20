@@ -7,10 +7,12 @@ import com.joshmanisdabomb.lcc.data.knowledge.LCCVersionGroup
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.`java-time`.datetime
 
-class LCCDatabaseKnowledgeExporter(db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>, translator: KnowledgeTranslator, linker: KnowledgeLinker) : DatabaseKnowledgeExporter(db, da, articles, translator, linker) {
+class LCCDatabaseKnowledgeExporter(db: Database, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>) : DatabaseKnowledgeExporter(db, da, articles) {
 
     override fun transaction(db: Transaction) {
         super.transaction(db)
+
+        db.exec("DELETE FROM article_indices;")
 
         Versions.deleteAll()
         VersionGroups.deleteAll()

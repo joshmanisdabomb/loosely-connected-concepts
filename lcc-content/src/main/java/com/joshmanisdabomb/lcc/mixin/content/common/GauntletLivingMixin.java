@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.mixin.content.common;
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletAction;
 import com.joshmanisdabomb.lcc.component.GauntletActorComponent;
 import com.joshmanisdabomb.lcc.component.GauntletTargetComponent;
-import com.joshmanisdabomb.lcc.directory.LCCComponents;
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;

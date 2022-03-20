@@ -1,55 +1,46 @@
 package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.joshmanisdabomb.lcc.data.generators.kb.IncludedTranslatableText
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
-import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder
+import net.minecraft.block.Block
+import net.minecraft.enchantment.Enchantment
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.effect.StatusEffect
+import net.minecraft.item.Item
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.registry.BuiltinRegistries
+import net.minecraft.world.biome.Biome
 
 class KnowledgeArticleTextFragmentBuilder(content: (defaultKey: String) -> Text) : KnowledgeArticleFragmentBuilder() {
 
-    constructor(content: String, locale: String = "en_us") : this({ IncludedTranslatableText(it).translation(content, locale) })
     constructor(content: Text) : this({ content })
+    constructor(content: String, locale: String = "en_us") : this(locale to content)
+    constructor(vararg translations: Pair<String, String>) : this({ TranslatableText(it) }) {
+        _translations += translations
+    }
+
+    constructor(block: Block) : this(block.name)
+    constructor(item: Item) : this(item.name)
+    constructor(entity: EntityType<*>) : this(entity.name)
+    constructor(enchantment: Enchantment) : this(TranslatableText(enchantment.translationKey))
+    constructor(effect: StatusEffect) : this(effect.name)
+    constructor(biome: Biome) : this(TranslatableText("biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}"))
+
+    private val _translations: MutableMap<String, String> = mutableMapOf()
+    val translations by lazy { _translations.toMap() }
 
     override val type = "text"
     val content by lazy { content(defaultTranslationKey) }
 
-    private val inserts = mutableListOf<(String) -> Text>()
-    private val extra = mutableListOf<(KnowledgeExporter) -> JsonObject>()
-
-    fun insert(text: (defaultKey: String) -> Text, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) : KnowledgeArticleTextFragmentBuilder {
-        this.inserts += text
-        this.extra += extra
+    fun addTranslation(content: String, locale: String = "en_us"): KnowledgeArticleTextFragmentBuilder {
+        _translations[locale] = content
         return this
     }
 
-    fun insert(text: Text, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert({ text }, extra)
-    fun insert(content: String, locale: String = "en_us", extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert({ IncludedTranslatableText(it).translation(content, locale) }, extra)
-
-    fun insertLink(text: (defaultKey: String) -> Text, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insert(text) { val json = extra(it); json.add("link", link(it).toJsonFinal(it)); json }
-
-    fun insertLink(text: Text, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insertLink({ text }, link, extra)
-    fun insertLink(content: String, link: (exporter: KnowledgeExporter) -> KnowledgeArticleLinkBuilder, locale: String = "en_us", extra: (exporter: KnowledgeExporter) -> JsonObject = { JsonObject() }) = insertLink({ IncludedTranslatableText(it).translation(content, locale) }, link, extra)
-
-    override fun onExport(exporter: KnowledgeExporter) {
-        (content as? IncludedTranslatableText)?.onExport(exporter)
-    }
-
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
-        val key = defaultTranslationKey
-
         val json = JsonObject()
-        json.add("content", exporter.translator.textSerialize(content))
-
-        val inserts = JsonArray()
-        this.inserts.forEachIndexed { k, v ->
-            val extra = extra[k]
-            inserts.add(exporter.translator.textSerialize(v("$key.$k")).apply {
-                extra(exporter).entrySet().forEach { (k, v) -> this.add(k, v) }
-            })
-        }
-        json.add("inserts", inserts)
+        json.add("content", Text.Serializer.toJsonTree(content))
 
         return json
     }

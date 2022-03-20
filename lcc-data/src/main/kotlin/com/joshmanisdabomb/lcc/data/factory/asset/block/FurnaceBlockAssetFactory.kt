@@ -4,9 +4,9 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.extensions.suffix
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.BlockStateVariantMap
-import net.minecraft.data.client.model.VariantSettings
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.BlockStateVariantMap
+import net.minecraft.data.client.VariantSettings
 import net.minecraft.state.property.Properties
 import net.minecraft.util.Identifier
 

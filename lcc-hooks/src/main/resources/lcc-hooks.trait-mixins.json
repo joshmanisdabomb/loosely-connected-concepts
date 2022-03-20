@@ -6,7 +6,8 @@
     "BlockTraitMixin",
     "EntityTraitMixin",
     "FluidTraitMixin",
-    "ItemTraitMixin"
+    "ItemTraitMixin",
+    "EffectTraitMixin"
   ],
   "injectors": {
     "defaultRequire": 1

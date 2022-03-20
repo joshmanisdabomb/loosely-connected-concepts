@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
-import com.joshmanisdabomb.lcc.directory.LCCBiomes
+import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.server.world.ServerWorld
@@ -41,7 +41,7 @@ class WastelandRustingBlock(settings: Settings, stages: () -> Array<Block>) : Bl
             }
         }
 
-        if (valid >= 3 && wet && LCCBiomes.entries[world.getBiomeKey(pos).orElse(null)?.value?.path]?.tags?.contains("wasteland") == true) {
+        if (valid >= 3 && wet && world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) {
             val stage = this.stages.indexOf(state.block)
             return if (stage >= this.stages.count() - 1) null
             else if (stage > -1) stages[stage + 1].defaultState

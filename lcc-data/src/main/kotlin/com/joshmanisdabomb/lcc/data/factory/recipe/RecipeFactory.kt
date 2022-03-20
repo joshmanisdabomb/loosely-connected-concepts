@@ -28,25 +28,25 @@ interface RecipeFactory : BlockDataFactory, ItemDataFactory {
 
     fun hasCriterionInterface(recipe: JsonFactoryAccess, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerShaped(recipe: ShapedRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
+    fun offerShaped(recipe: ShapedRecipeJsonBuilder, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionShaped(recipe: ShapedRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
+    fun hasCriterionShaped(recipe: ShapedRecipeJsonBuilder, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerShapeless(recipe: ShapelessRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
+    fun offerShapeless(recipe: ShapelessRecipeJsonBuilder, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionShapeless(recipe: ShapelessRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
+    fun hasCriterionShapeless(recipe: ShapelessRecipeJsonBuilder, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerCooking(recipe: CookingRecipeJsonFactory, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
+    fun offerCooking(recipe: CookingRecipeJsonBuilder, data: DataAccessor, name: Identifier? = null, override: RecipeSerializer<*>? = null) = offer(recipe, { offerTo(it) }, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionCooking(recipe: CookingRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
+    fun hasCriterionCooking(recipe: CookingRecipeJsonBuilder, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerSingle(recipe: SingleItemRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
+    fun offerSingle(recipe: SingleItemRecipeJsonBuilder, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionSingle(recipe: SingleItemRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
+    fun hasCriterionSingle(recipe: SingleItemRecipeJsonBuilder, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
-    fun offerSmithing(recipe: SmithingRecipeJsonFactory, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
+    fun offerSmithing(recipe: SmithingRecipeJsonBuilder, data: DataAccessor, name: Identifier, override: RecipeSerializer<*>? = null) = offerName(recipe, { r, n -> offerTo(r, n) }, data, name, override)
 
-    fun hasCriterionSmithing(recipe: SmithingRecipeJsonFactory, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
+    fun hasCriterionSmithing(recipe: SmithingRecipeJsonBuilder, item: ItemConvertible) = criterion(recipe, { s, c -> criterion(s, c) }, item)
 
     fun loc(name: String, modid: String, path: (name: String) -> String = { it }) = Identifier(modid, path(name))
 

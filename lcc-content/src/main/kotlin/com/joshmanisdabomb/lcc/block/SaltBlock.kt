@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.abstracts.Temperature
 import com.joshmanisdabomb.lcc.directory.LCCDamage
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
 import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
@@ -74,7 +74,7 @@ class SaltBlock(settings: Settings) : Block(settings) {
     }
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
-        if (entity.type.isIn(LCCTags.salt_weakness)) {
+        if (entity.type.isIn(LCCEntityTags.salt_weakness)) {
             entity.damage(LCCDamage.salt, state[LEVEL_3].div(3f))
         }
     }

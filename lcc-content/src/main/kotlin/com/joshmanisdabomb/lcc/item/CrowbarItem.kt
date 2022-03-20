@@ -11,9 +11,12 @@ import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait
+import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.block.AbstractGlassBlock
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.enchantment.Enchantment
+import net.minecraft.enchantment.EnchantmentTarget
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
@@ -25,14 +28,16 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.ItemUsageContext
+import net.minecraft.item.Vanishable
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.util.ActionResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
-class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait {
+class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait, LCCItemTrait, Vanishable {
 
     val shatters by lazy { (LCCBlocks.all.values.filterIsInstance<ShatteredGlassBlock>().map { it.unbroken to (it as Block) } + LCCBlocks.all.values.filterIsInstance<ShatteredPaneBlock>().map { it.unbroken to (it as Block) }).toMap() }
 
@@ -64,6 +69,15 @@ class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait {
             else -> super.getAttributeModifiers(slot)
         }
     }
+
+    override fun getEnchantability() = LCCToolMaterials.RUSTY_IRON.enchantability
+
+    override fun lcc_canHaveEnchantment(stack: ItemStack, enchantment: Enchantment) = when (enchantment.type) {
+        EnchantmentTarget.DIGGER -> true
+        else -> null
+    }
+
+    override fun lcc_canGainExtraEnchantments(stack: ItemStack) = Registry.ENCHANTMENT.filter { it.type == EnchantmentTarget.DIGGER }
 
     override fun postHit(stack: ItemStack, target: LivingEntity, attacker: LivingEntity): Boolean {
         stack.damage(1, attacker) { it.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND) }

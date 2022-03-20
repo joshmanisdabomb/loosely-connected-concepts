@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.data.factory.asset.item
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
-import net.minecraft.data.client.model.Texture
+import net.minecraft.data.client.TextureMap
 import net.minecraft.item.Item
 
 object RadiationDetectorItemAssetFactory : ItemAssetFactory {
@@ -25,7 +25,7 @@ object RadiationDetectorItemAssetFactory : ItemAssetFactory {
     ]
 }""".trimMargin()) }
 
-        alts.forEach { LCCModelTemplates.template_radiation_detector.upload(it, Texture().put(LCCModelTextureKeys.t0, idh.loc(entry)).put(LCCModelTextureKeys.t1, it), data.models) }
+        alts.forEach { LCCModelTemplates.template_radiation_detector.upload(it, TextureMap().put(LCCModelTextureKeys.t0, idh.loc(entry)).put(LCCModelTextureKeys.t1, it), data.models) }
     }
 
 }

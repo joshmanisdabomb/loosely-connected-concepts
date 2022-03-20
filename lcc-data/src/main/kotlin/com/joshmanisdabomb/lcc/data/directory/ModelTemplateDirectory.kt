@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.data.directory
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.directory.BasicDirectory
-import net.minecraft.data.client.model.Model
-import net.minecraft.data.client.model.TextureKey
+import net.minecraft.data.client.Model
+import net.minecraft.data.client.TextureKey
 import net.minecraft.util.Identifier
 import java.util.*
 

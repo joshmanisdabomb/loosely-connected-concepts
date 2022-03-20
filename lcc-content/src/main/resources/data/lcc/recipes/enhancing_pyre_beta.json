@@ -1,0 +1,19 @@
+{
+  "type": "lcc:spawner_table_shaped",
+  "pattern": [
+    " e ",
+    "ese",
+    " e "
+  ],
+  "key": {
+    "e": {
+      "item": "lcc:enhancing_pyre_alpha"
+    },
+    "s": {
+      "item": "lcc:sapphire"
+    }
+  },
+  "result": {
+    "item": "lcc:enhancing_pyre_beta"
+  }
+}

@@ -28,7 +28,7 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
             val pos = handler.pos ?: return@run
             ClientPlayNetworking.send(LCCPacketsToServer[LCCPacketsToServer::atomic_bomb_detonate].first().id, PacketByteBuf(Unpooled.buffer()).apply { writeIdentifier(world.value); writeBlockPos(pos) })
         }
-        this.onClose()
+        this.close()
         return@DetonateButton null
     } }
 
@@ -52,9 +52,9 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         detonate.y = y + 47
     }
 
-    override fun onClose() {
+    override fun close() {
         handler.inventory.removeListener(listener)
-        super.onClose()
+        super.close()
     }
 
     override fun drawBackground(matrices: MatrixStack, delta: Float, mouseX: Int, mouseY: Int) {

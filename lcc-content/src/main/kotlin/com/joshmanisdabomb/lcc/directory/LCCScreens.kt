@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.directory
 
-import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.gui.screen.*
 import com.joshmanisdabomb.lcc.inventory.container.ComputingScreenHandler
@@ -34,6 +33,8 @@ object LCCScreens : AdvancedDirectory<Any, ScreenRegistry.Factory<out ScreenHand
 
     val computing by entry(::initialiser) { { h: ComputingScreenHandler, pi: PlayerInventory, text: Text -> (MinecraftClient.getInstance().world?.getBlockEntity(h.pos) as? ComputingBlockEntity)?.getHalf(h.top)?.module?.createScreen(h, pi, text)!! } }
     val terminal by entry(::initialiser) { ::TerminalScreen }
+
+    val imbuing by entry(::initialiser) { ::ImbuingScreen }
 
     fun <S, H : ScreenHandler> initialiser(input: (H, PlayerInventory, Text) -> S, context: DirectoryContext<ScreenHandlerType<out ScreenHandler>>, parameters: Unit) where S : Screen, S : ScreenHandlerProvider<H> = ScreenRegistry.Factory(input).also { ScreenRegistry.register(context.properties as ScreenHandlerType<H>, input) }
 

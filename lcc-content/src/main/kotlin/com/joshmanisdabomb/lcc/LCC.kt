@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.module.LCCComputerModules
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.abstracts.gauntlet.GauntletDirectory
 import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.tags.*
 import com.joshmanisdabomb.lcc.extensions.IdentifierHelper
 import net.fabricmc.api.ModInitializer
 import net.minecraft.util.Identifier
@@ -33,7 +34,11 @@ object LCC : ModInitializer {
         LCCSounds.init()
         LCCFluids.init()
         LCCSignTypes.init()
-        LCCTags.init()
+        LCCBlockTags.init()
+        LCCItemTags.init()
+        LCCEntityTags.init()
+        LCCFluidTags.init()
+        LCCBiomeTags.init()
         LCCBlocks.init()
         LCCEntities.init()
         LCCBoatTypes.init()
@@ -48,6 +53,7 @@ object LCC : ModInitializer {
         LCCRecipeSerializers.init()
         LCCDamage.init()
         LCCEffects.init()
+        LCCEnchants.init()
         LCCRuleTests.init()
         LCCWorldgen.init()
         LCCBiomes.init()

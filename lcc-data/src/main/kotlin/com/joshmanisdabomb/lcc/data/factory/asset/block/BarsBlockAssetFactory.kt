@@ -5,9 +5,9 @@ import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.extensions.booleanProperty
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.Block
-import net.minecraft.data.client.model.BlockStateVariant
-import net.minecraft.data.client.model.VariantSettings
-import net.minecraft.data.client.model.When
+import net.minecraft.data.client.BlockStateVariant
+import net.minecraft.data.client.VariantSettings
+import net.minecraft.data.client.When
 import net.minecraft.util.math.Direction
 
 class BarsBlockAssetFactory(val post: ModelProvider.ModelFactory<Block>, val post_ends: ModelProvider.ModelFactory<Block>, val cap: ModelProvider.ModelFactory<Block>, val cap_alt: ModelProvider.ModelFactory<Block>, val side: ModelProvider.ModelFactory<Block>, val side_alt: ModelProvider.ModelFactory<Block>) : BlockAssetFactory {

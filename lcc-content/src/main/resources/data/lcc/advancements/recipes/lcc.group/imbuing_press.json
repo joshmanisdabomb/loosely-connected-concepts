@@ -1,0 +1,47 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:imbuing_press"
+    ]
+  },
+  "criteria": {
+    "has_cobbled_fortstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:cobbled_fortstone"
+            ]
+          }
+        ]
+      }
+    },
+    "has_cobbled_fortstone_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:cobbled_fortstone_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:imbuing_press"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cobbled_fortstone",
+      "has_cobbled_fortstone_slab",
+      "has_the_recipe"
+    ]
+  ]
+}

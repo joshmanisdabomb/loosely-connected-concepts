@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts
 
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
 import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import net.minecraft.block.Block
@@ -8,22 +9,22 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.predicate.entity.EntityPredicates
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.world.BlockView
 import net.minecraft.world.EntityView
 
-enum class Temperature(val energy: Float, val tag: Tag<Block>, val soulTag: Tag<Block>? = null, val entityTag: Tag<EntityType<*>>? = null) {
+enum class Temperature(val energy: Float, val tag: TagKey<Block>, val soulTag: TagKey<Block>? = null, val entityTag: TagKey<EntityType<*>>? = null) {
 
-    LUKEWARM(0.001f, LCCTags.temperature_lukewarm),
-    WARM(0.0015f, LCCTags.temperature_warm),
-    HOT(0.01f, LCCTags.temperature_hot),
-    SCALDING(0.05f, LCCTags.temperature_scalding, soulTag = LCCTags.temperature_soul_scalding, entityTag = LCCTags.temperature_scalding_e),
-    BURNING(0.01f, LCCTags.temperature_burning, soulTag = LCCTags.temperature_soul_burning),
-    SCORCHING(0.15f, LCCTags.temperature_scorching, soulTag = LCCTags.temperature_soul_scorching),
-    RED_HOT(0.2f, LCCTags.temperature_red_hot, entityTag = LCCTags.temperature_red_hot_e),
-    NUCLEAR(5f, LCCTags.temperature_nuclear);
+    LUKEWARM(0.001f, LCCBlockTags.temperature_lukewarm),
+    WARM(0.0015f, LCCBlockTags.temperature_warm),
+    HOT(0.01f, LCCBlockTags.temperature_hot),
+    SCALDING(0.05f, LCCBlockTags.temperature_scalding, soulTag = LCCBlockTags.temperature_soul_scalding, entityTag = LCCEntityTags.temperature_scalding),
+    BURNING(0.01f, LCCBlockTags.temperature_burning, soulTag = LCCBlockTags.temperature_soul_burning),
+    SCORCHING(0.15f, LCCBlockTags.temperature_scorching, soulTag = LCCBlockTags.temperature_soul_scorching),
+    RED_HOT(0.2f, LCCBlockTags.temperature_red_hot, entityTag = LCCEntityTags.temperature_red_hot),
+    NUCLEAR(5f, LCCBlockTags.temperature_nuclear);
 
     val entityEnergy = energy.times(200)
 

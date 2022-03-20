@@ -1,9 +1,8 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.block.SapphireAltarBlock.Companion.bl
-import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.sqrt
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -67,7 +66,7 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (LCCBiomes.getOrNull(world.getBiome(pos))?.tags?.contains("wasteland") != true) return -100.0f
+        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 

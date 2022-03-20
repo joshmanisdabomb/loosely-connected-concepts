@@ -5,22 +5,20 @@ import com.joshmanisdabomb.lcc.data.directory.LCCKnowledgeData
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
-import com.joshmanisdabomb.lcc.data.generators.kb.link.KnowledgeArticleLinkBuilder.Companion.link
-import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.util.Identifier
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: String, val group: LCCVersionGroup, val order: Short, val released: LocalDateTime, val title: String? = null) {
+enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: String, val group: LCCVersionGroup, val order: Short, val released: LocalDateTime?, val title: String? = null) {
 
     YAM_1("Update 1", "1.7.2", "u1", LCCVersionGroup.YAM, 0, LocalDateTime.of(2015, 2, 15, 19, 9, 2)) {
         override val description = "First version uploaded, reports itself as Beta 1.3."
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
+            /*map[LCCKnowledgeData.block_mud] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder(introduced)*/
             return map.toSortedMap()
         }
     },
@@ -48,7 +46,7 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
         override val description = "Pills almost work, Missile Launch Pads render properly with GUI, Oil Buckets."
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Introduced as Oil Bucket.")
+            //map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder("Introduced as Oil Bucket.")
             return map.toSortedMap()
         }
     },
@@ -219,7 +217,8 @@ Changed text colours of item tooltips.
 Updated textures of neon equipment."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            /*map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)*/
             return map.toSortedMap()
         }
     },
@@ -296,7 +295,10 @@ Added road block and updated connected texture methods to support different stat
 Added bounce pads and updated working for multiplayer. Particles trigger in singleplayer. Code cleanup and spreader interface texture update.
 Added hydrated soul sand and rewrote my tab sorting system from 3 years ago!"""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            //map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            return map.toSortedMap()
+        }
     },
     LCC_FORGE_BETA_1_0("Beta 1.0", "1.15.2", "b1.0", LCCVersionGroup.LCC_FORGE, 2000, LocalDateTime.of(2020, 5, 8, 12, 48, 31)) {
         override val description = """Beginning creation of computers. Added digital storage items.
@@ -311,8 +313,8 @@ Fix to double classic chest and hopper interaction.
 Added loot table, lang, block state, item model, tag, advancement data generator."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder(reintroduced)
-            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            /*map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)*/
             return map.toSortedMap()
         }
     },
@@ -332,9 +334,10 @@ To allow running in real environments: No longer use reflection for thing direct
 Time rift functionality and ruby recipes."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder(reintroduced)
-            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            /*map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)*/
             return map.toSortedMap()
         }
     },
@@ -360,7 +363,10 @@ Added textures and functionality to many classic blocks previously added."""
 Added classic chest, nether reactor, crying obsidian.
 Fixed topaz geode casing not generating enough topaz."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            //map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder("Crafting output changed from 8 to 1 due to a bug in data generation.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_2_1("0.2.1", "20w51a", "0.2.1", LCCVersionGroup.LCC_FABRIC, 110, LocalDateTime.of(2021, 1, 3, 14, 35, 23)) {
         override val description = """Added classic foods and the quiver.
@@ -383,11 +389,11 @@ Fixed furnace recipes for smelting items."""
 Added heavy uranium."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Can be inserted into a %s to generate 6 LE/t\nCan now be refined into %s.")
+            /*map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder("Can be inserted into a %s to generate 6 LE/t\nCan now be refined into %s.")
                 .insertLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
                 .insertLink(LCCItems.asphalt_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
-            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder("Now craftable by refining %s.")
-                .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleParagraphFragmentBuilder("Now craftable by refining %s.")
+                .insertLink("oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)*/
             return map.toSortedMap()
         }
     },
@@ -433,7 +439,10 @@ Rewriting gauntlet functionality for components, uppercut done - punch next.
 Blocks, items and nullable blockitems now working with new directory system.
 Race advancement for nuclear detonation. Fixed bug with nuclear explosion log not displaying name of player."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            //map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder("Crafting output increased from 1 to 6.")
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_4_3("0.4.3", "21w11a", "0.4.3", LCCVersionGroup.LCC_FABRIC, 330, LocalDateTime.of(2021, 3, 29, 1, 30, 5)) {
         override val description = """Added nuclear power generation and heavy uranium shielding to protect against nuclear explosions.
@@ -500,68 +509,69 @@ Split lcc-hooks into separate module.
 Content datagen now launching and matches 0.4.4 datagen."""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.block_sapphire_altar] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_explosive_paste] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rigid_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_flexible_plastic] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_plastic_bag] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleTextFragmentBuilder("Name changed to Crude Oil Bucket.\nNo longer directly refines into %s. Now refines into %s, %s and %s; this recipe requires 2 buckets of oil.\nNow only generates 2 LE/t in a %s.")
+            map[LCCKnowledgeData.block_sapphire_altar] = KnowledgeArticleTextFragmentBuilder(KnowledgeConstants.introduced)
+            /*map[LCCKnowledgeData.block_explosive_paste] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rigid_plastic] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_flexible_plastic] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_plastic_bag] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder("Name changed to Crude Oil Bucket.\nNo longer directly refines into %s. Now refines into %s, %s and %s; this recipe requires 2 buckets of oil.\nNow only generates 2 LE/t in a %s.")
                 .insertLink(LCCItems.asphalt_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.asphalt_bucket).link)
                 .insertLink(LCCItems.fuel_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket).link)
                 .insertLink(LCCItems.refined_oil_bucket.name, KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
                 .insertLink(LCCItems.tar_ball.name, KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
                 .insert(LCCBlocks.oil_generator.name)
-            map[LCCKnowledgeData.item_tar_ball] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleTextFragmentBuilder("Recipe now requires %s instead of using %s directly.")
+            map[LCCKnowledgeData.item_tar_ball] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_asphalt_bucket] = KnowledgeArticleParagraphFragmentBuilder("Recipe now requires %s instead of using %s directly.")
                 .insertLink(LCCItems.tar_ball.name, KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
                 .insertLink("crude oil", KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket).link)
-            map[LCCKnowledgeData.item_fuel_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_refined_oil_bucket] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_improvised_explosive] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_deadwood_log] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_stripped_deadwood_log] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_deadwood_planks] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.entity_consumer] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_deadwood_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_deadwood_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_deadwood_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_deadwood_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_deadwood_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_fortstone] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_cobbled_fortstone] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_fortstone_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_fortstone_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_fortstone_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_fortstone_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_fortstone_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_rusty_iron] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_iron_oxide] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rusty_iron_sword] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rusty_iron_pickaxe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rusty_iron_shovel] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rusty_iron_axe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_rusty_iron_hoe] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_crowbar] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_shattered_glass] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_shattered_glass_pane] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_cracked_mud_pressure_plate] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_iron_oxide_nugget] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_spikes] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.block_rusted_iron_bars] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.item_tongue_tissue] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fuel_bucket] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_refined_oil_bucket] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_improvised_explosive] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_deadwood_log] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_stripped_deadwood_log] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_deadwood_planks] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.entity_consumer] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_sword] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_pickaxe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_shovel] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_axe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_deadwood_hoe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_fortstone] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cobbled_fortstone] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_sword] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_pickaxe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_shovel] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_axe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fortstone_hoe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rusty_iron] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_iron_oxide] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_sword] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_pickaxe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_shovel] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_axe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_rusty_iron_hoe] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_crowbar] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_shattered_glass] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_shattered_glass_pane] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_cracked_mud_pressure_plate] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_iron_oxide_nugget] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_spikes] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rusted_iron_bars] = KnowledgeArticleParagraphFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_tongue_tissue] = KnowledgeArticleParagraphFragmentBuilder(introduced)*/
             return map.toSortedMap()
         }
-    }/*,
-    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, LocalDateTime.of(TBD)) {
+    },
+    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, null) {
         override val description = ""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
-            map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(reintroduced)
-            map[LCCKnowledgeData.cracked_mud] = KnowledgeArticleTextFragmentBuilder("Can now be hydrated into %s.")
+            /*map[LCCKnowledgeData.block_mud] = KnowledgeArticleParagraphFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder("Can now be hydrated into %s.")
                 .insertLink(LCCBlocks.mud.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.mud).link)
+            map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleParagraphFragmentBuilder("Recipe changed.")*/
             return map.toSortedMap()
         }
-    }*/;
+    };
 
     abstract val description: String
 
@@ -573,7 +583,11 @@ Content datagen now launching and matches 0.4.4 datagen."""
     val page = KnowledgeArticleIdentifier(LCC.id("version"), Identifier(group.namespace, code))
 
     fun getIntroduction(): String {
-        val sentence1 = "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."
+        val sentence1 = if (released != null) {
+            "%s is the %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names. It was released on " + released.format(DateTimeFormatter.ofPattern("EEEE, MMMM d, y")) + " at " + released.format(DateTimeFormatter.ofPattern("h:mm:ss a")) + "."
+        } else {
+            "%s is the upcoming %s private release of Loosely Connected Concepts for Fabric, and the %s build of this mod under all its names."
+        }
         var sentence2: String? = null
         if (ordinal > 1) {
             sentence2 = " The previous release was %s"
@@ -584,11 +598,6 @@ Content datagen now launching and matches 0.4.4 datagen."""
             sentence2 = sentence2?.plus(".")
         }
         return sentence1 + (sentence2 ?: "")
-    }
-
-    companion object {
-        private val introduced = "Introduced."
-        private val reintroduced = "Reintroduced."
     }
 
 }

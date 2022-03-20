@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.abstracts
 
-import com.joshmanisdabomb.lcc.directory.LCCTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
+import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.trait.LCCContentBlockTrait
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
 import com.joshmanisdabomb.lcc.trait.LCCContentItemTrait
@@ -13,12 +15,12 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.damage.EntityDamageSource
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagKey
 import kotlin.math.pow
 
-enum class ToolEffectivity(val effective: Tag<Block>, val required: Tag<Block>, val equipment: Tag<Item>, val combat: Tag<EntityType<*>>, val resistant: Tag<EntityType<*>>) {
+enum class ToolEffectivity(val effective: TagKey<Block>, val required: TagKey<Block>, val equipment: TagKey<Item>, val combat: TagKey<EntityType<*>>, val resistant: TagKey<EntityType<*>>) {
 
-    WASTELAND(LCCTags.wasteland_effective, LCCTags.wasteland_required, LCCTags.wasteland_equipment, LCCTags.wasteland_combat, LCCTags.wasteland_resistant);
+    WASTELAND(LCCBlockTags.wasteland_effective, LCCBlockTags.wasteland_required, LCCItemTags.wasteland_equipment, LCCEntityTags.wasteland_offense, LCCEntityTags.wasteland_defense);
 
     fun isTool(stack: ItemStack, against: BlockState, vanilla: Boolean) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveTool(stack, against, this, vanilla) == true
     fun isWeapon(stack: ItemStack, against: Entity) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveWeapon(stack, against, this) == true

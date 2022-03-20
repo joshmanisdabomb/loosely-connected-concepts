@@ -9,7 +9,7 @@
     "GauntletHudMixin",
     "RadiationHudMixin",
     "EffectPlayerMixin",
-    "StunMouseMixin",
+    "EffectMouseMixin",
     "EntityModelsMixin",
     "ContainedHudMixin",
     "DebugHudMixin",

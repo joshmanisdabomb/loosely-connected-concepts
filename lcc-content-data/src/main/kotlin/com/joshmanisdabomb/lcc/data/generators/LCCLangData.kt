@@ -22,6 +22,8 @@ object LCCLangData {
         lang["tooltip.lcc.computing.partition.id.null"] = "not yet set"
         lang["tooltip.lcc.computing.partition.space"] = "    Capacity: %1\$s used / %2\$s total"
 
+        lang["tooltip.lcc.imbue.lcc.stinger"] = "Stinger Imbue (%1\$s / %2\$s hits)"
+
         lang["itemGroup.lcc.group"] = "Loosely Connected Concepts"
         lang["itemGroup.lcc.group.set.amount"] = "%s item"
         lang["itemGroup.lcc.group.set.amount.s"] = "s"
@@ -31,8 +33,14 @@ object LCCLangData {
         lang["effect.lcc.vulnerable"] = "Vulnerable"
         lang["effect.lcc.flammable"] = "Flammable"
         lang["effect.lcc.radiation"] = "Radiation"
+        lang["effect.lcc.fear"] = "Fear"
+        lang["effect.lcc.bleeding"] = "Bleeding"
+
+        lang["enchantment.lcc.infested"] = "Infested"
 
         lang["biome.lcc.wasteland"] = "Wasteland"
+        lang["biome.lcc.wasteland_barrens"] = "Wasteland Barrens"
+        lang["biome.lcc.wasteland_spikes"] = "Wasteland Spikes"
 
         lang["container.lcc.spawner_table"] = "Arcane Table"
         lang["container.lcc.refiner"] = "Refiner"
@@ -51,6 +59,7 @@ object LCCLangData {
         lang["container.lcc.stick_reader"] = "Memory Stick Reader"
         lang["container.lcc.drive_bay"] = "Drive Bay"
         lang["container.lcc.terminal"] = "Terminal"
+        lang["container.lcc.imbuing"] = "Imbue Weapon"
 
         lang["container.lcc.refining.power"] = "Power: %1\$s"
         lang["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"

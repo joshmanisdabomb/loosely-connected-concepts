@@ -289,6 +289,11 @@ object LCCLangData {
         lang["terminal.lcc.console.map.partition.left"] = " :%1\$s (#%2\$s)"
         lang["terminal.lcc.console.map.partition.right"] = "%1\$s"
         lang["terminal.lcc.console.map.partition.used.right"] = "%1\$s/%2\$s"
+        lang["terminal.lcc.console.use.system"] = "Operating system partitions cannot be used."
+        lang["terminal.lcc.console.use.interrupt"] = "Failed using partition '%1\$s' (#%2\$s) - disk removed."
+        lang["terminal.lcc.console.use.get"] = "Currently using partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s)."
+        lang["terminal.lcc.console.use.get.empty"] = "No partition in use."
+        lang["terminal.lcc.console.use.success"] = "Now using partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s)."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

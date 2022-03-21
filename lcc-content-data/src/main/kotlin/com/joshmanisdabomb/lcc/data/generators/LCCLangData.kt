@@ -288,6 +288,7 @@ object LCCLangData {
         lang["terminal.lcc.console.map.disk.right"] = "%1\$s/%2\$s"
         lang["terminal.lcc.console.map.partition.left"] = " :%1\$s (#%2\$s)"
         lang["terminal.lcc.console.map.partition.right"] = "%1\$s"
+        lang["terminal.lcc.console.map.partition.used.right"] = "%1\$s/%2\$s"
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

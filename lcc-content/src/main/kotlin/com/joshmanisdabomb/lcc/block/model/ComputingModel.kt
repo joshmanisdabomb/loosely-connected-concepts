@@ -13,15 +13,12 @@ import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.block.BlockState
 import net.minecraft.block.enums.SlabType
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.block.BlockModels
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.texture.SpriteAtlasTexture
-import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.item.ItemStack
 import net.minecraft.resource.ResourceManager
 import net.minecraft.state.property.Properties
-import net.minecraft.tag.RequiredTagListRegistry.forEach
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -30,7 +27,6 @@ import net.minecraft.world.BlockRenderView
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
-import kotlin.text.Typography.half
 
 class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/computer_casing_top"))) }) {
 
@@ -89,8 +85,8 @@ class ComputingModel : LCCModel({ mapOf("particle" to SpriteIdentifier(SpriteAtl
     }
 
     override fun loadExtraModels(manager: ResourceManager, loader: Consumer<Identifier>) {
-        LCCRegistries.computer_modules.entries.forEach { (k, v) ->
-            val id = k.value.prefix("block/", "")
+        LCCRegistries.computer_modules.indexedEntries.forEach { e ->
+            val id = e.key.get().value.prefix("block/", "")
             loader.accept(id)
             loader.accept(id.suffix("up"))
             loader.accept(id.suffix("down"))

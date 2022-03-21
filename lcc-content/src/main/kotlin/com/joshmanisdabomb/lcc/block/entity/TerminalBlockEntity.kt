@@ -5,8 +5,8 @@ import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContextProvider
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToServer
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.EnergyUnit
 import com.joshmanisdabomb.lcc.energy.LooseEnergy

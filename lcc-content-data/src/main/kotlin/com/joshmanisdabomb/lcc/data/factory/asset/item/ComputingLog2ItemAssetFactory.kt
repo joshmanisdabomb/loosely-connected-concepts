@@ -7,7 +7,6 @@ import com.joshmanisdabomb.lcc.data.factory.ItemDataFactory
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
 import com.joshmanisdabomb.lcc.item.ComputingItem
 import net.minecraft.item.Item
-import net.minecraft.tag.RequiredTagListRegistry.forEach
 import kotlin.math.log2
 
 class ComputingLog2ItemAssetFactory(val levels: IntArray, val model: (key: Int) -> ModelProvider.ModelFactory<Item>) : ItemAssetFactory {

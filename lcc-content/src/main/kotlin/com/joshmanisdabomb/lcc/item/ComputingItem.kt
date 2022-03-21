@@ -2,7 +2,6 @@ package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.decimalFormat
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.transformInt

@@ -4,8 +4,8 @@ import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.energy.EnergyTransaction
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.energy.stack.StackEnergyContext

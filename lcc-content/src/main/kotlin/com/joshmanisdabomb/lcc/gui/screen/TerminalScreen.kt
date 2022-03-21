@@ -74,7 +74,7 @@ class TerminalScreen(handler: TerminalScreenHandler, inventory: PlayerInventory,
         renderPowerTooltip(matrices, handler.powerAmount(), null/* TODO */, mouseX, mouseY, x + 237..x + 248, y + 139..y + 153)
     }
 
-    override fun onClose() { be?.sendControlEvent(ComputingSessionViewContext.ControlEvent.CLOSE) {} }
+    override fun close() { be?.sendControlEvent(ComputingSessionViewContext.ControlEvent.CLOSE) {} }
 
     override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
         if (keyCode == GLFW.GLFW_KEY_ESCAPE) {

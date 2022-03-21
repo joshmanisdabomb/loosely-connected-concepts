@@ -3,8 +3,8 @@ package com.joshmanisdabomb.lcc.abstracts.computing.session
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.ComputingController
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.LCCSessionControllers
 import com.joshmanisdabomb.lcc.block.entity.TerminalBlockEntity
-import com.joshmanisdabomb.lcc.directory.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.forEachCompound
 import com.joshmanisdabomb.lcc.extensions.getCompoundList
 import com.joshmanisdabomb.lcc.extensions.modifyCompound

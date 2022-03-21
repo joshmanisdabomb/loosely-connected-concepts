@@ -7,7 +7,6 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTemplates
 import com.joshmanisdabomb.lcc.data.directory.LCCModelTextureKeys
 import com.joshmanisdabomb.lcc.data.factory.asset.ModelProvider
-import net.minecraft.data.client.model.Texture
 import net.minecraft.item.Item
 import net.minecraft.util.Identifier
 

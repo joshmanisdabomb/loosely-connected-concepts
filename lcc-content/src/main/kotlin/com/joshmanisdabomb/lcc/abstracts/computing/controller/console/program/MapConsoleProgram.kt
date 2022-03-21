@@ -33,16 +33,16 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionSizes = data.getCompound("PartitionSizes")
         val partitionUsed = data.getCompound("PartitionUsed")
         data.getCompound("IdMap").forEachStringList { k, v ->
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.map.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
-            source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
+            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
+            source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
             v.forEach {
                 val type = LCCPartitionTypes.registry[Identifier(partitionTypes.getString(it))]
                 val formatting = type?.nameColor ?: Formatting.RESET
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.map.partition.left", LiteralText(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
+                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.partition.left", LiteralText(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
                 if (partitionUsed.contains(it)) {
-                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
+                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
                 } else {
-                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.partition.right", partitionSizes.getInt(it)), source.view)
+                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.partition.right", partitionSizes.getInt(it)), source.view)
                 }
             }
         }
@@ -85,10 +85,6 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         nbt.modifyCompound("PartitionUsed") { partitionUsed.forEach { (k, v) -> putIntOrRemove(k.id.toString(), v) } }
 
         return startTask(context.source, nbt)
-    }
-
-    companion object {
-
     }
 
 }

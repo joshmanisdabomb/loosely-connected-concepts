@@ -32,16 +32,16 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
         val disks = source.context.getAccessibleDisks()
         val partition = DiskInfo.findPartition(disks, partitionId)
         if (partition == null) {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.resize.interrupt", partitionLabel, partitionShort), source.view)
+            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
             return null
         }
 
         val size = data.getInt("Size")
         val currentSize = partition.size
         if (size > currentSize) {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.resize.extend", partitionLabel, partitionShort, diskLabel, diskShort, currentSize, size), source.view)
+            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.extend", partitionLabel, partitionShort, diskLabel, diskShort, currentSize, size), source.view)
         } else {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.resize.shrink", partitionLabel, partitionShort, diskLabel, diskShort, currentSize, size), source.view)
+            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.shrink", partitionLabel, partitionShort, diskLabel, diskShort, currentSize, size), source.view)
         }
         partition.size = size
         return null
@@ -85,11 +85,11 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
         return startTask(context.source, nbt)
     }
 
-    private val systemPartition = Dynamic2CommandExceptionType { a, b -> TranslatableText("terminal.lcc.console.resize.system", a, b) }
-    private val sizeUnchanged = Dynamic3CommandExceptionType { a, b, c -> TranslatableText("terminal.lcc.console.resize.equal", a, b, c) }
-    private val totalSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.resize.space_total", a, b, c, d) }
-    private val allocableSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.resize.space_allocable", a, b, c, d) }
-    private val allocableSpaceNone = Dynamic2CommandExceptionType { a, b -> TranslatableText("terminal.lcc.console.resize.no_allocable", a, b) }
-    private val spaceUsed = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.resize.no_used", a, b, c, d) }
+    private val systemPartition = Dynamic2CommandExceptionType { a, b -> TranslatableText("terminal.lcc.console.$name.system", a, b) }
+    private val sizeUnchanged = Dynamic3CommandExceptionType { a, b, c -> TranslatableText("terminal.lcc.console.$name.equal", a, b, c) }
+    private val totalSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.$name.space_total", a, b, c, d) }
+    private val allocableSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.$name.space_allocable", a, b, c, d) }
+    private val allocableSpaceNone = Dynamic2CommandExceptionType { a, b -> TranslatableText("terminal.lcc.console.$name.no_allocable", a, b) }
+    private val spaceUsed = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.$name.no_used", a, b, c, d) }
 
 }

@@ -278,7 +278,7 @@ object LCCItems : ItemDirectory() {
         .setPropertySupplier { ItemExtraSettings().creativeEx(HEALTH, sortValueInt(it.ordinal)) }
 
     //Wasteland
-    val iron_oxide by entry(::initialiser) { Item(Item.Settings().defaults()) }
+    val iron_oxide by entry(::initialiser) { IronOxideItem(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4000, 1)))
     val iron_oxide_nugget by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))

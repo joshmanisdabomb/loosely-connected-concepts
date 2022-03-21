@@ -31,8 +31,8 @@ class MagneticBlock(val speed: Double, val range: Double, settings: Settings) : 
     fun attract(world: World, pos: BlockPos, multiplier: Double) {
         world.getEntitiesByType(EntityType.ITEM, Box(pos).expand(range), Entity::isAlive).forEach {
             val distsq = Math.sqrt(it.pos.squaredDistanceTo(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5))
-            val s: Double = range.times(range).minus(distsq) * 0.004f
-            val speed = s * MathHelper.clamp((it as ItemEntityAccessor).age * 0.13, 0.0, 1.0) * multiplier
+            val s: Double = range.times(range).minus(distsq) * 0.012f
+            val speed = s * s * MathHelper.clamp((it as ItemEntityAccessor).age * 0.13, 0.0, 1.0) * multiplier
 
             it.velocity = it.velocity.add(it.pos.subtract(pos.x + 0.5, pos.y + 0.5, pos.z + 0.5).normalize().multiply(-speed))
             it.velocityModified = true

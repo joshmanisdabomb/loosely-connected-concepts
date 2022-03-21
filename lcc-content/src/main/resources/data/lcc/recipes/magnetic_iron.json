@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:magnetic_iron"
+    },
+    {
+      "item": "lcc:iron_oxide"
+    }
+  ],
+  "result": {
+    "item": "lcc:magnetic_iron",
+    "count": 2
+  }
+}

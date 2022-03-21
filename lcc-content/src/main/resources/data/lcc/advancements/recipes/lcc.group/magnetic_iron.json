@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:magnetic_iron"
+    ]
+  },
+  "criteria": {
+    "has_magnetic_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:magnetic_iron"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:magnetic_iron"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_magnetic_iron",
+      "has_the_recipe"
+    ]
+  ]
+}

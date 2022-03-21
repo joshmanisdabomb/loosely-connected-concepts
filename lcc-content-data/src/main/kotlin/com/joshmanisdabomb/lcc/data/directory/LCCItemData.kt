@@ -417,7 +417,13 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d, LCC.id("stinger")) }
     }) }
 
-    val magnetic_iron by entry(::initialiser) { data().defaultLang().defaultItemAsset() }
+    val magnetic_iron by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(i, 2)
+            .input(i)
+            .input(LCCItems.iron_oxide)
+            .apply { hasCriterionShapeless(this, i) }
+            .apply { offerShapeless(this, d) }
+    }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

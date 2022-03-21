@@ -31,13 +31,19 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionShorts = data.getCompound("PartitionShorts")
         val partitionTypes = data.getCompound("PartitionTypes")
         val partitionSizes = data.getCompound("PartitionSizes")
+        val partitionUsed = data.getCompound("PartitionUsed")
         data.getCompound("IdMap").forEachStringList { k, v ->
             source.controller.write(source.session, TranslatableText("terminal.lcc.console.map.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
             source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
             v.forEach {
-                val formatting = LCCPartitionTypes.registry[Identifier(partitionTypes.getString(it))]?.nameColor ?: Formatting.RESET
+                val type = LCCPartitionTypes.registry[Identifier(partitionTypes.getString(it))]
+                val formatting = type?.nameColor ?: Formatting.RESET
                 source.controller.write(source.session, TranslatableText("terminal.lcc.console.map.partition.left", LiteralText(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
-                source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.partition.right", partitionSizes.getInt(it)), source.view)
+                if (partitionUsed.contains(it)) {
+                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
+                } else {
+                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.map.partition.right", partitionSizes.getInt(it)), source.view)
+                }
             }
         }
         return null
@@ -47,7 +53,6 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val nbt = NbtCompound()
 
         val disks = context.source.context.getAccessibleDisks()
-        search.diskFilter = false
         search.diskDefaultInclusion().partitionDefaultInclusion()
         val results = search.search(disks)
         val diskResults = results.first ?: emptySet()
@@ -66,6 +71,7 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionLabels = partitions.associateWith { it.label }
         val partitionTypes = partitions.associateWith { it.type }
         val partitionSizes = partitions.associateWith { it.size }
+        val partitionUsed = partitions.associateWith { it.type.noFreeSpace.transform(null, it.usedSpace) }
 
         nbt.modifyCompound("IdMap") { map.forEach { (k, v) -> putStringUuidList(k.id.toString(), v.mapNotNull { it.id }) } }
         nbt.modifyCompound("DiskShorts") { diskShortIds.forEach { (k, v) -> putString(k.id.toString(), v) } }
@@ -76,6 +82,7 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         nbt.modifyCompound("PartitionLabels") { partitionLabels.forEach { (k, v) -> putString(k.id.toString(), v) } }
         nbt.modifyCompound("PartitionTypes") { partitionTypes.forEach { (k, v) -> putString(k.id.toString(), v.id.toString()) } }
         nbt.modifyCompound("PartitionSizes") { partitionSizes.forEach { (k, v) -> putInt(k.id.toString(), v) } }
+        nbt.modifyCompound("PartitionUsed") { partitionUsed.forEach { (k, v) -> putIntOrRemove(k.id.toString(), v) } }
 
         return startTask(context.source, nbt)
     }

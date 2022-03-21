@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "lcc:block/repulsive_magnetic_iron_block"
+    }
+  }
+}

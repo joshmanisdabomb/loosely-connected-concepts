@@ -195,6 +195,10 @@ object LCCBlocks : BlockDirectory() {
     val rubber_piston_head by entry(::initialiser) { object : AbstractPistonHeadBlock(FabricBlockSettings.of(Material.PISTON).strength(1.5f).dropsNothing()) {
         override val bases: Map<PistonType, PistonBlock> by lazy { mapOf(PistonType.DEFAULT to rubber_piston) }
     } }
+    val attractive_magnetic_iron_block by entry(::initialiser) { MagneticBlock(1.0, 5.0, FabricBlockSettings.of(Material.METAL, MapColor.DULL_PINK).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
+    val repulsive_magnetic_iron_block by entry(::initialiser) { MagneticBlock(-1.0, 5.0, FabricBlockSettings.of(Material.METAL, MapColor.PALE_PURPLE).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     //TODO rope
 
     //Wasteland

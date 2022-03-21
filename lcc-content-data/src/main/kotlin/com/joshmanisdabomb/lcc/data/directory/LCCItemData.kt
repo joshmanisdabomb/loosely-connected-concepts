@@ -417,6 +417,8 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerInterface(this, d, LCC.id("stinger")) }
     }) }
 
+    val magnetic_iron by entry(::initialiser) { data().defaultLang().defaultItemAsset() }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

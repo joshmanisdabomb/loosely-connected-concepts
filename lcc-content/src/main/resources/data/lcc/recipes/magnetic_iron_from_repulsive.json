@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "lcc:repulsive_magnetic_iron_block"
+    }
+  ],
+  "result": {
+    "item": "lcc:magnetic_iron",
+    "count": 7
+  }
+}

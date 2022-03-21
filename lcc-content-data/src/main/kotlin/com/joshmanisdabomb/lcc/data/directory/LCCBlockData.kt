@@ -732,6 +732,35 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val papercomb_block by entry(::initialiser) { data().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe() }
     val paper_envelopes by entry(::initialiser) { data().affects(LCCBlocks.paper_envelope.values.toList()).defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe() }
 
+    val attractive_magnetic_iron_block by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withStoneTool().add(SideBottomTopBlockAssetFactory(textureTop = LCC.block("magnetic_iron_block_red"), textureBottom = LCC.block("magnetic_iron_block_blue"), textureSide = idb.loc(LCCBlocks.attractive_magnetic_iron_block))).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("m m")
+            .pattern("m m")
+            .pattern("mmm")
+            .input('m', LCCItems.magnetic_iron)
+            .apply { hasCriterionShaped(this, LCCItems.magnetic_iron) }
+            .apply { offerShaped(this, d) }
+    }).add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(LCCItems.magnetic_iron, 7)
+            .input(i)
+            .apply { hasCriterionShapeless(this, i) }
+            .apply { offerShapeless(this, d, LCC.id("magnetic_iron_from_attractive")) }
+    }) }
+    val repulsive_magnetic_iron_block by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withStoneTool().add(SideBottomTopBlockAssetFactory(textureTop = LCC.block("magnetic_iron_block_blue"), textureBottom = LCC.block("magnetic_iron_block_red"), textureSide = idb.loc(LCCBlocks.repulsive_magnetic_iron_block))).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("mmm")
+            .pattern("m m")
+            .pattern("m m")
+            .input('m', LCCItems.magnetic_iron)
+            .apply { hasCriterionShaped(this, LCCItems.magnetic_iron) }
+            .apply { offerShaped(this, d) }
+    }).add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(LCCItems.magnetic_iron, 7)
+            .input(i)
+            .apply { hasCriterionShapeless(this, i) }
+            .apply { offerShapeless(this, d, LCC.id("magnetic_iron_from_repulsive")) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

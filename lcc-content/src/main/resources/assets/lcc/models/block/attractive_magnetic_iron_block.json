@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "lcc:block/magnetic_iron_block_red",
+    "bottom": "lcc:block/magnetic_iron_block_blue",
+    "side": "lcc:block/attractive_magnetic_iron_block"
+  }
+}

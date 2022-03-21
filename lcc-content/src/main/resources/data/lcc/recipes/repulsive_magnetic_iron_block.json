@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mmm",
+    "m m",
+    "m m"
+  ],
+  "key": {
+    "m": {
+      "item": "lcc:magnetic_iron"
+    }
+  },
+  "result": {
+    "item": "lcc:repulsive_magnetic_iron_block"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "lcc:magnetic_iron_from_repulsive"
+    ]
+  },
+  "criteria": {
+    "has_repulsive_magnetic_iron_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:repulsive_magnetic_iron_block"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "lcc:magnetic_iron_from_repulsive"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_repulsive_magnetic_iron_block",
+      "has_the_recipe"
+    ]
+  ]
+}

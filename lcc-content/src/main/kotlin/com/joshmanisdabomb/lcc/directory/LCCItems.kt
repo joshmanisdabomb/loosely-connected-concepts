@@ -57,6 +57,9 @@ object LCCItems : ItemDirectory() {
     val calendar by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(150)).dynamicItemRender { ::CalendarItemRenderer })
 
+    val magnetic_iron by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(1000, 1)))
+
     //Materials
     val oil_bucket by entry(::initialiser) { BucketItem(LCCFluids.oil_still, Item.Settings().maxCount(1).recipeRemainder(Items.BUCKET).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(MATERIALS))
@@ -279,6 +282,7 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4000, 1)))
     val iron_oxide_nugget by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
     val deadwood_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.deadwood_boat } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2030)))
 

@@ -425,6 +425,16 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShapeless(this, d) }
     }) }
 
+    val scroll_of_reconditioning by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(i)
+            .input(LCCBlocks.forget_me_not)
+            .input(LCCItems.enhancing_pyre_beta)
+            .input(Items.GLOW_INK_SAC)
+            .input(Items.PAPER)
+            .apply { hasCriterionShapeless(this, LCCBlocks.forget_me_not) }
+            .apply { offerShapeless(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

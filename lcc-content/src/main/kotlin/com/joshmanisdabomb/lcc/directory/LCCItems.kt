@@ -300,6 +300,9 @@ object LCCItems : ItemDirectory() {
     val altar_challenge_key by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
+    val scroll_of_reconditioning by entry(::initialiser) { ForgetScrollItem(Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(GIZMOS))
+
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))
         .addTags("wasteland_spawn_egg")
@@ -321,8 +324,6 @@ object LCCItems : ItemDirectory() {
     val fly_spawn_egg by entry(::initialiser) { FlySpawnEggItem(LCCEntities.fly, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
-
-    //IDEA forget me not, forget villager trades and entity hostility
 
     //Nostalgia
     val simulation_fabric by entry(::initialiser) { Item(Item.Settings().defaults()) }

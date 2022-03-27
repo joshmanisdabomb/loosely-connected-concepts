@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.brain.MemoryModuleType
@@ -38,16 +39,13 @@ class ForgetScrollItem(settings: Settings) : Item(settings) {
                 forget(world, user, stack, entity)
             }
         }
+        if ((user as? PlayerEntity)?.isSurvival != false) stack.decrement(1)
         return stack
-    }
-
-    override fun onStoppedUsing(stack: ItemStack, world: World, user: LivingEntity, remainingUseTicks: Int) {
-
     }
 
     override fun getMaxUseTime(stack: ItemStack) = 35
 
-    override fun getUseAction(stack: ItemStack) = UseAction.SPEAR
+    override fun getUseAction(stack: ItemStack) = UseAction.CROSSBOW
 
     fun forget(world: World, user: LivingEntity, stack: ItemStack, entity: LivingEntity) {
         entity.brain.clear()

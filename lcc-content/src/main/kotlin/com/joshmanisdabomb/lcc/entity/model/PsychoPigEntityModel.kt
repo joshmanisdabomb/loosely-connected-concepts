@@ -95,10 +95,10 @@ class PsychoPigEntityModel(private val root: ModelPart) : SinglePartEntityModel<
 
             val body = root.addChild(EntityModelPartNames.BODY, ModelPartBuilder.create().uv(28, 8).cuboid(-5.0f, -10.0f, -7.0f, 10.0f, 16.0f, 8.0f), ModelTransform.of(0.0f, 11.0f, 2.0f, 0.3f, 0.0f, 0.0f))
 
-            val rightHindLeg = root.addChild(EntityModelPartNames.RIGHT_HIND_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.toFloat(), 4.0f), ModelTransform.pivot(-3.001f, 18.0f, 0.0f))
-            val leftHindLeg = root.addChild(EntityModelPartNames.LEFT_HIND_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.toFloat(), 4.0f), ModelTransform.pivot(3.001f, 18.0f, 0.0f))
-            val rightFrontLeg = root.addChild(EntityModelPartNames.RIGHT_FRONT_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.toFloat(), 4.0f), ModelTransform.pivot(-2.999f, 6.0f, -7.0f))
-            val leftFrontLeg = root.addChild(EntityModelPartNames.LEFT_FRONT_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.toFloat(), 4.0f), ModelTransform.pivot(2.999f, 6.0f, -7.0f))
+            val rightHindLeg = root.addChild(EntityModelPartNames.RIGHT_HIND_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.0f, 4.0f), ModelTransform.pivot(-3.001f, 18.0f, 0.0f))
+            val leftHindLeg = root.addChild(EntityModelPartNames.LEFT_HIND_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.0f, 4.0f), ModelTransform.pivot(3.001f, 18.0f, 0.0f))
+            val rightFrontLeg = root.addChild(EntityModelPartNames.RIGHT_FRONT_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.0f, 4.0f), ModelTransform.pivot(-2.999f, 6.0f, -7.0f))
+            val leftFrontLeg = root.addChild(EntityModelPartNames.LEFT_FRONT_LEG, ModelPartBuilder.create().uv(0, 16).cuboid(-2.0f, 0.0f, -2.0f, 4.0f, 6.0f, 4.0f), ModelTransform.pivot(2.999f, 6.0f, -7.0f))
 
             return TexturedModelData.of(modelData, 64, 32)
         }

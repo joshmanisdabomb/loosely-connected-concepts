@@ -93,7 +93,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
+        if (!world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 

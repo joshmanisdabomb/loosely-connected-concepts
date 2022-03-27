@@ -92,7 +92,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
+        if (!world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 

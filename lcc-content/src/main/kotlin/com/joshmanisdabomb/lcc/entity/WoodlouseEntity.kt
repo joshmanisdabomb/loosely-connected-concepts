@@ -21,7 +21,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
@@ -52,15 +51,17 @@ class WoodlouseEntity(type: EntityType<out WoodlouseEntity>, world: World) : Ani
 
     override fun isClimbing() = !world.isClient && horizontalCollision
 
-    override fun getAmbientSound() = LCCSounds.consumer_ambient
+    override fun getAmbientSound() = LCCSounds.woodlouse_ambient
 
-    override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
+    override fun getHurtSound(source: DamageSource) = LCCSounds.woodlouse_hurt
 
-    override fun getDeathSound() = LCCSounds.consumer_death
+    override fun getDeathSound() = LCCSounds.woodlouse_death
 
     override fun playStepSound(pos: BlockPos, state: BlockState) {
-        playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15f, 1.0f)
+        playSound(LCCSounds.woodlouse_step, 0.15f, 1.0f)
     }
+
+    override fun calculateNextStepSoundDistance() = super.calculateNextStepSoundDistance() + 0.5f
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
         return super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))

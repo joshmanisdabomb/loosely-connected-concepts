@@ -124,6 +124,19 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/consumer/attach${it+1}")
     }) }
 
+    val woodlouse_ambient by entry(::initialiser) { SoundProperties("entity", LCC.modid, "woodlouse.ambient", Array(2) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/idle${it+1}")
+    }) }
+    val woodlouse_hurt by entry(::initialiser) { SoundProperties("entity", LCC.modid, "woodlouse.hurt", Array(2) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/hurt${it+1}")
+    }) }
+    val woodlouse_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "woodlouse.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/death")
+    }) }
+    val woodlouse_step by entry(::initialiser) { SoundProperties("entity", LCC.modid, "woodlouse.step", Array(6) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/step${it+1}")
+    }, "subtitles.block.generic.footsteps") }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

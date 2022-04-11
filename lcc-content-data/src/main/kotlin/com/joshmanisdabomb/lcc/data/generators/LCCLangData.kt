@@ -136,6 +136,9 @@ object LCCLangData {
         lang["subtitles.lcc.entity.consumer.tongue.shoot"] = "Consumer extends tongue"
         lang["subtitles.lcc.entity.consumer.tongue.loop"] = "Consumer licks"
         lang["subtitles.lcc.entity.consumer.tongue.attach"] = "Consumer tongues something"
+        lang["subtitles.lcc.entity.woodlouse.ambient"] = "Woodlouse hisses"
+        lang["subtitles.lcc.entity.woodlouse.hurt"] = "Woodlouse hurts"
+        lang["subtitles.lcc.entity.woodlouse.death"] = "Woodlouse dies"
 
         lang[LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang[LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"

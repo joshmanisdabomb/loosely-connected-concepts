@@ -305,5 +305,36 @@
       "lcc:entity/consumer/attach2"
     ],
     "subtitle": "subtitles.lcc.entity.consumer.tongue.attach"
+  },
+  "entity.lcc.woodlouse.ambient": {
+    "sounds": [
+      "lcc:entity/woodlouse/idle1",
+      "lcc:entity/woodlouse/idle2"
+    ],
+    "subtitle": "subtitles.lcc.entity.woodlouse.ambient"
+  },
+  "entity.lcc.woodlouse.hurt": {
+    "sounds": [
+      "lcc:entity/woodlouse/hurt1",
+      "lcc:entity/woodlouse/hurt2"
+    ],
+    "subtitle": "subtitles.lcc.entity.woodlouse.hurt"
+  },
+  "entity.lcc.woodlouse.death": {
+    "sounds": [
+      "lcc:entity/woodlouse/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.woodlouse.death"
+  },
+  "entity.lcc.woodlouse.step": {
+    "sounds": [
+      "lcc:entity/woodlouse/step1",
+      "lcc:entity/woodlouse/step2",
+      "lcc:entity/woodlouse/step3",
+      "lcc:entity/woodlouse/step4",
+      "lcc:entity/woodlouse/step5",
+      "lcc:entity/woodlouse/step6"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
   }
 }

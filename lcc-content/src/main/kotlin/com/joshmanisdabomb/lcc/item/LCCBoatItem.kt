@@ -55,7 +55,7 @@ class LCCBoatItem(settings: Settings, entity: () -> EntityType<LCCBoatEntity>) :
     }
 
     companion object {
-        val collisionCheck = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::collides)
+        val collisionCheck = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::canHit)
     }
 
 }

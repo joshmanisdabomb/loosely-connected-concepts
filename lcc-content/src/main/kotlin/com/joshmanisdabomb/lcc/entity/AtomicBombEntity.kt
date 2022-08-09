@@ -242,7 +242,7 @@ class AtomicBombEntity(type: EntityType<*>, world: World) : Entity(type, world),
 
     override fun isCollidable() = isAlive
 
-    override fun collides() = isAlive
+    override fun canHit() = isAlive
 
     override fun isPushable() = false
 

@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "m m",
-    "m m",
-    "mmm"
-  ],
   "key": {
     "m": {
       "item": "lcc:magnetic_iron"
     }
   },
+  "pattern": [
+    "m m",
+    "m m",
+    "mmm"
+  ],
   "result": {
     "item": "lcc:attractive_magnetic_iron_block"
   }

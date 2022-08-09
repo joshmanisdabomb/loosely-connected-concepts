@@ -10,8 +10,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
-import net.minecraft.entity.data.DataTracker
-import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
@@ -71,7 +69,7 @@ class DiscipleDustEntity : ProjectileEntity {
         this.setPosition(this.x + vec3d.x, this.y + vec3d.y, this.z + vec3d.z)
 
         if (world.isClient) {
-            repeat(3 - MinecraftClient.getInstance().options.particles.id) {
+            repeat(3 - MinecraftClient.getInstance().options.particles.value.id) {
                 val dir = Vec3d(world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5)).normalize().multiply(0.4)
                 val pos = dir.add(pos)
                 world.addParticle(LCCParticles.disciple_dust, pos.x, pos.y, pos.z, -dir.x, -dir.y, -dir.z)

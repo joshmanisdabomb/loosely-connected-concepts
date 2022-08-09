@@ -43,11 +43,11 @@ class AtomicBombEntityRenderer(ctx: EntityRendererFactory.Context) : EntityRende
 
     private fun renderBlock(entity: AtomicBombEntity, brd: BlockEntityRenderDispatcher, facing: Direction, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
         matrices.push()
-        TntMinecartEntityRenderer.renderFlashingBlock(LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.MIDDLE).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
+        TntMinecartEntityRenderer.renderFlashingBlock(MinecraftClient.getInstance().blockRenderManager, LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.MIDDLE).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
         matrices.translate(-facing.offsetX.toDouble(), 0.0, -facing.offsetZ.toDouble())
-        TntMinecartEntityRenderer.renderFlashingBlock(LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.TAIL).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
+        TntMinecartEntityRenderer.renderFlashingBlock(MinecraftClient.getInstance().blockRenderManager, LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.TAIL).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
         matrices.translate(facing.offsetX.times(2.0), 0.0, facing.offsetZ.times(2.0))
-        TntMinecartEntityRenderer.renderFlashingBlock(LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.HEAD).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
+        TntMinecartEntityRenderer.renderFlashingBlock(MinecraftClient.getInstance().blockRenderManager, LCCBlocks.atomic_bomb.defaultState.with(AtomicBombBlock.segment, AtomicBombBlock.AtomicBombSegment.HEAD).with(Properties.HORIZONTAL_FACING, facing), matrices, vertexConsumers, light, entity.fuse / 5 % 2 == 1)
         matrices.pop()
     }
     

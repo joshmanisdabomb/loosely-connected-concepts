@@ -1,33 +1,33 @@
 {
   "parent": "lcc:main_root",
+  "criteria": {
+    "salted": {
+      "conditions": {
+        "damage": {
+          "type": {
+            "direct_entity": {
+              "type": "lcc:salt"
+            },
+            "is_projectile": true
+          }
+        }
+      },
+      "trigger": "minecraft:player_hurt_entity"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:salt"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.salt.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.main.salt.description"
     },
     "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:salt"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "salted": {
-      "trigger": "minecraft:player_hurt_entity",
-      "conditions": {
-        "damage": {
-          "type": {
-            "is_projectile": true,
-            "direct_entity": {
-              "type": "lcc:salt"
-            }
-          }
-        }
-      }
+    "title": {
+      "translate": "advancements.lcc.main.salt.title"
     }
   },
   "requirements": [

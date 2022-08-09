@@ -9,14 +9,13 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.FACING
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import java.util.*
-import kotlin.random.asKotlinRandom
+import net.minecraft.util.math.random.Random
 
 class BuddingCrystalBlock(val crystals: Array<AmethystClusterBlock>, settings: Settings) : BuddingAmethystBlock(settings) {
 
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
         if (random.nextInt(5) == 0) {
-            val direction = Direction.values().random(random.asKotlinRandom())
+            val direction = Direction.random(random)
             val pos2 = pos.offset(direction)
             val state2 = world.getBlockState(pos2)
             var block: Block? = null

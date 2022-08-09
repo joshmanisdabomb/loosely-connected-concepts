@@ -8,8 +8,7 @@ import net.fabricmc.fabric.api.event.Event
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.entity.effect.StatusEffectUtil
-import net.minecraft.text.LiteralText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 
@@ -20,13 +19,13 @@ object LCCEventsClient : BasicDirectory<Any, Unit>() {
         if (!stack.isIn(LCCItemTags.imbuable)) return@ItemTooltipCallback
         stack.getSubNbt("lcc-imbue")?.forEachInt { k, v ->
             val recipe = world.recipeManager.get(Identifier(k)).orElse(null) as? ImbuingRecipe ?: return@forEachInt
-            lines.add(TranslatableText("tooltip.lcc.imbue.${k.replace(":", ".")}", v, recipe.getMaxHits(stack)).formatted(Formatting.DARK_GREEN))
+            lines.add(Text.translatable("tooltip.lcc.imbue.${k.replace(":", ".")}", v, recipe.getMaxHits(stack)).formatted(Formatting.DARK_GREEN))
             if (Screen.hasShiftDown()) {
                 for (effect in recipe.getEffects()) {
                     var text = effect.effectType.name
-                    if (effect.amplifier > 0) text = TranslatableText("potion.withAmplifier", text, TranslatableText("potion.potency.${effect.amplifier}"))
+                    if (effect.amplifier > 0) text = Text.translatable("potion.withAmplifier", text, Text.translatable("potion.potency.${effect.amplifier}"))
                     val duration = StatusEffectUtil.durationToString(effect, 1.0f)
-                    lines.add(LiteralText(" ").append(TranslatableText("potion.withDuration", text, duration)).formatted(Formatting.GREEN))
+                    lines.add(Text.literal(" ").append(Text.translatable("potion.withDuration", text, duration)).formatted(Formatting.GREEN))
                 }
             }
         }

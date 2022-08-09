@@ -1,23 +1,7 @@
 {
   "parent": "lcc:simulation_fabric",
-  "display": {
-    "icon": {
-      "item": "lcc:ruby"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.ruby.title"
-    },
-    "description": {
-      "translate": "advancements.lcc.main.ruby.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "ruby": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -26,22 +10,10 @@
             ]
           }
         ]
-      }
-    },
-    "ruby_ore": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "lcc:ruby_ore"
-            ]
-          }
-        ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
     },
     "ruby_block": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -50,7 +22,35 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "ruby_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:ruby_ore"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.lcc.main.ruby.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:ruby"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.lcc.main.ruby.title"
     }
   },
   "requirements": [

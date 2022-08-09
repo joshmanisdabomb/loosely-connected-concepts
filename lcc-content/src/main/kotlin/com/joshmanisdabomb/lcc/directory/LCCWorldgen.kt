@@ -6,20 +6,13 @@ import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFea
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
-import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
-import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
-import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.tag.BiomeTags
-import net.minecraft.tag.BlockTags
-import net.minecraft.util.math.floatprovider.ConstantFloatProvider
-import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
-import net.minecraft.util.math.floatprovider.UniformFloatProvider
 import net.minecraft.util.math.intprovider.ConstantIntProvider
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.BuiltinRegistries
@@ -27,14 +20,18 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryEntry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset
-import net.minecraft.world.gen.carver.*
+import net.minecraft.world.gen.blockpredicate.BlockPredicate
+import net.minecraft.world.gen.carver.Carver
+import net.minecraft.world.gen.carver.CarverConfig
+import net.minecraft.world.gen.carver.ConfiguredCarver
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
-import net.minecraft.world.gen.heightprovider.UniformHeightProvider
 import net.minecraft.world.gen.placementmodifier.*
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
+import net.minecraft.world.gen.stateprovider.PredicatedStateProvider
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer
+import java.util.List
 
 object LCCWorldgen {
     fun init() {
@@ -114,7 +111,7 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val classic_tree by entry(::initialiser) { ConfiguredFeature(Feature.TREE, (TreeFeatureConfig.Builder(BlockStateProvider.of(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), BlockStateProvider.of(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
     val rubber_tree by entry(::initialiser) { ConfiguredFeature(LCCFeatures.rubber_tree, TreeFeatureConfig.Builder(BlockStateProvider.of(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), BlockStateProvider.of(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
 
-    val salt by entry(::initialiser) { ConfiguredFeature(Feature.DISK, DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))) }
+    val salt by entry(::initialiser) { ConfiguredFeature(Feature.DISK, DiskFeatureConfig(PredicatedStateProvider.of(BlockStateProvider.of(LCCBlocks.rock_salt.defaultState)), BlockPredicate.matchingBlocks(List.of(Blocks.DIRT, Blocks.STONE)), UniformIntProvider.create(2, 4), 3)) }
 
     //TODO custom deposit feature
     /* val deposits by entry(::initialiser) { ConfiguredFeature(Feature.FLOWER, RandomPatchFeatureConfig(96, 6, 2) {
@@ -127,7 +124,7 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val spike_trap by entry(::initialiser) { ConfiguredFeature(LCCFeatures.spike_trap, FeatureConfig.DEFAULT) }
     val wasp_hive by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasp_hive, FeatureConfig.DEFAULT) }
 
-    val mud by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)) }
+    //val mud by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)) }
 
     private fun <C : FeatureConfig, F : Feature<C>> initialiser(input: ConfiguredFeature<C, F>, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<ConfiguredFeature<*, *>> {
         return BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_FEATURE, context.id, input) as RegistryEntry<ConfiguredFeature<*, *>>
@@ -199,8 +196,8 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CaveCarverConfig.CAVE_CODEC) }
-    val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
+    //val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CaveCarverConfig.CAVE_CODEC) }
+    //val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -208,12 +205,13 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
 object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfig>, RegistryEntry<out ConfiguredCarver<out CarverConfig>>, Unit, Unit>() {
 
-    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CaveCarverConfig(
+    /*val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CaveCarverConfig(
         0.15F,
         UniformHeightProvider.create(YOffset.aboveBottom(8), YOffset.fixed(180)),
         UniformFloatProvider.create(0.1F, 0.9F),
         YOffset.aboveBottom(8),
         CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.defaultState),
+        Registry.BLOCK.getOrCreateEntryList(BlockTags.OVERWORLD_CARVER_REPLACEABLES),
         UniformFloatProvider.create(0.7F, 1.4F),
         UniformFloatProvider.create(0.8F, 1.3F),
         UniformFloatProvider.create(-1.0F, -0.4F)
@@ -224,6 +222,7 @@ object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfi
         ConstantFloatProvider.create(3.0F),
         YOffset.aboveBottom(8),
         CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState),
+        Registry.BLOCK.getOrCreateEntryList(BlockTags.OVERWORLD_CARVER_REPLACEABLES),
         UniformFloatProvider.create(-0.125F, 0.125F),
         RavineCarverConfig.Shape(
             UniformFloatProvider.create(0.75F, 1.0F),
@@ -233,7 +232,7 @@ object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfi
             1.0F,
             0.0F
         )
-    )) }
+    )) }*/
 
     override fun id(name: String) = LCC.id(name)
 

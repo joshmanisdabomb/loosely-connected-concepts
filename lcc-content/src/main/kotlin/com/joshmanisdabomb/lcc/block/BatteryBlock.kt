@@ -20,7 +20,7 @@ import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.FACING
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -36,7 +36,7 @@ abstract class BatteryBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract fun alterEnergy(current: Float): Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
+    open val defaultDisplayName by lazy { Text.translatable("container.lcc.${LCCBlocks[this].name}") }
 
     init {
         defaultState = stateManager.defaultState.with(FACING, Direction.UP)

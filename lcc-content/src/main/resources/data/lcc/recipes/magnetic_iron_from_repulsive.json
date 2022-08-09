@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "lcc:magnetic_iron",
-    "count": 7
+    "count": 7,
+    "item": "lcc:magnetic_iron"
   }
 }

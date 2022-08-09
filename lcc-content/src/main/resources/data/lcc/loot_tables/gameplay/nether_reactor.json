@@ -2,122 +2,117 @@
   "type": "minecraft:empty",
   "pools": [
     {
-      "rolls": {
-        "type": "minecraft:uniform",
-        "min": 20.0,
-        "max": 40.0
-      },
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 100,
-          "name": "minecraft:glowstone_dust"
+          "name": "minecraft:glowstone_dust",
+          "weight": 100
         },
         {
           "type": "minecraft:item",
-          "weight": 70,
-          "name": "minecraft:quartz"
+          "name": "minecraft:quartz",
+          "weight": 70
         },
         {
           "type": "minecraft:item",
-          "weight": 30,
-          "name": "minecraft:soul_sand"
+          "name": "minecraft:soul_sand",
+          "weight": 30
         },
         {
           "type": "minecraft:item",
-          "weight": 18,
-          "name": "minecraft:brown_mushroom"
+          "name": "minecraft:brown_mushroom",
+          "weight": 18
         },
         {
           "type": "minecraft:item",
-          "weight": 18,
-          "name": "minecraft:red_mushroom"
+          "name": "minecraft:red_mushroom",
+          "weight": 18
         },
         {
           "type": "minecraft:item",
-          "weight": 24,
-          "name": "minecraft:sugar_cane"
+          "name": "minecraft:sugar_cane",
+          "weight": 24
         },
         {
           "type": "minecraft:item",
-          "weight": 24,
-          "name": "minecraft:cactus"
+          "name": "minecraft:cactus",
+          "weight": 24
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:wheat_seeds"
+          "name": "minecraft:wheat_seeds",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:melon_seeds"
+          "name": "minecraft:melon_seeds",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:pumpkin_seeds"
+          "name": "minecraft:pumpkin_seeds",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:beetroot_seeds"
+          "name": "minecraft:beetroot_seeds",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:carrot"
+          "name": "minecraft:carrot",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 4,
-          "name": "minecraft:potato"
+          "name": "minecraft:potato",
+          "weight": 4
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:cocoa_beans"
+          "name": "minecraft:cocoa_beans",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 6,
-          "name": "minecraft:book"
+          "name": "minecraft:book",
+          "weight": 6
         },
         {
           "type": "minecraft:item",
-          "weight": 8,
-          "name": "minecraft:arrow"
+          "name": "minecraft:arrow",
+          "weight": 8
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:oak_sapling"
+          "name": "minecraft:oak_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:spruce_sapling"
+          "name": "minecraft:spruce_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:birch_sapling"
+          "name": "minecraft:birch_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:jungle_sapling"
+          "name": "minecraft:jungle_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:acacia_sapling"
+          "name": "minecraft:acacia_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:dark_oak_sapling"
+          "name": "minecraft:dark_oak_sapling",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
@@ -145,18 +140,18 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:red_bed"
+          "name": "minecraft:red_bed",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:painting"
+          "name": "minecraft:painting",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
-          "name": "minecraft:map"
+          "name": "minecraft:map",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
@@ -169,15 +164,20 @@
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 7.0,
-                "max": 30.0
+                "max": 30.0,
+                "min": 7.0
               },
               "treasure": false
             }
           ],
           "name": "minecraft:bow"
         }
-      ]
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 40.0,
+        "min": 20.0
+      }
     }
   ]
 }

@@ -1,24 +1,24 @@
 {
   "parent": "lcc:uranium",
+  "criteria": {
+    "detonate": {
+      "conditions": {},
+      "trigger": "lcc:nuke"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:atomic_bomb"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.nuke.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.main.nuke.description"
     },
     "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:atomic_bomb"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "detonate": {
-      "trigger": "lcc:nuke",
-      "conditions": {}
+    "title": {
+      "translate": "advancements.lcc.main.nuke.title"
     }
   },
   "requirements": [

@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.transform
@@ -28,6 +30,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.*
 import kotlin.math.max
 
@@ -46,8 +49,8 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         eyeLeft = random.nextBoolean()
         dataTracker.set(eye_left, eyeLeft)
 
-        initEquipment(difficulty)
-        updateEnchantments(difficulty)
+        initEquipment(random, difficulty)
+        updateEnchantments(random, difficulty)
 
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt)
     }
@@ -181,7 +184,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
     }
 
-    override fun initEquipment(difficulty: LocalDifficulty) {
+    override fun initEquipment(random: Random, difficulty: LocalDifficulty) {
         equipStack(EquipmentSlot.MAINHAND, ItemStack(LCCItems.knife).also { it.damage = it.maxDamage - random.nextInt(it.maxDamage.div(2)) })
         setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.04f)
     }

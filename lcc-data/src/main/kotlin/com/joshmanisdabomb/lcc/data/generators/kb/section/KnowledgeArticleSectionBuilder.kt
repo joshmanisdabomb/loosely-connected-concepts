@@ -6,11 +6,10 @@ import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragm
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleFragmentContainer
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleParagraphFragmentBuilder
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
 open class KnowledgeArticleSectionBuilder(name: (defaultKey: String) -> Text) : KnowledgeArticleFragmentContainer {
 
-    constructor() : this({ TranslatableText(it) })
+    constructor() : this({ Text.translatable(it) })
     constructor(content: Text) : this({ content })
     constructor(content: String, locale: String = "en_us") : this(locale to content)
     constructor(vararg translations: Pair<String, String>) : this() {

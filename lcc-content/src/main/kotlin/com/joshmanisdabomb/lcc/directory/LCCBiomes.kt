@@ -22,7 +22,6 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
     val wasteland_barrens by entry(::biomeInitialiser) {
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
-            .category(Biome.Category.DESERT)
             /*.depth(0.5f)
             .scale(-0.105f)*/
             .temperature(1.23F)
@@ -42,8 +41,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .build())
             .generationSettings(GenerationSettings.Builder()
                 //.surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_barrens)
-                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
-                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
+                //.carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
+                //.carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, OrePlacedFeatures.ORE_COAL_LOWER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, OrePlacedFeatures.ORE_COAL_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.abundant_coal)
@@ -81,7 +80,6 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
     val wasteland_spikes by entry(::biomeInitialiser) {
         Biome.Builder()
             .precipitation(Biome.Precipitation.NONE)
-            .category(Biome.Category.DESERT)
             /*.depth(1.5f)
             .scale(0.01f)*/
             .temperature(1.23F)
@@ -101,8 +99,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .build())
             .generationSettings(GenerationSettings.Builder()
                 //.surfaceBuilder(LCCConfiguredSurfaceBuilders.wasteland_spikes)
-                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
-                .carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
+                //.carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_cave)
+                //.carver(GenerationStep.Carver.AIR, LCCConfiguredCarvers.wasteland_ravine)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, OrePlacedFeatures.ORE_COAL_LOWER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, OrePlacedFeatures.ORE_COAL_UPPER)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.abundant_coal)

@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ppp",
-    "prp",
-    "ppp"
-  ],
   "key": {
     "p": {
       "item": "minecraft:paper"
@@ -13,6 +8,11 @@
       "item": "minecraft:redstone"
     }
   },
+  "pattern": [
+    "ppp",
+    "prp",
+    "ppp"
+  ],
   "result": {
     "item": "lcc:calendar"
   }

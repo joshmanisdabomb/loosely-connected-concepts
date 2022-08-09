@@ -14,13 +14,13 @@ import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import net.minecraft.world.explosion.Explosion
-import java.util.*
 import net.minecraft.block.RedstoneWireBlock.DIRECTION_TO_WIRE_CONNECTION_PROPERTY as directionProperties
 
 class ExplosivePasteBlock(settings: Settings) : Block(settings) {

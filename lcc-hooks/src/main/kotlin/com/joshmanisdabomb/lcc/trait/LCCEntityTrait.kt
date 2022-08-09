@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.trait
 
 import com.joshmanisdabomb.lcc.networking.TraitSpawnPacket
 import io.netty.buffer.Unpooled
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.entity.Entity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.Packet
@@ -26,7 +26,7 @@ interface LCCEntityTrait {
 
         buf.writeNbt(NbtCompound().apply(append))
 
-        return ServerSidePacketRegistry.INSTANCE.toPacket(TraitSpawnPacket.id, buf)
+        return ServerPlayNetworking.createS2CPacket(TraitSpawnPacket.id, buf)
     }
 
     @JvmDefault

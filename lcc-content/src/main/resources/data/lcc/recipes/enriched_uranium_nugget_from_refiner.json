@@ -1,33 +1,33 @@
 {
   "type": "lcc:refining_shapeless",
-  "ingredients": [
-    {
-      "item": "lcc:uranium",
-      "count": 1
-    }
-  ],
-  "results": [
-    {
-      "item": "lcc:enriched_uranium_nugget",
-      "count": 1,
-      "function": "lcc:range",
-      "max": 8
-    },
-    {
-      "item": "lcc:heavy_uranium",
-      "count": 1,
-      "function": "minecraft:empty"
-    }
-  ],
   "blocks": [
     "lcc:refiner",
     "lcc:composite_processor"
   ],
-  "lang": "container.lcc.refining.recipe.uranium",
-  "icon": 1,
-  "state": "enriching",
   "energy": 48.0,
-  "ticks": 4000,
   "gain": 0.005,
-  "maxGain": 400.0
+  "icon": 1,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "lcc:uranium"
+    }
+  ],
+  "lang": "container.lcc.refining.recipe.uranium",
+  "maxGain": 400.0,
+  "results": [
+    {
+      "count": 1,
+      "function": "lcc:range",
+      "item": "lcc:enriched_uranium_nugget",
+      "max": 8
+    },
+    {
+      "count": 1,
+      "function": "minecraft:empty",
+      "item": "lcc:heavy_uranium"
+    }
+  ],
+  "state": "enriching",
+  "ticks": 4000
 }

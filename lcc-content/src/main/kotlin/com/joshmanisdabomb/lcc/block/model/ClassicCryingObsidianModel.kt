@@ -12,8 +12,8 @@ import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockRenderView
-import java.util.*
 import java.util.function.Supplier
 
 class ClassicCryingObsidianModel() : LCCModel({ mapOf("inactive" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/classic_crying_obsidian_off")), "active" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/classic_crying_obsidian_on")), "static" to SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, LCC.id("block/classic_crying_obsidian_static"))) }) {

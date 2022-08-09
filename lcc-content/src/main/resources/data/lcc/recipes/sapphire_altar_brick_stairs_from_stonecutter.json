@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 1,
   "ingredient": {
     "item": "lcc:sapphire_altar_brick"
   },
-  "result": "lcc:sapphire_altar_brick_stairs",
-  "count": 1
+  "result": "lcc:sapphire_altar_brick_stairs"
 }

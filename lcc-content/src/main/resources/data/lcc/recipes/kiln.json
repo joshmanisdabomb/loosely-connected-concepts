@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "bbb",
-    "bfb",
-    "bbb"
-  ],
   "key": {
     "b": {
       "item": "minecraft:bricks"
@@ -13,6 +8,11 @@
       "item": "minecraft:furnace"
     }
   },
+  "pattern": [
+    "bbb",
+    "bfb",
+    "bbb"
+  ],
   "result": {
     "item": "lcc:kiln"
   }

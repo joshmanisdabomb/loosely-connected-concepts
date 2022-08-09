@@ -83,8 +83,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
         EntityRendererRegistry.register(classic_tnt) { dispatcher -> StateBasedTNTEntityRenderer(LCCBlocks.classic_tnt.defaultState, dispatcher) }
 
-        EntityRendererRegistry.register(rubber_boat, ::BoatEntityRenderer)
-        EntityRendererRegistry.register(deadwood_boat, ::BoatEntityRenderer)
+        EntityRendererRegistry.register(rubber_boat) { dispatcher -> BoatEntityRenderer(dispatcher, false) }
+        EntityRendererRegistry.register(deadwood_boat) { dispatcher -> BoatEntityRenderer(dispatcher, false) }
     }
 
 }

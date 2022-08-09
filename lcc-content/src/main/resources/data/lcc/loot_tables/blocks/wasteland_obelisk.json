@@ -2,22 +2,21 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:wasteland_obelisk",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "salvage": "false"
               }
             },
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:wasteland_obelisk",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "bottom": "true"
               }
@@ -28,7 +27,8 @@
           ],
           "name": "lcc:wasteland_obelisk"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

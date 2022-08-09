@@ -24,12 +24,15 @@ import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Items
+import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import java.time.LocalDateTime
@@ -99,7 +102,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
                 .addParagraph {
                     addFormatText("Some blocks native to the Wasteland require Wasteland tools to mine, and most mobs native to the Wasteland deal increased damage through non-Wasteland %s and take reduced damage from non-Wasteland equipment. The tool progression starts at %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by %s structures to obtain %s, the current final tier of Wasteland equipment.",
-                    addText({ IncludedTranslatableText(it).translation("armor", "en_us").translation("armour", "en_gb") })
+                    addText({ IncludedText.translatable(it).translation("armor", "en_us").translation("armour", "en_gb") })
                     addLink(LCCBlocks.deadwood.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_log).link)
                     addLink(LCCItems.deadwood_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.deadwood_pickaxe).link)
                     addLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone).link)
@@ -140,7 +143,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addLink("construct a game of Minesweeper", KnowledgeArticleIdentifier.of(LCCRegistries.altar_challenges, LCCAltarChallenges.minesweeper).link)
                     addLink(LCCItems.rigid_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
                     addLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
-                    addText({ IncludedTranslatableText(it).translation("color", "en_us").translation("colour", "en_gb") })
+                    addText({ IncludedText.translatable(it).translation("color", "en_us").translation("colour", "en_gb") })
                     addLink("plastic bags", KnowledgeArticleIdentifier.ofItem(LCCItems.plastic_bag).link)
                     addLink("roads", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.road).link)
                 )
@@ -746,12 +749,12 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .boilerplate()
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 10, 22, 52, 0), LocalDateTime.of(2021, 10, 27, 17, 32, 0))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("effective"), LCC.id("wasteland")), LiteralText("Wasteland Effective"))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("required"), LCC.id("wasteland")), LiteralText("Wasteland Required"))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("optimal"), LCC.id("wasteland")), LiteralText("Wasteland Optimal"))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("combat"), LCC.id("wasteland")), LiteralText("Wasteland Combat"))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("damage"), LCC.id("wasteland")), LiteralText("Wasteland Damage"))
-            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("protection"), LCC.id("wasteland")), LiteralText("Wasteland Protection"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("effective"), LCC.id("wasteland")), Text.literal("Wasteland Effective"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("required"), LCC.id("wasteland")), Text.literal("Wasteland Required"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("optimal"), LCC.id("wasteland")), Text.literal("Wasteland Optimal"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("combat"), LCC.id("wasteland")), Text.literal("Wasteland Combat"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("damage"), LCC.id("wasteland")), Text.literal("Wasteland Damage"))
+            .redirectsHere(KnowledgeArticleIdentifier(LCC.id("protection"), LCC.id("wasteland")), Text.literal("Wasteland Protection"))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection")
     }
 
@@ -1146,7 +1149,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(LCCVersion.LCC_FABRIC_0_1_0) },
                         { addWastelandLink() },
                         { addText(LCCBlocks.cracked_mud) },
-                        { addLink(LCCBlocks.mud) },
+                        { addLink(Blocks.MUD) },
                     )
                 }
             )
@@ -1155,17 +1158,17 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addFormatText("In %s, %s can be converted into %s by being placed in or adjacent to %s.",
                         { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
                         { addText(LCCBlocks.cracked_mud) },
-                        { addText(LCCBlocks.mud) },
+                        { addText(Blocks.MUD) },
                         { addLink(Blocks.WATER) },
                     )
                 }
                 .addParagraph {
                     addFormatText("To slowly dry %s back into %s, it can be left in the %s without adjacent %s. %s can be quickly dried by smelting it in a %s or %s.",
-                        { addText(LCCBlocks.mud) },
+                        { addText(Blocks.MUD) },
                         { addText(LCCBlocks.cracked_mud) },
                         { addText("Wasteland") },
                         { addText(Blocks.WATER) },
-                        { addText(LCCBlocks.mud) },
+                        { addText(Blocks.MUD) },
                         { addLink(Blocks.FURNACE) },
                         { addLink(LCCBlocks.kiln) },
                     )
@@ -1179,65 +1182,89 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     val block_mud by entry(::initialiser) {
-        KnowledgeArticleBuilder(LCCBlocks.mud)
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("aimagg", "mud")))
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s is a block originally introduced in %s and reintroduced in %s which drastically changes the movement of mobs and players walking on it. %s can be dried into %s, a process which can be reversed.",
-                        { addText(LCCBlocks.mud) },
+                    addFormatText("%s is a legacy block originally introduced in %s and reintroduced in %s which changes the movement of mobs and players walking on it.",
+                        { addText(KnowledgeConstants.mud) },
                         { addLink(LCCVersion.YAM_1) },
-                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
-                        { addText(LCCBlocks.mud) },
-                        { addLink(LCCBlocks.cracked_mud) },
+                        { addLink(LCCVersion.AIMAGG_ALPHA_1_1_0) },
                     )
                 }
             )
             .addSection(KnowledgeArticleSectionBuilder("Movement")
                 .addParagraph {
-                    addFormatText("In %s, %s is a slippery block similar to %s. The speed of an entity walking on this block changes over time, giving the effect of wading through the block.",
-                        { addText(LCCVersion.LCC_FABRIC_0_5_1.label) },
-                        { addText(LCCBlocks.mud) },
-                        { addLink(Blocks.ICE) },
+                    addFormatText("In %s, %s is a block that slows the movement of entities, similar to %s.",
+                        { addText(LCCVersion.AIMAGG_ALPHA_1_1_0.label) },
+                        { addText(KnowledgeConstants.mud) },
+                        { addLink(Blocks.SOUL_SAND) }
                     )
                 }
                 .addParagraph {
                     addFormatText("Previously in %s, %s was a ridiculously slippery block, allowing entities walking on it to wildly accelerate and travel large distances very quickly.",
                         { addText(LCCVersion.YAM_1.label) },
-                        { addText(LCCBlocks.mud) },
+                        { addText(KnowledgeConstants.mud) },
                     )
                 }
             )
-            .addSection(KnowledgeArticleSectionBuilder("Interactions")
+            .addSection(KnowledgeArticleSectionBuilder("Vanilla")
                 .addParagraph {
-                    addFormatText("When left in the %s without adjacent %s, %s will slowly dry into %s. %s can also be quickly dried by smelting it in a %s or %s.",
-                        { addWastelandLink() },
-                        { addLink(Blocks.WATER) },
-                        { addText(LCCBlocks.mud) },
+                    addFormatText("%s has been officially added to Minecraft 1.19. The vanilla block can be slowly dried into %s by being placed in a %s biome, or can be quickly dried by being smelted in a %s or %s.",
+                        { addText(KnowledgeConstants.mud) },
                         { addText(LCCBlocks.cracked_mud) },
-                        { addText(LCCBlocks.mud) },
+                        { addWastelandLink() },
                         { addLink(Blocks.FURNACE) },
                         { addLink(LCCBlocks.kiln) },
                     )
                 }
-                .addParagraph {
-                    addFormatText("%s can be rehydrated into %s by being placed in or adjacent to %s.",
-                        { addText(LCCBlocks.cracked_mud) },
-                        { addText(LCCBlocks.mud) },
-                        { addLink(Blocks.WATER) },
-                    )
-                }
             )
-            .addSection(KnowledgeArticleSectionBuilder("1.19")
-                .addParagraph {
-                    addFormatText("This block will likely be merged with the Mud Block from Minecraft 1.19 once released. It is planned to migrate the functionality of drying into %s to this new block.",
-                        { addText(LCCBlocks.cracked_mud) },
-                    )
-                }
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
+                    listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPELESS, ShapelessRecipeJsonBuilder.create(Blocks.MUD, 8)
+                        .input(Blocks.DIRT, 8)
+                        .input(Items.WATER_BUCKET)
+                    , { offerTo(it) }) {
+                        /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                        it.add("translations", e.translator.itemTranslationsJson(*items))
+                        it.add("links", e.linker.itemLinksJson(*items))*/
+                    })
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe in ")
+                        .addLink(LCCVersion.AIMAGG_ALPHA_1_6)
+                        .addText(".")
+                ))
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
+                    listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPELESS, ShapelessRecipeJsonBuilder.create(Blocks.MUD, 1)
+                        .input(Blocks.DIRT)
+                        .input(Items.WATER_BUCKET)
+                    , { offerTo(it) }) {
+                        /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                        it.add("translations", e.translator.itemTranslationsJson(*items))
+                        it.add("links", e.linker.itemLinksJson(*items))*/
+                    })
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe in ")
+                        .addLink(LCCVersion.YAM_1)
+                        .addText(".")
+                ))
             )
-            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.mud))
-            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.mud))
-            .addSection(KnowledgeArticleChangelogSectionBuilder())
-            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = false).alterStats { it.put(it.keys.elementAt(5), listOf(KnowledgeArticleTextFragmentBuilder("Varies"))) })
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 21, 2, 56, 0), LocalDateTime.of(2022, 2, 8, 19, 52, 0))
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
+                    listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SMELTING, CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(Blocks.MUD), LCCBlocks.cracked_mud, 0.1f, 200), { offerTo(it) }) {
+                        /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
+                        it.add("translations", e.translator.itemTranslationsJson(*items))
+                        it.add("links", e.linker.itemLinksJson(*items))*/
+                    })
+                }.markObsolete().setNote(
+                    KnowledgeArticleParagraphFragmentBuilder()
+                        .addText("Recipe in ")
+                        .addLink(LCCVersion.YAM_1)
+                        .addText(".")
+                ))
+            )
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 21, 2, 56, 0), LocalDateTime.of(2022, 8, 9, 0, 33, 30))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Optimal", "Deadwood Shovel Recommended", "Mud", "Movement")
     }
 

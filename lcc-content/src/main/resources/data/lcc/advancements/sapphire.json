@@ -1,26 +1,26 @@
 {
   "parent": "lcc:rusty_iron",
+  "criteria": {
+    "challenge": {
+      "conditions": {
+        "challenge": ""
+      },
+      "trigger": "lcc:sapphire_altar"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:sapphire"
-    },
-    "title": {
-      "translate": "advancements.lcc.wasteland.sapphire.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.wasteland.sapphire.description"
     },
     "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:sapphire"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "challenge": {
-      "trigger": "lcc:sapphire_altar",
-      "conditions": {
-        "challenge": ""
-      }
+    "title": {
+      "translate": "advancements.lcc.wasteland.sapphire.title"
     }
   },
   "requirements": [

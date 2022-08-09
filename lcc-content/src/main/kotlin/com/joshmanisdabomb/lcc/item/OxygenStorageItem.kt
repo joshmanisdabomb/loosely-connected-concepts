@@ -8,7 +8,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
@@ -31,7 +30,7 @@ class OxygenStorageItem(val max: Float, settings: Settings) : Item(settings), Ox
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText(TooltipConstants.oxygen, getOxygen(stack).decimalFormat(force = true), getMaxOxygen(stack).decimalFormat(force = true)).formatted(Formatting.BLUE))
+        tooltip.add(Text.translatable(TooltipConstants.oxygen, getOxygen(stack).decimalFormat(force = true), getMaxOxygen(stack).decimalFormat(force = true)).formatted(Formatting.BLUE))
     }
 
 }

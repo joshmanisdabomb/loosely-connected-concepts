@@ -7,10 +7,10 @@ import net.minecraft.block.SnowBlock
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.chunk.light.ChunkLightProvider
-import java.util.*
 
 open class FunctionalGrassBlock(val change: (world: World, source: BlockState?, destination: BlockState, posFrom: BlockPos, posTo: BlockPos, it: FunctionalGrassBlock) -> BlockState?, settings: Settings, val lightRequired: Int = 9) : Block(settings) {
 

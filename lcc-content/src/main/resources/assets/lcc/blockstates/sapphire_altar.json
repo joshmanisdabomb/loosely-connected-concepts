@@ -1,467 +1,467 @@
 {
   "multipart": [
     {
-      "when": {
-        "facing": "north"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar"
+      },
+      "when": {
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "tl": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl_dull"
+      },
+      "when": {
+        "facing": "north",
+        "tl": "dull"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "tr": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr_dull"
+      },
+      "when": {
+        "facing": "north",
+        "tr": "dull"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "middle": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle_dull"
+      },
+      "when": {
+        "facing": "north",
+        "middle": "dull"
       }
     },
     {
-      "when": {
-        "bl": "dull",
-        "facing": "north"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl_dull"
+      },
+      "when": {
+        "bl": "dull",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "br": "dull",
-        "facing": "north"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br_dull"
+      },
+      "when": {
+        "br": "dull",
+        "facing": "north"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "tl": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl"
+      },
+      "when": {
+        "facing": "north",
+        "tl": "normal"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "tr": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr"
+      },
+      "when": {
+        "facing": "north",
+        "tr": "normal"
       }
     },
     {
-      "when": {
-        "facing": "north",
-        "middle": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle"
+      },
+      "when": {
+        "facing": "north",
+        "middle": "normal"
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/sapphire_altar_bl"
+      },
       "when": {
         "bl": "normal",
         "facing": "north"
-      },
-      "apply": {
-        "model": "lcc:block/sapphire_altar_bl"
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/sapphire_altar_br"
+      },
       "when": {
         "br": "normal",
         "facing": "north"
-      },
-      "apply": {
-        "model": "lcc:block/sapphire_altar_br"
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/sapphire_altar_key"
+      },
       "when": {
         "facing": "north",
         "key": "true"
-      },
-      "apply": {
-        "model": "lcc:block/sapphire_altar_key"
       }
     },
     {
-      "when": {
-        "facing": "east"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar",
         "y": 90
+      },
+      "when": {
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "tl": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl_dull",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "tl": "dull"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "tr": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr_dull",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "tr": "dull"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "middle": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle_dull",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "middle": "dull"
       }
     },
     {
-      "when": {
-        "bl": "dull",
-        "facing": "east"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl_dull",
         "y": 90
+      },
+      "when": {
+        "bl": "dull",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "br": "dull",
-        "facing": "east"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br_dull",
         "y": 90
+      },
+      "when": {
+        "br": "dull",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "tl": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "tl": "normal"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "tr": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "tr": "normal"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "middle": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "middle": "normal"
       }
     },
     {
-      "when": {
-        "bl": "normal",
-        "facing": "east"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl",
         "y": 90
+      },
+      "when": {
+        "bl": "normal",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "br": "normal",
-        "facing": "east"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br",
         "y": 90
+      },
+      "when": {
+        "br": "normal",
+        "facing": "east"
       }
     },
     {
-      "when": {
-        "facing": "east",
-        "key": "true"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_key",
         "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "key": "true"
       }
     },
     {
-      "when": {
-        "facing": "south"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar",
         "y": 180
+      },
+      "when": {
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "tl": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl_dull",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "tl": "dull"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "tr": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr_dull",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "tr": "dull"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "middle": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle_dull",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "middle": "dull"
       }
     },
     {
-      "when": {
-        "bl": "dull",
-        "facing": "south"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl_dull",
         "y": 180
+      },
+      "when": {
+        "bl": "dull",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "br": "dull",
-        "facing": "south"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br_dull",
         "y": 180
+      },
+      "when": {
+        "br": "dull",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "tl": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "tl": "normal"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "tr": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "tr": "normal"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "middle": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "middle": "normal"
       }
     },
     {
-      "when": {
-        "bl": "normal",
-        "facing": "south"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl",
         "y": 180
+      },
+      "when": {
+        "bl": "normal",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "br": "normal",
-        "facing": "south"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br",
         "y": 180
+      },
+      "when": {
+        "br": "normal",
+        "facing": "south"
       }
     },
     {
-      "when": {
-        "facing": "south",
-        "key": "true"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_key",
         "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "key": "true"
       }
     },
     {
-      "when": {
-        "facing": "west"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar",
         "y": 270
+      },
+      "when": {
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "tl": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl_dull",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "tl": "dull"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "tr": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr_dull",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "tr": "dull"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "middle": "dull"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle_dull",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "middle": "dull"
       }
     },
     {
-      "when": {
-        "bl": "dull",
-        "facing": "west"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl_dull",
         "y": 270
+      },
+      "when": {
+        "bl": "dull",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "br": "dull",
-        "facing": "west"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br_dull",
         "y": 270
+      },
+      "when": {
+        "br": "dull",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "tl": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tl",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "tl": "normal"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "tr": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_tr",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "tr": "normal"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "middle": "normal"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_middle",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "middle": "normal"
       }
     },
     {
-      "when": {
-        "bl": "normal",
-        "facing": "west"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_bl",
         "y": 270
+      },
+      "when": {
+        "bl": "normal",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "br": "normal",
-        "facing": "west"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_br",
         "y": 270
+      },
+      "when": {
+        "br": "normal",
+        "facing": "west"
       }
     },
     {
-      "when": {
-        "facing": "west",
-        "key": "true"
-      },
       "apply": {
         "model": "lcc:block/sapphire_altar_key",
         "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "key": "true"
       }
     }
   ]

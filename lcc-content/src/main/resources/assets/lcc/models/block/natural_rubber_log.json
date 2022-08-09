@@ -1,7 +1,7 @@
 {
   "parent": "lcc:block/template_face_up_down",
   "textures": {
-    "texture": "lcc:block/rubber_log_top",
-    "particle": "lcc:block/rubber_log"
+    "particle": "lcc:block/rubber_log",
+    "texture": "lcc:block/rubber_log_top"
   }
 }

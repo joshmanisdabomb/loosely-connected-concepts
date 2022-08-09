@@ -29,8 +29,6 @@ class DepositBlock(settings: Settings) : Block(settings) {
 
     override fun getPistonBehavior(state: BlockState) = PistonBehavior.DESTROY
 
-    override fun getOffsetType() = OffsetType.XZ
-
     companion object {
         val shape = createCuboidShape(2.0, 0.0, 2.0, 14.0, 9.0, 14.0)
         val collider = createCuboidShape(4.0, 0.0, 4.0, 12.0, 3.0, 12.0)

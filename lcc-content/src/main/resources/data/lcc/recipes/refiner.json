@@ -1,30 +1,30 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "rcr",
-    "smb",
-    "rpr"
-  ],
   "key": {
-    "m": {
-      "item": "lcc:machine_enclosure"
+    "b": {
+      "item": "minecraft:blast_furnace"
     },
     "c": {
       "item": "minecraft:crafting_table"
     },
-    "s": {
-      "item": "minecraft:smoker"
-    },
-    "b": {
-      "item": "minecraft:blast_furnace"
+    "m": {
+      "item": "lcc:machine_enclosure"
     },
     "p": {
       "item": "minecraft:piston"
     },
     "r": {
       "item": "minecraft:redstone"
+    },
+    "s": {
+      "item": "minecraft:smoker"
     }
   },
+  "pattern": [
+    "rcr",
+    "smb",
+    "rpr"
+  ],
   "result": {
     "item": "lcc:refiner"
   }

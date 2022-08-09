@@ -2,10 +2,10 @@
   "parent": "block/cube",
   "textures": {
     "down": "#end",
-    "up": "#end",
-    "north": "#side",
     "east": "#side",
+    "north": "#side",
     "south": "#side",
+    "up": "#end",
     "west": "#side"
   }
 }

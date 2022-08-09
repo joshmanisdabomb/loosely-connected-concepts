@@ -1,9 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "h",
-    "s"
-  ],
   "key": {
     "h": {
       "item": "lcc:red_heart_half"
@@ -12,6 +8,10 @@
       "item": "lcc:spikes"
     }
   },
+  "pattern": [
+    "h",
+    "s"
+  ],
   "result": {
     "item": "lcc:bleeding_spikes"
   }

@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.gui.overlay
 
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.component.RadiationComponent
-import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
 import com.joshmanisdabomb.lcc.item.RadiationDetectorItem
@@ -149,7 +149,7 @@ object RadiationOverlay : DrawableHelper() {
         }
         if (player.activeItem.item is RadiationDetectorItem) {
             if (detected > 0) {
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance(LCCSounds.radiation_detector_click.id, SoundCategory.BLOCKS, 1f, entity.world.random.nextFloat().times(0.2f).plus(0.8f), false, 0, SoundInstance.AttenuationType.NONE, entity.x, entity.y, entity.z, false))
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance(LCCSounds.radiation_detector_click.id, SoundCategory.BLOCKS, 1f, entity.world.random.nextFloat().times(0.2f).plus(0.8f), entity.random, false, 0, SoundInstance.AttenuationType.NONE, entity.x, entity.y, entity.z, false))
                 detected--
             }
 

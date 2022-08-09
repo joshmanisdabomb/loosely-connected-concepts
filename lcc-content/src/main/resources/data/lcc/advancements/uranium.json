@@ -1,30 +1,30 @@
 {
   "parent": "lcc:refiner",
-  "display": {
-    "icon": {
-      "item": "lcc:enriched_uranium"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.uranium.title"
-    },
-    "description": {
-      "translate": "advancements.lcc.main.uranium.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "has_enriched_uranium": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "tag": "lcc:enriched_uranium"
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.lcc.main.uranium.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:enriched_uranium"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.lcc.main.uranium.title"
     }
   },
   "requirements": [

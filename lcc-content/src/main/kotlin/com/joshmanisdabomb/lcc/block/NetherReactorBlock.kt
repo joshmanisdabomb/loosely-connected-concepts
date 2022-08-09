@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
@@ -37,15 +37,15 @@ class NetherReactorBlock(settings: Settings) : BlockWithEntity(settings) {
         if (state[reactor_state] === NetherReactorState.READY) {
             if (!world.isClient) {
                 if (pos.y < world.bottomY + 4 || pos.y >= world.topY - 35) {
-                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.y", world.bottomY + 4, world.topY - 35), true)
+                    player.sendMessage(Text.translatable("block.lcc.nether_reactor.y", world.bottomY + 4, world.topY - 35), true)
                 } else if (!this.checkStructure(world, pos)) {
-                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.incorrect"), true)
+                    player.sendMessage(Text.translatable("block.lcc.nether_reactor.incorrect"), true)
                 } else if (player.isSurvival && !this.checkForPlayers(world, pos)) {
-                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.players"), true)
+                    player.sendMessage(Text.translatable("block.lcc.nether_reactor.players"), true)
                 } else {
                     (world.getBlockEntity(pos) as? NetherReactorBlockEntity)?.activate()
                     world.setBlockState(pos, state.with(reactor_state, NetherReactorState.ACTIVE), 3)
-                    player.sendMessage(TranslatableText("block.lcc.nether_reactor.active"), true)
+                    player.sendMessage(Text.translatable("block.lcc.nether_reactor.active"), true)
                 }
             }
             return ActionResult.SUCCESS

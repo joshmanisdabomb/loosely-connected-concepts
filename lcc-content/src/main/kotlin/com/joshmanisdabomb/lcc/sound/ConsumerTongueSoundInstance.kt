@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.sound.MovingSoundInstance
 import net.minecraft.sound.SoundCategory
 
-class ConsumerTongueSoundInstance(val entity: ConsumerTongueEntity) : MovingSoundInstance(LCCSounds.consumer_tongue_loop, SoundCategory.HOSTILE) {
+class ConsumerTongueSoundInstance(val entity: ConsumerTongueEntity) : MovingSoundInstance(LCCSounds.consumer_tongue_loop, SoundCategory.HOSTILE, entity.world.random) {
 
     var valid = true
 
@@ -36,6 +36,6 @@ class ConsumerTongueSoundInstance(val entity: ConsumerTongueEntity) : MovingSoun
 
     override fun shouldAlwaysPlay() = true
 
-    override fun canPlay() = valid && !entity.isRemoved
+    override fun canPlay() = valid && !entity.isRemoved && !entity.isSilent
 
 }

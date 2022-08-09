@@ -1,16 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "iei",
-    "ltl",
-    "iei"
-  ],
   "key": {
-    "i": {
-      "item": "lcc:iron_oxide"
-    },
     "e": {
       "item": "lcc:explosive_paste"
+    },
+    "i": {
+      "item": "lcc:iron_oxide"
     },
     "l": {
       "item": "minecraft:redstone_lamp"
@@ -19,6 +14,11 @@
       "item": "minecraft:tnt"
     }
   },
+  "pattern": [
+    "iei",
+    "ltl",
+    "iei"
+  ],
   "result": {
     "item": "lcc:improvised_explosive"
   }

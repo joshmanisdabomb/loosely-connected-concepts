@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity.render
 
 import net.minecraft.block.BlockState
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.client.render.entity.TntEntityRenderer
@@ -26,7 +27,7 @@ class StateBasedTNTEntityRenderer(val state: BlockState, dispatcher: EntityRende
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0f))
         matrixStack.translate(-0.5, -0.5, 0.5)
         matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f))
-        TntMinecartEntityRenderer.renderFlashingBlock(state, matrixStack, vertexConsumerProvider, light, entity.fuse / 5 % 2 == 0)
+        TntMinecartEntityRenderer.renderFlashingBlock(MinecraftClient.getInstance().blockRenderManager, state, matrixStack, vertexConsumerProvider, light, entity.fuse / 5 % 2 == 0)
         matrixStack.pop()
         if (hasLabel(entity)) {
             renderLabelIfPresent(entity, entity.displayName, matrixStack, vertexConsumerProvider, light)

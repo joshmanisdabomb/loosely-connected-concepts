@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -14,10 +13,10 @@
           ],
           "name": "lcc:treetap"
         }
-      ]
+      ],
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -29,7 +28,8 @@
           ],
           "name": "minecraft:bowl"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

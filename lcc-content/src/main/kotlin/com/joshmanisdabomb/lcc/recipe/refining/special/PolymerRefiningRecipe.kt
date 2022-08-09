@@ -16,12 +16,10 @@ import net.minecraft.item.DyeItem
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import java.util.*
 
 class PolymerRefiningRecipe(_id: Identifier) : RefiningSpecialRecipe(_id) {
-
-    private val rand = Random()
 
     override val blocks = Companion.blocks
     override val lang = Companion.lang

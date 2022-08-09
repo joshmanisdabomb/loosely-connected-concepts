@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,7 +40,7 @@ public abstract class ContainedPlayerMixin extends LivingEntity {
             Item item = piece.getItem();
             if (item instanceof ContainedArmor) {
                 if (((ContainedArmor)item).blockEating((PlayerEntity)(Object)this, piece, pieces)) {
-                    ((PlayerEntity)(Object)this).sendMessage(new TranslatableText(TooltipConstants.contained_armor_consume), true);
+                    ((PlayerEntity)(Object)this).sendMessage(Text.translatable(TooltipConstants.contained_armor_consume), true);
                     info.setReturnValue(false);
                     info.cancel();
                 }

@@ -2,6 +2,12 @@
   "parent": "block/block",
   "elements": [
     {
+      "faces": {
+        "east": {
+          "cullface": "east",
+          "texture": "#texture"
+        }
+      },
       "from": [
         0,
         0,
@@ -11,13 +17,7 @@
         16,
         16,
         16
-      ],
-      "faces": {
-        "east": {
-          "texture": "#texture",
-          "cullface": "east"
-        }
-      }
+      ]
     }
   ]
 }

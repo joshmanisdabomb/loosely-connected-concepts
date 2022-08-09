@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ii",
-    " s",
-    " s"
-  ],
   "key": {
     "i": {
       "item": "lcc:ruby"
@@ -13,6 +8,11 @@
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "ii",
+    " s",
+    " s"
+  ],
   "result": {
     "item": "lcc:ruby_hoe"
   }

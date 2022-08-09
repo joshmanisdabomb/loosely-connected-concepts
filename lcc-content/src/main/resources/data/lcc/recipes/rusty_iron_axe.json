@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ii",
-    "is",
-    " s"
-  ],
   "key": {
     "i": {
       "item": "lcc:iron_oxide"
@@ -13,6 +8,11 @@
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "ii",
+    "is",
+    " s"
+  ],
   "result": {
     "item": "lcc:rusty_iron_axe"
   }

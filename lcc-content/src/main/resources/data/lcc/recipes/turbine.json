@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " t ",
-    "ici"
-  ],
   "key": {
-    "t": {
-      "item": "lcc:turbine_blades"
+    "c": {
+      "item": "minecraft:copper_ingot"
     },
     "i": {
       "item": "minecraft:iron_ingot"
     },
-    "c": {
-      "item": "minecraft:copper_ingot"
+    "t": {
+      "item": "lcc:turbine_blades"
     }
   },
+  "pattern": [
+    " t ",
+    "ici"
+  ],
   "result": {
     "item": "lcc:turbine"
   }

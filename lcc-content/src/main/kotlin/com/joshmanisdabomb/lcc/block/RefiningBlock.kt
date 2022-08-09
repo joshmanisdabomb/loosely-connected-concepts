@@ -21,7 +21,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -37,7 +37,7 @@ abstract class RefiningBlock(settings: Settings) : BlockWithEntity(settings) {
 
     abstract val maxEnergy: Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
+    open val defaultDisplayName by lazy { Text.translatable("container.lcc.${LCCBlocks[this].name}") }
 
     open val inputWidth = 3
     open val inputHeight = 2

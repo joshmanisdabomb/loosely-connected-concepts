@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.screen.ForgingScreenHandler
 import net.minecraft.screen.ScreenHandlerContext
 import net.minecraft.screen.slot.Slot
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class ImbuingScreenHandler(syncId: Int, playerInventory: PlayerInventory, context: ScreenHandlerContext) : ForgingScreenHandler(LCCScreenHandlers.imbuing, syncId, playerInventory, context) {
 
@@ -48,7 +48,7 @@ class ImbuingScreenHandler(syncId: Int, playerInventory: PlayerInventory, contex
     override fun canInsertIntoSlot(slot: Slot) = slot.inventory != output && super.canInsertIntoSlot(slot)
 
     companion object {
-        val title = TranslatableText("container.lcc.imbuing")
+        val title = Text.translatable("container.lcc.imbuing")
     }
 
 }

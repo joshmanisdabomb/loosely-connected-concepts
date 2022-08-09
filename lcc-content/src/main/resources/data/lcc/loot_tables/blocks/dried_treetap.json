@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -14,11 +13,20 @@
           ],
           "name": "lcc:treetap"
         }
-      ]
+      ],
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "lcc:dried_treetap",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "container": "bowl"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -30,19 +38,19 @@
           "name": "minecraft:bowl"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "lcc:dried_treetap",
-          "properties": {
-            "container": "bowl"
-          }
-        }
-      ]
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "lcc:dried_treetap",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "container": "bucket"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -54,19 +62,19 @@
           "name": "minecraft:bucket"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "lcc:dried_treetap",
-          "properties": {
-            "container": "bucket"
-          }
-        }
-      ]
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "lcc:dried_treetap",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "liquid": "latex"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -78,19 +86,19 @@
           "name": "lcc:flexible_rubber"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "lcc:dried_treetap",
-          "properties": {
-            "liquid": "latex"
-          }
-        }
-      ]
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "lcc:dried_treetap",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "liquid": "vivid_sap"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -102,15 +110,7 @@
           "name": "minecraft:air"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "lcc:dried_treetap",
-          "properties": {
-            "liquid": "vivid_sap"
-          }
-        }
-      ]
+      "rolls": 1.0
     }
   ]
 }

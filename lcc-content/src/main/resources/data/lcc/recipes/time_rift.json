@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "cdc",
-    "dsd",
-    "cdc"
-  ],
   "key": {
     "c": {
       "item": "minecraft:clock"
@@ -16,6 +11,11 @@
       "item": "lcc:simulation_fabric"
     }
   },
+  "pattern": [
+    "cdc",
+    "dsd",
+    "cdc"
+  ],
   "result": {
     "item": "lcc:time_rift"
   }

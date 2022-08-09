@@ -226,7 +226,7 @@ object KnowledgeContentExtensions {
                     addFormatText("%s are %s, allowing them to break blocks that require a Wasteland shovel, such as %s, faster.",
                         { addPluralisedText(item) },
                         { addLink(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")), "Wasteland Effective") },
-                        { addLink(LCCBlocks.mud) }
+                        { addPluralisedLink(LCCBlocks.deposit) }
                     )
                 }
             )

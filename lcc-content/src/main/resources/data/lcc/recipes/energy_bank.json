@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "lcc:redstone_battery"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "m": {
+      "item": "lcc:machine_enclosure"
+    }
+  },
   "pattern": [
     "bib",
     "bmb",
     "bib"
   ],
-  "key": {
-    "m": {
-      "item": "lcc:machine_enclosure"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "b": {
-      "item": "lcc:redstone_battery"
-    }
-  },
   "result": {
     "item": "lcc:energy_bank"
   }

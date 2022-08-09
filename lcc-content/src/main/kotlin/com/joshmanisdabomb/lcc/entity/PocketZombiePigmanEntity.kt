@@ -22,6 +22,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.LocalDifficulty
@@ -48,7 +49,7 @@ class PocketZombiePigmanEntity(entityType: EntityType<out PocketZombiePigmanEnti
         targetSelector.add(2, ActiveTargetGoal(this, PlayerEntity::class.java, true))
     }
 
-    override fun initEquipment(difficulty: LocalDifficulty) {
+    override fun initEquipment(random: Random, localDifficulty: LocalDifficulty) {
         this.equipStack(EquipmentSlot.MAINHAND, ItemStack(Items.GOLDEN_SWORD))
     }
 

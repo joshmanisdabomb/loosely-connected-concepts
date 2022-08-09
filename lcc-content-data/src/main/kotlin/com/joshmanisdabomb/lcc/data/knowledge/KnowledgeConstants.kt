@@ -1,56 +1,61 @@
 package com.joshmanisdabomb.lcc.data.knowledge
 
 import com.joshmanisdabomb.lcc.data.batches.LangBatch
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableTextContent
 
 object KnowledgeConstants {
 
     val me = "joshmanisdabomb"
 
-    val introduction = TranslatableText("knowledge.lcc.meta.section.introduction")
-    val usage = TranslatableText("knowledge.lcc.meta.section.usage")
-    val changelog = TranslatableText("knowledge.lcc.meta.section.changelog")
-    val versionChangelog = TranslatableText("knowledge.lcc.meta.section.version_changelog")
-    val recipes = TranslatableText("knowledge.lcc.meta.section.recipes")
-    val usages = TranslatableText("knowledge.lcc.meta.section.usages")
-    val despawning = TranslatableText("knowledge.lcc.meta.section.despawning")
-    val repairing = TranslatableText("knowledge.lcc.meta.section.repairing")
-    val coloring = TranslatableText("knowledge.lcc.meta.section.coloring")
-    val combat = TranslatableText("knowledge.lcc.meta.section.combat")
-    val mining = TranslatableText("knowledge.lcc.meta.section.mining")
-    val obtaining = TranslatableText("knowledge.lcc.meta.section.obtaining")
+    val introduction = Text.translatable("knowledge.lcc.meta.section.introduction")
+    val usage = Text.translatable("knowledge.lcc.meta.section.usage")
+    val changelog = Text.translatable("knowledge.lcc.meta.section.changelog")
+    val versionChangelog = Text.translatable("knowledge.lcc.meta.section.version_changelog")
+    val recipes = Text.translatable("knowledge.lcc.meta.section.recipes")
+    val usages = Text.translatable("knowledge.lcc.meta.section.usages")
+    val despawning = Text.translatable("knowledge.lcc.meta.section.despawning")
+    val repairing = Text.translatable("knowledge.lcc.meta.section.repairing")
+    val coloring = Text.translatable("knowledge.lcc.meta.section.coloring")
+    val combat = Text.translatable("knowledge.lcc.meta.section.combat")
+    val mining = Text.translatable("knowledge.lcc.meta.section.mining")
+    val obtaining = Text.translatable("knowledge.lcc.meta.section.obtaining")
 
-    val information = TranslatableText("knowledge.lcc.meta.section.info")
-    val image = TranslatableText("knowledge.lcc.meta.section.info.image")
-    val stackSize = TranslatableText("knowledge.lcc.meta.section.info.stack_size")
-    val durability = TranslatableText("knowledge.lcc.meta.section.info.durability")
-    val miningSpeed = TranslatableText("knowledge.lcc.meta.section.info.mining_speed")
-    val miningLevel = TranslatableText("knowledge.lcc.meta.section.info.mining_level")
-    val enchantability = TranslatableText("knowledge.lcc.meta.section.info.enchantability")
-    val attackDamage = TranslatableText("knowledge.lcc.meta.section.info.attack_damage")
-    val attackSpeed = TranslatableText("knowledge.lcc.meta.section.info.attack_speed")
-    val renewable = TranslatableText("knowledge.lcc.meta.section.info.renewable")
-    val rarity = TranslatableText("knowledge.lcc.meta.section.info.rarity")
-    val hardness = TranslatableText("knowledge.lcc.meta.section.info.hardness")
-    val blastResistance = TranslatableText("knowledge.lcc.meta.section.info.blast_resistance")
-    val luminance = TranslatableText("knowledge.lcc.meta.section.info.luminance")
-    val friction = TranslatableText("knowledge.lcc.meta.section.info.friction")
-    val flammability = TranslatableText("knowledge.lcc.meta.section.info.flammability")
-    val randomTicks = TranslatableText("knowledge.lcc.meta.section.info.random_ticks")
-    val mapColors = TranslatableText("knowledge.lcc.meta.section.info.map_colors")
-    val recommendedTool = TranslatableText("knowledge.lcc.meta.section.info.recommended_tool")
-    val requiredTool = TranslatableText("knowledge.lcc.meta.section.info.required_tool")
-    val anyTool = TranslatableText("knowledge.lcc.meta.section.info.any_tool")
-    val notFlammable = TranslatableText("knowledge.lcc.meta.section.info.not_flammable")
+    val information = Text.translatable("knowledge.lcc.meta.section.info")
+    val image = Text.translatable("knowledge.lcc.meta.section.info.image")
+    val stackSize = Text.translatable("knowledge.lcc.meta.section.info.stack_size")
+    val durability = Text.translatable("knowledge.lcc.meta.section.info.durability")
+    val miningSpeed = Text.translatable("knowledge.lcc.meta.section.info.mining_speed")
+    val miningLevel = Text.translatable("knowledge.lcc.meta.section.info.mining_level")
+    val enchantability = Text.translatable("knowledge.lcc.meta.section.info.enchantability")
+    val attackDamage = Text.translatable("knowledge.lcc.meta.section.info.attack_damage")
+    val attackSpeed = Text.translatable("knowledge.lcc.meta.section.info.attack_speed")
+    val renewable = Text.translatable("knowledge.lcc.meta.section.info.renewable")
+    val rarity = Text.translatable("knowledge.lcc.meta.section.info.rarity")
+    val hardness = Text.translatable("knowledge.lcc.meta.section.info.hardness")
+    val blastResistance = Text.translatable("knowledge.lcc.meta.section.info.blast_resistance")
+    val luminance = Text.translatable("knowledge.lcc.meta.section.info.luminance")
+    val friction = Text.translatable("knowledge.lcc.meta.section.info.friction")
+    val flammability = Text.translatable("knowledge.lcc.meta.section.info.flammability")
+    val randomTicks = Text.translatable("knowledge.lcc.meta.section.info.random_ticks")
+    val mapColors = Text.translatable("knowledge.lcc.meta.section.info.map_colors")
+    val recommendedTool = Text.translatable("knowledge.lcc.meta.section.info.recommended_tool")
+    val requiredTool = Text.translatable("knowledge.lcc.meta.section.info.required_tool")
+    val anyTool = Text.translatable("knowledge.lcc.meta.section.info.any_tool")
+    val notFlammable = Text.translatable("knowledge.lcc.meta.section.info.not_flammable")
 
-    val introduced = TranslatableText("knowledge.lcc.meta.text.introduced")
-    val reintroduced = TranslatableText("knowledge.lcc.meta.text.reintroduced")
+    val introduced = Text.translatable("knowledge.lcc.meta.text.introduced")
+    val reintroduced = Text.translatable("knowledge.lcc.meta.text.reintroduced")
 
-    val color = TranslatableText("knowledge.lcc.meta.text.color")
-    val colors = TranslatableText("knowledge.lcc.meta.text.colors")
-    val armor = TranslatableText("knowledge.lcc.meta.text.armor")
-    val colorCode = TranslatableText("knowledge.lcc.meta.text.color_code")
-    val colored = TranslatableText("knowledge.lcc.meta.text.colored")
+    val color = Text.translatable("knowledge.lcc.meta.text.color")
+    val colors = Text.translatable("knowledge.lcc.meta.text.colors")
+    val armor = Text.translatable("knowledge.lcc.meta.text.armor")
+    val colorCode = Text.translatable("knowledge.lcc.meta.text.color_code")
+    val colored = Text.translatable("knowledge.lcc.meta.text.colored")
+
+    val mud = Text.translatable("block.aimagg.mud")
+
+    private val Text.key get() = (this.content as TranslatableTextContent).key
 
     fun injectTranslations(batch: LangBatch) {
         batch[introduction.key] = "Introduction"
@@ -101,6 +106,7 @@ object KnowledgeConstants {
         batch["en_gb", colorCode.key] = "Colour Code"
         batch[colored.key] = "colored"
         batch["en_gb", colored.key] = "coloured"
+        batch[mud.key] = "Mud"
     }
 
 }

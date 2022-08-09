@@ -16,10 +16,10 @@ import net.minecraft.state.property.Properties.AGE_7
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import java.util.*
 import net.minecraft.fluid.FlowableFluid.LEVEL as FLUID_LEVEL
 
 class AsphaltBlock(fluid: FlowableFluid, settings: Settings) : FluidBlock(fluid, settings), LCCBlockTrait {

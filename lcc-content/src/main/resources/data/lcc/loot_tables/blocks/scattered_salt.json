@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -25,8 +24,8 @@
                   }
                 },
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "lcc:scattered_salt",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "level": "1"
                   }
@@ -37,9 +36,9 @@
               ],
               "functions": [
                 {
-                  "function": "minecraft:set_count",
+                  "add": false,
                   "count": 1.0,
-                  "add": false
+                  "function": "minecraft:set_count"
                 }
               ],
               "name": "lcc:scattered_salt"
@@ -61,8 +60,8 @@
                   }
                 },
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "lcc:scattered_salt",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "level": "2"
                   }
@@ -73,9 +72,9 @@
               ],
               "functions": [
                 {
-                  "function": "minecraft:set_count",
+                  "add": false,
                   "count": 2.0,
-                  "add": false
+                  "function": "minecraft:set_count"
                 }
               ],
               "name": "lcc:scattered_salt"
@@ -97,8 +96,8 @@
                   }
                 },
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "lcc:scattered_salt",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "level": "3"
                   }
@@ -109,16 +108,17 @@
               ],
               "functions": [
                 {
-                  "function": "minecraft:set_count",
+                  "add": false,
                   "count": 3.0,
-                  "add": false
+                  "function": "minecraft:set_count"
                 }
               ],
               "name": "lcc:scattered_salt"
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

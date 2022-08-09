@@ -7,8 +7,8 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.structure.rule.RuleTest
 import net.minecraft.tag.TagKey
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
-import java.util.*
 
 class MultipleMatchRuleTest(private val blocks: List<Block>, private val states: List<BlockState>, private val tags: List<TagKey<Block>>) : RuleTest() {
 
@@ -21,7 +21,7 @@ class MultipleMatchRuleTest(private val blocks: List<Block>, private val states:
             it.group(
                 Registry.BLOCK.codec.listOf().fieldOf("blocks").forGetter { it.blocks },
                 Codec.list(BlockState.CODEC).fieldOf("states").forGetter { it.states },
-                Codec.list(TagKey.identifierCodec(Registry.BLOCK_KEY)).fieldOf("tags").forGetter { it.tags }
+                Codec.list(TagKey.codec(Registry.BLOCK_KEY)).fieldOf("tags").forGetter { it.tags }
             ).apply(it) { b, s, t -> MultipleMatchRuleTest(b, s, t) }
         }
     }

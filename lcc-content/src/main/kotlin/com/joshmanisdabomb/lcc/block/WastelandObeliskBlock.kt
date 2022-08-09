@@ -21,7 +21,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.BOTTOM
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.InvalidIdentifierException
@@ -70,7 +70,7 @@ class WastelandObeliskBlock(settings: Settings) : BlockWithEntity(settings) {
             if (!world.isClient) {
                 val cooldown = (world.getBlockEntity(pos.down(state[BOTTOM].transformInt(0, 1))) as? WastelandObeliskBlockEntity)?.activate(world as ServerWorld)
                 if (cooldown != null) {
-                    player.sendMessage(TranslatableText(LCCBlocks.wasteland_obelisk.translationKey.plus(".cooldown"), cooldown.div(20)), true)
+                    player.sendMessage(Text.translatable(LCCBlocks.wasteland_obelisk.translationKey.plus(".cooldown"), cooldown.div(20)), true)
                 }
             }
             return ActionResult.SUCCESS

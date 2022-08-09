@@ -10,7 +10,7 @@ import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.client.sound.TickableSoundInstance
 import net.minecraft.sound.SoundCategory
 
-class ImprovisedExplosiveSoundInstance(val entity: ImprovisedExplosiveBlockEntity, val constant: Boolean = false) : PositionedSoundInstance(constant.transform(LCCSounds.improvised_explosive_constant, LCCSounds.improvised_explosive_beep), SoundCategory.BLOCKS, 2f, 1f, entity.pos), TickableSoundInstance {
+class ImprovisedExplosiveSoundInstance(val entity: ImprovisedExplosiveBlockEntity, val constant: Boolean = false) : PositionedSoundInstance(constant.transform(LCCSounds.improvised_explosive_constant, LCCSounds.improvised_explosive_beep), SoundCategory.BLOCKS, 2f, 1f, entity.world?.random, entity.pos), TickableSoundInstance {
 
     var valid = true
 

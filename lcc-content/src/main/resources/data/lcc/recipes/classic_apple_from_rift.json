@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:apple"
   },
-  "result": "lcc:classic_apple",
-  "count": 1
+  "result": "lcc:classic_apple"
 }

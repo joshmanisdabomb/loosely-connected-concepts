@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "wooden_trapdoor",
-  "pattern": [
-    "www",
-    "www"
-  ],
   "key": {
     "w": {
       "item": "lcc:deadwood_planks"
     }
   },
+  "pattern": [
+    "www",
+    "www"
+  ],
   "result": {
-    "item": "lcc:deadwood_trapdoor",
-    "count": 2
+    "count": 2,
+    "item": "lcc:deadwood_trapdoor"
   }
 }

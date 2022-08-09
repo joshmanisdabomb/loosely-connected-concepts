@@ -1,35 +1,7 @@
 {
   "parent": "lcc:main_root",
-  "display": {
-    "icon": {
-      "item": "lcc:flexible_rubber"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.rubber.title"
-    },
-    "description": {
-      "translate": "advancements.lcc.main.rubber.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
-    "latex_bottle": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "lcc:latex_bottle"
-            ]
-          }
-        ]
-      }
-    },
     "flexible_rubber": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -38,7 +10,35 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "latex_bottle": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:latex_bottle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.lcc.main.rubber.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:flexible_rubber"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.lcc.main.rubber.title"
     }
   },
   "requirements": [

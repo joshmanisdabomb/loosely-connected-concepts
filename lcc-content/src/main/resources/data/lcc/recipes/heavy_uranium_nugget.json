@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "lcc:heavy_uranium_nugget",
-    "count": 9
+    "count": 9,
+    "item": "lcc:heavy_uranium_nugget"
   }
 }

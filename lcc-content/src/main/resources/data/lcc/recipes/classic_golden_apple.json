@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "a": {
+      "item": "lcc:classic_apple"
+    },
+    "g": {
+      "tag": "lcc:gold_blocks"
+    }
+  },
   "pattern": [
     "ggg",
     "gag",
     "ggg"
   ],
-  "key": {
-    "g": {
-      "tag": "lcc:gold_blocks"
-    },
-    "a": {
-      "item": "lcc:classic_apple"
-    }
-  },
   "result": {
     "item": "lcc:classic_golden_apple"
   }

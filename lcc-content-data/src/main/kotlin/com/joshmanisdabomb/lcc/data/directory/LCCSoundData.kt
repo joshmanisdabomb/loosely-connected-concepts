@@ -137,6 +137,10 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/step${it+1}")
     }, "subtitles.block.generic.footsteps") }
 
+    val wasp_loop by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.loop", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/loop${it+1}")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

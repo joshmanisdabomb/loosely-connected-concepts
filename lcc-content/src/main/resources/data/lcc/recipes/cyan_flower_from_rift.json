@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:blue_orchid"
   },
-  "result": "lcc:cyan_flower",
-  "count": 1
+  "result": "lcc:cyan_flower"
 }

@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.block.entity.*
 import com.joshmanisdabomb.lcc.block.entity.render.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -51,15 +51,15 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
-        BlockEntityRendererRegistry.INSTANCE.register(bounce_pad, ::BouncePadBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(bounce_pad, ::BouncePadBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(BouncePadBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(time_rift, ::TimeRiftBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(time_rift, ::TimeRiftBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TimeRiftBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(nuclear_generator, ::NuclearFiredGeneratorBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(nuclear_generator, ::NuclearFiredGeneratorBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(NuclearFiredGeneratorBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(alarm, ::AlarmBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(alarm, ::AlarmBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(AlarmBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(enhancing_chamber, ::EnhancingChamberBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(enhancing_chamber, ::EnhancingChamberBlockEntityRenderer)
     }
 
 }

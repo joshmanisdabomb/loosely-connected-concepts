@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.world.biome.Biome
 
@@ -48,12 +47,12 @@ class KnowledgeArticleParagraphFragmentBuilder() : KnowledgeArticleFragmentBuild
         return this
     }
 
-    fun addPluralisedText(block: Block) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${block.translationKey}")))
-    fun addPluralisedText(item: Item) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${item.translationKey}")))
-    fun addPluralisedText(entity: EntityType<*>) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${entity.translationKey}")))
-    fun addPluralisedText(enchantment: Enchantment) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${enchantment.translationKey}")))
-    fun addPluralisedText(effect: StatusEffect) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${effect.translationKey}")))
-    fun addPluralisedText(biome: Biome) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}")))
+    fun addPluralisedText(block: Block) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${block.translationKey}")))
+    fun addPluralisedText(item: Item) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${item.translationKey}")))
+    fun addPluralisedText(entity: EntityType<*>) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${entity.translationKey}")))
+    fun addPluralisedText(enchantment: Enchantment) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${enchantment.translationKey}")))
+    fun addPluralisedText(effect: StatusEffect) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${effect.translationKey}")))
+    fun addPluralisedText(biome: Biome) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}")))
 
     fun addLink(to: KnowledgeArticleIdentifier, content: Text) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(to).addFragment(KnowledgeArticleTextFragmentBuilder(content)))
     fun addLink(to: KnowledgeArticleIdentifier, content: String, locale: String = "en_us") : KnowledgeArticleParagraphFragmentBuilder = addLink(to, locale to content)
@@ -65,12 +64,12 @@ class KnowledgeArticleParagraphFragmentBuilder() : KnowledgeArticleFragmentBuild
     fun addLink(effect: StatusEffect) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEffect(effect)).addFragment(KnowledgeArticleTextFragmentBuilder(effect)))
     fun addLink(biome: Biome) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBiome(biome)).addFragment(KnowledgeArticleTextFragmentBuilder(biome)))
 
-    fun addPluralisedLink(block: Block) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBlock(block)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${block.translationKey}"))))
-    fun addPluralisedLink(item: Item) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofItem(item)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${item.translationKey}"))))
-    fun addPluralisedLink(entity: EntityType<*>) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEntity(entity)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${entity.translationKey}"))))
-    fun addPluralisedLink(enchantment: Enchantment) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEnchant(enchantment)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${enchantment.translationKey}"))))
-    fun addPluralisedLink(effect: StatusEffect) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEffect(effect)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.${effect.translationKey}"))))
-    fun addPluralisedLink(biome: Biome) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBiome(biome)).addFragment(KnowledgeArticleTextFragmentBuilder(TranslatableText("knowledge.lcc.meta.plural.biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}"))))
+    fun addPluralisedLink(block: Block) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBlock(block)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${block.translationKey}"))))
+    fun addPluralisedLink(item: Item) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofItem(item)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${item.translationKey}"))))
+    fun addPluralisedLink(entity: EntityType<*>) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEntity(entity)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${entity.translationKey}"))))
+    fun addPluralisedLink(enchantment: Enchantment) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEnchant(enchantment)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${enchantment.translationKey}"))))
+    fun addPluralisedLink(effect: StatusEffect) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofEffect(effect)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.${effect.translationKey}"))))
+    fun addPluralisedLink(biome: Biome) : KnowledgeArticleParagraphFragmentBuilder = addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBiome(biome)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("knowledge.lcc.meta.plural.biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}"))))
 
     override fun getTranslationKeyAppend(fragment: KnowledgeArticleFragmentBuilder) = list.indexOf(fragment).toString()
 

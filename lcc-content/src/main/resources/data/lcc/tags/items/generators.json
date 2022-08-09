@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "lcc:coal_generator",
     "lcc:oil_generator"

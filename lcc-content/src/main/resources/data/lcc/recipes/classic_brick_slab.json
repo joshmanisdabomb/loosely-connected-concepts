@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "www"
-  ],
   "key": {
     "w": {
       "item": "lcc:classic_bricks"
     }
   },
+  "pattern": [
+    "www"
+  ],
   "result": {
-    "item": "lcc:classic_brick_slab",
-    "count": 6
+    "count": 6,
+    "item": "lcc:classic_brick_slab"
   }
 }

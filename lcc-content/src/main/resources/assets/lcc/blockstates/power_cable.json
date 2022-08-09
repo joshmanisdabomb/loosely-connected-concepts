@@ -6,65 +6,65 @@
       }
     },
     {
-      "when": {
-        "down": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true,
         "x": 180
+      },
+      "when": {
+        "down": "true"
       }
     },
     {
-      "when": {
-        "up": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true
+      },
+      "when": {
+        "up": "true"
       }
     },
     {
-      "when": {
-        "north": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true,
         "x": 90
+      },
+      "when": {
+        "north": "true"
       }
     },
     {
-      "when": {
-        "south": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true,
         "x": 90,
         "y": 180
+      },
+      "when": {
+        "south": "true"
       }
     },
     {
-      "when": {
-        "west": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true,
         "x": 90,
         "y": 270
+      },
+      "when": {
+        "west": "true"
       }
     },
     {
-      "when": {
-        "east": "true"
-      },
       "apply": {
         "model": "lcc:block/power_cable_connection",
         "uvlock": true,
         "x": 90,
         "y": 90
+      },
+      "when": {
+        "east": "true"
       }
     }
   ]

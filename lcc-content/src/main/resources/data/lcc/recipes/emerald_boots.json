@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "i i",
-    "i i"
-  ],
   "key": {
     "i": {
       "item": "minecraft:emerald"
     }
   },
+  "pattern": [
+    "i i",
+    "i i"
+  ],
   "result": {
     "item": "lcc:emerald_boots"
   }

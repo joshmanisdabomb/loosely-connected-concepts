@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "lcc:enriched_uranium",
-    "count": 4
+    "count": 4,
+    "item": "lcc:enriched_uranium"
   }
 }

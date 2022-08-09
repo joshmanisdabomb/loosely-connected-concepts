@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "tag": "minecraft:leaves"
   },
-  "result": "lcc:classic_leaves",
-  "count": 1
+  "result": "lcc:classic_leaves"
 }

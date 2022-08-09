@@ -1,23 +1,7 @@
 {
   "parent": "lcc:main_root",
-  "display": {
-    "icon": {
-      "item": "lcc:refiner"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.refiner.title"
-    },
-    "description": {
-      "translate": "advancements.lcc.main.refiner.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "refiner": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -26,7 +10,23 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.lcc.main.refiner.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:refiner"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.lcc.main.refiner.title"
     }
   },
   "requirements": [

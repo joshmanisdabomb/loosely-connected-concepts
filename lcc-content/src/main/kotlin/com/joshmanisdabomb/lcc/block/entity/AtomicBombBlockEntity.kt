@@ -20,7 +20,6 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
@@ -35,7 +34,7 @@ class AtomicBombBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCB
         buf.writeBlockPos(pos)
     }
 
-    override fun getDisplayName() = customName ?: TranslatableText("container.lcc.atomic_bomb")
+    override fun getDisplayName() = customName ?: Text.translatable("container.lcc.atomic_bomb")
 
     override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)

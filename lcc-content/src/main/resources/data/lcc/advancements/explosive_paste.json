@@ -1,24 +1,24 @@
 {
   "parent": "lcc:oil",
+  "criteria": {
+    "triggered_paste": {
+      "conditions": {},
+      "trigger": "lcc:explosive_paste"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:explosive_paste"
-    },
-    "title": {
-      "translate": "advancements.lcc.wasteland.explosive_paste.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.wasteland.explosive_paste.description"
     },
     "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:explosive_paste"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "triggered_paste": {
-      "trigger": "lcc:explosive_paste",
-      "conditions": {}
+    "title": {
+      "translate": "advancements.lcc.wasteland.explosive_paste.title"
     }
   },
   "requirements": [

@@ -2,7 +2,6 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
@@ -14,11 +13,20 @@
           ],
           "name": "lcc:treetap"
         }
-      ]
+      ],
+      "rolls": 1.0
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "lcc:treetap",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "type": "bowl"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -30,15 +38,7 @@
           "name": "minecraft:bowl"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "lcc:treetap",
-          "properties": {
-            "type": "bowl"
-          }
-        }
-      ]
+      "rolls": 1.0
     }
   ]
 }

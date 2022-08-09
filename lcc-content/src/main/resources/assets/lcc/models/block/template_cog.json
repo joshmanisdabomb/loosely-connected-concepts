@@ -1,45 +1,45 @@
 {
-  "credit": "Made with Blockbench",
   "parent": "minecraft:block/block",
   "ambientocclusion": false,
-  "textures": {
-    "front": "lcc:block/cog_cw",
-    "back": "lcc:block/cog_ccw",
-    "particle": "lcc:block/cog"
-  },
+  "credit": "Made with Blockbench",
   "elements": [
     {
+      "faces": {
+        "down": {
+          "texture": "#front",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#back",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
       "from": [
         -1,
         15.5,
         -1
       ],
+      "shade": false,
       "to": [
         17,
         15.5,
         17
-      ],
-      "shade": false,
-      "faces": {
-        "up": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#back"
-        },
-        "down": {
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ],
-          "texture": "#front"
-        }
-      }
+      ]
     }
-  ]
+  ],
+  "textures": {
+    "back": "lcc:block/cog_ccw",
+    "front": "lcc:block/cog_cw",
+    "particle": "lcc:block/cog"
+  }
 }

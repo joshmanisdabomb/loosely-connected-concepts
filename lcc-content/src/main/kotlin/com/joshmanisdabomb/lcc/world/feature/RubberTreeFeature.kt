@@ -79,7 +79,7 @@ class RubberTreeFeature(codec: Codec<TreeFeatureConfig>) : Feature<TreeFeatureCo
             for (k in -j..j) {
                 for (l in -j..j) {
                     mutable.set(pos, k, i, l)
-                    if (!TreeFeature.canTreeReplace(world, mutable) || !config.ignoreVines && world.testBlockState(mutable) { it.isOf(Blocks.VINE) }) {
+                    if (!TreeFeature.canReplace(world, mutable) || !config.ignoreVines && world.testBlockState(mutable) { it.isOf(Blocks.VINE) }) {
                         return i - 2
                     }
                 }

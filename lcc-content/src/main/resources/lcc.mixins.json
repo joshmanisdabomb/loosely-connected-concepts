@@ -25,7 +25,8 @@
     "AbstractBlockMixin",
     "MovementEntityMixin",
     "PlayerEntityMixin",
-    "EffectMobEntityMixin"
+    "EffectMobEntityMixin",
+    "PitSpawnHelperMixin"
   ],
   "injectors": {
     "defaultRequire": 1

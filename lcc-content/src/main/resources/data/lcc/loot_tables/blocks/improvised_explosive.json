@@ -2,25 +2,24 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:table_bonus",
-              "enchantment": "minecraft:fortune",
               "chances": [
                 0.3,
                 0.4,
                 0.5,
                 0.6
-              ]
+              ],
+              "condition": "minecraft:table_bonus",
+              "enchantment": "minecraft:fortune"
             },
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:improvised_explosive",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "salvage": "true"
               }
@@ -43,8 +42,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:improvised_explosive",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "salvage": "true"
               }
@@ -64,8 +63,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:improvised_explosive",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "salvage": "false"
               }
@@ -76,7 +75,8 @@
           ],
           "name": "lcc:improvised_explosive"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

@@ -15,7 +15,6 @@ import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.MathHelper
 import kotlin.math.cos
 
@@ -79,7 +78,7 @@ class AtomicBombScreen(handler: AtomicBombScreenHandler, inventory: PlayerInvent
         val texture = LCC.id("textures/gui/container/atomic_bomb.png")
     }
 
-    private inner class DetonateButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.atomic_bomb.detonate"), { matrices, x, y -> this@AtomicBombScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate"), Int.MAX_VALUE) + textRenderer.wrapLines(TranslatableText("gui.lcc.atomic_bomb.detonate.power", handler.inventory.uraniumCount), Int.MAX_VALUE), x, y) }, pressed) {
+    private inner class DetonateButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, Text.translatable("gui.lcc.atomic_bomb.detonate"), { matrices, x, y -> this@AtomicBombScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("gui.lcc.atomic_bomb.detonate"), Int.MAX_VALUE) + textRenderer.wrapLines(Text.translatable("gui.lcc.atomic_bomb.detonate.power", handler.inventory.uraniumCount), Int.MAX_VALUE), x, y) }, pressed) {
 
         init {
             texture = Companion.texture

@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "bark",
-  "pattern": [
-    "ww",
-    "ww"
-  ],
   "key": {
     "w": {
       "item": "lcc:rubber_log"
     }
   },
+  "pattern": [
+    "ww",
+    "ww"
+  ],
   "result": {
-    "item": "lcc:rubber_wood",
-    "count": 3
+    "count": 3,
+    "item": "lcc:rubber_wood"
   }
 }

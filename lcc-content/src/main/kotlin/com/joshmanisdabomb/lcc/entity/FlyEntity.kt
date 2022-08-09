@@ -154,7 +154,7 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
 
     override fun shouldDropXp() = owner !is PlayerEntity
 
-    override fun getXpToDrop(player: PlayerEntity) = 1
+    override fun getXpToDrop() = 1
 
     override fun lcc_raycastIgnore(caster: Entity): Boolean {
         if (caster.uuid == ownerUuid) return true

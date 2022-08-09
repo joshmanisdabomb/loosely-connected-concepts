@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:cobblestone_slab"
   },
-  "result": "lcc:classic_cobblestone_slab",
-  "count": 1
+  "result": "lcc:classic_cobblestone_slab"
 }

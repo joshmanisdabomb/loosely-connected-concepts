@@ -7,14 +7,13 @@ import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Item
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import java.time.LocalDateTime
 
 open class KnowledgeArticleBuilder(val location: KnowledgeArticleIdentifier, name: (defaultKey: String) -> Text) : Comparable<KnowledgeArticleBuilder> {
 
     constructor(location: KnowledgeArticleIdentifier, content: Text) : this(location, { content })
     constructor(location: KnowledgeArticleIdentifier, content: String, locale: String = "en_us") : this(location, locale to content)
-    constructor(location: KnowledgeArticleIdentifier, vararg translations: Pair<String, String>) : this(location, { TranslatableText(it) }) {
+    constructor(location: KnowledgeArticleIdentifier, vararg translations: Pair<String, String>) : this(location, { Text.translatable(it) }) {
         _translations += translations
     }
 

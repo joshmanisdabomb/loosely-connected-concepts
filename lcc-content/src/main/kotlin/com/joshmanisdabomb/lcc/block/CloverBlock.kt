@@ -12,10 +12,10 @@ import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
-import java.util.*
 
 class CloverBlock(val effect: StatusEffect, val duration: Int, settings: Settings, stewEffect: StatusEffect = effect, stewDuration: Int = duration) : FlowerBlock(stewEffect, stewDuration, settings), LCCBlockTrait, Fertilizable {
 

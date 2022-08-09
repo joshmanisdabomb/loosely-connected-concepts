@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "iii",
-    "iii",
-    "iii"
-  ],
   "key": {
     "i": {
       "item": "lcc:heavy_uranium_nugget"
     }
   },
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
   "result": {
     "item": "lcc:heavy_uranium"
   }

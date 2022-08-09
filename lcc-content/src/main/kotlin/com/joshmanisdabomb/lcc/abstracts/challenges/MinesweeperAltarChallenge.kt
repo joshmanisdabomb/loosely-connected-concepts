@@ -15,14 +15,14 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
-import java.util.*
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -59,7 +59,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val bombs = data.getInt("Mines")
 
         if (!verifyAltar(world, facing, pos, width, depth)) {
-            player.sendMessage(TranslatableText("block.lcc.sapphire_altar.minesweeper.malformed"), true)
+            player.sendMessage(Text.translatable("block.lcc.sapphire_altar.minesweeper.malformed"), true)
             return false
         }
 

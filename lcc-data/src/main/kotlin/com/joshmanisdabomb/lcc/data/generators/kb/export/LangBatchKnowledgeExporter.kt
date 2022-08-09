@@ -4,11 +4,11 @@ import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.batches.LangBatch
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
-import net.minecraft.data.DataCache
+import net.minecraft.data.DataWriter
 
 open class LangBatchKnowledgeExporter(val batch: LangBatch, da: DataAccessor, articles: Iterable<KnowledgeArticleBuilder>) : KnowledgeExporter(da, articles) {
 
-    override fun run(cache: DataCache) {
+    override fun run(writer: DataWriter) {
         articles.forEach { a ->
             a.exporterWalked(this)
             a.translations.forEach { (k, v) -> batch[k, a.defaultTranslationKey] = v }

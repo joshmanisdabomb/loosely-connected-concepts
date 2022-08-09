@@ -61,6 +61,9 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val woodlouse_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.death")) }
     val woodlouse_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.step")) }
 
+    val wasp_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.loop")) }
+    val wasp_aggressive by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.loop")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

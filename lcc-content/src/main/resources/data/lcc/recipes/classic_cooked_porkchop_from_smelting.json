@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
   "ingredient": {
     "item": "lcc:classic_raw_porkchop"
   },
-  "result": "lcc:classic_cooked_porkchop",
-  "experience": 0.35,
-  "cookingtime": 200
+  "result": "lcc:classic_cooked_porkchop"
 }

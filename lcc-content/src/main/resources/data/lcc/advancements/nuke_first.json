@@ -1,34 +1,34 @@
 {
   "parent": "lcc:nuke",
+  "criteria": {
+    "race": {
+      "conditions": {
+        "advancement": "lcc:nuke"
+      },
+      "trigger": "lcc:race"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:atomic_bomb"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.nuke_first.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.main.nuke_first.description"
     },
     "frame": "challenge",
+    "hidden": true,
+    "icon": {
+      "item": "lcc:atomic_bomb"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": true
-  },
-  "rewards": {
-    "experience": 500
-  },
-  "criteria": {
-    "race": {
-      "trigger": "lcc:race",
-      "conditions": {
-        "advancement": "lcc:nuke"
-      }
+    "title": {
+      "translate": "advancements.lcc.main.nuke_first.title"
     }
   },
   "requirements": [
     [
       "race"
     ]
-  ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
 }

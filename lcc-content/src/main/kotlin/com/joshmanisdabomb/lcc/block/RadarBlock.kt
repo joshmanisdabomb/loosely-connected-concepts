@@ -11,7 +11,7 @@ import net.minecraft.item.ItemPlacementContext
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.TRIGGERED
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
@@ -71,7 +71,7 @@ class RadarBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
-        player.sendMessage(TranslatableText("block.lcc.radar.range", (world.getBlockEntity(pos) as? RadarBlockEntity)?.radius ?: 0), true)
+        player.sendMessage(Text.translatable("block.lcc.radar.range", (world.getBlockEntity(pos) as? RadarBlockEntity)?.radius ?: 0), true)
         return ActionResult.SUCCESS
     }
 

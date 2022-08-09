@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "i  ",
-    "iii"
-  ],
   "key": {
     "i": {
       "item": "minecraft:iron_ingot"
     }
   },
+  "pattern": [
+    "i  ",
+    "iii"
+  ],
   "result": {
-    "item": "lcc:treetap",
-    "count": 2
+    "count": 2,
+    "item": "lcc:treetap"
   }
 }

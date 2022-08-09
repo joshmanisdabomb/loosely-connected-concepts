@@ -1,24 +1,24 @@
 {
   "parent": "lcc:uranium",
+  "criteria": {
+    "activate": {
+      "conditions": {},
+      "trigger": "lcc:nuclear"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:nuclear_generator"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.nuclear.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.main.nuclear.description"
     },
     "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:nuclear_generator"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "activate": {
-      "trigger": "lcc:nuclear",
-      "conditions": {}
+    "title": {
+      "translate": "advancements.lcc.main.nuclear.title"
     }
   },
   "requirements": [

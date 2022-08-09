@@ -11,7 +11,7 @@ import net.minecraft.sound.SoundCategory
 import net.minecraft.state.property.Properties
 
 @Environment(EnvType.CLIENT)
-class AlarmSoundInstance(private val entity: AlarmBlockEntity, val ringer: AlarmBlock.Ringer, val redstone: Int) : PositionedSoundInstance(ringer.sound, SoundCategory.BLOCKS, redstone.div(15f).times(ringer.volume), 1f, entity.pos), TickableSoundInstance {
+class AlarmSoundInstance(private val entity: AlarmBlockEntity, val ringer: AlarmBlock.Ringer, val redstone: Int) : PositionedSoundInstance(ringer.sound, SoundCategory.BLOCKS, redstone.div(15f).times(ringer.volume), 1f, entity.world?.random, entity.pos), TickableSoundInstance {
 
     var valid = true
 

@@ -37,8 +37,8 @@ abstract class DataLauncher(override val modid: String, final override val path:
     open val sound_priority = 6000
     open val advancement_priority = 5000
 
-    protected val datagen by lazy { DataGenerator(path, emptyList()) }
-    protected val delayedDatagen by lazy { WaitingDataGenerator(path, emptyList()) }
+    protected val datagen by lazy { DataGenerator(path, emptyList(), SharedConstants.getGameVersion(), false) }
+    protected val delayedDatagen by lazy { WaitingDataGenerator(path, emptyList(), SharedConstants.getGameVersion(), false) }
 
     override val models by lazy { ModelBatch().also { install(ModelData(it, this), model_priority) } }
     override val states by lazy { BlockStateBatch().also { install(BlockStateData(it, this), state_priority) } }
@@ -64,7 +64,7 @@ abstract class DataLauncher(override val modid: String, final override val path:
     final override fun onPreLaunch() {
         beforeRun()
 
-        installs.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> datagen.addProvider(k) }
+        installs.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> datagen.addProvider(true, k) }
         delayedInstalls.toList().sortedBy { (_, v) -> v }.forEach { (k, _) -> delayedDatagen.install(k) }
 
         logger.info("Starting $modid data generator in path: $path")

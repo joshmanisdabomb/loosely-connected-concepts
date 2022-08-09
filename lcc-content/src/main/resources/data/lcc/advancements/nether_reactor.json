@@ -1,32 +1,32 @@
 {
   "parent": "lcc:simulation_fabric",
+  "criteria": {
+    "challenge": {
+      "conditions": {},
+      "trigger": "lcc:nether_reactor"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:nether_reactor"
-    },
-    "title": {
-      "translate": "advancements.lcc.main.nether_reactor.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.main.nether_reactor.description"
     },
     "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:nether_reactor"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "rewards": {
-    "experience": 500
-  },
-  "criteria": {
-    "challenge": {
-      "trigger": "lcc:nether_reactor",
-      "conditions": {}
+    "title": {
+      "translate": "advancements.lcc.main.nether_reactor.title"
     }
   },
   "requirements": [
     [
       "challenge"
     ]
-  ]
+  ],
+  "rewards": {
+    "experience": 500
+  }
 }

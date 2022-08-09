@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "w  ",
-    "ww ",
-    "www"
-  ],
   "key": {
     "w": {
       "item": "lcc:rhyolite"
     }
   },
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
   "result": {
-    "item": "lcc:rhyolite_stairs",
-    "count": 4
+    "count": 4,
+    "item": "lcc:rhyolite_stairs"
   }
 }

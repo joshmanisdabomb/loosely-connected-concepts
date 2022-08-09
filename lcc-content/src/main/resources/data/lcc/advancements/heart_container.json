@@ -1,26 +1,26 @@
 {
   "parent": "lcc:wasteland_root",
+  "criteria": {
+    "add_red_health": {
+      "conditions": {
+        "heart": ""
+      },
+      "trigger": "lcc:heart_container"
+    }
+  },
   "display": {
-    "icon": {
-      "item": "lcc:red_heart_container"
-    },
-    "title": {
-      "translate": "advancements.lcc.wasteland.heart_container.title"
-    },
+    "announce_to_chat": true,
     "description": {
       "translate": "advancements.lcc.wasteland.heart_container.description"
     },
     "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:red_heart_container"
+    },
     "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
-  "criteria": {
-    "add_red_health": {
-      "trigger": "lcc:heart_container",
-      "conditions": {
-        "heart": ""
-      }
+    "title": {
+      "translate": "advancements.lcc.wasteland.heart_container.title"
     }
   },
   "requirements": [

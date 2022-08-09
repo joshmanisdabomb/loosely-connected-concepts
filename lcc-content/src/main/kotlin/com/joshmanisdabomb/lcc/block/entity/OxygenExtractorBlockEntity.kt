@@ -25,7 +25,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
@@ -71,7 +70,7 @@ class OxygenExtractorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = OxygenExtractorScreenHandler(syncId, inv, inventory, propertyDelegate)
 
-    override fun getDisplayName() = customName ?: TranslatableText("container.lcc.oxygen_extractor")
+    override fun getDisplayName() = customName ?: Text.translatable("container.lcc.oxygen_extractor")
 
     override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)

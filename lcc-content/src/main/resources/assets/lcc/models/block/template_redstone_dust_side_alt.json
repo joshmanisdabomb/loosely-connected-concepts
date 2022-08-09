@@ -2,72 +2,72 @@
   "ambientocclusion": false,
   "elements": [
     {
-      "from": [
-        0,
-        0.25,
-        8
-      ],
-      "to": [
-        16,
-        0.25,
-        16
-      ],
-      "shade": false,
       "faces": {
-        "up": {
-          "uv": [
-            0,
-            8,
-            16,
-            16
-          ],
-          "texture": "#texture",
-          "tintindex": 0
-        },
         "down": {
+          "texture": "#texture",
+          "tintindex": 0,
           "uv": [
             0,
             16,
             16,
             8
-          ],
+          ]
+        },
+        "up": {
           "texture": "#texture",
-          "tintindex": 0
+          "tintindex": 0,
+          "uv": [
+            0,
+            8,
+            16,
+            16
+          ]
         }
-      }
+      },
+      "from": [
+        0,
+        0.25,
+        8
+      ],
+      "shade": false,
+      "to": [
+        16,
+        0.25,
+        16
+      ]
     },
     {
-      "from": [
-        0,
-        0.25,
-        8
-      ],
-      "to": [
-        16,
-        0.25,
-        16
-      ],
-      "shade": false,
       "faces": {
-        "up": {
-          "uv": [
-            0,
-            8,
-            16,
-            16
-          ],
-          "texture": "#overlay"
-        },
         "down": {
+          "texture": "#overlay",
           "uv": [
             0,
             16,
             16,
             8
-          ],
-          "texture": "#overlay"
+          ]
+        },
+        "up": {
+          "texture": "#overlay",
+          "uv": [
+            0,
+            8,
+            16,
+            16
+          ]
         }
-      }
+      },
+      "from": [
+        0,
+        0.25,
+        8
+      ],
+      "shade": false,
+      "to": [
+        16,
+        0.25,
+        16
+      ]
     }
   ]
 }

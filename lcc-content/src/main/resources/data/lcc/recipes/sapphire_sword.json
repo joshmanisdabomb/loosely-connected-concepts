@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "i",
-    "i",
-    "s"
-  ],
   "key": {
     "i": {
       "item": "lcc:sapphire"
@@ -13,6 +8,11 @@
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "i",
+    "i",
+    "s"
+  ],
   "result": {
     "item": "lcc:sapphire_sword"
   }

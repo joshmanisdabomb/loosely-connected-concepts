@@ -94,6 +94,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         KnowledgePluralisations.injectTranslations(lang)
         setupDatabaseExports().forEach { install(it, 2501) }
 
+        //TODO probably doesnt work anymore needs to be its own thing
         install(CommitData(path, Paths.get("../lcc-content/src/main/resources"), commit) { CommitData.defaultExcluder(it, LCC.modid, "fabric", "minecraft") }, 99999)
 
         println("Setting up image exporter.")

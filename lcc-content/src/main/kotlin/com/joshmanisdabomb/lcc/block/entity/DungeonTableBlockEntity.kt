@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
@@ -25,7 +24,7 @@ class DungeonTableBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
     override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = DungeonTableScreenHandler(syncId, inv, inventory)
 
-    override fun getDisplayName() = customName ?: TranslatableText("container.lcc.spawner_table")
+    override fun getDisplayName() = customName ?: Text.translatable("container.lcc.spawner_table")
 
     override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)

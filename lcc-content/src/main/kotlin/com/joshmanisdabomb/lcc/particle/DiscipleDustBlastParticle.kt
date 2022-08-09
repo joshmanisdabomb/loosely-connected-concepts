@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.particle
 
 import com.joshmanisdabomb.lcc.directory.LCCParticles
-import com.joshmanisdabomb.lcc.extensions.square
 import com.joshmanisdabomb.lcc.particle.effect.DiscipleDustBlastParticleEffect
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
@@ -21,7 +20,7 @@ class DiscipleDustBlastParticle(type: DiscipleDustBlastParticleEffect, world: Cl
     }
 
     override fun tick() {
-        repeat(particles.times(2 - MinecraftClient.getInstance().options.particles.id)) {
+        repeat(particles.times(2 - MinecraftClient.getInstance().options.particles.value.id)) {
             val dir = Vec3d(random.nextDouble().minus(0.5), random.nextDouble().minus(0.5), random.nextDouble().minus(0.5)).normalize().multiply(size.times(0.4))
             val distance = random.nextDouble()
             val pos = dir.multiply(size.times(0.6)).multiply(distance).add(x, y, z)

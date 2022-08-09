@@ -13,7 +13,8 @@
     "RecipeProviderAccessor",
     "TagBuilderAccessor",
     "SharedConstantsMixin",
-    "IngredientTagEntryAccessor"
+    "IngredientTagEntryAccessor",
+    "TagEntryAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "www"
-  ],
   "key": {
     "w": {
       "item": "lcc:classic_mossy_cobblestone"
     }
   },
+  "pattern": [
+    "www"
+  ],
   "result": {
-    "item": "lcc:classic_mossy_cobblestone_slab",
-    "count": 6
+    "count": 6,
+    "item": "lcc:classic_mossy_cobblestone_slab"
   }
 }

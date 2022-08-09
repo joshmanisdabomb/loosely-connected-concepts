@@ -1,35 +1,7 @@
 {
   "parent": "lcc:deadwood",
-  "display": {
-    "icon": {
-      "item": "lcc:cobbled_fortstone"
-    },
-    "title": {
-      "translate": "advancements.lcc.wasteland.fortstone.title"
-    },
-    "description": {
-      "translate": "advancements.lcc.wasteland.fortstone.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
-    "fortstone": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "lcc:fortstone"
-            ]
-          }
-        ]
-      }
-    },
     "cobbled_fortstone": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -38,7 +10,35 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "fortstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:fortstone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.lcc.wasteland.fortstone.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "lcc:cobbled_fortstone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.lcc.wasteland.fortstone.title"
     }
   },
   "requirements": [

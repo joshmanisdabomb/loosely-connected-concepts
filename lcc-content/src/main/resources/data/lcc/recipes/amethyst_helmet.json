@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "iii",
-    "i i"
-  ],
   "key": {
     "i": {
       "item": "minecraft:amethyst_shard"
     }
   },
+  "pattern": [
+    "iii",
+    "i i"
+  ],
   "result": {
     "item": "lcc:amethyst_helmet"
   }

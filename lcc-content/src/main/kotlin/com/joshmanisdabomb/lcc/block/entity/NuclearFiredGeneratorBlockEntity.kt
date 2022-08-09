@@ -42,7 +42,6 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
@@ -149,7 +148,7 @@ class NuclearFiredGeneratorBlockEntity(pos: BlockPos, state: BlockState) : Block
         buf.writeBlockPos(pos)
     }
 
-    override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${LCCBlocks[LCCBlocks.nuclear_generator].name}")
+    override fun getDisplayName() = customName ?: Text.translatable("container.lcc.${LCCBlocks[LCCBlocks.nuclear_generator].name}")
 
     override fun readNbt(tag: NbtCompound) {
         super.readNbt(tag)

@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:leather_helmet"
   },
-  "result": "lcc:classic_leather_helmet",
-  "count": 1
+  "result": "lcc:classic_leather_helmet"
 }

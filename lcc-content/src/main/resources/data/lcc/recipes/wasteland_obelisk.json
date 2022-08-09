@@ -1,5 +1,16 @@
 {
   "type": "lcc:spawner_table_shaped",
+  "key": {
+    "c": {
+      "item": "lcc:cracked_mud"
+    },
+    "p": {
+      "item": "minecraft:popped_chorus_fruit"
+    },
+    "t": {
+      "item": "lcc:topaz_shard"
+    }
+  },
   "pattern": [
     "cccc",
     " tt ",
@@ -8,17 +19,6 @@
     " pp ",
     "cccc"
   ],
-  "key": {
-    "c": {
-      "item": "lcc:cracked_mud"
-    },
-    "t": {
-      "item": "lcc:topaz_shard"
-    },
-    "p": {
-      "item": "minecraft:popped_chorus_fruit"
-    }
-  },
   "result": {
     "item": "lcc:wasteland_obelisk"
   }

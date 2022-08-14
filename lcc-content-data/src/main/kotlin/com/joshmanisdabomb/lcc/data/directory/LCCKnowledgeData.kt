@@ -440,7 +440,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addParagraph {
                     addFormatText("%s can be generated in the %s in the form of landmines, accompanied by a %s. When generated in the world, using a %s or higher has a 30% chance to drop the block. This chance increases by 10% for every level of %s. Mining with a %s has a 100% drop chance.",
                         { addPluralisedText(LCCBlocks.improvised_explosive) },
-                        { addLink(KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens), "Wasteland Barrens") },
+                        { addLink(LCCBiomes.wasteland) },
                         { addLink(LCCBlocks.cracked_mud_pressure_plate) },
                         { addLink(LCCItems.fortstone_pickaxe) },
                         { addLink(Enchantments.FORTUNE) },
@@ -494,7 +494,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addFormatText("%s is a block introduced in %s that can be found in the %s. It can be crafted into %s which lead to the first tier of %s tool progression.",
                         { addText(LCCBlocks.deadwood_log.name) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
-                        { addLink(LCCBiomes.wasteland_barrens) },
+                        { addLink(LCCBiomes.wasteland) },
                         { addLink(LCCBlocks.deadwood_planks) },
                         { addWastelandLink() }
                     )
@@ -765,7 +765,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addFormatText("%s is a block introduced in %s that can be found in the %s. It drops %s when mined with a %s or higher, which leads to the second tier of %s tool progression.",
                         { addText(LCCBlocks.fortstone) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
-                        { addLink(LCCBiomes.wasteland_spikes) },
+                        { addLink(LCCBiomes.wasteland) },
                         { addLink(LCCBlocks.cobbled_fortstone) },
                         { addLink(LCCItems.deadwood_pickaxe) },
                         { addWastelandLink() },
@@ -792,7 +792,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addText(LCCBlocks.cobbled_fortstone) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
                         { addLink(LCCBlocks.fortstone) },
-                        { addLink(LCCBiomes.wasteland_spikes) },
+                        { addLink(LCCBiomes.wasteland) },
                         { addLink(LCCItems.deadwood_pickaxe) },
                         { addWastelandLink() },
                     )
@@ -1332,7 +1332,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addParagraph {
                     addFormatText("All %s can be found in the %s in the form of spike traps. They are square holes that are easy to spot on the surface, with a bed of a random type of %s at the bottom. Plain %s are the most common to find in spike traps.",
                         { addText(LCCBlocks.spikes) },
-                        { addLink(LCCBiomes.wasteland_barrens) },
+                        { addLink(LCCBiomes.wasteland) },
                         { addText(LCCBlocks.spikes) },
                         { addText(LCCBlocks.spikes) },
                     )
@@ -1495,7 +1495,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleImageFragmentBuilder()
                     .addStatic("structure/sapphire_altar", KnowledgeArticleParagraphFragmentBuilder()
                         .addFormatText("A Sapphire Altar generated in the %s.",
-                            { addLink(LCCBiomes.wasteland_spikes) },
+                            { addLink(LCCBiomes.wasteland) },
                         )
                     )
                 )

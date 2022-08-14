@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.world.decorator
+package com.joshmanisdabomb.lcc.world.placement
 
 /*import com.mojang.serialization.Codec
 import net.minecraft.util.math.BlockPos

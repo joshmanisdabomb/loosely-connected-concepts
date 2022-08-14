@@ -33,7 +33,8 @@
     "cardinal-components-world": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
     "cardinal-components-level": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
     "cardinal-components-entity": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCComponents" }],
-    "cardinal-components-item": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCItemComponents" }]
+    "cardinal-components-item": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.component.LCCItemComponents" }],
+    "terrablender": [{ "adapter": "kotlin", "value": "com.joshmanisdabomb.lcc.directory.LCCTerraRegions" }]
   },
   "mixins": [
     "lcc.mixins.json",
@@ -56,7 +57,8 @@
     "lcc-subblock": [">=1.0.1", "${version}"],
     "cardinal-components-base": "*",
     "cardinal-components-world": "*",
-    "cardinal-components-level": "*"
+    "cardinal-components-level": "*",
+    "terrablender": "*"
   },
   "recommends": {
     "lcc-mod": "*"

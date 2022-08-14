@@ -63,6 +63,7 @@ allprojects {
 
     repositories {
         maven { url = "https://maven.fabricmc.net/" }
+        maven { url = 'https://maven.minecraftforge.net/' }
         maven {
             name = 'Ladysnake Mods'
             url = 'https://ladysnake.jfrog.io/artifactory/mods'

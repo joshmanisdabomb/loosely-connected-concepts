@@ -19,7 +19,7 @@ import net.minecraft.util.registry.Registry
 
 object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Unit, Unit>() {
 
-    val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland_barrens).attach(LCCBiomes.wasteland_spikes) }
+    val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland) }
 
     val wasteland_effective by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attachTag(LCCBlockTags.wasteland_required) }
     val wasteland_required by entry(::blockInitialiser) { null }

@@ -5,7 +5,8 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
-import net.minecraft.state.property.Properties.*
+import net.minecraft.state.property.Properties.FACING
+import net.minecraft.state.property.Properties.WATERLOGGED
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -168,7 +169,7 @@ class SmallGeodeFeature(configCodec: Codec<SmallGeodeFeatureConfig>) : Feature<S
                     val pos2 = pos.offset(d)
                     val state2 = world.getBlockState(pos2)
                     if (random.nextInt(4) != 0 && state2.isAir) {
-                        world.setBlockState(pos2, config.bud.crystals[random.nextInt(5).coerceAtMost(3)].defaultState.with(FACING, d).with(LIT, true).with(WATERLOGGED, false), 2)
+                        world.setBlockState(pos2, config.bud.crystals[random.nextInt(5).coerceAtMost(3)].defaultState.with(FACING, d).with(WATERLOGGED, false), 2)
                     }
                 }
             } else {

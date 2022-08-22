@@ -9,12 +9,14 @@ import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
 import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
 import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
 import com.mojang.serialization.Codec
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
 import net.minecraft.block.Blocks
+import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.tag.BiomeTags
 import net.minecraft.util.math.intprovider.ConstantIntProvider
@@ -35,6 +37,8 @@ import net.minecraft.world.gen.heightprovider.TrapezoidHeightProvider
 import net.minecraft.world.gen.placementmodifier.*
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
 import net.minecraft.world.gen.stateprovider.PredicatedStateProvider
+import net.minecraft.world.gen.structure.Structure
+import net.minecraft.world.gen.structure.StructureType
 import net.minecraft.world.gen.surfacebuilder.MaterialRules
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer
 import java.util.List
@@ -42,16 +46,13 @@ import java.util.List
 object LCCWorldgen {
     fun init() {
         LCCFeatures.init()
-        //LCCDecorators.init()
         LCCConfiguredFeatures.init()
         LCCPlacedFeatures.init()
         LCCCarvers.init()
         LCCConfiguredCarvers.init()
         LCCPlacementModifierTypes.init()
-        /*LCCConfiguredSurfaceBuilders.init()
         LCCStructurePieceTypes.init()
-        LCCStructureFeatures.init()
-        LCCConfiguredStructureFeatures.init()*/
+        LCCStructureTypes.init()
 
         biomeModifications()
     }
@@ -269,6 +270,30 @@ object LCCPlacementModifierTypes : BasicDirectory<PlacementModifierType<out Plac
     val near_lava_lake by entry(::initialiser) { PlacementModifierType { NearLavaPlacement.codec } }
     val height_threshold by entry(::initialiser) { PlacementModifierType { HeightThreshold.codec } }
     //val near_air by entry(::initialiser) { NearAirDecorator(NopeDecoratorConfig.CODEC) }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
+object LCCStructureTypes : BasicDirectory<StructureType<out Structure>, Unit>(), RegistryDirectory<StructureType<out Structure>, Unit, Unit> {
+
+    override val registry by lazy { Registry.STRUCTURE_TYPE }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val wasteland_tent by entry(::initialiser) { StructureType { WastelandTentStructure.codec } }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
+object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), RegistryDirectory<StructurePieceType, Unit, Unit> {
+
+    override val registry by lazy { Registry.STRUCTURE_PIECE }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

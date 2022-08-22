@@ -6,20 +6,18 @@ import com.joshmanisdabomb.lcc.data.batches.TagBatch
 import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
 import com.joshmanisdabomb.lcc.directory.LCCBiomes
 import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
 import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags
 import net.minecraft.block.Blocks
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Items
-import net.minecraft.item.SwordItem
 import net.minecraft.tag.BlockTags
 import net.minecraft.tag.ItemTags
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Unit, Unit>() {
-
-    val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland) }
 
     val wasteland_effective by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attachTag(LCCBlockTags.wasteland_required) }
     val wasteland_required by entry(::blockInitialiser) { null }
@@ -58,7 +56,10 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
 
     val hearts by entry(::itemInitialiser) { null }.addInitListener { context, _ -> context.entry.attachTag(LCCItemTags.red_hearts).attachTag(LCCItemTags.iron_hearts).attachTag(LCCItemTags.crystal_hearts).attachTag(LCCItemTags.temporary_hearts) }
 
-    val imbuable by entry(::itemInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(*Registry.ITEM.filterIsInstance<SwordItem>().toTypedArray()).attach(LCCItems.knife) }
+    val imbuable by entry(::itemInitialiser) { null }.addInitListener { context, _ -> context.entry.optionalTag(ConventionalItemTags.SWORDS).attach(LCCItems.knife) }
+
+    val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland) }
+    val has_wasteland_tent by entry(::biomeInitialiser) { LCC.id("has_structure/wasteland_tent") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
     fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)

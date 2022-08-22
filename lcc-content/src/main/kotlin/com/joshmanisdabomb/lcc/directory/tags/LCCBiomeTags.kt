@@ -11,6 +11,8 @@ object LCCBiomeTags : AdvancedDirectory<Identifier?, TagKey<Biome>, Unit, Unit>(
 
     val wasteland by entry(::initialiser) { null }
 
+    val has_wasteland_tent by entry(::initialiser) { LCC.id("has_structure/wasteland_tent") }
+
     fun initialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = TagKey.of(Registry.BIOME_KEY, input ?: context.id)
 
     override fun defaultProperties(name: String) = Unit

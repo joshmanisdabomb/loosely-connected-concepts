@@ -1,0 +1,6 @@
+{
+  "type": "lcc:wasteland_tent",
+  "biomes": "#lcc:has_structure/wasteland_tent",
+  "step": "surface_structures",
+  "spawn_overrides": {}
+}

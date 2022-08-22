@@ -1,18 +1,17 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
-/*
+
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
+import com.joshmanisdabomb.lcc.directory.LCCStructureTypes
 import com.joshmanisdabomb.lcc.extensions.transform
-import com.mojang.serialization.Codec
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.structure.SimpleStructurePiece
-import net.minecraft.structure.StructureManager
+import net.minecraft.structure.StructureContext
 import net.minecraft.structure.StructurePlacementData
-import net.minecraft.structure.StructureStart
+import net.minecraft.structure.StructureTemplateManager
 import net.minecraft.structure.processor.BlockIgnoreStructureProcessor
 import net.minecraft.structure.processor.RuleStructureProcessor
 import net.minecraft.structure.processor.StructureProcessorRule
@@ -22,57 +21,38 @@ import net.minecraft.structure.rule.RandomBlockMatchRuleTest
 import net.minecraft.util.BlockMirror
 import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import net.minecraft.util.registry.DynamicRegistryManager
-import net.minecraft.world.HeightLimitView
 import net.minecraft.world.Heightmap
 import net.minecraft.world.ServerWorldAccess
 import net.minecraft.world.StructureWorldAccess
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.StructureAccessor
+import net.minecraft.world.gen.StructureTerrainAdaptation
 import net.minecraft.world.gen.chunk.ChunkGenerator
-import net.minecraft.world.gen.feature.DefaultFeatureConfig
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.StructureFeature.StructureStartFactory
+import net.minecraft.world.gen.structure.Structure
 import java.util.*
-import java.util.function.Predicate
 
-class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(codec) {
-
-    override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(::Start)
-
-    class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
-
-        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView, predicate: Predicate<Biome>) {
-            val y = gen.getHeight(chunkPos.startX, chunkPos.startZ, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, world)
-            val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
-            val rot = BlockRotation.random(random)
-            val mirror = BlockMirror.values()[random.nextInt(3)]
-            addPiece(Piece(manager, (random.nextInt(3) == 0).transform(template_alt, template), pos, rot, mirror))
-            setBoundingBoxFromChildren()
-        }
-
-    }
+class WastelandTentStructure(config: Config) : Structure(config) {
 
     class Piece : SimpleStructurePiece {
 
-        constructor(manager: StructureManager, template: Identifier, pos: BlockPos, rotation: BlockRotation, mirror: BlockMirror) : super(LCCStructurePieceTypes.wasteland_tent, 0, manager, template, template.toString(), getData(rotation, mirror, template), pos) {
+        constructor(manager: StructureTemplateManager, template: Identifier, pos: BlockPos, rotation: BlockRotation, mirror: BlockMirror) : super(LCCStructurePieceTypes.wasteland_tent, 0, manager, template, template.toString(), getData(rotation, mirror, template), pos) {
 
         }
 
-        constructor(world: ServerWorld, nbt: NbtCompound) : super(LCCStructurePieceTypes.wasteland_tent, nbt, world, { getData(BlockRotation.valueOf(nbt.getString("Rot")), BlockMirror.valueOf(nbt.getString("Mir")), it) }) {
+        constructor(manager: StructureTemplateManager, nbt: NbtCompound) : super(LCCStructurePieceTypes.wasteland_tent, nbt, manager, { getData(BlockRotation.valueOf(nbt.getString("Rot")), BlockMirror.valueOf(nbt.getString("Mir")), it) }) {
 
         }
 
-        override fun writeNbt(world: ServerWorld, nbt: NbtCompound) {
-            super.writeNbt(world, nbt)
+        override fun writeNbt(context: StructureContext, nbt: NbtCompound) {
+            super.writeNbt(context, nbt)
             nbt.putString("Rot", placementData.rotation.name)
             nbt.putString("Mir", placementData.mirror.name)
         }
 
-        override fun handleMetadata(metadata: String, pos: BlockPos, world: ServerWorldAccess, random: Random, boundingBox: BlockBox) {
+        override fun handleMetadata(metadata: String, pos: BlockPos, world: ServerWorldAccess, random: net.minecraft.util.math.random.Random, boundingBox: BlockBox) {
             when (metadata) {
                 "Chest" -> {
                     world.setBlockState(pos, Blocks.AIR.defaultState, 3)
@@ -84,7 +64,7 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
             }
         }
 
-        override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: Random, boundingBox: BlockBox, chunkPos: ChunkPos, pos: BlockPos): Boolean {
+        override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: net.minecraft.util.math.random.Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
             val original = this.pos
             this.pos = this.pos.down(1)
             val bool = super.generate(world, accessor, gen, random, boundingBox, chunkPos, pos)
@@ -102,7 +82,26 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
 
     }
 
+    override fun getStructurePosition(context: Context): Optional<StructurePosition> {
+        val id = (context.random.nextInt(3) == 0).transform(template_alt, template)
+        val template = context.structureTemplateManager.getTemplate(id).orElseThrow()
+        if (getMinCornerHeight(context, template.size.x, template.size.z) < context.chunkGenerator().seaLevel) return Optional.empty()
+        val y = context.chunkGenerator.getHeight(context.chunkPos.startX, context.chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, context.world, context.noiseConfig)
+        val pos = BlockPos(context.chunkPos.startX, y, context.chunkPos.startZ)
+        return Optional.of(StructurePosition(pos) {
+            it.addPiece(Piece(context.structureTemplateManager, id, pos, BlockRotation.random(context.random), Util.getRandom(BlockMirror.values(), context.random)))
+        })
+    }
+
+    override fun getTerrainAdaptation(): StructureTerrainAdaptation {
+        return StructureTerrainAdaptation.BEARD_BOX
+    }
+
+    override fun getType() = LCCStructureTypes.wasteland_tent
+
     companion object {
+
+        val codec = createCodec(::WastelandTentStructure)
 
         val template = LCC.id("wasteland_tent")
         val template_alt = LCC.id("wasteland_fallen_tent")
@@ -121,4 +120,4 @@ class WastelandTentStructureFeature(codec: Codec<DefaultFeatureConfig>) : Struct
 
     }
 
-}*/
+}

@@ -25,6 +25,7 @@ import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.TagKey
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, Unit, Unit>() {
@@ -339,7 +340,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, 
 
     fun initialiser(input: Advancement.Builder, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
         val name = "${context.tags[0]}/${context.tags.getOrNull(1) ?: context.name}"
-        return LCCData.advancements.add(input, context.id)
+        return LCCData.advancements.add(input, Identifier(context.id.namespace, name))
     }
 
     override fun id(name: String) = LCC.id(name)

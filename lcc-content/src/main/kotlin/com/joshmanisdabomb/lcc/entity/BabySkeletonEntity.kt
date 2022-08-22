@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -54,7 +55,7 @@ class BabySkeletonEntity(type: EntityType<out BabySkeletonEntity>, world: World)
 
     companion object {
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.375)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.375).add(LCCAttributes.wasteland_protection, 0.5)
         }
     }
 

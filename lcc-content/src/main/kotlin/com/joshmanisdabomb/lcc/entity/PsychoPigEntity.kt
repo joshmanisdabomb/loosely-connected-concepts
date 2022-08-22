@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCSounds
@@ -160,8 +161,6 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun getDeathSound() = isAggro.transform(LCCSounds.consumer_death, SoundEvents.ENTITY_PIG_DEATH)
 
-    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-
     override fun tryAttack(target: Entity): Boolean {
         val kbResistance = (target as? LivingEntity)?.getAttributeInstance(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)
         if (kbResistance?.getModifier(knockback_resistance_modifier_uuid) == null) {
@@ -174,14 +173,6 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
             target.addStatusEffect(StatusEffectInstance(LCCEffects.bleeding, 120 * difficulty.toInt().plus(1)), this)
         }
         return ret
-    }
-
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
     }
 
     override fun initEquipment(random: Random, difficulty: LocalDifficulty) {
@@ -205,7 +196,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         val aggro_id = DataTracker.registerData(PsychoPigEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0).add(LCCAttributes.wasteland_damage, 1.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
     }
 

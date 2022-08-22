@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.sqrt
@@ -102,7 +103,7 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
     }
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
-        val ret = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
+        val ret = super.damage(source, amount)
         if (ret && onGround) jump()
         return ret
     }
@@ -146,7 +147,7 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
         val healing_id = DataTracker.registerData(DiscipleEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.28).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.28).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
     }
 

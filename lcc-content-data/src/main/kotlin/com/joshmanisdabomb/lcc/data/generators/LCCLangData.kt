@@ -78,6 +78,9 @@ object LCCLangData {
         lang["container.lcc.oxygen_extractor.oxygen"] = "Oxygen Outflow: %1\$s/t\nHold SHIFT for details"
         lang["container.lcc.oxygen_extractor.oxygen.advanced"] = "Total Oxygen Outflow: %1\$s/t\n • From Top: %2\$s/t\n • From North: %3\$s/t\n • From East: %4\$s/t\n • From South: %5\$s/t\n • From West: %6\$s/t\n • Dimension Modifier: %7\$s%%"
 
+        lang["attribute.lcc.name.wasteland.damage"] = "Wasteland Damage"
+        lang["attribute.lcc.name.wasteland.protection"] = "Wasteland Protection"
+
         lang["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"
         lang["gui.lcc.nuclear_generator.activate"] = "Power On"

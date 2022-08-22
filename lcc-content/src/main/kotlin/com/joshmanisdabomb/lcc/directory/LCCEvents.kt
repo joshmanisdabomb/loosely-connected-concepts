@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.directory
 
+import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.abstracts.nuclear.NuclearUtil
 import com.joshmanisdabomb.lcc.block.WastelandRustingBlock
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
@@ -15,11 +16,13 @@ import com.joshmanisdabomb.lcc.item.KnifeItem
 import com.joshmanisdabomb.lcc.recipe.imbuing.ImbuingRecipe
 import net.fabricmc.fabric.api.event.Event
 import net.fabricmc.fabric.api.event.player.*
+import net.fabricmc.fabric.api.item.v1.ModifyItemAttributeModifiersCallback
 import net.minecraft.block.Blocks
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.item.ArmorItem
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -81,6 +84,13 @@ object LCCEvents : BasicDirectory<Any, Unit>() {
             }
         }
         ActionResult.PASS
+    } }
+
+    val wastelandEquipment by entry(ModifyItemAttributeModifiersCallback.EVENT.initialiser) { ModifyItemAttributeModifiersCallback { stack, slot, modifiers ->
+        val item = stack.item
+        if (item is ArmorItem && item.slotType == slot && stack.isIn(LCCItemTags.wasteland_equipment)) {
+            modifiers.put(LCCAttributes.wasteland_protection, EntityAttributeModifier(ToolEffectivity.protection_modifier, "Armor modifier", 0.25, EntityAttributeModifier.Operation.ADDITION))
+        }
     } }
 
     val <E> Event<E>.initialiser get() = { i: E, c: DirectoryContext<Unit>, p: Any -> i.also { this.register(i) } }

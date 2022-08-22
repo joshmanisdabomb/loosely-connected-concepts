@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
@@ -10,6 +11,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityGroup
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.SpawnReason
 import net.minecraft.entity.ai.goal.*
 import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
@@ -23,6 +25,7 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
 class WoodlouseEntity(type: EntityType<out WoodlouseEntity>, world: World) : AnimalEntity(type, world), LCCContentEntityTrait {
@@ -38,6 +41,10 @@ class WoodlouseEntity(type: EntityType<out WoodlouseEntity>, world: World) : Ani
         goalSelector.add(7, WanderAroundFarGoal(this, 1.0))
         goalSelector.add(8, LookAtEntityGoal(this, PlayerEntity::class.java, 6.0f))
         goalSelector.add(9, LookAroundGoal(this))
+    }
+
+    override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
+        return true
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
@@ -63,24 +70,12 @@ class WoodlouseEntity(type: EntityType<out WoodlouseEntity>, world: World) : Ani
 
     override fun calculateNextStepSoundDistance() = super.calculateNextStepSoundDistance() + 0.5f
 
-    override fun damage(source: DamageSource, amount: Float): Boolean {
-        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-    }
-
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
-    }
-
     override fun getGroup() = EntityGroup.ARTHROPOD
 
     companion object {
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0).add(EntityAttributes.GENERIC_ARMOR, 10.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0)
+            return LivingEntity.createLivingAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 24.0).add(EntityAttributes.GENERIC_ARMOR, 10.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
 
     }

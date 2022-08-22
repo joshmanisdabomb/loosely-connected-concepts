@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.energy.LooseEnergy
 import com.joshmanisdabomb.lcc.group.LCCGroup.LCCGroupCategory.*
@@ -142,15 +143,15 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::emerald_sword)))
     val emerald_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.EMERALD, EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::emerald_sword)))
-    val sapphire_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults()) }
+    val sapphire_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
-    val sapphire_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults()) }
+    val sapphire_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
-    val sapphire_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults()) }
+    val sapphire_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
-    val sapphire_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults()) }
+    val sapphire_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
-    val sapphire_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults()) }
+    val sapphire_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.SAPPHIRE, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
     val sapphire_helmet by entry(::initialiser) { ArmorItem(LCCArmorMaterials.SAPPHIRE, EquipmentSlot.HEAD, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::sapphire)))
@@ -188,36 +189,36 @@ object LCCItems : ItemDirectory() {
     val hazmat_boots by entry(::initialiser) { HazmatArmorItem(EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(TOOLS, sortValueFrom(::hazmat_helmet)).stackColor(DefaultedColoredItem::getTintColor))
 
-    val deadwood_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
+    val deadwood_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(2900, 1)))
-    val deadwood_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
+    val deadwood_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
+    val deadwood_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
+    val deadwood_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val deadwood_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1) }
+    val deadwood_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.DEADWOOD, Item.Settings().defaults(), recipePriority = 1, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val fortstone_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.0f) }
+    val fortstone_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.0f, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(3900, 1)))
-    val fortstone_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.4f) }
+    val fortstone_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.4f, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val fortstone_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f) }
+    val fortstone_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val fortstone_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f) }
+    val fortstone_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -3.6f, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val fortstone_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -2.0f) }
+    val fortstone_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.FORTSTONE, Item.Settings().defaults(), attackSpeed = -2.0f, modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
-    val rusty_iron_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+    val rusty_iron_sword by entry(::initialiser) { SwordItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(4900, 1)))
-    val rusty_iron_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+    val rusty_iron_pickaxe by entry(::initialiser) { PickaxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val rusty_iron_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+    val rusty_iron_shovel by entry(::initialiser) { ShovelItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val rusty_iron_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+    val rusty_iron_axe by entry(::initialiser) { AxeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val rusty_iron_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults()) }
+    val rusty_iron_hoe by entry(::initialiser) { HoeItem(LCCToolMaterials.RUSTY_IRON, Item.Settings().defaults(), modifiers = ToolEffectivity.WASTELAND::addToolModifiers) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
     val rusty_iron_helmet by entry(::initialiser) { ArmorItem(LCCArmorMaterials.RUSTY_IRON, EquipmentSlot.HEAD, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
@@ -302,6 +303,17 @@ object LCCItems : ItemDirectory() {
 
     val scroll_of_reconditioning by entry(::initialiser) { ForgetScrollItem(Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS))
+
+    val woodlouse_shell by entry(::initialiser) { Item(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val woodlouse_helmet by entry(::initialiser) { ArmorItem(LCCArmorMaterials.WOODLOUSE, EquipmentSlot.HEAD, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(1000, 1)))
+    val woodlouse_chestplate by entry(::initialiser) { ArmorItem(LCCArmorMaterials.WOODLOUSE, EquipmentSlot.CHEST, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val woodlouse_leggings by entry(::initialiser) { ArmorItem(LCCArmorMaterials.WOODLOUSE, EquipmentSlot.LEGS, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val woodlouse_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.WOODLOUSE, EquipmentSlot.FEET, Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))

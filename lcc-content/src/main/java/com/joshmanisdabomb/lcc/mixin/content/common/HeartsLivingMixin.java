@@ -37,9 +37,13 @@ public abstract class HeartsLivingMixin extends Entity {
     }
 
     @ModifyVariable(method = "applyDamage", at = @At(value = "STORE", ordinal = 1), ordinal = 0)
-    private float setDamageAmount(float amount) {
+    private float setDamageAmount(float amount, DamageSource source, float original) {
         //TODO eventify for lcc hooks
-        return HeartType.calculateDamageAll((LivingEntity)(Object)this, amount);
+        float after = HeartType.calculateDamageAll((LivingEntity)(Object)this, amount);
+        if (this instanceof LCCContentEntityTrait) {
+            return ((LCCContentEntityTrait)this).lcc_content_applyDamage(after, source, original);
+        }
+        return after;
     }
 
     @Redirect(method = "applyArmorToDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/DamageUtil;getDamageLeft(FFF)F"))

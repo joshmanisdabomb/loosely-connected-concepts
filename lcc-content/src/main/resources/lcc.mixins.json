@@ -26,7 +26,8 @@
     "MovementEntityMixin",
     "PlayerEntityMixin",
     "EffectMobEntityMixin",
-    "PitSpawnHelperMixin"
+    "PitSpawnHelperMixin",
+    "AttributeLivingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

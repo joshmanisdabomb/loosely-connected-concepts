@@ -15,4 +15,8 @@ object LCCSpawnRestrictions {
         return world.difficulty != Difficulty.PEACEFUL && (world.isSkyVisible(pos) || HostileEntity.isSpawnDark(world, pos, random)) && MobEntity.canMobSpawn(type, world, spawnReason, pos, random)
     }
 
+    fun canSpawnInSkylight(type: EntityType<out MobEntity>, world: ServerWorldAccess, spawnReason: SpawnReason, pos: BlockPos, random: Random): Boolean {
+        return world.isSkyVisible(pos) && MobEntity.canMobSpawn(type, world, spawnReason, pos, random)
+    }
+
 }

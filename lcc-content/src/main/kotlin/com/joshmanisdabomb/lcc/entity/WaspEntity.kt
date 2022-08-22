@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.entity.PapercombBlockEntity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
 import com.joshmanisdabomb.lcc.directory.LCCSounds
@@ -55,6 +55,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import net.minecraft.world.poi.PointOfInterestStorage
 import java.util.*
@@ -89,6 +90,10 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         super.initDataTracker()
         dataTracker.startTracking(anger, 0)
         dataTracker.startTracking(targetClose, false)
+    }
+
+    override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
+        return true
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView) = world.getBlockState(pos).isAir.transform(10f, 0f)
@@ -299,15 +304,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
         if (source.isFire) return super.damage(source, amount.times(1.5f).coerceAtLeast(3.0f))
-        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-    }
-
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
+        return super.damage(source, amount)
     }
 
     override fun getGroup() = EntityGroup.ARTHROPOD
@@ -326,7 +323,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 33.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 33.0).add(LCCAttributes.wasteland_damage, 1.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {

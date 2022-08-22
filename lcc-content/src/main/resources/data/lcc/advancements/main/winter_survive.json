@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:nuke",
+  "parent": "lcc:main/nuke",
   "criteria": {
     "nope": {
       "trigger": "minecraft:impossible"

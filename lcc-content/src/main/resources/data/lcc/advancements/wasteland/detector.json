@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:main_root",
+  "parent": "lcc:wasteland/tungsten",
   "criteria": {
-    "refiner": {
+    "radiation_detector": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:refiner"
+              "lcc:radiation_detector"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.main.refiner.description"
+      "translate": "advancements.lcc.wasteland.detector.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:refiner"
+      "item": "lcc:radiation_detector"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.main.refiner.title"
+      "translate": "advancements.lcc.wasteland.detector.title"
     }
   },
   "requirements": [
     [
-      "refiner"
+      "radiation_detector"
     ]
   ]
 }

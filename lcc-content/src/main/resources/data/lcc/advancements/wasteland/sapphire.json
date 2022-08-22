@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:rusty_iron",
+  "parent": "lcc:wasteland/rusty_iron",
   "criteria": {
     "challenge": {
       "conditions": {

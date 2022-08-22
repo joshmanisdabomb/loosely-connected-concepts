@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:oil",
+  "parent": "lcc:main/root",
   "criteria": {
-    "asphalt_bucket": {
+    "refiner": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:asphalt_bucket"
+              "lcc:refiner"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.asphalt.description"
+      "translate": "advancements.lcc.main.refiner.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:asphalt_bucket"
+      "item": "lcc:refiner"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.asphalt.title"
+      "translate": "advancements.lcc.main.refiner.title"
     }
   },
   "requirements": [
     [
-      "asphalt_bucket"
+      "refiner"
     ]
   ]
 }

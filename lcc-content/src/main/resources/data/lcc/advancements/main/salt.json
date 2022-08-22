@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:main_root",
+  "parent": "lcc:main/root",
   "criteria": {
     "salted": {
       "conditions": {

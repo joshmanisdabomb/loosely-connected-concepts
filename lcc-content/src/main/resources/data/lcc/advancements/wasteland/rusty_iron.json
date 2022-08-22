@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:spawner_table",
+  "parent": "lcc:wasteland/fortstone",
   "criteria": {
-    "simulation_fabric": {
+    "rusted_iron_block": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:simulation_fabric"
+              "lcc:rusted_iron_block"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.main.simulation_fabric.description"
+      "translate": "advancements.lcc.wasteland.rusty_iron.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:simulation_fabric"
+      "item": "lcc:iron_oxide"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.main.simulation_fabric.title"
+      "translate": "advancements.lcc.wasteland.rusty_iron.title"
     }
   },
   "requirements": [
     [
-      "simulation_fabric"
+      "rusted_iron_block"
     ]
   ]
 }

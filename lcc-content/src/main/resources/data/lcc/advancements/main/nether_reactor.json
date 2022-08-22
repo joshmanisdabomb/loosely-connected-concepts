@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:simulation_fabric",
+  "parent": "lcc:main/simulation_fabric",
   "criteria": {
     "challenge": {
       "conditions": {},

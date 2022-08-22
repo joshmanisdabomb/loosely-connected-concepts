@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:tungsten",
+  "parent": "lcc:main/root",
   "criteria": {
-    "radar": {
+    "topaz_shard": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:radar"
+              "lcc:topaz_shard"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.radar.description"
+      "translate": "advancements.lcc.main.topaz.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:radar"
+      "item": "lcc:topaz_shard"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.radar.title"
+      "translate": "advancements.lcc.main.topaz.title"
     }
   },
   "requirements": [
     [
-      "radar"
+      "topaz_shard"
     ]
   ]
 }

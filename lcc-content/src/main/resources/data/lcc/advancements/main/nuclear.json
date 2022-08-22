@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:uranium",
+  "parent": "lcc:main/uranium",
   "criteria": {
     "activate": {
       "conditions": {},

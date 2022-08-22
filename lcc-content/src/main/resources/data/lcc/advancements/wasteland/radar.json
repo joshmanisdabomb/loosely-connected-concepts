@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:wasteland_root",
+  "parent": "lcc:wasteland/tungsten",
   "criteria": {
-    "tungsten_ingot": {
+    "radar": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:tungsten_ingot"
+              "lcc:radar"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.tungsten.description"
+      "translate": "advancements.lcc.wasteland.radar.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:tungsten_ingot"
+      "item": "lcc:radar"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.tungsten.title"
+      "translate": "advancements.lcc.wasteland.radar.title"
     }
   },
   "requirements": [
     [
-      "tungsten_ingot"
+      "radar"
     ]
   ]
 }

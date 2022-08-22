@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:spawner_table",
+  "parent": "lcc:main/spawner_table",
   "criteria": {
     "nope": {
       "trigger": "minecraft:impossible"

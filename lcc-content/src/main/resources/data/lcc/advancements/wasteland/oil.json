@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:fortstone",
+  "parent": "lcc:wasteland/root",
   "criteria": {
-    "rusted_iron_block": {
+    "oil_bucket": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:rusted_iron_block"
+              "lcc:oil_bucket"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.rusty_iron.description"
+      "translate": "advancements.lcc.wasteland.oil.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:iron_oxide"
+      "item": "lcc:oil_bucket"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.rusty_iron.title"
+      "translate": "advancements.lcc.wasteland.oil.title"
     }
   },
   "requirements": [
     [
-      "rusted_iron_block"
+      "oil_bucket"
     ]
   ]
 }

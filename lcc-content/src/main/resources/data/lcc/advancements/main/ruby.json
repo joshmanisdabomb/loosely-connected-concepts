@@ -1,24 +1,36 @@
 {
-  "parent": "lcc:oil",
+  "parent": "lcc:main/simulation_fabric",
   "criteria": {
-    "flexible_plastic": {
+    "ruby": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:flexible_plastic"
+              "lcc:ruby"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "rigid_plastic": {
+    "ruby_block": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:rigid_plastic"
+              "lcc:ruby_block"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "ruby_ore": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:ruby_ore"
             ]
           }
         ]
@@ -29,22 +41,23 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.plastic.description"
+      "translate": "advancements.lcc.main.ruby.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:flexible_plastic"
+      "item": "lcc:ruby"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.plastic.title"
+      "translate": "advancements.lcc.main.ruby.title"
     }
   },
   "requirements": [
     [
-      "rigid_plastic",
-      "flexible_plastic"
+      "ruby",
+      "ruby_ore",
+      "ruby_block"
     ]
   ]
 }

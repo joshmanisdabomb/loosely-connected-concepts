@@ -1,13 +1,11 @@
 {
-  "parent": "lcc:tungsten",
+  "parent": "lcc:main/refiner",
   "criteria": {
-    "radiation_detector": {
+    "has_enriched_uranium": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "lcc:radiation_detector"
-            ]
+            "tag": "lcc:enriched_uranium"
           }
         ]
       },
@@ -17,21 +15,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.detector.description"
+      "translate": "advancements.lcc.main.uranium.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:radiation_detector"
+      "item": "lcc:enriched_uranium"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.detector.title"
+      "translate": "advancements.lcc.main.uranium.title"
     }
   },
   "requirements": [
     [
-      "radiation_detector"
+      "has_enriched_uranium"
     ]
   ]
 }

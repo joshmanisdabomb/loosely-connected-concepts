@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:rubber",
+  "parent": "lcc:main/rubber",
   "criteria": {
     "depleted": {
       "conditions": {

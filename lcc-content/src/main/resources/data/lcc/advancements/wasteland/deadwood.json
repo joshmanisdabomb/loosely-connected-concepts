@@ -1,25 +1,23 @@
 {
-  "parent": "lcc:main_root",
+  "parent": "lcc:wasteland/root",
   "criteria": {
-    "flexible_rubber": {
+    "deadwood_planks": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:flexible_rubber"
+              "lcc:deadwood_planks"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "latex_bottle": {
+    "has_deadwood": {
       "conditions": {
         "items": [
           {
-            "items": [
-              "lcc:latex_bottle"
-            ]
+            "tag": "lcc:deadwood_logs"
           }
         ]
       },
@@ -29,22 +27,22 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.main.rubber.description"
+      "translate": "advancements.lcc.wasteland.deadwood.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:flexible_rubber"
+      "item": "lcc:deadwood_log"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.main.rubber.title"
+      "translate": "advancements.lcc.wasteland.deadwood.title"
     }
   },
   "requirements": [
     [
-      "latex_bottle",
-      "flexible_rubber"
+      "has_deadwood",
+      "deadwood_planks"
     ]
   ]
 }

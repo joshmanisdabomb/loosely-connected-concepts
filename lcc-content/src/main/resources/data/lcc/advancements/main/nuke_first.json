@@ -1,9 +1,9 @@
 {
-  "parent": "lcc:nuke",
+  "parent": "lcc:main/nuke",
   "criteria": {
     "race": {
       "conditions": {
-        "advancement": "lcc:nuke"
+        "advancement": "lcc:main/nuke"
       },
       "trigger": "lcc:race"
     }

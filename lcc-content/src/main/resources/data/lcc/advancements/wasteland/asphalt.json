@@ -1,12 +1,12 @@
 {
-  "parent": "lcc:wasteland_root",
+  "parent": "lcc:wasteland/oil",
   "criteria": {
-    "oil_bucket": {
+    "asphalt_bucket": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:oil_bucket"
+              "lcc:asphalt_bucket"
             ]
           }
         ]
@@ -17,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.oil.description"
+      "translate": "advancements.lcc.wasteland.asphalt.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:oil_bucket"
+      "item": "lcc:asphalt_bucket"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.oil.title"
+      "translate": "advancements.lcc.wasteland.asphalt.title"
     }
   },
   "requirements": [
     [
-      "oil_bucket"
+      "asphalt_bucket"
     ]
   ]
 }

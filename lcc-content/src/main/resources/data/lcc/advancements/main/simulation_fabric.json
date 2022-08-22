@@ -1,11 +1,13 @@
 {
-  "parent": "lcc:refiner",
+  "parent": "lcc:main/spawner_table",
   "criteria": {
-    "has_enriched_uranium": {
+    "simulation_fabric": {
       "conditions": {
         "items": [
           {
-            "tag": "lcc:enriched_uranium"
+            "items": [
+              "lcc:simulation_fabric"
+            ]
           }
         ]
       },
@@ -15,21 +17,21 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.main.uranium.description"
+      "translate": "advancements.lcc.main.simulation_fabric.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:enriched_uranium"
+      "item": "lcc:simulation_fabric"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.main.uranium.title"
+      "translate": "advancements.lcc.main.simulation_fabric.title"
     }
   },
   "requirements": [
     [
-      "has_enriched_uranium"
+      "simulation_fabric"
     ]
   ]
 }

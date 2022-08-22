@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:sapphire",
+  "parent": "lcc:wasteland/sapphire",
   "criteria": {
     "challenge": {
       "conditions": {

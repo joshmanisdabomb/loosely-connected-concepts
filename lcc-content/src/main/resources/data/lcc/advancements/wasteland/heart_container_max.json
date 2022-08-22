@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:heart_container",
+  "parent": "lcc:wasteland/heart_container",
   "criteria": {
     "max_red_health_1": {
       "conditions": {

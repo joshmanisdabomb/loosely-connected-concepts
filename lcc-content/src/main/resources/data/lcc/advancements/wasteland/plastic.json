@@ -1,23 +1,25 @@
 {
-  "parent": "lcc:wasteland_root",
+  "parent": "lcc:wasteland/oil",
   "criteria": {
-    "deadwood_planks": {
+    "flexible_plastic": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:deadwood_planks"
+              "lcc:flexible_plastic"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_deadwood": {
+    "rigid_plastic": {
       "conditions": {
         "items": [
           {
-            "tag": "lcc:deadwood_logs"
+            "items": [
+              "lcc:rigid_plastic"
+            ]
           }
         ]
       },
@@ -27,22 +29,22 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.deadwood.description"
+      "translate": "advancements.lcc.wasteland.plastic.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:deadwood_log"
+      "item": "lcc:flexible_plastic"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.deadwood.title"
+      "translate": "advancements.lcc.wasteland.plastic.title"
     }
   },
   "requirements": [
     [
-      "has_deadwood",
-      "deadwood_planks"
+      "rigid_plastic",
+      "flexible_plastic"
     ]
   ]
 }

@@ -1,24 +1,24 @@
 {
-  "parent": "lcc:deadwood",
+  "parent": "lcc:main/root",
   "criteria": {
-    "cobbled_fortstone": {
+    "flexible_rubber": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:cobbled_fortstone"
+              "lcc:flexible_rubber"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "fortstone": {
+    "latex_bottle": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:fortstone"
+              "lcc:latex_bottle"
             ]
           }
         ]
@@ -29,22 +29,22 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.lcc.wasteland.fortstone.description"
+      "translate": "advancements.lcc.main.rubber.description"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "lcc:cobbled_fortstone"
+      "item": "lcc:flexible_rubber"
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.lcc.wasteland.fortstone.title"
+      "translate": "advancements.lcc.main.rubber.title"
     }
   },
   "requirements": [
     [
-      "fortstone",
-      "cobbled_fortstone"
+      "latex_bottle",
+      "flexible_rubber"
     ]
   ]
 }

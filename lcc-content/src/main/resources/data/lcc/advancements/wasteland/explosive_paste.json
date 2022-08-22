@@ -1,5 +1,5 @@
 {
-  "parent": "lcc:oil",
+  "parent": "lcc:wasteland/oil",
   "criteria": {
     "triggered_paste": {
       "conditions": {},

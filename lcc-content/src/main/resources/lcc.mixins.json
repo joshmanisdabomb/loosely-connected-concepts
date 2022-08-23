@@ -27,7 +27,8 @@
     "PlayerEntityMixin",
     "EffectMobEntityMixin",
     "PitSpawnHelperMixin",
-    "AttributeLivingMixin"
+    "AttributeLivingMixin",
+    "MaterialRuleContextAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

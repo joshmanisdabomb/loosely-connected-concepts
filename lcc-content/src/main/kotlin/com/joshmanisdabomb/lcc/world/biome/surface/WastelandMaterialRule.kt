@@ -1,37 +1,35 @@
 package com.joshmanisdabomb.lcc.world.biome.surface
 
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
-import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.RecordCodecBuilder
+import com.joshmanisdabomb.lcc.mixin.content.common.MaterialRuleContextAccessor
+import com.mojang.serialization.MapCodec
+import net.minecraft.block.Blocks
 import net.minecraft.util.dynamic.CodecHolder
+import net.minecraft.world.gen.noise.NoiseParametersKeys
 import net.minecraft.world.gen.surfacebuilder.MaterialRules
-import kotlin.random.Random
 
-
-data class WastelandMaterialRule(val breakage: Float, val then: MaterialRules.MaterialRule?, val `else`: MaterialRules.MaterialRule) : MaterialRules.MaterialRule {
+class WastelandMaterialRule : MaterialRules.MaterialRule {
 
 	override fun apply(context: MaterialRules.MaterialRuleContext): MaterialRules.BlockStateRule {
+		val sampler = (context as MaterialRuleContextAccessor).noiseConfig.getOrCreateSampler(NoiseParametersKeys.NETHERRACK)
 		return MaterialRules.BlockStateRule { x, y, z ->
-			if (rand.nextFloat() >= breakage) {
-				return@BlockStateRule then?.apply(context)?.tryApply(x, y, z) ?: LCCBlocks.cracked_mud.defaultState
-			} else {
-				return@BlockStateRule `else`.apply(context).tryApply(x, y, z)
+			val sample = sampler.sample(x.toDouble(), 0.0, z.toDouble())
+			val depth = (context as MaterialRuleContextAccessor).stoneDepthAbove
+			var length = (sample.toString().last().digitToIntOrNull() ?: 0).mod(4)
+			for (i in 2 downTo 0) {
+				if (y < 80.plus(i.times(6))) length = length.mod(i.plus(1))
 			}
+			if (depth >= length.plus(1)) {
+				return@BlockStateRule LCCBlocks.cracked_mud.defaultState
+			}
+			return@BlockStateRule Blocks.AIR.defaultState
 		}
 	}
 
 	override fun codec(): CodecHolder<out MaterialRules.MaterialRule> = codec
 
 	companion object {
-		val codec = CodecHolder.of(RecordCodecBuilder.create { instance: RecordCodecBuilder.Instance<WastelandMaterialRule> ->
-			instance.group(
-				Codec.FLOAT.fieldOf("breakage").forGetter(WastelandMaterialRule::breakage),
-				MaterialRules.MaterialRule.CODEC.fieldOf("then_run").forGetter(WastelandMaterialRule::then),
-				MaterialRules.MaterialRule.CODEC.fieldOf("else_run").forGetter(WastelandMaterialRule::`else`)
-			).apply(instance, ::WastelandMaterialRule)
-		})
-
-		val rand = Random(8942353564345645465)
+		val codec = CodecHolder.of(MapCodec.unit(::WastelandMaterialRule))
 	}
 
 }

@@ -27,7 +27,7 @@ object LCCTerraRegions : BasicDirectory<Region, Unit>(), TerraBlenderApi {
         LCCMaterialRules.init()
 
         val vanilla = VanillaSurfaceRules.createDefaultRule(true, false, true)
-        val barrens = MaterialRules.sequence(MaterialRules.condition(MaterialRules.STONE_DEPTH_FLOOR_WITH_SURFACE_DEPTH, WastelandMaterialRule(0.0f, null, MaterialRules.block(Blocks.AIR.defaultState))))
+        val barrens = MaterialRules.sequence(MaterialRules.condition(MaterialRules.STONE_DEPTH_FLOOR_WITH_SURFACE_DEPTH, WastelandMaterialRule()))
         SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, LCC.modid, MaterialRules.sequence(
             MaterialRules.condition(MaterialRules.biome(RegistryKey.of(BuiltinRegistries.BIOME.key, LCC.id("wasteland"))), barrens),
             vanilla

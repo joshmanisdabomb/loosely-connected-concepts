@@ -149,6 +149,7 @@ object LCCLangData {
         lang[LCCBlocks.radar.translationKey.toString() + ".range"] = "Range is %1\$s blocks"
 
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.malformed"] = "The sapphire altar has been tampered with."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.unsolvable"] = "Could not generate a solvable minesweeper board. Please try again."
 
         lang[LCCBlocks.wasteland_obelisk.translationKey.toString() + ".cooldown"] = "The obelisks asks you to be patient."
 

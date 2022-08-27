@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.stack
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -26,7 +27,7 @@ abstract class AltarChallenge {
 
     abstract fun initialData(random: Random, nbt: NbtCompound = NbtCompound()): NbtCompound
 
-    abstract fun generate(world: StructureWorldAccess, /*piece: SapphireAltarStructureFeature.Piece,*/ yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random)
+    abstract fun generate(world: StructureWorldAccess, piece: SapphireAltarStructure.Piece, yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random)
 
     open fun getAltarWidth(data: NbtCompound): Int? = data.getInt("Width") + 2
 

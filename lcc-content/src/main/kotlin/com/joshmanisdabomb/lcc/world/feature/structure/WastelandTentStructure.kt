@@ -67,9 +67,8 @@ class WastelandTentStructure(config: Config) : Structure(config) {
         override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: net.minecraft.util.math.random.Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
             val original = this.pos
             this.pos = this.pos.down(1)
-            val bool = super.generate(world, accessor, gen, random, boundingBox, chunkPos, pos)
+            super.generate(world, accessor, gen, random, boundingBox, chunkPos, pos)
             this.pos = original
-            return bool
         }
 
         companion object {
@@ -93,9 +92,7 @@ class WastelandTentStructure(config: Config) : Structure(config) {
         })
     }
 
-    override fun getTerrainAdaptation(): StructureTerrainAdaptation {
-        return StructureTerrainAdaptation.BEARD_BOX
-    }
+    override fun getTerrainAdaptation() = StructureTerrainAdaptation.BEARD_BOX
 
     override fun getType() = LCCStructureTypes.wasteland_tent
 

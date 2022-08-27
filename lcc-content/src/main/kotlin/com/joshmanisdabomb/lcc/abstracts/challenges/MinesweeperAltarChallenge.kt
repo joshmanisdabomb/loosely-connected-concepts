@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.extensions.NBT_STRING
 import com.joshmanisdabomb.lcc.extensions.addString
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.extensions.transformInt
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -23,10 +24,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToInt
+import kotlin.math.*
 
 class MinesweeperAltarChallenge : AltarChallenge() {
 
@@ -35,16 +33,16 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val b = random.nextInt(4).plus(6).times(2).plus(1)
         nbt.putInt("Width", max(a, b))
         nbt.putInt("Depth", min(a, b))
-        nbt.putInt("Mines", (a*b).times(random.nextDouble().times(0.4).plus(0.12)).roundToInt())
+        nbt.putInt("Mines", (a*b).toDouble().pow(0.7).times(random.nextDouble().times(0.4).plus(0.8)).roundToInt())
         return nbt
     }
 
-    override fun generate(world: StructureWorldAccess, /*piece: SapphireAltarStructureFeature.Piece,*/ yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random) {
+    override fun generate(world: StructureWorldAccess, piece: SapphireAltarStructure.Piece, yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random) {
         val width = data.getInt("Width")
         val depth = data.getInt("Depth")
         for (i in 0 until width) {
             for (j in 0 until depth) {
-                //piece.addBlock(world, LCCBlocks.bomb_board_block.defaultState.with(Properties.AXIS, Direction.Axis.Y).with(BombBoardBlock.mine_state, 0), i+1, yOffset, j+4, boundingBox)
+                piece.addBlock(world, LCCBlocks.bomb_board_block.defaultState.with(Properties.AXIS, Direction.Axis.Y).with(BombBoardBlock.mine_state, 0), i+1, yOffset, j+4, boundingBox)
             }
         }
     }
@@ -63,7 +61,17 @@ class MinesweeperAltarChallenge : AltarChallenge() {
             return false
         }
 
-        val board = generateBoard(width, depth, bombs, world.random)
+        var attempts = 0
+        var board: List<List<Boolean>>
+        do {
+            board = generateBoard(width, depth, bombs, world.random)
+            attempts++
+            println("Attempt $attempts at generating bomb board @ $pos")
+        } while (attempts < 30 && !solveBoard(board))
+        if (attempts >= 30) {
+            player.sendMessage(Text.translatable("block.lcc.sapphire_altar.minesweeper.unsolvable"), true)
+            return false
+        }
 
         val pos2 = be.pos.offset(facing, 3).down()
         val bbstate = LCCBlocks.bomb_board_block.defaultState.with(Properties.AXIS, Direction.Axis.Y)
@@ -118,37 +126,11 @@ class MinesweeperAltarChallenge : AltarChallenge() {
                 val y = random.nextInt(height)
 
                 if (board[x][y]) continue
-                if ((x == 0 || x == width-1) && random.nextInt(2) == 0) continue
-                if ((y == 0 || y == height-1) && random.nextInt(2) == 0) continue
-                if ((x <= 1 || x >= width-2) && random.nextInt(2) == 0) continue
-                if ((y <= 1 || y >= height-2) && random.nextInt(2) == 0) continue
 
                 val xd = abs(x - width.div(2))
                 val yd = abs(y - height.div(2))
                 if (xd <= 1 && yd <= 1) continue
                 if (xd <= 3 && yd <= 3 && random.nextInt(5-(xd+yd).div(2)) != 0) continue
-
-                var adjacent = 0
-                for (j in -1..1) {
-                    for (k in -1..1) {
-                        if (j == 0 && k == 0) continue
-                        if (x + j < 0 || x + j >= width) continue
-                        if (y + k < 0 || y + k >= height) continue
-                        if (!board[x + j][y + k]) continue
-                        adjacent += 1
-                    }
-                }
-
-                when (adjacent) {
-                    1 -> if (random.nextInt(4) == 0) continue
-                    2 -> if (random.nextInt(3) == 0) continue
-                    3 -> if (random.nextInt(2) == 0) continue
-                    4 -> if (random.nextInt(3) != 0) continue
-                    5 -> if (random.nextInt(4) != 0) continue
-                    6 -> if (random.nextInt(5) != 0) continue
-                    7 -> continue
-                    8 -> continue
-                }
 
                 board[x][y] = true
                 break
@@ -156,6 +138,181 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         }
         return board
     }
+
+    fun solveBoard(board: List<List<Boolean>>): Boolean {
+        val width = board.size
+        val height = board.first().size
+        val board = board.map { it.map { it.transformInt(-2, -1).toByte() }.toMutableList() }.toMutableList()
+
+        //reveal middle tile
+        if (!solveBoardClick(board, width.div(2), height.div(2))) return false
+
+        //run routine
+        var ideas: Int
+        do {
+            ideas = 0
+
+            var ideas3x3: Int
+            do {
+                ideas3x3 = solveBoard3x3Flag(board)
+                if (ideas3x3 > 0 && !solveBoard3x3Reveal(board)) {
+                    return false
+                }
+            } while (ideas3x3 > 0)
+            ideas += ideas3x3
+
+            /*var ideasTank: Int
+            do {
+                ideasTank = 0
+                val borders = solveBoardTankBorders(board)
+                solveBoardDebug(board, 9)
+            } while (false)
+            ideas += ideasTank*/
+
+            if (solveBoardFinished(board)) {
+                return true
+            }
+        } while (ideas > 0)
+        return false
+    }
+
+    fun solveBoardClick(board: MutableList<MutableList<Byte>>, x: Int, y: Int): Boolean {
+        val value = board[x][y]
+        if (value == (-2).toByte() || value == (-4).toByte()) {
+            return false
+        } else if (value == (-1).toByte() || value == (-3).toByte()) {
+            val adjacent = solveBoardAdjacent(board, x, y, -2, -4)
+            board[x][y] = adjacent
+            if (adjacent == 0.toByte()) {
+                for (i in -1..1) {
+                    for (j in -1..1) {
+                        if (i == 0 && j == 0) continue
+                        if (x+i !in board.indices) continue
+                        if (y+j !in board.first().indices) continue
+                        solveBoardClick(board, x+i, y+j)
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    fun solveBoardFlag(board: MutableList<MutableList<Byte>>, x: Int, y: Int): Boolean {
+        val value = board[x][y]
+        if (value !in -2..-1) return false
+        board[x][y] = value.minus(2).toByte()
+        return true
+    }
+
+    fun solveBoardAdjacent(board: List<List<Byte>>, x: Int, y: Int, vararg valid: Byte): Byte {
+        var count = 0
+        for (i in -1..1) {
+            for (j in -1..1) {
+                if (i == 0 && j == 0) continue
+                if (valid.any { board.getOrNull(x+i)?.getOrNull(y+j) == it }) count++
+            }
+        }
+        return count.toByte()
+    }
+
+    fun solveBoard3x3Flag(board: MutableList<MutableList<Byte>>): Int {
+        var count = 0
+        for (x in board.indices) {
+            for (y in board[x].indices) {
+                val value = board[x][y]
+                if (value <= 0) continue
+                if (value == solveBoardAdjacent(board, x, y, -1, -2, -3, -4)) {
+                    for (i in -1..1) {
+                        for (j in -1..1) {
+                            if (i == 0 && j == 0) continue
+                            if (x+i !in board.indices) continue
+                            if (y+j !in board.first().indices) continue
+                            if (solveBoardFlag(board, x+i, y+j)) count++
+                        }
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    fun solveBoard3x3Reveal(board: MutableList<MutableList<Byte>>): Boolean {
+        for (x in board.indices) {
+            for (y in board[x].indices) {
+                val value = board[x][y]
+                if (value <= 0) continue
+                if (value == solveBoardAdjacent(board, x, y, -3, -4)) {
+                    for (i in -1..1) {
+                        for (j in -1..1) {
+                            if (i == 0 && j == 0) continue
+                            if (x+i !in board.indices) continue
+                            if (y+j !in board.first().indices) continue
+                            if (board[x+i][y+j] < -2) continue
+                            if (!solveBoardClick(board, x+i, y+j)) return false
+                        }
+                    }
+                }
+            }
+        }
+        return true
+    }
+
+    /*fun solveBoardTankBorders(board: List<List<Byte>>): List<List<Pair<Int, Int>>> {
+        val unsplit = mutableListOf<Pair<Int, Int>>()
+        for (x in board.indices) {
+            for (y in board[x].indices) {
+                val value = board[x][y]
+                if (value in -2..-1 && solveBoardAdjacent(board, x, y, 0, 1, 2, 3, 4, 5, 6, 7, 8) > 0) {
+                    unsplit.add(Pair(x, y))
+                }
+            }
+        }
+        val regions = mutableListOf<MutableList<Pair<Int, Int>>>()
+        val reverse = mutableMapOf<Pair<Int, Int>, Int>()
+        for (t in unsplit) {
+            val region = reverse[t] ?: regions.size
+            reverse[t] = region
+            for (i in -1..1) {
+                for (j in -1..1) {
+                    if (i == 0 && j == 0) continue
+                    val t2 = Pair(t.first + i, t.second + j)
+                    if (unsplit.contains(t2)) {
+                        if (region >= regions.size) {
+                            regions.add(mutableListOf())
+                        }
+                        reverse[t2] = region
+                        regions[region].add(t2)
+                    }
+                }
+            }
+        }
+        for (x in board.indices) {
+            for (y in board[x].indices) {
+                val t = Pair(x, y)
+                if (!reverse.containsKey(t)) continue
+                (board[x] as MutableList)[y] = reverse[t]?.plus(10)?.toByte() ?: continue
+            }
+        }
+        return regions
+    }*/
+
+    fun solveBoardFinished(board: List<List<Byte>>) = !board.any { it.any { it in -2..-1 } }
+
+    /*private fun solveBoardDebug(board: List<List<Byte>>, stage: Int) {
+        println("Board at Stage $stage")
+        for (l in board.transpose().asReversed()) {
+            println(l.joinToString(separator = "") {
+                when (it.toInt()) {
+                    -4 -> "[F]"
+                    -3 -> "[!]"
+                    -2 -> "[*]"
+                    -1 -> "[-]"
+                    0 -> "[ ]"
+                    else -> "[$it]"
+                }
+            })
+        }
+    }*/
 
     fun verifyAltar(world: World, facing: Direction, origin: BlockPos, width: Int, depth: Int): Boolean {
         var flag = false

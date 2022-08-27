@@ -60,6 +60,7 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
 
     val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland) }
     val has_wasteland_tent by entry(::biomeInitialiser) { LCC.id("has_structure/wasteland_tent") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
+    val has_sapphire_altar by entry(::biomeInitialiser) { LCC.id("has_structure/sapphire_altar") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
     fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)

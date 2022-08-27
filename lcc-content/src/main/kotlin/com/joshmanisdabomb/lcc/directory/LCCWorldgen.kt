@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
 import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
 import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
@@ -282,6 +283,7 @@ object LCCStructureTypes : BasicDirectory<StructureType<out Structure>, Unit>(),
     override fun regId(name: String) = LCC.id(name)
 
     val wasteland_tent by entry(::initialiser) { StructureType { WastelandTentStructure.codec } }
+    val sapphire_altar by entry(::initialiser) { StructureType { SapphireAltarStructure.codec } }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -294,6 +296,7 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
     override fun regId(name: String) = LCC.id(name)
 
     val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
+    val sapphire_altar by entry(::initialiser) { StructurePieceType.ManagerAware(SapphireAltarStructure::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

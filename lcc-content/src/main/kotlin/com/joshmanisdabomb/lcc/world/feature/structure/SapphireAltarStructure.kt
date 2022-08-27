@@ -1,59 +1,37 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
 
-/*
 import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.block.SapphireAltarBlock
 import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
+import com.joshmanisdabomb.lcc.directory.LCCStructureTypes
 import com.joshmanisdabomb.lcc.extensions.horizontalDirections
-import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.structure.ShiftableStructurePiece
-import net.minecraft.structure.StructureManager
-import net.minecraft.structure.StructureStart
+import net.minecraft.structure.StructureContext
+import net.minecraft.structure.StructureTemplateManager
 import net.minecraft.util.Identifier
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.registry.DynamicRegistryManager
-import net.minecraft.world.HeightLimitView
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.Heightmap
 import net.minecraft.world.StructureWorldAccess
-import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.StructureAccessor
+import net.minecraft.world.gen.StructureTerrainAdaptation
 import net.minecraft.world.gen.chunk.ChunkGenerator
-import net.minecraft.world.gen.feature.DefaultFeatureConfig
-import net.minecraft.world.gen.feature.StructureFeature
-import net.minecraft.world.gen.feature.StructureFeature.StructureStartFactory
+import net.minecraft.world.gen.structure.Structure
 import java.util.*
-import java.util.function.Predicate
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.random.asKotlinRandom
-class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : StructureFeature<DefaultFeatureConfig>(configCodec) {
 
-    override fun getStructureStartFactory(): StructureStartFactory<DefaultFeatureConfig> = StructureStartFactory(SapphireAltarStructureFeature::Start)
-
-    class Start(feature: StructureFeature<DefaultFeatureConfig>, pos: ChunkPos, references: Int, seed: Long) : StructureStart<DefaultFeatureConfig>(feature, pos, references, seed) {
-
-        override fun init(registry: DynamicRegistryManager, gen: ChunkGenerator, manager: StructureManager, chunkPos: ChunkPos, config: DefaultFeatureConfig, world: HeightLimitView, predicate: Predicate<Biome>) {
-            val y = gen.getHeight(chunkPos.startX, chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, world)
-            val pos = BlockPos(chunkPos.startX, y, chunkPos.startZ)
-            val rot = horizontalDirections.random(random.asKotlinRandom())
-            val challenge = LCCRegistries.altar_challenges.getRandom(random) ?: error("Invalid altar challenge for structure.")
-            val data = challenge.initialData(random)
-            val width = challenge.getAltarWidth(data) ?: 3
-            val depth = challenge.getAltarDepth(data) ?: 3
-            addPiece(Piece(challenge, data, random, pos, width, depth, rot))
-        }
-
-    }
+class SapphireAltarStructure(config: Config) : Structure(config) {
 
     class Piece : ShiftableStructurePiece {
 
@@ -67,22 +45,22 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             this.rotation = rot
         }
 
-        constructor(world: ServerWorld, nbt: NbtCompound) : super(LCCStructurePieceTypes.sapphire_altar, nbt) {
+        constructor(manager: StructureTemplateManager, nbt: NbtCompound) : super(LCCStructurePieceTypes.sapphire_altar, nbt) {
             this.challenge = LCCRegistries.altar_challenges[Identifier(nbt.getString("Challenge"))] ?: error("Invalid altar challenge for structure.")
             this.data = nbt.getCompound("ChallengeOptions")
             this.rotation = Direction.byName(nbt.getString("Rotation")) ?: error("Invalid direction for sapphire altar structure.")
             setOrientation(this.rotation)
         }
 
-        override fun writeNbt(world: ServerWorld, nbt: NbtCompound) {
+        override fun writeNbt(context: StructureContext, nbt: NbtCompound) {
             nbt.putString("Challenge", challenge.id.toString())
             nbt.put("ChallengeOptions", data)
             nbt.putString("Rotation", rotation.getName())
-            super.writeNbt(world, nbt)
+            super.writeNbt(context, nbt)
         }
 
-        override fun generate(world: StructureWorldAccess, structureAccessor: StructureAccessor, chunkGenerator: ChunkGenerator, random: Random, boundingBox: BlockBox, chunkPos: ChunkPos, pos: BlockPos): Boolean {
-            var y = pos.y
+        override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: net.minecraft.util.math.random.Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
+            var y = pivot.y
             for (i in 0 until width) {
                 for (j in 0 until depth-3) {
                     val p = this.offsetPos(i, 0, j + 3)
@@ -90,7 +68,7 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
                 }
             }
             val w = width.div(2).minus(1)
-            y = min(y + 2, pos.y + w - 1) - pos.y
+            y = min(y + 2, pivot.y + w - 1) - pivot.y
             for (i in 0 until width) {
                 for (j in 0 until depth-3) {
                     addBlock(world, LCCBlocks.sapphire_altar_brick.defaultState, i, y, j + 3, boundingBox)
@@ -132,7 +110,6 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
             challenge.generate(world, this, y, boundingBox, data, random)
             addBlock(world, LCCBlocks.sapphire_altar.defaultState.with(HORIZONTAL_FACING, Direction.SOUTH).with(SapphireAltarBlock.middle, SapphireAltarBlock.SapphireState.NORMAL), w + 1, y + 1, 1, boundingBox)
             (world.getBlockEntity(offsetPos(w + 1, y + 1, 1)) as? SapphireAltarBlockEntity)?.setChallenge(challenge, data)
-            return true
         }
 
         public override fun addBlock(world: StructureWorldAccess, block: BlockState, x: Int, i: Int, j: Int, box: BlockBox) {
@@ -141,4 +118,28 @@ class SapphireAltarStructureFeature(configCodec: Codec<DefaultFeatureConfig>) : 
 
     }
 
-}*/
+    override fun getStructurePosition(context: Context): Optional<StructurePosition> {
+        var y = context.chunkGenerator.getHeight(context.chunkPos.startX, context.chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, context.world, context.noiseConfig)
+        if (y < context.chunkGenerator().seaLevel) y = context.chunkGenerator().seaLevel + 2
+        val pos = BlockPos(context.chunkPos.startX, y, context.chunkPos.startZ)
+        val rot = Util.getRandom(horizontalDirections, context.random)
+        val challenge = LCCRegistries.altar_challenges.getRandom(context.random).orElseThrow().value()
+        val data = challenge.initialData(context.random)
+        val width = challenge.getAltarWidth(data) ?: 3
+        val depth = challenge.getAltarDepth(data) ?: 3
+        return Optional.of(StructurePosition(pos) {
+            it.addPiece(Piece(challenge, data, context.random, pos, width, depth, rot))
+        })
+    }
+
+    override fun getTerrainAdaptation() = StructureTerrainAdaptation.BEARD_BOX
+
+    override fun getType() = LCCStructureTypes.sapphire_altar
+
+    companion object {
+
+        val codec = createCodec(::SapphireAltarStructure)
+
+    }
+
+}

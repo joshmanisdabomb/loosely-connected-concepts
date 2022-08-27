@@ -82,7 +82,7 @@ class WastelandTentStructure(config: Config) : Structure(config) {
     }
 
     override fun getStructurePosition(context: Context): Optional<StructurePosition> {
-        val id = (context.random.nextInt(3) == 0).transform(template_alt, template)
+        val id = (context.random.nextInt(4) == 0).transform(template_alt, template)
         val template = context.structureTemplateManager.getTemplate(id).orElseThrow()
         if (getMinCornerHeight(context, template.size.x, template.size.z) < context.chunkGenerator().seaLevel) return Optional.empty()
         val y = context.chunkGenerator.getHeight(context.chunkPos.startX, context.chunkPos.startZ, Heightmap.Type.WORLD_SURFACE_WG, context.world, context.noiseConfig)
@@ -100,8 +100,8 @@ class WastelandTentStructure(config: Config) : Structure(config) {
 
         val codec = createCodec(::WastelandTentStructure)
 
-        val template = LCC.id("wasteland_tent")
-        val template_alt = LCC.id("wasteland_fallen_tent")
+        val template = LCC.id("wasteland/tent")
+        val template_alt = LCC.id("wasteland/fallen_tent")
 
         val tent_path = RuleStructureProcessor(listOf(
             StructureProcessorRule(RandomBlockMatchRuleTest(Blocks.MAGENTA_WOOL, 0.66f), AlwaysTrueRuleTest.INSTANCE, Blocks.DIRT_PATH.defaultState),

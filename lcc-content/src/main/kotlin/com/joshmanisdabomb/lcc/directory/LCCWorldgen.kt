@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.world.feature.structure.WastelandObeliskStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature*/
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.challenges.ArenaAltarChallenge
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
 import com.joshmanisdabomb.lcc.world.feature.*
@@ -297,6 +298,7 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
 
     val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
     val sapphire_altar by entry(::initialiser) { StructurePieceType.ManagerAware(SapphireAltarStructure::Piece) }
+    val sapphire_altar_arena by entry(::initialiser) { StructurePieceType.ManagerAware(ArenaAltarChallenge::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

@@ -59,7 +59,7 @@ class SapphireAltarStructure(config: Config) : Structure(config) {
             super.writeNbt(context, nbt)
         }
 
-        override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: net.minecraft.util.math.random.Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
+        override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
             var y = pivot.y
             for (i in 0 until width) {
                 for (j in 0 until depth-3) {
@@ -75,14 +75,14 @@ class SapphireAltarStructure(config: Config) : Structure(config) {
                     fillDownwards(world, LCCBlocks.sapphire_altar_brick.defaultState, i, y-1, j + 3, boundingBox)
                 }
             }
-            fill(world, boundingBox, 0, y+1, 3, width-1, y + 100, depth-1)
+            //fill(world, boundingBox, 0, y+1, 3, width-1, y + 100, depth-1)
             for (i in 0 until 3) {
                 for (j in 0 until 3) {
                     addBlock(world, LCCBlocks.sapphire_altar_brick.defaultState, i + w, y, j, boundingBox)
                     fillDownwards(world, LCCBlocks.sapphire_altar_brick.defaultState, i + w, y-1, j, boundingBox)
                 }
             }
-            fill(world, boundingBox, w, y+1, 0, w+2, y + 100, 2)
+            //fill(world, boundingBox, w, y+1, 0, w+2, y + 100, 2)
             for (i in 0 until width-w) {
                 var blocks = 0
                 for (j in 0 until 3) {
@@ -116,6 +116,14 @@ class SapphireAltarStructure(config: Config) : Structure(config) {
             super.addBlock(world, block, x, i, j, box)
         }
 
+        public override fun offsetPos(x: Int, y: Int, z: Int): BlockPos.Mutable {
+            return super.offsetPos(x, y, z)
+        }
+
+        fun setBoundingBox(box: BlockBox) {
+            boundingBox = box
+        }
+
     }
 
     override fun getStructurePosition(context: Context): Optional<StructurePosition> {
@@ -128,7 +136,9 @@ class SapphireAltarStructure(config: Config) : Structure(config) {
         val width = challenge.getAltarWidth(data) ?: 3
         val depth = challenge.getAltarDepth(data) ?: 3
         return Optional.of(StructurePosition(pos) {
-            it.addPiece(Piece(challenge, data, context.random, pos, width, depth, rot))
+            val main = Piece(challenge, data, context.random, pos, width, depth, rot)
+            it.addPiece(main)
+            challenge.getExtraPieces(main, data, context, pos, width, depth, rot).forEach(it::addPiece)
         })
     }
 

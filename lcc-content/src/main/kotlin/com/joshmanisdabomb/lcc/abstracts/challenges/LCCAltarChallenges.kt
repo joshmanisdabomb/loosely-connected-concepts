@@ -12,6 +12,7 @@ object LCCAltarChallenges : BasicDirectory<AltarChallenge, Unit>(), RegistryDire
     override fun regId(name: String) = LCC.id(name)
 
     val minesweeper by entry(::initialiser) { MinesweeperAltarChallenge() }
+    val arena by entry(::initialiser) { ArenaAltarChallenge() }
 
     override fun defaultProperties(name: String) = Unit
 

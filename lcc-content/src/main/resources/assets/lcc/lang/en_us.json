@@ -232,6 +232,8 @@
   "block.lcc.rusted_iron_block": "Rusted Iron Block",
   "block.lcc.salt_block": "Salt Block",
   "block.lcc.sapphire_altar": "Sapphire Altar",
+  "block.lcc.sapphire_altar.arena.malformed": "The sapphire altar has been tampered with.",
+  "block.lcc.sapphire_altar.arena.player_position": "All players that wish to take part must step inside the altar.",
   "block.lcc.sapphire_altar.minesweeper.malformed": "The sapphire altar has been tampered with.",
   "block.lcc.sapphire_altar.minesweeper.unsolvable": "Could not generate a solvable minesweeper board. Please try again.",
   "block.lcc.sapphire_altar_brick": "Sapphire Altar Brick",

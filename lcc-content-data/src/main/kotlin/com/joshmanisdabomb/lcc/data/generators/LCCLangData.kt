@@ -152,6 +152,9 @@ object LCCLangData {
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.unsolvable"] = "Could not generate a solvable minesweeper board. Please try again."
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.malformed"] = "The sapphire altar has been tampered with."
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.player_position"] = "All players that wish to take part must step inside the altar."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress"] = "Sapphire Arena"
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.spawners"] = "Sapphire Arena - Spawners Remaining: %1\$s"
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.hostiles"] = "Sapphire Arena - Hostiles Remaining: %1\$s"
 
         lang[LCCBlocks.wasteland_obelisk.translationKey.toString() + ".cooldown"] = "The obelisks asks you to be patient."
 

@@ -34,7 +34,6 @@ interface LCCContentEntityTrait {
             val protection = living.getAttributeValue(te.protection)
             if (protection > 0.0) {
                 val damage = player.getAttributeValue(te.damage)
-                println(player.attributes.getValue(LCCAttributes.wasteland_damage))
                 result = min(result, te.reduceDamageTaken(living, protection, player, damage, after, original))
             }
         }

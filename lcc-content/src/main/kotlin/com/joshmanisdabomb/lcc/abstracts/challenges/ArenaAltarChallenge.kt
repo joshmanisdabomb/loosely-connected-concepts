@@ -5,10 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
-import com.joshmanisdabomb.lcc.extensions.isSurvival
-import com.joshmanisdabomb.lcc.extensions.modifyCompound
-import com.joshmanisdabomb.lcc.extensions.modifyCompoundList
-import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -42,6 +39,8 @@ import net.minecraft.world.World
 import net.minecraft.world.gen.StructureAccessor
 import net.minecraft.world.gen.chunk.ChunkGenerator
 import net.minecraft.world.gen.structure.Structure
+import kotlin.math.absoluteValue
+import kotlin.math.max
 
 class ArenaAltarChallenge : AltarChallenge() {
 
@@ -111,6 +110,8 @@ class ArenaAltarChallenge : AltarChallenge() {
     override fun handleState(cstate: ChallengeState, world: ServerWorld, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity): Boolean {
         if (cstate != ChallengeState.ACTIVE) {
             bars[pos]?.clearPlayers()
+            val facing = state.get(Properties.HORIZONTAL_FACING)
+            unlockAltar(world, facing.opposite, pos)
         }
         return super.handleState(cstate, world, pos, state, entity)
     }
@@ -245,6 +246,44 @@ class ArenaAltarChallenge : AltarChallenge() {
         foreachPlane(origin.offset(facing, 3).offset(facing.rotateYCounterclockwise(), 8).down(), facing, 1, 17, func = b)
     }
 
+    fun unlockAltar(world: World, facing: Direction, origin: BlockPos) {
+        for (i in -6..6 step 3) {
+            for (j in 0..2) {
+                for (k in 0..16 step 16) {
+                    world.setBlockState(origin.offset(facing, 11 + i).offset(facing.rotateYClockwise(), k.minus(8)).up(j), if (j == 2) when (i.absoluteValue) {
+                        6 -> LCCBlocks.sapphire_altar_brick.defaultState
+                        3 -> top_slab
+                        else -> Blocks.AIR.defaultState
+                    } else Blocks.AIR.defaultState)
+                }
+                world.setBlockState(origin.offset(facing, 19).offset(facing.rotateYClockwise(), i).up(j), if (j == 2) when (i.absoluteValue) {
+                    6 -> LCCBlocks.sapphire_altar_brick.defaultState
+                    3 -> top_slab
+                    else -> Blocks.AIR.defaultState
+                } else Blocks.AIR.defaultState)
+            }
+        }
+        for (i in -6..6 step 12) {
+            for (j in 0..1) {
+                world.setBlockState(origin.offset(facing, 3).offset(facing.rotateYClockwise(), i).up(j), Blocks.AIR.defaultState)
+            }
+        }
+        for (i in -4..4 step 8) {
+            for (j in 0..1) {
+                world.setBlockState(origin.offset(facing, 3).offset(facing.rotateYClockwise(), i).up(j), Blocks.AIR.defaultState)
+            }
+            world.setBlockState(origin.offset(facing, 3).offset(facing.rotateYClockwise(), i).up(2), top_slab)
+        }
+        for (i in -1..1) {
+            for (j in 0..2) {
+                world.setBlockState(origin.offset(facing, 3).offset(facing.rotateYClockwise(), i).up(j), Blocks.AIR.defaultState)
+            }
+            if (i == 0) {
+                world.setBlockState(origin.offset(facing, 3).offset(facing.rotateYClockwise(), i).up(3), top_slab)
+            }
+        }
+    }
+
     fun trapAltar(world: World, facing: Direction, origin: BlockPos) {
         placeSpawner(world, origin.offset(facing, 11), true)
         for (i in -5..5 step 10) {
@@ -258,7 +297,7 @@ class ArenaAltarChallenge : AltarChallenge() {
         world.setBlockState(pos, Blocks.SPAWNER.defaultState)
         val spawner = world.getBlockEntity(pos) as? MobSpawnerBlockEntity ?: return
         val nbt = NbtCompound()
-        nbt.putShort("Delay", middle.transform(0, -1))
+        nbt.putShort("Delay", 0)
 
         nbt.modifyCompoundList("SpawnPotentials") {
             return@modifyCompoundList entities.map {
@@ -314,12 +353,17 @@ class ArenaAltarChallenge : AltarChallenge() {
             bar.name = Text.translatable("block.lcc.sapphire_altar.arena.progress.spawners", spawners)
             bar.percent = spawners / 5f
             bar.color = BossBar.Color.BLUE
+            bar.style = BossBar.Style.NOTCHED_10
             return null
         } else {
             val entities = world.getEntitiesByClass(MobEntity::class.java, box) { it.type != LCCEntities.fly }
             bar.name = Text.translatable("block.lcc.sapphire_altar.arena.progress.hostiles", entities.size)
-            bar.percent = 1f
             bar.color = BossBar.Color.RED
+            bar.style = BossBar.Style.PROGRESS
+            val be = world.getBlockEntity(origin) as? SapphireAltarBlockEntity ?: return entities.size
+            val max = be.data.modifyInt("Hostiles") { max(entities.size, this) }
+            bar.percent = entities.size.toFloat().div(max)
+            be.markDirty()
             return entities.size
         }
     }

@@ -14,6 +14,7 @@ import net.minecraft.client.render.entity.EmptyEntityRenderer
 import net.minecraft.client.render.entity.SkeletonEntityRenderer
 import net.minecraft.entity.*
 import net.minecraft.entity.mob.HostileEntity
+import net.minecraft.entity.mob.MobEntity
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.Heightmap
 
@@ -34,6 +35,9 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     val salt by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::SaltEntity).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
     val consumer_tongue by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::ConsumerTongueEntity).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
     val disciple_dust by entry(::typeInitialiser) { FabricEntityTypeBuilder.create(SpawnGroup.MISC, ::DiscipleDustEntity).dimensions(EntityDimensions.fixed(0.6f, 0.6f)).trackRangeChunks(4).trackedUpdateRate(10).forceTrackedVelocityUpdates(true) }
+
+    val traveller by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<TravellerEntity>().spawnGroup(SpawnGroup.CREATURE).entityFactory(::TravellerEntity).dimensions(EntityDimensions.changing(0.6f, 1.95f)).trackRangeChunks(10).trackedUpdateRate(3).forceTrackedVelocityUpdates(true) }
+        .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, MobEntity.createMobAttributes()) }
 
     val consumer by entry(::typeInitialiser) { FabricEntityTypeBuilder.createMob<ConsumerEntity>().spawnGroup(SpawnGroup.MONSTER).entityFactory(::ConsumerEntity).dimensions(EntityDimensions.changing(0.8f, 1.1f)).trackRangeChunks(8).trackedUpdateRate(3).forceTrackedVelocityUpdates(true).spawnRestriction(SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, LCCSpawnRestrictions::canSpawnInDarkOrSkylight) }
         .addInitListener { context, params -> FabricDefaultAttributeRegistry.register(context.entry, ConsumerEntity.createAttributes()) }
@@ -65,6 +69,8 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
         EntityRendererRegistry.register(pocket_zombie_pigman, ::PocketZombiePigmanEntityRenderer)
+
+        EntityRendererRegistry.register(traveller, ::TravellerEntityRenderer)
 
         EntityRendererRegistry.register(consumer, ::ConsumerEntityRenderer)
         EntityRendererRegistry.register(wasp, ::WaspEntityRenderer)

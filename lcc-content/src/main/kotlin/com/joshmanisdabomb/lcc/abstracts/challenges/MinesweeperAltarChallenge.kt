@@ -33,7 +33,6 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val b = random.nextInt(4).plus(6).times(2).plus(1)
         nbt.putInt("Width", max(a, b))
         nbt.putInt("Depth", min(a, b))
-        nbt.putInt("Mines", (a*b).toDouble().pow(0.7).times(random.nextDouble().times(0.4).plus(0.8)).roundToInt())
         return nbt
     }
 
@@ -52,9 +51,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         val facing = state[Properties.HORIZONTAL_FACING].opposite
 
         val width = data.getInt("Width")
-        //val w = width.minus(1).div(2)
         val depth = data.getInt("Depth")
-        val bombs = data.getInt("Mines")
 
         if (!verifyAltar(world, facing, pos, width, depth)) {
             player.sendMessage(Text.translatable("block.lcc.sapphire_altar.minesweeper.malformed"), true)
@@ -64,6 +61,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
         var attempts = 0
         var board: List<List<Boolean>>
         do {
+            val bombs = (width * depth).toDouble().pow(0.7).times(world.random.nextDouble().times(0.7).plus(0.8)).roundToInt()
             board = generateBoard(width, depth, bombs, world.random)
             attempts++
             println("Attempt $attempts at generating bomb board @ $pos")

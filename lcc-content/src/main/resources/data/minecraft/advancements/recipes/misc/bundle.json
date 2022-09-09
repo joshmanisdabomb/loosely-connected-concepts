@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cracked_mud": {
+    "has_rabbit_hide": {
       "conditions": {
         "items": [
           {
             "items": [
-              "lcc:cracked_mud"
+              "minecraft:rabbit_hide"
             ]
           }
         ]
@@ -15,33 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "lcc:wasteland_obelisk"
+        "recipe": "minecraft:bundle"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_topaz_shard": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "lcc:topaz_shard"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "has_cracked_mud",
-      "has_topaz_shard",
+      "has_rabbit_hide",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "lcc:wasteland_obelisk"
+      "minecraft:bundle"
     ]
   }
 }

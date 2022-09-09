@@ -74,9 +74,6 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.wasp_hive)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium_wasteland)
-                /*.structureFeature(LCCConfiguredStructureFeatures.wasteland_tent)
-                .structureFeature(LCCConfiguredStructureFeatures.sapphire_altar)
-                .structureFeature(LCCConfiguredStructureFeatures.wasteland_obelisk)*/
                 .build())
     }
 

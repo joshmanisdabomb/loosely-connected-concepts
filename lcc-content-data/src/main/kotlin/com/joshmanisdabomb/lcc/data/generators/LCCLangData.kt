@@ -156,8 +156,6 @@ object LCCLangData {
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.spawners"] = "Sapphire Arena - Spawners Remaining: %1\$s"
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.hostiles"] = "Sapphire Arena - Hostiles Remaining: %1\$s"
 
-        lang[LCCBlocks.wasteland_obelisk.translationKey.toString() + ".cooldown"] = "The obelisks asks you to be patient."
-
         lang["commands.lcc.radiation.add.success.single"] = "Added %s to the radiation sickness of %s"
         lang["commands.lcc.radiation.add.success.multiple"] = "Added %s to the radiation sickness of %s players"
         lang["commands.lcc.radiation.set.success.single"] = "Set the radiation sickness of %s to %s"

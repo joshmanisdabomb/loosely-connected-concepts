@@ -1,8 +1,5 @@
 package com.joshmanisdabomb.lcc.directory
 
-/*import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructureFeature
-import com.joshmanisdabomb.lcc.world.feature.structure.WastelandObeliskStructureFeature
-import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature*/
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.challenges.ArenaAltarChallenge
@@ -304,64 +301,3 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
     override fun defaultProperties(name: String) = Unit
 
 }
-
-/*object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out FeatureConfig, out StructureFeature<out FeatureConfig>>, StructureFeature<out FeatureConfig>, GenerationStep.Feature, Unit>() {
-
-    override fun id(name: String) = LCC.id(name)
-
-    val wasteland_tent by entry(::initialiser) {
-        FabricStructureBuilder.create(id, WastelandTentStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.SURFACE_STRUCTURES)
-            .defaultConfig(12, 8, 5648943)
-            .adjustsSurface()
-    }
-    val sapphire_altar by entry(::initialiser) {
-        FabricStructureBuilder.create(id, SapphireAltarStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.TOP_LAYER_MODIFICATION)
-            .defaultConfig(8, 6, 24758369)
-            .adjustsSurface()
-    }
-    val wasteland_obelisk by entry(::initialiser) {
-        FabricStructureBuilder.create(id, WastelandObeliskStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.SURFACE_STRUCTURES)
-            .defaultConfig(21, 20, 420839089)
-            .adjustsSurface()
-    }
-
-    fun <C : FeatureConfig, S : StructureFeature<C>> initialiser(input: FabricStructureBuilder<C, S>, context: DirectoryContext<GenerationStep.Feature>, parameters: Unit): S {
-        return input.register()
-    }
-
-    override fun defaultProperties(name: String) = GenerationStep.Feature.RAW_GENERATION
-
-    override fun defaultContext() = Unit
-
-}
-
-object LCCConfiguredStructureFeatures : BasicDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit>(), RegistryDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit, Unit> {
-
-    override val registry by lazy { BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE }
-
-    override fun regId(name: String) = LCC.id(name)
-
-    val wasteland_tent by entry(::initialiser) { LCCStructureFeatures.wasteland_tent.configure(FeatureConfig.DEFAULT) }
-    val sapphire_altar by entry(::initialiser) { LCCStructureFeatures.sapphire_altar.configure(FeatureConfig.DEFAULT) }
-    val wasteland_obelisk by entry(::initialiser) { LCCStructureFeatures.wasteland_obelisk.configure(FeatureConfig.DEFAULT) }
-
-    override fun defaultProperties(name: String) = Unit
-
-}
-
-object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), RegistryDirectory<StructurePieceType, Unit, Unit> {
-
-    override val registry by lazy { Registry.STRUCTURE_PIECE }
-
-    override fun regId(name: String) = LCC.id(name)
-
-    val wasteland_tent by entry(::initialiser) { StructurePieceType(WastelandTentStructureFeature::Piece) }
-    val sapphire_altar by entry(::initialiser) { StructurePieceType(SapphireAltarStructureFeature::Piece) }
-    val wasteland_obelisk by entry(::initialiser) { StructurePieceType(WastelandObeliskStructureFeature::Piece) }
-
-    override fun defaultProperties(name: String) = Unit
-
-}*/

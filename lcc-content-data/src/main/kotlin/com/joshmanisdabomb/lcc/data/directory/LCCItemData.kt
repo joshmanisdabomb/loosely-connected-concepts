@@ -439,6 +439,17 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
 
     val woodlouse_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("woodlouse_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.woodlouse_shell)).add(ItemTagFactory(LCCItemTags.wasteland_equipment)) }
 
+    val bundle by entry(::initialiser) { data().affects(Items.BUNDLE).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("sbs")
+            .pattern("b b")
+            .pattern("bbb")
+            .input('s', Items.STRING)
+            .input('b', Items.RABBIT_HIDE)
+            .apply { hasCriterionShaped(this, Items.RABBIT_HIDE) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

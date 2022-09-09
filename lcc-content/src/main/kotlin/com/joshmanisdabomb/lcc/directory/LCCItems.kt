@@ -242,7 +242,6 @@ object LCCItems : ItemDirectory() {
         override fun hasGlint(stack: ItemStack) = true
     } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    //TODO enhancing dust for imbuing weapons with poison from stinger, teleporting with obelisk orbs (beta), applying enchantments 1 level higher than max (omega), crafting heart containers
 
     //Special
     val gauntlet by entry(::initialiser) { GauntletItem(Item.Settings().maxCount(1).rarity(Rarity.EPIC).defaults()) }

@@ -13,6 +13,7 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
 import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
+import com.joshmanisdabomb.lcc.world.placement.NearAirPlacement
 import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
 import com.mojang.serialization.Codec
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
@@ -164,12 +165,12 @@ object LCCPlacedFeatures : AdvancedDirectory<PlacedFeature, RegistryEntry<Placed
     val oil_geyser by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_geyser, listOf(RarityFilterPlacementModifier.of(20), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
     val oil_pockets by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_pockets, listOf(RarityFilterPlacementModifier.of(10), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
 
-    val uranium by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-116), YOffset.fixed(52)), BiomePlacementModifier.of())) } //TODO near air
-    val uranium_wasteland by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(5), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-160), YOffset.fixed(96)), BiomePlacementModifier.of())) } //TODO near air
+    val uranium by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-116), YOffset.fixed(52)), BiomePlacementModifier.of(), NearAirPlacement.instance)) }
+    val uranium_wasteland by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(5), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-160), YOffset.fixed(96)), BiomePlacementModifier.of(), NearAirPlacement.instance)) }
 
-    val tungsten by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(2), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(-10), YOffset.fixed(10)), BiomePlacementModifier.of())) }
+    val tungsten by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.tungsten, listOf(CountPlacementModifier.of(2), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(-10), YOffset.fixed(10)), BiomePlacementModifier.of())) }
 
-    val topaz_geode by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.topaz_geode, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), NearLavaPlacement.instance)) } //TODO near lava lake
+    val topaz_geode by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.topaz_geode, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), NearLavaPlacement.instance)) }
 
     val rubber_trees_rare by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(500), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
     val rubber_trees_uncommon by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(25), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
@@ -271,7 +272,7 @@ object LCCPlacementModifierTypes : BasicDirectory<PlacementModifierType<out Plac
 
     val near_lava_lake by entry(::initialiser) { PlacementModifierType { NearLavaPlacement.codec } }
     val height_threshold by entry(::initialiser) { PlacementModifierType { HeightThreshold.codec } }
-    //val near_air by entry(::initialiser) { NearAirDecorator(NopeDecoratorConfig.CODEC) }
+    val near_air by entry(::initialiser) { PlacementModifierType { NearAirPlacement.codec } }
 
     override fun defaultProperties(name: String) = Unit
 

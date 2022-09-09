@@ -22,7 +22,9 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.passive.WanderingTraderEntity
 import net.minecraft.item.ArmorItem
+import net.minecraft.item.Items
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Identifier
 import net.minecraft.util.TypedActionResult
@@ -91,6 +93,15 @@ object LCCEvents : BasicDirectory<Any, Unit>() {
         if (item is ArmorItem && item.slotType == slot && stack.isIn(LCCItemTags.wasteland_equipment)) {
             modifiers.put(LCCAttributes.wasteland_protection, EntityAttributeModifier(ToolEffectivity.protection_modifier, "Armor modifier", 0.25, EntityAttributeModifier.Operation.ADDITION))
         }
+    } }
+
+    val wanderingTraderBundle by entry(UseEntityCallback.EVENT.initialiser) { UseEntityCallback { player, world, hand, entity, hitResult ->
+        val stack = player.getStackInHand(hand)
+        if (stack.isOf(Items.BUNDLE) && entity is WanderingTraderEntity) {
+            entity.convertTo(LCCEntities.traveller, false)
+            return@UseEntityCallback ActionResult.SUCCESS
+        }
+        ActionResult.PASS
     } }
 
     val <E> Event<E>.initialiser get() = { i: E, c: DirectoryContext<Unit>, p: Any -> i.also { this.register(i) } }

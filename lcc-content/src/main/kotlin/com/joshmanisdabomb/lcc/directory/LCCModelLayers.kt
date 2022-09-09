@@ -34,6 +34,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(WoodlouseEntityModel.Companion::data)
     val traveller by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties { TexturedModelData.of(VillagerResemblingModel.getModelData(), 64, 64) }
+    val traveller_bindle by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(TravellerEntityModel.Companion::data)
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

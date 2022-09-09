@@ -40,6 +40,7 @@ import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
+import net.minecraft.util.Identifier
 
 object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
 
@@ -332,6 +333,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.name.contains("spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ Identifier("item/spawn_egg") }, { Identifier("item/spawn_egg_overlay") })) }
     val wasteland_spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.tags.contains("wasteland_spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ LCC.id("item/wasteland_spawn_egg") }, { LCC.id("item/wasteland_spawn_egg_overlay") }, { LCC.id("item/wasteland_spawn_egg_goop") })) }
 
     val deadwood_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("deadwood_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.deadwood_planks)).add(ItemTagFactory(LCCItemTags.wasteland_equipment)) }

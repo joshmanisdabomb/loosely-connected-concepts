@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCItems

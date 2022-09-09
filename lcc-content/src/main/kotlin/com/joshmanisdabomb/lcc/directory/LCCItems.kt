@@ -61,7 +61,7 @@ object LCCItems : ItemDirectory() {
     val magnetic_iron by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS, sortValueInt(1000, 1)))
 
-    val traveller_spawn_egg by entry(::initialiser) { SpawnEggItem(LCCEntities.traveller, 0x563C33, 0xEAA430, Item.Settings().defaults()) }
+    val traveller_spawn_egg by entry(::initialiser) { SpawnEggItem(LCCEntities.traveller, 0x563C33, 0x817D79, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(GIZMOS))
 
     //Materials

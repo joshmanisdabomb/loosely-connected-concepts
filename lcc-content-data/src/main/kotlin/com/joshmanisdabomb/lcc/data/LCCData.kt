@@ -45,6 +45,9 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
     }
 
     override fun beforeRun() {
+        println("Deleting generated folder.")
+        path.toFile().deleteRecursively()
+
         println("Initialising content mod.")
         LCC.onInitialize()
 

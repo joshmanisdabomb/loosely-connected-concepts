@@ -46,7 +46,7 @@ class CommitData(val source: Path, val to: Path, val default: Char? = null, val 
                     return !path.startsWith("assets\\$it\\textures") && !path.startsWith("assets\\$it\\particles") && !path.startsWith("assets\\$it\\sounds") && !path.startsWith("assets\\$it\\font") && !path.contains("\\template_") && !path.endsWith("\\sounds.json") && !path.endsWith("\\icon.png") && !path.endsWith("\\pack.png")
                 }
                 if (path.startsWith("data\\$it\\")) {
-                    return !path.startsWith("data\\$it\\structures")
+                    return !path.startsWith("data\\$it\\structures") && !path.startsWith("data\\$it\\worldgen")
                 }
             }
             return false

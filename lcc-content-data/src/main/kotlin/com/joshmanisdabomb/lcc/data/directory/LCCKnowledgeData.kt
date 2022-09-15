@@ -48,7 +48,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addText(" is a block introduced in ")
                     addLink(LCCVersion.LCC_FABRIC_0_5_0)
                     addText(" that allows players to interface with the challenge of a ")
-                    addText("Sapphire Altar (Structure)") //TODO link to structure page
+                    addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar (Structure)")
                     addText(". It breaks into ")
                     addLink(LCCBlocks.sapphire_altar_brick)
                     addText(", even with the Silk Touch enchantment, making this block obtainable only in Creative Mode.")
@@ -1465,7 +1465,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     val structure_sapphire_altar by entry(::initialiser) {
-        KnowledgeArticleBuilder(/*KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.sapphire_altar)*/KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar")
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
                     addFormatText("The Sapphire Altar is a structure introduced in %s. It is a common structure found in all %s biomes that presents a random challenge to players. Completing this challenge gives %s as a reward, used to make the final tier of %s tools and %s.",
@@ -1703,19 +1703,80 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Identifier("biome"), LCC.id("wasteland")), "Wasteland")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("The Wasteland is a rare biome introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the map with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
+                    addFormatText("The Wasteland is a rare biome introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the Minecraft world with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
                         { addLink(LCCVersion.YAM_1) },
-                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_1_0) },
                         { addLink(KnowledgeArticleIdentifier(Registry.DIMENSION_KEY.value, Identifier("overworld")), "Overworld") },
                         { addLink(LCCBlocks.cracked_mud) }
                     )
                 }
             )
-            .addSection(KnowledgeArticleSectionBuilder("Types")
-                .addFragment(KnowledgeArticleQueryFragmentBuilder()
-                    .addTagCriteria("Wasteland Variants")
-                    .addRegistryCriteria(Identifier("biome"))
-                )
+            .addSection(KnowledgeArticleSectionBuilder("Wasteland Barrens")
+                .addParagraph {
+                    addFormatText("The Wasteland Barrens is a sub-region of the Wasteland biome and occurs below Y=80. The surface of the barrens is entirely comprised of %s and contains most of the content of the Wasteland.",
+                        { addText(LCCBlocks.cracked_mud) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText(
+                        "%s traps and landmines hooked up to camouflaged %s are common in the barrens. Spike traps can sometimes generate with a coating of blood (increasing damage) or poisonous residue. Landmines are rigged up with an %s, which leaves behind a large firey crater when detonated.",
+                        { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.spikes), "Spike") },
+                        { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud_pressure_plate), "pressure plates") },
+                        { addLink(LCCBlocks.improvised_explosive) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("'%s' can also be found in the barrens, grouped in clusters. Breaking these will sometimes drop %s, %s or, rarely, %s and %s.",
+                        { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deposit), "Deposits") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(Items.GOLD_NUGGET), "gold pieces") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(Items.IRON_NUGGET), "iron pieces") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "hearts") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_container[HeartType.RED]!!), "heart containers") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Wasteland Spikes")
+                .addParagraph {
+                    addFormatText("The Wasteland Spikes is a sub-region of the Wasteland biome and occurs above Y=80. Huge spikes of %s and %s dominate the landscape.",
+                        { addLink(LCCBlocks.fortstone) },
+                        { addText(LCCBlocks.cracked_mud) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The Wasteland Spikes are generally safer to navigate, with few traps and less hostile mobs, but contains very difficult terrain.")
+                }
+            )
+
+            .addSection(KnowledgeArticleSectionBuilder("Progression")
+                .addParagraph {
+                    addFormatText("The Wasteland biome has its own progression system, with many of the blocks and items requiring Wasteland tools to harvest, and most mobs native to the Wasteland deal increased damage through %s without Wasteland Protection and take reduced damage from equipment without Wasteland Damage.",
+                        { addText(KnowledgeConstants.armor) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The tool progression starts at %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by %s structures to obtain %s, the current final tier of Wasteland equipment.",
+                        { addLink(LCCBlocks.deadwood) },
+                        { addLink(LCCItems.deadwood_pickaxe) },
+                        { addText(LCCBlocks.fortstone) },
+                        { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()), "rusted iron blocks") },
+                        { addLink(LCCItems.fortstone_pickaxe) },
+                        { addPluralisedLink(LCCItems.altar_challenge_key) },
+                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar") },
+                        { addPluralisedLink(LCCItems.sapphire) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Structures")
+                .addParagraph {
+                    addFormatText("The main structure of the Wasteland is the Sapphire Altar, but there are more structures which spawn across the Wasteland which contain loot to aid players in the biome.")
+                }
+                .addParagraph {
+                    addFormatText("%s are common landmarks comprised mostly of %s. Standing tents will contain a %s filled with randomly generated items.",
+                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("wasteland/tent")), "Tents") },
+                        { addLink(Blocks.GREEN_WOOL) },
+                        { addLink(Blocks.CHEST) },
+                    )
+                }
             )
             .addSection(KnowledgeArticleSectionBuilder("Related Content")
                 .addFragment(KnowledgeArticleQueryFragmentBuilder()

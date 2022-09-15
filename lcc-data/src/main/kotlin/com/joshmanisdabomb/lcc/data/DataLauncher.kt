@@ -20,6 +20,7 @@ import net.minecraft.SharedConstants
 import net.minecraft.client.MinecraftClient
 import net.minecraft.data.DataGenerator
 import net.minecraft.data.DataProvider
+import net.minecraft.datafixer.DataFixerPhase
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
 import java.nio.file.Path
@@ -59,6 +60,7 @@ abstract class DataLauncher(override val modid: String, final override val path:
     init {
         SharedConstants.createGameVersion()
         Bootstrap.initialize()
+        SharedConstants.dataFixerPhase = DataFixerPhase.UNINITIALIZED_UNOPTIMIZED
     }
 
     final override fun onPreLaunch() {

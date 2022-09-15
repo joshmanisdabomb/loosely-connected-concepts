@@ -22,6 +22,7 @@ import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.kb.article.KnowledgeArticleIdentifier
+import net.minecraft.advancement.criterion.ImpossibleCriterion
 import net.minecraft.advancement.criterion.InventoryChangedCriterion
 import net.minecraft.block.Blocks
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder
@@ -1223,6 +1224,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPELESS, ShapelessRecipeJsonBuilder.create(Blocks.MUD, 8)
                         .input(Blocks.DIRT, 8)
                         .input(Items.WATER_BUCKET)
+                        .criterion("fake", ImpossibleCriterion.Conditions())
                     , { offerTo(it) }) {
                         /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
                         it.add("translations", e.translator.itemTranslationsJson(*items))
@@ -1238,6 +1240,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SHAPELESS, ShapelessRecipeJsonBuilder.create(Blocks.MUD, 1)
                         .input(Blocks.DIRT)
                         .input(Items.WATER_BUCKET)
+                        .criterion("fake", ImpossibleCriterion.Conditions())
                     , { offerTo(it) }) {
                         /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
                         it.add("translations", e.translator.itemTranslationsJson(*items))
@@ -1252,7 +1255,9 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             )
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
                 .addFragment(KnowledgeArticleRecipeFragmentBuilder { e ->
-                    listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SMELTING, CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(Blocks.MUD), LCCBlocks.cracked_mud, 0.1f, 200), { offerTo(it) }) {
+                    listOf(OverrideRecipeJsonProvider.fromFactory(RecipeSerializer.SMELTING, CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(Blocks.MUD), LCCBlocks.cracked_mud, 0.1f, 200)
+                        .criterion("fake", ImpossibleCriterion.Conditions())
+                    , { offerTo(it) }) {
                         /*val items = arrayOf(Items.REPEATER, Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE, Blocks.IRON_BLOCK, Blocks.PISTON, LCCBlocks.soaking_soul_sand)
                         it.add("translations", e.translator.itemTranslationsJson(*items))
                         it.add("links", e.linker.itemLinksJson(*items))*/

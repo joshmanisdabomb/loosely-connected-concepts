@@ -20,6 +20,7 @@ object KnowledgeConstants {
     val combat = Text.translatable("knowledge.lcc.meta.section.combat")
     val mining = Text.translatable("knowledge.lcc.meta.section.mining")
     val obtaining = Text.translatable("knowledge.lcc.meta.section.obtaining")
+    val behavior = Text.translatable("knowledge.lcc.meta.section.behavior")
 
     val information = Text.translatable("knowledge.lcc.meta.section.info")
     val image = Text.translatable("knowledge.lcc.meta.section.info.image")
@@ -107,6 +108,8 @@ object KnowledgeConstants {
         batch[colored.key] = "colored"
         batch["en_gb", colored.key] = "coloured"
         batch[mud.key] = "Mud"
+        batch[behavior.key] = "Behavior"
+        batch["en_gb", behavior.key] = "Behaviour"
     }
 
 }

@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.block.entity.EnhancingChamberBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.RotatableShape.Companion.rotatable
 import com.joshmanisdabomb.lcc.directory.tags.LCCItemTags
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.block.*
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.BlockItem
@@ -52,7 +53,7 @@ class EnhancingChamberBlock(settings: Settings) : BlockWithEntity(settings) {
         } else if (stack.item !is BlockItem) {
             val contents = be.inventory.getStack(0)
             if (ItemStack.canCombine(stack, contents)) return ActionResult.SUCCESS
-            be.inventory.setStack(0, stack.split(1))
+            be.inventory.setStack(0, if (player.isSurvival) stack.split(1) else stack.copy().split(1))
             if (!contents.isEmpty) player.giveItemStack(contents)
             be.markDirty()
             return ActionResult.SUCCESS

@@ -32,7 +32,9 @@ class OverlevelEnchantRecipe(id: Identifier) : EnhancingSpecialRecipe(id) {
         val enchantments = EnchantedBookItem.getEnchantmentNbt(stack)
         val data = enchantments.firstOrNull() as? NbtCompound ?: return ItemStack.EMPTY
         val enchantment = Registry.ENCHANTMENT[Identifier(data.getString("id"))] ?: return ItemStack.EMPTY
-        return EnchantedBookItem.forEnchantment(EnchantmentLevelEntry(enchantment, enchantment.maxLevel+1))
+        val output = EnchantedBookItem.forEnchantment(EnchantmentLevelEntry(enchantment, enchantment.maxLevel.plus(1)))
+        output.getOrCreateSubNbt("lcc-overlevel").putByte(data.getString("id"), enchantment.maxLevel.plus(1).toByte())
+        return output
     }
 
     override fun getSerializer() = LCCRecipeSerializers.overlevel_enchants

@@ -28,7 +28,8 @@
     "EffectMobEntityMixin",
     "PitSpawnHelperMixin",
     "AttributeLivingMixin",
-    "MaterialRuleContextAccessor"
+    "MaterialRuleContextAccessor",
+    "AnvilScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

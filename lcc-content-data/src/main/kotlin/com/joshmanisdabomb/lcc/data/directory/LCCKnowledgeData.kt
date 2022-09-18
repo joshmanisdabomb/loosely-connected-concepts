@@ -30,6 +30,7 @@ import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.item.Items
 import net.minecraft.loot.LootPool
 import net.minecraft.loot.LootTable
@@ -1207,7 +1208,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     val block_mud by entry(::initialiser) {
-        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("aimagg", "mud")))
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("aimagg", "mud")), "Mud")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
                     addFormatText("%s is a legacy block originally introduced in %s and reintroduced in %s which changes the movement of mobs and players walking on it.",
@@ -2277,6 +2278,75 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCItems.enhancing_pyre_omega)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 22, 3, 35))
             .tags("Wasteland", "Materials", "Enhancing Pyre")
+    }
+
+    val block_clover by entry(::initialiser) {
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, LCC.id("clover")), "Clover")
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("Clovers are plant blocks introduced in %s that slowly grow over %s. %s rarely generate in %s patches in the %s.",
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addPluralisedLink(Blocks.GRASS_BLOCK) },
+                        { addPluralisedText(LCCBlocks.three_leaf_clover) },
+                        { addText(Blocks.GRASS_BLOCK) },
+                        { addWastelandLink() },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Growth")
+                .addParagraph {
+                    addFormatText("Clovers will randomly grow on nearby %s. Each growth tick a clover has a 1 in 25 chance to pick a random available block within a one block distance.",
+                        { addPluralisedText(Blocks.GRASS_BLOCK) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("If a suitable location is found, a %s has a 1 in 3000 chance to be generated. Otherwise, a %s is created at the location.",
+                        { addText(LCCBlocks.four_leaf_clover) },
+                        { addText(LCCBlocks.three_leaf_clover) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("If the clover that is about to spread to a nearby block is a %s, another %s has a 1 in 750 chance to spawn instead of 1 in 3000.",
+                        { addText(LCCBlocks.four_leaf_clover) },
+                        { addText(LCCBlocks.four_leaf_clover) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText("Mobs and players within 5 blocks of a %s are given the %s effect for 10 seconds. %s give %s instead of %s.",
+                        { addText(LCCBlocks.four_leaf_clover) },
+                        { addLink(StatusEffects.LUCK) },
+                        { addPluralisedText(LCCBlocks.three_leaf_clover) },
+                        { addLink(StatusEffects.UNLUCK) },
+                        { addText(StatusEffects.LUCK) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Types")
+                .addFragment(KnowledgeArticleListFragmentBuilder()
+                    .add(
+                        KnowledgeArticleIdentifier.ofBlock(LCCBlocks.three_leaf_clover),
+                        KnowledgeArticleIdentifier.ofBlock(LCCBlocks.four_leaf_clover),
+                        reroute = false, link = false
+                    )
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.three_leaf_clover).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.four_leaf_clover).map { it.provider } })
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.three_leaf_clover).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.four_leaf_clover).map { it.provider } })
+            )
+            .addSection(KnowledgeArticleChangelogSectionBuilder())
+            .addSection(KnowledgeArticleBlockInfoSectionBuilder(renewable = true))
+            .about(LCCBlocks.three_leaf_clover, LCCBlocks.four_leaf_clover)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 23, 53, 44))
+            .redirectsHere(LCCBlocks.three_leaf_clover)
+            .redirectsHere(LCCBlocks.four_leaf_clover)
+            .tags("Wasteland", "Plants")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

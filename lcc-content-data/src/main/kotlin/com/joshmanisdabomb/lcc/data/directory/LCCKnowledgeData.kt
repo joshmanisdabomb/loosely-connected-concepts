@@ -31,6 +31,12 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder
 import net.minecraft.enchantment.Enchantments
 import net.minecraft.entity.EntityType
 import net.minecraft.item.Items
+import net.minecraft.loot.LootPool
+import net.minecraft.loot.LootTable
+import net.minecraft.loot.condition.KilledByPlayerLootCondition
+import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition
+import net.minecraft.loot.entry.ItemEntry
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.BlockTags
@@ -916,6 +922,21 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
             )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.magnetizing)
+                .addParagraph {
+                    addFormatText("In %s, %s can be %s into %s by right clicking it against a %s. After using this method, all subsequent pieces of %s can be crafted by combining %s with %s in a %s.",
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addText(LCCItems.iron_oxide) },
+                        { addFragment(KnowledgeArticleTextFragmentBuilder("magnetized").addTranslation("magnetised", "en_gb")) },
+                        { addLink(LCCItems.magnetic_iron) },
+                        { addLink(Blocks.LODESTONE) },
+                        { addText(LCCItems.magnetic_iron) },
+                        { addText(LCCItems.iron_oxide) },
+                        { addText(LCCItems.magnetic_iron) },
+                        { addLink(Blocks.CRAFTING_TABLE) }
+                    )
+                }
+            )
             .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.iron_oxide))
             .addSection(KnowledgeExtensions.craftingUsages(LCCItems.iron_oxide))
             .boilerplate(LCCItems.iron_oxide, renewable = true)
@@ -990,7 +1011,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(Blocks.GLASS) },
                         { addWastelandLink() },
                         { addLink(LCCItems.iron_oxide) },
-                        { addText/*Link*/("tent"/*, KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.wasteland_tent).link*/) },
+                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), Identifier("tent")), "tent") },
                     )
                 }
             )
@@ -1047,7 +1068,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeExtensions.craftingUsages(LCCItems.crowbar))
             .boilerplate(LCCItems.crowbar, renewable = true)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 20, 21, 32, 0), LocalDateTime.of(2022, 2, 11, 19, 7, 45))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", "Salvageable", "Rusted Iron", "Tools")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Wasteland Optimal", "Salvageable", "Rusted Iron", "Tools", "Weapons")
     }
 
     val block_shattered_glass by entry(::initialiser) {
@@ -1426,7 +1447,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCItems.tongue_tissue)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s is a material introduced in %s. They are rarely dropped by %s when their tongue is extended.",
+                    addFormatText("%s is a material introduced in %s. They are rarely dropped by %s when killed while their tongue is extended.",
                         { addText(LCCItems.tongue_tissue) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
                         { addPluralisedLink(LCCEntities.consumer) },
@@ -1752,7 +1773,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
 
             .addSection(KnowledgeArticleSectionBuilder("Progression")
                 .addParagraph {
-                    addFormatText("The Wasteland biome has its own progression system, with many of the blocks and items requiring Wasteland tools to harvest, and most mobs native to the Wasteland deal increased damage through %s without Wasteland Protection and take reduced damage from equipment without Wasteland Damage.",
+                    addFormatText("The Wasteland biome has its %s, with many of the blocks and items requiring Wasteland tools to harvest, and most mobs native to the Wasteland deal increased damage through %s without Wasteland Protection and take reduced damage from equipment without Wasteland Damage.",
+                        { addWastelandEffectivityLink("own progression system") },
                         { addText(KnowledgeConstants.armor) }
                     )
                 }
@@ -1940,6 +1962,321 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCEntities.traveller)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 15, 36, 40))
             .tags("Villagers", "Passive Mobs", "Utility Mobs")
+    }
+
+    val item_magnetic_iron by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.magnetic_iron)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a resource introduced in %s. It is a crafting material that can create blocks and items which attract or repel other items in the world.",
+                        { addText(LCCItems.magnetic_iron) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.obtaining)
+                .addParagraph {
+                    addFormatText("Your first piece of %s can be created by right clicking a %s with %s. After which, %s can be combined with %s in a %s.",
+                        { addText(LCCItems.magnetic_iron) },
+                        { addLink(Blocks.LODESTONE) },
+                        { addLink(LCCItems.iron_oxide) },
+                        { addText(LCCItems.iron_oxide) },
+                        { addText(LCCItems.magnetic_iron) },
+                        { addLink(Blocks.CRAFTING_TABLE) }
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.magnetic_iron))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.magnetic_iron))
+            .boilerplate(LCCItems.magnetic_iron, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 16, 55, 25))
+            .tags("Wasteland", "Materials", "Rusted Iron", "Resources", "Magnetic Iron")
+    }
+
+    val block_attractive_magnetic_iron_block by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.attractive_magnetic_iron_block)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are a resource block introduced in %s that, when placed in the world, attract items. It can be broken down into 7 %s. To repel items instead, a %s can be crafted by turning the recipe upside down.",
+                        { addPluralisedText(LCCBlocks.attractive_magnetic_iron_block) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCItems.magnetic_iron) },
+                        { addLink(LCCBlocks.repulsive_magnetic_iron_block) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText("Every tick, an %s will pull items in a 5 block range towards itself, with the strength of the pull increasing as the item gets closer to the block - maxing out at 0.3.",
+                        { addText(LCCBlocks.attractive_magnetic_iron_block) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Items can be affected by other magnetic blocks nearby, and the effects of all nearby magnets will stack. This can allow for stronger multi-block magnets or items being able to float in midair.")
+                }
+                .addParagraph {
+                    addFormatText("When an %s is first placed, the speed at which items are pulled towards it is briefly doubled.",
+                        { addPluralisedText(LCCBlocks.attractive_magnetic_iron_block) }
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.attractive_magnetic_iron_block))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.attractive_magnetic_iron_block))
+            .boilerplate(LCCBlocks.attractive_magnetic_iron_block, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 17, 20, 48))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Magnetic Iron", "Resources")
+    }
+
+    val block_repulsive_magnetic_iron_block by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.repulsive_magnetic_iron_block)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are a resource block introduced in %s that, when placed in the world, repel items away. It can be broken down into 7 %s. To attract items instead, an %s can be crafted by turning the recipe upside down.",
+                        { addPluralisedText(LCCBlocks.repulsive_magnetic_iron_block) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCItems.magnetic_iron) },
+                        { addLink(LCCBlocks.attractive_magnetic_iron_block) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText("Every tick, a %s will push items in a 5 block range away from itself, with the strength of the push increasing as the item gets closer to the block - maxing out at 0.3.",
+                        { addText(LCCBlocks.repulsive_magnetic_iron_block) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Items can be affected by other magnetic blocks nearby, and the effects of all nearby magnets will stack. This can allow for stronger multi-block magnets or items being able to float in midair.")
+                }
+                .addParagraph {
+                    addFormatText("When a %s is first placed, the speed at which items are pushed away from it is briefly doubled.",
+                        { addPluralisedText(LCCBlocks.repulsive_magnetic_iron_block) }
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.repulsive_magnetic_iron_block))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.repulsive_magnetic_iron_block))
+            .boilerplate(LCCBlocks.repulsive_magnetic_iron_block, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 17, 20, 48))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Magnetic Iron", "Resources")
+    }
+
+    val entity_disciple by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.disciple)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are hostile mobs introduced in %s with a strong resemblance to %s. They spawn in the %s and give %s to other hostile mobs attacking the player.",
+                        { addPluralisedText(LCCEntities.disciple) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addPluralisedLink(EntityType.VILLAGER) },
+                        { addWastelandLink() },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.TEMPORARY]!!), "temporary health") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Healing/Combat")
+                .addParagraph {
+                    addFormatText("%s have 20 hearts of health and do not deal damage directly to the player. When a player is being targeted by another hostile mob, nearby %s will shoot magical plumes of healing at their target. These projectiles explode with an area of effect that provides 2 temporary hearts to all hostile entities within 2 blocks.",
+                        { addPluralisedText(LCCEntities.disciple) },
+                        { addPluralisedText(LCCEntities.disciple) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Because %s are from the Wasteland, any damage dealt to them with a weapon that doesn't provide %s is greatly reduced.",
+                        { addPluralisedText(LCCEntities.disciple) },
+                        { addWastelandEffectivityLink("Wasteland Damage") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Movement")
+                .addParagraph {
+                    addFormatText("%s jump higher than most other mobs and will glide toward their destination. They will also launch in the air when damaged and slowly descend with their wings.",
+                        { addPluralisedText(LCCEntities.disciple) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Drops")
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.disciple]!!) })
+            )
+            .boilerplate(LCCEntities.disciple)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 17, 53, 35))
+            .about(LCCEntities.disciple_dust)
+            .redirectsHere(LCCEntities.disciple_dust)
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Villagers", "Hostile Mobs", "Enhancing Pyre")
+    }
+
+    val entity_psycho_pig by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.psycho_pig)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are hostile mobs introduced in %s which disguise themselves as simple %s. They spawn in the %s and use fear and surprise to take the player off-guard.",
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addPluralisedLink(EntityType.PIG) },
+                        { addWastelandLink() },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addParagraph {
+                    addFormatText("%s have 10 hearts of health and attack players in a 16 block radius that can see its face. When targeting the player, the pig will stand up on two legs, brandish a %s and reveal its true face.",
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addLink(LCCItems.knife) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("When in combat with a %s, the player's camera is locked towards their attacker with the %s debuff, forcing them to stay and fight and ignore any other nearby danger. Once aggressive, %s always have visual on the player - even through walls.",
+                        { addText(LCCEntities.psycho_pig) },
+                        { addLink(LCCEffects.fear) },
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Since %s attack with a %s, players are not knocked back when attacked and the %s debuff is applied when hit, which negates any %s healing for its duration.",
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addLink(LCCItems.knife) },
+                        { addLink(LCCEffects.bleeding) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "red health") },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Drops")
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.psycho_pig]!!, LootTable.builder().pool(
+                    LootPool.builder()
+                        .rolls(ConstantLootNumberProvider.create(1f))
+                        .with(ItemEntry.builder(LCCItems.knife)
+                            .conditionally(KilledByPlayerLootCondition.builder())
+                            .conditionally(RandomChanceWithLootingLootCondition.builder(0.01F, 0.01F))
+                        )
+                    )) })
+            )
+            .boilerplate(LCCEntities.psycho_pig)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 18, 15, 53))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
+    }
+
+    val item_knife by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.knife)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The %s is a weapon introduced in %s which is capable of rapid attacks. It is rarely dropped by a %s.",
+                        { addText(LCCItems.knife) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCEntities.psycho_pig) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.combat)
+                .addParagraph {
+                    addFormatText("%s deal 1.5 hearts of damage, but suffer no attack speed penalty and hit mobs and players have reduced invulnerability time. Entities hit are also not knocked back from an attack with a %s.",
+                        { addPluralisedText(LCCItems.knife) },
+                        { addText(LCCItems.knife) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Mobs and players stabbed with the %s are also given the %s debuff for 15 seconds. This prevents any form of %s healing.",
+                        { addText(LCCItems.knife) },
+                        { addLink(LCCEffects.bleeding) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "red health") },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.mining)
+                .addParagraph {
+                    addFormatText("A %s mines blocks like a sword, allowing for quicker harvesting of %s and %s.",
+                        { addText(LCCItems.knife) },
+                        { addLink(Blocks.BAMBOO) },
+                        { addPluralisedLink(Blocks.COBWEB) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Enchantability")
+                .addParagraph {
+                    addFormatText("%s can be given any enchantment that a sword can, including %s, %s and %s.",
+                        { addPluralisedText(LCCItems.knife) },
+                        { addLink(Enchantments.SHARPNESS) },
+                        { addLink(Enchantments.LOOTING) },
+                        { addLink(Enchantments.UNBREAKING) },
+                    )
+                }
+            )
+            .addSection(getRepairingSection(LCCItems.knife, LCCItems.iron_oxide))
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.knife))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.knife))
+            .boilerplate(LCCItems.knife, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 19, 0, 35))
+            .tags("Wasteland", "Rusted Iron", "Swords", "Weapons", "Mob Drops", "Rare Mob Drops")
+    }
+
+    val item_enhancing_pyre_alpha by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.enhancing_pyre_alpha)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a magical ingredient introduced in %s which is commonly dropped by %s. The alpha variant has no use on its own, but can be upgraded to %s or %s in an %s.",
+                        { addText(LCCItems.enhancing_pyre_alpha) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addPluralisedLink(LCCEntities.disciple) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_beta), "beta") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_omega), "omega") },
+                        { addLink(LCCBlocks.spawner_table) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.enhancing_pyre_alpha))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.enhancing_pyre_alpha))
+            .boilerplate(LCCItems.enhancing_pyre_alpha, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 21, 46, 33))
+            .tags("Wasteland", "Materials", "Mob Drops", "Enhancing Pyre")
+    }
+
+    val item_enhancing_pyre_beta by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.enhancing_pyre_beta)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a magical ingredient introduced in %s which is an upgraded variant of %s. When combined with a %s in an %s, it can be upgraded to %s, the final variant of pyre.",
+                        { addText(LCCItems.enhancing_pyre_beta) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCItems.enhancing_pyre_alpha) },
+                        { addLink(Items.NETHER_STAR) },
+                        { addLink(LCCBlocks.spawner_table) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_omega), "omega") },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.enhancing_pyre_beta))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.enhancing_pyre_beta))
+            .boilerplate(LCCItems.enhancing_pyre_beta)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 21, 46, 33))
+            .tags("Wasteland", "Materials", "Enhancing Pyre")
+    }
+
+    val item_enhancing_pyre_omega by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.enhancing_pyre_omega)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a magical ingredient introduced in %s which is an upgraded variant of %s. This dust can be used to increase the level of enchantments beyond their maximum level.",
+                        { addText(LCCItems.enhancing_pyre_omega) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCItems.enhancing_pyre_beta) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Enchanting")
+                .addParagraph {
+                    addFormatText("When this level of pyre is combined with an %s in an %s, the enchantment on the book is increased by 1 beyond the natural maximum limit. The %s must contain only a single max-level enchantment (and the maximum cannot be 1). The %s can then be used with tools and other books in an %s as normal.",
+                        { addLink(Items.ENCHANTED_BOOK) },
+                        { addLink(LCCBlocks.enhancing_chamber) },
+                        { addText(Items.ENCHANTED_BOOK) },
+                        { addText(Items.ENCHANTED_BOOK) },
+                        { addLink(Blocks.ANVIL) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.enhancing_pyre_omega))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.enhancing_pyre_omega))
+            .boilerplate(LCCItems.enhancing_pyre_omega)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 22, 3, 35))
+            .tags("Wasteland", "Materials", "Enhancing Pyre")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

@@ -23,8 +23,7 @@ class LootTableBatch {
         val build = table.type(type).build()
         builds[id] = build
 
-        val entries = (build as LootTableAccessor).pools.flatMap { (it as LootPoolAccessor).poolEntries.toList() }
-        items[id] = entries.filterIsInstance<ItemEntry>().map { (it as ItemEntryAccessor).item }
+        items[id] = getItemsOf(build)
     }
 
     fun addBlock(id: Identifier, table: LootTable.Builder) = add(LootContextTypes.BLOCK, id, table)
@@ -49,5 +48,9 @@ class LootTableBatch {
     fun getTables() = builds.toMap()
 
     fun getItemsOf(id: Identifier) = items[id] ?: emptyList()
+    fun getItemsOf(table: LootTable): List<Item> {
+        val entries = (table as LootTableAccessor).pools.flatMap { (it as LootPoolAccessor).poolEntries.toList() }
+        return entries.filterIsInstance<ItemEntry>().map { (it as ItemEntryAccessor).item }
+    }
 
 }

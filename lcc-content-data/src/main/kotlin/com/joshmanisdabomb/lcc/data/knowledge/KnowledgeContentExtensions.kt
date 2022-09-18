@@ -32,7 +32,7 @@ import java.time.LocalDateTime
 
 object KnowledgeContentExtensions {
 
-    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")), label)
+    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier(Identifier("biome"), LCC.id("wasteland")), label)
 
     fun KnowledgeArticleParagraphFragmentBuilder.addWastelandEffectivityLink(label: String = "Wasteland Effectivity") = this.addLink(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")), label)
 
@@ -169,7 +169,7 @@ object KnowledgeContentExtensions {
             .addSection(KnowledgeExtensions.craftingUsages(item))
             .boilerplate(item, renewable = renewable)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools", "Weapons")
 
     fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, example2: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)

@@ -11,10 +11,12 @@
   "knowledge.lcc.meta.section.behavior": "Behaviour",
   "knowledge.lcc.meta.section.coloring": "Colouring",
   "knowledge.lcc.meta.section.info.map_colors": "Map Colours",
+  "knowledge.lcc.meta.section.magnetizing": "Magnetising",
   "knowledge.lcc.meta.text.armor": "armour",
   "knowledge.lcc.meta.text.color": "colour",
   "knowledge.lcc.meta.text.color_code": "Colour Code",
   "knowledge.lcc.meta.text.colored": "coloured",
   "knowledge.lcc.meta.text.colors": "colours",
-  "knowledge.lcc.minecraft:block.lcc:bounce_pad.2.1.0.0.0": "Colour"
+  "knowledge.lcc.minecraft:block.lcc:bounce_pad.2.1.0.0.0": "Colour",
+  "knowledge.lcc.minecraft:item.lcc:iron_oxide.1.0.5": "magnetised"
 }

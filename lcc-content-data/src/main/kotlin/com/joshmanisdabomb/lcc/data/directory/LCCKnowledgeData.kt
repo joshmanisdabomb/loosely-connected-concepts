@@ -33,9 +33,12 @@ import net.minecraft.entity.EntityType
 import net.minecraft.item.Items
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
+import net.minecraft.tag.BlockTags
+import net.minecraft.tag.ItemTags
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.BiomeKeys
 import java.time.LocalDateTime
 
 object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
@@ -1787,6 +1790,156 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(null)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 3, 15, 23, 29, 28))
             .tags("Wasteland", "Progression")
+    }
+
+    val entity_traveller by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.traveller)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The %s is a passive mob introduced in %s that help guide the player towards a collection of biomes, including the %s. %s are created when giving a %s to a %s.",
+                        { addText(LCCEntities.traveller) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addWastelandLink() },
+                        { addPluralisedText(LCCEntities.traveller) },
+                        { addLink(Items.BUNDLE) },
+                        { addLink(EntityType.WANDERING_TRADER) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Discovery")
+                .addParagraph {
+                    addFormatText("%s can locate a biome for the player when right clicked with a block that resembles the destination biome. These blocks feature commonly in their respective biomes but are all obtainable without needing to have visited the biome beforehand. Many of these blocks can be bought from a %s.",
+                        { addPluralisedText(LCCEntities.traveller) },
+                        { addText(EntityType.WANDERING_TRADER) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Below is a list of blocks that can be given to the %s and their destination biomes:",
+                        { addText(LCCEntities.traveller) }
+                    )
+                }
+                .addFragment(KnowledgeArticleTableFragmentBuilder()
+                    .addRow {
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Block"))
+                        addHeadingCell(KnowledgeArticleTextFragmentBuilder("Biome"))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(LCCBlocks.cracked_mud.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland)).addFragment(KnowledgeArticleTextFragmentBuilder(LCCBiomes.wasteland)))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.BIRCH_SAPLING.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.BIRCH_FOREST)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.birch_forest"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.SPRUCE_SAPLING.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.TAIGA)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.taiga"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.JUNGLE_SAPLING.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.JUNGLE)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.jungle"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.ACACIA_SAPLING.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.SAVANNA)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.savanna"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.DARK_OAK_SAPLING.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.DARK_FOREST)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.dark_forest"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.MANGROVE_PROPAGULE.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.MANGROVE_SWAMP)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.mangrove_swamp"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.LILY_PAD.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.SWAMP)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.swamp"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.CACTUS.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.DESERT)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.desert"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.BROWN_MUSHROOM_BLOCK.stack(), Blocks.RED_MUSHROOM_BLOCK.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.MUSHROOM_FIELDS)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.mushroom_fields"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.BLUE_ICE.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.FROZEN_OCEAN)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.frozen_ocean"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.BAMBOO.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.BAMBOO_JUNGLE)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.bamboo_jungle"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.PODZOL.stack()))
+                        addCell(
+                            KnowledgeArticleParagraphFragmentBuilder()
+                                .addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.OLD_GROWTH_PINE_TAIGA)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.old_growth_pine_taiga"))))
+                                .addText(" or ")
+                                .addFragment(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.old_growth_spruce_taiga"))))
+                        )
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.ALLIUM.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.FLOWER_FOREST)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.flower_forest"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.SUNFLOWER.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.SUNFLOWER_PLAINS)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.sunflower_plains"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder(Blocks.GRAVEL.stack()))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.WINDSWEPT_GRAVELLY_HILLS)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.windswept_gravelly_hills"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder().addItemTags(ItemTags.TERRACOTTA))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.BADLANDS)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.badlands"))))
+                    }
+                    .addRow {
+                        addCell(KnowledgeArticleStackFragmentBuilder().addBlockTags(BlockTags.CORAL_BLOCKS))
+                        addCell(KnowledgeArticleLinkFragmentBuilder(KnowledgeArticleIdentifier.of(BiomeKeys.WARM_OCEAN)).addFragment(KnowledgeArticleTextFragmentBuilder(Text.translatable("biome.minecraft.warm_ocean"))))
+                    }
+                )
+                .addParagraph {
+                    addFormatText("If the biome cannot be found within a reasonable distance (6400 blocks), the %s will drop the given item and shake their head.",
+                        { addText(LCCEntities.traveller) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Direction")
+                .addParagraph {
+                    addFormatText("Once the desired biome is found by the %s, they will begin walking in its direction. If the %s is unable to pathfind in the direction of the biome, they will wait to be assisted by the player.",
+                        { addText(LCCEntities.traveller) },
+                        { addText(LCCEntities.traveller) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The %s can also be right clicked by the player at any time to stop them in their tracks. They will not move until they are right clicked again.",
+                        { addText(LCCEntities.traveller) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Once the destination is reached, the %s will celebrate by repeatedly jumping in the air and setting off fireworks.",
+                        { addText(LCCEntities.traveller) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Tips")
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("A %s can be pushed into a %s to help cross large swathes of %s.",
+                        { addText(LCCEntities.traveller) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(Items.OAK_BOAT), "Boat") },
+                        { addLink(KnowledgeArticleIdentifier.Companion.of(BiomeKeys.OCEAN), Text.translatable("biome.minecraft.ocean")) },
+                    ))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("If you are able to follow the direction the %s is going precisely enough, you can make the journey yourself and reach the destination on your own.",
+                        { addText(LCCEntities.traveller) },
+                    ))
+                )
+            )
+            .boilerplate(LCCEntities.traveller)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 15, 36, 40))
+            .tags("Villagers", "Passive Mobs", "Utility Mobs")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

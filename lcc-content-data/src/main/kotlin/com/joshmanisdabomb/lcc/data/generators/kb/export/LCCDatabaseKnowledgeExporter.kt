@@ -14,29 +14,54 @@ class LCCDatabaseKnowledgeExporter(db: Database, da: DataAccessor, articles: Ite
 
         db.exec("DELETE FROM article_indices;")
 
-        Versions.deleteAll()
-        VersionGroups.deleteAll()
-
+        val groupsExisting = VersionGroups.selectAll().associate { it[VersionGroups.code] to it[VersionGroups.id] }
+        val versionsExisting = Versions.selectAll().associate { (it[Versions.group_id].toString() + "&" + it[Versions.code]) to it[Versions.id] }
         LCCVersionGroup.values().forEach { vg ->
-            val groupId = VersionGroups.insert {
-                it[name] = vg.title
-                it[code] = vg.code
-                it[branch] = vg.branch
-                it[sources] = vg.sources
-                it[tags] = vg.tags
-                it[order] = vg.order
-            } get VersionGroups.id
+            var groupId = groupsExisting[vg.code]
+            if (groupId == null) {
+                groupId = VersionGroups.insert {
+                    it[name] = vg.title
+                    it[code] = vg.code
+                    it[branch] = vg.branch
+                    it[sources] = vg.sources
+                    it[tags] = vg.tags
+                    it[order] = vg.order
+                } get VersionGroups.id
+            } else {
+                VersionGroups.update({ VersionGroups.id eq groupId }) {
+                    it[name] = vg.title
+                    it[code] = vg.code
+                    it[branch] = vg.branch
+                    it[sources] = vg.sources
+                    it[tags] = vg.tags
+                    it[order] = vg.order
+                }
+            }
 
             LCCVersion.values().filter { it.group == vg }.forEach { v ->
-                Versions.insert {
-                    it[mod_version] = v.modVersion
-                    it[mc_version] = v.mcVersion
-                    it[code] = v.code
-                    it[group_id] = groupId
-                    it[title] = v.title
-                    it[changelog] = v.description
-                    it[order] = v.order
-                    it[released_at] = v.released
+                val existing = versionsExisting[groupId.toString() + "&" + v.code]
+                if (existing == null) {
+                    Versions.insert {
+                        it[mod_version] = v.modVersion
+                        it[mc_version] = v.mcVersion
+                        it[code] = v.code
+                        it[group_id] = groupId
+                        it[title] = v.title
+                        it[changelog] = v.description
+                        it[order] = v.order
+                        it[released_at] = v.released
+                    }
+                } else {
+                    Versions.update({ Versions.id eq existing }) {
+                        it[mod_version] = v.modVersion
+                        it[mc_version] = v.mcVersion
+                        it[code] = v.code
+                        it[group_id] = groupId
+                        it[title] = v.title
+                        it[changelog] = v.description
+                        it[order] = v.order
+                        it[released_at] = v.released
+                    }
                 }
             }
         }

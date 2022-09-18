@@ -79,6 +79,8 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         recipes.addTagHandlerList(LCCItemTags.deadwood_logs, LCCBlocks.deadwood_log, LCCBlocks.deadwood, LCCBlocks.stripped_deadwood_log, LCCBlocks.stripped_deadwood)
         recipes.addTagHandlerFilter(ItemTags.MUSIC_DISCS) { it.asItem().identifier.path.startsWith("music_disc_") }
         recipes.addTagHandlerFilter(LCCItemTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
+        recipes.addTagHandlerFilter(ItemTags.TERRACOTTA) { it.asItem().identifier.path.endsWith("_terracotta") && !it.asItem().identifier.path.endsWith("_glazed_terracotta") }
+        recipes.addTagHandlerFilter(BlockTags.CORAL_BLOCKS) { it.asItem().identifier.path.endsWith("_coral_block") && !it.asItem().identifier.path.startsWith("dead_") }
 
         println("Setting up knowledge and exporters.")
         recipes.index()

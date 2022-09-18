@@ -238,7 +238,7 @@ object LCCItems : ItemDirectory() {
         override fun hasGlint(stack: ItemStack) = true
     } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
-    val enhancing_pyre_omega by entry(::initialiser) { object : Item(Item.Settings().defaults()) {
+    val enhancing_pyre_omega by entry(::initialiser) { object : Item(Item.Settings().defaults().rarity(Rarity.UNCOMMON)) {
         override fun hasGlint(stack: ItemStack) = true
     } }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))

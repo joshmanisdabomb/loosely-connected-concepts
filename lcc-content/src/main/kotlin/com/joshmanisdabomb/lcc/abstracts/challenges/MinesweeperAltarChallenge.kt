@@ -65,8 +65,8 @@ class MinesweeperAltarChallenge : AltarChallenge() {
             board = generateBoard(width, depth, bombs, world.random)
             attempts++
             println("Attempt $attempts at generating bomb board @ $pos")
-        } while (attempts < 30 && !solveBoard(board))
-        if (attempts >= 30) {
+        } while (attempts < 200 && !solveBoard(board))
+        if (attempts >= 200) {
             player.sendMessage(Text.translatable("block.lcc.sapphire_altar.minesweeper.unsolvable"), true)
             return false
         }
@@ -119,7 +119,7 @@ class MinesweeperAltarChallenge : AltarChallenge() {
     fun generateBoard(width: Int, height: Int, bombs: Int, random: Random): List<List<Boolean>> {
         val board = MutableList(width) { MutableList(height) { false } }
         for (i in 0 until bombs) {
-            for (attempt in 0 until 40) {
+            for (attempt in 0 until 60) {
                 val x = random.nextInt(width)
                 val y = random.nextInt(height)
 

@@ -72,6 +72,8 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.spike_trap)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.deadwood_logs)
                 .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.wasp_hive)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.clover_patch)
+                .feature(GenerationStep.Feature.VEGETAL_DECORATION, LCCPlacedFeatures.forget_me_not_patch)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium)
                 .feature(GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium_wasteland)
                 .build())

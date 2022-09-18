@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.abstracts.challenges.ArenaAltarChallenge
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
 import com.joshmanisdabomb.lcc.world.feature.*
+import com.joshmanisdabomb.lcc.world.feature.config.FlowerPatchFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
@@ -93,6 +94,8 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
     val spike_trap by entry(::initialiser) { SpikeTrapFeature(DefaultFeatureConfig.CODEC) }
     val wasp_hive by entry(::initialiser) { WaspHiveFeature(DefaultFeatureConfig.CODEC) }
 
+    val flower_patch by entry(::initialiser) { FlowerPatchFeature(FlowerPatchFeatureConfig.codec) }
+
     override fun defaultProperties(name: String) = Unit
 
 }
@@ -128,7 +131,8 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val spike_trap by entry(::initialiser) { ConfiguredFeature(LCCFeatures.spike_trap, FeatureConfig.DEFAULT) }
     val wasp_hive by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasp_hive, FeatureConfig.DEFAULT) }
 
-    //val mud by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)) }
+    val clover_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.three_leaf_clover.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
+    val forget_me_not_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.forget_me_not.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
 
     private fun <C : FeatureConfig, F : Feature<C>> initialiser(input: ConfiguredFeature<C, F>, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<ConfiguredFeature<*, *>> {
         return BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_FEATURE, context.id, input) as RegistryEntry<ConfiguredFeature<*, *>>
@@ -182,6 +186,9 @@ object LCCPlacedFeatures : AdvancedDirectory<PlacedFeature, RegistryEntry<Placed
     val deadwood_logs by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deadwood_logs, listOf(RarityFilterPlacementModifier.of(5), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
     val spike_trap by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.spike_trap, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
     val wasp_hive by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.wasp_hive, listOf(RarityFilterPlacementModifier.of(50), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+
+    val clover_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.clover_patch, listOf(RarityFilterPlacementModifier.of(12), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val forget_me_not_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.forget_me_not_patch, listOf(RarityFilterPlacementModifier.of(18), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
 
     private fun initialiser(input: PlacedFeature, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<PlacedFeature> {
         return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, context.id, input)

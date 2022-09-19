@@ -58,7 +58,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addText(" is a block introduced in ")
                     addLink(LCCVersion.LCC_FABRIC_0_5_0)
                     addText(" that allows players to interface with the challenge of a ")
-                    addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar (Structure)")
+                    addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar (Structure)")
                     addText(". It breaks into ")
                     addLink(LCCBlocks.sapphire_altar_brick)
                     addText(", even with the Silk Touch enchantment, making this block obtainable only in Creative Mode.")
@@ -623,7 +623,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCEntities.consumer)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("A %s is a short hostile mob introduced in %s. It spawns in the %s and pulls in players and mobs with its ranged tongue attack.",
+                    addFormatText("A %s is a short hostile mob introduced in %s. It spawns in the %s in direct skylight or anywhere with a light level of 0. It pulls in players and mobs with its ranged tongue attack before using a melee bite attack.",
                         { addText(LCCEntities.consumer) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
                         { addWastelandLink() }
@@ -659,7 +659,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 )
             )
             .boilerplate(LCCEntities.consumer)
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 1, 19, 45, 0), LocalDateTime.of(2021, 11, 12, 2, 22, 0))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 1, 19, 45, 0), LocalDateTime.of(2022, 9, 19, 12, 47, 54))
             .about(LCCEntities.consumer_tongue)
             .redirectsHere(LCCEntities.consumer_tongue)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
@@ -1012,7 +1012,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(Blocks.GLASS) },
                         { addWastelandLink() },
                         { addLink(LCCItems.iron_oxide) },
-                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), Identifier("tent")), "tent") },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(Identifier("tent")), "tent") },
                     )
                 }
             )
@@ -1490,7 +1490,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     val structure_sapphire_altar by entry(::initialiser) {
-        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar")
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
                     addFormatText("The Sapphire Altar is a structure introduced in %s. It is a common structure found in all %s biomes that presents a random challenge to players. Completing this challenge gives %s as a reward, used to make the final tier of %s tools and %s.",
@@ -1725,7 +1725,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
     }
 
     val biome_wasteland by entry(::initialiser) {
-        KnowledgeArticleBuilder(KnowledgeArticleIdentifier(Identifier("biome"), LCC.id("wasteland")), "Wasteland")
+        KnowledgeArticleBuilder(KnowledgeArticleIdentifier.ofBiome(LCC.id("wasteland")), "Wasteland")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
                     addFormatText("The Wasteland is a rare biome introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the Minecraft world with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
@@ -1787,7 +1787,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()), "rusted iron blocks") },
                         { addLink(LCCItems.fortstone_pickaxe) },
                         { addPluralisedLink(LCCItems.altar_challenge_key) },
-                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("sapphire_altar")), "Sapphire Altar") },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar") },
                         { addPluralisedLink(LCCItems.sapphire) }
                     )
                 }
@@ -1798,7 +1798,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 }
                 .addParagraph {
                     addFormatText("%s are common landmarks comprised mostly of %s. Standing tents will contain a %s filled with randomly generated items.",
-                        { addLink(KnowledgeArticleIdentifier(Identifier("structure"), LCC.id("wasteland/tent")), "Tents") },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("tent")), "Tents") },
                         { addLink(Blocks.GREEN_WOOL) },
                         { addLink(Blocks.CHEST) },
                     )
@@ -1819,7 +1819,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCEntities.traveller)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("The %s is a passive mob introduced in %s that help guide the player towards a collection of biomes, including the %s. %s are created when giving a %s to a %s.",
+                    addFormatText("The %s is a passive mob introduced in %s that help guide the player towards various biomes, including the %s. %s are created when giving a %s to a %s.",
                         { addText(LCCEntities.traveller) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
                         { addWastelandLink() },
@@ -2066,7 +2066,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCEntities.disciple)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s are hostile mobs introduced in %s with a strong resemblance to %s. They spawn in the %s and give %s to other hostile mobs attacking the player.",
+                    addFormatText("%s are hostile mobs introduced in %s with a strong resemblance to %s. They spawn in the %s in direct skylight or anywhere with a light level of 0. They give %s to other hostile mobs attacking the player.",
                         { addPluralisedText(LCCEntities.disciple) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
                         { addPluralisedLink(EntityType.VILLAGER) },
@@ -2100,7 +2100,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.disciple]!!) })
             )
             .boilerplate(LCCEntities.disciple)
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 17, 53, 35))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 17, 53, 35), LocalDateTime.of(2022, 9, 19, 12, 47, 54))
             .about(LCCEntities.disciple_dust)
             .redirectsHere(LCCEntities.disciple_dust)
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Villagers", "Hostile Mobs", "Enhancing Pyre")
@@ -2110,11 +2110,12 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCEntities.psycho_pig)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s are hostile mobs introduced in %s which disguise themselves as simple %s. They spawn in the %s and use fear and surprise to take the player off-guard.",
+                    addFormatText("%s are hostile mobs introduced in %s which disguise themselves as simple %s. They spawn in the %s in direct skylight or anywhere with a light level of 0. %s use fear and surprise to take the player off-guard.",
                         { addPluralisedText(LCCEntities.psycho_pig) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
                         { addPluralisedLink(EntityType.PIG) },
                         { addWastelandLink() },
+                        { addPluralisedText(LCCEntities.psycho_pig) },
                     )
                 }
             )
@@ -2140,6 +2141,14 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "red health") },
                     )
                 }
+                .addParagraph {
+                    addFormatText("Because %s are from the Wasteland, they deal extra damage that pierces through %s without %s. Any damage dealt to them with a weapon that doesn't provide %s is greatly reduced.",
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addText(KnowledgeConstants.armor) },
+                        { addWastelandEffectivityLink("Wasteland Protection") },
+                        { addWastelandEffectivityLink("Wasteland Damage") }
+                    )
+                }
             )
             .addSection(KnowledgeArticleSectionBuilder("Drops")
                 .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.psycho_pig]!!, LootTable.builder().pool(
@@ -2152,7 +2161,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )) })
             )
             .boilerplate(LCCEntities.psycho_pig)
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 18, 15, 53))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 18, 15, 53), LocalDateTime.of(2022, 9, 19, 12, 47, 54))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
     }
 
@@ -2292,6 +2301,11 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addWastelandLink() },
                     )
                 }
+                .addParagraph {
+                    addFormatText("Like many small plants, it can be potted in a %s.",
+                        { addLink(Blocks.FLOWER_POT) },
+                    )
+                }
             )
             .addSection(KnowledgeArticleSectionBuilder("Growth")
                 .addParagraph {
@@ -2346,7 +2360,119 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 23, 53, 44))
             .redirectsHere(LCCBlocks.three_leaf_clover)
             .redirectsHere(LCCBlocks.four_leaf_clover)
-            .tags("Wasteland", "Plants")
+            .tags("Wasteland", "Plants", "Decorative", "Pottable")
+    }
+
+    val block_forget_me_not by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.forget_me_not)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are flowers introduced in %s that rarely generate in %s patches in the %s. They can be used for decoration or crafted into a %s.",
+                        { addPluralisedText(LCCBlocks.forget_me_not) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(Blocks.GRASS_BLOCK) },
+                        { addWastelandLink() },
+                        { addLink(LCCItems.scroll_of_reconditioning) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Like all flowers, it can be potted in a %s.",
+                        { addLink(Blocks.FLOWER_POT) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.recipes)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.three_leaf_clover).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(LCCBlocks.four_leaf_clover).map { it.provider } })
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usages)
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.three_leaf_clover).map { it.provider } })
+                .addFragment(KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findUsages(LCCBlocks.four_leaf_clover).map { it.provider } })
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.forget_me_not))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.forget_me_not))
+            .boilerplate(LCCBlocks.forget_me_not)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 10, 36, 14))
+            .tags("Wasteland", "Plants", "Flowers", "Decorative", "Pottable")
+    }
+
+    val item_scroll_of_reconditioning by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.scroll_of_reconditioning)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The %s is an item introduced in %s which can be presented to mobs to make them forget aggression and other mob-specific attributes.",
+                        { addText(LCCItems.scroll_of_reconditioning) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText("After the scroll is charged for 1.75 seconds, the hermetical words written throughout the manuscript will rot the brains of any creature the scroll is pointed towards within 8 blocks.")
+                }
+                .addParagraph {
+                    addFormatText("In an instant, any mob will forget their target and their current AI tasks. This means that neutral mobs such as %s, %s or %s will stop being hostile towards an attacker.",
+                        { addPluralisedLink(EntityType.ENDERMAN) },
+                        { addPluralisedLink(EntityType.ZOMBIFIED_PIGLIN) },
+                        { addPluralisedLink(EntityType.BEE) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Additionally, %s targeted by the scroll will forget their profession, workstation, experience and any locked or unlocked trades.",
+                        { addPluralisedLink(EntityType.VILLAGER) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("After using the scroll, it is broken and self-combusts in your hands.")
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.scroll_of_reconditioning))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.scroll_of_reconditioning))
+            .boilerplate(LCCItems.scroll_of_reconditioning)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 11, 21, 54))
+            .tags("Wasteland", "Tools", "Scrolls")
+    }
+
+    val entity_baby_skeleton by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.baby_skeleton)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are hostile mobs introduced in %s which represent a baby version of a regular %s, having a smaller hitbox, increased movement speed and firing rate. They spawn in the %s anywhere with a light level of 0.",
+                        { addPluralisedText(LCCEntities.baby_skeleton) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(EntityType.SKELETON) },
+                        { addWastelandLink() },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Like baby %s, %s will never grow into adulthood.",
+                        { addPluralisedLink(EntityType.ZOMBIE) },
+                        { addPluralisedText(LCCEntities.baby_skeleton) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addParagraph {
+                    addFormatText("%s have 10 hearts of health and function much like a regular %s. The key differences are its smaller hitbox, increased movement speed and rate of fire.",
+                        { addPluralisedText(LCCEntities.baby_skeleton) },
+                        { addLink(EntityType.SKELETON) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Despite being from the Wasteland, %s do not deal %s. However, they do have 0.5 %s, meaning any damage dealt to them with a weapon that doesn't provide %s is still slightly reduced.",
+                        { addPluralisedText(LCCEntities.baby_skeleton) },
+                        { addWastelandEffectivityLink("Wasteland Damage") },
+                        { addWastelandEffectivityLink("Wasteland Protection") },
+                        { addText("Wasteland Damage") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Drops")
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.baby_skeleton]!!) })
+            )
+            .boilerplate(LCCEntities.baby_skeleton)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 11, 43, 37))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Protection", "Hostile Mobs")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

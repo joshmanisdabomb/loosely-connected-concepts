@@ -427,7 +427,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShapeless(this, d) }
     }) }
 
-    val scroll_of_reconditioning by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+    val scroll_of_reconditioning by entry(::initialiser) { data().add(LiteralTranslationFactory("Scroll of Reconditioning")).defaultItemAsset().add(CustomRecipeFactory { d, i ->
         ShapelessRecipeJsonBuilder.create(i)
             .input(LCCBlocks.forget_me_not)
             .input(LCCItems.enhancing_pyre_beta)

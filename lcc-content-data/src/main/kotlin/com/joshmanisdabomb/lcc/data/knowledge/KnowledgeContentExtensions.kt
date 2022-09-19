@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data.knowledge
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
@@ -32,9 +33,11 @@ import java.time.LocalDateTime
 
 object KnowledgeContentExtensions {
 
-    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier(Identifier("biome"), LCC.id("wasteland")), label)
+    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier.ofBiome(LCC.id("wasteland")), label)
 
     fun KnowledgeArticleParagraphFragmentBuilder.addWastelandEffectivityLink(label: String = "Wasteland Effectivity") = this.addLink(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")), label)
+
+    fun KnowledgeArticleParagraphFragmentBuilder.addChallengeLink(challenge: AltarChallenge, label: String, id: Identifier = challenge.id) = this.addLink(KnowledgeArticleIdentifier(LCC.id("challenge"), id), label)
 
     fun generatePlasticDespawningSection(topic: Item) = KnowledgeArticleSectionBuilder(KnowledgeConstants.despawning)
         .addParagraph {

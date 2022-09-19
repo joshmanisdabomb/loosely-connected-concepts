@@ -13,7 +13,6 @@ import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.structure.Structure
 
 class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) : Comparable<KnowledgeArticleIdentifier> {
 
@@ -38,7 +37,8 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofEffect(effect: StatusEffect) = KnowledgeArticleIdentifier(Identifier("effect"), Registry.STATUS_EFFECT.getId(effect)!!)
 
         fun ofBiome(biome: Biome) = KnowledgeArticleIdentifier(Identifier("biome"), BuiltinRegistries.BIOME.getId(biome)!!)
-        fun ofStructure(structure: Structure) = KnowledgeArticleIdentifier(Identifier("structure"), BuiltinRegistries.STRUCTURE.getId(structure)!!)
+        fun ofBiome(id: Identifier) = KnowledgeArticleIdentifier(Identifier("biome"), id)
+        fun ofStructure(id: Identifier) = KnowledgeArticleIdentifier(Identifier("structure"), id)
 
     }
 

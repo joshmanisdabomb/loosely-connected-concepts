@@ -495,7 +495,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.improvised_explosive))
             .boilerplate(LCCBlocks.improvised_explosive, renewable = false)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 24, 0, 5, 0), LocalDateTime.of(2021, 10, 27, 17, 32, 0))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives", "Salvageable")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Fortstone Pickaxe Required", "Explosives", "Salvageable", "Redstone")
     }
 
     val block_deadwood_log by entry(::initialiser) {
@@ -2473,6 +2473,50 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCEntities.baby_skeleton)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 11, 43, 37))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Protection", "Hostile Mobs")
+    }
+
+    val block_rubber_piston by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.rubber_piston)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a block introduced in %s. It is a %s with the head being made of %s.",
+                        { addText(LCCBlocks.rubber_piston) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(Blocks.PISTON) },
+                        { addLink(LCCItems.heavy_duty_rubber) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Mechanics")
+                .addParagraph {
+                    addFormatText("%s are functionally equivalent to regular %s. However, any entity pushed by the head itself or any connected blocks will be launched in the direction of travel - similarly to being pushed by a %s.",
+                        { addText(LCCBlocks.rubber_piston) },
+                        { addPluralisedText(Blocks.PISTON) },
+                        { addLink(Blocks.SLIME_BLOCK) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Additionally, any stationary blocks affected by gravity, including %s, %s, %s and %s, are also launched as an entity when pushed by the head or any connected block.",
+                        { addLink(Blocks.SAND) },
+                        { addLink(Blocks.GRAVEL) },
+                        { addLink(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("concrete_powder")), "Concrete Powder") },
+                        { addPluralisedLink(Blocks.ANVIL) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("These mechanics were added in %s and are similar to how %s worked as a mod before being officially added to the game. Before this version, %s functioned identically to regular %s.",
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addPluralisedText(Blocks.PISTON) },
+                        { addPluralisedText(LCCBlocks.rubber_piston) },
+                        { addPluralisedText(Blocks.PISTON) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.rubber_piston))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.rubber_piston))
+            .boilerplate(LCCBlocks.rubber_piston, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 12, 59, 4))
+            .tags("Movement", "Rubber", "Tools", "Redstone", "Pistons")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

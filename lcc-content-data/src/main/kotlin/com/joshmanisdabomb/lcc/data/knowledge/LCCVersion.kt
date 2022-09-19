@@ -579,6 +579,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_altar_challenge_key] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.effectivity_wasteland] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.entity_baby_skeleton] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rubber_piston] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.biome_wasteland] = KnowledgeArticleParagraphFragmentBuilder()
                 .addFormatText("Many major features introduced to the biome, including %s, %s, %s, %s, %s, %s, %s and %s.",
                     { addPluralisedLink(LCCEntities.consumer) },
@@ -615,6 +616,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.block_repulsive_magnetic_iron_block] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.entity_traveller] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_scroll_of_reconditioning] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_rubber_piston] = KnowledgeArticleTextFragmentBuilder("Now launches pushed entities and stationary blocks affected by gravity.")
             map[LCCKnowledgeData.effectivity_wasteland] = KnowledgeArticleParagraphFragmentBuilder()
                 .addFormatText("Weapon and %s effectivity now use entity attributes instead of tags.",
                     { addText(KnowledgeConstants.armor) }

@@ -2516,7 +2516,66 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.rubber_piston))
             .boilerplate(LCCBlocks.rubber_piston, renewable = true)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 19, 12, 59, 4))
-            .tags("Movement", "Rubber", "Tools", "Redstone", "Pistons")
+            .tags("Movement", "Rubber", "Heavy Duty Rubber", "Tools", "Redstone", "Pistons")
+    }
+
+    val item_heavy_duty_rubber by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.heavy_duty_rubber)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a material introduced in %s. It is made by smelting %s in a %s or %s. It can be crafted in groups of 9 by placing a %s in a crafting table.",
+                        { addText(LCCItems.heavy_duty_rubber) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_4_2) },
+                        { addLink(LCCItems.flexible_rubber) },
+                        { addLink(Blocks.FURNACE) },
+                        { addLink(LCCBlocks.kiln) },
+                        { addLink(LCCBlocks.rubber_block) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.heavy_duty_rubber))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.heavy_duty_rubber))
+            .boilerplate(LCCItems.heavy_duty_rubber)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 20, 23, 4, 54))
+            .tags("Materials", "Rubber", "Sap Production", "Heavy Duty Rubber")
+    }
+
+    val block_rubber_block by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.rubber_block)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a block introduced in %s. It bounces entities similarly to %s. It can be broken down into 9 %s.",
+                        { addText(LCCBlocks.rubber_block) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_4_4) },
+                        { addPluralisedLink(Blocks.SLIME_BLOCK) },
+                        { addLink(LCCItems.heavy_duty_rubber) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText("%s are similar to %s, but mobs and players that bounce on this block will still take full falling damage.",
+                        { addPluralisedText(LCCBlocks.rubber_block) },
+                        { addPluralisedText(Blocks.SLIME_BLOCK) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The strength of each bounce will also decay like %s. However, there is a minimum bounce that will not diminsh - keeping the entity bobbing up and down at a short height. This can be cancelled by sneaking.",
+                        { addPluralisedText(Blocks.SLIME_BLOCK) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Unlike %s, pushing this block with a %s will not launch entities.",
+                        { addPluralisedText(Blocks.SLIME_BLOCK) },
+                        { addLink(Blocks.PISTON) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.rubber_block))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.rubber_block))
+            .boilerplate(LCCBlocks.rubber_block, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 20, 23, 24, 50))
+            .tags("Movement", "Rubber", "Heavy Duty Rubber")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

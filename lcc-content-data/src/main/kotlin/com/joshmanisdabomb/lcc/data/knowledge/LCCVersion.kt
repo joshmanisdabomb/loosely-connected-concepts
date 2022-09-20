@@ -454,6 +454,7 @@ Race advancement for nuclear detonation. Fixed bug with nuclear explosion log no
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder("Crafting output increased from 1 to 6.")
+            map[LCCKnowledgeData.item_heavy_duty_rubber] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     },
@@ -486,7 +487,10 @@ Added advancements.
 Fixed bug with radiation not healing and large amounts not carrying over to the next life.
 Update to 21w14a."""
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.block_rubber_block] = KnowledgeArticleTextFragmentBuilder(introduced)
+            return map.toSortedMap()
+        }
     },
     LCC_FABRIC_0_5_0("0.5.0", "21w14a", "0.5.0", LCCVersionGroup.LCC_FABRIC, 400, LocalDateTime.of(2021, 8, 19, 13, 52, 40)) {
         override val description = """Added sapphire altar block, structure, brick blocks with stair, slab and wall variants.

@@ -2560,7 +2560,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
                 .addParagraph {
-                    addFormatText("The strength of each bounce will also decay like %s. However, there is a minimum bounce that will not diminsh - keeping the entity bobbing up and down at a short height. This can be cancelled by sneaking.",
+                    addFormatText("The strength of each bounce will also decay like %s. However, there is a minimum bounce that will not diminish - keeping the entity bobbing up and down at a short height. This can be cancelled by sneaking.",
                         { addPluralisedText(Blocks.SLIME_BLOCK) },
                     )
                 }

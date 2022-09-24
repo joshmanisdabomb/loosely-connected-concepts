@@ -39,7 +39,7 @@ jobs:
           arguments: build
                 
       - name: Rename Source Jar
-        run: mv build/libs/LooselyConnectedConcepts-*-*-sources.jar build/libs/sources.jar
+        run: mv build/devlibs/LooselyConnectedConcepts-*-*-sources.jar build/libs/sources.jar
                 
       - name: Rename Build Jar
         run: mv build/libs/LooselyConnectedConcepts-*-*.jar build/libs/build.jar

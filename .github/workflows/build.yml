@@ -42,7 +42,7 @@ jobs:
         run: mv build/devlibs/LooselyConnectedConcepts-*-*-sources.jar build/libs/sources.jar
                 
       - name: Rename Build Jar
-        run: mv build/libs/LooselyConnectedConcepts-*-*.jar build/libs/build.jar
+        run: rm build/libs/LooselyConnectedConcepts-*-*-sources.jar && mv build/libs/LooselyConnectedConcepts-*-*.jar build/libs/build.jar
         
       - name: Deploy Built Jars
         uses: fjogeleit/http-request-action@v1

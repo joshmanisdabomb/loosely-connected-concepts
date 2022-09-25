@@ -294,14 +294,47 @@
     ],
     "subtitle": "subtitles.lcc.entity.salt.throw"
   },
+  "entity.lcc.wasp.aggressive": {
+    "sounds": [
+      "lcc:entity/wasp/aggressive"
+    ],
+    "subtitle": "subtitles.lcc.entity.wasp.aggressive"
+  },
+  "entity.lcc.wasp.death": {
+    "sounds": [
+      "lcc:entity/wasp/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.wasp.death"
+  },
+  "entity.lcc.wasp.hurt": {
+    "sounds": [
+      "lcc:entity/wasp/hurt1",
+      "lcc:entity/wasp/hurt2",
+      "lcc:entity/wasp/hurt3"
+    ],
+    "subtitle": "subtitles.lcc.entity.wasp.hurt"
+  },
   "entity.lcc.wasp.loop": {
     "sounds": [
-      "lcc:entity/wasp/loop1",
-      "lcc:entity/wasp/loop2",
-      "lcc:entity/wasp/loop3",
-      "lcc:entity/wasp/loop4"
+      "lcc:entity/wasp/loop"
     ],
     "subtitle": "subtitles.lcc.entity.wasp.loop"
+  },
+  "entity.lcc.wasp.step": {
+    "sounds": [
+      "lcc:entity/wasp/step1",
+      "lcc:entity/wasp/step2",
+      "lcc:entity/wasp/step3"
+    ],
+    "subtitle": "subtitles.lcc.entity.wasp.step"
+  },
+  "entity.lcc.wasp.sting": {
+    "sounds": [
+      "lcc:entity/wasp/sting",
+      "lcc:entity/wasp/sting",
+      "lcc:entity/wasp/sting"
+    ],
+    "subtitle": "subtitles.lcc.entity.wasp.sting"
   },
   "entity.lcc.woodlouse.ambient": {
     "sounds": [

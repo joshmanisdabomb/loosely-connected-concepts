@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import com.joshmanisdabomb.lcc.extensions.transform
 import com.joshmanisdabomb.lcc.sound.WaspSoundInstance
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
@@ -46,7 +47,6 @@ import net.minecraft.nbt.NbtHelper
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.TagKey
 import net.minecraft.util.TimeHelper
 import net.minecraft.util.math.BlockPos
@@ -173,8 +173,10 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
                     else -> 40
                 }, 1))
             }
-            takeKnockback(1.0, target.x - x, target.z - z)
-            playSound(SoundEvents.ENTITY_BEE_STING, 1.0f, 1.0f)
+            val knockback = pos.subtract(target.pos).normalize()
+            velocityDirty = true
+            replaceVelocity(x = knockback.x, z = knockback.z)
+            playSound(LCCSounds.wasp_sting, 1.0f, 1.0f)
         }
 
         return bl
@@ -282,21 +284,21 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun hasWings(): Boolean = !isBaby && isInAir && age % MathHelper.ceil(2.4166098f) == 0
 
-    override fun playStepSound(pos: BlockPos, state: BlockState) {
-        if (onGround) {
-            playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F)
-        }
-    }
-
     fun getLoopSound() = if (hasAngerTime()) LCCSounds.wasp_aggressive else LCCSounds.wasp_loop
 
     override fun getAmbientSound() = null
 
-    override fun getHurtSound(source: DamageSource) = SoundEvents.ENTITY_BEE_HURT
+    override fun getHurtSound(source: DamageSource) = LCCSounds.wasp_hurt
 
-    override fun getDeathSound() = SoundEvents.ENTITY_BEE_DEATH
+    override fun getDeathSound() = LCCSounds.wasp_death
 
-    override fun getSoundVolume() = 0.4f
+    override fun playStepSound(pos: BlockPos, state: BlockState) {
+        if (onGround && !isDead) {
+            playSound(LCCSounds.wasp_step, 0.1F, 0.9F)
+        }
+    }
+
+    override fun calculateNextStepSoundDistance() = super.calculateNextStepSoundDistance() - 0.4f
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = if (!isBaby) false else super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
 
@@ -347,7 +349,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         override fun shouldContinue() = super.shouldContinue()// && wasp.hasAngerTime()
 
-        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(1.5)
+        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(2)
 
     }
 

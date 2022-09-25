@@ -137,8 +137,23 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/woodlouse/step${it+1}")
     }, "subtitles.block.generic.footsteps") }
 
-    val wasp_loop by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.loop", Array(4) {
-        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/loop${it+1}")
+    val wasp_loop by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.loop", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/loop")
+    }) }
+    val wasp_aggressive by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.aggressive", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/aggressive")
+    }) }
+    val wasp_hurt by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.hurt", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/hurt${it+1}")
+    }) }
+    val wasp_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/death")
+    }) }
+    val wasp_step by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.step", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/step${it+1}")
+    }) }
+    val wasp_sting by entry(::initialiser) { SoundProperties("entity", LCC.modid, "wasp.sting", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/wasp/sting")
     }) }
 
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }

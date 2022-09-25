@@ -34,15 +34,15 @@ class WaspSoundInstance(sound: SoundEvent, val entity: WaspEntity) : MovingSound
         y = entity.y
         z = entity.z
         val speed = entity.velocity.horizontalLength().toFloat()
-        if (entity.isBaby) {
+        if (entity.isBaby || entity.isDead) {
             pitch = 0.0f
             volume = 0.0f
         } else {
             if (speed < 0.01f) {
                 repeatDelay = 1000
             }
-            pitch = MathHelper.lerp(MathHelper.clamp(speed, 0.2f, 1.0f), 0.9f, 1.2f)
-            volume = MathHelper.lerp(MathHelper.clamp(speed, 0.0f, 0.5f), 0.0f, 2.4f)
+            pitch = MathHelper.lerp(MathHelper.clamp(speed, 0.2f, 1.0f), 0.8f, 1.4f)
+            volume = MathHelper.clamp(speed, 0.05f, 0.5f) * 2.4f
         }
     }
 

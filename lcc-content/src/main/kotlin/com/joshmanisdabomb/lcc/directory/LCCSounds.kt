@@ -62,7 +62,11 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val woodlouse_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.step")) }
 
     val wasp_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.loop")) }
-    val wasp_aggressive by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.loop")) }
+    val wasp_aggressive by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.aggressive")) }
+    val wasp_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.hurt")) }
+    val wasp_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.death")) }
+    val wasp_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.step")) }
+    val wasp_sting by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.sting")) }
 
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 

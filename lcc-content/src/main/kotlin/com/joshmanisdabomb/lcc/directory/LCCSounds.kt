@@ -68,6 +68,11 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val wasp_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.step")) }
     val wasp_sting by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.sting")) }
 
+    val psycho_pig_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.ambient")) }
+    val psycho_pig_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.hurt")) }
+    val psycho_pig_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.death")) }
+    val psycho_pig_reveal by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.reveal")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

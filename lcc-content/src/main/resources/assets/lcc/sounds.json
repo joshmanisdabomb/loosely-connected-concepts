@@ -285,6 +285,34 @@
     ],
     "subtitle": "subtitles.lcc.entity.pocket_zombie_pigman.hurt"
   },
+  "entity.lcc.psycho_pig.ambient": {
+    "sounds": [
+      "lcc:entity/psycho_pig/idle1",
+      "lcc:entity/psycho_pig/idle2",
+      "lcc:entity/psycho_pig/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.psycho_pig.ambient"
+  },
+  "entity.lcc.psycho_pig.death": {
+    "sounds": [
+      "lcc:entity/psycho_pig/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.psycho_pig.death"
+  },
+  "entity.lcc.psycho_pig.hurt": {
+    "sounds": [
+      "lcc:entity/psycho_pig/hurt1",
+      "lcc:entity/psycho_pig/hurt2",
+      "lcc:entity/psycho_pig/hurt3"
+    ],
+    "subtitle": "subtitles.lcc.entity.psycho_pig.hurt"
+  },
+  "entity.lcc.psycho_pig.reveal": {
+    "sounds": [
+      "lcc:entity/psycho_pig/reveal"
+    ],
+    "subtitle": "subtitles.lcc.entity.psycho_pig.reveal"
+  },
   "entity.lcc.salt.throw": {
     "sounds": [
       "minecraft:dig/sand1",

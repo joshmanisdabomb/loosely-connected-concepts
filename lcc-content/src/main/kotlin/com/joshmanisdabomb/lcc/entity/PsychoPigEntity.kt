@@ -125,6 +125,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
                 airStrafingSpeed = 0.02f
             }
         }
+        if (isAggro) ambientSoundChance++
     }
 
     override fun move(type: MovementType, movement: Vec3d) {
@@ -150,15 +151,18 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun setTarget(target: LivingEntity?) {
         super.setTarget(target)
+        if (aggroTarget == null && target != null) {
+            playSound(LCCSounds.psycho_pig_reveal, 1.0f, 1.0f)
+        }
         aggroTarget = target
         dataTracker.set(aggro_id, target?.id?.plus(1) ?: 0)
     }
 
-    override fun getAmbientSound() = isAggro.transform(LCCSounds.consumer_ambient, SoundEvents.ENTITY_PIG_AMBIENT)
+    override fun getAmbientSound() = isAggro.transform(LCCSounds.psycho_pig_ambient, SoundEvents.ENTITY_PIG_AMBIENT)
 
-    override fun getHurtSound(source: DamageSource) = isAggro.transform(LCCSounds.consumer_hurt, SoundEvents.ENTITY_PIG_HURT)
+    override fun getHurtSound(source: DamageSource) = isAggro.transform(LCCSounds.psycho_pig_hurt, SoundEvents.ENTITY_PIG_HURT)
 
-    override fun getDeathSound() = isAggro.transform(LCCSounds.consumer_death, SoundEvents.ENTITY_PIG_DEATH)
+    override fun getDeathSound() = isAggro.transform(LCCSounds.psycho_pig_death, SoundEvents.ENTITY_PIG_DEATH)
 
     override fun tryAttack(target: Entity): Boolean {
         val kbResistance = (target as? LivingEntity)?.getAttributeInstance(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)

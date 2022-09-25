@@ -91,13 +91,13 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 1.0
+                "max": 19.0,
+                "min": 3.0
               },
               "function": "minecraft:set_count"
             }
           ],
-          "name": "lcc:iron_oxide",
+          "name": "lcc:iron_oxide_nugget",
           "weight": 2
         },
         {
@@ -152,22 +152,61 @@
           "functions": [
             {
               "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "max": 0.9,
+                "max": 0.6,
                 "min": 0.1
               },
               "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.4,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "enchantments": [
+                "lcc:infested"
+              ],
+              "function": "minecraft:enchant_randomly"
             }
           ],
           "name": "lcc:deadwood_sword",
-          "weight": 3
+          "weight": 2
         },
         {
           "type": "minecraft:item",
           "functions": [
             {
               "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
                 "max": 0.6,
@@ -176,38 +215,35 @@
               "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 5.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
-            }
-          ],
-          "name": "lcc:deadwood_sword"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.9,
-                "min": 0.1
-              },
-              "function": "minecraft:set_damage"
             }
           ],
           "name": "lcc:deadwood_pickaxe",
-          "weight": 3
+          "weight": 2
         },
         {
           "type": "minecraft:item",
           "functions": [
             {
               "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
                 "max": 0.6,
@@ -216,51 +252,17 @@
               "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 5.0
-              },
-              "treasure": false
-            }
-          ],
-          "name": "lcc:deadwood_pickaxe"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.9,
-                "min": 0.1
-              },
-              "function": "minecraft:set_damage"
-            }
-          ],
-          "name": "lcc:deadwood_shovel",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.6,
-                "min": 0.1
-              },
-              "function": "minecraft:set_damage"
-            },
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 5.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
@@ -272,22 +274,12 @@
           "functions": [
             {
               "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.9,
-                "min": 0.1
-              },
-              "function": "minecraft:set_damage"
-            }
-          ],
-          "name": "lcc:deadwood_axe",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
                 "max": 0.6,
@@ -296,11 +288,17 @@
               "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 5.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
@@ -312,22 +310,12 @@
           "functions": [
             {
               "add": false,
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.9,
-                "min": 0.1
-              },
-              "function": "minecraft:set_damage"
-            }
-          ],
-          "name": "lcc:deadwood_hoe",
-          "weight": 3
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
                 "max": 0.6,
@@ -336,16 +324,188 @@
               "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "max": 10.0,
-                "min": 5.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
           ],
           "name": "lcc:deadwood_hoe"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:woodlouse_shell",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_helmet"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_chestplate"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_leggings"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_boots"
         }
       ],
       "rolls": 2.0
@@ -382,6 +542,19 @@
           ],
           "name": "lcc:crowbar",
           "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "enchantments": [
+                "lcc:infested"
+              ],
+              "function": "minecraft:enchant_randomly"
+            }
+          ],
+          "name": "minecraft:book",
+          "weight": 3
         }
       ],
       "rolls": {

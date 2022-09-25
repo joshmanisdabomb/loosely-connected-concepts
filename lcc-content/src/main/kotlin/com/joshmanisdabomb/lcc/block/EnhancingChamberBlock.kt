@@ -48,7 +48,7 @@ class EnhancingChamberBlock(settings: Settings) : BlockWithEntity(settings) {
         val stack = player.getStackInHand(hand)
         val be = world.getBlockEntity(pos) as? EnhancingChamberBlockEntity ?: return ActionResult.PASS
         if (stack.isIn(LCCItemTags.enhancing_pyre)) {
-            be.enhance(stack)
+            be.enhance(stack, player)
             return ActionResult.SUCCESS
         } else if (stack.item !is BlockItem) {
             val contents = be.inventory.getStack(0)

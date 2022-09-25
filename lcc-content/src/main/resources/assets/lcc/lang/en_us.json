@@ -3094,7 +3094,7 @@
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.0.2": " are similar to ",
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.0.4": ", but mobs and players that bounce on this block will still take full falling damage.",
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.1.0": "The strength of each bounce will also decay like ",
-  "knowledge.lcc.minecraft:block.lcc:rubber_block.1.1.2": ". However, there is a minimum bounce that will not diminsh - keeping the entity bobbing up and down at a short height. This can be cancelled by sneaking.",
+  "knowledge.lcc.minecraft:block.lcc:rubber_block.1.1.2": ". However, there is a minimum bounce that will not diminish - keeping the entity bobbing up and down at a short height. This can be cancelled by sneaking.",
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.2.0": "Unlike ",
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.2.2": ", pushing this block with a ",
   "knowledge.lcc.minecraft:block.lcc:rubber_block.1.2.4": " will not launch entities.",

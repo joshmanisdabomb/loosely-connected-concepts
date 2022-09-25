@@ -24,7 +24,6 @@ class FlowerPatchFeature(configCodec: Codec<FlowerPatchFeatureConfig>) : Feature
                 if (world.isOutOfHeightLimit(y)) return@repeat
 
                 bp.set(origin.x+dx, y-1, origin.z+dz)
-                println(world.getBlockState(bp))
                 if (!world.getBlockState(bp).isOf(LCCBlocks.cracked_mud)) return@repeat
                 world.setBlockState(bp, config.base, 18)
                 success = true

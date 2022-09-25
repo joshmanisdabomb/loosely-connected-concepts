@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
@@ -18,11 +19,11 @@ class EnhancingChamberBlockEntity(pos: BlockPos, state: BlockState) : BlockEntit
 
     val inventory = LCCInventory(2)
 
-    fun enhance(pyre: ItemStack): Boolean {
+    fun enhance(pyre: ItemStack, player: PlayerEntity): Boolean {
         inventory.setStack(1, pyre)
         val recipe = world?.recipeManager?.getFirstMatch(LCCRecipeTypes.enhancing, inventory, world)?.orElse(null) ?: return false
         val output = recipe.craft(inventory)
-        pyre.decrement(1)
+        if (player.isSurvival) pyre.decrement(1)
         inventory.setStack(0, output)
         inventory.removeStack(1)
         markDirty()

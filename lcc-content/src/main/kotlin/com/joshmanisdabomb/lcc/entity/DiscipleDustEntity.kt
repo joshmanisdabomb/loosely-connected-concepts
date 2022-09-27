@@ -69,9 +69,9 @@ class DiscipleDustEntity : ProjectileEntity {
         this.setPosition(this.x + vec3d.x, this.y + vec3d.y, this.z + vec3d.z)
 
         if (world.isClient) {
-            repeat(3 - MinecraftClient.getInstance().options.particles.value.id) {
-                val dir = Vec3d(world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5)).normalize().multiply(0.4)
-                val pos = dir.add(pos)
+            repeat(6 - MinecraftClient.getInstance().options.particles.value.id.times(2)) {
+                val dir = velocity.normalize().multiply(0.07)
+                val pos = Vec3d(world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5), world.random.nextDouble().minus(0.5)).normalize().multiply(0.3).add(pos)
                 world.addParticle(LCCParticles.disciple_dust, pos.x, pos.y, pos.z, -dir.x, -dir.y, -dir.z)
             }
         } else {
@@ -85,7 +85,7 @@ class DiscipleDustEntity : ProjectileEntity {
         var vel = velocity
         val l = vel.lengthSquared()
         if (l < 0.75) {
-            val add = (0.75 - l).times(0.3f).coerceAtLeast(0.0).plus(1.0)
+            val add = (0.75 - l).times(0.4f).coerceAtLeast(0.0).plus(1.0)
             vel = vel.multiply(add, add, add)
         }
 

@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
@@ -76,7 +75,7 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
         val y = target.y + target.standingEyeHeight.times(0.5) - (pos.y + standingEyeHeight)
         val z = target.z - pos.z
         val projectile = DiscipleDustEntity(world, this)
-        projectile.setVelocity(x, y, z, 0.05f, 0.8f)
+        projectile.setVelocity(x, y, z, 0.01f, 0.8f)
         playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
         world.spawnEntity(projectile)
     }

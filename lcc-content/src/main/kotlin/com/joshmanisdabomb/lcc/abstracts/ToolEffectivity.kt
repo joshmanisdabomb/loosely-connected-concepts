@@ -26,7 +26,7 @@ enum class ToolEffectivity(val effective: TagKey<Block>, val required: TagKey<Bl
     fun isTool(stack: ItemStack, against: BlockState, vanilla: Boolean) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveTool(stack, against, this, vanilla) == true
 
     fun isRequired(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolRequired(state, param, this) == true
-    fun isEffective(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolEffective(state, param, this) == true || (state.block as? LCCContentBlockTrait)?.lcc_content_isToolRequired(state, param, this) != true
+    fun isEffective(state: BlockState, param: ItemStack) = (state.block as? LCCContentBlockTrait)?.lcc_content_isToolEffective(state, param, this) == true
 
     fun reduceDamageTaken(recipient: LivingEntity, defense: Double, player: PlayerEntity, offense: Double, amount: Float, original: Float): Float {
         val reduction = amount.plus(1).pow(0.75f).minus(1).times(0.8f)

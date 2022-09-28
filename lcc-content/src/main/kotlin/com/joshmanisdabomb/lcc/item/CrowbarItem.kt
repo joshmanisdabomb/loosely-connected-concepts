@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.ShatteredGlassBlock
 import com.joshmanisdabomb.lcc.block.ShatteredPaneBlock
 import com.joshmanisdabomb.lcc.cache.PlayerEntityValueCache
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCItems
@@ -44,6 +45,7 @@ class CrowbarItem(settings: Settings) : Item(settings), LCCContentItemTrait, LCC
     val modifiers = ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>()
         .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", 2.0, EntityAttributeModifier.Operation.ADDITION))
         .put(EntityAttributes.GENERIC_ATTACK_SPEED, EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", -2.55, EntityAttributeModifier.Operation.ADDITION))
+        .apply(ToolEffectivity.WASTELAND::addToolModifiers)
         .build()
 
     override fun lcc_content_isEffectiveWeapon(stack: ItemStack, entity: Entity, effectivity: ToolEffectivity) = effectivity == ToolEffectivity.WASTELAND

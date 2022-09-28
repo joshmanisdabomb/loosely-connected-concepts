@@ -343,7 +343,7 @@ object LCCBlocks : BlockDirectory() {
     val imbuing_press by entry(::initialiser) { ImbuingPressBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
-    val spawning_pit by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).emissiveLighting(::always).requiresTool().sounds(BlockSoundGroup.STONE)) }
+    val spawning_pit by entry(::initialiser) { SpawningPitBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).ticksRandomly().emissiveLighting(::always).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     //TODO reinforced stone or similar for nuke protection

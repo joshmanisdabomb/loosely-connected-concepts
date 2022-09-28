@@ -26,7 +26,6 @@
     "MovementEntityMixin",
     "PlayerEntityMixin",
     "EffectMobEntityMixin",
-    "PitSpawnHelperMixin",
     "AttributeLivingMixin",
     "MaterialRuleContextAccessor",
     "AnvilScreenHandlerMixin"

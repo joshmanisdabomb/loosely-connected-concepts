@@ -64,6 +64,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                     DefaultBiomeFeatures.addInfestedStone(this)
                 }
                 .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCPlacedFeatures.fortstone_patches)
+                .feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCPlacedFeatures.spawning_pits)
                 .feature(GenerationStep.Feature.SURFACE_STRUCTURES, LCCPlacedFeatures.wasteland_spikes)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.oil_geyser)
                 .feature(GenerationStep.Feature.LOCAL_MODIFICATIONS, LCCPlacedFeatures.oil_pockets)

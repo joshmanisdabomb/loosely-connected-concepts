@@ -11,6 +11,7 @@ import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
 import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
+import com.joshmanisdabomb.lcc.world.placement.NearAirAbovePlacement
 import com.joshmanisdabomb.lcc.world.placement.NearAirPlacement
 import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
 import com.mojang.serialization.Codec
@@ -134,6 +135,8 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val clover_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.three_leaf_clover.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
     val forget_me_not_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.forget_me_not.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
 
+    val spawning_pits by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.spawning_pit.defaultState, 45)) }
+
     private fun <C : FeatureConfig, F : Feature<C>> initialiser(input: ConfiguredFeature<C, F>, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<ConfiguredFeature<*, *>> {
         return BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_FEATURE, context.id, input) as RegistryEntry<ConfiguredFeature<*, *>>
     }
@@ -189,6 +192,8 @@ object LCCPlacedFeatures : AdvancedDirectory<PlacedFeature, RegistryEntry<Placed
 
     val clover_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.clover_patch, listOf(RarityFilterPlacementModifier.of(12), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
     val forget_me_not_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.forget_me_not_patch, listOf(RarityFilterPlacementModifier.of(18), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+
+    val spawning_pits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.spawning_pits, listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.getTop()), BiomePlacementModifier.of(), NearAirAbovePlacement.instance)) }
 
     private fun initialiser(input: PlacedFeature, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<PlacedFeature> {
         return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, context.id, input)
@@ -277,6 +282,7 @@ object LCCPlacementModifierTypes : BasicDirectory<PlacementModifierType<out Plac
     val near_lava_lake by entry(::initialiser) { PlacementModifierType { NearLavaPlacement.codec } }
     val height_threshold by entry(::initialiser) { PlacementModifierType { HeightThreshold.codec } }
     val near_air by entry(::initialiser) { PlacementModifierType { NearAirPlacement.codec } }
+    val near_air_above by entry(::initialiser) { PlacementModifierType { NearAirAbovePlacement.codec } }
 
     override fun defaultProperties(name: String) = Unit
 

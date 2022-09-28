@@ -674,8 +674,6 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val sapphire_altar_brick_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().mineablePickaxe().withDiamondTool().add(SlabBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc(), full = LCCBlocks.sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick, 2)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
     val sapphire_altar_brick_wall by entry(::initialiser) { data().defaultLang().defaultLootTable().mineablePickaxe().withDiamondTool().add(WallBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), TextureMap().put(TextureKey.WALL, LCCBlocks.sapphire_altar_brick.identifierLoc()), d.models) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
 
-    val mud by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineableShovel().add(RotationBlockAssetFactory((0..3).toList(), (0..3).toList())).add(BlockTagFactory(LCCBlockTags.wasteland_effective)) }
-
     val three_leaf_clover by entry(::initialiser) { data().defaultLang().defaultLootTable().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.textured_cross.upload(idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.loc(t)).put(LCCModelTextureKeys.t1, idb.locSuffix(t, "alt")), d.models) }).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
     val potted_three_leaf_clover by entry(::initialiser) { data().defaultLang().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.flower_pot_textured_cross.upload(idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.loc(LCCBlocks.three_leaf_clover)).put(LCCModelTextureKeys.t1, idb.locSuffix(LCCBlocks.three_leaf_clover, "alt")), d.models) }).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
     val four_leaf_clover by entry(::initialiser) { data().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
@@ -683,7 +681,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val forget_me_not by entry(::initialiser) { data().defaultLang().defaultLootTable().add(PlantBlockAssetFactory).add(GeneratedBlockItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
     val potted_forget_me_not by entry(::initialiser) { data().defaultLang().add(PottedPlantBlockAssetFactory).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }
 
-    val enhancing_chamber by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().mineableAxe().add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_enhancing_chamber.upload(i(t) ?: idb.loc(t), TextureMap().put(TextureKey.TOP, idb.locSuffix(t, "top")).put(TextureKey.SIDE, idb.locSuffix(t, "side")).put(TextureKey.BOTTOM, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "side")), d.models) }).add(BlockTagFactory(LCCBlockTags.wasteland_effective)).add(CustomRecipeFactory { d, i ->
+    val enhancing_chamber by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().mineableAxe().add(BlockTagFactory(LCCBlockTags.wasteland_effective)).add(DirectionalBlockAssetFactory { d, t, i -> LCCModelTemplates.template_enhancing_chamber.upload(i(t) ?: idb.loc(t), TextureMap().put(TextureKey.TOP, idb.locSuffix(t, "top")).put(TextureKey.SIDE, idb.locSuffix(t, "side")).put(TextureKey.BOTTOM, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "side")), d.models) }).add(BlockTagFactory(LCCBlockTags.wasteland_effective)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonBuilder.create(i)
             .pattern("w w")
             .pattern("w w")
@@ -693,7 +691,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShaped(this, LCCItems.enhancing_pyre_alpha) }
             .apply { offerShaped(this, d) }
     }).add(ComplexRecipeFactory(LCCRecipeSerializers.overlevel_enchants, LCC.id("overlevel_enchants"))) }
-    val imbuing_press by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().mineablePickaxe().add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_imbuing_press.upload(i(t) ?: idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.locSuffix(t, "spike")).put(LCCModelTextureKeys.t1, idb.loc(t)).put(LCCModelTextureKeys.t2, idb.locSuffix(t, "side")).put(LCCModelTextureKeys.t3, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "bottom")), d.models) })).add(BlockTagFactory(LCCBlockTags.wasteland_required)).add(CustomRecipeFactory { d, i ->
+    val imbuing_press by entry(::initialiser) { data().defaultLang().defaultLootTable().defaultItemAsset().mineablePickaxe().add(BlockTagFactory(LCCBlockTags.wasteland_required)).add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_imbuing_press.upload(i(t) ?: idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.locSuffix(t, "spike")).put(LCCModelTextureKeys.t1, idb.loc(t)).put(LCCModelTextureKeys.t2, idb.locSuffix(t, "side")).put(LCCModelTextureKeys.t3, idb.locSuffix(t, "bottom")).put(TextureKey.PARTICLE, idb.locSuffix(t, "bottom")), d.models) })).add(BlockTagFactory(LCCBlockTags.wasteland_required)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonBuilder.create(i)
             .pattern("fsf")
             .pattern("fpf")
@@ -706,8 +704,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
-    val papercomb_block by entry(::initialiser) { data().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe() }
-    val paper_envelopes by entry(::initialiser) { data().affects(LCCBlocks.paper_envelope.values.toList()).defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe() }
+    val papercomb_block by entry(::initialiser) { data().defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe().add(BlockTagFactory(LCCBlockTags.wasteland_effective)) }
+    val paper_envelopes by entry(::initialiser) { data().affects(LCCBlocks.paper_envelope.values.toList()).defaultLang().defaultBlockAsset().defaultItemAsset().defaultLootTable().mineableHoe().add(BlockTagFactory(LCCBlockTags.wasteland_effective)) }
 
     val attractive_magnetic_iron_block by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withStoneTool().add(SideBottomTopBlockAssetFactory(textureTop = LCC.block("magnetic_iron_block_red"), textureBottom = LCC.block("magnetic_iron_block_blue"), textureSide = idb.loc(LCCBlocks.attractive_magnetic_iron_block))).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonBuilder.create(i)
@@ -737,6 +735,8 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             .apply { hasCriterionShapeless(this, i) }
             .apply { offerShapeless(this, d, LCC.id("magnetic_iron_from_repulsive")) }
     }) }
+
+    val spawning_pit by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().mineablePickaxe().add(SilkBlockLootFactory(LCCBlocks.cracked_mud)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

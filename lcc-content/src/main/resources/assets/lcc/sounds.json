@@ -230,6 +230,55 @@
     ],
     "subtitle": "subtitles.lcc.entity.consumer.tongue.shoot"
   },
+  "entity.lcc.disciple.ambient": {
+    "sounds": [
+      "lcc:entity/disciple/idle1",
+      "lcc:entity/disciple/idle2",
+      "lcc:entity/disciple/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.ambient"
+  },
+  "entity.lcc.disciple.death": {
+    "sounds": [
+      "lcc:entity/disciple/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.death"
+  },
+  "entity.lcc.disciple.dust": {
+    "sounds": [
+      "lcc:entity/disciple/dust"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.dust"
+  },
+  "entity.lcc.disciple.explosion": {
+    "sounds": [
+      "lcc:entity/disciple/explosion"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.explosion"
+  },
+  "entity.lcc.disciple.fire": {
+    "sounds": [
+      "lcc:entity/disciple/fire1",
+      "lcc:entity/disciple/fire2",
+      "lcc:entity/disciple/fire3"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.fire"
+  },
+  "entity.lcc.disciple.hurt": {
+    "sounds": [
+      "lcc:entity/disciple/hurt1",
+      "lcc:entity/disciple/hurt2",
+      "lcc:entity/disciple/hurt3",
+      "lcc:entity/disciple/hurt4"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.hurt"
+  },
+  "entity.lcc.disciple.jump": {
+    "sounds": [
+      "lcc:entity/disciple/jump"
+    ],
+    "subtitle": "subtitles.lcc.entity.disciple.jump"
+  },
   "entity.lcc.nuclear_explosion.explode": {
     "sounds": [
       {

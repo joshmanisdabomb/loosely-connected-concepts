@@ -169,6 +169,28 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/psycho_pig/reveal")
     }) }
 
+    val disciple_ambient by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.ambient", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/idle${it+1}")
+    }) }
+    val disciple_hurt by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.hurt", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/hurt${it+1}")
+    }) }
+    val disciple_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/death")
+    }) }
+    val disciple_jump by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.jump", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/jump")
+    }) }
+    val disciple_fire by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.fire", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/fire${it+1}")
+    }) }
+    val disciple_dust by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.dust", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/dust")
+    }) }
+    val disciple_explosion by entry(::initialiser) { SoundProperties("entity", LCC.modid, "disciple.explosion", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/explosion")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

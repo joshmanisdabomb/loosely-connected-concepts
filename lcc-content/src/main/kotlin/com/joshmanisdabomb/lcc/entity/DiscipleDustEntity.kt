@@ -4,6 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPacketsToClient
 import com.joshmanisdabomb.lcc.directory.LCCParticles
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
@@ -16,12 +17,14 @@ import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.predicate.entity.EntityPredicates
+import net.minecraft.sound.SoundCategory
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.pow
 
 class DiscipleDustEntity : ProjectileEntity {
 
@@ -88,6 +91,11 @@ class DiscipleDustEntity : ProjectileEntity {
             val add = (0.75 - l).times(0.4f).coerceAtLeast(0.0).plus(1.0)
             vel = vel.multiply(add, add, add)
         }
+        distanceTraveled += l.pow(0.4).toFloat()
+        if (distanceTraveled > 0.9f && world.isClient) {
+            distanceTraveled = 0f
+            world.playSound(x, y, z, LCCSounds.disciple_dust, SoundCategory.HOSTILE, 0.6f, random.nextFloat().times(0.2f).plus(0.9f), false)
+        }
 
         val homing = (owner as? DiscipleEntity)?.healTarget
         if (homing != null) {
@@ -107,6 +115,7 @@ class DiscipleDustEntity : ProjectileEntity {
             PlayerLookup.tracking(this).forEach {
                 ServerPlayNetworking.send(it, LCCPacketsToClient[LCCPacketsToClient::disciple_dust_blast_particle].first().id, PacketByteBuf(Unpooled.buffer()).also { it.writeBoolean(true).writeDouble(pos.x).writeDouble(pos.y).writeDouble(pos.z).writeDouble(0.0).writeDouble(0.0).writeDouble(0.0).writeFloat(4.0f) })
             }
+            playSound(LCCSounds.disciple_explosion, 1.7f, random.nextFloat().times(0.2f).plus(0.9f))
             discard()
         }
     }

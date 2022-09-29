@@ -109,6 +109,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             entity.setVelocity(e, f, g, ConsumerTongueEntity.tongueSpeed, 0.8f)
             val h = Vec3d(e, f, g).normalize().multiply(0.01)
             entity.setPosition(this.x + h.x, entity.getTargetY()!! + h.y, this.z + h.z)
+            ambientSoundChance = -100
             playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
             world.spawnEntity(entity)
             tongue = entity

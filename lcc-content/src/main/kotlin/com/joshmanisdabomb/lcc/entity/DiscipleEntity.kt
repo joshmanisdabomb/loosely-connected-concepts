@@ -76,7 +76,8 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
         val z = target.z - pos.z
         val projectile = DiscipleDustEntity(world, this)
         projectile.setVelocity(x, y, z, 0.01f, 0.8f)
-        playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
+        ambientSoundChance = -100
+        playSound(LCCSounds.disciple_fire, 1.7f, random.nextFloat().times(0.2f).plus(0.9f))
         world.spawnEntity(projectile)
     }
 
@@ -109,6 +110,11 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
 
     override fun getJumpVelocity() = super.getJumpVelocity().times(2f)
 
+    override fun jump() {
+        playSound(LCCSounds.disciple_jump, 0.8f, random.nextFloat().times(0.2f).plus(0.9f))
+        super.jump()
+    }
+
     override fun tick() {
         super.tick()
         var vel = velocity
@@ -136,11 +142,11 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
-    override fun getAmbientSound() = LCCSounds.consumer_ambient
+    override fun getAmbientSound() = LCCSounds.disciple_ambient
 
-    override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
+    override fun getHurtSound(source: DamageSource) = LCCSounds.disciple_hurt
 
-    override fun getDeathSound() = LCCSounds.consumer_death
+    override fun getDeathSound() = LCCSounds.disciple_death
 
     companion object {
         val healing_id = DataTracker.registerData(DiscipleEntity::class.java, TrackedDataHandlerRegistry.INTEGER)

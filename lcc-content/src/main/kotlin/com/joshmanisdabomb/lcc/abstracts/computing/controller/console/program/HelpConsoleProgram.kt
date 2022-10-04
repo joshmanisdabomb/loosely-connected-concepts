@@ -4,8 +4,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCom
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.CommandArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.LiteralText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 
 class HelpConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
@@ -34,11 +33,11 @@ class HelpConsoleProgram(literal: String, override vararg val aliases: String) :
 
     fun get(source: ConsoleCommandSource) {
         val usage = LCCConsolePrograms.dispatcher.getSmartUsage(LCCConsolePrograms.dispatcher.root, source)
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.commands").formatted(Formatting.AQUA), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.commands").formatted(Formatting.AQUA), source.view)
         usage.filterKeys { LCCConsolePrograms.all.keys.contains(it.name) }.forEach { (k, v) ->
-            source.controller.write(source.session, LiteralText(v).formatted(Formatting.WHITE), source.view)
+            source.controller.write(source.session, Text.literal(v).formatted(Formatting.WHITE), source.view)
         }
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.info").formatted(Formatting.BLUE), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.info").formatted(Formatting.BLUE), source.view)
     }
 
     fun usage(source: ConsoleCommandSource, node: String) {
@@ -46,19 +45,19 @@ class HelpConsoleProgram(literal: String, override vararg val aliases: String) :
         val child = LCCConsolePrograms.dispatcher.root.getChild(node)
         val usage = LCCConsolePrograms.dispatcher.getSmartUsage(child, source)
         if (usage.isEmpty()) {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.usage", node).formatted(Formatting.AQUA), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.usage", node).formatted(Formatting.AQUA), source.view)
         } else {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.usage", node + " " + usage.values.first()).formatted(Formatting.AQUA), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.usage", node + " " + usage.values.first()).formatted(Formatting.AQUA), source.view)
         }
         if (original == node) {
             val aliases = LCCConsolePrograms.entries[node]?.entry?.aliases
             if (aliases?.isNotEmpty() == true) {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.aliases", aliases.joinToString(", ")).formatted(Formatting.GOLD), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.aliases", aliases.joinToString(", ")).formatted(Formatting.GOLD), source.view)
             }
         } else {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.alias_of", original).formatted(Formatting.GOLD), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.alias_of", original).formatted(Formatting.GOLD), source.view)
         }
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.$original", node).formatted(Formatting.BLUE), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.$original", node).formatted(Formatting.BLUE), source.view)
     }
 
 }

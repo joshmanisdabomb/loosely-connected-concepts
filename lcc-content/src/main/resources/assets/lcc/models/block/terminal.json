@@ -1,9 +1,9 @@
 {
   "parent": "lcc:block/template_terminal",
   "textures": {
-    "top": "lcc:block/computer_casing_top",
-    "side": "lcc:block/computer_casing_top",
     "front": "lcc:block/terminal",
+    "side": "lcc:block/computer_casing_top",
+    "top": "lcc:block/computer_casing_top",
     "white": "lcc:block/terminal_white"
   }
 }

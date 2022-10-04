@@ -35,7 +35,6 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.world.World
@@ -106,7 +105,7 @@ class TerminalBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBlo
         return TerminalScreenHandler(syncId, inv, propertyDelegate, pos)
     }
 
-    override fun getDisplayName() = customName ?: TranslatableText("container.lcc.terminal")
+    override fun getDisplayName() = customName ?: Text.translatable("container.lcc.terminal")
 
     override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
         buf.writeBlockPos(pos)

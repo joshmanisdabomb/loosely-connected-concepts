@@ -14,7 +14,7 @@ import com.mojang.brigadier.exceptions.Dynamic4CommandExceptionType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.util.*
 
 class InstallConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
@@ -33,7 +33,7 @@ class InstallConsoleProgram(literal: String, override vararg val aliases: String
         val disks = source.context.getAccessibleDisks()
         val disk = DiskInfo.getDisk(disks, diskId)
         if (disk == null) {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.interrupt", diskLabel, diskShort), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", diskLabel, diskShort), source.view)
             return null
         }
 
@@ -42,7 +42,7 @@ class InstallConsoleProgram(literal: String, override vararg val aliases: String
 
         val partition = DiskPartition(UUID.randomUUID(), label, LCCPartitionTypes.console, required)
         disk.addPartition(partition)
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.success", partition.label, partition.getShortId(disks), partition.size, diskLabel, diskShort), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success", partition.label, partition.getShortId(disks), partition.size, diskLabel, diskShort), source.view)
         return null
     }
 
@@ -69,10 +69,10 @@ class InstallConsoleProgram(literal: String, override vararg val aliases: String
         return startTask(context.source, nbt)
     }
 
-    private val totalSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.$name.space_total", a, b, c, d) }
-    private val allocableSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> TranslatableText("terminal.lcc.console.$name.space_allocable", a, b, c, d) }
+    private val totalSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> Text.translatable("terminal.lcc.console.$name.space_total", a, b, c, d) }
+    private val allocableSpaceLow = Dynamic4CommandExceptionType { a, b, c, d -> Text.translatable("terminal.lcc.console.$name.space_allocable", a, b, c, d) }
 
-    private val labelEmpty = SimpleCommandExceptionType(TranslatableText("terminal.lcc.console.$name.label_empty"))
-    private val labelInvalid = SimpleCommandExceptionType(TranslatableText("terminal.lcc.console.$name.label_invalid"))
+    private val labelEmpty = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.label_empty"))
+    private val labelInvalid = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.label_invalid"))
 
 }

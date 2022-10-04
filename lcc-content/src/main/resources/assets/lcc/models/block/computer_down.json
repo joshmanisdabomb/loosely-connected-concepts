@@ -1,9 +1,9 @@
 {
   "parent": "lcc:block/template_computing",
   "textures": {
-    "top": "lcc:block/computer_casing_top",
-    "side": "lcc:block/computer_casing_down",
     "front": "lcc:block/computer",
+    "side": "lcc:block/computer_casing_down",
+    "top": "lcc:block/computer_casing_top",
     "white": "lcc:block/computer_white"
   }
 }

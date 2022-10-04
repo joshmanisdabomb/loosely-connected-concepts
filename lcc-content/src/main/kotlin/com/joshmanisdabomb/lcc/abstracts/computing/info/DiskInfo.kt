@@ -4,7 +4,7 @@ import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import java.util.*
 
 data class DiskInfo(val stack: ItemStack) {
@@ -33,7 +33,7 @@ data class DiskInfo(val stack: ItemStack) {
             }
         }
 
-    val name get() = label?.let { LiteralText(it) } ?: stack.name
+    val name get() = label?.let { Text.literal(it) } ?: stack.name
 
     val usedSpace get() = partitions.sumOf { it.usedSpace }
     val freeSpace get() = totalSpace - usedSpace

@@ -10,7 +10,7 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class UseConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
 
@@ -33,11 +33,11 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
                 val partition = DiskInfo.findPartition(disks, using)
                 if (partition != null) {
                     val disk = partition.disk!!
-                    source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.get", partition.label, partition.getShortId(disks), disk.name, disk.getShortId(disks)), source.view)
+                    source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.get", partition.label, partition.getShortId(disks), disk.name, disk.getShortId(disks)), source.view)
                     return null
                 }
             }
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.get.empty"), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.get.empty"), source.view)
             return null
         }
 
@@ -48,12 +48,12 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
         val diskLabel = data.getString("DiskLabel")
         val partition = DiskInfo.findPartition(disks, partitionId)
         if (partition == null) {
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
             return null
         }
 
         source.session.getViewData(source.view).putUuid("Use", partitionId)
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.success", partitionLabel, partitionShort, diskLabel, diskShort), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success", partitionLabel, partitionShort, diskLabel, diskShort), source.view)
         return null
     }
 
@@ -81,6 +81,6 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
         return startTask(context.source, nbt)
     }
 
-    private val systemPartition = Dynamic2CommandExceptionType { a, b -> TranslatableText("terminal.lcc.console.$name.system", a, b) }
+    private val systemPartition = Dynamic2CommandExceptionType { a, b -> Text.translatable("terminal.lcc.console.$name.system", a, b) }
 
 }

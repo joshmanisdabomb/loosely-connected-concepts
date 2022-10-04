@@ -11,7 +11,7 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class LabelConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
 
@@ -55,19 +55,19 @@ class LabelConsoleProgram(literal: String, override vararg val aliases: String) 
             val diskLabel = data.getText("DiskLabel")
             val disk = source.context.getDisk(diskId)
             if (disk == null) {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.interrupt.disk.$operation", diskLabel, diskShort), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt.disk.$operation", diskLabel, diskShort), source.view)
             } else if (operation == "set") {
                 if (label.isEmpty()) {
-                    source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.removed", disk.name, diskShort), source.view)
+                    source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.removed", disk.name, diskShort), source.view)
                     disk.label = null
                 } else {
-                    source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.success.disk", disk.name, diskShort, label), source.view)
+                    source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success.disk", disk.name, diskShort, label), source.view)
                     disk.label = label
                 }
             } else if (disk.label != null) {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.found.disk", disk.stack.name, diskShort, disk.label), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.found.disk", disk.stack.name, diskShort, disk.label), source.view)
             } else {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.none.disk", disk.stack.name, diskShort), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.none.disk", disk.stack.name, diskShort), source.view)
             }
         }
 
@@ -77,12 +77,12 @@ class LabelConsoleProgram(literal: String, override vararg val aliases: String) 
             val partitionLabel = data.getText("PartitionLabel")
             val partition = source.context.getPartition(partitionId)
             if (partition == null) {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.interrupt.partition.$operation", partitionLabel, partitionShort), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt.partition.$operation", partitionLabel, partitionShort), source.view)
             } else if (operation == "set") {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.success.partition", partition.label, partitionShort, label), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success.partition", partition.label, partitionShort, label), source.view)
                 partition.label = label
             } else {
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.found.partition", partition.label, partitionShort, partition.label), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.found.partition", partition.label, partitionShort, partition.label), source.view)
             }
         }
         return null
@@ -91,9 +91,9 @@ class LabelConsoleProgram(literal: String, override vararg val aliases: String) 
     companion object {
         val labelRegex = Regex("[:#/]+")
 
-        private val labelEmpty = SimpleCommandExceptionType(TranslatableText("terminal.lcc.console.$name.empty"))
-        private val diskLabelInvalid = SimpleCommandExceptionType(TranslatableText("terminal.lcc.console.$name.invalid.disk"))
-        private val partitionLabelInvalid = SimpleCommandExceptionType(TranslatableText("terminal.lcc.console.$name.invalid.partition"))
+        private val labelEmpty = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.empty"))
+        private val diskLabelInvalid = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.invalid.disk"))
+        private val partitionLabelInvalid = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.invalid.partition"))
 
         fun checkLabel(label: String, single: Pair<DiskInfo?, DiskPartition?>) {
             if (single.second != null) {

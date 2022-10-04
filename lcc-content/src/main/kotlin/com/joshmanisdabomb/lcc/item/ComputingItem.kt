@@ -13,7 +13,6 @@ import net.minecraft.client.item.UnclampedModelPredicateProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import net.minecraft.world.World
 import kotlin.math.log2
@@ -35,7 +34,7 @@ open class ComputingItem(val initialLevel: Int, val maxLevel: Int, settings: Set
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText("${this.translationKey}.level", getLevel(stack)).formatted(Formatting.AQUA))
+        tooltip.add(Text.translatable("${this.translationKey}.level", getLevel(stack)).formatted(Formatting.AQUA))
     }
 
 }

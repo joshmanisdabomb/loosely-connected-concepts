@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class TimeConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
 
@@ -13,7 +13,7 @@ class TimeConsoleProgram(literal: String, override vararg val aliases: String) :
 
     override fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean? {
         val time = source.context.getWorldFromContext().timeOfDay
-        source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name", time.div(24000), *formatTime(time)), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name", time.div(24000), *formatTime(time)), source.view)
         return null
     }
 

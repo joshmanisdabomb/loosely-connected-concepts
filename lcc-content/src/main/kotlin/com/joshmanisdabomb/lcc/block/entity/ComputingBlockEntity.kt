@@ -36,7 +36,6 @@ import net.minecraft.screen.PropertyDelegate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.hit.BlockHitResult
@@ -219,7 +218,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
 
         override fun createMenu(syncId: Int, inv: PlayerInventory, player: PlayerEntity) = ComputingScreenHandler(syncId, inv, propertyDelegate).initHalf(this)
 
-        override fun getDisplayName() = customName ?: TranslatableText("container.lcc.${module.id.path}")
+        override fun getDisplayName() = customName ?: Text.translatable("container.lcc.${module.id.path}")
 
         override fun writeScreenOpeningData(player: ServerPlayerEntity, buf: PacketByteBuf) {
             buf.writeBlockPos(pos)

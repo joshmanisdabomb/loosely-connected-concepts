@@ -14,9 +14,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import net.minecraft.util.collection.DefaultedList
 import net.minecraft.world.World
@@ -54,23 +52,23 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         val info = DiskInfo(stack)
         if (info.label != null) {
-            tooltip.add(LiteralText(info.label).formatted(Formatting.GRAY))
+            tooltip.add(Text.literal(info.label).formatted(Formatting.GRAY))
         }
         if (Screen.hasShiftDown()) {
-            tooltip.add(TranslatableText(TooltipConstants.computing_disk_space_advanced, info.usedSpace, info.allocatedSpace, getLevel(stack)).formatted(Formatting.AQUA))
-            tooltip.add(TranslatableText(TooltipConstants.computing_disk_id, info.id?.toString() ?: TranslatableText(TooltipConstants.computing_disk_id_null)).formatted(Formatting.DARK_GRAY))
+            tooltip.add(Text.translatable(TooltipConstants.computing_disk_space_advanced, info.usedSpace, info.allocatedSpace, getLevel(stack)).formatted(Formatting.AQUA))
+            tooltip.add(Text.translatable(TooltipConstants.computing_disk_id, info.id?.toString() ?: Text.translatable(TooltipConstants.computing_disk_id_null)).formatted(Formatting.DARK_GRAY))
         } else {
-            tooltip.add(TranslatableText(TooltipConstants.computing_disk_space, info.usedSpace, getLevel(stack)).formatted(Formatting.AQUA))
+            tooltip.add(Text.translatable(TooltipConstants.computing_disk_space, info.usedSpace, getLevel(stack)).formatted(Formatting.AQUA))
         }
         val partitions = info.partitions
         if (partitions.isNotEmpty()) {
-            tooltip.add(LiteralText(""))
-            tooltip.add(TranslatableText(TooltipConstants.computing_partitions).formatted(Formatting.GRAY))
+            tooltip.add(Text.literal(""))
+            tooltip.add(Text.translatable(TooltipConstants.computing_partitions).formatted(Formatting.GRAY))
             for (partition in partitions) {
-                tooltip.add(TranslatableText(TooltipConstants.computing_partition_name, partition.label).formatted(partition.type.nameColor))
-                tooltip.add(TranslatableText(TooltipConstants.computing_partition_space, partition.usedSpace, partition.size).formatted(Formatting.DARK_AQUA))
+                tooltip.add(Text.translatable(TooltipConstants.computing_partition_name, partition.label).formatted(partition.type.nameColor))
+                tooltip.add(Text.translatable(TooltipConstants.computing_partition_space, partition.usedSpace, partition.size).formatted(Formatting.DARK_AQUA))
                 if (Screen.hasShiftDown()) {
-                    tooltip.add(TranslatableText(TooltipConstants.computing_partition_id, partition.id?.toString() ?: TranslatableText(TooltipConstants.computing_partition_id_null)).formatted(Formatting.DARK_GRAY))
+                    tooltip.add(Text.translatable(TooltipConstants.computing_partition_id, partition.id?.toString() ?: Text.translatable(TooltipConstants.computing_partition_id_null)).formatted(Formatting.DARK_GRAY))
                 }
             }
         }

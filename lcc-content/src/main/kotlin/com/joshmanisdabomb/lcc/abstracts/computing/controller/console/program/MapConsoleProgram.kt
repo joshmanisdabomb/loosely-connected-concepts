@@ -8,8 +8,7 @@ import com.joshmanisdabomb.lcc.extensions.*
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.LiteralText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 
@@ -33,16 +32,16 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionSizes = data.getCompound("PartitionSizes")
         val partitionUsed = data.getCompound("PartitionUsed")
         data.getCompound("IdMap").forEachStringList { k, v ->
-            source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
-            source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
+            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
+            source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
             v.forEach {
                 val type = LCCPartitionTypes.registry[Identifier(partitionTypes.getString(it))]
                 val formatting = type?.nameColor ?: Formatting.RESET
-                source.controller.write(source.session, TranslatableText("terminal.lcc.console.$name.partition.left", LiteralText(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
+                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.partition.left", Text.literal(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
                 if (partitionUsed.contains(it)) {
-                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
+                    source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
                 } else {
-                    source.controller.writeOnRight(source.session, TranslatableText("terminal.lcc.console.$name.partition.right", partitionSizes.getInt(it)), source.view)
+                    source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.partition.right", partitionSizes.getInt(it)), source.view)
                 }
             }
         }

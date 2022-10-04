@@ -16,10 +16,10 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableTextContent
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
 import java.util.*
@@ -55,11 +55,11 @@ class ConsoleComputingController : LinedComputingController() {
                         it.put("Data", nbt)
                         ret
                     } catch (e: CommandSyntaxException) {
-                        val text = e.rawMessage as? TranslatableText
+                        val text = (e.rawMessage as? Text)?.content as? TranslatableTextContent
                         if (text != null) {
-                            write(session, text, k)
+                            write(session, MutableText.of(text), k)
                         } else {
-                            write(session, TranslatableText("terminal.lcc.console.exception.task"), k)
+                            write(session, Text.translatable("terminal.lcc.console.exception.task"), k)
                             e.printStackTrace()
                         }
                         false
@@ -94,19 +94,19 @@ class ConsoleComputingController : LinedComputingController() {
                 try {
                     LCCConsolePrograms.dispatcher.execute(useParseCache(next, source))
                 } catch (e: CommandSyntaxException) {
-                    val text = e.rawMessage as? TranslatableText
+                    val text = (e.rawMessage as? Text)?.content as? TranslatableTextContent
                     if (text != null) {
                         write(session, when (text.key) {
-                            "command.unknown.command" -> TranslatableText("terminal.lcc.console.error.command", e.cursor)
-                            "command.unknown.argument" -> TranslatableText("terminal.lcc.console.error.argument", TranslatableText("command.unknown.argument"), e.cursor)
-                            else -> if (e.cursor < 0) text else TranslatableText("terminal.lcc.console.error.argument", text, e.cursor, e.input.split(' ').first())
+                            "command.unknown.command" -> Text.translatable("terminal.lcc.console.error.command", e.cursor)
+                            "command.unknown.argument" -> Text.translatable("terminal.lcc.console.error.argument", Text.translatable("command.unknown.argument"), e.cursor)
+                            else -> if (e.cursor < 0) MutableText.of(text) else Text.translatable("terminal.lcc.console.error.argument", text, e.cursor, e.input.split(' ').first())
                         }, k)
                     } else {
-                        write(session, TranslatableText("terminal.lcc.console.exception.syntax"), k)
+                        write(session, Text.translatable("terminal.lcc.console.exception.syntax"), k)
                         e.printStackTrace()
                     }
                 } catch (e: IllegalArgumentException) {
-                    write(session, TranslatableText("terminal.lcc.console.exception.argument"), k)
+                    write(session, Text.translatable("terminal.lcc.console.exception.argument"), k)
                     e.printStackTrace()
                 }
             }
@@ -125,7 +125,7 @@ class ConsoleComputingController : LinedComputingController() {
             val uuid = viewId.toString()
             if (!this.contains(uuid)) {
                 add(uuid)
-                write(session, TranslatableText("terminal.lcc.console.version", "1.0"), viewId)
+                write(session, Text.translatable("terminal.lcc.console.version", "1.0"), viewId)
                 session.sync()
             }
             null
@@ -143,7 +143,7 @@ class ConsoleComputingController : LinedComputingController() {
                 takeLast(50)
             }
             v.modifyTextList("OutputRight") {
-                add(LiteralText.EMPTY)
+                add(Text.empty())
                 takeLast(50)
             }
         }
@@ -226,7 +226,7 @@ class ConsoleComputingController : LinedComputingController() {
             GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
                 val buffer = vdata.getString("Buffer")
 
-                write(session, TranslatableText("terminal.lcc.console.buffer", buffer.takeLast(total_columns - 3)), viewId)
+                write(session, Text.translatable("terminal.lcc.console.buffer", buffer.takeLast(total_columns - 3)), viewId)
                 vdata.putStringList("History", history.takeLast(49)).addString(buffer, 0)
                 vdata.putString("Buffer", "")
                 vdata.putInt("HistorySeek", 0)
@@ -290,10 +290,10 @@ class ConsoleComputingController : LinedComputingController() {
         val blocking = vdata.getBoolean("Blocking")
 
         val ty = renderOutput(output, matrices, x, y) { it.takeLast(total_rows - 1) }
-        renderOutput(outputr, matrices, x, y) { it.takeLast(total_rows - 1).map { OrderedText.concat(LiteralText(" ".repeat(total_columns.minus(MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width)).coerceIn(0, total_columns.times(char_width).minus(1)))).fillStyle(style).asOrderedText(), it) } }
+        renderOutput(outputr, matrices, x, y) { it.takeLast(total_rows - 1).map { OrderedText.concat(Text.literal(" ".repeat(total_columns.minus(MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width)).coerceIn(0, total_columns.times(char_width).minus(1)))).fillStyle(style).asOrderedText(), it) } }
         if (queue.isEmpty() && !blocking) {
             val slice = buffer.takeLast(total_columns - 3)
-            renderLine(matrices, x, y, ty, TranslatableText("terminal.lcc.console.buffer", slice, (System.currentTimeMillis().rem(2000) > 1000).transform("_", "")).fillStyle(style))
+            renderLine(matrices, x, y, ty, Text.translatable("terminal.lcc.console.buffer", slice, (System.currentTimeMillis().rem(2000) > 1000).transform("_", "")).fillStyle(style))
 
             val suggestions = vdata.getCompoundList("SuggestionCycle")
             if (suggestions.isNotEmpty()) {
@@ -322,14 +322,14 @@ class ConsoleComputingController : LinedComputingController() {
                 val suggestionW = max(max(text.length, text2?.length ?: 0), text3?.length ?: 0)
 
                 renderHighlight(matrices, x, y, suggestionY, 0xFF333333, suggestionX.minus(1), suggestionX.plus(suggestionW).plus(1))
-                renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY, LiteralText(text).fillStyle(style), 0xFFFFFF)
+                renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY, Text.literal(text).fillStyle(style), 0xFFFFFF)
                 if (text2 != null) {
                     renderHighlight(matrices, x, y, suggestionY-1, 0xFF333333, suggestionX.minus(1), suggestionX.plus(suggestionW).plus(1))
-                    renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY-1, LiteralText(text2).fillStyle(style), 0x000000)
+                    renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY-1, Text.literal(text2).fillStyle(style), 0x000000)
                 }
                 if (text3 != null) {
                     renderHighlight(matrices, x, y, suggestionY+1, 0xFF333333, suggestionX.minus(1), suggestionX.plus(suggestionW).plus(1))
-                    renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY+1, LiteralText(text3).fillStyle(style), 0x777777)
+                    renderLine(matrices, x + char_width.times(suggestionX), y, suggestionY+1, Text.literal(text3).fillStyle(style), 0x777777)
                 }
             }
         }

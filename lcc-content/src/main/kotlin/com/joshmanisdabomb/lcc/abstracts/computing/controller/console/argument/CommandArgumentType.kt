@@ -11,7 +11,7 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import com.mojang.brigadier.tree.CommandNode
 import net.minecraft.command.CommandSource
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.util.concurrent.CompletableFuture
 
 class CommandArgumentType(val type: StringArgumentType.StringType) : ArgumentType<CommandNode<ConsoleCommandSource>> {
@@ -37,7 +37,7 @@ class CommandArgumentType(val type: StringArgumentType.StringType) : ArgumentTyp
     }
 
     companion object {
-        private val commandInvalid = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.command.invalid", it) }
+        private val commandInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.command.invalid", it) }
 
         fun get(context: CommandContext<ConsoleCommandSource>, argument: String): CommandNode<ConsoleCommandSource> = context.getArgument(argument, CommandNode::class.java) as CommandNode<ConsoleCommandSource>
     }

@@ -17,7 +17,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
 class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<ComputingScreenHandler>(handler, inventory, title), PowerScreenUtils {
 
@@ -106,21 +105,21 @@ class ComputerScreen(handler: ComputingScreenHandler, inventory: PlayerInventory
         val half = half
         val code = (half?.module as? ComputerComputerModule)?.getCurrentErrorCode(half) ?: 0
         if (code > 0 && mouseX in x+137..x+161 && mouseY in y+53..y+66) {
-            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.computer.error.$code"), Int.MAX_VALUE), mouseX, mouseY)
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.computer.error.$code"), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     private fun renderButtonTooltip(matrices: MatrixStack, x: Int, y: Int) {
         val half = half
         val tooltip = if ((half?.module as? ComputerComputerModule)?.getCurrentErrorCode(half) == null) "activate" else "deactivate"
-        this.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.computer.$tooltip"), Int.MAX_VALUE), x, y)
+        this.renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("gui.lcc.computer.$tooltip"), Int.MAX_VALUE), x, y)
     }
 
     companion object {
         val texture = LCC.id("textures/gui/container/computer.png")
     }
 
-    private inner class PowerButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.computer.toggle"), ::renderButtonTooltip, pressed) {
+    private inner class PowerButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, Text.translatable("gui.lcc.computer.toggle"), ::renderButtonTooltip, pressed) {
 
         init {
             active = false

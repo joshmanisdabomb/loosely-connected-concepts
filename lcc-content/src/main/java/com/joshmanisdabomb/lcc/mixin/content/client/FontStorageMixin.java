@@ -4,8 +4,7 @@ import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay;
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontStorage;
-import net.minecraft.client.font.Glyph;
+import net.minecraft.client.font.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,11 +17,25 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.function.Function;
+
 @Mixin(FontStorage.class)
 public abstract class FontStorageMixin {
 
     @Shadow @Final
     private Identifier id;
+
+    private static Glyph space = new Glyph() {
+        @Override
+        public float getAdvance() {
+            return 6;
+        }
+
+        @Override
+        public GlyphRenderer bake(Function<RenderableGlyph, GlyphRenderer> glyphRendererGetter) {
+            return EmptyGlyphRenderer.INSTANCE;
+        }
+    };
 
     @ModifyArg(method = "(Ljava/util/List;Ljava/util/Set;I)V", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;computeIfAbsent(ILit/unimi/dsi/fastutil/ints/Int2ObjectFunction;)Ljava/lang/Object;"))
     private int modifyAdvance(int original) {
@@ -31,9 +44,9 @@ public abstract class FontStorageMixin {
     }
 
     @ModifyArg(method = "getGlyph", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;computeIfAbsent(ILit/unimi/dsi/fastutil/ints/Int2ObjectFunction;)Ljava/lang/Object;"))
-    private Int2ObjectFunction<Glyph> modifyGlyph(Int2ObjectFunction<Glyph> original) {
+    private Int2ObjectFunction<FontStorage.GlyphPair> modifyGlyph(Int2ObjectFunction<FontStorage.GlyphPair> original) {
         if (!id.equals(LCC.INSTANCE.id("fixed"))) return original;
-        return codePoint -> codePoint == 32 ? () -> 6 : original.get(codePoint);
+        return codePoint -> codePoint == 32 ? new FontStorage.GlyphPair(space, space) : original.get(codePoint);
     }
 
 }

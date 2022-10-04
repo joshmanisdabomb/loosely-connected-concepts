@@ -13,7 +13,7 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
 import java.util.*
@@ -60,14 +60,14 @@ class BIOSComputingController : LinedComputingController() {
                     val shortId = partition.getShortId(disks)
                     val system = partition.type as? SystemPartitionType
                     if (system == null) {
-                        write(session, TranslatableText("terminal.lcc.bios.pass", partition.label, shortId))
+                        write(session, Text.translatable("terminal.lcc.bios.pass", partition.label, shortId))
                     } else {
                         bootable = bootable + partitionId
                         sdata.putStringList("Bootable", bootable).addString(partitionId)
                         if (menu.isEmpty()) {
                             data.putInt("Autoload", session.ticks)
                         }
-                        menu = menu + TranslatableText("terminal.lcc.bios.bootable", TranslatableText(partition.type.translationKey), partition.label, shortId).fillStyle(style)
+                        menu = menu + Text.translatable("terminal.lcc.bios.bootable", Text.translatable(partition.type.translationKey), partition.label, shortId).fillStyle(style)
                         data.putTextList("Menu", menu)
                         session.sync()
                     }
@@ -154,7 +154,7 @@ class BIOSComputingController : LinedComputingController() {
     }
 
     companion object {
-        val title = TranslatableText("terminal.lcc.bios.version", "1.0").formatted(Formatting.BLUE).fillStyle(style)
+        val title = Text.translatable("terminal.lcc.bios.version", "1.0").formatted(Formatting.BLUE).fillStyle(style)
     }
 
 }

@@ -1,56 +1,56 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "lcc:item/microchip_1"
-  },
   "overrides": [
     {
+      "model": "lcc:item/microchip_2",
       "predicate": {
         "lcc:visual_stack": 0.125
-      },
-      "model": "lcc:item/microchip_2"
+      }
     },
     {
+      "model": "lcc:item/microchip_3",
       "predicate": {
         "lcc:visual_stack": 0.25
-      },
-      "model": "lcc:item/microchip_3"
+      }
     },
     {
+      "model": "lcc:item/microchip_4",
       "predicate": {
         "lcc:visual_stack": 0.375
-      },
-      "model": "lcc:item/microchip_4"
+      }
     },
     {
+      "model": "lcc:item/microchip_5",
       "predicate": {
         "lcc:visual_stack": 0.5
-      },
-      "model": "lcc:item/microchip_5"
+      }
     },
     {
+      "model": "lcc:item/microchip_6",
       "predicate": {
         "lcc:visual_stack": 0.625
-      },
-      "model": "lcc:item/microchip_6"
+      }
     },
     {
+      "model": "lcc:item/microchip_7",
       "predicate": {
         "lcc:visual_stack": 0.75
-      },
-      "model": "lcc:item/microchip_7"
+      }
     },
     {
+      "model": "lcc:item/microchip_8",
       "predicate": {
         "lcc:visual_stack": 0.875
-      },
-      "model": "lcc:item/microchip_8"
+      }
     },
     {
+      "model": "lcc:item/microchip_9",
       "predicate": {
         "lcc:visual_stack": 1.0
-      },
-      "model": "lcc:item/microchip_9"
+      }
     }
-  ]
+  ],
+  "textures": {
+    "layer0": "lcc:item/microchip_1"
+  }
 }

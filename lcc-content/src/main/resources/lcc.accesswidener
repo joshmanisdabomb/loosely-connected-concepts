@@ -3,3 +3,4 @@ extendable  method  net/minecraft/entity/projectile/ProjectileEntity    <init>  
 extendable  method  net/minecraft/entity/mob/AbstractSkeletonEntity     getStepSound    ()Lnet/minecraft/sound/SoundEvent;
 accessible  class   net/minecraft/world/gen/surfacebuilder/MaterialRules$BlockStateRule
 accessible  class   net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
+accessible  class   net/minecraft/client/font/FontStorage$GlyphPair

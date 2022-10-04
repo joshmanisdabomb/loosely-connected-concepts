@@ -6,154 +6,158 @@
       }
     },
     {
-      "when": {
-        "up": "true"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_connection",
         "uvlock": true
+      },
+      "when": {
+        "up": "true"
       }
     },
     {
-      "when": {
-        "down": "true"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_connection",
         "uvlock": true,
         "x": 180
+      },
+      "when": {
+        "down": "true"
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90
+      },
       "when": {
         "north": "full"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_connection",
-        "uvlock": true,
-        "x": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90
+      },
       "when": {
         "north": "top"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_top",
-        "uvlock": true,
-        "x": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90
+      },
       "when": {
         "north": "bottom"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_bottom",
-        "uvlock": true,
-        "x": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
       "when": {
         "east": "full"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_connection",
-        "uvlock": true,
-        "x": 90,
-        "y": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
       "when": {
         "east": "top"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_top",
-        "uvlock": true,
-        "x": 90,
-        "y": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_bottom",
+        "uvlock": true,
+        "x": 90,
+        "y": 90
+      },
       "when": {
         "east": "bottom"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_bottom",
-        "uvlock": true,
-        "x": 90,
-        "y": 90
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_connection",
+        "uvlock": true,
+        "x": 90,
+        "y": 180
+      },
       "when": {
         "south": "full"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_connection",
-        "uvlock": true,
-        "x": 90,
-        "y": 180
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_top",
+        "uvlock": true,
+        "x": 90,
+        "y": 180
+      },
       "when": {
         "south": "top"
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_top",
-        "uvlock": true,
-        "x": 90,
-        "y": 180
       }
     },
     {
-      "when": {
-        "south": "bottom"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_bottom",
         "uvlock": true,
         "x": 90,
         "y": 180
+      },
+      "when": {
+        "south": "bottom"
       }
     },
     {
-      "when": {
-        "west": "full"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_connection",
         "uvlock": true,
         "x": 90,
         "y": 270
+      },
+      "when": {
+        "west": "full"
       }
     },
     {
-      "when": {
-        "west": "top"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_top",
         "uvlock": true,
         "x": 90,
         "y": 270
+      },
+      "when": {
+        "west": "top"
       }
     },
     {
-      "when": {
-        "west": "bottom"
-      },
       "apply": {
         "model": "lcc:block/computer_cable_bottom",
         "uvlock": true,
         "x": 90,
         "y": 270
+      },
+      "when": {
+        "west": "bottom"
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_elbow",
+        "uvlock": true
+      },
       "when": {
         "AND": [
           {
@@ -176,13 +180,14 @@
             ]
           }
         ]
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_elbow",
-        "uvlock": true
       }
     },
     {
+      "apply": {
+        "model": "lcc:block/computer_cable_elbow",
+        "uvlock": true,
+        "x": 180
+      },
       "when": {
         "AND": [
           {
@@ -205,11 +210,6 @@
             ]
           }
         ]
-      },
-      "apply": {
-        "model": "lcc:block/computer_cable_elbow",
-        "uvlock": true,
-        "x": 180
       }
     }
   ]

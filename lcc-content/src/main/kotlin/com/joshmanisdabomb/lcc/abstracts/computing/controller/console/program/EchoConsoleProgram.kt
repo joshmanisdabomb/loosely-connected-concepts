@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.mojang.brigadier.arguments.StringArgumentType
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import java.util.*
 
 class EchoConsoleProgram(literal: String, val view: ConsoleCommandSource.() -> UUID?, override vararg val aliases: String) : ConsoleProgram() {
@@ -18,7 +18,7 @@ class EchoConsoleProgram(literal: String, val view: ConsoleCommandSource.() -> U
 
     override fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean? {
         val message = data.getString("Message")
-        source.controller.write(source.session, LiteralText(message), source.view())
+        source.controller.write(source.session, Text.literal(message), source.view())
         return null
     }
 

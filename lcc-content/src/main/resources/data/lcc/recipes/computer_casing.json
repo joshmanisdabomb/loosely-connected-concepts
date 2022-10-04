@@ -1,13 +1,13 @@
 {
   "type": "lcc:plastic_shaped",
-  "pattern": [
-    "ppp"
-  ],
   "key": {
     "p": {
       "item": "lcc:rigid_plastic"
     }
   },
+  "pattern": [
+    "ppp"
+  ],
   "result": {
     "item": "lcc:computer_casing"
   }

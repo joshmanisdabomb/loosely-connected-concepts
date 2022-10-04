@@ -11,7 +11,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import java.util.concurrent.CompletableFuture
@@ -33,7 +33,7 @@ class PartitionArgumentType(val predicate: (PartitionType) -> Boolean) : Argumen
     override fun <S> listSuggestions(context: CommandContext<S>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> = CommandSource.suggestMatching(LCCPartitionTypes.registry.filter(predicate).map { it.id.toString() }, builder)
 
     companion object {
-        private val typeInvalid = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition_type.invalid", it) }
+        private val typeInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition_type.invalid", it) }
 
         fun get(context: CommandContext<ConsoleCommandSource>, argument: String) = context.getArgument(argument, PartitionType::class.java)
     }

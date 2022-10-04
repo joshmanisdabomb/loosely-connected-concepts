@@ -12,7 +12,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.util.concurrent.CompletableFuture
 
 class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val preference: DiskInfoArgumentResult? = null) : ArgumentType<DiskInfoSearch> {
@@ -78,22 +78,22 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
         private val idRegex = Regex("^([-A-Fa-f0-9]+)$")
         private val idSuggestRegex = Regex("^:*#")
 
-        val diskDisabled = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.disabled", it) }
-        val partitionDisabled = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.disabled", it) }
-        val genericEmpty = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.empty", it) }
-        val diskEmpty = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.empty", it) }
-        val partitionEmpty = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.empty", it) }
-        val genericIdInvalid = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.id.invalid", it) }
-        val diskIdInvalid = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.id.invalid", it) }
-        val partitionIdInvalid = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.id.invalid", it) }
+        val diskDisabled = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.disabled", it) }
+        val partitionDisabled = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.disabled", it) }
+        val genericEmpty = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.empty", it) }
+        val diskEmpty = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.empty", it) }
+        val partitionEmpty = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.empty", it) }
+        val genericIdInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.id.invalid", it) }
+        val diskIdInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.id.invalid", it) }
+        val partitionIdInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.id.invalid", it) }
 
-        val noGeneric = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.results.none", it) }
-        val multipleGeneric = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.results.multiple", it) }
-        val noDisks = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.results.none", it) }
-        val multipleDisks = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.disk.results.multiple", it) }
-        val noPartitions = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.results.none", it) }
-        val multiplePartitions = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.partition.results.multiple", it) }
-        val conflict = DynamicCommandExceptionType { TranslatableText("terminal.lcc.console.argument.diskpart.results.conflict", it) }
+        val noGeneric = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.results.none", it) }
+        val multipleGeneric = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.results.multiple", it) }
+        val noDisks = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.results.none", it) }
+        val multipleDisks = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.results.multiple", it) }
+        val noPartitions = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.results.none", it) }
+        val multiplePartitions = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.results.multiple", it) }
+        val conflict = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.results.conflict", it) }
 
         fun suggestDisks(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining

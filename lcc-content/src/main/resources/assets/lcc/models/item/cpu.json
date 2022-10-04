@@ -1,26 +1,26 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "lcc:item/cpu_1"
-  },
   "overrides": [
     {
+      "model": "lcc:item/cpu_2",
       "predicate": {
         "lcc:computing": 0.20000000298023224
-      },
-      "model": "lcc:item/cpu_2"
+      }
     },
     {
+      "model": "lcc:item/cpu_3",
       "predicate": {
         "lcc:computing": 0.6000000238418579
-      },
-      "model": "lcc:item/cpu_3"
+      }
     },
     {
+      "model": "lcc:item/cpu_4",
       "predicate": {
         "lcc:computing": 1.0
-      },
-      "model": "lcc:item/cpu_4"
+      }
     }
-  ]
+  ],
+  "textures": {
+    "layer0": "lcc:item/cpu_1"
+  }
 }

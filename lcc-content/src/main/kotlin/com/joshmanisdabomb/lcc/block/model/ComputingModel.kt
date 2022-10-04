@@ -23,8 +23,8 @@ import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockRenderView
-import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
 

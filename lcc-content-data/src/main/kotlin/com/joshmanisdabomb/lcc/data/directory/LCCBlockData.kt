@@ -220,7 +220,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
         })
     }
     val power_cable by entry(::initialiser) {
-        data().defaultLang().defaultLootTable().mineablePickaxe().withStoneTool().add(Cable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        data().defaultLang().defaultLootTable().mineablePickaxe().withStoneTool().add(BooleanCable4BlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
             ShapedRecipeJsonBuilder(i, 3)
                 .pattern("ccc")
                 .input('c', Items.COPPER_INGOT)
@@ -673,6 +673,17 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val sapphire_altar_brick_stairs by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withDiamondTool().add(StairsBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
     val sapphire_altar_brick_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().mineablePickaxe().withDiamondTool().add(SlabBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc(), full = LCCBlocks.sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick, 2)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
     val sapphire_altar_brick_wall by entry(::initialiser) { data().defaultLang().defaultLootTable().mineablePickaxe().withDiamondTool().add(WallBlockAssetFactory(LCCBlocks.sapphire_altar_brick.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), TextureMap().put(TextureKey.WALL, LCCBlocks.sapphire_altar_brick.identifierLoc()), d.models) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
+
+    val computing by entry(::initialiser) { data().mineablePickaxe().withStoneTool().add(SpecialBlockAssetFactory) }
+    val terminal by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withStoneTool().add(HorizontalBlockAssetFactory({ d, t, i -> LCCModelTemplates.template_terminal.upload(i(t) ?: idb.loc(t), TextureMap().put(TextureKey.TOP, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.SIDE, idi.locSuffix(LCCItems.computer_casing, "top", folder = "block")).put(TextureKey.FRONT, idb.loc(t)).put(LCCModelTextureKeys.white, idb.locSuffix(t, "white")), d.models) })) }
+    val computer_cable by entry(::initialiser) { data().defaultLang().defaultLootTable().mineablePickaxe().withStoneTool().add(ComputerCableBlockAssetFactory).add(Cable4ItemAssetFactory).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder(i, 2)
+            .pattern("mgm")
+            .input('m', LCCItems.microchip)
+            .input('g', Items.GOLD_INGOT)
+            .apply { hasCriterionShaped(this, LCCItems.microchip) }
+            .apply { offerShaped(this, d) }
+    }) }
 
     val three_leaf_clover by entry(::initialiser) { data().defaultLang().defaultLootTable().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.textured_cross.upload(idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.loc(t)).put(LCCModelTextureKeys.t1, idb.locSuffix(t, "alt")), d.models) }).add(GeneratedItemAssetFactory).add(BlockTagFactory(BlockTags.SMALL_FLOWERS)) }
     val potted_three_leaf_clover by entry(::initialiser) { data().defaultLang().add(RotationBlockAssetFactory(y = (0..3).toList()) { d, t, i -> LCCModelTemplates.flower_pot_textured_cross.upload(idb.loc(t), TextureMap().put(LCCModelTextureKeys.t0, idb.loc(LCCBlocks.three_leaf_clover)).put(LCCModelTextureKeys.t1, idb.locSuffix(LCCBlocks.three_leaf_clover, "alt")), d.models) }).add(PottedPlantBlockLootFactory).add(BlockTagFactory(BlockTags.FLOWER_POTS)) }

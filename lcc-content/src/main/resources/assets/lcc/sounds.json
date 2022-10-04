@@ -37,6 +37,18 @@
     ],
     "subtitle": "subtitles.lcc.block.classic_crying_obsidian.set_spawn"
   },
+  "block.lcc.computer.long": {
+    "sounds": [
+      "lcc:block/computer/long"
+    ],
+    "subtitle": "subtitles.lcc.block.computer.long"
+  },
+  "block.lcc.computer.short": {
+    "sounds": [
+      "lcc:block/computer/short"
+    ],
+    "subtitle": "subtitles.lcc.block.computer.short"
+  },
   "block.lcc.improvised_explosive.beep": {
     "sounds": [
       {
@@ -454,22 +466,6 @@
       "lcc:item/detector/click6",
       "lcc:item/detector/click7"
     ],
-<<<<<<< HEAD
-    "subtitle": "subtitles.lcc.entity.consumer.tongue.attach"
-  },
-  "block.lcc.computer.short": {
-    "sounds": [
-      "lcc:block/computer/short"
-    ],
-    "subtitle": "subtitles.lcc.block.computer.short"
-  },
-  "block.lcc.computer.long": {
-    "sounds": [
-      "lcc:block/computer/long"
-    ],
-    "subtitle": "subtitles.lcc.block.computer.long"
-=======
     "subtitle": "subtitles.lcc.item.detector.click"
->>>>>>> 02cc3d806f08b35d2a7028058654262e72391006
   }
 }

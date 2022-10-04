@@ -17,10 +17,12 @@ import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
 import com.mojang.serialization.Codec
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.tag.BiomeTags
+import net.minecraft.util.collection.DataPool
 import net.minecraft.util.math.intprovider.ConstantIntProvider
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.BuiltinRegistries
@@ -39,6 +41,7 @@ import net.minecraft.world.gen.heightprovider.TrapezoidHeightProvider
 import net.minecraft.world.gen.placementmodifier.*
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
 import net.minecraft.world.gen.stateprovider.PredicatedStateProvider
+import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider
 import net.minecraft.world.gen.structure.Structure
 import net.minecraft.world.gen.structure.StructureType
 import net.minecraft.world.gen.surfacebuilder.MaterialRules
@@ -121,10 +124,8 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
 
     val salt by entry(::initialiser) { ConfiguredFeature(Feature.DISK, DiskFeatureConfig(PredicatedStateProvider.of(BlockStateProvider.of(LCCBlocks.rock_salt.defaultState)), BlockPredicate.matchingBlocks(List.of(Blocks.DIRT, Blocks.STONE)), UniformIntProvider.create(2, 4), 3)) }
 
-    //TODO custom deposit feature
-    /* val deposits by entry(::initialiser) { ConfiguredFeature(Feature.FLOWER, RandomPatchFeatureConfig(96, 6, 2) {
-        ConfiguredFeature(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(NoiseBlockStateProvider(2345L, DoublePerlinNoiseSampler.NoiseParameters(0, 1.0, *DoubleArray(0)), 0.020833334f, listOf(LCCBlocks.deposit.defaultState)))).withInAirFilter()
-    }) }*/
+    val deposits by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, WeightedBlockStateProvider(DataPool.builder<BlockState>().add(LCCBlocks.deposit.defaultState, 10).add(LCCBlocks.luring_deposit.defaultState, 1).add(LCCBlocks.infested_deposit.defaultState, 1)), BlockStateProvider.of(LCCBlocks.cracked_mud))) }
+
     val landmines by entry(::initialiser) { ConfiguredFeature(LCCFeatures.landmines, FeatureConfig.DEFAULT) }
     val fortstone_patches by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)) }
     val wasteland_spikes by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasteland_spikes, FeatureConfig.DEFAULT) }
@@ -132,8 +133,8 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val spike_trap by entry(::initialiser) { ConfiguredFeature(LCCFeatures.spike_trap, FeatureConfig.DEFAULT) }
     val wasp_hive by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasp_hive, FeatureConfig.DEFAULT) }
 
-    val clover_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.three_leaf_clover.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
-    val forget_me_not_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, LCCBlocks.forget_me_not.defaultState, Blocks.GRASS_BLOCK.defaultState)) }
+    val clover_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, BlockStateProvider.of(LCCBlocks.three_leaf_clover), BlockStateProvider.of(Blocks.GRASS_BLOCK))) }
+    val forget_me_not_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, BlockStateProvider.of(LCCBlocks.forget_me_not), BlockStateProvider.of(Blocks.GRASS_BLOCK))) }
 
     val spawning_pits by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.spawning_pit.defaultState, 45)) }
 
@@ -182,7 +183,7 @@ object LCCPlacedFeatures : AdvancedDirectory<PlacedFeature, RegistryEntry<Placed
 
     val salt by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.salt, listOf(RarityFilterPlacementModifier.of(13), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
 
-    //val deposits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deposits, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val deposits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deposits, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
     val landmines by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(4), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
     val fortstone_patches by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.fortstone_patches, listOf(CountPlacementModifier.of(70), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(88), YOffset.getTop()), BiomePlacementModifier.of())) }
     val wasteland_spikes by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.wasteland_spikes, listOf(CountPlacementModifier.of(11), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold))) }

@@ -25,11 +25,11 @@ class FlowerPatchFeature(configCodec: Codec<FlowerPatchFeatureConfig>) : Feature
 
                 bp.set(origin.x+dx, y-1, origin.z+dz)
                 if (!world.getBlockState(bp).isOf(LCCBlocks.cracked_mud)) return@repeat
-                world.setBlockState(bp, config.base, 18)
+                world.setBlockState(bp, config.base.getBlockState(random, bp), 18)
                 success = true
                 bp.move(0, 1, 0)
                 if (!world.getBlockState(bp).isAir) return@repeat
-                if (world.random.nextBoolean()) world.setBlockState(bp, config.flower, 18)
+                if (world.random.nextBoolean()) world.setBlockState(bp, config.flower.getBlockState(random, bp), 18)
             }
         }
         return success

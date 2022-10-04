@@ -11,9 +11,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockRenderView
 import net.minecraft.world.BlockView
-import java.util.*
 import java.util.function.Supplier
 
 class RoadModel(markings: RoadBlock.Companion.RoadMarkings, inner: Boolean, height: Float) : ConnectedTextureModel(LCC.id("road"), connector = if (inner) ::innerConnector else ::connector, innerSeams = false, borderSize = if (inner) 7 else 4, pos2 = Vec3f(1.0f, height, 1.0f), mapConsumer = { if (inner) innerMap(this, markings) else map(this, markings) }) {

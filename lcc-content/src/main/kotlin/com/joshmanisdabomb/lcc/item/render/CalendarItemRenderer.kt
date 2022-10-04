@@ -1,12 +1,12 @@
 package com.joshmanisdabomb.lcc.item.render
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.mixin.hooks.client.ItemRendererAccessor
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.fabricmc.fabric.api.client.model.BakedModelManagerHelper
 import net.fabricmc.fabric.api.client.model.ExtraModelProvider
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry
-import net.fabricmc.fabric.impl.client.indigo.renderer.accessor.AccessItemRenderer
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.RenderLayers
 import net.minecraft.client.render.VertexConsumerProvider
@@ -29,7 +29,7 @@ class CalendarItemRenderer : BuiltinItemRendererRegistry.DynamicItemRenderer, Ex
         val layer = RenderLayers.getItemLayer(stack, direct)
         val vertexConsumer = if (direct) ItemRenderer.getDirectItemGlintConsumer(vertexConsumers, layer, true, stack.hasGlint()) else ItemRenderer.getItemGlintConsumer(vertexConsumers, layer, true, stack.hasGlint())
         val model = BakedModelManagerHelper.getModel(MinecraftClient.getInstance().bakedModelManager, model)
-        (MinecraftClient.getInstance().itemRenderer as? AccessItemRenderer)?.fabric_renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer)
+        (MinecraftClient.getInstance().itemRenderer as? ItemRendererAccessor)?._renderBakedItemModel(model, stack, light, overlay, matrices, vertexConsumer)
         matrices.pop()
 
         val day = MinecraftClient.getInstance().world?.timeOfDay?.div(24000)?.toString()

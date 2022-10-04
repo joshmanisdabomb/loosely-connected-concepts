@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ii ",
-    " i ",
-    " ii"
-  ],
   "key": {
     "i": {
       "item": "lcc:iron_oxide"
     }
   },
+  "pattern": [
+    "ii ",
+    " i ",
+    " ii"
+  ],
   "result": {
     "item": "lcc:crowbar"
   }

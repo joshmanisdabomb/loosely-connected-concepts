@@ -32,7 +32,6 @@ import net.minecraft.structure.rule.AlwaysTrueRuleTest
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.structure.rule.RandomBlockMatchRuleTest
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
@@ -49,7 +48,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
     val active get() = activeTicks in 0..860 && cachedState[reactor_state] === NetherReactorBlock.NetherReactorState.ACTIVE || activeTicks in 861..900 && cachedState[reactor_state] === NetherReactorBlock.NetherReactorState.USED
 
     var customName: Text? = null
-    val name get() = customName ?: TranslatableText(LCCBlocks.nether_reactor.translationKey)
+    val name get() = customName ?: Text.translatable(LCCBlocks.nether_reactor.translationKey)
 
     val boss by lazy { ServerBossBar(name, BossBar.Color.YELLOW, BossBar.Style.PROGRESS).apply { percent = 0.0f } }
 
@@ -66,7 +65,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
 
         world.timeOfDay = 24000 * ceil(world.timeOfDay / 24000f).toLong() + 14000
 
-        val netherSpire = world.structureManager.getStructure(nether_spire).orElse(null) ?: return
+        val netherSpire = world.structureTemplateManager.getTemplate(nether_spire).orElse(null) ?: return
         val size = netherSpire.size
         playerTracking(world)
         netherSpire.place(world, pos.add(-size.x / 2, -1, -size.z / 2), pos.add(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(world.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_air).addProcessor(nether_spire_always_netherrack), world.random, 3)
@@ -188,7 +187,7 @@ class NetherReactorBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(L
                         entity.boss.isVisible = false
                         entity.boss.clearPlayers()
                         entity.activeTicks = -1
-                        val netherSpire = sworld.structureManager.getStructure(nether_spire).orElse(null) ?: return
+                        val netherSpire = sworld.structureTemplateManager.getTemplate(nether_spire).orElse(null) ?: return
                         val size = netherSpire.size
                         netherSpire.place(sworld, pos.add(-size.x / 2, -1, -size.z / 2), pos.add(-size.x / 2, -1, -size.z / 2), StructurePlacementData().setRandom(sworld.random).addProcessor(BlockIgnoreStructureProcessor.IGNORE_AIR_AND_STRUCTURE_BLOCKS).addProcessor(nether_spire_ignore).addProcessor(nether_spire_integrity).addProcessor(nether_spire_always_netherrack), sworld.random, 3)
                         return

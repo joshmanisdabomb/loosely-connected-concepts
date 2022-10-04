@@ -32,6 +32,8 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
     ))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
     val consumer by entry(::initialiser) { data().defaultLang().add(ConsumerEntityLootFactory).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)).add(EntityTagFactory(LCCEntityTags.salt_weakness)) }
     val disciple by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.enhancing_pyre_alpha to null))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
+    val psycho_pig by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(Items.PORKCHOP to null))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
+    val woodlouse by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.woodlouse_shell to null))).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
 
     fun initialiser(input: EntityDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

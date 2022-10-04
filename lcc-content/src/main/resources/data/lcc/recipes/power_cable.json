@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ccc"
-  ],
   "key": {
     "c": {
       "item": "minecraft:copper_ingot"
     }
   },
+  "pattern": [
+    "ccc"
+  ],
   "result": {
-    "item": "lcc:power_cable",
-    "count": 3
+    "count": 3,
+    "item": "lcc:power_cable"
   }
 }

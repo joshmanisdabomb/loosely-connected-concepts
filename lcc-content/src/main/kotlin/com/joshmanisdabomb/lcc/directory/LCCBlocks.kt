@@ -196,12 +196,14 @@ object LCCBlocks : BlockDirectory() {
     val rubber_piston_head by entry(::initialiser) { object : AbstractPistonHeadBlock(FabricBlockSettings.of(Material.PISTON).strength(1.5f).dropsNothing()) {
         override val bases: Map<PistonType, PistonBlock> by lazy { mapOf(PistonType.DEFAULT to rubber_piston) }
     } }
+    val attractive_magnetic_iron_block by entry(::initialiser) { MagneticBlock(1.0, 5.0, FabricBlockSettings.of(Material.METAL, MapColor.DULL_PINK).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
+    val repulsive_magnetic_iron_block by entry(::initialiser) { MagneticBlock(-1.0, 5.0, FabricBlockSettings.of(Material.METAL, MapColor.PALE_PURPLE).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL)) }
+        .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     //TODO rope
 
     //Wasteland
-    val mud by entry(::initialiser) { MudBlock(FabricBlockSettings.of(Material.SOIL, MapColor.BROWN).strength(0.3f, 3.5f).velocityMultiplier(0.5F).ticksRandomly().allowsSpawning(::always).solidBlock(::always).blockVision(::always).suffocates(::always).sounds(BlockSoundGroup.SLIME)) }
-        .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(0, 1)))
-    val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).requiresTool().sounds(BlockSoundGroup.STONE)) { mud.getStateWithProperties(it) } }
+    val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).requiresTool().sounds(BlockSoundGroup.STONE)) { Blocks.MUD.defaultState } }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val cracked_mud_pressure_plate by entry(::initialiser) { SprintPressurePlateBlock(FabricBlockSettings.copyOf(cracked_mud)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
@@ -209,11 +211,11 @@ object LCCBlocks : BlockDirectory() {
     val oil by entry(::initialiser) { OilBlock(LCCFluids.oil_still, Settings.copy(Blocks.WATER).strength(2.0F)) }
         .setProperties(BlockExtraSettings().flammability(3000, 300, Blocks.FIRE))
 
-    val deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
+    val deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BROWN).strength(1.0F, 3.0F).dynamicBounds().offsetType(AbstractBlock.OffsetType.XZ).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(100, 1)).cutout())
-    val infested_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_LIGHT_GRAY).strength(1.0F, 3.0F).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
+    val infested_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_LIGHT_GRAY).strength(1.0F, 3.0F).dynamicBounds().offsetType(AbstractBlock.OffsetType.XZ).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
-    val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).dynamicBounds().sounds(BlockSoundGroup.FUNGUS)) }
+    val luring_deposit by entry(::initialiser) { DepositBlock(FabricBlockSettings.of(Material.SOIL, MapColor.TERRACOTTA_BLACK).strength(1.0F, 3.0F).dynamicBounds().offsetType(AbstractBlock.OffsetType.XZ).sounds(BlockSoundGroup.FUNGUS)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
 
     val sapphire_altar by entry(::initialiser) { SapphireAltarBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(9.0F, 18000000F).requiresTool().sounds(BlockSoundGroup.STONE)) }
@@ -324,9 +326,6 @@ object LCCBlocks : BlockDirectory() {
     val bomb_board_block by entry(::initialiser) { BombBoardBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BROWN).strength(3.0f, 2.0f).requiresTool().allowsSpawning(::never).sounds(BlockSoundGroup.TUFF)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
-    val wasteland_obelisk by entry(::initialiser) { WastelandObeliskBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 5.0F).requiresTool().sounds(BlockSoundGroup.STONE)) }
-        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
-
     val three_leaf_clover by entry(::initialiser) { CloverBlock(StatusEffects.UNLUCK, 210, FabricBlockSettings.copyOf(Blocks.DANDELION).ticksRandomly(), stewDuration = 18) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
     val potted_three_leaf_clover by entry(::initialiser) { FlowerPotBlock(three_leaf_clover, FabricBlockSettings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
@@ -344,6 +343,9 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val imbuing_press by entry(::initialiser) { ImbuingPressBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+
+    val spawning_pit by entry(::initialiser) { SpawningPitBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).ticksRandomly().emissiveLighting(::always).requiresTool().sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     //TODO reinforced stone or similar for nuke protection
 
@@ -402,7 +404,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val nuclear_generator by entry(::initialiser) { NuclearFiredGeneratorBlock(FabricBlockSettings.of(Material.METAL, MapColor.ORANGE).strength(6.0F, 3.0F).requiresTool().sounds(BlockSoundGroup.COPPER)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
-    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator).dropsNothing().luminance(15)) }
+    val failing_nuclear_generator by entry(::initialiser) { ExplodingNuclearFiredGeneratorBlock(FabricBlockSettings.copyOf(nuclear_generator).luminance(15).dropsNothing()) }
         .setProperties(BlockExtraSettings().creativeEx(POWER))
     val turbine by entry(::initialiser) { TurbineBlock(FabricBlockSettings.of(Material.METAL, MapColor.IRON_GRAY).requiresTool().strength(3.0f, 5.0f).sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(POWER, sortValueInt(100, 1)))

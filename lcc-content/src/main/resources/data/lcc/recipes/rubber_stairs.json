@@ -1,18 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "wooden_stairs",
-  "pattern": [
-    "w  ",
-    "ww ",
-    "www"
-  ],
   "key": {
     "w": {
       "item": "lcc:rubber_planks"
     }
   },
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
   "result": {
-    "item": "lcc:rubber_stairs",
-    "count": 4
+    "count": 4,
+    "item": "lcc:rubber_stairs"
   }
 }

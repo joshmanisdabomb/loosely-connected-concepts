@@ -12,9 +12,9 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockRenderView
 import net.minecraft.world.BlockView
-import java.util.*
 import java.util.function.Supplier
 
 open class ConnectedTextureModel(defaultPrefix: Identifier, val connector: (world: BlockView, state: BlockState, pos: BlockPos, other: BlockState, otherPos: BlockPos, path: Array<Direction>) -> Boolean = { world, state, pos, other, otherPos, path -> state == other }, val borderSize: Int = 4, val pos1: Vec3f = Vec3f(0f, 0f, 0f), val pos2: Vec3f = Vec3f(1f, 1f, 1f), val innerSeams: Boolean = true, mapConsumer: ConnectedTextureMap.() -> Unit = {}) : LCCModel({ (this as ConnectedTextureModel).textureMap }) {

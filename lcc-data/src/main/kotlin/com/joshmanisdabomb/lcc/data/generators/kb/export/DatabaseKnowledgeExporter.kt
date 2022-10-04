@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.data.generators.kb.export
 
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
-import net.minecraft.data.DataCache
+import net.minecraft.data.DataWriter
 import net.minecraft.text.Text
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.`java-time`.datetime
@@ -108,7 +108,7 @@ open class DatabaseKnowledgeExporter(private val db: Database, da: DataAccessor,
         }
     }
 
-    override fun run(cache: DataCache) {
+    override fun run(writer: DataWriter) {
         transaction(db) { transaction(this) }
     }
 

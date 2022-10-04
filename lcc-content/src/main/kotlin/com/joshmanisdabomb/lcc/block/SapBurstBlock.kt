@@ -7,12 +7,12 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import java.util.*
 
 class SapBurstBlock(val liquid: AbstractTreetapBlock.TreetapLiquid, val transform: BlockState, settings: Settings, val rate: (random: Random) -> Int) : Block(settings) {
 
-    val server_random by lazy { Random() }
+    val server_random by lazy { Random.create() }
 
     init {
         defaultState = stateManager.defaultState.with(sap, 7)

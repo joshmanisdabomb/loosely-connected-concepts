@@ -8,7 +8,7 @@ import com.joshmanisdabomb.lcc.block.entity.*
 import com.joshmanisdabomb.lcc.block.entity.render.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -39,7 +39,6 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val papercomb by entry(::beInitialiser) { BlockEntityType.Builder.create(::PapercombBlockEntity, LCCBlocks.papercomb_block) }
     val improvised_explosive by entry(::beInitialiser) { BlockEntityType.Builder.create(::ImprovisedExplosiveBlockEntity, LCCBlocks.improvised_explosive) }
     val sapphire_altar by entry(::beInitialiser) { BlockEntityType.Builder.create(::SapphireAltarBlockEntity, LCCBlocks.sapphire_altar) }
-    val wasteland_obelisk by entry(::beInitialiser) { BlockEntityType.Builder.create(::WastelandObeliskBlockEntity, LCCBlocks.wasteland_obelisk) }
     val enhancing_chamber by entry(::beInitialiser) { BlockEntityType.Builder.create(::EnhancingChamberBlockEntity, LCCBlocks.enhancing_chamber) }
     val computing by entry(::beInitialiser) { BlockEntityType.Builder.create(::ComputingBlockEntity, LCCBlocks.computing) }
     val terminal by entry(::beInitialiser) { BlockEntityType.Builder.create(::TerminalBlockEntity, LCCBlocks.terminal) }
@@ -53,19 +52,19 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
 
     @Environment(EnvType.CLIENT)
     fun initRenderers() {
-        BlockEntityRendererRegistry.INSTANCE.register(bounce_pad, ::BouncePadBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(bounce_pad, ::BouncePadBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(BouncePadBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(time_rift, ::TimeRiftBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(time_rift, ::TimeRiftBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TimeRiftBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(nuclear_generator, ::NuclearFiredGeneratorBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(nuclear_generator, ::NuclearFiredGeneratorBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(NuclearFiredGeneratorBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(alarm, ::AlarmBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(alarm, ::AlarmBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(AlarmBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(computing, ::ComputingBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(computing, ::ComputingBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(ComputingBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(terminal, ::TerminalBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(terminal, ::TerminalBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TerminalBlockEntityRenderer)
-        BlockEntityRendererRegistry.INSTANCE.register(enhancing_chamber, ::EnhancingChamberBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(enhancing_chamber, ::EnhancingChamberBlockEntityRenderer)
     }
 
 }

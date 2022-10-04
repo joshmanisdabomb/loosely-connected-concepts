@@ -7,6 +7,7 @@ import com.joshmanisdabomb.lcc.entity.model.*
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.render.entity.model.VillagerResemblingModel
 
 object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData>() {
 
@@ -26,6 +27,12 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(RotwitchEntityModel.Companion::data)
     val fly by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(FlyEntityModel.Companion::data)
+    val woodlouse by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(WoodlouseEntityModel.Companion::data)
+    val traveller by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties { TexturedModelData.of(VillagerResemblingModel.getModelData(), 64, 64) }
+    val traveller_bindle by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(TravellerEntityModel.Companion::data)
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

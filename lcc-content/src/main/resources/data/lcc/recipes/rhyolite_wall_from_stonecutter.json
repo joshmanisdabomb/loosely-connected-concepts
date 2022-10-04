@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 1,
   "ingredient": {
     "item": "lcc:rhyolite"
   },
-  "result": "lcc:rhyolite_wall",
-  "count": 1
+  "result": "lcc:rhyolite_wall"
 }

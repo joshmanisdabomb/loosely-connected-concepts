@@ -1,10 +1,5 @@
 {
   "type": "lcc:spawner_table_shaped",
-  "pattern": [
-    " e ",
-    "ene",
-    " e "
-  ],
   "key": {
     "e": {
       "item": "lcc:enhancing_pyre_beta"
@@ -13,6 +8,11 @@
       "item": "minecraft:nether_star"
     }
   },
+  "pattern": [
+    " e ",
+    "ene",
+    " e "
+  ],
   "result": {
     "item": "lcc:enhancing_pyre_omega"
   }

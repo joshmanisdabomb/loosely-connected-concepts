@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.heart
 
-import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.entity.LivingEntity
@@ -198,9 +198,9 @@ enum class HeartType : StringIdentifiable {
             for (ht in values().filter { it.getHealth(entity) > 0 }.sortedBy { it.sortOrder }) {
                 d = ht.calculateDamage(entity, d).coerceAtLeast(0f)
                 hearts.damageLayer = ht
-                if (d <= 0) break
+                if (d <= 1.0E-5f) break
             }
-            if (d > 0) hearts.damageLayer = RED
+            if (d > 1.0E-5f) hearts.damageLayer = RED
             LCCComponents.hearts.sync(entity)
             return d
         }

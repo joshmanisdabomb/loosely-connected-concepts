@@ -24,7 +24,7 @@ class PsychoPigEntityRenderer(ctx: EntityRendererFactory.Context) : MobEntityRen
     val pigModel = PigEntityModel<PsychoPigEntity>(ctx.getPart(EntityModelLayers.PIG))
 
     init {
-        addFeature(PsychoPigHeldItemFeatureRenderer(this))
+        addFeature(PsychoPigHeldItemFeatureRenderer(this, ctx.heldItemRenderer))
     }
 
     override fun getTexture(entity: PsychoPigEntity): Identifier {

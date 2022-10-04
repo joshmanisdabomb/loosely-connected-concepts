@@ -20,7 +20,7 @@ import net.minecraft.client.texture.NativeImage
 import net.minecraft.client.texture.SpriteAtlasTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.data.DataCache
+import net.minecraft.data.DataWriter
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.BlockItem
@@ -30,11 +30,11 @@ import net.minecraft.item.Items
 import net.minecraft.network.ClientConnection
 import net.minecraft.network.NetworkSide
 import net.minecraft.stat.StatHandler
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.Difficulty
-import net.minecraft.world.dimension.DimensionType
+import net.minecraft.world.dimension.DimensionTypes
 import java.io.File
 import kotlin.math.atan
 import kotlin.math.max
@@ -50,13 +50,13 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
 
     override var done = false
 
-    override fun run(cache: DataCache) {
+    override fun run(writer: DataWriter) {
         if (screen == null) screen = ExportOutput().also { MinecraftClient.getInstance().setScreenAndRender(it) }
     }
 
     override fun getName() = "LCC Wiki Image Export"
 
-    inner class ExportOutput internal constructor() : Screen(TranslatableText("narrator.screen.title")) {
+    inner class ExportOutput internal constructor() : Screen(Text.translatable("narrator.screen.title")) {
 
         override fun init() {
             super.init()
@@ -239,7 +239,7 @@ class ImageExport(items: List<ItemConvertible>, entities: List<EntityType<*>>, v
 
     }
 
-    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, NetworkHandler.registryManager.get(Registry.DIMENSION_TYPE_KEY).getEntry(DimensionType.OVERWORLD_REGISTRY_KEY).orElseThrow(), 0, 0, { null }, null, false, 0L) {
+    private object World : ClientWorld(NetworkHandler, Properties(Difficulty.EASY, false, false), null, NetworkHandler.registryManager.get(Registry.DIMENSION_TYPE_KEY).getEntry(DimensionTypes.OVERWORLD).orElseThrow(), 0, 0, { null }, null, false, 0L) {
 
     }
 

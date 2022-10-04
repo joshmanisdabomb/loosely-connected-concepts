@@ -18,11 +18,12 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import java.util.*
 
 class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LCCContentBlockTrait {
 
@@ -62,7 +63,7 @@ class NuclearWasteBlock(settings: Settings) : Block(settings), LCCBlockTrait, LC
 
     fun cascadeFall(world: World, pos: BlockPos, state: BlockState, fire: Boolean, random: Random = world.random): Boolean {
         val bp = BlockPos.Mutable()
-        for (d in horizontalDirections.toList().apply { Collections.shuffle(this, random) }) {
+        for (d in horizontalDirections.toList().apply { Util.getRandom(this, random) }) {
             if (world.getBlockState(bp.set(pos).move(d)).isAir && world.getBlockState(bp.move(0, -1, 0)).isAir) {
                 world.setBlockState(bp, state)
                 if (fire) world.setBlockState(bp.move(0, 1, 0), state_fire)

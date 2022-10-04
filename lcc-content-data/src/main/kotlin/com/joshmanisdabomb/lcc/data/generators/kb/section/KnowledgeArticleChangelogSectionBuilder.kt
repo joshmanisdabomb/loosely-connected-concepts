@@ -5,7 +5,7 @@ import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTable
 import com.joshmanisdabomb.lcc.data.generators.kb.fragment.KnowledgeArticleTextFragmentBuilder
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeConstants
 import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class KnowledgeArticleChangelogSectionBuilder() : KnowledgeArticleSectionBuilder(KnowledgeConstants.changelog) {
 
@@ -15,7 +15,7 @@ class KnowledgeArticleChangelogSectionBuilder() : KnowledgeArticleSectionBuilder
         if (versions.isNotEmpty()) {
             versions.forEach { (ver, fragment) ->
                 f.addRow {
-                    addCell(KnowledgeArticleLinkFragmentBuilder(ver.page).addFragment(KnowledgeArticleTextFragmentBuilder(LiteralText(ver.shortname))))
+                    addCell(KnowledgeArticleLinkFragmentBuilder(ver.page).addFragment(KnowledgeArticleTextFragmentBuilder(Text.literal(ver.shortname))))
                     addCell(fragment)
                 }
             }

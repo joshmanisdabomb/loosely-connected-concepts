@@ -12,6 +12,7 @@ import net.minecraft.state.property.Properties
 import net.minecraft.state.property.Properties.LEVEL_3
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.WorldAccess
 import java.util.*

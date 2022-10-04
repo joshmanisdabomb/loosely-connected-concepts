@@ -15,7 +15,6 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.screen.slot.Slot
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.ClickType
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
@@ -83,7 +82,7 @@ interface BagItem {
     @Environment(EnvType.CLIENT)
     @JvmDefault
     fun appendBagTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        tooltip.add(TranslatableText("item.minecraft.bundle.fullness", getBagTotalOccupancy(stack), size).formatted(Formatting.GRAY))
+        tooltip.add(Text.translatable("item.minecraft.bundle.fullness", getBagTotalOccupancy(stack), size).formatted(Formatting.GRAY))
     }
 
     @Environment(EnvType.CLIENT)

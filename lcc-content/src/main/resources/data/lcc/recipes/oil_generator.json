@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "e": {
+      "item": "minecraft:iron_bars"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "m": {
+      "item": "lcc:machine_enclosure"
+    }
+  },
   "pattern": [
     "e",
     "m",
     "f"
   ],
-  "key": {
-    "e": {
-      "item": "minecraft:iron_bars"
-    },
-    "m": {
-      "item": "lcc:machine_enclosure"
-    },
-    "f": {
-      "item": "minecraft:flint_and_steel"
-    }
-  },
   "result": {
     "item": "lcc:oil_generator"
   }

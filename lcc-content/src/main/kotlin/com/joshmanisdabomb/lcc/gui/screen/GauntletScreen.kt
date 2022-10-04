@@ -17,11 +17,11 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.lerp
 import net.minecraft.util.math.Vec3f
 
-class GauntletScreen() : Screen(LiteralText("Gauntlet")), GauntletProgressRenderer {
+class GauntletScreen() : Screen(Text.literal("Gauntlet")), GauntletProgressRenderer {
 
     private val texture = LCC.gui("gauntlet_ui")
 

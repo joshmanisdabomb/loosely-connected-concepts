@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "tt",
-    "tt"
-  ],
   "key": {
     "t": {
       "item": "lcc:tungsten_block"
     }
   },
+  "pattern": [
+    "tt",
+    "tt"
+  ],
   "result": {
-    "item": "lcc:cut_tungsten",
-    "count": 4
+    "count": 4,
+    "item": "lcc:cut_tungsten"
   }
 }

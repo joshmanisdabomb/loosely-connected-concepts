@@ -3,43 +3,15 @@ package com.joshmanisdabomb.lcc.data.generators.sound
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.DataAccessor
 import com.joshmanisdabomb.lcc.data.batches.SoundBatch
-import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
-import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper
-import java.nio.file.Files
+import net.minecraft.data.DataWriter
 
 class SoundData(val batch: SoundBatch, val da: DataAccessor) : DataProvider {
 
-    override fun run(cache: DataCache) {
-        val json = JavaUnicodeEscaper.outsideOf(0, 0x7f).translate(da.gson.toJson(batch.getSounds().mapValues { (k, v) -> v.serialise(JsonObject()) }.toMap()))
-        val hash = DataProvider.SHA1.hashUnencodedChars(json).toString()
+    override fun run(writer: DataWriter) {
+        val json = da.gson.toJsonTree(batch.getSounds().mapValues { (k, v) -> v.serialise(JsonObject()) }.toMap())
         val path = da.path.resolve("assets/${da.modid}/sounds.json")
-        if (cache.getOldSha1(path) != hash || !Files.exists(path)) {
-            Files.createDirectories(path.parent)
-            val bufferedWriter = Files.newBufferedWriter(path)
-
-            var e: Throwable? = null
-            try {
-                bufferedWriter!!.write(json)
-            } catch (e2: Throwable) {
-                e = e2
-                throw e2
-            } finally {
-                if (bufferedWriter != null) {
-                    if (e != null) {
-                        try {
-                            bufferedWriter.close()
-                        } catch (var15: Throwable) {
-                            e.addSuppressed(var15)
-                        }
-                    } else {
-                        bufferedWriter.close()
-                    }
-                }
-            }
-        }
-
-        cache.updateSha1(path, hash)
+        DataProvider.writeToPath(writer, json, path)
     }
 
     override fun getName() = "${da.modid} Sound Data"

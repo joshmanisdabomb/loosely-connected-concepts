@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
 
 @Mixin(InGameHud.class)
 public abstract class HeartsHudMixin {
@@ -34,7 +34,7 @@ public abstract class HeartsHudMixin {
         return y;
     }
 
-    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 0))
+    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/random/Random;nextInt(I)I", ordinal = 0))
     private int disableDefaultShake(Random random, int bound) {
         return 0;
     }

@@ -16,7 +16,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.Direction
 import java.util.*
 
@@ -85,7 +84,7 @@ class OxygenExtractorScreen(handler: OxygenExtractorScreenHandler, inventory: Pl
         renderPowerTooltip(matrices, handler.powerAmount(), null, mouseX, mouseY, x + 100..x + 111, y + 39..y + 53)
 
         if (mouseX in x + 39 .. x + 93 && mouseY in y + 17 .. y + 35) {
-            renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.oxygen_extractor.oxygen".plus(if (Screen.hasShiftDown()) ".advanced" else ""), handler.oxygenAmount().decimalFormat(force = true), *directions.map { handler.oxygenAmount(it).oxygen.times(OxygenExtractorBlockEntity.getDirectionOxygenModifier(it)).decimalFormat(force = true) }.toTypedArray(), 100f.div(handler.oxygenModifier()).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+            renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.oxygen_extractor.oxygen".plus(if (Screen.hasShiftDown()) ".advanced" else ""), handler.oxygenAmount().decimalFormat(force = true), *directions.map { handler.oxygenAmount(it).oxygen.times(OxygenExtractorBlockEntity.getDirectionOxygenModifier(it)).decimalFormat(force = true) }.toTypedArray(), 100f.div(handler.oxygenModifier()).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 

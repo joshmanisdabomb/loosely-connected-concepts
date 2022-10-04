@@ -3,7 +3,7 @@ package com.joshmanisdabomb.lcc.directory
 import com.joshmanisdabomb.lcc.command.RadiationCommand
 import com.joshmanisdabomb.lcc.command.WinterCommand
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.minecraft.server.command.ServerCommandSource
 
 object LCCCommands : BasicDirectory<LiteralArgumentBuilder<ServerCommandSource>, Unit>() {
@@ -16,7 +16,7 @@ object LCCCommands : BasicDirectory<LiteralArgumentBuilder<ServerCommandSource>,
     override fun defaultProperties(name: String) = Unit
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out LiteralArgumentBuilder<ServerCommandSource>, out LiteralArgumentBuilder<ServerCommandSource>>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {
-        CommandRegistrationCallback.EVENT.register { d, server ->
+        CommandRegistrationCallback.EVENT.register { d, server, manager ->
             initialised.forEach {
                 d.register(it.entry)
             }

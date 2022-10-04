@@ -7,7 +7,7 @@
     }
   ],
   "result": {
-    "item": "lcc:deadwood_planks",
-    "count": 4
+    "count": 4,
+    "item": "lcc:deadwood_planks"
   }
 }

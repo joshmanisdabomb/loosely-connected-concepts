@@ -8,16 +8,20 @@ dependencies {
     implementation project(path: ":lcc-infra", configuration: "namedElements")
     implementation project(path: ":lcc-subblock", configuration: "namedElements")
 
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.1"
+
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.1"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.1"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:4.0.1"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.1"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.1"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-world:4.0.1"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.1"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.1"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
-    modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:4.0.1"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.1"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:4.0.1"
+    include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:4.0.1"
+
+    modImplementation 'com.github.glitchfiend:TerraBlender-fabric:1.19.2-2.0.1.125'
+    include 'com.github.glitchfiend:TerraBlender-fabric:1.19.2-2.0.1.125'
 }
 
 loom {

@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.suffix
@@ -93,7 +93,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
+        if (!world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 
@@ -109,6 +109,7 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
             entity.setVelocity(e, f, g, ConsumerTongueEntity.tongueSpeed, 0.8f)
             val h = Vec3d(e, f, g).normalize().multiply(0.01)
             entity.setPosition(this.x + h.x, entity.getTargetY()!! + h.y, this.z + h.z)
+            ambientSoundChance = -100
             playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
             world.spawnEntity(entity)
             tongue = entity
@@ -175,22 +176,12 @@ class ConsumerEntity(entityType: EntityType<out ConsumerEntity>, world: World) :
         super.dropLoot(source, causedByPlayer)
     }
 
-    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
-    }
-
     companion object {
         val tongue_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         val aggro_id = DataTracker.registerData(ConsumerEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 9.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 29.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 9.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0).add(LCCAttributes.wasteland_damage, 1.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
     }
 

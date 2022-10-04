@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:nether_star"
   },
-  "result": "lcc:nether_reactor",
-  "count": 1
+  "result": "lcc:nether_reactor"
 }

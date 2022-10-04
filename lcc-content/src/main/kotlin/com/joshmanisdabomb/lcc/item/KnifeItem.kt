@@ -35,6 +35,7 @@ class KnifeItem(settings: Settings) : Item(settings), LCCContentItemTrait, LCCIt
         .put(EntityAttributes.GENERIC_ATTACK_DAMAGE, EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", 3.0, EntityAttributeModifier.Operation.ADDITION))
         .put(EntityAttributes.GENERIC_ATTACK_SPEED, EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", 1.0, EntityAttributeModifier.Operation.ADDITION))
         .put(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, EntityAttributeModifier(knockback_modifier_uuid, "Weapon modifier", -1.0, EntityAttributeModifier.Operation.MULTIPLY_TOTAL))
+        .apply(ToolEffectivity.WASTELAND::addToolModifiers)
         .build()
 
     override fun lcc_content_isEffectiveWeapon(stack: ItemStack, entity: Entity, effectivity: ToolEffectivity) = effectivity == ToolEffectivity.WASTELAND

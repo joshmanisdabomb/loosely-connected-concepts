@@ -14,7 +14,7 @@ class WastelandSpikesFeature(codec: Codec<DefaultFeatureConfig>) : Feature<Defau
         val pos = context.origin.mutableCopy()
         val world = context.world
         val random = context.random
-        if (world.getBiome(pos).value() == LCCBiomes.wasteland_spikes) return false
+        if (world.getBiome(pos).value() == LCCBiomes.wasteland) return false
 
         while (world.isAir(pos) && pos.y > world.bottomY + 2) {
             pos.move(0, -1, 0)

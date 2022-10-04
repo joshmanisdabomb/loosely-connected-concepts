@@ -1,23 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "rgp",
-    "ooo"
-  ],
   "key": {
-    "r": {
-      "item": "minecraft:redstone"
-    },
     "g": {
       "item": "minecraft:glowstone_dust"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
     },
     "p": {
       "item": "minecraft:gunpowder"
     },
-    "o": {
-      "item": "minecraft:obsidian"
+    "r": {
+      "item": "minecraft:redstone"
     }
   },
+  "pattern": [
+    "rgp",
+    "ooo"
+  ],
   "result": {
     "item": "lcc:spawner_table"
   }

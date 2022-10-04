@@ -26,4 +26,6 @@ dependencies {
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-level:4.0.0-alpha.1+21w37a"
     modApi "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
     modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:4.0.0-alpha.1+21w37a"
+
+    modImplementation 'com.github.glitchfiend:TerraBlender-fabric:1.19.2-2.0.1.125'
 }

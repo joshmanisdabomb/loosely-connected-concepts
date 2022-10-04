@@ -8,8 +8,8 @@ import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.directionalFacePlacement
 import com.joshmanisdabomb.lcc.trait.LCCBlockTrait
 import io.netty.buffer.Unpooled
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry
-import net.fabricmc.fabric.api.server.PlayerStream
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityType
@@ -18,6 +18,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -109,7 +110,7 @@ class BouncePadBlock(settings: Settings, val motions: DoubleArray) : BlockWithEn
             entity.velocityModified = true
             entity.velocityDirty = true
 
-            PlayerStream.watching(world, pos).forEach { ServerSidePacketRegistry.INSTANCE.sendToPlayer(it, LCCPacketsToClient[LCCPacketsToClient::bounce_pad_extension].first().id, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
+            PlayerLookup.tracking(world as ServerWorld, pos).forEach { ServerPlayNetworking.send(it, LCCPacketsToClient[LCCPacketsToClient::bounce_pad_extension].first().id, PacketByteBuf(Unpooled.buffer()).also { it.writeBlockPos(pos) }) }
         }
     }
 

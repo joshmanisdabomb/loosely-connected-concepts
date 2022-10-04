@@ -21,11 +21,14 @@
     "LivingEntityAccessor",
     "NuclearSpawnHelperInfoAccessor",
     "NuclearSpawnHelperMixin",
-    "ToolManagerMixin",
     "AbstractBlockMixin",
     "MovementEntityMixin",
     "PlayerEntityMixin",
-    "EffectMobEntityMixin"
+    "EffectMobEntityMixin",
+    "AttributeLivingMixin",
+    "MaterialRuleContextAccessor",
+    "AnvilScreenHandlerMixin",
+    "ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

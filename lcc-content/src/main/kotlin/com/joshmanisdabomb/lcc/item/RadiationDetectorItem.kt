@@ -24,7 +24,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
@@ -71,7 +70,7 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
                     }
                 }
             }
-            for (bp in list.run { if (list.size > 20) { shuffle(world.random); take(20) } else this }) {
+            for (bp in list.run { if (list.size > 20) { shuffle(); take(20) } else this }) {
                 world.addImportantParticle(LCCParticles.uranium, true, bp.x.plus(0.5), bp.y.plus(0.5), bp.z.plus(0.5), 0.0, 0.0, 0.0)
                 RadiationOverlay.detected += 1
             }
@@ -103,7 +102,7 @@ class RadiationDetectorItem(val energy: Float, settings: Settings) : Item(settin
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         with (StackEnergyContext(stack)) {
-            tooltip.add(TranslatableText(TooltipConstants.energy, LooseEnergy.display(getEnergy(LooseEnergy, this) ?: 0f), LooseEnergy.display(getMaximumEnergy(LooseEnergy, this) ?: 0f), " ".plus(LooseEnergy.units)).formatted(Formatting.GOLD))
+            tooltip.add(Text.translatable(TooltipConstants.energy, LooseEnergy.display(getEnergy(LooseEnergy, this) ?: 0f), LooseEnergy.display(getMaximumEnergy(LooseEnergy, this) ?: 0f), " ".plus(LooseEnergy.units)).formatted(Formatting.GOLD))
         }
     }
 

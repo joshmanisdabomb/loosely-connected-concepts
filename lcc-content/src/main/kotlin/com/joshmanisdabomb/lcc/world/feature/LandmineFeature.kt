@@ -12,7 +12,7 @@ class LandmineFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defaul
     override fun generate(context: FeatureContext<DefaultFeatureConfig>): Boolean {
         with (context) {
             if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y - 3, origin.z, y2 = origin.y) { state, pos -> !world.isOutOfHeightLimit(pos.y) }) return false
-            if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y - 1, origin.z, ex = 1, ez = 1) { state, pos -> world.getBlockState(pos).isOf(LCCBlocks.cracked_mud) }) return false
+            if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y - 1, origin.z, ex = 1, ez = 1) { state, pos -> state.isOf(LCCBlocks.cracked_mud) }) return false
             if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y, origin.z, ex = 1, ez = 1)) return false
             if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y - 3, origin.z, ex = 1, y2 = origin.y - 2, ez = 1) { state, pos -> state.isSolidBlock(world, pos) }) return false
 

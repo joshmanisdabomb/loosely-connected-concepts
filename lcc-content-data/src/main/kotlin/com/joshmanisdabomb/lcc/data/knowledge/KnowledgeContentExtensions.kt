@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.data.knowledge
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.challenges.AltarChallenge
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
 import com.joshmanisdabomb.lcc.data.generators.kb.article.KnowledgeArticleBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
@@ -32,9 +33,11 @@ import java.time.LocalDateTime
 
 object KnowledgeContentExtensions {
 
-    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")), label)
+    fun KnowledgeArticleParagraphFragmentBuilder.addWastelandLink(label: String = "Wasteland") = this.addLink(KnowledgeArticleIdentifier.ofBiome(LCC.id("wasteland")), label)
 
     fun KnowledgeArticleParagraphFragmentBuilder.addWastelandEffectivityLink(label: String = "Wasteland Effectivity") = this.addLink(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")), label)
+
+    fun KnowledgeArticleParagraphFragmentBuilder.addChallengeLink(challenge: AltarChallenge, label: String, id: Identifier = challenge.id) = this.addLink(KnowledgeArticleIdentifier(LCC.id("challenge"), id), label)
 
     fun generatePlasticDespawningSection(topic: Item) = KnowledgeArticleSectionBuilder(KnowledgeConstants.despawning)
         .addParagraph {
@@ -169,7 +172,7 @@ object KnowledgeContentExtensions {
             .addSection(KnowledgeExtensions.craftingUsages(item))
             .boilerplate(item, renewable = renewable)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 10, 11, 0, 54, 0), LocalDateTime.of(2022, 11, 12, 2, 22, 0))
-            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools")
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", tag, "Swords", "Tools", "Weapons")
 
     fun generateWastelandPickaxeArticle(item: Item, ingredient: ItemConvertible, tier: String, equivalent: String, tag: String, example: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, example2: KnowledgeArticleParagraphFragmentBuilder.() -> Unit, recipe: KnowledgeArticleRecipeFragmentBuilder = KnowledgeArticleRecipeFragmentBuilder { it.da.recipes.findRecipes(item).map { it.provider } }, renewable: Boolean = false, introAdd: KnowledgeArticleSectionBuilder.() -> Unit = {}) =
         KnowledgeArticleBuilder(item)
@@ -226,7 +229,7 @@ object KnowledgeContentExtensions {
                     addFormatText("%s are %s, allowing them to break blocks that require a Wasteland shovel, such as %s, faster.",
                         { addPluralisedText(item) },
                         { addLink(KnowledgeArticleIdentifier(LCC.id("effectivity"), LCC.id("wasteland")), "Wasteland Effective") },
-                        { addLink(LCCBlocks.mud) }
+                        { addPluralisedLink(LCCBlocks.deposit) }
                     )
                 }
             )

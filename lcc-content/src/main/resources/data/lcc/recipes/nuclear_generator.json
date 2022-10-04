@@ -1,13 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ses",
-    "bmr",
-    "sds"
-  ],
   "key": {
-    "s": {
-      "item": "lcc:heavy_uranium_shielding"
+    "b": {
+      "tag": "minecraft:buttons"
+    },
+    "d": {
+      "item": "minecraft:dispenser"
     },
     "e": {
       "item": "minecraft:iron_bars"
@@ -15,16 +13,18 @@
     "m": {
       "item": "lcc:machine_enclosure"
     },
-    "d": {
-      "item": "minecraft:dispenser"
-    },
-    "b": {
-      "tag": "minecraft:buttons"
-    },
     "r": {
       "item": "minecraft:redstone"
+    },
+    "s": {
+      "item": "lcc:heavy_uranium_shielding"
     }
   },
+  "pattern": [
+    "ses",
+    "bmr",
+    "sds"
+  ],
   "result": {
     "item": "lcc:nuclear_generator"
   }

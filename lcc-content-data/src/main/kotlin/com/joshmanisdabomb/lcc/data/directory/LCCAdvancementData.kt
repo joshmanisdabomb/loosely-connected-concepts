@@ -24,7 +24,8 @@ import net.minecraft.predicate.entity.LocationPredicate
 import net.minecraft.predicate.item.EnchantmentPredicate
 import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.tag.TagKey
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, Unit, Unit>() {
@@ -173,7 +174,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, 
     val wasteland_root by entry(::initialiser) {
         Advancement.Builder.create()
             .display(LCCBlocks.cracked_mud, this, toast = false, chat = false)
-            .criterion("enter", LocationArrivalCriterion.Conditions.create(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland_barrens))))
+            .criterion("enter", TickCriterion.Conditions.createLocation(LocationPredicate.biome(LCCBiomes.getRegistryKey(LCCBiomes.wasteland))))
             .translation("LCC: Wasteland", "Perambulate into the haze of the wasteland", "en_us", this)
     }.addTags("wasteland", "root")
 
@@ -322,7 +323,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, 
 
     private fun Advancement.Builder.display(item: ItemConvertible, context: DirectoryContext<Unit>, frame: AdvancementFrame = AdvancementFrame.TASK, toast: Boolean = true, chat: Boolean = true, hidden: Boolean = false): Advancement.Builder {
         val name = context.tags.getOrNull(1) ?: context.name
-        return this.display(item, TranslatableText("advancements.lcc.${context.tags[0]}.$name.title"), TranslatableText("advancements.lcc.${context.tags[0]}.$name.description"), if (context.tags.size < 2) null else LCC.id("textures/gui/advancements/backgrounds/${context.tags[0]}.png"), frame, toast, chat, hidden)
+        return this.display(item, Text.translatable("advancements.lcc.${context.tags[0]}.$name.title"), Text.translatable("advancements.lcc.${context.tags[0]}.$name.description"), if (context.tags.size < 2) null else LCC.id("textures/gui/advancements/backgrounds/${context.tags[0]}.png"), frame, toast, chat, hidden)
     }
 
     private fun Advancement.Builder.translation(title: String, description: String, locale: String, context: DirectoryContext<Unit>): Advancement.Builder {
@@ -339,7 +340,7 @@ object LCCAdvancementData : AdvancedDirectory<Advancement.Builder, Advancement, 
 
     fun initialiser(input: Advancement.Builder, context: DirectoryContext<Unit>, parameters: Unit): Advancement {
         val name = "${context.tags[0]}/${context.tags.getOrNull(1) ?: context.name}"
-        return LCCData.advancements.add(input, context.id)
+        return LCCData.advancements.add(input, Identifier(context.id.namespace, name))
     }
 
     override fun id(name: String) = LCC.id(name)

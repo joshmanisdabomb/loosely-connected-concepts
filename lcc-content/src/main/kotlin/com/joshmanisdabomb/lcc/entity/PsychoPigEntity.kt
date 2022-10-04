@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
-import com.joshmanisdabomb.lcc.directory.*
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
+import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.directory.LCCItems
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.transform
@@ -28,6 +30,7 @@ import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.*
 import kotlin.math.max
 
@@ -46,8 +49,8 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         eyeLeft = random.nextBoolean()
         dataTracker.set(eye_left, eyeLeft)
 
-        initEquipment(difficulty)
-        updateEnchantments(difficulty)
+        initEquipment(random, difficulty)
+        updateEnchantments(random, difficulty)
 
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt)
     }
@@ -92,7 +95,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
+        if (!world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 
@@ -122,6 +125,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
                 airStrafingSpeed = 0.02f
             }
         }
+        if (isAggro) ambientSoundChance++
     }
 
     override fun move(type: MovementType, movement: Vec3d) {
@@ -147,17 +151,18 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
 
     override fun setTarget(target: LivingEntity?) {
         super.setTarget(target)
+        if (aggroTarget == null && target != null) {
+            playSound(LCCSounds.psycho_pig_reveal, 1.0f, 1.0f)
+        }
         aggroTarget = target
         dataTracker.set(aggro_id, target?.id?.plus(1) ?: 0)
     }
 
-    override fun getAmbientSound() = isAggro.transform(LCCSounds.consumer_ambient, SoundEvents.ENTITY_PIG_AMBIENT)
+    override fun getAmbientSound() = isAggro.transform(LCCSounds.psycho_pig_ambient, SoundEvents.ENTITY_PIG_AMBIENT)
 
-    override fun getHurtSound(source: DamageSource) = isAggro.transform(LCCSounds.consumer_hurt, SoundEvents.ENTITY_PIG_HURT)
+    override fun getHurtSound(source: DamageSource) = isAggro.transform(LCCSounds.psycho_pig_hurt, SoundEvents.ENTITY_PIG_HURT)
 
-    override fun getDeathSound() = isAggro.transform(LCCSounds.consumer_death, SoundEvents.ENTITY_PIG_DEATH)
-
-    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
+    override fun getDeathSound() = isAggro.transform(LCCSounds.psycho_pig_death, SoundEvents.ENTITY_PIG_DEATH)
 
     override fun tryAttack(target: Entity): Boolean {
         val kbResistance = (target as? LivingEntity)?.getAttributeInstance(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)
@@ -173,15 +178,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         return ret
     }
 
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
-    }
-
-    override fun initEquipment(difficulty: LocalDifficulty) {
+    override fun initEquipment(random: Random, difficulty: LocalDifficulty) {
         equipStack(EquipmentSlot.MAINHAND, ItemStack(LCCItems.knife).also { it.damage = it.maxDamage - random.nextInt(it.maxDamage.div(2)) })
         setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.04f)
     }
@@ -202,7 +199,7 @@ class PsychoPigEntity(type: EntityType<out PsychoPigEntity>, world: World) : Hos
         val aggro_id = DataTracker.registerData(PsychoPigEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 20.0).add(EntityAttributes.GENERIC_ARMOR, 9.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.35).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 96.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1.0).add(LCCAttributes.wasteland_damage, 1.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
     }
 

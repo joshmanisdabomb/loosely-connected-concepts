@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.entity
 
 import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.transformInt
@@ -85,8 +86,6 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
         super.takeKnockback(strength.div(2.0), x, z)
     }
 
-    override fun damage(source: DamageSource, amount: Float) = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-
     override fun getAmbientSound() = LCCSounds.consumer_ambient
 
     override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
@@ -96,7 +95,7 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
     companion object {
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 34.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.0)
+            return createHostileAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 34.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 20.0).add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
 
     }

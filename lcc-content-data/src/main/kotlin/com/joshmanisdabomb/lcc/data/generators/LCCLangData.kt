@@ -39,8 +39,6 @@ object LCCLangData {
         lang["enchantment.lcc.infested"] = "Infested"
 
         lang["biome.lcc.wasteland"] = "Wasteland"
-        lang["biome.lcc.wasteland_barrens"] = "Wasteland Barrens"
-        lang["biome.lcc.wasteland_spikes"] = "Wasteland Spikes"
 
         lang["container.lcc.spawner_table"] = "Arcane Table"
         lang["container.lcc.refiner"] = "Refiner"
@@ -106,6 +104,9 @@ object LCCLangData {
 
         lang["container.lcc.terminal.power"] = "Power: %1\$s"
 
+        lang["attribute.lcc.name.wasteland.damage"] = "Wasteland Damage"
+        lang["attribute.lcc.name.wasteland.protection"] = "Wasteland Protection"
+
         lang["gui.lcc.atomic_bomb.detonate"] = "Detonate"
         lang["gui.lcc.atomic_bomb.detonate.power"] = "Power: %1\$s"
         lang["gui.lcc.nuclear_generator.activate"] = "Power On"
@@ -165,6 +166,9 @@ object LCCLangData {
         lang["subtitles.lcc.entity.consumer.tongue.shoot"] = "Consumer extends tongue"
         lang["subtitles.lcc.entity.consumer.tongue.loop"] = "Consumer licks"
         lang["subtitles.lcc.entity.consumer.tongue.attach"] = "Consumer tongues something"
+        lang["subtitles.lcc.entity.woodlouse.ambient"] = "Woodlouse hisses"
+        lang["subtitles.lcc.entity.woodlouse.hurt"] = "Woodlouse hurts"
+        lang["subtitles.lcc.entity.woodlouse.death"] = "Woodlouse dies"
 
         lang[LCCBlocks.nether_reactor.translationKey.toString() + ".active"] = "Active!"
         lang[LCCBlocks.nether_reactor.translationKey.toString() + ".incorrect"] = "Not the correct pattern!"
@@ -174,8 +178,12 @@ object LCCLangData {
         lang[LCCBlocks.radar.translationKey.toString() + ".range"] = "Range is %1\$s blocks"
 
         lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.malformed"] = "The sapphire altar has been tampered with."
-
-        lang[LCCBlocks.wasteland_obelisk.translationKey.toString() + ".cooldown"] = "The obelisks asks you to be patient."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".minesweeper.unsolvable"] = "Could not generate a solvable minesweeper board. Please try again."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.malformed"] = "The sapphire altar has been tampered with."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.player_position"] = "All players that wish to take part must step inside the altar."
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress"] = "Sapphire Arena"
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.spawners"] = "Sapphire Arena - Spawners Remaining: %1\$s"
+        lang[LCCBlocks.sapphire_altar.translationKey.toString() + ".arena.progress.hostiles"] = "Sapphire Arena - Hostiles Remaining: %1\$s"
 
         lang[LCCItems.cpu.translationKey.toString() + ".level"] = "Speed: %1\$s"
         lang[LCCItems.ram.translationKey.toString() + ".level"] = "Capacity: %1\$s"

@@ -8,7 +8,7 @@ import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeMatcher
-import java.util.*
+import net.minecraft.util.math.random.Random
 
 abstract class RefiningRecipe : Recipe<RefiningInventory>, LCCRecipe {
 

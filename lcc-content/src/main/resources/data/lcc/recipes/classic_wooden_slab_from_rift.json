@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "tag": "minecraft:wooden_slabs"
   },
-  "result": "lcc:classic_wooden_slab",
-  "count": 1
+  "result": "lcc:classic_wooden_slab"
 }

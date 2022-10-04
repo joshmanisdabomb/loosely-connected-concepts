@@ -1,9 +1,13 @@
 package com.joshmanisdabomb.lcc.item
 
+import com.google.common.collect.ImmutableMultimap
+import com.google.common.collect.Multimap
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.trait.LCCItemTrait
 import net.minecraft.entity.EquipmentSlot
+import net.minecraft.entity.attribute.EntityAttribute
+import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.*
 import net.minecraft.recipe.Ingredient
@@ -18,33 +22,58 @@ import net.minecraft.item.PickaxeItem as VanillaPickaxeItem
 import net.minecraft.item.ShovelItem as VanillaShovelItem
 import net.minecraft.item.SwordItem as VanillaSwordItem
 
-class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val recipePriority: Int = 0) : VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+class SwordItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Int = 3, attackSpeed: Float = -2.4F, val modifiers: (ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier>) -> Unit = {}, val recipePriority: Int = 0) : VanillaSwordItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+    override fun getAttributeModifiers(slot: EquipmentSlot): Multimap<EntityAttribute, EntityAttributeModifier> {
+        if (slot == EquipmentSlot.MAINHAND) return ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>().apply { putAll(super.getAttributeModifiers(slot)) }.also(modifiers).build()
+        return super.getAttributeModifiers(slot)
+    }
 
 }
 
-class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F, val recipePriority: Int = 0) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+class PickaxeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = 1, attackSpeed: Float = -2.8F, val modifiers: (ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier>) -> Unit = {}, val recipePriority: Int = 0) : VanillaPickaxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+    override fun getAttributeModifiers(slot: EquipmentSlot): Multimap<EntityAttribute, EntityAttributeModifier> {
+        if (slot == EquipmentSlot.MAINHAND) return ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>().apply { putAll(super.getAttributeModifiers(slot)) }.also(modifiers).build()
+        return super.getAttributeModifiers(slot)
+    }
 
 }
 
-class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F, val recipePriority: Int = 0) : VanillaAxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+class AxeItem(material: ToolMaterial, settings: Settings, attackDamage: Float = 5.0f, attackSpeed: Float = -3.0F, val modifiers: (ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier>) -> Unit = {}, val recipePriority: Int = 0) : VanillaAxeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+    override fun getAttributeModifiers(slot: EquipmentSlot): Multimap<EntityAttribute, EntityAttributeModifier> {
+        if (slot == EquipmentSlot.MAINHAND) return ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>().apply { putAll(super.getAttributeModifiers(slot)) }.also(modifiers).build()
+        return super.getAttributeModifiers(slot)
+    }
 
 }
 
-class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val recipePriority: Int = 0) : VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
+class ShovelItem(toolMaterial: ToolMaterial, settings: Item.Settings, attackDamage: Float = 1.5F, attackSpeed: Float = -3.0F, val modifiers: (ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier>) -> Unit = {}, val recipePriority: Int = 0) : VanillaShovelItem(toolMaterial, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+    override fun getAttributeModifiers(slot: EquipmentSlot): Multimap<EntityAttribute, EntityAttributeModifier> {
+        if (slot == EquipmentSlot.MAINHAND) return ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>().apply { putAll(super.getAttributeModifiers(slot)) }.also(modifiers).build()
+        return super.getAttributeModifiers(slot)
+    }
 
 }
 
-class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f, val recipePriority: Int = 0) : VanillaHoeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
+class HoeItem(material: ToolMaterial, settings: Settings, attackDamage: Int = -material.attackDamage.toInt(), attackSpeed: Float = 0.0f, val modifiers: (ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier>) -> Unit = {}, val recipePriority: Int = 0) : VanillaHoeItem(material, attackDamage, attackSpeed, settings), LCCItemTrait {
 
     override fun <C : Inventory, R : Recipe<C>> lcc_recipeOutputPriority(output: ItemStack, manager: RecipeManager, type: RecipeType<R>, inventory: C, world: World) = recipePriority
+
+    override fun getAttributeModifiers(slot: EquipmentSlot): Multimap<EntityAttribute, EntityAttributeModifier> {
+        if (slot == EquipmentSlot.MAINHAND) return ImmutableMultimap.builder<EntityAttribute, EntityAttributeModifier>().apply { putAll(super.getAttributeModifiers(slot)) }.also(modifiers).build()
+        return super.getAttributeModifiers(slot)
+    }
 
 }
 
@@ -83,6 +112,7 @@ enum class LCCArmorMaterials(durabilityMultiplier: Float, private val protection
     CLASSIC_LEATHER(ArmorMaterials.LEATHER, enchantability = 17, ingredientFactory = { Ingredient.ofItems(Items.LEATHER) }),
     CLASSIC_STUDDED_LEATHER(ArmorMaterials.IRON, enchantability = 19, durabilityMultiplier = 20f, toughness = 0.2f, knockbackResistance = 0.1f, equipSound = ArmorMaterials.LEATHER.equipSound, ingredientFactory = { Ingredient.ofItems(Items.IRON_INGOT) }),
 
+    WOODLOUSE(ArmorMaterials.LEATHER, durabilityMultiplier = 7f, enchantability = 9, ingredientFactory = { Ingredient.ofItems(LCCItems.woodlouse_shell) }),
     RUSTY_IRON(ArmorMaterials.IRON, durabilityMultiplier = 12f, enchantability = 4, ingredientFactory = { Ingredient.ofItems(LCCItems.iron_oxide) }),
 
     HAZMAT(2.2f, intArrayOf(1, 1, 1, 1), 1, 0f, 0f, ArmorMaterials.TURTLE.equipSound, { Ingredient.ofItems(LCCItems.heavy_duty_rubber) });

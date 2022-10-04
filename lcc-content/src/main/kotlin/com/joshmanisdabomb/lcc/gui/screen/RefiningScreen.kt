@@ -11,7 +11,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 
 abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerInventory, title: Text) : HandledScreen<RefiningScreenHandler>(handler, inventory, title), PowerScreenUtils {
@@ -62,7 +61,7 @@ abstract class RefiningScreen(handler: RefiningScreenHandler, inventory: PlayerI
 
     fun renderRecipe(matrices: MatrixStack, x: Float, y: Float, w: Int) {
         currentRecipe?.also {
-            val lines = textRenderer.wrapLines(TranslatableText(it.lang), w)
+            val lines = textRenderer.wrapLines(Text.translatable(it.lang), w)
             lines.forEachIndexed { k, v ->
                 textRenderer.draw(matrices, v, x, y.minus((lines.size > 1).transformInt(6)).plus(k.times(10)), 4210752)
             }

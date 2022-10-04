@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 1.0,
   "ingredient": {
     "item": "lcc:raw_tungsten"
   },
-  "result": "lcc:tungsten_ingot",
-  "experience": 1.0,
-  "cookingtime": 200
+  "result": "lcc:tungsten_ingot"
 }

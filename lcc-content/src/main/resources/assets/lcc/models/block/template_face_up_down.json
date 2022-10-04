@@ -2,6 +2,16 @@
   "parent": "block/block",
   "elements": [
     {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#texture"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#texture"
+        }
+      },
       "from": [
         0,
         0,
@@ -11,17 +21,7 @@
         16,
         16,
         16
-      ],
-      "faces": {
-        "down": {
-          "texture": "#texture",
-          "cullface": "down"
-        },
-        "up": {
-          "texture": "#texture",
-          "cullface": "up"
-        }
-      }
+      ]
     }
   ]
 }

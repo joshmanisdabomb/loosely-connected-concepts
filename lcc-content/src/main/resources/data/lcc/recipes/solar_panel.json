@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "l": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "s": {
+      "item": "lcc:silicon"
+    }
+  },
   "pattern": [
     "sss",
     "lll",
     "ici"
   ],
-  "key": {
-    "s": {
-      "item": "lcc:silicon"
-    },
-    "l": {
-      "item": "minecraft:lapis_lazuli"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    },
-    "c": {
-      "item": "minecraft:copper_ingot"
-    }
-  },
   "result": {
     "item": "lcc:solar_panel"
   }

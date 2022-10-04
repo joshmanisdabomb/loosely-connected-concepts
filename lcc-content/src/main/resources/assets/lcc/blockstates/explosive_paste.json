@@ -6,74 +6,74 @@
       }
     },
     {
-      "when": {
-        "north": "side|up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_side0",
         "y": 0
+      },
+      "when": {
+        "north": "side|up"
       }
     },
     {
-      "when": {
-        "north": "up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_up"
+      },
+      "when": {
+        "north": "up"
       }
     },
     {
-      "when": {
-        "east": "side|up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_side_alt1",
         "y": 270
+      },
+      "when": {
+        "east": "side|up"
       }
     },
     {
-      "when": {
-        "east": "up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_up",
         "y": 90
+      },
+      "when": {
+        "east": "up"
       }
     },
     {
-      "when": {
-        "south": "side|up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_side_alt0",
         "y": 0
+      },
+      "when": {
+        "south": "side|up"
       }
     },
     {
-      "when": {
-        "south": "up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_up",
         "y": 180
+      },
+      "when": {
+        "south": "up"
       }
     },
     {
-      "when": {
-        "west": "side|up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_side1",
         "y": 270
+      },
+      "when": {
+        "west": "side|up"
       }
     },
     {
-      "when": {
-        "west": "up"
-      },
       "apply": {
         "model": "lcc:block/explosive_paste_up",
         "y": 270
+      },
+      "when": {
+        "west": "up"
       }
     }
   ]

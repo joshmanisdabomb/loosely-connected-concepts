@@ -1,37 +1,37 @@
 {
   "type": "lcc:refining_shapeless",
-  "ingredients": [
-    {
-      "item": "lcc:oil_bucket",
-      "count": 2
-    }
-  ],
-  "results": [
-    {
-      "item": "lcc:fuel_bucket",
-      "count": 1,
-      "function": "minecraft:empty"
-    },
-    {
-      "item": "lcc:refined_oil_bucket",
-      "count": 1,
-      "function": "minecraft:empty"
-    },
-    {
-      "item": "lcc:tar_ball",
-      "count": 1,
-      "function": "minecraft:empty"
-    }
-  ],
   "blocks": [
     "lcc:refiner",
     "lcc:composite_processor"
   ],
-  "lang": "container.lcc.refining.recipe.fractional_distillation",
-  "icon": 7,
-  "state": "treating",
   "energy": 10.666667,
-  "ticks": 3000,
   "gain": 0.008,
-  "maxGain": 400.0
+  "icon": 7,
+  "ingredients": [
+    {
+      "count": 2,
+      "item": "lcc:oil_bucket"
+    }
+  ],
+  "lang": "container.lcc.refining.recipe.fractional_distillation",
+  "maxGain": 400.0,
+  "results": [
+    {
+      "count": 1,
+      "function": "minecraft:empty",
+      "item": "lcc:fuel_bucket"
+    },
+    {
+      "count": 1,
+      "function": "minecraft:empty",
+      "item": "lcc:refined_oil_bucket"
+    },
+    {
+      "count": 1,
+      "function": "minecraft:empty",
+      "item": "lcc:tar_ball"
+    }
+  ],
+  "state": "treating",
+  "ticks": 3000
 }

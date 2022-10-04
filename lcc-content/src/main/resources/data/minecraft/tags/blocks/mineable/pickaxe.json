@@ -1,11 +1,11 @@
 {
-  "replace": false,
   "values": [
     "lcc:alarm",
     "lcc:alpha_diamond_block",
     "lcc:alpha_gold_block",
     "lcc:alpha_iron_block",
     "lcc:atomic_bomb",
+    "lcc:attractive_magnetic_iron_block",
     "lcc:bleeding_spikes",
     "lcc:bomb_board_block",
     "lcc:bounce_pad",
@@ -69,6 +69,7 @@
     "lcc:pumice",
     "lcc:raw_tungsten_block",
     "lcc:refiner",
+    "lcc:repulsive_magnetic_iron_block",
     "lcc:rhyolite",
     "lcc:rhyolite_slab",
     "lcc:rhyolite_stairs",
@@ -125,6 +126,7 @@
     "lcc:small_topaz_bud",
     "lcc:solar_panel",
     "lcc:spawner_table",
+    "lcc:spawning_pit",
     "lcc:spikes",
     "lcc:stale_iron_block",
     "lcc:terminal",
@@ -137,7 +139,6 @@
     "lcc:turbine",
     "lcc:uranium_block",
     "lcc:uranium_ore",
-    "lcc:wasteland_obelisk",
     "lcc:weathered_iron_block"
   ]
 }

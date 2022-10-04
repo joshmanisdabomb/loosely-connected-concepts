@@ -1,13 +1,8 @@
 {
   "parent": "minecraft:builtin/entity",
   "display": {
-    "thirdperson_righthand": {
+    "firstperson_lefthand": {
       "rotation": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "translation": [
         0.0,
         0.0,
         0.0
@@ -16,23 +11,11 @@
         1.0,
         1.0,
         1.0
-      ]
-    },
-    "thirdperson_lefthand": {
-      "rotation": [
-        0.0,
-        0.0,
-        0.0
       ],
       "translation": [
         0.0,
         0.0,
         0.0
-      ],
-      "scale": [
-        1.0,
-        1.0,
-        1.0
       ]
     },
     "firstperson_righthand": {
@@ -41,49 +24,15 @@
         0.0,
         0.0
       ],
-      "translation": [
-        0.0,
-        0.0,
-        0.0
-      ],
       "scale": [
         1.0,
         1.0,
         1.0
-      ]
-    },
-    "firstperson_lefthand": {
-      "rotation": [
-        0.0,
-        0.0,
-        0.0
       ],
       "translation": [
         0.0,
         0.0,
         0.0
-      ],
-      "scale": [
-        1.0,
-        1.0,
-        1.0
-      ]
-    },
-    "ground": {
-      "rotation": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "translation": [
-        0.0,
-        0.0,
-        0.0
-      ],
-      "scale": [
-        1.0,
-        1.0,
-        1.0
       ]
     },
     "fixed": {
@@ -92,7 +41,19 @@
         0.0,
         0.0
       ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "translation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "ground": {
+      "rotation": [
         0.0,
         0.0,
         0.0
@@ -101,6 +62,11 @@
         1.0,
         1.0,
         1.0
+      ],
+      "translation": [
+        0.0,
+        0.0,
+        0.0
       ]
     },
     "gui": {
@@ -109,15 +75,15 @@
         0.0,
         0.0
       ],
-      "translation": [
-        0.0,
-        0.0,
-        0.0
-      ],
       "scale": [
         1.0,
         1.0,
         1.0
+      ],
+      "translation": [
+        0.0,
+        0.0,
+        0.0
       ]
     },
     "head": {
@@ -126,7 +92,19 @@
         0.0,
         0.0
       ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
       "translation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
         0.0,
         0.0,
         0.0
@@ -135,6 +113,28 @@
         1.0,
         1.0,
         1.0
+      ],
+      "translation": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "thirdperson_righthand": {
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "translation": [
+        0.0,
+        0.0,
+        0.0
       ]
     }
   }

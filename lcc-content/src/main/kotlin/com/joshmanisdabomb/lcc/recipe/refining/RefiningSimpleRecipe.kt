@@ -13,8 +13,8 @@ import net.minecraft.recipe.Ingredient
 import net.minecraft.util.Identifier
 import net.minecraft.util.JsonHelper
 import net.minecraft.util.collection.DefaultedList
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
-import java.util.*
 import kotlin.properties.Delegates
 
 abstract class RefiningSimpleRecipe(protected val _id: Identifier, protected val _group: String, protected val refiningIngredients: DefaultedList<Pair<Ingredient, Int>>, protected val _output: DefaultedList<Pair<ItemStack, OutputFunction?>>, override val blocks: Array<Block>, override val lang: String, override val icon: Int, override val state: RefiningBlock.RefiningProcess, protected val energy: Float, protected val ticks: Int, protected val gain: Float, protected val maxGain: Float) : RefiningRecipe() {

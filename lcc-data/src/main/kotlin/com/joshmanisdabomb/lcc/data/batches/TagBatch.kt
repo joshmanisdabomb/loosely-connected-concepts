@@ -2,12 +2,14 @@ package com.joshmanisdabomb.lcc.data.batches
 
 import com.google.common.collect.HashBasedTable
 import com.joshmanisdabomb.lcc.mixin.data.common.TagBuilderAccessor
+import com.joshmanisdabomb.lcc.mixin.data.common.TagEntryAccessor
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityType
 import net.minecraft.fluid.Fluid
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
-import net.minecraft.tag.Tag
+import net.minecraft.tag.TagBuilder
+import net.minecraft.tag.TagEntry
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.StringIdentifiable
@@ -53,6 +55,8 @@ class TagBatch {
         }
         object BIOME : TagType<Biome, Biome>(BuiltinRegistries.BIOME) {
             override fun convert(entry: Biome) = entry
+
+            override fun asString() = registry.key.value.path.lowercase()
         }
 
         fun getId(entry: T) = registry.getKey(convert(entry)).get().value
@@ -61,27 +65,27 @@ class TagBatch {
         override fun asString() = registry.key.value.path.lowercase().plus("s")
     }
 
-    class TagBuilder<T, U>(val type: TagType<T, U>, val id: Identifier) : Tag.Builder() {
+    class TagBuilder<T, U>(val type: TagType<T, U>, val id: Identifier) : net.minecraft.tag.TagBuilder() {
 
-        var sorter = Comparator.comparing<Tag.TrackedEntry, Boolean> { it.entry is Tag.TagEntry || it.entry is Tag.OptionalTagEntry }.thenComparing(Comparator.comparing { it.entry.toString().replace("?", "") })
+        var sorter = Comparator.comparing<TagEntry, Boolean> { (it as? TagEntryAccessor)?.isTag == true }.thenComparing(Comparator.comparing { it.toString().replace("?", "") })
 
         fun attachId(vararg items: Identifier): TagBuilder<T, U> {
-            items.forEach { add(Tag.ObjectEntry(it), "lcc-data") }
+            items.forEach { add(it) }
             return this
         }
 
         fun optionalId(vararg items: Identifier): TagBuilder<T, U> {
-            items.forEach { add(Tag.OptionalObjectEntry(it), "lcc-data") }
+            items.forEach { addOptional(it) }
             return this
         }
 
         fun attachTagId(vararg items: Identifier): TagBuilder<T, U> {
-            items.forEach { add(Tag.TagEntry(it), "lcc-data") }
+            items.forEach { addTag(it) }
             return this
         }
 
         fun optionalTagId(vararg items: Identifier): TagBuilder<T, U> {
-            items.forEach { add(Tag.OptionalTagEntry(it), "lcc-data") }
+            items.forEach { addOptionalTag(it) }
             return this
         }
 
@@ -97,7 +101,7 @@ class TagBatch {
 
         fun optionalTag(vararg tags: TagBuilder<*, U>) = optionalTagId(*tags.map { it.id }.toTypedArray())
 
-        fun applySort(comparator: Comparator<Tag.TrackedEntry>): TagBuilder<T, U> {
+        fun applySort(comparator: Comparator<TagEntry>): TagBuilder<T, U> {
             sorter = comparator
             return this
         }

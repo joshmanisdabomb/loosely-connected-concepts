@@ -2,17 +2,32 @@
   "credit": "Made with Blockbench",
   "elements": [
     {
-      "name": "overflow",
+      "faces": {
+        "north": {
+          "texture": "#2",
+          "uv": [
+            7,
+            0.5,
+            9,
+            1
+          ]
+        },
+        "up": {
+          "texture": "#2",
+          "uv": [
+            7,
+            10,
+            9,
+            16
+          ]
+        }
+      },
       "from": [
         7,
         15,
         10
       ],
-      "to": [
-        9,
-        15.5,
-        16
-      ],
+      "name": "overflow",
       "rotation": {
         "angle": 0,
         "axis": "y",
@@ -22,26 +37,11 @@
           18
         ]
       },
-      "faces": {
-        "north": {
-          "uv": [
-            7,
-            0.5,
-            9,
-            1
-          ],
-          "texture": "#2"
-        },
-        "up": {
-          "uv": [
-            7,
-            10,
-            9,
-            16
-          ],
-          "texture": "#2"
-        }
-      }
+      "to": [
+        9,
+        15.5,
+        16
+      ]
     }
   ]
 }

@@ -42,6 +42,7 @@ import net.minecraft.predicate.item.ItemPredicate
 import net.minecraft.recipe.Ingredient
 import net.minecraft.recipe.RecipeSerializer
 import net.minecraft.tag.ItemTags
+import net.minecraft.util.Identifier
 
 object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
 
@@ -334,6 +335,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.name.contains("spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ Identifier("item/spawn_egg") }, { Identifier("item/spawn_egg_overlay") })) }
     val wasteland_spawn_eggs by entry(::initialiser) { data().affects(LCCItems.entries.values.filter { it.tags.contains("wasteland_spawn_egg") }.map { it.entry }).defaultLang().add(MultiLayerGeneratedItemAssetFactory({ LCC.id("item/wasteland_spawn_egg") }, { LCC.id("item/wasteland_spawn_egg_overlay") }, { LCC.id("item/wasteland_spawn_egg_goop") })) }
 
     val deadwood_equipment by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ToolItem && k.startsWith("deadwood_") }.values.toList()).defaultLang().add(HandheldItemAssetFactory).add(ToolRecipeFactory(LCCBlocks.deadwood_planks)).add(ItemTagFactory(LCCItemTags.wasteland_equipment)) }
@@ -445,6 +447,37 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .addEffect(StatusEffectInstance(StatusEffects.POISON, 100, 1))
             .apply { hasCriterionInterface(this, i) }
             .apply { offerInterface(this, d, LCC.id("stinger")) }
+    }) }
+
+    val magnetic_iron by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(i, 2)
+            .input(i)
+            .input(LCCItems.iron_oxide)
+            .apply { hasCriterionShapeless(this, i) }
+            .apply { offerShapeless(this, d) }
+    }) }
+
+    val scroll_of_reconditioning by entry(::initialiser) { data().add(LiteralTranslationFactory("Scroll of Reconditioning")).defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapelessRecipeJsonBuilder.create(i)
+            .input(LCCBlocks.forget_me_not)
+            .input(LCCItems.enhancing_pyre_beta)
+            .input(Items.GLOW_INK_SAC)
+            .input(Items.PAPER)
+            .apply { hasCriterionShapeless(this, LCCBlocks.forget_me_not) }
+            .apply { offerShapeless(this, d) }
+    }) }
+
+    val woodlouse_armor by entry(::initialiser) { data().affects(LCCItems.all.filter { (k, v) -> v is ArmorItem && k.startsWith("woodlouse_") }.values.toList()).defaultLang().defaultItemAsset().add(ArmorRecipeFactory(LCCItems.woodlouse_shell)).add(ItemTagFactory(LCCItemTags.wasteland_equipment)) }
+
+    val bundle by entry(::initialiser) { data().affects(Items.BUNDLE).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("sbs")
+            .pattern("b b")
+            .pattern("bbb")
+            .input('s', Items.STRING)
+            .input('b', Items.RABBIT_HIDE)
+            .apply { hasCriterionShaped(this, Items.RABBIT_HIDE) }
+            .apply { offerShaped(this, d) }
     }) }
 
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input

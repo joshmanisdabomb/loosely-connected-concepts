@@ -2,244 +2,269 @@
   "type": "minecraft:chest",
   "pools": [
     {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:charcoal",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:torch",
+          "weight": 12
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "minecraft:stick",
+          "weight": 9
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 2.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:red_heart_full",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 5.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:deadwood_planks",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 19.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:iron_oxide_nugget",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:dull_sapphire",
+          "weight": 5
+        }
+      ],
       "rolls": {
         "type": "minecraft:uniform",
-        "min": 2.0,
-        "max": 8.0
-      },
-      "bonus_rolls": 0.0,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "weight": 12,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 4.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:charcoal"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 12,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 4.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:torch"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 9,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 2.0,
-                "max": 5.0
-              },
-              "add": false
-            }
-          ],
-          "name": "minecraft:stick"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:red_heart_full"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 5.0
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:deadwood_planks"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:iron_oxide"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 5,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 3.0
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:dull_sapphire"
-        }
-      ]
+        "max": 8.0,
+        "min": 2.0
+      }
     },
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "min": 1.0,
-                "max": 2.0
+                "max": 2.0,
+                "min": 1.0
               },
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "lcc:red_heart_full"
         }
-      ]
+      ],
+      "rolls": 1.0
     },
     {
-      "rolls": 2.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.9
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.4,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "enchantments": [
+                "lcc:infested"
+              ],
+              "function": "minecraft:enchant_randomly"
             }
           ],
-          "name": "lcc:deadwood_sword"
+          "name": "lcc:deadwood_sword",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
+              "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 10.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
           ],
-          "name": "lcc:deadwood_sword"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_damage",
-              "damage": {
-                "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.9
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:deadwood_pickaxe"
+          "name": "lcc:deadwood_pickaxe",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
+              "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 10.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
-            }
-          ],
-          "name": "lcc:deadwood_pickaxe"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_damage",
-              "damage": {
-                "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.9
-              },
-              "add": false
             }
           ],
           "name": "lcc:deadwood_shovel"
@@ -248,60 +273,32 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
+              "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 10.0
-              },
-              "treasure": false
-            }
-          ],
-          "name": "lcc:deadwood_shovel"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:set_damage",
-              "damage": {
-                "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.9
-              },
-              "add": false
-            }
-          ],
-          "name": "lcc:deadwood_axe"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_damage",
-              "damage": {
-                "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
-              },
-              "add": false
-            },
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": {
-                "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 10.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
@@ -310,58 +307,216 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.9
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
-            }
-          ],
-          "name": "lcc:deadwood_hoe"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_damage",
-              "damage": {
-                "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
-              },
-              "add": false
+              "function": "minecraft:set_damage"
             },
             {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
               "function": "minecraft:enchant_with_levels",
               "levels": {
                 "type": "minecraft:uniform",
-                "min": 5.0,
-                "max": 10.0
+                "max": 20.0,
+                "min": 10.0
               },
               "treasure": false
             }
           ],
           "name": "lcc:deadwood_hoe"
         }
-      ]
+      ],
+      "rolls": 2.0
     },
     {
-      "rolls": {
-        "type": "minecraft:uniform",
-        "min": 0.0,
-        "max": 1.0
-      },
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "lcc:red_heart_container"
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 3.0,
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "lcc:woodlouse_shell",
+          "weight": 4
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_helmet"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_chestplate"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_leggings"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "conditions": [
+                {
+                  "chance": 0.9,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 0.6,
+                "min": 0.1
+              },
+              "function": "minecraft:set_damage"
+            },
+            {
+              "conditions": [
+                {
+                  "chance": 0.3,
+                  "condition": "minecraft:random_chance"
+                }
+              ],
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "max": 20.0,
+                "min": 10.0
+              },
+              "treasure": false
+            }
+          ],
+          "name": "lcc:woodlouse_boots"
+        }
+      ],
+      "rolls": 2.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "lcc:red_heart_container",
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -369,26 +524,44 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 3,
-          "name": "lcc:altar_challenge_key"
+          "name": "lcc:altar_challenge_key",
+          "weight": 3
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
           "functions": [
             {
-              "function": "minecraft:set_damage",
+              "add": false,
               "damage": {
                 "type": "minecraft:uniform",
-                "min": 0.1,
-                "max": 0.6
+                "max": 0.6,
+                "min": 0.1
               },
-              "add": false
+              "function": "minecraft:set_damage"
             }
           ],
-          "name": "lcc:crowbar"
+          "name": "lcc:crowbar",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "enchantments": [
+                "lcc:infested"
+              ],
+              "function": "minecraft:enchant_randomly"
+            }
+          ],
+          "name": "minecraft:book",
+          "weight": 3
         }
-      ]
+      ],
+      "rolls": {
+        "type": "minecraft:uniform",
+        "max": 1.0,
+        "min": 0.0
+      }
     }
   ]
 }

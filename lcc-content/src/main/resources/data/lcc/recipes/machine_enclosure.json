@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "minecraft:copper_ingot"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "p": {
+      "item": "lcc:power_cable"
+    }
+  },
   "pattern": [
     "ccc",
     "cpc",
     "iii"
   ],
-  "key": {
-    "c": {
-      "item": "minecraft:copper_ingot"
-    },
-    "p": {
-      "item": "lcc:power_cable"
-    },
-    "i": {
-      "item": "minecraft:iron_ingot"
-    }
-  },
   "result": {
     "item": "lcc:machine_enclosure"
   }

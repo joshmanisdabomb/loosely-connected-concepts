@@ -3,6 +3,7 @@ package com.joshmanisdabomb.lcc.data.generators.kb.fragment
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.joshmanisdabomb.lcc.data.generators.kb.export.KnowledgeExporter
+import net.minecraft.item.Item
 import net.minecraft.loot.LootManager
 import net.minecraft.loot.LootTable
 
@@ -40,11 +41,17 @@ class KnowledgeArticleLootFragmentBuilder(val supplier: (exporter: KnowledgeExpo
     override fun toJson(exporter: KnowledgeExporter): JsonObject {
         val tables = JsonArray()
         this.tables = (this.tables ?: supplier(exporter)).onEach {
-            val id = exporter.da.lootTables[it]!!
-            val table = exporter.da.lootTables.getTable(id)!!
+            val id = exporter.da.lootTables[it]
+            val table: LootTable
+            val items: List<Item>
+            if (id != null) {
+                table = exporter.da.lootTables.getTable(id)!!
+                items = exporter.da.lootTables.getItemsOf(id)
+            } else {
+                table = it.build()
+                items = exporter.da.lootTables.getItemsOf(table)
+            }
             val json = LootManager.toJson(table).asJsonObject
-
-            val items = exporter.da.lootTables.getItemsOf(id)
 
             if (!json.has("translations")) json.add("translations", KnowledgeArticleRecipeFragmentBuilder.getTranslationTree(exporter, *items.toTypedArray()))
             if (!json.has("links")) json.add("links", KnowledgeArticleRecipeFragmentBuilder.getLinkTree(exporter, *items.toTypedArray()))

@@ -18,9 +18,9 @@ class OilGeyserFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
         with (context) {
             val height = 4 + random.nextInt(4)
 
-            if (!GenUtils.areaMatches(context.world::getBlockState, context.origin.x, origin.y, origin.z, height = height.minus(1)) { state, pos -> !world.isOutOfHeightLimit(pos.y) }) return false
-            if (!GenUtils.areaMatches(context.world::getBlockState, context.origin.x, origin.y - 2, origin.z, ex = 3, ez = 3, height = 1) { state, pos -> world.getBlockState(pos).isOf(LCCBlocks.cracked_mud) }) return false
-            if (!GenUtils.areaMatches(context.world::getBlockState, context.origin.x, origin.y, origin.z, ex = 2, ez = 2, height = height.minus(1))) return false
+            if (!GenUtils.areaMatches(context.world::getBlockState, origin.x, origin.y, origin.z, height = height.minus(1)) { state, pos -> !world.isOutOfHeightLimit(pos.y) }) return false
+            if (!GenUtils.areaMatches(context.world::getBlockState, origin.x, origin.y - 2, origin.z, ex = 3, ez = 3, height = 1) { state, pos -> state.isOf(LCCBlocks.cracked_mud) }) return false
+            if (!GenUtils.areaMatches(context.world::getBlockState, origin.x, origin.y, origin.z, ex = 2, ez = 2, height = height.minus(1))) return false
 
             val bp = BlockPos.Mutable()
             for (i in height.minus(1) downTo -1) {

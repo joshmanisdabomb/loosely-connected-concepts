@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ww"
-  ],
   "key": {
     "w": {
       "item": "lcc:cracked_mud"
     }
   },
+  "pattern": [
+    "ww"
+  ],
   "result": {
     "item": "lcc:cracked_mud_pressure_plate"
   }

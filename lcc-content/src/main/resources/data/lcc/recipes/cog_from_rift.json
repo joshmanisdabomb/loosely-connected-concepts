@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:redstone"
   },
-  "result": "lcc:cog",
-  "count": 1
+  "result": "lcc:cog"
 }

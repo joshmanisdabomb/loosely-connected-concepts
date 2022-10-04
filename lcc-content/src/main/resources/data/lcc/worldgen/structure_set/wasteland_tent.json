@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "lcc:wasteland_tent",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 7,
+    "separation": 1,
+    "salt": 498302752348790
+  }
+}

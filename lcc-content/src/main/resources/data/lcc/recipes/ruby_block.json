@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "iii",
-    "iii",
-    "iii"
-  ],
   "key": {
     "i": {
       "item": "lcc:ruby"
     }
   },
+  "pattern": [
+    "iii",
+    "iii",
+    "iii"
+  ],
   "result": {
     "item": "lcc:ruby_block"
   }

@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ipi",
-    "rsr"
-  ],
   "key": {
-    "r": {
-      "item": "minecraft:repeater"
-    },
     "i": {
       "item": "minecraft:iron_ingot"
     },
     "p": {
       "item": "lcc:rubber_piston"
     },
+    "r": {
+      "item": "minecraft:repeater"
+    },
     "s": {
       "item": "lcc:soaking_soul_sand"
     }
   },
+  "pattern": [
+    "ipi",
+    "rsr"
+  ],
   "result": {
-    "item": "lcc:bounce_pad",
-    "count": 2
+    "count": 2,
+    "item": "lcc:bounce_pad"
   }
 }

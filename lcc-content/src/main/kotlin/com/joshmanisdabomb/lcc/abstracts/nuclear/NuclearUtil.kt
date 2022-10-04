@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.abstracts.nuclear
 
-import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.directory.LCCEffects
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.entity.NuclearExplosionEntity
 import com.joshmanisdabomb.lcc.extensions.isSurvival
 import net.minecraft.entity.EntityData
@@ -17,11 +17,11 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.LocalDifficulty
 import net.minecraft.world.ServerWorldAccess
 import net.minecraft.world.World
 import net.minecraft.world.level.ServerWorldProperties
-import java.util.*
 import kotlin.math.max
 import kotlin.math.pow
 

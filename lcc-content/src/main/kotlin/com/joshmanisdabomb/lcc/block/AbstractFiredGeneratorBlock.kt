@@ -12,9 +12,9 @@ import net.minecraft.particle.ParticleTypes
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.LIT
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-import java.util.*
 import kotlin.math.roundToInt
 
 abstract class AbstractFiredGeneratorBlock(settings: Settings) : BlockWithEntity(settings) {

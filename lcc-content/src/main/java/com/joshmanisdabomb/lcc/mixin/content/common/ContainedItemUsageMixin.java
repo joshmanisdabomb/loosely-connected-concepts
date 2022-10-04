@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -29,7 +29,7 @@ public abstract class ContainedItemUsageMixin {
             Item item = piece.getItem();
             if (item instanceof ContainedArmor) {
                 if (((ContainedArmor)item).blockEating(player, piece, pieces)) {
-                    player.sendMessage(new TranslatableText(TooltipConstants.contained_armor_consume), true);
+                    player.sendMessage(Text.translatable(TooltipConstants.contained_armor_consume), true);
                     callback.setReturnValue(TypedActionResult.fail(stack));
                     callback.cancel();
                 }

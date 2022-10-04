@@ -18,7 +18,6 @@ import net.minecraft.screen.GenericContainerScreenHandler
 import net.minecraft.screen.NamedScreenHandlerFactory
 import net.minecraft.state.property.Properties.CHEST_TYPE
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 
@@ -61,9 +60,9 @@ class ClassicChestBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LC
 
     override fun getDisplayName(): Text {
         if (double) {
-            return doubleName ?: TranslatableText("container.chest")
+            return doubleName ?: Text.translatable("container.chest")
         }
-        return customName ?: TranslatableText("container.chest")
+        return customName ?: Text.translatable("container.chest")
     }
 
     override fun readNbt(tag: NbtCompound) {

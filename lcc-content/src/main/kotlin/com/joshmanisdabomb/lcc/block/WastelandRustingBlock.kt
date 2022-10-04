@@ -7,7 +7,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import java.util.*
+import net.minecraft.util.math.random.Random
 
 class WastelandRustingBlock(settings: Settings, stages: () -> Array<Block>) : Block(settings) {
 

@@ -29,8 +29,8 @@ class NuclearExplosionEntityRenderer(ctx: EntityRendererFactory.Context) : Entit
     override fun render(entity: NuclearExplosionEntity, yaw: Float, tickDelta: Float, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int) {
         val world = MinecraftClient.getInstance().world ?: return
         if (MinecraftClient.getInstance().isPaused) return
-        if (MinecraftClient.getInstance().options.particles == ParticlesMode.MINIMAL) return
-        val particles = (MinecraftClient.getInstance().options.particles == ParticlesMode.DECREASED).transformInt(5, 1)
+        if (MinecraftClient.getInstance().options.particles.value == ParticlesMode.MINIMAL) return
+        val particles = (MinecraftClient.getInstance().options.particles.value == ParticlesMode.DECREASED).transformInt(5, 1)
         val lifetime = max(entity.lifetime, 1)
         val l = entity.radius / lifetime.toDouble()
         val f = (entity.ticks / lifetime.toDouble()).let { MathHelper.sqrt(it.toFloat()) }

@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class RadiationCommand(val name: String) {
 
@@ -42,9 +42,9 @@ class RadiationCommand(val name: String) {
         }
 
         if (targets.size == 1) {
-            source.sendFeedback(TranslatableText("commands.lcc.$name.add.success.single", amount, targets.first().displayName), true)
+            source.sendFeedback(Text.translatable("commands.lcc.$name.add.success.single", amount, targets.first().displayName), true)
         } else {
-            source.sendFeedback(TranslatableText("commands.lcc.$name.add.success.multiple", amount, targets.size), true)
+            source.sendFeedback(Text.translatable("commands.lcc.$name.add.success.multiple", amount, targets.size), true)
         }
 
         return targets.size
@@ -65,9 +65,9 @@ class RadiationCommand(val name: String) {
         }
 
         if (targets.size == 1) {
-            source.sendFeedback(TranslatableText("commands.lcc.$name.set.success.single", targets.first().displayName, amount), true)
+            source.sendFeedback(Text.translatable("commands.lcc.$name.set.success.single", targets.first().displayName, amount), true)
         } else {
-            source.sendFeedback(TranslatableText("commands.lcc.$name.set.success.multiple", targets.size, amount), true)
+            source.sendFeedback(Text.translatable("commands.lcc.$name.set.success.multiple", targets.size, amount), true)
         }
 
         return targets.size
@@ -76,11 +76,11 @@ class RadiationCommand(val name: String) {
     fun query(source: ServerCommandSource, target: Entity): Int {
         if (target !is LivingEntity) throw failedLivingSingleException.create(target.displayName)
         val radiation = LCCComponents.radiation.maybeGet(target).map { it.exposure }.orElse(0f)
-        source.sendFeedback(TranslatableText("commands.lcc.$name.query", target.displayName, radiation), false)
+        source.sendFeedback(Text.translatable("commands.lcc.$name.query", target.displayName, radiation), false)
         return radiation.toInt()
     }
 
-    private val failedLivingSingleException = DynamicCommandExceptionType { TranslatableText("commands.lcc.$name.failed.living.single", it) }
-    private val failedLivingMultipleException = SimpleCommandExceptionType(TranslatableText("commands.lcc.$name.failed.living.multiple"))
+    private val failedLivingSingleException = DynamicCommandExceptionType { Text.translatable("commands.lcc.$name.failed.living.single", it) }
+    private val failedLivingMultipleException = SimpleCommandExceptionType(Text.translatable("commands.lcc.$name.failed.living.multiple"))
 
 }

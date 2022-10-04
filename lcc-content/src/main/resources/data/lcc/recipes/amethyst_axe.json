@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ii",
-    "is",
-    " s"
-  ],
   "key": {
     "i": {
       "item": "minecraft:amethyst_shard"
@@ -13,6 +8,11 @@
       "item": "minecraft:stick"
     }
   },
+  "pattern": [
+    "ii",
+    "is",
+    " s"
+  ],
   "result": {
     "item": "lcc:amethyst_axe"
   }

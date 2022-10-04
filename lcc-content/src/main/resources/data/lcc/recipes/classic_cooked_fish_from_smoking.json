@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smoking",
+  "cookingtime": 100,
+  "experience": 0.35,
   "ingredient": {
     "item": "lcc:classic_raw_fish"
   },
-  "result": "lcc:classic_cooked_fish",
-  "experience": 0.35,
-  "cookingtime": 100
+  "result": "lcc:classic_cooked_fish"
 }

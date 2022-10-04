@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.block.entity.SapphireAltarBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.stack
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.player.PlayerEntity
@@ -12,13 +13,15 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundCategory
 import net.minecraft.sound.SoundEvents
+import net.minecraft.structure.StructurePiece
 import net.minecraft.util.math.BlockBox
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.World
 import net.minecraft.world.explosion.Explosion
-import java.util.*
+import net.minecraft.world.gen.structure.Structure
 
 abstract class AltarChallenge {
 
@@ -26,7 +29,7 @@ abstract class AltarChallenge {
 
     abstract fun initialData(random: Random, nbt: NbtCompound = NbtCompound()): NbtCompound
 
-    abstract fun generate(world: StructureWorldAccess, /*piece: SapphireAltarStructureFeature.Piece,*/ yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random)
+    abstract fun generate(world: StructureWorldAccess, piece: SapphireAltarStructure.Piece, yOffset: Int, boundingBox: BlockBox, data: NbtCompound, random: Random)
 
     open fun getAltarWidth(data: NbtCompound): Int? = data.getInt("Width") + 2
 
@@ -37,6 +40,8 @@ abstract class AltarChallenge {
     abstract fun verify(world: World, state: BlockState, pos: BlockPos, be: SapphireAltarBlockEntity): ChallengeState
 
     abstract fun verifyTick(world: World, state: BlockState, pos: BlockPos, be: SapphireAltarBlockEntity): ChallengeState
+
+    open fun getExtraPieces(main: SapphireAltarStructure.Piece, data: NbtCompound, context: Structure.Context, pos: BlockPos, width: Int, depth: Int, rot: Direction): Iterable<StructurePiece> = emptyList()
 
     open fun handleState(cstate: ChallengeState, world: ServerWorld, pos: BlockPos, state: BlockState, entity: SapphireAltarBlockEntity): Boolean {
         when (cstate) {

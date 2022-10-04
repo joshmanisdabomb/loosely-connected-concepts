@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "lcc:classic_grass_block",
     "lcc:classic_gravel",
@@ -7,7 +6,6 @@
     "lcc:dirt_slab",
     "lcc:infested_deposit",
     "lcc:luring_deposit",
-    "lcc:mud",
     "lcc:salt_block",
     "lcc:soaking_soul_sand"
   ]

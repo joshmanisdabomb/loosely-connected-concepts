@@ -24,7 +24,6 @@ import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
-import kotlin.random.asKotlinRandom
 
 class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
 
@@ -87,7 +86,7 @@ class DungeonTableBlock(settings: Settings) : BlockWithEntity(settings) {
             if (state2.isOf(this)) {
                 return defaultState.with(BOTTOM, true).with(ENTITY, state2[ENTITY])
             }
-            val entity = DungeonTableEntity.values().random(ctx.world.random.asKotlinRandom())
+            val entity = Util.getRandom(DungeonTableEntity.values(), ctx.world.random)
             val up = ctx.blockPos.up()
             if (ctx.world.getBlockState(up).isAir) {
                 return defaultState.with(BOTTOM, true).with(ENTITY, entity)

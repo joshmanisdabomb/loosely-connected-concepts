@@ -1,25 +1,28 @@
 package com.joshmanisdabomb.lcc.directory
 
-/*import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructureFeature
-import com.joshmanisdabomb.lcc.world.feature.structure.WastelandObeliskStructureFeature
-import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructureFeature*/
 import com.google.common.collect.ImmutableList
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.challenges.ArenaAltarChallenge
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
-import com.joshmanisdabomb.lcc.world.carver.WastelandCaveCarver
-import com.joshmanisdabomb.lcc.world.carver.WastelandRavineCarver
+import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
 import com.joshmanisdabomb.lcc.world.feature.*
+import com.joshmanisdabomb.lcc.world.feature.config.FlowerPatchFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
-import com.joshmanisdabomb.lcc.world.feature.rule.MultipleMatchRuleTest
+import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
+import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
+import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
+import com.joshmanisdabomb.lcc.world.placement.NearAirAbovePlacement
+import com.joshmanisdabomb.lcc.world.placement.NearAirPlacement
+import com.joshmanisdabomb.lcc.world.placement.NearLavaPlacement
+import com.mojang.serialization.Codec
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors
+import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.structure.StructurePieceType
 import net.minecraft.structure.rule.BlockMatchRuleTest
 import net.minecraft.tag.BiomeTags
-import net.minecraft.tag.BlockTags
-import net.minecraft.util.math.floatprovider.ConstantFloatProvider
-import net.minecraft.util.math.floatprovider.TrapezoidFloatProvider
-import net.minecraft.util.math.floatprovider.UniformFloatProvider
+import net.minecraft.util.collection.DataPool
 import net.minecraft.util.math.intprovider.ConstantIntProvider
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.BuiltinRegistries
@@ -27,35 +30,41 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.util.registry.RegistryEntry
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset
-import net.minecraft.world.gen.carver.*
+import net.minecraft.world.gen.blockpredicate.BlockPredicate
+import net.minecraft.world.gen.carver.Carver
+import net.minecraft.world.gen.carver.CarverConfig
+import net.minecraft.world.gen.carver.ConfiguredCarver
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
-import net.minecraft.world.gen.heightprovider.UniformHeightProvider
+import net.minecraft.world.gen.heightprovider.TrapezoidHeightProvider
 import net.minecraft.world.gen.placementmodifier.*
 import net.minecraft.world.gen.stateprovider.BlockStateProvider
+import net.minecraft.world.gen.stateprovider.PredicatedStateProvider
+import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider
+import net.minecraft.world.gen.structure.Structure
+import net.minecraft.world.gen.structure.StructureType
+import net.minecraft.world.gen.surfacebuilder.MaterialRules
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer
+import java.util.List
 
 object LCCWorldgen {
     fun init() {
         LCCFeatures.init()
-        //LCCDecorators.init()
         LCCConfiguredFeatures.init()
         LCCPlacedFeatures.init()
         LCCCarvers.init()
         LCCConfiguredCarvers.init()
-        /*LCCSurfaceBuilders.init()
-        LCCConfiguredSurfaceBuilders.init()
+        LCCPlacementModifierTypes.init()
         LCCStructurePieceTypes.init()
-        LCCStructureFeatures.init()
-        LCCConfiguredStructureFeatures.init()*/
+        LCCStructureTypes.init()
 
         biomeModifications()
     }
 
     fun biomeModifications() {
         //Ores
-        with (BiomeSelectors.tag(LCCBiomeTags.wasteland)) {
+        with (BiomeSelectors.foundInOverworld().and { !it.hasTag(LCCBiomeTags.wasteland) }) {
             BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.uranium.key.get())
             BiomeModifications.addFeature(this, GenerationStep.Feature.UNDERGROUND_DECORATION, LCCPlacedFeatures.topaz_geode.key.get())
         }
@@ -67,9 +76,6 @@ object LCCWorldgen {
 
         //Salt
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.hasTag(BiomeTags.IS_DEEP_OCEAN) }, GenerationStep.Feature.UNDERGROUND_ORES, LCCPlacedFeatures.salt.key.get())
-
-        //Mud
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld().and { it.biomeKey.value.namespace == "minecraft" && (it.hasTag(BiomeTags.IS_JUNGLE) || it.biomeKey.value.path.contains("dark_forest") || it.biomeKey.value.path.contains("swamp")) }, GenerationStep.Feature.TOP_LAYER_MODIFICATION, LCCPlacedFeatures.mud.key.get())
     }
 }
 
@@ -91,6 +97,8 @@ object LCCFeatures : BasicDirectory<Feature<out FeatureConfig>, Unit>(), Registr
     val deadwood_logs by entry(::initialiser) { DeadwoodLogsFeature(DefaultFeatureConfig.CODEC) }
     val spike_trap by entry(::initialiser) { SpikeTrapFeature(DefaultFeatureConfig.CODEC) }
     val wasp_hive by entry(::initialiser) { WaspHiveFeature(DefaultFeatureConfig.CODEC) }
+
+    val flower_patch by entry(::initialiser) { FlowerPatchFeature(FlowerPatchFeatureConfig.codec) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -114,12 +122,10 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val classic_tree by entry(::initialiser) { ConfiguredFeature(Feature.TREE, (TreeFeatureConfig.Builder(BlockStateProvider.of(Blocks.OAK_LOG.defaultState), StraightTrunkPlacer(4, 2, 0), BlockStateProvider.of(LCCBlocks.classic_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(0), 3), TwoLayersFeatureSize(1, 0, 1))).ignoreVines().build()) }
     val rubber_tree by entry(::initialiser) { ConfiguredFeature(LCCFeatures.rubber_tree, TreeFeatureConfig.Builder(BlockStateProvider.of(LCCBlocks.natural_rubber_log.defaultState), StraightTrunkPlacer(4, 3, 1), BlockStateProvider.of(LCCBlocks.rubber_leaves.defaultState), BlobFoliagePlacer(ConstantIntProvider.create(0), ConstantIntProvider.create(0), 0), TwoLayersFeatureSize(1, 0, 1)).ignoreVines().build()) }
 
-    val salt by entry(::initialiser) { ConfiguredFeature(Feature.DISK, DiskFeatureConfig(LCCBlocks.rock_salt.defaultState, UniformIntProvider.create(2, 6), 3, ImmutableList.of(Blocks.STONE.defaultState, Blocks.DIRT.defaultState, LCCBlocks.rock_salt.defaultState))) }
+    val salt by entry(::initialiser) { ConfiguredFeature(Feature.DISK, DiskFeatureConfig(PredicatedStateProvider.of(BlockStateProvider.of(LCCBlocks.rock_salt.defaultState)), BlockPredicate.matchingBlocks(List.of(Blocks.DIRT, Blocks.STONE)), UniformIntProvider.create(2, 4), 3)) }
 
-    //TODO custom deposit feature
-    /* val deposits by entry(::initialiser) { ConfiguredFeature(Feature.FLOWER, RandomPatchFeatureConfig(96, 6, 2) {
-        ConfiguredFeature(Feature.SIMPLE_BLOCK, SimpleBlockFeatureConfig(NoiseBlockStateProvider(2345L, DoublePerlinNoiseSampler.NoiseParameters(0, 1.0, *DoubleArray(0)), 0.020833334f, listOf(LCCBlocks.deposit.defaultState)))).withInAirFilter()
-    }) }*/
+    val deposits by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, WeightedBlockStateProvider(DataPool.builder<BlockState>().add(LCCBlocks.deposit.defaultState, 10).add(LCCBlocks.luring_deposit.defaultState, 1).add(LCCBlocks.infested_deposit.defaultState, 1)), BlockStateProvider.of(LCCBlocks.cracked_mud))) }
+
     val landmines by entry(::initialiser) { ConfiguredFeature(LCCFeatures.landmines, FeatureConfig.DEFAULT) }
     val fortstone_patches by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.fortstone.defaultState, 45)) }
     val wasteland_spikes by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasteland_spikes, FeatureConfig.DEFAULT) }
@@ -127,7 +133,10 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
     val spike_trap by entry(::initialiser) { ConfiguredFeature(LCCFeatures.spike_trap, FeatureConfig.DEFAULT) }
     val wasp_hive by entry(::initialiser) { ConfiguredFeature(LCCFeatures.wasp_hive, FeatureConfig.DEFAULT) }
 
-    val mud by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(MultipleMatchRuleTest(listOf(Blocks.GRASS_BLOCK, Blocks.PODZOL), emptyList(), listOf(BlockTags.DIRT)), LCCBlocks.mud.defaultState, 40)) }
+    val clover_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, BlockStateProvider.of(LCCBlocks.three_leaf_clover), BlockStateProvider.of(Blocks.GRASS_BLOCK))) }
+    val forget_me_not_patch by entry(::initialiser) { ConfiguredFeature(LCCFeatures.flower_patch, FlowerPatchFeatureConfig(3, BlockStateProvider.of(LCCBlocks.forget_me_not), BlockStateProvider.of(Blocks.GRASS_BLOCK))) }
+
+    val spawning_pits by entry(::initialiser) { ConfiguredFeature(Feature.ORE, OreFeatureConfig(BlockMatchRuleTest(LCCBlocks.cracked_mud), LCCBlocks.spawning_pit.defaultState, 45)) }
 
     private fun <C : FeatureConfig, F : Feature<C>> initialiser(input: ConfiguredFeature<C, F>, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<ConfiguredFeature<*, *>> {
         return BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_FEATURE, context.id, input) as RegistryEntry<ConfiguredFeature<*, *>>
@@ -151,36 +160,41 @@ object LCCConfiguredFeatures : AdvancedDirectory<ConfiguredFeature<out FeatureCo
 
 object LCCPlacedFeatures : AdvancedDirectory<PlacedFeature, RegistryEntry<PlacedFeature>, Unit, Unit>() {
 
+    private val wasteland_spikes_threshold = TrapezoidHeightProvider.create(YOffset.fixed(80), YOffset.fixed(92))
+
     //TODO review heightmap placements
     val abundant_coal by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.abundant_coal, listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(0), YOffset.fixed(128)), BiomePlacementModifier.of())) }
     val abundant_iron by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.abundant_iron, listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-64), YOffset.fixed(64)), BiomePlacementModifier.of())) }
     val abundant_copper by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.abundant_copper, listOf(CountPlacementModifier.of(15), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(18), YOffset.fixed(78)), BiomePlacementModifier.of())) }
 
-    val oil_geyser by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_geyser, listOf(RarityFilterPlacementModifier.of(50), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val oil_pockets by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_pockets, listOf(RarityFilterPlacementModifier.of(12), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val oil_geyser by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_geyser, listOf(RarityFilterPlacementModifier.of(20), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val oil_pockets by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_pockets, listOf(RarityFilterPlacementModifier.of(10), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
 
-    val uranium by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-116), YOffset.fixed(52)), BiomePlacementModifier.of())) } //TODO near air
-    val uranium_wasteland by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(5), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-160), YOffset.fixed(96)), BiomePlacementModifier.of())) } //TODO near air
+    val uranium by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-116), YOffset.fixed(52)), BiomePlacementModifier.of(), NearAirPlacement.instance)) }
+    val uranium_wasteland by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(5), SquarePlacementModifier.of(), HeightRangePlacementModifier.trapezoid(YOffset.fixed(-160), YOffset.fixed(96)), BiomePlacementModifier.of(), NearAirPlacement.instance)) }
 
-    val tungsten by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.uranium, listOf(CountPlacementModifier.of(2), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(-10), YOffset.fixed(10)), BiomePlacementModifier.of())) }
+    val tungsten by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.tungsten, listOf(CountPlacementModifier.of(2), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(-10), YOffset.fixed(10)), BiomePlacementModifier.of())) }
 
-    val topaz_geode by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.oil_pockets, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) } //TODO near lava lake
+    val topaz_geode by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.topaz_geode, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of(), NearLavaPlacement.instance)) }
 
-    val rubber_trees_rare by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(500), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val rubber_trees_uncommon by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(25), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val rubber_trees_common by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val rubber_trees_rare by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(500), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val rubber_trees_uncommon by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(25), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val rubber_trees_common by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.rubber_tree, listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
 
     val salt by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.salt, listOf(RarityFilterPlacementModifier.of(13), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
 
-    //val deposits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deposits, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val landmines by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(7), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val fortstone_patches by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.fortstone_patches, listOf(CountPlacementModifier.of(70), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(75), YOffset.getTop()), BiomePlacementModifier.of())) }
-    val wasteland_spikes by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(CountPlacementModifier.of(8), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val deadwood_logs by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(14), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val spike_trap by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
-    val wasp_hive by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(90), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val deposits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deposits, listOf(CountPlacementModifier.of(1), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val landmines by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(4), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val fortstone_patches by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.fortstone_patches, listOf(CountPlacementModifier.of(70), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(88), YOffset.getTop()), BiomePlacementModifier.of())) }
+    val wasteland_spikes by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.wasteland_spikes, listOf(CountPlacementModifier.of(11), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold))) }
+    val deadwood_logs by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.deadwood_logs, listOf(RarityFilterPlacementModifier.of(5), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val spike_trap by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.spike_trap, listOf(RarityFilterPlacementModifier.of(2), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val wasp_hive by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.wasp_hive, listOf(RarityFilterPlacementModifier.of(50), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of())) }
 
-    val mud by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.landmines, listOf(RarityFilterPlacementModifier.of(90), SquarePlacementModifier.of(), PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP, BiomePlacementModifier.of())) }
+    val clover_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.clover_patch, listOf(RarityFilterPlacementModifier.of(12), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+    val forget_me_not_patch by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.forget_me_not_patch, listOf(RarityFilterPlacementModifier.of(18), SquarePlacementModifier.of(), PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of(), HeightThreshold(wasteland_spikes_threshold, true))) }
+
+    val spawning_pits by entry(::initialiser) { PlacedFeature(LCCConfiguredFeatures.spawning_pits, listOf(RarityFilterPlacementModifier.of(3), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.fixed(0), YOffset.getTop()), BiomePlacementModifier.of(), NearAirAbovePlacement.instance)) }
 
     private fun initialiser(input: PlacedFeature, context: DirectoryContext<Unit>, parameters: Unit): RegistryEntry<PlacedFeature> {
         return BuiltinRegistries.add(BuiltinRegistries.PLACED_FEATURE, context.id, input)
@@ -199,8 +213,8 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CaveCarverConfig.CAVE_CODEC) }
-    val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
+    //val wasteland_cave by entry(::initialiser) { WastelandCaveCarver(CaveCarverConfig.CAVE_CODEC) }
+    //val wasteland_ravine by entry(::initialiser) { WastelandRavineCarver(RavineCarverConfig.RAVINE_CODEC) }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -208,12 +222,13 @@ object LCCCarvers : BasicDirectory<Carver<out CarverConfig>, Unit>(), RegistryDi
 
 object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfig>, RegistryEntry<out ConfiguredCarver<out CarverConfig>>, Unit, Unit>() {
 
-    val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CaveCarverConfig(
+    /*val wasteland_cave by entry(::initialiser) { LCCCarvers.wasteland_cave.configure(CaveCarverConfig(
         0.15F,
         UniformHeightProvider.create(YOffset.aboveBottom(8), YOffset.fixed(180)),
         UniformFloatProvider.create(0.1F, 0.9F),
         YOffset.aboveBottom(8),
         CarverDebugConfig.create(false, Blocks.CRIMSON_BUTTON.defaultState),
+        Registry.BLOCK.getOrCreateEntryList(BlockTags.OVERWORLD_CARVER_REPLACEABLES),
         UniformFloatProvider.create(0.7F, 1.4F),
         UniformFloatProvider.create(0.8F, 1.3F),
         UniformFloatProvider.create(-1.0F, -0.4F)
@@ -224,6 +239,7 @@ object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfi
         ConstantFloatProvider.create(3.0F),
         YOffset.aboveBottom(8),
         CarverDebugConfig.create(false, Blocks.WARPED_BUTTON.defaultState),
+        Registry.BLOCK.getOrCreateEntryList(BlockTags.OVERWORLD_CARVER_REPLACEABLES),
         UniformFloatProvider.create(-0.125F, 0.125F),
         RavineCarverConfig.Shape(
             UniformFloatProvider.create(0.75F, 1.0F),
@@ -233,7 +249,7 @@ object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfi
             1.0F,
             0.0F
         )
-    )) }
+    )) }*/
 
     override fun id(name: String) = LCC.id(name)
 
@@ -246,87 +262,41 @@ object LCCConfiguredCarvers : AdvancedDirectory<ConfiguredCarver<out CarverConfi
 
 }
 
-/*object LCCSurfaceBuilders : BasicDirectory<SurfaceBuilder<out SurfaceConfig>, Unit>(), RegistryDirectory<SurfaceBuilder<out SurfaceConfig>, Unit, Unit> {
+object LCCMaterialRules : BasicDirectory<Codec<out MaterialRules.MaterialRule>, Unit>(), RegistryDirectory<Codec<out MaterialRules.MaterialRule>, Unit, Unit> {
 
-    override val registry by lazy { Registry.SURFACE_BUILDER }
+    override val registry by lazy { Registry.MATERIAL_RULE }
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_barrens by entry(::initialiser) { WastelandSurfaceBuilder(TernarySurfaceConfig.CODEC) }
-    val wasteland_spikes by entry(::initialiser) { WastelandSpikesSurfaceBuilder(TernarySurfaceConfig.CODEC) }
+    val wasteland by entry(::initialiser) { WastelandMaterialRule.codec.codec }
 
     override fun defaultProperties(name: String) = Unit
 
 }
 
-object LCCConfiguredSurfaceBuilders : BasicDirectory<ConfiguredSurfaceBuilder<out SurfaceConfig>, Unit>(), RegistryDirectory<ConfiguredSurfaceBuilder<out SurfaceConfig>, Unit, Unit> {
+object LCCPlacementModifierTypes : BasicDirectory<PlacementModifierType<out PlacementModifier>, Unit>(), RegistryDirectory<PlacementModifierType<out PlacementModifier>, Unit, Unit> {
 
-    override val registry by lazy { BuiltinRegistries.CONFIGURED_SURFACE_BUILDER }
-
-    override fun regId(name: String) = LCC.id(name)
-
-    val wasteland_barrens by entry(::initialiser) { LCCSurfaceBuilders.wasteland_barrens.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.mud.defaultState)) }
-    val wasteland_spikes by entry(::initialiser) { LCCSurfaceBuilders.wasteland_spikes.withConfig(TernarySurfaceConfig(LCCBlocks.cracked_mud.defaultState, LCCBlocks.cracked_mud.defaultState, LCCBlocks.mud.defaultState)) }
-
-    override fun defaultProperties(name: String) = Unit
-
-}*/
-
-/*object LCCDecorators : BasicDirectory<Decorator<out DecoratorConfig>, Unit>(), RegistryDirectory<Decorator<out DecoratorConfig>, Unit, Unit> {
-
-    override val registry by lazy { Registry.DECORATOR }
+    override val registry by lazy { Registry.PLACEMENT_MODIFIER_TYPE }
 
     override fun regId(name: String) = LCC.id(name)
 
-    val near_lava_lake by entry(::initialiser) { NearLavaLakeDecorator(NopeDecoratorConfig.CODEC) }
-    val near_air by entry(::initialiser) { NearAirDecorator(NopeDecoratorConfig.CODEC) }
+    val near_lava_lake by entry(::initialiser) { PlacementModifierType { NearLavaPlacement.codec } }
+    val height_threshold by entry(::initialiser) { PlacementModifierType { HeightThreshold.codec } }
+    val near_air by entry(::initialiser) { PlacementModifierType { NearAirPlacement.codec } }
+    val near_air_above by entry(::initialiser) { PlacementModifierType { NearAirAbovePlacement.codec } }
 
     override fun defaultProperties(name: String) = Unit
-
-}*/
-
-/*object LCCStructureFeatures : AdvancedDirectory<FabricStructureBuilder<out FeatureConfig, out StructureFeature<out FeatureConfig>>, StructureFeature<out FeatureConfig>, GenerationStep.Feature, Unit>() {
-
-    override fun id(name: String) = LCC.id(name)
-
-    val wasteland_tent by entry(::initialiser) {
-        FabricStructureBuilder.create(id, WastelandTentStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.SURFACE_STRUCTURES)
-            .defaultConfig(12, 8, 5648943)
-            .adjustsSurface()
-    }
-    val sapphire_altar by entry(::initialiser) {
-        FabricStructureBuilder.create(id, SapphireAltarStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.TOP_LAYER_MODIFICATION)
-            .defaultConfig(8, 6, 24758369)
-            .adjustsSurface()
-    }
-    val wasteland_obelisk by entry(::initialiser) {
-        FabricStructureBuilder.create(id, WastelandObeliskStructureFeature(DefaultFeatureConfig.CODEC))
-            .step(GenerationStep.Feature.SURFACE_STRUCTURES)
-            .defaultConfig(21, 20, 420839089)
-            .adjustsSurface()
-    }
-
-    fun <C : FeatureConfig, S : StructureFeature<C>> initialiser(input: FabricStructureBuilder<C, S>, context: DirectoryContext<GenerationStep.Feature>, parameters: Unit): S {
-        return input.register()
-    }
-
-    override fun defaultProperties(name: String) = GenerationStep.Feature.RAW_GENERATION
-
-    override fun defaultContext() = Unit
 
 }
 
-object LCCConfiguredStructureFeatures : BasicDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit>(), RegistryDirectory<ConfiguredStructureFeature<out FeatureConfig, out StructureFeature<out FeatureConfig>>, Unit, Unit> {
+object LCCStructureTypes : BasicDirectory<StructureType<out Structure>, Unit>(), RegistryDirectory<StructureType<out Structure>, Unit, Unit> {
 
-    override val registry by lazy { BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE }
+    override val registry by lazy { Registry.STRUCTURE_TYPE }
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_tent by entry(::initialiser) { LCCStructureFeatures.wasteland_tent.configure(FeatureConfig.DEFAULT) }
-    val sapphire_altar by entry(::initialiser) { LCCStructureFeatures.sapphire_altar.configure(FeatureConfig.DEFAULT) }
-    val wasteland_obelisk by entry(::initialiser) { LCCStructureFeatures.wasteland_obelisk.configure(FeatureConfig.DEFAULT) }
+    val wasteland_tent by entry(::initialiser) { StructureType { WastelandTentStructure.codec } }
+    val sapphire_altar by entry(::initialiser) { StructureType { SapphireAltarStructure.codec } }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -338,10 +308,10 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
 
     override fun regId(name: String) = LCC.id(name)
 
-    val wasteland_tent by entry(::initialiser) { StructurePieceType(WastelandTentStructureFeature::Piece) }
-    val sapphire_altar by entry(::initialiser) { StructurePieceType(SapphireAltarStructureFeature::Piece) }
-    val wasteland_obelisk by entry(::initialiser) { StructurePieceType(WastelandObeliskStructureFeature::Piece) }
+    val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
+    val sapphire_altar by entry(::initialiser) { StructurePieceType.ManagerAware(SapphireAltarStructure::Piece) }
+    val sapphire_altar_arena by entry(::initialiser) { StructurePieceType.ManagerAware(ArenaAltarChallenge::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 
-}*/
+}

@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.data.generators.commit
 
 import com.joshmanisdabomb.lcc.data.DataLauncher
-import net.minecraft.data.DataCache
 import net.minecraft.data.DataProvider
+import net.minecraft.data.DataWriter
 import java.io.File
 import java.nio.file.Path
 
@@ -11,8 +11,7 @@ class CommitData(val source: Path, val to: Path, val default: Char? = null, val 
     private val gen by lazy { source.toFile() }
     private val store by lazy { to.toFile() }
 
-    override fun run(cache: DataCache) {
-        cache.write()
+    override fun run(writer: DataWriter) {
         if (default == null) DataLauncher.readChar("Commit new data to project at $to? (y = Copy without deleting, n = No, c = Copy with deleting)", ::clean)
         else clean(default)
     }
@@ -47,7 +46,7 @@ class CommitData(val source: Path, val to: Path, val default: Char? = null, val 
                     return !path.startsWith("assets\\$it\\textures") && !path.startsWith("assets\\$it\\particles") && !path.startsWith("assets\\$it\\sounds") && !path.startsWith("assets\\$it\\font") && !path.contains("\\template_") && !path.endsWith("\\sounds.json") && !path.endsWith("\\icon.png") && !path.endsWith("\\pack.png")
                 }
                 if (path.startsWith("data\\$it\\")) {
-                    return !path.startsWith("data\\$it\\structures")
+                    return !path.startsWith("data\\$it\\structures") && !path.startsWith("data\\$it\\worldgen")
                 }
             }
             return false

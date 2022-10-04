@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.extensions.sqrt
@@ -66,7 +66,7 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView): Float {
-        if (world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
+        if (!world.getBiome(pos).isIn(LCCBiomeTags.wasteland)) return -100.0f
         return 0.0f
     }
 
@@ -75,8 +75,9 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
         val y = target.y + target.standingEyeHeight.times(0.5) - (pos.y + standingEyeHeight)
         val z = target.z - pos.z
         val projectile = DiscipleDustEntity(world, this)
-        projectile.setVelocity(x, y, z, 0.05f, 0.8f)
-        playSound(LCCSounds.consumer_tongue_shoot, 2.5f, random.nextFloat().times(0.2f).plus(0.9f))
+        projectile.setVelocity(x, y, z, 0.01f, 0.8f)
+        ambientSoundChance = -100
+        playSound(LCCSounds.disciple_fire, 1.7f, random.nextFloat().times(0.2f).plus(0.9f))
         world.spawnEntity(projectile)
     }
 
@@ -102,12 +103,17 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
     }
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
-        val ret = super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
+        val ret = super.damage(source, amount)
         if (ret && onGround) jump()
         return ret
     }
 
     override fun getJumpVelocity() = super.getJumpVelocity().times(2f)
+
+    override fun jump() {
+        playSound(LCCSounds.disciple_jump, 0.8f, random.nextFloat().times(0.2f).plus(0.9f))
+        super.jump()
+    }
 
     override fun tick() {
         super.tick()
@@ -136,17 +142,17 @@ class DiscipleEntity(entityType: EntityType<out DiscipleEntity>, world: World) :
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = false
 
-    override fun getAmbientSound() = LCCSounds.consumer_ambient
+    override fun getAmbientSound() = LCCSounds.disciple_ambient
 
-    override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
+    override fun getHurtSound(source: DamageSource) = LCCSounds.disciple_hurt
 
-    override fun getDeathSound() = LCCSounds.consumer_death
+    override fun getDeathSound() = LCCSounds.disciple_death
 
     companion object {
         val healing_id = DataTracker.registerData(DiscipleEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.28).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.28).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 0.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
     }
 

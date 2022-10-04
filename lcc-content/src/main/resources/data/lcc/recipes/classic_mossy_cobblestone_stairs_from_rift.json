@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "item": "minecraft:mossy_cobblestone_stairs"
   },
-  "result": "lcc:classic_mossy_cobblestone_stairs",
-  "count": 1
+  "result": "lcc:classic_mossy_cobblestone_stairs"
 }

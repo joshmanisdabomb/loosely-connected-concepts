@@ -2,17 +2,45 @@
   "credit": "Made with Blockbench",
   "elements": [
     {
-      "name": "octagon",
+      "faces": {
+        "east": {
+          "cullface": "east",
+          "rotation": 180,
+          "texture": "#5",
+          "uv": [
+            6,
+            3,
+            14,
+            6
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#2",
+          "uv": [
+            0,
+            1,
+            16,
+            7
+          ]
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#5",
+          "uv": [
+            6,
+            3,
+            14,
+            6
+          ]
+        }
+      },
       "from": [
         0,
         4.68629,
         -0.02
       ],
-      "to": [
-        16,
-        11.31371,
-        16.02
-      ],
+      "name": "octagon",
       "rotation": {
         "angle": 0,
         "axis": "y",
@@ -22,52 +50,52 @@
           -16
         ]
       },
-      "faces": {
-        "east": {
-          "uv": [
-            6,
-            3,
-            14,
-            6
-          ],
-          "rotation": 180,
-          "texture": "#5",
-          "cullface": "east"
-        },
-        "south": {
-          "uv": [
-            0,
-            1,
-            16,
-            7
-          ],
-          "texture": "#2",
-          "cullface": "south"
-        },
-        "west": {
-          "uv": [
-            6,
-            3,
-            14,
-            6
-          ],
-          "texture": "#5",
-          "cullface": "west"
-        }
-      }
+      "to": [
+        16,
+        11.31371,
+        16.02
+      ]
     },
     {
-      "name": "octagon",
+      "faces": {
+        "down": {
+          "rotation": 270,
+          "texture": "#5",
+          "uv": [
+            6,
+            4.5,
+            14,
+            7.5
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "rotation": 270,
+          "texture": "#2",
+          "uv": [
+            16,
+            6,
+            0,
+            0
+          ]
+        },
+        "up": {
+          "rotation": 90,
+          "texture": "#5",
+          "uv": [
+            6,
+            4.5,
+            14,
+            7.5
+          ]
+        }
+      },
       "from": [
         4.68629,
         0,
         0
       ],
-      "to": [
-        11.31371,
-        16,
-        16
-      ],
+      "name": "octagon",
       "rotation": {
         "angle": 45,
         "axis": "z",
@@ -77,52 +105,51 @@
           -16
         ]
       },
-      "faces": {
-        "south": {
-          "uv": [
-            16,
-            6,
-            0,
-            0
-          ],
-          "rotation": 270,
-          "texture": "#2",
-          "cullface": "south"
-        },
-        "up": {
-          "uv": [
-            6,
-            4.5,
-            14,
-            7.5
-          ],
-          "rotation": 90,
-          "texture": "#5"
-        },
-        "down": {
-          "uv": [
-            6,
-            4.5,
-            14,
-            7.5
-          ],
-          "rotation": 270,
-          "texture": "#5"
-        }
-      }
+      "to": [
+        11.31371,
+        16,
+        16
+      ]
     },
     {
-      "name": "octagon",
+      "faces": {
+        "down": {
+          "rotation": 270,
+          "texture": "#5",
+          "uv": [
+            6,
+            1.5,
+            14,
+            4.5
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#2",
+          "uv": [
+            6,
+            0,
+            0,
+            16
+          ]
+        },
+        "up": {
+          "rotation": 90,
+          "texture": "#5",
+          "uv": [
+            6,
+            1.5,
+            14,
+            4.5
+          ]
+        }
+      },
       "from": [
         4.68629,
         0,
         0
       ],
-      "to": [
-        11.31371,
-        16,
-        16
-      ],
+      "name": "octagon",
       "rotation": {
         "angle": -45,
         "axis": "z",
@@ -132,51 +159,53 @@
           -16
         ]
       },
-      "faces": {
-        "south": {
-          "uv": [
-            6,
-            0,
-            0,
-            16
-          ],
-          "texture": "#2",
-          "cullface": "south"
-        },
-        "up": {
-          "uv": [
-            6,
-            1.5,
-            14,
-            4.5
-          ],
-          "rotation": 90,
-          "texture": "#5"
-        },
-        "down": {
-          "uv": [
-            6,
-            1.5,
-            14,
-            4.5
-          ],
-          "rotation": 270,
-          "texture": "#5"
-        }
-      }
+      "to": [
+        11.31371,
+        16,
+        16
+      ]
     },
     {
-      "name": "octagon",
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "rotation": 90,
+          "texture": "#5",
+          "uv": [
+            6,
+            0,
+            14,
+            3
+          ]
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#2",
+          "uv": [
+            5,
+            0,
+            11,
+            16
+          ]
+        },
+        "up": {
+          "cullface": "up",
+          "rotation": 90,
+          "texture": "#5",
+          "uv": [
+            6,
+            0,
+            14,
+            3
+          ]
+        }
+      },
       "from": [
         4.68629,
         0,
         -0.01
       ],
-      "to": [
-        11.31371,
-        16,
-        16.01
-      ],
+      "name": "octagon",
       "rotation": {
         "angle": 0,
         "axis": "y",
@@ -186,55 +215,26 @@
           -16
         ]
       },
-      "faces": {
-        "south": {
-          "uv": [
-            5,
-            0,
-            11,
-            16
-          ],
-          "texture": "#2",
-          "cullface": "south"
-        },
-        "up": {
-          "uv": [
-            6,
-            0,
-            14,
-            3
-          ],
-          "rotation": 90,
-          "texture": "#5",
-          "cullface": "up"
-        },
-        "down": {
-          "uv": [
-            6,
-            0,
-            14,
-            3
-          ],
-          "rotation": 90,
-          "texture": "#5",
-          "cullface": "down"
-        }
-      }
+      "to": [
+        11.31371,
+        16,
+        16.01
+      ]
     }
   ],
   "groups": [
     {
-      "name": "octagon",
-      "origin": [
-        8,
-        8,
-        8
-      ],
       "children": [
         0,
         1,
         2,
         3
+      ],
+      "name": "octagon",
+      "origin": [
+        8,
+        8,
+        8
       ]
     }
   ]

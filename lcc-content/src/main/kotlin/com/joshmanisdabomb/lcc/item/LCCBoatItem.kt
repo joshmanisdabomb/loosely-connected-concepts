@@ -17,7 +17,7 @@ import net.minecraft.world.RaycastContext
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
-class LCCBoatItem(settings: Settings, entity: () -> EntityType<LCCBoatEntity>) : BoatItem(BoatEntity.Type.OAK, settings) {
+class LCCBoatItem(settings: Settings, entity: () -> EntityType<LCCBoatEntity>) : BoatItem(false, BoatEntity.Type.OAK, settings) {
 
     val entity by lazy(entity)
 
@@ -55,7 +55,7 @@ class LCCBoatItem(settings: Settings, entity: () -> EntityType<LCCBoatEntity>) :
     }
 
     companion object {
-        val collisionCheck = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::collides)
+        val collisionCheck = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::canHit)
     }
 
 }

@@ -22,7 +22,6 @@ import net.minecraft.inventory.Inventory
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.state.property.Properties
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.MathHelper
 import kotlin.math.ceil
 import kotlin.math.min
@@ -160,7 +159,7 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
                 textRenderer.draw(matrices, handler.coolantAmount().decimalFormat(force = true), 123f, 43f, 4210752)
                 textRenderer.draw(matrices, handler.fuelAmount().decimalFormat(force = true), 123f, 68f, 4210752)
             } else if (it.block is ExplodingNuclearFiredGeneratorBlock) {
-                textRenderer.draw(matrices, TranslatableText("container.lcc.nuclear_generator.meltdown", ceil(BlockEntity.maxMeltdownTicks.minus(handler.meltdownTicks()).div(20f)).toInt().coerceAtLeast(0)), 107f, 18f, blink.transformInt(0xf01800, 0xc98600))
+                textRenderer.draw(matrices, Text.translatable("container.lcc.nuclear_generator.meltdown", ceil(BlockEntity.maxMeltdownTicks.minus(handler.meltdownTicks()).div(20f)).toInt().coerceAtLeast(0)), 107f, 18f, blink.transformInt(0xf01800, 0xc98600))
             }
         }
     }
@@ -176,19 +175,19 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
             if (it.block is NuclearFiredGeneratorBlock && it[Properties.LIT]) {
                 val e = BlockEntity.approxEquilibrium(BlockEntity.maxFuel, handler.coolantAmount())
                 if (mouseX in x + 85..x + 185 && mouseY in y + 15..y + 35) {
-                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.output", LooseEnergy.displayWithUnits(handler.outputAmount().times(handler.waterAmount().div(3f))), LooseEnergy.displayWithUnits(handler.outputAmount()), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), if (e > 0f && e <= 10000f) LooseEnergy.displayWithUnits(e) else "∞ LE", handler.waterAmount().div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE).toMutableList().apply { addAll(textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.chance", BlockEntity.getMeltdownChance(handler.outputAmount(), handler.safeOutputAmount()).coerceIn(0f, 1f).times(100f).decimalFormat(3, force = true)), Int.MAX_VALUE)) }, mouseX, mouseY)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.nuclear_generator.output", LooseEnergy.displayWithUnits(handler.outputAmount().times(handler.waterAmount().div(3f))), LooseEnergy.displayWithUnits(handler.outputAmount()), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), if (e > 0f && e <= 10000f) LooseEnergy.displayWithUnits(e) else "∞ LE", handler.waterAmount().div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE).toMutableList().apply { addAll(textRenderer.wrapLines(Text.translatable("container.lcc.nuclear_generator.chance", BlockEntity.getMeltdownChance(handler.outputAmount(), handler.safeOutputAmount()).coerceIn(0f, 1f).times(100f).decimalFormat(3, force = true)), Int.MAX_VALUE)) }, mouseX, mouseY)
                 }
                 if (mouseX in x + 105..x + 119 && mouseY in y + 39..y + 53) {
                     val rate = handler.outputAmount().times(0.0003f).plus(0.01f)
-                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.coolant", handler.coolantAmount().decimalFormat(force = true), rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.nuclear_generator.coolant", handler.coolantAmount().decimalFormat(force = true), rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
                 }
                 if (mouseX in x + 105..x + 119 && mouseY in y + 64..y + 80) {
                     val rate = MathHelper.sqrt(BlockEntity.maxFuel - handler.fuelAmount()).times(0.0022f).plus(0.005f)
                     val value = run { BlockEntity.getFuelValue(client?.world ?: return@run 1f, handler.pos ?: return@run 1f) }
-                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.fuel", handler.fuelAmount().decimalFormat(force = true), value, rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.nuclear_generator.fuel", handler.fuelAmount().decimalFormat(force = true), value, rate.decimalFormat(4, force = true)), Int.MAX_VALUE), mouseX, mouseY)
                 }
                 if (mouseX in x + 167..x + 189 && mouseY in y + 63..y + 77) {
-                    renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("container.lcc.nuclear_generator.waste", handler.wasteAmount().div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), BlockEntity.getWasteIncrease(handler.fuelAmount(), handler.outputAmount()).div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), LooseEnergy.displayWithUnits(if (handler.wasteAmount() > BlockEntity.maxWaste) -0.08f else if (handler.safeOutputAmount() >= 200f) 0.0f else 0.05f)), Int.MAX_VALUE), mouseX, mouseY)
+                    renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("container.lcc.nuclear_generator.waste", handler.wasteAmount().div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), BlockEntity.getWasteIncrease(handler.fuelAmount(), handler.outputAmount()).div(BlockEntity.maxWaste).coerceAtMost(1f).times(100).decimalFormat(force = true), LooseEnergy.displayWithUnits(handler.safeOutputAmount()), LooseEnergy.displayWithUnits(if (handler.wasteAmount() > BlockEntity.maxWaste) -0.08f else if (handler.safeOutputAmount() >= 200f) 0.0f else 0.05f)), Int.MAX_VALUE), mouseX, mouseY)
                 }
             }
         }
@@ -229,7 +228,7 @@ class NuclearFiredGeneratorScreen(handler: NuclearFiredGeneratorScreenHandler, i
         const val barOutputSpaceCeilingDangerU = 52
     }
 
-    private inner class ToggleButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, TranslatableText("gui.lcc.nuclear_generator.activate"), { matrices, x, y -> this@NuclearFiredGeneratorScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(TranslatableText("gui.lcc.nuclear_generator.activate"), Int.MAX_VALUE), x, y) }, pressed) {
+    private inner class ToggleButton(x: Int, y: Int, pressed: () -> Int?) : FunctionalButtonWidget(x, y, 22, 22, 22, 22, Text.translatable("gui.lcc.nuclear_generator.activate"), { matrices, x, y -> this@NuclearFiredGeneratorScreen.renderOrderedTooltip(matrices, textRenderer.wrapLines(Text.translatable("gui.lcc.nuclear_generator.activate"), Int.MAX_VALUE), x, y) }, pressed) {
 
         init {
             active = false

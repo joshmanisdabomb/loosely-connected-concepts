@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 1.0,
   "ingredient": {
     "item": "lcc:deepslate_uranium_ore"
   },
-  "result": "lcc:uranium",
-  "experience": 1.0,
-  "cookingtime": 100
+  "result": "lcc:uranium"
 }

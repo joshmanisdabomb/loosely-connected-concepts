@@ -1,13 +1,19 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.block.entity.PapercombBlockEntity
+import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCPointsOfInterest
+import com.joshmanisdabomb.lcc.directory.LCCSounds
 import com.joshmanisdabomb.lcc.extensions.NBT_COMPOUND
+import com.joshmanisdabomb.lcc.extensions.replaceVelocity
 import com.joshmanisdabomb.lcc.extensions.transform
+import com.joshmanisdabomb.lcc.sound.WaspSoundInstance
 import com.joshmanisdabomb.lcc.trait.LCCContentEntityTrait
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.block.BlockState
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.*
 import net.minecraft.entity.ai.AboveGroundTargeting
 import net.minecraft.entity.ai.NoPenaltySolidTargeting
@@ -38,9 +44,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket
 import net.minecraft.recipe.Ingredient
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.TagKey
 import net.minecraft.util.TimeHelper
 import net.minecraft.util.math.BlockPos
@@ -49,6 +55,7 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.Difficulty
 import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 import net.minecraft.world.poi.PointOfInterestStorage
 import java.util.*
@@ -68,6 +75,9 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     private lateinit var moveToHive: WaspMoveToHiveGoal
 
+    @Environment(EnvType.CLIENT)
+    var sound: WaspSoundInstance? = null
+
     constructor(world: World) : this(LCCEntities.wasp, world)
 
     init {
@@ -80,6 +90,10 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         super.initDataTracker()
         dataTracker.startTracking(anger, 0)
         dataTracker.startTracking(targetClose, false)
+    }
+
+    override fun canSpawn(world: WorldAccess, spawnReason: SpawnReason): Boolean {
+        return true
     }
 
     override fun getPathfindingFavor(pos: BlockPos, world: WorldView) = world.getBlockState(pos).isAir.transform(10f, 0f)
@@ -159,8 +173,10 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
                     else -> 40
                 }, 1))
             }
-            takeKnockback(1.0, target.x - x, target.z - z)
-            playSound(SoundEvents.ENTITY_BEE_STING, 1.0f, 1.0f)
+            val knockback = pos.subtract(target.pos).normalize()
+            velocityDirty = true
+            replaceVelocity(x = knockback.x, z = knockback.z)
+            playSound(LCCSounds.wasp_sting, 1.0f, 1.0f)
         }
 
         return bl
@@ -175,6 +191,14 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun tick() {
         super.tick()
+        if (world.isClient) {
+            val newSound = getLoopSound()
+            if (sound?.id != newSound.id) {
+                sound?.valid = false
+                sound = WaspSoundInstance(newSound, this)
+                MinecraftClient.getInstance().soundManager.playNextTick(sound)
+            }
+        }
         this.lastStingAnimation = this.stingAnimation
         if (dataTracker.get(targetClose)) {
             this.stingAnimation = this.stingAnimation.plus(0.2F).coerceAtMost(1.0F)
@@ -260,19 +284,21 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun hasWings(): Boolean = !isBaby && isInAir && age % MathHelper.ceil(2.4166098f) == 0
 
-    override fun playStepSound(pos: BlockPos, state: BlockState) {
-        if (onGround) {
-            playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F)
-        }
-    }
+    fun getLoopSound() = if (hasAngerTime()) LCCSounds.wasp_aggressive else LCCSounds.wasp_loop
 
     override fun getAmbientSound() = null
 
-    override fun getHurtSound(source: DamageSource) = SoundEvents.ENTITY_BEE_HURT
+    override fun getHurtSound(source: DamageSource) = LCCSounds.wasp_hurt
 
-    override fun getDeathSound() = SoundEvents.ENTITY_BEE_DEATH
+    override fun getDeathSound() = LCCSounds.wasp_death
 
-    override fun getSoundVolume() = 0.4f
+    override fun playStepSound(pos: BlockPos, state: BlockState) {
+        if (onGround && !isDead) {
+            playSound(LCCSounds.wasp_step, 0.1F, 0.9F)
+        }
+    }
+
+    override fun calculateNextStepSoundDistance() = super.calculateNextStepSoundDistance() - 0.4f
 
     override fun handleFallDamage(fallDistance: Float, damageMultiplier: Float, damageSource: DamageSource) = if (!isBaby) false else super.handleFallDamage(fallDistance, damageMultiplier, damageSource)
 
@@ -280,18 +306,16 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
     override fun damage(source: DamageSource, amount: Float): Boolean {
         if (source.isFire) return super.damage(source, amount.times(1.5f).coerceAtLeast(3.0f))
-        return super.damage(source, ToolEffectivity.WASTELAND.reduceDamageTaken(this, source, amount))
-    }
-
-    override fun lcc_content_applyDamageThroughArmor(attacked: LivingEntity, after: Float, armor: Float, toughness: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original)
-    }
-
-    override fun lcc_content_applyDamageThroughProtection(attacked: LivingEntity, after: Float, protection: Float, original: Float): Float {
-        return ToolEffectivity.WASTELAND.increaseDamageGiven(this, attacked, after, original, 1f)
+        return super.damage(source, amount)
     }
 
     override fun getGroup() = EntityGroup.ARTHROPOD
+
+    override fun onSpawnPacket(packet: EntitySpawnS2CPacket) {
+        super.onSpawnPacket(packet)
+        sound = WaspSoundInstance(getLoopSound(), this)
+        MinecraftClient.getInstance().soundManager.playNextTick(sound)
+    }
 
     companion object {
 
@@ -301,7 +325,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
         val targetClose = DataTracker.registerData(WaspEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         fun createAttributes(): DefaultAttributeContainer.Builder {
-            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 33.0)
+            return createMobAttributes().add(EntityAttributes.GENERIC_MAX_HEALTH, 17.0).add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8).add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2).add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 7.0).add(EntityAttributes.GENERIC_FOLLOW_RANGE, 33.0).add(LCCAttributes.wasteland_damage, 1.0).add(LCCAttributes.wasteland_protection, 1.0)
         }
 
         fun angerNearby(world: World, pos: BlockPos, aggressor: LivingEntity, range: Int): List<WaspEntity> {
@@ -325,7 +349,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         override fun shouldContinue() = super.shouldContinue()// && wasp.hasAngerTime()
 
-        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(1.5)
+        override fun getSquaredMaxAttackDistance(entity: LivingEntity) = super.getSquaredMaxAttackDistance(entity).div(2)
 
     }
 
@@ -364,7 +388,7 @@ open class WaspEntity(entityType: EntityType<out WaspEntity>, world: World) : An
 
         private fun find(): List<BlockPos> {
             val poi = (wasp.world as ServerWorld).pointOfInterestStorage
-            return poi.getInCircle({ it == LCCPointsOfInterest.papercomb }, wasp.blockPos, 60, PointOfInterestStorage.OccupationStatus.ANY)
+            return poi.getInCircle({ it.value() == LCCPointsOfInterest.papercomb }, wasp.blockPos, 60, PointOfInterestStorage.OccupationStatus.ANY)
                 .map { it.pos }.filter { (wasp.world.getBlockEntity(it) as? PapercombBlockEntity)?.isFull() == false }.sorted(Comparator.comparingDouble { it.getSquaredDistance(wasp.blockPos) }).toList()
         }
 

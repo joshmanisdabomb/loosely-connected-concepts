@@ -17,7 +17,7 @@ class SpikeTrapFeature(configCodec: Codec<DefaultFeatureConfig>) : Feature<Defau
             val h = world.random.nextInt(7).plus(4)
 
             if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y - 1, origin.z, x2 = origin.x + w-1, y2 = origin.y - h - 1, z2 = origin.z + w-1) { state, pos -> !world.isOutOfHeightLimit(pos.y) }) return false
-            if (!GenUtils.areaMatches(world::getBlockState, origin.x - 1, origin.y - 1, origin.z - 1, x2 = origin.x + w, z2 = origin.z + w) { state, pos -> world.getBlockState(pos).isOf(LCCBlocks.cracked_mud) }) return false
+            if (!GenUtils.areaMatches(world::getBlockState, origin.x - 1, origin.y - 1, origin.z - 1, x2 = origin.x + w, z2 = origin.z + w) { state, pos -> state.isOf(LCCBlocks.cracked_mud) }) return false
             if (!GenUtils.areaMatches(world::getBlockState, origin.x, origin.y, origin.z, x2 = origin.x + w - 1, z2 = origin.z + w - 1)) return false
             if (!GenUtils.areaMatches(world::getBlockState, origin.x - 1, origin.y - 2, origin.z - 1, x2 = origin.x + w, y2 = origin.y - h - 1) { state, pos -> state.isSolidBlock(world, pos) }) return false
             if (!GenUtils.areaMatches(world::getBlockState, origin.x - 1, origin.y - 2, origin.z + w, x2 = origin.x + w, y2 = origin.y - h - 1) { state, pos -> state.isSolidBlock(world, pos) }) return false

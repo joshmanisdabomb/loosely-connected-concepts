@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "group": "wooden_fence",
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "w": {
+      "item": "lcc:deadwood_planks"
+    }
+  },
   "pattern": [
     "wsw",
     "wsw"
   ],
-  "key": {
-    "w": {
-      "item": "lcc:deadwood_planks"
-    },
-    "s": {
-      "item": "minecraft:stick"
-    }
-  },
   "result": {
-    "item": "lcc:deadwood_fence",
-    "count": 3
+    "count": 3,
+    "item": "lcc:deadwood_fence"
   }
 }

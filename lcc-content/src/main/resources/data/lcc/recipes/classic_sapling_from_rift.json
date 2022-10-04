@@ -1,8 +1,8 @@
 {
   "type": "lcc:time_rift",
+  "count": 1,
   "ingredient": {
     "tag": "minecraft:saplings"
   },
-  "result": "lcc:classic_sapling",
-  "count": 1
+  "result": "lcc:classic_sapling"
 }

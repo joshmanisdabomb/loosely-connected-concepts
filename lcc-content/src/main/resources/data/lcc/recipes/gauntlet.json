@@ -1,21 +1,23 @@
 {
   "type": "lcc:spawner_table_shaped",
-  "pattern": [
-    "       br ",
-    "biiiggggbt",
-    "nb  ggdgbe",
-    " b   ggbs ",
-    "  biigba  "
-  ],
   "key": {
+    "a": {
+      "item": "minecraft:amethyst_block"
+    },
     "b": {
       "item": "minecraft:gold_block"
     },
-    "i": {
-      "item": "minecraft:iron_ingot"
+    "d": {
+      "item": "minecraft:diamond_block"
+    },
+    "e": {
+      "item": "minecraft:emerald_block"
     },
     "g": {
       "item": "minecraft:gold_ingot"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
     },
     "n": {
       "item": "minecraft:nether_star"
@@ -23,22 +25,20 @@
     "r": {
       "item": "lcc:ruby_block"
     },
-    "t": {
-      "item": "lcc:topaz_block"
-    },
-    "e": {
-      "item": "minecraft:emerald_block"
-    },
-    "d": {
-      "item": "minecraft:diamond_block"
-    },
     "s": {
       "item": "lcc:sapphire_block"
     },
-    "a": {
-      "item": "minecraft:amethyst_block"
+    "t": {
+      "item": "lcc:topaz_block"
     }
   },
+  "pattern": [
+    "       br ",
+    "biiiggggbt",
+    "nb  ggdgbe",
+    " b   ggbs ",
+    "  biigba  "
+  ],
   "result": {
     "item": "lcc:gauntlet"
   }

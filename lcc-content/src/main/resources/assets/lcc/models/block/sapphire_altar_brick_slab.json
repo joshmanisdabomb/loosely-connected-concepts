@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab",
   "textures": {
     "bottom": "lcc:block/sapphire_altar_brick",
-    "top": "lcc:block/sapphire_altar_brick",
-    "side": "lcc:block/sapphire_altar_brick"
+    "side": "lcc:block/sapphire_altar_brick",
+    "top": "lcc:block/sapphire_altar_brick"
   }
 }

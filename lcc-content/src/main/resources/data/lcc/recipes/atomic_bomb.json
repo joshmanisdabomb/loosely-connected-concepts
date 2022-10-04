@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ccc",
-    "bdc",
-    "ccc"
-  ],
   "key": {
-    "c": {
-      "item": "minecraft:iron_block"
-    },
     "b": {
       "tag": "minecraft:buttons"
+    },
+    "c": {
+      "item": "minecraft:iron_block"
     },
     "d": {
       "item": "minecraft:dispenser"
     }
   },
+  "pattern": [
+    "ccc",
+    "bdc",
+    "ccc"
+  ],
   "result": {
     "item": "lcc:atomic_bomb"
   }

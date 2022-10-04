@@ -13,7 +13,8 @@
     "BoatEntityRendererMixin",
     "GameRendererAccessor",
     "PistonBlockEntityRendererMixin",
-    "PlayerSkinTextureMixin"
+    "PlayerSkinTextureMixin",
+    "ItemRendererAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

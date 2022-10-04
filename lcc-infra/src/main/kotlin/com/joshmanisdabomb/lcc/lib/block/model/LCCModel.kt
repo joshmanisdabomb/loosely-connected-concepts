@@ -7,10 +7,7 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter
 import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext
 import net.minecraft.block.BlockState
-import net.minecraft.client.render.model.BakedModel
-import net.minecraft.client.render.model.ModelBakeSettings
-import net.minecraft.client.render.model.ModelLoader
-import net.minecraft.client.render.model.UnbakedModel
+import net.minecraft.client.render.model.*
 import net.minecraft.client.texture.Sprite
 import net.minecraft.client.util.SpriteIdentifier
 import net.minecraft.item.ItemStack
@@ -19,10 +16,9 @@ import net.minecraft.util.BlockRotation
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.BlockRenderView
-import java.util.*
 import java.util.function.Consumer
 import java.util.function.Function
 import java.util.function.Supplier
@@ -45,7 +41,7 @@ abstract class LCCModel(spriteGetter: LCCModel.() -> Map<String, SpriteIdentifie
         return this
     }
 
-    override fun getQuads(state: BlockState?, face: Direction?, random: Random) = null
+    override fun getQuads(state: BlockState?, face: Direction?, random: Random): MutableList<BakedQuad>? = null
 
     override fun useAmbientOcclusion() = true
 

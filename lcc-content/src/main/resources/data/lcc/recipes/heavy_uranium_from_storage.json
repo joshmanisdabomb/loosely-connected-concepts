@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "lcc:heavy_uranium",
-    "count": 4
+    "count": 4,
+    "item": "lcc:heavy_uranium"
   }
 }

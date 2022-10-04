@@ -9,8 +9,8 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.AGE_7
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.World
-import java.util.*
 
 class ClassicSaplingBlock(settings: Settings) : SaplingBlock(ClassicSaplingBlock, settings) {
 

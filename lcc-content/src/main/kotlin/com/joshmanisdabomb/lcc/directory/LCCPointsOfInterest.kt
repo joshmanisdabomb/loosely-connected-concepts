@@ -1,22 +1,17 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
-import net.fabricmc.fabric.mixin.`object`.builder.PointOfInterestTypeAccessor
-import net.minecraft.util.registry.Registry
+import net.fabricmc.fabric.api.`object`.builder.v1.world.poi.PointOfInterestHelper
 import net.minecraft.world.poi.PointOfInterestType
 
-object LCCPointsOfInterest : BasicDirectory<PointOfInterestType, Unit>(), RegistryDirectory<PointOfInterestType, Unit, Unit> {
+object LCCPointsOfInterest : BasicDirectory<PointOfInterestType, Unit>() {
 
-    override val registry = Registry.POINT_OF_INTEREST_TYPE
+    val papercomb by entry(::initialiser) { PointOfInterestHelper.register(id, 0, 1, LCCBlocks.papercomb_block.stateManager.states.toSet()) }
 
-    override fun regId(name: String) = LCC.id(name)
-
-    val papercomb by entry(::initialiser) { PointOfInterestTypeAccessor.callCreate(id.toString(), LCCBlocks.papercomb_block.stateManager.states.toSet(), 0, 1) }
-
-    override fun <V : PointOfInterestType> afterInit(initialised: V, entry: DirectoryEntry<out PointOfInterestType, out V>, parameters: Unit) {
-        PointOfInterestTypeAccessor.callSetup(initialised)
-    }
+    fun initialiser(input: PointOfInterestType, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit
+
+    override fun id(name: String) = LCC.id(name)
 
 }

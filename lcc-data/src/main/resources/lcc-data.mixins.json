@@ -13,7 +13,9 @@
     "RecipeProviderAccessor",
     "TagBuilderAccessor",
     "SharedConstantsMixin",
-    "IngredientTagEntryAccessor"
+    "IngredientTagEntryAccessor",
+    "TagEntryAccessor",
+    "ShapedRecipeJsonBuilderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

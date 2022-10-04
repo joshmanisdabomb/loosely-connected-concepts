@@ -7,7 +7,7 @@ import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.OrderedText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import kotlin.math.ceil
 
 interface PowerScreenUtils {
@@ -66,32 +66,32 @@ interface PowerScreenUtils {
     fun renderPowerTooltip(matrices: MatrixStack, power: Float, consumed: Float?, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         val prefix = if (consumed != null) ".recipe" else ""
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.power".plus(prefix), LooseEnergy.displayWithUnits(LooseEnergy.fromStandard(power)), LooseEnergy.displayWithUnits(consumed ?: 0f)), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(Text.translatable("$translationKey.power".plus(prefix), LooseEnergy.displayWithUnits(LooseEnergy.fromStandard(power)), LooseEnergy.displayWithUnits(consumed ?: 0f)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     fun renderProgressTooltip(matrices: MatrixStack, progress: Int, maxProgress: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.time", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(Text.translatable("$translationKey.time", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     fun renderActionTooltip(matrices: MatrixStack, efficiency: Float, maxEfficiency: Float?, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         val prefix = if (maxEfficiency != null) ".recipe" else ""
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.efficiency".plus(prefix), efficiency.plus(100).decimalFormat(force = true), (maxEfficiency ?: 0f).plus(100).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(Text.translatable("$translationKey.efficiency".plus(prefix), efficiency.plus(100).decimalFormat(force = true), (maxEfficiency ?: 0f).plus(100).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     fun renderBurnTooltip(matrices: MatrixStack, progress: Int, maxProgress: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.burn", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(Text.translatable("$translationKey.burn", ceil(progress.div(20f)).toInt(), ceil(maxProgress.div(20f)).toInt()), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 
     fun renderSteamTooltip(matrices: MatrixStack, output: Float, outputCeil: Float, water: Int, mouseX: Int, mouseY: Int, x: IntRange, y: IntRange) {
         if (mouseX in x && mouseY in y) {
-            tooltip(matrices, textRenderer.wrapLines(TranslatableText("$translationKey.output", LooseEnergy.displayWithUnits(output), LooseEnergy.displayWithUnits(outputCeil), water.div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
+            tooltip(matrices, textRenderer.wrapLines(Text.translatable("$translationKey.output", LooseEnergy.displayWithUnits(output), LooseEnergy.displayWithUnits(outputCeil), water.div(3f).times(100f).decimalFormat(force = true)), Int.MAX_VALUE), mouseX, mouseY)
         }
     }
 

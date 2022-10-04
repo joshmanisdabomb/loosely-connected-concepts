@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "lcc:bleeding_spikes",
     "lcc:bomb_board_block",
@@ -14,6 +13,7 @@
     "lcc:fortstone_stairs",
     "lcc:fortstone_wall",
     "lcc:imbuing_press",
+    "lcc:imbuing_press",
     "lcc:improvised_explosive",
     "lcc:oxidized_iron_block",
     "lcc:poison_spikes",
@@ -25,6 +25,7 @@
     "lcc:sapphire_altar_brick_slab",
     "lcc:sapphire_altar_brick_stairs",
     "lcc:sapphire_altar_brick_wall",
+    "lcc:spawning_pit",
     "lcc:spikes",
     "lcc:stale_iron_block",
     "lcc:weathered_iron_block"

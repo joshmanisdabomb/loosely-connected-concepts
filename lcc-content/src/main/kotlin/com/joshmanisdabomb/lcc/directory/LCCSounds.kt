@@ -56,6 +56,31 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val consumer_tongue_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.loop")) }
     val consumer_tongue_attach by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.consumer.tongue.attach")) }
 
+    val woodlouse_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.ambient")) }
+    val woodlouse_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.hurt")) }
+    val woodlouse_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.death")) }
+    val woodlouse_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.woodlouse.step")) }
+
+    val wasp_loop by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.loop")) }
+    val wasp_aggressive by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.aggressive")) }
+    val wasp_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.hurt")) }
+    val wasp_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.death")) }
+    val wasp_step by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.step")) }
+    val wasp_sting by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.wasp.sting")) }
+
+    val psycho_pig_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.ambient")) }
+    val psycho_pig_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.hurt")) }
+    val psycho_pig_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.death")) }
+    val psycho_pig_reveal by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.psycho_pig.reveal")) }
+
+    val disciple_ambient by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.ambient")) }
+    val disciple_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.hurt")) }
+    val disciple_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.death")) }
+    val disciple_jump by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.jump")) }
+    val disciple_fire by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.fire")) }
+    val disciple_dust by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.dust")) }
+    val disciple_explosion by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.explosion")) }
+
     val computer_short_beep by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.computer.short")) }
     val computer_long_beep by entry(::initialiser) { SoundEvent(LCC.id("block.lcc.computer.long")) }
 

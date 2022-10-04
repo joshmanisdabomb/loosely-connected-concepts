@@ -20,7 +20,7 @@ import net.minecraft.screen.ScreenHandler
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.Properties.HORIZONTAL_FACING
 import net.minecraft.state.property.Properties.LIT
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
@@ -33,7 +33,7 @@ abstract class FiredGeneratorBlock(settings: Settings) : AbstractFiredGeneratorB
     abstract val slots: Int
     abstract val maxOutput: Float
 
-    open val defaultDisplayName by lazy { TranslatableText("container.lcc.${LCCBlocks[this].name}") }
+    open val defaultDisplayName by lazy { Text.translatable("container.lcc.${LCCBlocks[this].name}") }
 
     init {
         defaultState = stateManager.defaultState.with(HORIZONTAL_FACING, Direction.NORTH).with(LIT, false)

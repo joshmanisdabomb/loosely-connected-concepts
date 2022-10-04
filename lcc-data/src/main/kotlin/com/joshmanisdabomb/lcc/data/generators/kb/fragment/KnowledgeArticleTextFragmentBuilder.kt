@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.item.Item
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.world.biome.Biome
 
@@ -16,16 +15,16 @@ class KnowledgeArticleTextFragmentBuilder(content: (defaultKey: String) -> Text)
 
     constructor(content: Text) : this({ content })
     constructor(content: String, locale: String = "en_us") : this(locale to content)
-    constructor(vararg translations: Pair<String, String>) : this({ TranslatableText(it) }) {
+    constructor(vararg translations: Pair<String, String>) : this({ Text.translatable(it) }) {
         _translations += translations
     }
 
     constructor(block: Block) : this(block.name)
     constructor(item: Item) : this(item.name)
     constructor(entity: EntityType<*>) : this(entity.name)
-    constructor(enchantment: Enchantment) : this(TranslatableText(enchantment.translationKey))
+    constructor(enchantment: Enchantment) : this(Text.translatable(enchantment.translationKey))
     constructor(effect: StatusEffect) : this(effect.name)
-    constructor(biome: Biome) : this(TranslatableText("biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}"))
+    constructor(biome: Biome) : this(Text.translatable("biome.${BuiltinRegistries.BIOME.getId(biome).toString().replace(":", ".")}"))
 
     private val _translations: MutableMap<String, String> = mutableMapOf()
     val translations by lazy { _translations.toMap() }

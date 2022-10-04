@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "item": "lcc:iron_oxide"
+    },
+    "n": {
+      "item": "lcc:iron_oxide_nugget"
+    }
+  },
   "pattern": [
     " n ",
     "nin",
     "iii"
   ],
-  "key": {
-    "n": {
-      "item": "lcc:iron_oxide_nugget"
-    },
-    "i": {
-      "item": "lcc:iron_oxide"
-    }
-  },
   "result": {
-    "item": "lcc:spikes",
-    "count": 2
+    "count": 2,
+    "item": "lcc:spikes"
   }
 }

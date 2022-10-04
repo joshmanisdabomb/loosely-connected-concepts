@@ -11,8 +11,8 @@ import net.minecraft.item.ItemConvertible
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.BuiltinRegistries
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.biome.Biome
-import net.minecraft.world.gen.feature.StructureFeature
 
 class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) : Comparable<KnowledgeArticleIdentifier> {
 
@@ -21,6 +21,7 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
     companion object {
 
         fun <R> of(registry: Registry<R>, item: R) = KnowledgeArticleIdentifier(registry.key.value, registry.getId(item)!!)
+        fun <R> of(key: RegistryKey<R>) = KnowledgeArticleIdentifier(key.registry, key.value)
 
         fun ofBlock(block: Block) = of(Registry.BLOCK, block)
         fun ofItem(item: Item) = of(Registry.ITEM, item)
@@ -36,7 +37,8 @@ class KnowledgeArticleIdentifier(val registry: Identifier, val key: Identifier) 
         fun ofEffect(effect: StatusEffect) = KnowledgeArticleIdentifier(Identifier("effect"), Registry.STATUS_EFFECT.getId(effect)!!)
 
         fun ofBiome(biome: Biome) = KnowledgeArticleIdentifier(Identifier("biome"), BuiltinRegistries.BIOME.getId(biome)!!)
-        fun ofStructure(structure: StructureFeature<*>) = KnowledgeArticleIdentifier(Identifier("structure"), Registry.STRUCTURE_FEATURE.getId(structure)!!)
+        fun ofBiome(id: Identifier) = KnowledgeArticleIdentifier(Identifier("biome"), id)
+        fun ofStructure(id: Identifier) = KnowledgeArticleIdentifier(Identifier("structure"), id)
 
     }
 

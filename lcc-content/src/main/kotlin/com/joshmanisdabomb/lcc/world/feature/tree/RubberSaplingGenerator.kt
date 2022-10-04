@@ -2,7 +2,7 @@ package com.joshmanisdabomb.lcc.world.feature.tree
 
 import com.joshmanisdabomb.lcc.directory.LCCConfiguredFeatures
 import net.minecraft.block.sapling.SaplingGenerator
-import java.util.*
+import net.minecraft.util.math.random.Random
 
 class RubberSaplingGenerator : SaplingGenerator() {
 

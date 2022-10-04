@@ -2,15 +2,14 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "lcc:nether_reactor",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "state": "ready"
               }
@@ -21,7 +20,8 @@
           ],
           "name": "lcc:nether_reactor"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

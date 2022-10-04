@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab",
   "textures": {
     "bottom": "lcc:block/fortstone",
-    "top": "lcc:block/fortstone",
-    "side": "lcc:block/fortstone"
+    "side": "lcc:block/fortstone",
+    "top": "lcc:block/fortstone"
   }
 }

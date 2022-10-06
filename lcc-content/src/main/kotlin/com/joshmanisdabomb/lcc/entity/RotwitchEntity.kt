@@ -1,6 +1,5 @@
 package com.joshmanisdabomb.lcc.entity
 
-import com.joshmanisdabomb.lcc.abstracts.ToolEffectivity
 import com.joshmanisdabomb.lcc.directory.LCCAttributes
 import com.joshmanisdabomb.lcc.directory.LCCEntities
 import com.joshmanisdabomb.lcc.directory.LCCSounds
@@ -19,8 +18,6 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.mob.HostileEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.sound.SoundCategory
-import net.minecraft.sound.SoundEvents
 import net.minecraft.world.LocalDifficulty
 import net.minecraft.world.ServerWorldAccess
 import net.minecraft.world.World
@@ -73,7 +70,8 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
                 fly.target = target
             }
         }
-        world.playSound(pos.x, pos.y, pos.z, SoundEvents.BLOCK_BAMBOO_BREAK, SoundCategory.HOSTILE, 1.0f, 1.0f, false)
+        this.playSound(LCCSounds.rotwitch_heave, 1.5f, 1.0f)
+        this.playSound(LCCSounds.rotwitch_hatch, 1.5f, this.soundPitch)
     }
 
     override fun turnHead(bodyRotation: Float, headRotation: Float) = headRotation
@@ -86,11 +84,11 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
         super.takeKnockback(strength.div(2.0), x, z)
     }
 
-    override fun getAmbientSound() = LCCSounds.consumer_ambient
+    override fun getAmbientSound() = LCCSounds.rotwitch_idle
 
-    override fun getHurtSound(source: DamageSource) = LCCSounds.consumer_hurt
+    override fun getHurtSound(source: DamageSource) = LCCSounds.rotwitch_hurt
 
-    override fun getDeathSound() = LCCSounds.consumer_death
+    override fun getDeathSound() = LCCSounds.rotwitch_death
 
     companion object {
 

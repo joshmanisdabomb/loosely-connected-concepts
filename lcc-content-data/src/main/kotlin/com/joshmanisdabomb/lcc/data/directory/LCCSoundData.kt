@@ -191,6 +191,29 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:entity/disciple/explosion")
     }) }
 
+    val rotwitch_idle by entry(::initialiser) { SoundProperties("entity", LCC.modid, "rotwitch.idle", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/rotwitch/idle${it+1}")
+    }) }
+    val rotwitch_hurt by entry(::initialiser) { SoundProperties("entity", LCC.modid, "rotwitch.hurt", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/rotwitch/hurt${it+1}")
+    }) }
+    val rotwitch_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "rotwitch.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/rotwitch/death")
+    }) }
+    val rotwitch_heave by entry(::initialiser) { SoundProperties("entity", LCC.modid, "rotwitch.heave", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/rotwitch/shoot${it+1}")
+    }) }
+    val rotwitch_hatch by entry(::initialiser) { SoundProperties("entity", LCC.modid, "rotwitch.hatch", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:item/fly_egg/hatch${it+1}")
+    }) }
+
+    val fly_idle by entry(::initialiser) { SoundProperties("entity", LCC.modid, "fly.idle", Array(4) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/fly/idle${it+1}")
+    }) }
+    val fly_death by entry(::initialiser) { SoundProperties("entity", LCC.modid, "fly.death", Array(1) {
+        SoundProperties.SoundEntry("${LCC.modid}:entity/fly/death")
+    }) }
+
     fun initialiser(input: SoundProperties, context: DirectoryContext<Unit>, parameters: Unit) = input.also { LCCData.sounds[input.name] = it }
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out SoundProperties, out SoundProperties>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

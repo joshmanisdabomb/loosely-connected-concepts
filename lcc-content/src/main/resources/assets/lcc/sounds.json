@@ -279,6 +279,21 @@
     ],
     "subtitle": "subtitles.lcc.entity.disciple.jump"
   },
+  "entity.lcc.fly.death": {
+    "sounds": [
+      "lcc:entity/fly/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.fly.death"
+  },
+  "entity.lcc.fly.idle": {
+    "sounds": [
+      "lcc:entity/fly/idle1",
+      "lcc:entity/fly/idle2",
+      "lcc:entity/fly/idle3",
+      "lcc:entity/fly/idle4"
+    ],
+    "subtitle": "subtitles.lcc.entity.fly.idle"
+  },
   "entity.lcc.nuclear_explosion.explode": {
     "sounds": [
       {
@@ -361,6 +376,45 @@
       "lcc:entity/psycho_pig/reveal"
     ],
     "subtitle": "subtitles.lcc.entity.psycho_pig.reveal"
+  },
+  "entity.lcc.rotwitch.death": {
+    "sounds": [
+      "lcc:entity/rotwitch/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.death"
+  },
+  "entity.lcc.rotwitch.hatch": {
+    "sounds": [
+      "lcc:item/fly_egg/hatch1",
+      "lcc:item/fly_egg/hatch2",
+      "lcc:item/fly_egg/hatch3"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.hatch"
+  },
+  "entity.lcc.rotwitch.heave": {
+    "sounds": [
+      "lcc:entity/rotwitch/shoot1",
+      "lcc:entity/rotwitch/shoot2",
+      "lcc:entity/rotwitch/shoot3"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.heave"
+  },
+  "entity.lcc.rotwitch.hurt": {
+    "sounds": [
+      "lcc:entity/rotwitch/hurt1",
+      "lcc:entity/rotwitch/hurt2",
+      "lcc:entity/rotwitch/hurt3",
+      "lcc:entity/rotwitch/hurt4"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.hurt"
+  },
+  "entity.lcc.rotwitch.idle": {
+    "sounds": [
+      "lcc:entity/rotwitch/idle1",
+      "lcc:entity/rotwitch/idle2",
+      "lcc:entity/rotwitch/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.idle"
   },
   "entity.lcc.salt.throw": {
     "sounds": [

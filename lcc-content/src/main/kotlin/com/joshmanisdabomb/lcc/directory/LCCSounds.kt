@@ -81,6 +81,15 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val disciple_dust by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.dust")) }
     val disciple_explosion by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.disciple.explosion")) }
 
+    val rotwitch_idle by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.idle")) }
+    val rotwitch_hurt by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.hurt")) }
+    val rotwitch_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.death")) }
+    val rotwitch_heave by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.heave")) }
+    val rotwitch_hatch by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.hatch")) }
+
+    val fly_idle by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.fly.idle")) }
+    val fly_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.fly.death")) }
+
     val soaking_soul_sand by lazy { BlockSoundGroup(1.0f, 1.0f, soaking_soul_sand_break, soaking_soul_sand_step, soaking_soul_sand_place, soaking_soul_sand_hit, soaking_soul_sand_fall) }
 
     //TODO classic block sounds for nostalgic blocks

@@ -62,7 +62,7 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
             val flies = random.nextInt(3.plus(difficulty.localDifficulty.toInt())).plus(difficulty.isAtLeastHard.transformInt(2, 1))
             repeat (flies) {
                 val fly = LCCEntities.fly.create(world) ?: return@repeat
-                fly.setPosition(pos.x, pos.y + height.div(2.0), pos.z)
+                fly.refreshPositionAndAngles(pos.x, pos.y + height.div(2.0), pos.z, random.nextFloat().times(360), 0f)
                 fly.setVelocity(random.nextDouble().minus(0.5).times(2.0), 0.1, random.nextDouble().minus(0.5).times(2.0))
                 world.spawnEntity(fly)
                 fly.isTamed = true

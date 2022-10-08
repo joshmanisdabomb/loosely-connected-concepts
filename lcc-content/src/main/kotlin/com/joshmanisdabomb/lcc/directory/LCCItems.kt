@@ -317,6 +317,9 @@ object LCCItems : ItemDirectory() {
     val woodlouse_boots by entry(::initialiser) { ArmorItem(LCCArmorMaterials.WOODLOUSE, EquipmentSlot.FEET, Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
 
+    val fly_eggs by entry(::initialiser) { FlyEggItem(Item.Settings().defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))
         .addTags("wasteland_spawn_egg")

@@ -207,6 +207,10 @@ object LCCSoundData: BasicDirectory<SoundProperties, Unit>() {
         SoundProperties.SoundEntry("${LCC.modid}:item/fly_egg/hatch${it+1}")
     }) }
 
+    val fly_egg_hatch by entry(::initialiser) { SoundProperties("item", LCC.modid, "fly_egg.hatch", Array(3) {
+        SoundProperties.SoundEntry("${LCC.modid}:item/fly_egg/hatch${it+1}")
+    }) }
+
     val fly_idle by entry(::initialiser) { SoundProperties("entity", LCC.modid, "fly.idle", Array(4) {
         SoundProperties.SoundEntry("${LCC.modid}:entity/fly/idle${it+1}")
     }) }

@@ -15,6 +15,7 @@ import com.joshmanisdabomb.lcc.directory.tags.LCCEntityTags
 import net.minecraft.item.Items
 import net.minecraft.loot.condition.KilledByPlayerLootCondition
 import net.minecraft.loot.condition.RandomChanceWithLootingLootCondition
+import net.minecraft.loot.function.LootingEnchantLootFunction
 import net.minecraft.loot.function.SetCountLootFunction
 import net.minecraft.loot.provider.number.UniformLootNumberProvider
 
@@ -34,6 +35,12 @@ object LCCEntityData : BasicDirectory<EntityDataContainer, Unit>() {
     val disciple by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.enhancing_pyre_alpha to null))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
     val psycho_pig by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(Items.PORKCHOP to null))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
     val woodlouse by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(LCCItems.woodlouse_shell to null))).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
+    val rotwitch by entry(::initialiser) { data().defaultLang().add(FunctionalEntityLootFactory(mapOf(
+        LCCItems.fly_eggs to {
+            apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+            apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0f, 1.0f)))
+        }
+    ))).add(EntityTagFactory(LCCEntityTags.wasteland_offense)).add(EntityTagFactory(LCCEntityTags.wasteland_defense)) }
 
     fun initialiser(input: EntityDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

@@ -509,5 +509,13 @@
       "lcc:item/detector/click7"
     ],
     "subtitle": "subtitles.lcc.item.detector.click"
+  },
+  "item.lcc.fly_egg.hatch": {
+    "sounds": [
+      "lcc:item/fly_egg/hatch1",
+      "lcc:item/fly_egg/hatch2",
+      "lcc:item/fly_egg/hatch3"
+    ],
+    "subtitle": "subtitles.lcc.item.fly_egg.hatch"
   }
 }

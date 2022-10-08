@@ -87,6 +87,8 @@ object LCCSounds : BasicDirectory<SoundEvent, Unit>(), RegistryDirectory<SoundEv
     val rotwitch_heave by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.heave")) }
     val rotwitch_hatch by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.rotwitch.hatch")) }
 
+    val fly_egg_hatch by entry(::initialiser) { SoundEvent(LCC.id("item.lcc.fly_egg.hatch")) }
+
     val fly_idle by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.fly.idle")) }
     val fly_death by entry(::initialiser) { SoundEvent(LCC.id("entity.lcc.fly.death")) }
 

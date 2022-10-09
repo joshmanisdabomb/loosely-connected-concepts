@@ -84,7 +84,7 @@ class RotwitchEntity(type: EntityType<out RotwitchEntity>, world: World) : Hosti
         super.takeKnockback(strength.div(2.0), x, z)
     }
 
-    override fun getAmbientSound() = LCCSounds.rotwitch_idle
+    override fun getAmbientSound() = LCCSounds.rotwitch_ambient
 
     override fun getHurtSound(source: DamageSource) = LCCSounds.rotwitch_hurt
 

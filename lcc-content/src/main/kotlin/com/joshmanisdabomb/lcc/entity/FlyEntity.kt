@@ -181,9 +181,9 @@ class FlyEntity(type: EntityType<out FlyEntity>, world: World) : TameableEntity(
 
     override fun playStepSound(pos: BlockPos, state: BlockState) = Unit
 
-    override fun getAmbientSound() = LCCSounds.fly_idle
+    override fun getAmbientSound() = LCCSounds.fly_ambient
 
-    override fun getHurtSound(source: DamageSource) = LCCSounds.fly_idle
+    override fun getHurtSound(source: DamageSource) = LCCSounds.fly_ambient
 
     override fun getDeathSound() = LCCSounds.fly_death
 

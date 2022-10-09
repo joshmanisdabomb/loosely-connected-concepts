@@ -279,20 +279,20 @@
     ],
     "subtitle": "subtitles.lcc.entity.disciple.jump"
   },
-  "entity.lcc.fly.death": {
-    "sounds": [
-      "lcc:entity/fly/death"
-    ],
-    "subtitle": "subtitles.lcc.entity.fly.death"
-  },
-  "entity.lcc.fly.idle": {
+  "entity.lcc.fly.ambient": {
     "sounds": [
       "lcc:entity/fly/idle1",
       "lcc:entity/fly/idle2",
       "lcc:entity/fly/idle3",
       "lcc:entity/fly/idle4"
     ],
-    "subtitle": "subtitles.lcc.entity.fly.idle"
+    "subtitle": "subtitles.lcc.entity.fly.ambient"
+  },
+  "entity.lcc.fly.death": {
+    "sounds": [
+      "lcc:entity/fly/death"
+    ],
+    "subtitle": "subtitles.lcc.entity.fly.death"
   },
   "entity.lcc.nuclear_explosion.explode": {
     "sounds": [
@@ -377,6 +377,14 @@
     ],
     "subtitle": "subtitles.lcc.entity.psycho_pig.reveal"
   },
+  "entity.lcc.rotwitch.ambient": {
+    "sounds": [
+      "lcc:entity/rotwitch/idle1",
+      "lcc:entity/rotwitch/idle2",
+      "lcc:entity/rotwitch/idle3"
+    ],
+    "subtitle": "subtitles.lcc.entity.rotwitch.ambient"
+  },
   "entity.lcc.rotwitch.death": {
     "sounds": [
       "lcc:entity/rotwitch/death"
@@ -407,14 +415,6 @@
       "lcc:entity/rotwitch/hurt4"
     ],
     "subtitle": "subtitles.lcc.entity.rotwitch.hurt"
-  },
-  "entity.lcc.rotwitch.idle": {
-    "sounds": [
-      "lcc:entity/rotwitch/idle1",
-      "lcc:entity/rotwitch/idle2",
-      "lcc:entity/rotwitch/idle3"
-    ],
-    "subtitle": "subtitles.lcc.entity.rotwitch.idle"
   },
   "entity.lcc.salt.throw": {
     "sounds": [
@@ -457,7 +457,7 @@
       "lcc:entity/wasp/step2",
       "lcc:entity/wasp/step3"
     ],
-    "subtitle": "subtitles.lcc.entity.wasp.step"
+    "subtitle": "subtitles.block.generic.footsteps"
   },
   "entity.lcc.wasp.sting": {
     "sounds": [

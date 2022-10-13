@@ -28,6 +28,8 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
             map[LCCKnowledgeData.block_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_bounce_pad] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.entity_psycho_pig] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.entity_fly] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     },
@@ -82,7 +84,10 @@ enum class LCCVersion(val modVersion: String, val mcVersion: String, val code: S
     YAM_9("Update 9", "1.7.2", "u9", LCCVersionGroup.YAM, 800, LocalDateTime.of(2015, 12, 22, 16, 44, 20)) {
         override val description = "Added 2 mobs and bloodwood to the wasteland, new light affinity biome WIP, fly swatter & poop harvester, nod to kyle, hellfire. poison spikes."
 
-        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> = map
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.entity_rotwitch] = KnowledgeArticleTextFragmentBuilder(introduced)
+            return map.toSortedMap()
+        }
     },
     YAM_9_1("Update 9.1", "1.7.2", "u9.1", LCCVersionGroup.YAM, 810, LocalDateTime.of(2015, 12, 27, 18, 47, 50)) {
         override val description = "Quick nerf to hellfire."
@@ -598,8 +603,41 @@ Content datagen now launching and matches 0.4.4 datagen."""
             return map.toSortedMap()
         }
     },
-    LCC_FABRIC_0_5_1("0.5.1", "TBD", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, null) {
-        override val description = ""
+    LCC_FABRIC_0_5_1("0.5.1", "1.19.2", "0.5.1", LCCVersionGroup.LCC_FABRIC, 410, LocalDateTime.of(2022, 10, 9, 12, 50, 40)) {
+        override val description = """Updated to 1.19.2
+Added a wiki with article writing system.
+Added Cracked Mud recipes and Cracked Mud turning into Mud when near water.
+Fixed bug with bottom slab arcane table being placeable on top of itself.
+Adding enhancing pyre.
+Added heart container recipes with beta enhancing dust.
+Added Disciple to heal other mobs with 1000 IQ brain.
+Fixed Consumer tongue crashing the client.
+Added Psycho pig entity.
+Added Knife item when used by player and Psycho Pig now inflicts bleeding and deals no knockback to entities.
+Added clover flower block that gives luck and unluck to nearby players.
+Rubber pistons now launch entities and stationary falling blocks.
+Added forget me not decorative flower.
+Changed bounce pad to have rubber face and use rubber piston in recipe.
+Added calendar item.
+Added rotwitch entity.
+Added flies which fight for their owner.
+Added infested treasure enchantment.
+Added enhancing chamber block and entity.
+Added overleveled enchantments special recipe using omega pyre.
+Adding imbuing press block and imbuing recipes to imbue weapons.
+Stinger can now imbue weapons with Poison II for 5 seconds.
+Stinger now has 3 durability.
+Added magnetic iron and attract and repulse magnet blocks.
+Added scroll of reconditioning made with forget me not to make mobs forget hostilities and villagers forget their professions.
+Added woodlouse entity as a wasteland passive mob.
+Converted wasteland damage and protection into entity attributes, which wasteland equipment provides.
+Minesweeper altar challenges now make sure they're solvable before generating.
+Adding arena altar challenges to face wasteland mobs in a dungeon.
+Added villager traveller who can find the wasteland.
+Bundles now craftable.
+Added fly egg item as Rotwitch drop
+Added Spawning Pit block
+"""
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.block_cracked_mud] = KnowledgeArticleParagraphFragmentBuilder()
@@ -613,13 +651,16 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.item_enhancing_pyre_beta] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_enhancing_pyre_omega] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_knife] = KnowledgeArticleTextFragmentBuilder(introduced)
-            map[LCCKnowledgeData.entity_psycho_pig] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.entity_psycho_pig] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.entity_rotwitch] = KnowledgeArticleTextFragmentBuilder(reintroduced)
+            map[LCCKnowledgeData.entity_fly] = KnowledgeArticleTextFragmentBuilder(reintroduced)
             map[LCCKnowledgeData.entity_disciple] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_magnetic_iron] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_attractive_magnetic_iron_block] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_repulsive_magnetic_iron_block] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.entity_traveller] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.item_scroll_of_reconditioning] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.item_fly_eggs] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_rubber_piston] = KnowledgeArticleTextFragmentBuilder("Now launches pushed entities and stationary blocks affected by gravity.")
             map[LCCKnowledgeData.effectivity_wasteland] = KnowledgeArticleParagraphFragmentBuilder()
                 .addFormatText("Weapon and %s effectivity now use entity attributes instead of tags.",
@@ -630,11 +671,19 @@ Content datagen now launching and matches 0.4.4 datagen."""
                     { addPluralisedLink(LCCEntities.psycho_pig) },
                     { addPluralisedLink(LCCEntities.disciple) },
                     { addPluralisedLink(LCCEntities.rotwitch) },
-                    { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.four_leaf_clover), "clovers") },
+                    { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.four_leaf_clover), "Clovers") },
                     { addPluralisedLink(LCCBlocks.forget_me_not) },
                     { addChallengeLink(LCCAltarChallenges.arena, "Arena") },
                     { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar") },
                 )
+            return map.toSortedMap()
+        }
+    },
+    LCC_FABRIC_0_5_2("0.5.2", "1.19.2", "0.5.2", LCCVersionGroup.LCC_FABRIC, 420, null) {
+        override val description = ""
+
+        override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
+            map[LCCKnowledgeData.item_item_magnet] = KnowledgeArticleTextFragmentBuilder(introduced)
             return map.toSortedMap()
         }
     };

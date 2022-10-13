@@ -8,16 +8,14 @@ import com.joshmanisdabomb.lcc.data.generators.kb.fragment.*
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleBlockInfoSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleChangelogSectionBuilder
 import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleSectionBuilder
+import com.joshmanisdabomb.lcc.data.generators.kb.section.KnowledgeArticleVersionChangelogSectionBuilder
 import com.joshmanisdabomb.lcc.data.json.recipe.OverrideRecipeJsonProvider
-import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeConstants
-import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeContentExtensions
+import com.joshmanisdabomb.lcc.data.knowledge.*
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeContentExtensions.addWastelandEffectivityLink
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeContentExtensions.addWastelandLink
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeContentExtensions.getRepairingSection
-import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeExtensions
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeExtensions.addLink
 import com.joshmanisdabomb.lcc.data.knowledge.KnowledgeExtensions.boilerplate
-import com.joshmanisdabomb.lcc.data.knowledge.LCCVersion
 import com.joshmanisdabomb.lcc.directory.*
 import com.joshmanisdabomb.lcc.extensions.identifier
 import com.joshmanisdabomb.lcc.extensions.stack
@@ -1728,7 +1726,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(KnowledgeArticleIdentifier.ofBiome(LCC.id("wasteland")), "Wasteland")
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("The Wasteland is a rare biome introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the Minecraft world with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
+                    addFormatText("The Wasteland is a rare biome originally introduced in %s and reintroduced in %s that can be found in the %s. It is a dangerous area of the Minecraft world with many of its hostile mobs spawning in daylight. Wasteland biomes can easily be identified with its surface being comprised of %s.",
                         { addLink(LCCVersion.YAM_1) },
                         { addLink(LCCVersion.LCC_FABRIC_0_1_0) },
                         { addLink(KnowledgeArticleIdentifier(Registry.DIMENSION_KEY.value, Identifier("overworld")), "Overworld") },
@@ -2110,8 +2108,9 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
         KnowledgeArticleBuilder(LCCEntities.psycho_pig)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText("%s are hostile mobs introduced in %s which disguise themselves as simple %s. They spawn in the %s in direct skylight or anywhere with a light level of 0. %s use fear and surprise to take the player off-guard.",
+                    addFormatText("%s are hostile mobs originally introduced in %s and reintroduced in %s which disguise themselves as simple %s. They spawn in the %s in direct skylight or anywhere with a light level of 0. %s use fear and surprise to take the player off-guard.",
                         { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addLink(LCCVersion.YAM_1) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
                         { addPluralisedLink(EntityType.PIG) },
                         { addWastelandLink() },
@@ -2150,6 +2149,20 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
             )
+            .addSection(KnowledgeArticleSectionBuilder("Legacy")
+                .addParagraph {
+                        addFormatText("In %s, %s would be permanently hostile and leap at players similarly to %s. Attacks of a %s would apply the %s and %s debuffs. %s would also attack regular %s.",
+                        { addText(LCCVersionGroup.YAM.title) },
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addPluralisedText(EntityType.SPIDER) },
+                        { addText(LCCEntities.psycho_pig) },
+                        { addLink(StatusEffects.BLINDNESS) },
+                        { addLink(StatusEffects.NAUSEA) },
+                        { addPluralisedText(LCCEntities.psycho_pig) },
+                        { addPluralisedText(EntityType.PIG) },
+                    )
+                }
+            )
             .addSection(KnowledgeArticleSectionBuilder("Drops")
                 .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.psycho_pig]!!, LootTable.builder().pool(
                     LootPool.builder()
@@ -2161,7 +2174,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )) })
             )
             .boilerplate(LCCEntities.psycho_pig)
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 18, 15, 53), LocalDateTime.of(2022, 9, 19, 12, 47, 54))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 18, 18, 15, 53), LocalDateTime.of(2022, 10, 13, 20, 4, 49))
             .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs")
     }
 
@@ -2576,6 +2589,398 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .boilerplate(LCCBlocks.rubber_block, renewable = true)
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 9, 20, 23, 24, 50))
             .tags("Movement", "Rubber", "Heavy Duty Rubber")
+    }
+
+    val entity_rotwitch by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.rotwitch)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are immobile, hostile mobs originally introduced in %s and reintroduced in %s. They spawn in the %s and summon %s to attack the player.",
+                        { addPluralisedText(LCCEntities.rotwitch) },
+                        { addLink(LCCVersion.YAM_9) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addWastelandLink() },
+                        { addPluralisedLink(LCCEntities.fly) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addParagraph {
+                    addFormatText("%s have 17 hearts of health and spawn %s when a player comes within range. Any spawned %s is linked to the %s and will attack its target, dying in the process. The closer the player gets to the %s, the quicker the cooldown will be between %s summons.",
+                        { addPluralisedText(LCCEntities.rotwitch) },
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addText(LCCEntities.fly) },
+                        { addText(LCCEntities.rotwitch) },
+                        { addText(LCCEntities.rotwitch) },
+                        { addText(LCCEntities.fly) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Because %s are from the Wasteland, any damage dealt to them with a weapon that doesn't provide %s is greatly reduced.",
+                        { addPluralisedText(LCCEntities.rotwitch) },
+                        { addWastelandEffectivityLink("Wasteland Damage") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Legacy")
+                .addParagraph {
+                    addFormatText("In %s, %s were known as The Rotting. The mob functioned mostly the same, however the %s they spawned had different damage and mobility mechanics.",
+                        { addText(LCCVersionGroup.YAM.title) },
+                        { addPluralisedText(LCCEntities.rotwitch) },
+                        { addPluralisedText(LCCEntities.fly) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Drops")
+                .addFragment(KnowledgeArticleLootFragmentBuilder { listOf(it.da.lootTables[LCCEntities.rotwitch]!!) })
+            )
+            .boilerplate(LCCEntities.rotwitch)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 13, 20, 24, 11))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs", "Flies")
+    }
+
+    val entity_fly by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCEntities.fly)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are small and fast flying mobs originally introduced in %s and reintroduced in %s. They are creatures based in the %s which can be friendly or hostile, marked by the %s of their body.",
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addLink(LCCVersion.YAM_1) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addWastelandLink() },
+                        { addText(KnowledgeConstants.color) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Combat")
+                .addParagraph {
+                    addFormatText("%s have half a heart of health and will fly toward its target. Once a %s is in melee range to attack, they will die - even if the attack is unsuccessful (e.g. blocked by a shield). They deal half a heart of damage, but the target is granted no invulnerability frames or knockback, meaning %s can quickly overwhelm and swarm in large groups.",
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addText(LCCEntities.fly) },
+                        { addPluralisedText(LCCEntities.fly) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Because %s are from the Wasteland, they deal extra damage that pierces through %s without %s.",
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addText(KnowledgeConstants.armor) },
+                        { addWastelandEffectivityLink("Wasteland Protection") }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Summoning")
+                .addParagraph {
+                    addFormatText("Hostile %s are black and are summoned by a %s. They will attack the player or mob that the %s is targeting.",
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addLink(LCCEntities.rotwitch) },
+                        { addText(LCCEntities.rotwitch) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Friendly %s assume the dominant %s of the allied player's ingame skin. Similarly to tamed animals, they will attack mobs or players that attack or are attacked by the allied player. Player %s can be spawned by either:",
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addText(KnowledgeConstants.color) },
+                        { addPluralisedText(LCCEntities.fly) },
+                    )
+                }
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("The %s enchantment on a weapon.",
+                        { addLink(LCCEnchants.infested) },
+                    ))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Using %s.",
+                        { addLink(LCCItems.fly_eggs) },
+                    ))
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Legacy")
+                .addParagraph {
+                    addFormatText("In %s, %s were permanently hostile and would hover 2 blocks above the ground. They were also weak in attack strength and health, but did not die when they hit the player. They spawned from The Rotting or had a low chance of spawning from breaking %s.",
+                        { addText(LCCVersionGroup.YAM.title) },
+                        { addPluralisedText(LCCEntities.fly) },
+                        { addPluralisedLink(LCCBlocks.deposit) },
+                    )
+                }
+            )
+            .boilerplate(LCCEntities.fly)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 13, 20, 51, 19))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Combat", "Wasteland Damage", "Wasteland Protection", "Hostile Mobs", "Utility Mobs", "Tameable Mobs", "Flies")
+    }
+
+    val item_fly_eggs by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.fly_eggs)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s are an item introduced in %s which can be right clicked on the ground to hatch into a friendly %s. This %s will act like a tamed mob, attacking a mob or player that its owner attacked or has been attacked by.",
+                        { addText(LCCItems.fly_eggs) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) },
+                        { addLink(LCCEntities.fly) },
+                        { addText(LCCEntities.fly) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s should not be confused with the creative-only %s, but functions similarly.",
+                        { addText(LCCItems.fly_eggs) },
+                        { addLink(LCCItems.fly_spawn_egg) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.obtaining)
+                .addParagraph {
+                    addFormatText("%s are often dropped by killing %s.",
+                        { addText(LCCItems.fly_eggs) },
+                        { addPluralisedLink(LCCEntities.rotwitch) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.fly_eggs))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.fly_eggs))
+            .boilerplate(LCCItems.fly_eggs, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 13, 20, 55, 37))
+            .tags("Wasteland", "Mob Drops", "Flies")
+    }
+
+    val item_item_magnet by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCItems.item_magnet)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The %s is a tool introduced in %s which can attract items towards the player after a short charge time. It can be crafted with %s.",
+                        { addText(LCCItems.item_magnet) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_2) },
+                        { addLink(LCCItems.magnetic_iron) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCItems.item_magnet))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCItems.item_magnet))
+            .boilerplate(LCCItems.item_magnet, renewable = true)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 13, 21, 29, 56))
+            .tags("Wasteland", "Tools", "Magnetic Iron")
+    }
+
+    val lcc_fabric_0_5_1 by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCVersion.LCC_FABRIC_0_5_1.page, LCCVersion.LCC_FABRIC_0_5_1.label)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText(LCCVersion.LCC_FABRIC_0_5_1.getIntroduction(),
+                        { addText("Loosely Connected Concepts 0.5.1") },
+                        { addText("sixteenth") },
+                        { addText("59th") },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_2) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Like all LCC 0.5.x versions, the main focus is the %s biome, a hostile and dismal expanse filled with vicious traps and difficult mobs.",
+                        { addWastelandLink() }
+                    )
+                }
+                .addParagraph {
+                    addText("This is also the version that saw the creation of the LCC Wiki, close to 70 articles with information on elements added by the mod were published.")
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Additions")
+                .addParagraph {
+                    addFormatText("%s is a new crafting ingredient for new blocks %s and %s.",
+                        { addLink(LCCItems.magnetic_iron) },
+                        { addLink(LCCBlocks.attractive_magnetic_iron_block) },
+                        { addLink(LCCBlocks.repulsive_magnetic_iron_block) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and %s are new flowers which sparsely generate in the Wasteland. %s are a key crafting ingredient to create the %s.",
+                        { addLink(KnowledgeArticleIdentifier.ofBlock(LCCBlocks.three_leaf_clover), "Clovers") },
+                        { addPluralisedLink(LCCBlocks.forget_me_not) },
+                        { addPluralisedText(LCCBlocks.forget_me_not) },
+                        { addLink(LCCItems.scroll_of_reconditioning) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s also generate in the Wasteland which spawn mobs at an increased rate.",
+                        { addPluralisedLink(LCCBlocks.spawning_pit) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s, %s, %s, %s and %s are Wasteland mobs added to give more variety and life to the biome. The %s is another mob added to help the player find the Wasteland and other rare biomes.",
+                        { addPluralisedLink(LCCEntities.psycho_pig) },
+                        { addPluralisedLink(LCCEntities.disciple) },
+                        { addPluralisedLink(LCCEntities.woodlouse) },
+                        { addPluralisedLink(LCCEntities.rotwitch) },
+                        { addPluralisedLink(LCCEntities.fly) },
+                        { addLink(LCCEntities.traveller) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Enhancing Pyre in %s, %s and %s variants was added, used as an ingredient in %s recipes to craft %s, and in the recipe of the new %s block to create overleveled enchantments.",
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_alpha), "alpha") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_beta), "beta") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.enhancing_pyre_omega), "omega") },
+                        { addLink(LCCBlocks.spawner_table) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_container[HeartType.RED]!!), "heart containers") },
+                        { addLink(LCCBlocks.enhancing_chamber) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and %s are new mob drops. %s can be used to craft %s. The %s is a rare weapon drop which deal quick attacks.",
+                        { addLink(LCCItems.fly_eggs) },
+                        { addPluralisedLink(LCCItems.woodlouse_shell) },
+                        { addPluralisedText(LCCItems.woodlouse_shell) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.woodlouse_chestplate),
+                            "en_us" to "Woodlouse Armor",
+                            "en_gb" to "Woodlouse Armour"
+                        ) },
+                        { addLink(LCCItems.knife) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and %s are new debuff status effects that can be applied to the player.",
+                        { addLink(LCCEffects.fear) },
+                        { addLink(LCCEffects.bleeding) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s offer an %s challenge, which locks you in a room of %s set to summon various Wasteland mobs.",
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altars") },
+                        { addText("Arena") },
+                        { addPluralisedLink(Blocks.SPAWNER) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Tents now contain Woodlouse %s as well as the new %s treasure enchantment.",
+                        { addText(KnowledgeConstants.armor) },
+                        { addLink(LCCEnchants.infested) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The %s can be used to give temporary debuffs to weapons. A %s gives 5 seconds of %s II for 30 attacks.",
+                        { addLink(LCCBlocks.imbuing_press) },
+                        { addLink(LCCItems.stinger) },
+                        { addLink(StatusEffects.POISON) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s are a new item to mark the age of a world in days.",
+                        { addPluralisedLink(LCCItems.calendar) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("A crafting recipe has been added to the vanilla %s. %s can now be smelted into %s.",
+                        { addLink(Items.BUNDLE) },
+                        { addLink(Blocks.MUD) },
+                        { addLink(LCCBlocks.cracked_mud) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Added custom sound effects for %s.",
+                        { addPluralisedLink(LCCEntities.wasp) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Changes")
+                .addParagraph {
+                    addFormatText("Wasteland Spikes and Wasteland Barrens have been merged into one Wasteland biome. %s spikes now generate above a certain height (Y=80) while most other features generate below that height.",
+                        { addLink(LCCBlocks.fortstone) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("The %s challenge of a Sapphire Altar is now always solvable.",
+                        { addText("Minesweeper") }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s now have a rubber face and use %s as an ingredient in its recipe. %s now launch entities and stationary falling blocks.",
+                        { addPluralisedLink(LCCBlocks.bounce_pad) },
+                        { addPluralisedLink(LCCBlocks.rubber_piston) },
+                        { addPluralisedText(LCCBlocks.rubber_piston) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and Wasteland Protection have been converted from item and entity tags into entity attributes, which equipment from the Wasteland provides a buff towards. Wasteland mobs have a base value for these attributes.",
+                        { addWastelandEffectivityLink("Wasteland Damage") }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s tools and %s has had a buff to its durability. %s %s has been buffed to be equivalent to %s.",
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.iron_oxide), "Rusty Iron") },
+                        { addText(KnowledgeConstants.armor) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.sapphire_chestplate),
+                            "en_us" to "Sapphire Armor",
+                            "en_gb" to "Sapphire Armour"
+                        ) },
+                        { addLink(Items.DIAMOND) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s now have 3 durability before breaking when attacking.",
+                        { addPluralisedLink(LCCItems.stinger) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Fixes")
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed %s tongue attacks sometimes crashing the client.",
+                        { addLink(LCCEntities.consumer) },
+                    ))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bottom slab %s being placeable on top of itself in creative mode.",
+                        { addText(LCCBlocks.spawner_table) },
+                    ))
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed damage overlay not always showing heart damage type colour."))
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed advancement race criterion concurrency crash."))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bug with %s smelt recipes unlocking with output item instead of input.",
+                        { addText(Blocks.FURNACE) },
+                    ))
+                )
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Player Guide")
+                .addParagraph {
+                    addFormatText("This update was all about making the Wasteland easier to get started with. If you're having trouble finding a Wasteland biome, wait to come across a %s and convince them to become a %s by right clicking with a %s.",
+                        { addLink(EntityType.WANDERING_TRADER) },
+                        { addText(LCCEntities.traveller) },
+                        { addText(Items.BUNDLE) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Smelt %s blocks into %s in a %s or %s and provide this as a reference to the %s. Once they guide you to your destination, you can progress through the Wasteland as you would in 0.5.0.",
+                        { addText(Blocks.MUD) },
+                        { addText(LCCBlocks.cracked_mud) },
+                        { addLink(Blocks.FURNACE) },
+                        { addLink(LCCBlocks.kiln) },
+                        { addText(LCCEntities.traveller) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Sapphire Altars continue to offer the minesweeper challenge (now always solvable) and a new arena challenge, giving plenty of opportunities to obtain %s.",
+                        { addPluralisedLink(LCCItems.sapphire) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("It's important to hunt as many %s as you can as their pyre can be used to craft heart containers or gain enchantments with a one level increase beyond the regular limit (e.g. %s V or %s VI).",
+                        { addPluralisedText(LCCEntities.disciple) },
+                        { addLink(Enchantments.PROTECTION) },
+                        { addLink(Enchantments.SHARPNESS) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Continue to look through every Tent you find as they now have a chance to contain the %s treasure enchantment, which will allow your weapon to spawn friendly %s on every attack, significantly increasing your damage output.",
+                        { addText(LCCEnchants.infested) },
+                        { addPluralisedText(LCCEntities.fly) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Technical")
+                .addParagraph {
+                    addText("A lot of this update contains infrastructure for creating LCC Wiki articles. These are created in the mod code and committed to the online database on datagen.")
+                }
+                .addParagraph {
+                    addText("The data generator LCC module has also seen huge changes in a general rework. The Cloth Datagen API was removed as a dependency, which meant that JSON writers had to be created for each datagen topic. These writers are known in the code as Data classes, which read the raw data from new Batch classes. Loot tables and recipes now also have Store classes to be retrieved later from other places in code such as knowledge articles.")
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Commit Messages")
+                .addParagraph {
+                    addText(LCCVersion.LCC_FABRIC_0_5_1.description)
+                }
+            )
+            .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_1))
+            .tags("LCC")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

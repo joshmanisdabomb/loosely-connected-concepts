@@ -450,6 +450,16 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val item_magnet by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("m m")
+            .pattern("m m")
+            .pattern(" m ")
+            .input('m', LCCItems.magnetic_iron)
+            .apply { hasCriterionShaped(this, LCCItems.magnetic_iron) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

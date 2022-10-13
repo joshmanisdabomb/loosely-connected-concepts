@@ -38,6 +38,6 @@ open class HeartItem(val heart: HeartType, val value: Float, settings: Settings)
 
     override fun getUseAction(stack: ItemStack?) = UseAction.SPEAR
 
-    override fun getMaxUseTime(stack: ItemStack) = 72000;
+    override fun getMaxUseTime(stack: ItemStack) = 72000
 
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "lcc:block/polished_sapphire_altar_brick"
+  }
+}

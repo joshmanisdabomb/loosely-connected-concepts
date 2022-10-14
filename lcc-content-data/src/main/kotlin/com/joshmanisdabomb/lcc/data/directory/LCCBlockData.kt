@@ -738,6 +738,22 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val spawning_pit by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().mineablePickaxe().add(SilkBlockLootFactory(LCCBlocks.cracked_mud)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
 
+    val polished_sapphire_altar_brick by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().mineablePickaxe().withDiamondTool().add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
+    val polished_sapphire_altar_brick_stairs by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withDiamondTool().add(StairsBlockAssetFactory(LCCBlocks.polished_sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.polished_sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.polished_sapphire_altar_brick)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
+    val polished_sapphire_altar_brick_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().mineablePickaxe().withDiamondTool().add(SlabBlockAssetFactory(LCCBlocks.polished_sapphire_altar_brick.identifierLoc(), full = LCCBlocks.polished_sapphire_altar_brick.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.polished_sapphire_altar_brick)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick, 2)).add(StonecutterItemRecipeFactory(LCCBlocks.polished_sapphire_altar_brick, 2)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
+    val polished_sapphire_altar_brick_wall by entry(::initialiser) { data().defaultLang().defaultLootTable().mineablePickaxe().withDiamondTool().add(WallBlockAssetFactory(LCCBlocks.polished_sapphire_altar_brick.identifierLoc())).add(CustomItemAssetFactory { d, t, i -> Models.WALL_INVENTORY.upload(idi.loc(t), TextureMap().put(TextureKey.WALL, LCCBlocks.polished_sapphire_altar_brick.identifierLoc()), d.models) }).add(BlockTagFactory(BlockTags.WALLS)).add(ItemTagFactory(ItemTags.WALLS)).add(WallRecipeFactory(LCCBlocks.polished_sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.sapphire_altar_brick)).add(StonecutterItemRecipeFactory(LCCBlocks.polished_sapphire_altar_brick)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
+    val heart_condenser by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withDiamondTool().add(HeartCondenserBlockAssetFactory).add(BlockTagFactory(LCCBlockTags.wasteland_required)).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("b b")
+            .pattern("sss")
+            .pattern("BBB")
+            .input('B', LCCBlocks.polished_sapphire_altar_brick)
+            .input('b', LCCBlocks.polished_sapphire_altar_brick_slab)
+            .input('s', LCCItems.sapphire)
+            .apply { hasCriterionShaped(this, LCCItems.sapphire) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

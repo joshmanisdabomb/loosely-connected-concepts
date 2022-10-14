@@ -41,6 +41,7 @@ object LCCLangData {
         lang["container.lcc.kiln"] = "Kiln"
         lang["container.lcc.nuclear_generator"] = "Nuclear Generator"
         lang["container.lcc.imbuing"] = "Imbue Weapon"
+        lang["container.lcc.heart_condenser"] = "Heart Condenser"
 
         lang["container.lcc.refining.power"] = "Power: %1\$s"
         lang["container.lcc.refining.power.recipe"] = "Power: %1\$s\nConsumed: %2\$s/t"

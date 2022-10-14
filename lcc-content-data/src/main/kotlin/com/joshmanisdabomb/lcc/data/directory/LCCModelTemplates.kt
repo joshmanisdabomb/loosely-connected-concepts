@@ -89,6 +89,8 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_obelisk_item by templateEntry("item", template_obelisk_item_json, TextureKey.TEXTURE, TextureKey.LANTERN, TextureKey.INSIDE)
     val template_enhancing_chamber by templateEntry("block", template_enhancing_chamber_json, TextureKey.BOTTOM, TextureKey.SIDE, TextureKey.TOP, TextureKey.PARTICLE)
     val template_imbuing_press by templateEntry("block", template_imbuing_press_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_heart_condenser by templateEntry("block", template_heart_condenser_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, TextureKey.PARTICLE)
+    val template_heart_condenser_fill by templateEntry("block", template_heart_condenser_fill_json, LCCModelTextureKeys.t0, TextureKey.PARTICLE)
 
 }
 
@@ -10083,6 +10085,142 @@ private const val template_imbuing_press_json = """{
 			"faces": {
 				"east": {"uv": [0, 0, 16, 11], "texture": "#0"},
 				"west": {"uv": [0, 0, 16, 11], "texture": "#0"}
+			}
+		}
+	]
+}"""
+
+private const val template_heart_condenser_json = """{
+	"credit": "Made with Blockbench",
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 1, 1],
+			"to": [16, 13, 15],
+			"faces": {
+				"north": {"uv": [0, 3, 16, 15], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [1, 3, 15, 15], "texture": "#0"},
+				"south": {"uv": [0, 3, 16, 15], "texture": "#0"},
+				"west": {"uv": [1, 3, 15, 15], "texture": "#0"},
+				"up": {"uv": [0, 1, 16, 15], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [0, 1, 16, 15], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 1, 0],
+			"to": [15, 13, 16],
+			"faces": {
+				"north": {"uv": [1, 3, 15, 15], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [0, 3, 16, 15], "texture": "#0"},
+				"south": {"uv": [1, 3, 15, 15], "texture": "#0"},
+				"west": {"uv": [0, 3, 16, 15], "texture": "#0"},
+				"up": {"uv": [1, 0, 15, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [1, 0, 15, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 13, 1],
+			"to": [15, 14, 15],
+			"faces": {
+				"north": {"uv": [1, 2, 15, 3], "texture": "#1", "cullface": "north"},
+				"east": {"uv": [1, 2, 15, 3], "texture": "#1"},
+				"south": {"uv": [1, 2, 15, 3], "texture": "#1"},
+				"west": {"uv": [1, 2, 15, 3], "texture": "#1"}
+			}
+		},
+		{
+			"from": [1, 0, 1],
+			"to": [15, 1, 15],
+			"faces": {
+				"north": {"uv": [1, 15, 15, 16], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [1, 15, 15, 16], "texture": "#0"},
+				"south": {"uv": [1, 15, 15, 16], "texture": "#0"},
+				"west": {"uv": [1, 15, 15, 16], "texture": "#0"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#0"}
+			}
+		},
+		{
+			"from": [11, 14, 1],
+			"to": [16, 16, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 6, 2], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"south": {"uv": [11, 0, 16, 2], "texture": "#0"},
+				"west": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"up": {"uv": [11, 1, 16, 15], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [11, 1, 16, 15], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 14, 1],
+			"to": [5, 16, 15],
+			"faces": {
+				"north": {"uv": [10, 0, 16, 2], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"south": {"uv": [0, 0, 5, 2], "texture": "#0"},
+				"west": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"up": {"uv": [0, 1, 5, 15], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [0, 1, 5, 15], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 14, 0],
+			"to": [15, 16, 5],
+			"faces": {
+				"north": {"uv": [1, 0, 15, 2], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [11, 0, 16, 2], "texture": "#0"},
+				"south": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"west": {"uv": [0, 0, 5, 2], "texture": "#0"},
+				"up": {"uv": [1, 0, 15, 5], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [1, 11, 15, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [1, 14, 11],
+			"to": [15, 16, 16],
+			"faces": {
+				"north": {"uv": [1, 0, 15, 2], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [0, 0, 5, 2], "texture": "#0"},
+				"south": {"uv": [1, 0, 15, 2], "texture": "#0"},
+				"west": {"uv": [11, 0, 16, 2], "texture": "#0"},
+				"up": {"uv": [1, 11, 15, 16], "texture": "#0", "cullface": "up"},
+				"down": {"uv": [1, 0, 15, 5], "texture": "#0"}
+			}
+		}
+	]
+}"""
+
+private const val template_heart_condenser_fill_json = """{
+	"credit": "Made with Blockbench",
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [5, 15, 5],
+			"to": [11, 15, 11],
+			"faces": {
+				"up": {"uv": [2, 8, 8, 14], "texture": "#0", "cullface": "up"}
+			}
+		},
+		{
+			"from": [5.5, 15, 5.5],
+			"to": [10.5, 15.5, 10.5],
+			"faces": {
+				"north": {"uv": [2, 0.5, 7, 1], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [7.5, 2, 8, 7], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [2, 7.5, 7, 8], "texture": "#0"},
+				"west": {"uv": [0.5, 2, 1, 7], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [2, 2, 7, 7], "texture": "#0", "cullface": "up"}
+			}
+		},
+		{
+			"from": [6.5, 15.5, 6.5],
+			"to": [9.5, 16, 9.5],
+			"faces": {
+				"north": {"uv": [10, 1, 13, 1.5], "texture": "#0", "cullface": "north"},
+				"east": {"uv": [10, 6, 13, 6.5], "texture": "#0"},
+				"south": {"uv": [13, 2, 13.5, 5], "rotation": 90, "texture": "#0"},
+				"west": {"uv": [9.5, 2, 10, 5], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [10, 2, 13, 5], "texture": "#0", "cullface": "up"}
 			}
 		}
 	]

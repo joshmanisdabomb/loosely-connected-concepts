@@ -31,6 +31,7 @@ object LCCItemTags : AdvancedDirectory<Identifier?, TagKey<Item>, Unit, Unit>() 
     val crystal_hearts by entry(::initialiser) { null }
     val temporary_hearts by entry(::initialiser) { null }
     val hearts by entry(::initialiser) { null }
+    val heart_condenser_fuel by entry(::initialiser) { null }
 
     val enhancing_pyre by entry(::initialiser) { null }
     val imbuable by entry(::initialiser) { null }

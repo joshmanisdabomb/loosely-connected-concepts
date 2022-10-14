@@ -378,7 +378,7 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
     }) }
 
     val enhancing_pyre_alpha by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCItemTags.enhancing_pyre)) }
-    val enhancing_pyre_beta by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCItemTags.enhancing_pyre)).add(CustomRecipeFactory { d, i ->
+    val enhancing_pyre_beta by entry(::initialiser) { data().defaultLang().defaultItemAsset().add(ItemTagFactory(LCCItemTags.enhancing_pyre)).add(ItemTagFactory(LCCItemTags.heart_condenser_fuel)).add(CustomRecipeFactory { d, i ->
         ShapedRecipeJsonBuilder.create(i)
             .pattern(" e ")
             .pattern("ese")

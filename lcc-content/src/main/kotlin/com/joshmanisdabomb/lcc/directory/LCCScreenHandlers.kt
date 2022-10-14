@@ -29,6 +29,8 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
 
     val imbuing by entry(::simpleInitialiser) { ::ImbuingScreenHandler }
 
+    val heart_condenser by entry(::simpleInitialiser) { ::HeartCondenserScreenHandler }
+
     override fun id(name: String) = LCC.id(name)
 
     fun <S : ScreenHandler> simpleInitialiser(input: (Int, PlayerInventory) -> S, context: DirectoryContext<Unit>, parameters: Unit): ScreenHandlerType<S> {

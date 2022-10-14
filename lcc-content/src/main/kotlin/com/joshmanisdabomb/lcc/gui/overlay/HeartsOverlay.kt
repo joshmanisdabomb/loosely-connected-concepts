@@ -22,7 +22,7 @@ object HeartsOverlay : DrawableHelper() {
 
     private val random = Random()
 
-    private val icons = LCC.gui("hearts")
+    val icons = LCC.gui("hearts")
     private val types = HeartType.values().filter { it.drawable }
 
     fun render(matrix: MatrixStack, player: PlayerEntity, armorPosition: Int, ticks: Int) {

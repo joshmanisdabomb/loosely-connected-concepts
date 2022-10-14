@@ -227,6 +227,14 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val sapphire_altar_brick_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(sapphire_altar_brick)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val polished_sapphire_altar_brick by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(6.0f, 18000000f).requiresTool().sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val polished_sapphire_altar_brick_stairs by entry(::initialiser) { StairsBlock(polished_sapphire_altar_brick.defaultState, FabricBlockSettings.copyOf(polished_sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val polished_sapphire_altar_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(polished_sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
+    val polished_sapphire_altar_brick_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(polished_sapphire_altar_brick)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     val papercomb_block by entry(::initialiser) { PapercombBlock(FabricBlockSettings.of(Material.ORGANIC_PRODUCT, MapColor.TERRACOTTA_WHITE).strength(4.0F, 0.0F).requiresTool().sounds(BlockSoundGroup.HANGING_ROOTS).suffocates(::never)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND, sortValueInt(90000, 1)).flammability(60, 70, Blocks.FIRE))
@@ -342,6 +350,8 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
     val imbuing_press by entry(::initialiser) { ImbuingPressBlock(FabricBlockSettings.of(Material.STONE, MapColor.GRAY).strength(7.0f, 1200.0f).requiresTool().sounds(BlockSoundGroup.BASALT)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND).cutout())
+    val heart_condenser by entry(::initialiser) { HeartCondenserBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_BLUE).strength(6.0f, 18000000f).requiresTool().sounds(BlockSoundGroup.STONE)) }
+        .setProperties(BlockExtraSettings().creativeEx(WASTELAND))
 
     val spawning_pit by entry(::initialiser) { SpawningPitBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).ticksRandomly().emissiveLighting(::always).requiresTool().sounds(BlockSoundGroup.STONE)) }
         .setProperties(BlockExtraSettings().creativeEx(WASTELAND))

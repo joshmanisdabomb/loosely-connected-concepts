@@ -9,6 +9,7 @@
   "death.attack.lcc.radiation": "%1$s was exposed to ionising radiation",
   "death.attack.lcc.radiation.player": "%1$s was exposed to ionising radiation whilst trying to escape %2$s",
   "knowledge.lcc.lcc:version.lcc:0.5.1.1.5.7.0": "Woodlouse Armour",
+  "knowledge.lcc.lcc:version.lcc:0.5.1.2.4.5.0": "Sapphire Armour",
   "knowledge.lcc.meta.section.behavior": "Behaviour",
   "knowledge.lcc.meta.section.coloring": "Colouring",
   "knowledge.lcc.meta.section.info.map_colors": "Map Colours",

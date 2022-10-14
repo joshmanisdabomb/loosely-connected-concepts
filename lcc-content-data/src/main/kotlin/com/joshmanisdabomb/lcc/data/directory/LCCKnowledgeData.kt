@@ -88,91 +88,193 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Sapphire Altar", "Sapphire Pickaxe Required")
     }
 
-    /*val lcc_fabric_0_5_0 by entry(::initialiser) {
+    val version_lcc_fabric_0_5_0 by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCVersion.LCC_FABRIC_0_5_0.page, LCCVersion.LCC_FABRIC_0_5_0.label)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
-                    addFormatText(LCCVersion.LCC_FABRIC_0_5_0.getKnowledgeConstants.introduction())
-                    addText("Loosely Connected Concepts 0.5.0")
-                    addText("fifteenth")
-                    addText("58th")
-                    addLink(LCCVersion.LCC_FABRIC_0_4_4.label, LCCVersion.LCC_FABRIC_0_4_4.page.link)
-                )
+                    addFormatText(LCCVersion.LCC_FABRIC_0_5_0.getIntroduction(),
+                        { addText("Loosely Connected Concepts 0.5.0") },
+                        { addText("fifteenth") },
+                        { addText("58th") },
+                        { addLink(LCCVersion.LCC_FABRIC_0_4_4) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_1) }
+                    )
+                }
                 .addParagraph {
                     addFormatText("The focus of LCC 0.5.x is the %s biome, a hostile and dismal expanse filled with vicious traps and difficult mobs.",
-                    addLink("Wasteland", KnowledgeArticleIdentifier(BuiltinRegistries.BIOME.key.value, LCC.id("wasteland")).link)
-                )
+                        { addWastelandLink() }
+                    )
+                }
             )
-            .addSection(KnowledgeArticleSectionBuilder("Gameplay")
+            .addSection(KnowledgeArticleSectionBuilder("Additions")
                 .addParagraph {
-                    addFormatText("In this version, the Wasteland biome is split into two sub-biomes, %s and %s. The barrens are flat terrain where traps, resources and larger quantities of mobs are commonly found. The spiked regions are generally safer, but provide less rewards and are more challenging to navigate.",
-                    addLink("Wasteland Barrens", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_barrens).link)
-                    addLink("Wasteland Spikes", KnowledgeArticleIdentifier.ofBiome(LCCBiomes.wasteland_spikes).link)
-                )
+                    addFormatText(
+                        "%s and %s were added as a Wasteland wood type. %s, %s and %s were added as a Wasteland stone type. Both materials make a new set of Wasteland tools.",
+                        { addLink(LCCBlocks.deadwood) },
+                        { addLink(LCCBlocks.deadwood_planks) },
+                        { addLink(LCCBlocks.fortstone) },
+                        { addLink(LCCBlocks.cobbled_fortstone) },
+                        { addLink(LCCBlocks.polished_fortstone) },
+                    )
+                }
                 .addParagraph {
-                    addFormatText("Some blocks native to the Wasteland require Wasteland tools to mine, and most mobs native to the Wasteland deal increased damage through non-Wasteland %s and take reduced damage from non-Wasteland equipment. The tool progression starts at %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by %s structures to obtain %s, the current final tier of Wasteland equipment.",
-                    addText({ IncludedText.translatable(it).translation("armor", "en_us").translation("armour", "en_gb") })
-                    addLink(LCCBlocks.deadwood.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deadwood_log).link)
-                    addLink(LCCItems.deadwood_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.deadwood_pickaxe).link)
-                    addLink(LCCBlocks.fortstone.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.fortstone).link)
-                    addLink("rusted iron blocks", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.rusted_iron_blocks.values.last()).link)
-                    addLink(LCCItems.fortstone_pickaxe.name, KnowledgeArticleIdentifier.ofItem(LCCItems.fortstone_pickaxe).link)
-                    addLink("Altar Challenge Keys", KnowledgeArticleIdentifier.ofItem(LCCItems.altar_challenge_key).link)
-                    .insert/*Link*/("Sapphire Altar"/*, KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.sapphire_altar).link*/)
-                    addLink("sapphires", KnowledgeArticleIdentifier.ofItem(LCCItems.sapphire).link)
-                )
+                    addFormatText("%s and %s were added as a Wasteland equivalent to %s. %s were added as a Wasteland equivalent to %s. Both materials make a new set of Wasteland tools and %s.",
+                        { addLink(LCCItems.iron_oxide) },
+                        { addPluralisedLink(LCCBlocks.rusted_iron_blocks.values.last()) },
+                        { addPluralisedLink(Items.IRON_INGOT) },
+                        { addPluralisedLink(LCCItems.sapphire) },
+                        { addPluralisedLink(Items.DIAMOND) },
+                        { addText(KnowledgeConstants.armor) },
+                    )
+                }
                 .addParagraph {
-                    addFormatText("Players can also find treasure in the Wasteland. %s are structures that spawn in the barrens which often contain loot. Obtained items can range from sticks to %s, which can permanently increase your maximum life. '%s' can also be found in the barrens, grouped in clusters. Breaking these will sometimes drop gold pieces, iron pieces or the aforementioned heart containers.",
-                    .insert/*Link*/("Tents"/*, KnowledgeArticleIdentifier.ofStructure(LCCStructureFeatures.wasteland_tent).link*/)
-                    addLink("heart containers", KnowledgeArticleIdentifier(LCC.id("concepts"), LCC.id("heart_containers")).link)
-                    addLink("Deposits", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.deposit).link)
-                )
+                    addFormatText("%s, %s and %s have been added as products from the new %s refining mechanic. %s and %s can be used to craft %s.",
+                        { addPluralisedLink(LCCItems.tar_ball) },
+                        { addPluralisedLink(LCCItems.refined_oil_bucket) },
+                        { addPluralisedLink(LCCItems.fuel_bucket) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.oil_bucket), "crude oil") },
+                        { addLink(LCCItems.flexible_plastic) },
+                        { addLink(LCCItems.rigid_plastic) },
+                        { addPluralisedLink(LCCItems.plastic_bag) },
+                    )
+                }
                 .addParagraph {
-                    addFormatText("The Wasteland is now home to three dangerous mobs. The %s is a baby version of a regular Minecraft skeleton that strafes and shoots faster and has a much smaller hitbox. %s are creatures that extends its tongue out to latch on to its prey. Finally, %s nests spawn in all parts of the Wasteland. Wasps are generally neutral but will vehemently defend their nests from perceived threats and can get randomly aggressive at nearby targets.",
-                    addLink(LCCEntities.baby_skeleton.name, KnowledgeArticleIdentifier.ofEntity(LCCEntities.baby_skeleton).link)
-                    addLink("Consumers", KnowledgeArticleIdentifier.ofEntity(LCCEntities.consumer).link)
-                    addLink(LCCEntities.wasp.name, KnowledgeArticleIdentifier.ofEntity(LCCEntities.wasp).link)
-                )
+                    addFormatText("%s, %s and %s are new dangerous Wasteland mobs. %s spawn in nests made of %s.",
+                        { addPluralisedLink(LCCEntities.consumer) },
+                        { addPluralisedLink(LCCEntities.baby_skeleton) },
+                        { addPluralisedLink(LCCEntities.wasp) },
+                        { addPluralisedText(LCCEntities.wasp) },
+                        { addPluralisedLink(LCCBlocks.papercomb_block) }
+                    )
+                }
                 .addParagraph {
-                    addFormatText("%s traps and landmines hooked up to camouflaged %s are often placed in Wasteland Barrens. Spikes can sometimes spawn covered in %s or %s residue. Landmines are rigged up with an %s, which leaves behind a large firey crater.",
-                    addLink("Spike", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.spikes).link)
-                    addLink("pressure plates", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud_pressure_plate).link)
-                    addLink("bloody", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.bleeding_spikes).link)
-                    addLink("poisonous", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.poison_spikes).link)
-                    addLink(LCCBlocks.improvised_explosive.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.improvised_explosive).link)
-                )
+                    addFormatText("Landmines using a %s and %s, and pits with %s are traps that spawn in Wasteland Barrens.",
+                        { addLink(LCCBlocks.cracked_mud_pressure_plate) },
+                        { addPluralisedLink(LCCBlocks.improvised_explosive) },
+                        { addLink(LCCBlocks.spikes) }
+                    )
+                }
                 .addParagraph {
-                    addFormatText("Oil refining has also been modified in this version. Oil, which now spawns more commonly in the wasteland as geysers or in pockets buried under %s, now refines into three products: %s, %s and %s. Fuel can be converted to energy using a %s, or refined further into %s which can be placed to cause chain reactions of explosions, create improvised explosives (landmines) or to %s. Refined oil can be further refined into %s or %s, both of which can have its %s customised with dyes and do not despawn when dropped. Flexible plastic can be crafted into %s, which hold 2 stacks of items. Tar balls are used to create %s.",
-                    addLink("cracked mud", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.cracked_mud).link)
-                    addLink("Fuel Buckets", KnowledgeArticleIdentifier.ofItem(LCCItems.fuel_bucket).link)
-                    addLink("Refined Oil Buckets", KnowledgeArticleIdentifier.ofItem(LCCItems.refined_oil_bucket).link)
-                    addLink("tar balls", KnowledgeArticleIdentifier.ofItem(LCCItems.tar_ball).link)
-                    addLink(LCCBlocks.oil_generator.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.oil_generator).link)
-                    addLink(LCCBlocks.explosive_paste.name, KnowledgeArticleIdentifier.ofBlock(LCCBlocks.explosive_paste).link)
-                    addLink("construct a game of Minesweeper", KnowledgeArticleIdentifier.of(LCCRegistries.altar_challenges, LCCAltarChallenges.minesweeper).link)
-                    addLink(LCCItems.rigid_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.rigid_plastic).link)
-                    addLink(LCCItems.flexible_plastic.name, KnowledgeArticleIdentifier.ofItem(LCCItems.flexible_plastic).link)
-                    addText({ IncludedText.translatable(it).translation("color", "en_us").translation("colour", "en_gb") })
-                    addLink("plastic bags", KnowledgeArticleIdentifier.ofItem(LCCItems.plastic_bag).link)
-                    addLink("roads", KnowledgeArticleIdentifier.ofBlock(LCCBlocks.road).link)
+                    addFormatText("This update adds the concepts of tool effectivity, including %s and Wasteland Protection.",
+                        { addWastelandEffectivityLink("Wasteland Damage") }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and %s are Wasteland structures which regularly spawn. Sapphire Altars are made of %s containing %s.",
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altars") },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("tent")), "Tents") },
+                        { addLink(LCCBlocks.sapphire_altar_brick) },
+                        { addPluralisedLink(LCCBlocks.bomb_board_block) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s and %s are new items which can be found in Tents. %s are scattered across the Wasteland which have a chance to drop loot.",
+                        { addPluralisedLink(LCCItems.dull_sapphire) },
+                        { addPluralisedLink(LCCItems.altar_challenge_key) },
+                        { addPluralisedLink(LCCBlocks.deposit) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s, %s and %s are new craftable items. %s have also been added.",
+                        { addPluralisedLink(LCCBlocks.rubber_block) },
+                        { addLink(LCCBlocks.rusted_iron_bars) },
+                        { addLink(LCCBlocks.explosive_paste) },
+                        { addPluralisedLink(LCCBlocks.rhyolite_wall) }
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s, %s, %s, %s and %s can be smashed with a %s to turn into %s. %s will inflict a %s debuff on a critical hit.",
+                        { addLink(Blocks.GLASS) },
+                        { addPluralisedLink(Blocks.GLASS_PANE) },
+                        { addLink(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("stained_glass")), "Stained Glass") },
+                        { addLink(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("stained_glass_pane")), "Stained Glass Panes") },
+                        { addLink(Blocks.TINTED_GLASS) },
+                        { addLink(LCCItems.crowbar) },
+                        { addLink(LCCBlocks.shattered_glass) },
+                        { addPluralisedText(LCCItems.crowbar) },
+                        { addLink(LCCEffects.stun) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Changes")
+                .addParagraph {
+                    addText("The single Wasteland biome has been split into Wasteland Barrens and Wasteland Spikes sub-biomes.")
+                }
+                .addParagraph {
+                    addFormatText("Oil Buckets have been renamed to %s and can now be refined into multiple products. Products can also be further distilled into the next tier up with cracking refiner recipes. Power generated in a %s has been reduced to 2 LE/t.",
+                        { addPluralisedText(LCCItems.oil_bucket) },
+                        { addLink(LCCBlocks.oil_generator) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s now also generates in clusters underneath the %s surface.",
+                        { addLink(KnowledgeArticleIdentifier.ofFluid(LCCFluids.oil_still), "Oil") },
+                        { addLink(LCCBlocks.cracked_mud) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Red and Iron %s and %s are now fully obtainable from %s or Tents.",
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "Hearts") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_container[HeartType.RED]!!), "Heart Containers") },
+                        { addPluralisedText(LCCBlocks.deposit) }
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Player Guide")
+                .addParagraph {
+                    addFormatText("The player must take caution and be prepared before entering the Wasteland. Even being equipped with endgame weapons and %s will provide a challenge for many players.",
+                        { addText(KnowledgeConstants.armor) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("It is wise to stay away from hostile mobs in the biome as they each have strong attacks which are difficult to deal with. They also deal increased damage through %s without Wasteland Protection and take reduced damage from weapons without Wasteland Damage.",
+                        { addText(KnowledgeConstants.armor) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("To survive in the Wasteland, it is important to take part in the progression system beginning with %s, a new wood type which can be found in clusters scattered across the barrens. A %s is required to mine %s which appears on the surface in the spikes sub-biome. Players must then convert their blocks of iron into %s by submerging them in water in any Wasteland sub-biome. When the iron has completely rusted, it can be mined with a %s and crafted into tools, armour and %s. These keys must be used to activate challenges posed by Sapphire Altar structures to obtain %s, the current final tier of Wasteland equipment.",
+                        { addText(LCCBlocks.deadwood) },
+                        { addLink(LCCItems.deadwood_pickaxe) },
+                        { addText(LCCBlocks.fortstone) },
+                        { addPluralisedText(LCCBlocks.rusted_iron_blocks.values.last()) },
+                        { addLink(LCCItems.fortstone_pickaxe) },
+                        { addPluralisedText(LCCItems.altar_challenge_key) },
+                        { addPluralisedText(LCCItems.sapphire) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Collect as many %s and loot as many Tents as you can find to increase your maximum health, but watch your footing for the traps. Harvest the Oil in the Wasteland to construct %s, craft %s and power your base.",
+                        { addPluralisedText(LCCBlocks.deposit) },
+                        { addPluralisedLink(LCCBlocks.road) },
+                        { addPluralisedText(LCCItems.plastic_bag) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder("Bug Fixes")
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed bug with custom recipes only giving one output for all recipes."))
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed custom boats stacking to 64."))
                 )
             )
             .addSection(KnowledgeArticleSectionBuilder("Technical")
                 .addParagraph {
                     addFormatText("Similar to update %s, a lot of technical changes happened behind the scenes in addition to updated gameplay changes. The lcc-base module was split into lcc-infra and lcc-hooks. The infrastructure module provides helpers to other modules without making any changes to Minecraft with mixins and access transformers. In contrast, the hooks module makes those kind of changes and gives other modules access to interact with these hooks, using methods like trait interfaces or accessor mixins.",
-                    addLink("0.2.0", LCCVersion.LCC_FABRIC_0_2_0.page.link)
-                )
+                        { addLink(LCCVersion.LCC_FABRIC_0_2_0) }
+                    )
+                }
                 .addParagraph {
-                    addFormatText("The data generator module was also split up to separate code specific to the content of LCC. This allows other mods in future to use lcc-data as a module to generate data for themselves.",
-                )
+                    addText("The data generator module was also split up to separate code specific to the content of LCC. This allows other mods in future to use lcc-data as a module to generate data for themselves.")
+                }
             )
-            .addSection(KnowledgeArticleSectionBuilder("Commit Messages from BitBucket")
+            .addSection(KnowledgeArticleSectionBuilder("Commit Messages")
                 .addParagraph {
-                    addFormatText(LCCVersion.LCC_FABRIC_0_5_0.description))
+                    addText(LCCVersion.LCC_FABRIC_0_5_0.description)
+                }
             )
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_0))
-            .tags("LCC")
-    }*/
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 7, 1, 42, 27))
+            .tags("LCC", "Wasteland")
+    }
 
     val block_explosive_paste by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCBlocks.explosive_paste)
@@ -1010,7 +1112,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(Blocks.GLASS) },
                         { addWastelandLink() },
                         { addLink(LCCItems.iron_oxide) },
-                        { addLink(KnowledgeArticleIdentifier.ofStructure(Identifier("tent")), "tent") },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("tent")), "tent") },
                     )
                 }
             )
@@ -1046,7 +1148,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addLink(Blocks.GLASS) },
                         { addLink(Blocks.TINTED_GLASS) },
                         { addText(KnowledgeConstants.colors) },
-                        { addText("Stained Glass") },
+                        { addLink(KnowledgeArticleIdentifier(Registry.BLOCK.key.value, Identifier("stained_glass")), "Stained Glass") },
                         { addLink(LCCBlocks.shattered_glass) },
                         { addText(LCCItems.crowbar) },
                         { addPluralisedLink(Blocks.GLASS_PANE) },
@@ -2757,7 +2859,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Tools", "Magnetic Iron")
     }
 
-    val lcc_fabric_0_5_1 by entry(::initialiser) {
+    val version_lcc_fabric_0_5_1 by entry(::initialiser) {
         KnowledgeArticleBuilder(LCCVersion.LCC_FABRIC_0_5_1.page, LCCVersion.LCC_FABRIC_0_5_1.label)
             .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
                 .addParagraph {
@@ -2845,7 +2947,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
                 .addParagraph {
-                    addFormatText("Tents now contain Woodlouse %s as well as the new %s treasure enchantment.",
+                    addFormatText("%s now contain Woodlouse %s as well as the new %s treasure enchantment.",
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("tent")), "Tents") },
                         { addText(KnowledgeConstants.armor) },
                         { addLink(LCCEnchants.infested) }
                     )
@@ -2899,7 +3002,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
                 .addParagraph {
-                    addFormatText("%s tools and %s has had a buff to its durability. %s %s has been buffed to be equivalent to %s.",
+                    addFormatText("%s tools and %s has had a buff to its durability. %s has been buffed to be equivalent to %s.",
                         { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.iron_oxide), "Rusty Iron") },
                         { addText(KnowledgeConstants.armor) },
                         { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.sapphire_chestplate),
@@ -2914,21 +3017,6 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addPluralisedLink(LCCItems.stinger) },
                     )
                 }
-            )
-            .addSection(KnowledgeArticleSectionBuilder("Fixes")
-                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
-                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed %s tongue attacks sometimes crashing the client.",
-                        { addLink(LCCEntities.consumer) },
-                    ))
-                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bottom slab %s being placeable on top of itself in creative mode.",
-                        { addText(LCCBlocks.spawner_table) },
-                    ))
-                    .add(KnowledgeArticleTextFragmentBuilder("Fixed damage overlay not always showing heart damage type colour."))
-                    .add(KnowledgeArticleTextFragmentBuilder("Fixed advancement race criterion concurrency crash."))
-                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bug with %s smelt recipes unlocking with output item instead of input.",
-                        { addText(Blocks.FURNACE) },
-                    ))
-                )
             )
             .addSection(KnowledgeArticleSectionBuilder("Player Guide")
                 .addParagraph {
@@ -2966,6 +3054,21 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     )
                 }
             )
+            .addSection(KnowledgeArticleSectionBuilder("Bug Fixes")
+                .addFragment(KnowledgeArticleBulletedFragmentBuilder()
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed %s tongue attacks sometimes crashing the client.",
+                        { addLink(LCCEntities.consumer) },
+                    ))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bottom slab %s being placeable on top of itself in creative mode.",
+                        { addText(LCCBlocks.spawner_table) },
+                    ))
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed damage overlay not always showing heart damage type colour."))
+                    .add(KnowledgeArticleTextFragmentBuilder("Fixed advancement race criterion concurrency crash."))
+                    .add(KnowledgeArticleParagraphFragmentBuilder().addFormatText("Fixed bug with %s smelt recipes unlocking with output item instead of input.",
+                        { addText(Blocks.FURNACE) },
+                    ))
+                )
+            )
             .addSection(KnowledgeArticleSectionBuilder("Technical")
                 .addParagraph {
                     addText("A lot of this update contains infrastructure for creating LCC Wiki articles. These are created in the mod code and committed to the online database on datagen.")
@@ -2980,7 +3083,8 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 }
             )
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_1))
-            .tags("LCC")
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 14, 0, 0, 53))
+            .tags("LCC", "Wasteland")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

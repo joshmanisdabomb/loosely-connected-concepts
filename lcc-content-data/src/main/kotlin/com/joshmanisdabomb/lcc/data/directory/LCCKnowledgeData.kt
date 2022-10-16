@@ -272,7 +272,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 }
             )
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_0))
-            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 7, 1, 42, 27))
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2021, 9, 7, 1, 42, 27), LocalDateTime.of(2022, 10, 14, 2, 46, 38))
             .tags("LCC", "Wasteland")
     }
 
@@ -551,7 +551,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addParagraph {
                     addFormatText("%s can be generated in the %s in the form of landmines, accompanied by a %s. When generated in the world, using a %s or higher has a 30% chance to drop the block. This chance increases by 10% for every level of %s. Mining with a %s has a 100% drop chance.",
                         { addPluralisedText(LCCBlocks.improvised_explosive) },
-                        { addLink(LCCBiomes.wasteland) },
+                        { addWastelandLink() },
                         { addLink(LCCBlocks.cracked_mud_pressure_plate) },
                         { addLink(LCCItems.fortstone_pickaxe) },
                         { addLink(Enchantments.FORTUNE) },
@@ -605,7 +605,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addFormatText("%s is a block introduced in %s that can be found in the %s. It can be crafted into %s which lead to the first tier of %s tool progression.",
                         { addText(LCCBlocks.deadwood_log.name) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
-                        { addLink(LCCBiomes.wasteland) },
+                        { addWastelandLink() },
                         { addLink(LCCBlocks.deadwood_planks) },
                         { addWastelandLink() }
                     )
@@ -876,7 +876,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                     addFormatText("%s is a block introduced in %s that can be found in the %s. It drops %s when mined with a %s or higher, which leads to the second tier of %s tool progression.",
                         { addText(LCCBlocks.fortstone) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
-                        { addLink(LCCBiomes.wasteland) },
+                        { addWastelandLink() },
                         { addLink(LCCBlocks.cobbled_fortstone) },
                         { addLink(LCCItems.deadwood_pickaxe) },
                         { addWastelandLink() },
@@ -903,7 +903,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                         { addText(LCCBlocks.cobbled_fortstone) },
                         { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
                         { addLink(LCCBlocks.fortstone) },
-                        { addLink(LCCBiomes.wasteland) },
+                        { addWastelandLink() },
                         { addLink(LCCItems.deadwood_pickaxe) },
                         { addWastelandLink() },
                     )
@@ -1462,7 +1462,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addParagraph {
                     addFormatText("All %s can be found in the %s in the form of spike traps. They are square holes that are easy to spot on the surface, with a bed of a random type of %s at the bottom. Plain %s are the most common to find in spike traps.",
                         { addText(LCCBlocks.spikes) },
-                        { addLink(LCCBiomes.wasteland) },
+                        { addWastelandLink() },
                         { addText(LCCBlocks.spikes) },
                         { addText(LCCBlocks.spikes) },
                     )
@@ -1625,7 +1625,7 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
                 .addFragment(KnowledgeArticleImageFragmentBuilder()
                     .addStatic("structure/sapphire_altar", KnowledgeArticleParagraphFragmentBuilder()
                         .addFormatText("A Sapphire Altar generated in the %s.",
-                            { addLink(LCCBiomes.wasteland) },
+                            { addWastelandLink() },
                         )
                     )
                 )
@@ -3085,6 +3085,52 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .addSection(KnowledgeArticleVersionChangelogSectionBuilder(LCCVersion.LCC_FABRIC_0_5_1))
             .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 14, 0, 0, 53))
             .tags("LCC", "Wasteland")
+    }
+
+    val block_sapphire_altar_brick by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.sapphire_altar_brick)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a decorative block introduced in %s that comprises the majority of a %s structure in the %s. It only drops when mined with a %s and is immune to explosions. Since %s, %s can be polished into %s, which is a crafting material to create a %s.",
+                        { addText(LCCBlocks.sapphire_altar_brick) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_0) },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar") },
+                        { addWastelandLink() },
+                        { addLink(LCCItems.sapphire_pickaxe) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_2) },
+                        { addText(LCCBlocks.sapphire_altar_brick) },
+                        { addLink(LCCBlocks.polished_sapphire_altar_brick) },
+                        { addLink(LCCBlocks.heart_condenser) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.sapphire_altar_brick))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.sapphire_altar_brick))
+            .boilerplate(LCCBlocks.sapphire_altar_brick, renewable = false)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 16, 22, 53, 50))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Sapphire Pickaxe Required", "Sapphire Altar", "Sapphire Altar Brick", "Materials")
+    }
+
+    val block_polished_sapphire_altar_brick by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.polished_sapphire_altar_brick)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("%s is a decorative block introduced in %s that is crafted with %s from a %s. It only drops when mined with a %s and is immune to explosions. %s can be used a crafting material to create a %s.",
+                        { addText(LCCBlocks.polished_sapphire_altar_brick) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_2) },
+                        { addLink(LCCBlocks.sapphire_altar_brick) },
+                        { addLink(KnowledgeArticleIdentifier.ofStructure(LCC.id("sapphire_altar")), "Sapphire Altar") },
+                        { addLink(LCCItems.sapphire_pickaxe) },
+                        { addText(LCCBlocks.polished_sapphire_altar_brick) },
+                        { addLink(LCCBlocks.heart_condenser) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.polished_sapphire_altar_brick))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.polished_sapphire_altar_brick))
+            .boilerplate(LCCBlocks.polished_sapphire_altar_brick, renewable = false)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 16, 23, 5, 9))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Sapphire Pickaxe Required", "Sapphire Altar", "Sapphire Altar Brick", "Polished Sapphire Altar Brick", "Materials")
     }
 
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input

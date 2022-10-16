@@ -13,6 +13,30 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_iron_heart_full": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:iron_heart_full"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_iron_heart_half": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "lcc:iron_heart_half"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "lcc:iron_heart_container"
@@ -23,6 +47,8 @@
   "requirements": [
     [
       "has_enhancing_pyre_beta",
+      "has_iron_heart_full",
+      "has_iron_heart_half",
       "has_the_recipe"
     ]
   ],

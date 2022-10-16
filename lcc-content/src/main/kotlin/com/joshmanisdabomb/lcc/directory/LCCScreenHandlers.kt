@@ -29,7 +29,7 @@ object LCCScreenHandlers : AdvancedDirectory<Any, ScreenHandlerType<out ScreenHa
 
     val imbuing by entry(::simpleInitialiser) { ::ImbuingScreenHandler }
 
-    val heart_condenser by entry(::simpleInitialiser) { ::HeartCondenserScreenHandler }
+    val heart_condenser by entry(::extendedInitialiser) { ::HeartCondenserScreenHandler }
 
     override fun id(name: String) = LCC.id(name)
 

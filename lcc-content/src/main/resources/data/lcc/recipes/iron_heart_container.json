@@ -1,41 +1,16 @@
 {
-  "type": "lcc:spawner_table_shapeless",
+  "type": "lcc:heart_condenser",
+  "count": 1,
   "ingredients": [
     {
-      "item": "lcc:iron_heart_full"
+      "item": "lcc:iron_heart_full",
+      "value": 2
     },
     {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:iron_heart_full"
-    },
-    {
-      "item": "lcc:enhancing_pyre_beta"
+      "item": "lcc:iron_heart_half",
+      "value": 1
     }
   ],
-  "result": {
-    "item": "lcc:iron_heart_container"
-  }
+  "result": "lcc:iron_heart_container",
+  "state": "iron"
 }

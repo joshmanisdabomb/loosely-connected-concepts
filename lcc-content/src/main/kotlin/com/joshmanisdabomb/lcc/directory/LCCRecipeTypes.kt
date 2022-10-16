@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.recipe.HeartCondenserRecipe
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableRecipe
 import com.joshmanisdabomb.lcc.recipe.cooking.KilnRecipe
@@ -29,6 +30,7 @@ object LCCRecipeTypes : AdvancedDirectory<KClass<out Recipe<*>>, RecipeType<out 
 
     val enhancing by entry(::recipeInitialiser) { EnhancingRecipe::class }
     val imbuing by entry(::recipeInitialiser) { ImbuingRecipe::class }
+    val heart_condenser by entry(::recipeInitialiser) { HeartCondenserRecipe::class }
 
     fun <T : Recipe<*>> recipeInitialiser(input: KClass<T>, context: DirectoryContext<Unit>, parameters: Unit) = this.initialiser(object : RecipeType<T> { override fun toString() = context.name }, context, parameters)
 

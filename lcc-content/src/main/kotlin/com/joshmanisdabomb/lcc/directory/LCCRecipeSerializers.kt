@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.recipe.HeartCondenserRecipe
 import com.joshmanisdabomb.lcc.recipe.TimeRiftRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapedRecipe
 import com.joshmanisdabomb.lcc.recipe.arcane.DungeonTableShapelessRecipe
@@ -45,6 +46,7 @@ object LCCRecipeSerializers : BasicDirectory<RecipeSerializer<out Recipe<*>>, Un
     val overlevel_enchants by entry(::initialiser) { SpecialRecipeSerializer(::OverlevelEnchantRecipe) }
 
     val imbuing by entry(::initialiser) { ImbuingSimpleRecipe.Serializer() }
+    val heart_condenser by entry(::initialiser) { HeartCondenserRecipe.Serializer() }
 
     override fun defaultProperties(name: String) = Unit
 

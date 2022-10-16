@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.abstracts.heart.HeartType
 import com.joshmanisdabomb.lcc.block.entity.HeartCondenserBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import net.minecraft.block.*
@@ -24,7 +25,7 @@ import net.minecraft.world.World
 class HeartCondenserBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
-        defaultState = stateManager.defaultState.with(type, HeartType.NONE)
+        defaultState = stateManager.defaultState.with(type, HeartState.NONE)
     }
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(type).let {}
@@ -58,13 +59,19 @@ class HeartCondenserBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (!world.isClient) checkType(type, LCCBlockEntities.heart_condenser, HeartCondenserBlockEntity::serverTick) else null
 
-    enum class HeartType : StringIdentifiable {
-        NONE,
-        RED,
-        IRON,
-        CRYSTAL;
+    enum class HeartState(val type: HeartType?) : StringIdentifiable {
+        NONE(null),
+        RED(HeartType.RED),
+        IRON(HeartType.IRON),
+        CRYSTAL(HeartType.CRYSTAL);
 
         override fun asString() = name.lowercase()
+
+        companion object {
+            val all = values().drop(1).toTypedArray()
+
+            fun find(name: String) = all.find { it.asString().equals(name, ignoreCase = true) }
+        }
     }
 
     companion object {
@@ -76,7 +83,7 @@ class HeartCondenserBlock(settings: Settings) : BlockWithEntity(settings) {
 
         val shape = VoxelShapes.union(shape_center, shape_top1, shape_top2, shape_base1, shape_base2)
 
-        val type = EnumProperty.of("type", HeartType::class.java)
+        val type = EnumProperty.of("type", HeartState::class.java)
     }
 
 }

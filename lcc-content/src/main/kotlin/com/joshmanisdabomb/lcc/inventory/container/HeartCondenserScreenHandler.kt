@@ -6,11 +6,14 @@ import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
 import com.joshmanisdabomb.lcc.lib.inventory.LCCInventory
 import com.joshmanisdabomb.lcc.lib.inventory.OutputSlot
 import com.joshmanisdabomb.lcc.lib.inventory.PredicatedSlot
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.inventory.Inventory
 import net.minecraft.inventory.InventoryChangedListener
 import net.minecraft.item.ItemStack
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeInputProvider
 import net.minecraft.recipe.RecipeMatcher
@@ -18,16 +21,22 @@ import net.minecraft.screen.AbstractRecipeScreenHandler
 import net.minecraft.screen.ArrayPropertyDelegate
 import net.minecraft.screen.PropertyDelegate
 import net.minecraft.screen.slot.Slot
+import net.minecraft.util.math.BlockPos
 
 class HeartCondenserScreenHandler(syncId: Int, protected val playerInventory: PlayerInventory, val inventory: LCCInventory, val properties: PropertyDelegate) : AbstractRecipeScreenHandler<Inventory>(LCCScreenHandlers.heart_condenser, syncId) {
 
-    constructor(syncId: Int, playerInventory: PlayerInventory) : this(syncId, playerInventory, LCCInventory(3), ArrayPropertyDelegate(2))
+    private var _pos: BlockPos? = null
+    val pos get() = _pos
+
+    constructor(syncId: Int, playerInventory: PlayerInventory, buf: PacketByteBuf) : this(syncId, playerInventory, LCCInventory(3), ArrayPropertyDelegate(5)) {
+        _pos = buf.readBlockPos()
+    }
 
     val listener = InventoryChangedListener(::onContentChanged)
 
     init {
         checkSize(inventory, 3)
-        checkDataCount(properties, 2)
+        checkDataCount(properties, 5)
 
         addSlot(PredicatedSlot(inventory, 0, 80, 17) { it.isIn(LCCItemTags.hearts) })
         addSlot(PredicatedSlot(inventory, 1, 58, 39) { it.isIn(LCCItemTags.heart_condenser_fuel) })
@@ -38,6 +47,16 @@ class HeartCondenserScreenHandler(syncId: Int, protected val playerInventory: Pl
         inventory.onOpen(playerInventory.player)
 
         addProperties(properties)
+    }
+
+    override fun close(player: PlayerEntity) {
+        super.close(player)
+        inventory.onClose(player)
+        inventory.removeListener(listener)
+    }
+
+    override fun onContentChanged(inventory: Inventory) {
+        super.onContentChanged(inventory)
     }
 
     override fun populateRecipeFinder(finder: RecipeMatcher) {
@@ -105,5 +124,20 @@ class HeartCondenserScreenHandler(syncId: Int, protected val playerInventory: Pl
     override fun canInsertIntoSlot(index: Int) = index != 2
 
     override fun getCategory() = null
+
+    @Environment(EnvType.CLIENT)
+    fun burnAmount() = properties.get(0)
+
+    @Environment(EnvType.CLIENT)
+    fun burnMaxAmount() = properties.get(1)
+
+    @Environment(EnvType.CLIENT)
+    fun cookAmount() = properties.get(2)
+
+    @Environment(EnvType.CLIENT)
+    fun cookMaxAmount() = properties.get(3)
+
+    @Environment(EnvType.CLIENT)
+    fun healthAmount() = properties.get(4)
 
 }

@@ -3133,6 +3133,54 @@ object LCCKnowledgeData : BasicDirectory<KnowledgeArticleBuilder, Unit>() {
             .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Sapphire Pickaxe Required", "Sapphire Altar", "Sapphire Altar Brick", "Polished Sapphire Altar Brick", "Materials")
     }
 
+    val block_heart_condenser by entry(::initialiser) {
+        KnowledgeArticleBuilder(LCCBlocks.heart_condenser)
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.introduction)
+                .addParagraph {
+                    addFormatText("The %s is a crafting station introduced in %s that can be used to convert %s items into %s. It only drops when mined with a %s and is immune to explosions.",
+                        { addText(LCCBlocks.heart_condenser) },
+                        { addLink(LCCVersion.LCC_FABRIC_0_5_2) },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_full[HeartType.RED]!!), "Heart") },
+                        { addLink(KnowledgeArticleIdentifier.ofItem(LCCItems.heart_container[HeartType.RED]!!), "Heart Containers") },
+                        { addLink(LCCItems.sapphire_pickaxe) },
+                    )
+                }
+            )
+            .addSection(KnowledgeArticleSectionBuilder(KnowledgeConstants.usage)
+                .addParagraph {
+                    addFormatText( "Right clicking the %s will open up its GUI. It can be operated similar to a %s, where inputs go in the top slot, fuel in the left slot and the output appears in the bottom slot. Any %s connected to the %s also follow the same directional slot access as a %s.",
+                        { addText(LCCBlocks.heart_condenser) },
+                        { addLink(Blocks.FURNACE) },
+                        { addPluralisedLink(Blocks.HOPPER) },
+                        { addText(LCCBlocks.heart_condenser) },
+                        { addText(Blocks.FURNACE) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("Processing a half or full heart will consume the item and add it to the health bar shown in the GUI. After a heart type is chosen, the %s will only accept those hearts until it is filled. Once 10 hearts are contributed, they are instantly converted into one heart container which is made available in the output slot.",
+                        { addText(LCCBlocks.heart_condenser) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("All heart containers (Red, Iron and Crystal) can be created with a %s. Heart containers cannot be created for blue temporary hearts.",
+                        { addText(LCCBlocks.heart_condenser) },
+                    )
+                }
+                .addParagraph {
+                    addFormatText("%s only accept %s as fuel, which burns for 2.5 seconds. Processing a recipe takes 0.25 seconds per half a health it adds to the total. This means that one pyre is enough to fill 5 hearts.",
+                        { addPluralisedText(LCCBlocks.heart_condenser) },
+                        { addLink(LCCItems.enhancing_pyre_beta) },
+                    )
+                }
+            )
+            .addSection(KnowledgeExtensions.craftingRecipes(LCCBlocks.heart_condenser))
+            .addSection(KnowledgeExtensions.craftingUsages(LCCBlocks.heart_condenser))
+            .addSection(KnowledgeExtensions.allRecipes(LCCRecipeTypes.heart_condenser))
+            .boilerplate(LCCBlocks.heart_condenser, renewable = false)
+            .meta(KnowledgeConstants.me, LocalDateTime.of(2022, 10, 16, 23, 5, 9))
+            .tags("Wasteland", "Wasteland Effective", "Wasteland Required", "Sapphire Pickaxe Required", "Sapphire Altar", "Sapphire Altar Brick", "Polished Sapphire Altar Brick", "Crafting Stations", "Enhancing Pyre", "Hearts", "Heart Containers")
+    }
+
     fun initialiser(input: KnowledgeArticleBuilder, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun afterInitAll(initialised: List<DirectoryEntry<out KnowledgeArticleBuilder, out KnowledgeArticleBuilder>>, filter: (context: DirectoryContext<Unit>) -> Boolean) {

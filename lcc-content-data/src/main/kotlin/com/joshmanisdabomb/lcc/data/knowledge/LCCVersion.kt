@@ -589,6 +589,7 @@ Content datagen now launching and matches 0.4.4 datagen."""
             map[LCCKnowledgeData.effectivity_wasteland] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.entity_baby_skeleton] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.block_rubber_piston] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_sapphire_altar_brick] = KnowledgeArticleTextFragmentBuilder(introduced)
             map[LCCKnowledgeData.biome_wasteland] = KnowledgeArticleParagraphFragmentBuilder()
                 .addFormatText("Many major features introduced to the biome, including %s, %s, %s, %s, %s, %s, %s and %s.",
                     { addPluralisedLink(LCCEntities.consumer) },
@@ -684,6 +685,12 @@ Added Spawning Pit block
 
         override fun generateChangelog(map: MutableMap<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder>): Map<KnowledgeArticleBuilder, KnowledgeArticleFragmentBuilder> {
             map[LCCKnowledgeData.item_item_magnet] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_polished_sapphire_altar_brick] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_heart_condenser] = KnowledgeArticleTextFragmentBuilder(introduced)
+            map[LCCKnowledgeData.block_sapphire_altar_brick] = KnowledgeArticleParagraphFragmentBuilder()
+                .addFormatText("Can now be used to craft %s.",
+                    { addLink(LCCBlocks.polished_sapphire_altar_brick) }
+                )
             return map.toSortedMap()
         }
     };

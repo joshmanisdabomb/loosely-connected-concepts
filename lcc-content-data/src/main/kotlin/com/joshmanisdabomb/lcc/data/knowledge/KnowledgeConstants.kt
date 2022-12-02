@@ -22,6 +22,7 @@ object KnowledgeConstants {
     val obtaining = Text.translatable("knowledge.lcc.meta.section.obtaining")
     val behavior = Text.translatable("knowledge.lcc.meta.section.behavior")
     val magnetizing = Text.translatable("knowledge.lcc.meta.section.magnetizing")
+    val alLRecipes = Text.translatable("knowledge.lcc.meta.section.all_recipes")
 
     val information = Text.translatable("knowledge.lcc.meta.section.info")
     val image = Text.translatable("knowledge.lcc.meta.section.info.image")
@@ -66,6 +67,7 @@ object KnowledgeConstants {
         batch[versionChangelog.key] = "Full Changelog"
         batch[recipes.key] = "Crafting Recipes"
         batch[usages.key] = "Crafting Usages"
+        batch[alLRecipes.key] = "All Craftable Recipes"
         batch[despawning.key] = "Despawning"
         batch[repairing.key] = "Repairing"
         batch[coloring.key] = "Coloring"

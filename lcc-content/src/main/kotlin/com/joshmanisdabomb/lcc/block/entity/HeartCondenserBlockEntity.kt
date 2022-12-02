@@ -159,7 +159,7 @@ class HeartCondenserBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(
                     val fuel = entity.inventory[1]
                     if (fuel.isIn(LCCItemTags.heart_condenser_fuel) && !heart.isEmpty) {
                         fuel.decrement(1)
-                        entity.burnMax = 100
+                        entity.burnMax = 50
                         entity.burn = entity.burnMax + 1
                     }
                 }

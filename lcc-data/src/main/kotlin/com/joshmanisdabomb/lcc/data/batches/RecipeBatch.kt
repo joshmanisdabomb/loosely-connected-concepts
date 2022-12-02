@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
 import net.minecraft.data.server.recipe.RecipeJsonProvider
 import net.minecraft.item.Item
 import net.minecraft.item.ItemConvertible
+import net.minecraft.recipe.RecipeType
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
@@ -42,6 +43,8 @@ class RecipeBatch : Consumer<RecipeJsonProvider> {
     fun findRecipes(item: ItemConvertible) = outputIn[item.asItem()] ?: emptyList()
 
     fun findUsages(item: ItemConvertible) = inputIn[item.asItem()] ?: emptyList()
+
+    fun findWithTypes(vararg types: RecipeType<*>) = analysis.values.filter { types.contains(it.recipe.type) }
 
     fun getRecipe(id: Identifier) = analysis[id]
     fun getRecipeOrThrow(id: Identifier) = analysis[id] ?: error("No recipe object found under $id")

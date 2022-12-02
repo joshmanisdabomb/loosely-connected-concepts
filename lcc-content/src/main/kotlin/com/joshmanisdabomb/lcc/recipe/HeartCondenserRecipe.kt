@@ -8,7 +8,6 @@ import com.joshmanisdabomb.lcc.directory.LCCRecipeSerializers
 import com.joshmanisdabomb.lcc.directory.LCCRecipeTypes
 import com.joshmanisdabomb.lcc.extensions.stack
 import com.joshmanisdabomb.lcc.lib.recipe.LCCRecipe
-import com.joshmanisdabomb.lcc.recipe.refining.special.PolymerRefiningRecipe.Companion.state
 import net.minecraft.inventory.Inventory
 import net.minecraft.item.ItemStack
 import net.minecraft.network.PacketByteBuf
@@ -59,7 +58,7 @@ class HeartCondenserRecipe(protected val _id: Identifier, protected val _group: 
                 return@associate input to value
             }
             val output = ItemStack(Registry.ITEM[Identifier(JsonHelper.getString(json, "result"))], JsonHelper.getInt(json, "count"))
-            val state = HeartCondenserBlock.HeartState.find(JsonHelper.getString(json, "state")) ?: throw JsonSyntaxException("State $state is not a valid heart condenser block state type.")
+            val state = HeartCondenserBlock.HeartState.find(JsonHelper.getString(json, "state")) ?: throw JsonSyntaxException("State is not a valid heart condenser block state type.")
             return HeartCondenserRecipe(id, group, values, output, state)
         }
 
@@ -80,7 +79,7 @@ class HeartCondenserRecipe(protected val _id: Identifier, protected val _group: 
             }
             buf.writeIntArray(recipe.values.values.toIntArray())
             buf.writeItemStack(recipe.output)
-            buf.writeString(state.asString())
+            buf.writeString(recipe.type.asString())
         }
 
     }

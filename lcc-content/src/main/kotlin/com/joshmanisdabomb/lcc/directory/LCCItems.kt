@@ -346,6 +346,9 @@ object LCCItems : ItemDirectory() {
     val woodlouse_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.woodlouse, Item.Settings().defaults(), 0x392F27, 0x87725E, 0xE0CFBE) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
+    val hunter_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.hunter, Item.Settings().defaults(), 0xE7CAC4, 0xE35311, 0x111111) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+        .addTags("wasteland_spawn_egg")
 
     //Nostalgia
     val simulation_fabric by entry(::initialiser) { Item(Item.Settings().defaults()) }

@@ -36,6 +36,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
             .spawnSettings(SpawnSettings.Builder()
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.baby_skeleton, 10, 1, 3))
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.consumer, 5, 1, 1))
+                .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.hunter, 5, 4, 8))
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.rotwitch, 2, 1, 1))
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.disciple, 2, 1, 1))
                 .spawn(SpawnGroup.MONSTER, SpawnEntry(LCCEntities.wasp, 1, 1, 1))

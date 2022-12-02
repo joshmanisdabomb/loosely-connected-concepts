@@ -8,9 +8,11 @@ import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEnt
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.entity.model.*
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
+import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.client.render.entity.model.VillagerResemblingModel
+import net.minecraft.client.render.entity.model.ZombieEntityModel
 
 object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData>() {
 
@@ -36,6 +38,12 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties { TexturedModelData.of(VillagerResemblingModel.getModelData(), 64, 64) }
     val traveller_bindle by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(TravellerEntityModel.Companion::data)
+    val hunter by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation.NONE, 0f), 64, 64) }
+    val hunter_armor_inner by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(0.5f), 0f), 64, 64) }
+    val hunter_armor_outer by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(1.0f), 0f), 64, 64) }
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

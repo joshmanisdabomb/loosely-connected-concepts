@@ -41,9 +41,9 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
     val hunter by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation.NONE, 0f), 64, 64) }
     val hunter_armor_inner by entry(::initialiser) { EntityModelLayer(id, "main") }
-        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(0.5f), 0f), 64, 64) }
+        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(0.5f), 0f), 64, 32) }
     val hunter_armor_outer by entry(::initialiser) { EntityModelLayer(id, "main") }
-        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(1.0f), 0f), 64, 64) }
+        .setProperties { TexturedModelData.of(ZombieEntityModel.getModelData(Dilation(1.0f), 0f), 64, 32) }
 
     val bounce_pad by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(BouncePadBlockEntityRenderer::data)

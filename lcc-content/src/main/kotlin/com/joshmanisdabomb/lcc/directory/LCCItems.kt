@@ -12,6 +12,7 @@ import com.joshmanisdabomb.lcc.item.PickaxeItem
 import com.joshmanisdabomb.lcc.item.ShovelItem
 import com.joshmanisdabomb.lcc.item.SwordItem
 import com.joshmanisdabomb.lcc.item.render.CalendarItemRenderer
+import com.joshmanisdabomb.lcc.item.render.ConsumerMawItemRenderer
 import com.joshmanisdabomb.lcc.lib.item.DefaultedColoredItem
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.creativeEx
 import com.joshmanisdabomb.lcc.settings.CreativeExExtraSetting.Companion.sortValueFrom
@@ -321,6 +322,8 @@ object LCCItems : ItemDirectory() {
 
     val fly_eggs by entry(::initialiser) { FlyEggItem(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
+    val consumer_maw by entry(::initialiser) { ConsumerMawItem(Item.Settings().maxDamage(40).defaults()) }
+        .setProperties(ItemExtraSettings().creativeEx(WASTELAND).dynamicItemRender { ::ConsumerMawItemRenderer })
 
     val baby_skeleton_spawn_egg by entry(::initialiser) { VariableTintSpawnEggItem(LCCEntities.baby_skeleton, Item.Settings().defaults(), 0xC1C1C1, 0x494949, 0x684E1E) }
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND, sortValueInt(100000, 1)))

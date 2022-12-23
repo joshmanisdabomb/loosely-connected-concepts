@@ -1,7 +1,10 @@
 package com.joshmanisdabomb.lcc.entity
 
+import com.joshmanisdabomb.lcc.directory.LCCEffects
 import com.joshmanisdabomb.lcc.directory.LCCEntities
+import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.LCCSounds
+import com.joshmanisdabomb.lcc.extensions.isSurvival
 import com.joshmanisdabomb.lcc.sound.ConsumerTongueSoundInstance
 import com.joshmanisdabomb.lcc.trait.LCCEntityTrait
 import net.fabricmc.api.EnvType
@@ -13,6 +16,10 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.mob.MobEntity
+import net.minecraft.entity.passive.TameableEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.projectile.ProjectileEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.nbt.NbtCompound
@@ -62,8 +69,12 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
     override fun shouldRender(distance: Double) = distance < 4096.0
 
     override fun tick() {
-        val entity = owner as? ConsumerEntity ?: return discard()
+        val entity = owner ?: return discard()
         if (entity.isRemoved) return discard()
+
+        if (entity is PlayerEntity) {
+            entity.itemCooldownManager.set(LCCItems.consumer_maw, if (entity.isSurvival) 90 else 10)
+        }
 
         val entity2 = hookedEntity
         if (world.isClient && !world.isChunkLoaded(blockPos)) {
@@ -78,16 +89,18 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
         }
         checkBlockCollision()
 
-        val ownerDist = this.squaredDistanceTo(entity)
+        val ownerDist = this.squaredDistanceTo(Vec3d(entity.x, getTargetY()!!, entity.z))
         if (dataTracker.get(retract)) {
-            if (ownerDist < 2.0) {
+            if (ownerDist < 0.8) {
                 discard()
                 if (entity2 != null && entity2.squaredDistanceTo(this) < 10.0) {
                     entity2.setVelocity(0.0, 0.0, 0.0)
                     entity2.velocityModified = true
                     entity2.velocityDirty = true
-                    entity.swingHand(Hand.MAIN_HAND)
-                    entity.tryAttack(entity2)
+                    if (entity is MobEntity) {
+                        entity.swingHand(Hand.MAIN_HAND)
+                        entity.tryAttack(entity2)
+                    }
                 }
                 return
             } else {
@@ -109,6 +122,9 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
                         entity2.fallDistance = 0f
                         entity2.velocityModified = true
                         entity2.velocityDirty = true
+                        if (entity2 is MobEntity) {
+                            entity2.addStatusEffect(StatusEffectInstance(LCCEffects.stun, 2, 0, true, false, true))
+                        }
                     } else {
                         this.unhook()
                     }
@@ -125,7 +141,7 @@ class ConsumerTongueEntity(type: EntityType<out ProjectileEntity>, world: World)
     }
 
     override fun canHit(entity: Entity): Boolean {
-        return super.canHit(entity) && entity != owner
+        return super.canHit(entity) && entity != owner && (entity as? TameableEntity)?.owner != owner
     }
 
     override fun onEntityHit(hit: EntityHitResult) {

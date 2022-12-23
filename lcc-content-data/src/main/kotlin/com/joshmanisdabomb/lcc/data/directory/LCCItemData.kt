@@ -460,6 +460,17 @@ object LCCItemData : BasicDirectory<ItemDataContainer, Unit>(), ModelAccess {
             .apply { offerShaped(this, d) }
     }) }
 
+    val consumer_maw by entry(::initialiser) { data().defaultLang().add(DynamicItemAssetFactory(DynamicItemAssetFactory.item, "front")).add(CustomRecipeFactory { d, i ->
+        ShapedRecipeJsonBuilder.create(i)
+            .pattern("ccc")
+            .pattern("t  ")
+            .pattern("ccc")
+            .input('c', Items.CHARCOAL)
+            .input('t', LCCItems.tongue_tissue)
+            .apply { hasCriterionShaped(this, LCCItems.tongue_tissue) }
+            .apply { offerShaped(this, d) }
+    }) }
+
     fun initialiser(input: ItemDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

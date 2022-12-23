@@ -8,6 +8,7 @@ import com.joshmanisdabomb.lcc.block.entity.render.NuclearFiredGeneratorBlockEnt
 import com.joshmanisdabomb.lcc.block.entity.render.TimeRiftBlockEntityRenderer
 import com.joshmanisdabomb.lcc.entity.model.*
 import com.joshmanisdabomb.lcc.entity.render.PocketZombiePigmanEntityRenderer
+import com.joshmanisdabomb.lcc.item.render.ConsumerMawItemRenderer
 import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
@@ -53,6 +54,9 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(NuclearFiredGeneratorBlockEntityRenderer::data)
     val alarm by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(AlarmBlockEntityRenderer::data)
+
+    val consumer_maw by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(ConsumerMawItemRenderer::data)
 
     private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 

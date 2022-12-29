@@ -1,6 +1,8 @@
 package com.joshmanisdabomb.lcc.widens
 
 import com.google.common.collect.ImmutableList
+import net.minecraft.client.font.FontStorage
+import net.minecraft.client.font.Glyph
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.RenderPhase
 import net.minecraft.client.render.Shader
@@ -21,5 +23,7 @@ object ClientWidens {
         .writeMaskState(RenderPhase.WriteMaskState(writeColorMask, writeDepthMask))
         .build(affectsOutline)
     )
+
+    fun glyphPair(glyph: Glyph, advance: Glyph) = FontStorage.GlyphPair(glyph, advance)
 
 }

@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.mixin.content.client;
 
 import com.joshmanisdabomb.lcc.LCC;
 import com.joshmanisdabomb.lcc.gui.overlay.GauntletOverlay;
+import com.joshmanisdabomb.lcc.widens.ClientWidens;
 import it.unimi.dsi.fastutil.ints.Int2ObjectFunction;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.*;
@@ -46,7 +47,7 @@ public abstract class FontStorageMixin {
     @ModifyArg(method = "getGlyph", at = @At(value = "INVOKE", target = "Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;computeIfAbsent(ILit/unimi/dsi/fastutil/ints/Int2ObjectFunction;)Ljava/lang/Object;"))
     private Int2ObjectFunction<FontStorage.GlyphPair> modifyGlyph(Int2ObjectFunction<FontStorage.GlyphPair> original) {
         if (!id.equals(LCC.INSTANCE.id("fixed"))) return original;
-        return codePoint -> codePoint == 32 ? new FontStorage.GlyphPair(space, space) : original.get(codePoint);
+        return codePoint -> codePoint == 32 ? ClientWidens.INSTANCE.glyphPair(space, space) : original.get(codePoint);
     }
 
 }

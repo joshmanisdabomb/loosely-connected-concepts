@@ -32,17 +32,29 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionSizes = data.getCompound("PartitionSizes")
         val partitionUsed = data.getCompound("PartitionUsed")
         data.getCompound("IdMap").forEachStringList { k, v ->
-            source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)), source.view)
-            source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)), source.view)
+            source.controller.writeColumns(source.session, listOf(
+                Text.translatable("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)),
+                Text.translatable("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k))
+            ), source.view) {
+                if (it == 1) this.putString("Alignment", "Right")
+                else this.putBoolean("Fill", true)
+            }
             v.forEach {
                 val type = LCCPartitionTypes.registry[Identifier(partitionTypes.getString(it))]
                 val formatting = type?.nameColor ?: Formatting.RESET
-                source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.partition.left", Text.literal(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)), source.view)
-                if (partitionUsed.contains(it)) {
-                    source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it)), source.view)
+                val right = if (partitionUsed.contains(it)) {
+                    Text.translatable("terminal.lcc.console.$name.partition.used.right", partitionUsed.getInt(it), partitionSizes.getInt(it))
                 } else {
-                    source.controller.writeOnRight(source.session, Text.translatable("terminal.lcc.console.$name.partition.right", partitionSizes.getInt(it)), source.view)
+                    Text.translatable("terminal.lcc.console.$name.partition.right", partitionSizes.getInt(it))
                 }
+                source.controller.writeColumns(source.session, listOf(
+                    Text.translatable("terminal.lcc.console.$name.partition.left", Text.literal(partitionLabels.getString(it)).formatted(formatting), partitionShorts.getString(it)),
+                    right
+                ), source.view) {
+                    if (it == 1) this.putString("Alignment", "Right")
+                    else this.putBoolean("Fill", true)
+                }
+
             }
         }
         return null

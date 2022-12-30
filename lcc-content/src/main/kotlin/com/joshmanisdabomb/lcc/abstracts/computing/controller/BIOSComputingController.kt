@@ -9,10 +9,10 @@ import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
@@ -78,10 +78,21 @@ class BIOSComputingController : LinedComputingController() {
 
     override fun serverTickView(session: ComputingSession, context: ComputingSessionViewContext) = Unit
 
-    override fun write(session: ComputingSession, text: MutableText, view: UUID?) {
+    override fun write(session: ComputingSession, fragment: NbtCompound, view: UUID?) {
         val data = session.getSharedData()
-        data.modifyTextList("Output") {
-            take(49).plus(text.fillStyle(style))
+        data.modifyCompoundList("Output") {
+            add(fragment)
+            takeLast(50)
+        }
+        session.sync()
+    }
+
+    override fun writeModify(session: ComputingSession, view: UUID?, from: Int, modify: NbtCompound.() -> NbtCompound) {
+        val data = session.getSharedData()
+        data.modifyCompoundList("Output") {
+            val index = lastIndex-from
+            set(index, get(index).modify())
+            takeLast(50)
         }
         session.sync()
     }
@@ -101,6 +112,7 @@ class BIOSComputingController : LinedComputingController() {
         val data = session.getSharedData()
         val sdata = session.getServerData()
         val selector = data.getInt("Selector")
+        val menu = data.getList("Menu", NBT_STRING)
         when (keyCode) {
             GLFW.GLFW_KEY_UP -> {
                 if (selector > 0) {
@@ -109,7 +121,6 @@ class BIOSComputingController : LinedComputingController() {
                 }
             }
             GLFW.GLFW_KEY_DOWN -> {
-                val menu = data.getList("Menu", NBT_STRING)
                 if (selector < menu.size.coerceAtMost(11).minus(1)) {
                     data.putInt("Selector", selector+1)
                     data.remove("Autoload")
@@ -117,7 +128,9 @@ class BIOSComputingController : LinedComputingController() {
                 }
             }
             GLFW.GLFW_KEY_ENTER, GLFW.GLFW_KEY_KP_ENTER -> {
-                sdata.putInt("Choice", selector)
+                if (!menu.isEmpty()) {
+                    sdata.putInt("Choice", selector)
+                }
             }
             else -> return
         }
@@ -141,15 +154,17 @@ class BIOSComputingController : LinedComputingController() {
         val autoload = if (data.contains("Autoload", NBT_INT)) data.getInt("Autoload") else null
         val menu = data.getTextList("Menu")
         if (menu.isEmpty()) {
-            renderOutput(data.getTextList("Output"), matrices, x, y, 1)
+            val lines = formatOutput(data.getCompoundList("Output"))
+            renderLines(limitLines(lines), matrices, x, y, 1)
         } else {
-            val output = menu.drop(scroll).take(total_rows-1)
-            renderOutput(output, matrices, x, y, 1) { it }
+            val text = menu.drop(scroll).take(total_rows-1)
+            val lines = formatText(text)
+            renderLines(limitLines(lines, total_rows-1), matrices, x, y, 1)
             renderHighlight(matrices, x, y, selector+1, 0xFFFFFFFF)
             if (autoload != null) {
                 renderHighlight(matrices, x, y, selector + 1, 0xFF66BBFF, x2 = (session.ticks - autoload + MinecraftClient.getInstance().tickDelta).div(100f))
             }
-            renderLine(matrices, x, y, selector+1, output[selector], color = 0x202020)
+            renderLine(matrices, x, y, selector+1, text[selector], color = 0x202020)
         }
     }
 

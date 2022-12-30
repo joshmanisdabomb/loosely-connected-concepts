@@ -3,11 +3,13 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller
 import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
+import com.joshmanisdabomb.lcc.extensions.*
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Style
@@ -16,7 +18,38 @@ import java.util.*
 
 abstract class LinedComputingController : ComputingController() {
 
-    abstract fun write(session: ComputingSession, text: MutableText, view: UUID? = null)
+    abstract fun write(session: ComputingSession, fragment: NbtCompound, view: UUID? = null)
+
+    abstract fun writeModify(session: ComputingSession, view: UUID? = null, from: Int = 0, modify: NbtCompound.() -> NbtCompound)
+
+    fun write(session: ComputingSession, text: MutableText, view: UUID? = null) {
+        val column = NbtCompound()
+        column.putTextList("Content", listOf(text.fillStyle(style)))
+        val fragment = NbtCompound()
+        fragment.putCompoundList("Columns", listOf(column))
+        write(session, fragment, view)
+    }
+
+    fun writeRight(session: ComputingSession, text: MutableText, view: UUID? = null) {
+        val column = NbtCompound()
+        column.putTextList("Content", listOf(text.fillStyle(style)))
+        column.putString("Alignment", "Right")
+        val fragment = NbtCompound()
+        fragment.putCompoundList("Columns", listOf(column))
+        write(session, fragment, view)
+    }
+
+    fun writeColumns(session: ComputingSession, columns: List<MutableText>, view: UUID? = null, modify: NbtCompound.(Int) -> Unit) {
+        val list = columns.mapIndexed { k, v ->
+            val column = NbtCompound()
+            column.putTextList("Content", listOf(v.fillStyle(style)))
+            column.modify(k)
+            column
+        }
+        val fragment = NbtCompound()
+        fragment.putCompoundList("Columns", list)
+        write(session, fragment, view)
+    }
 
     abstract fun clear(session: ComputingSession, view: UUID? = null)
 
@@ -34,8 +67,95 @@ abstract class LinedComputingController : ComputingController() {
     }
 
     @Environment(EnvType.CLIENT)
-    fun renderOutput(output: List<Text>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB, wrapper: (text: Text) -> List<OrderedText> = { val list = MinecraftClient.getInstance().textRenderer.wrapLines(it, total_columns*char_width); if (list.isEmpty()) listOf(OrderedText.EMPTY) else list }, portion: (output: List<OrderedText>) -> List<OrderedText> = { it.takeLast(total_rows - ty) }): Int {
-        val lines = output.flatMap(wrapper).let(portion)
+    fun formatText(text: List<MutableText>, width: Int? = total_columns): List<OrderedText> {
+        return text.flatMap {
+            MinecraftClient.getInstance().textRenderer.wrapLines(it, width?.times(char_width) ?: 9999999)
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    fun formatOutput(output: List<NbtCompound>, width: Int? = total_columns): List<OrderedText> {
+        return output.flatMap {
+            val columns = it.getCompoundList("Columns")
+
+            var loop = 0
+            var widths: List<Int?>
+            var space = 1
+            do {
+                loop += 1
+                widths = columns.mapIndexed { k, v ->
+                    val set = v.getIntOrNull("FixedWidth")
+                    if (set != null) return@mapIndexed set
+
+                    val content = v.getTextList("Content")
+                    val lines = content.flatMap {
+                        MinecraftClient.getInstance().textRenderer.wrapLines(it, 999999)
+                    }
+
+                    val maxWidth = lines.maxOf { MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width) }
+                    if (width == null || maxWidth < space) {
+                        maxWidth
+                    } else {
+                        null
+                    }
+                }
+
+                val remaining = (width ?: 0) - widths.filterNotNull().sum().plus(columns.size.minus(1)).coerceAtLeast(0)
+                val unknowns = widths.count { it == null }
+                if (unknowns > 0) {
+                    space = remaining.div(unknowns)
+                } else {
+                    loop = 0
+                }
+            } while (loop in 1..20)
+
+            val widths2 = widths.map { it ?: space }
+            val fill = widths2.filterIndexed { k, v -> columns[k].getBoolean("Fill") }.sum()
+            val available = (width ?: 0) - widths2.filterIndexed { k, v -> !columns[k].getBoolean("Fill") }.sum().plus(columns.size.minus(1))
+            val widths3 = widths2.mapIndexed { k, v ->
+                if (width == null || !columns[k].getBoolean("Fill")) return@mapIndexed v
+                v.div(fill.toFloat()).times(available).toInt()
+            }
+
+            val formattedColumns = columns.mapIndexed { k, v ->
+                val content = v.getTextList("Content")
+                val columnWidth = widths3[k]
+                val lines = content.flatMap {
+                    MinecraftClient.getInstance().textRenderer.wrapLines(it, columnWidth.times(char_width))
+                }
+
+                val alignedLines = when (v.getString("Alignment").lowercase()) {
+                    "right" -> lines.map {
+                        val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width)
+                        OrderedText.concat(Text.literal(" ".repeat(columnWidth.minus(textWidth))).fillStyle(style).asOrderedText(), it)
+                    }
+                    else -> lines.map {
+                        val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(it).div(char_width)
+                        OrderedText.concat(it, Text.literal(" ".repeat(columnWidth.minus(textWidth))).fillStyle(style).asOrderedText())
+                    }
+                }
+
+                alignedLines.ifEmpty { listOf(OrderedText.EMPTY) }
+            }
+
+            val lineCount = formattedColumns.maxOf { it.size }
+            val expandedColumns = formattedColumns.map {
+                List(lineCount) { i -> it.getOrElse(i) { OrderedText.EMPTY } }
+            }
+
+            expandedColumns.reduce { a, b ->
+                a.mapIndexed { k, v ->
+                    OrderedText.concat(v, Text.literal(" ").fillStyle(style).asOrderedText(), b[k])
+                }
+            }
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    fun limitLines(lines: List<OrderedText>, height: Int = total_rows) = lines.takeLast(height)
+
+    @Environment(EnvType.CLIENT)
+    fun renderLines(lines: List<OrderedText>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB): Int {
         lines.forEachIndexed { k, v ->
             renderLine(matrices, sx, sy, k+ty, v, color)
         }

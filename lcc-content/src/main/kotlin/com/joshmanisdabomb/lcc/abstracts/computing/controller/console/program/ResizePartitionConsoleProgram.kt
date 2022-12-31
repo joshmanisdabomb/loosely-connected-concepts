@@ -10,6 +10,7 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import com.mojang.brigadier.exceptions.Dynamic3CommandExceptionType
 import com.mojang.brigadier.exceptions.Dynamic4CommandExceptionType
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.Text
@@ -19,7 +20,7 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
     override val command = LCCConsolePrograms.literal(literal)
         .then(LCCConsolePrograms.required("partition", DiskInfoArgumentType(DiskInfoArgumentType.DiskInfoArgumentResult.PARTITION, preference = DiskInfoArgumentType.DiskInfoArgumentResult.PARTITION)).suggests { context, builder -> CommandSource.suggestMatching(DiskInfoArgumentType.suggestPartitions(context.source.context.getAccessibleDisks(), builder), builder) }.executes {
             prepare(it, DiskInfoArgumentType.get(it, "partition"))
-        }.then(LCCConsolePrograms.required("size", IntegerArgumentType.integer(1)).executes {
+        }.then(LCCConsolePrograms.required("size", IntegerArgumentType.integer(1)).suggests { context, builder -> CommandSource.suggestMatching(suggestSize(context, builder), builder) }.executes {
             prepare(it, DiskInfoArgumentType.get(it, "partition"), IntegerArgumentType.getInteger(it, "size"))
         }))
 
@@ -83,6 +84,13 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
         nbt.putString("DiskLabel", disk.label)
         nbt.putInt("Size", finalSize)
         return startTask(context.source, nbt)
+    }
+
+    private fun suggestSize(context: CommandContext<ConsoleCommandSource>, builder: SuggestionsBuilder): List<String> {
+        val search = DiskInfoArgumentType.get(context, "partition")
+        val disks = context.source.context.getAccessibleDisks()
+        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
+        return results.mapNotNull { it.disk?.allocableSpace?.plus(it.size)?.toString() }
     }
 
     private val systemPartition = Dynamic2CommandExceptionType { a, b -> Text.translatable("terminal.lcc.console.$name.system", a, b) }

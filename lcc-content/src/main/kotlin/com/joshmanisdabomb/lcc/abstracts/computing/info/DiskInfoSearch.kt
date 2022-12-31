@@ -2,18 +2,14 @@ package com.joshmanisdabomb.lcc.abstracts.computing.info
 
 class DiskInfoSearch(private val input: String) {
 
-    var diskFilter = true
-
     private val diskFilters = mutableListOf<(DiskInfo) -> Boolean>()
     private val partitionFilters = mutableListOf<(DiskPartition) -> Boolean>()
 
-    fun search(disks: Iterable<DiskInfo>) = (if (diskFilters.isNotEmpty() && (partitionFilters.isEmpty() || !diskFilter)) searchDisks(disks) else null) to (if (partitionFilters.isEmpty()) null else if (diskFilter) searchPartitionsIn(disks) else searchPartitions(DiskInfo.getPartitions(disks)))
+    fun search(disks: Iterable<DiskInfo>) = (if (diskFilters.isNotEmpty()) searchDisks(disks) else null) to (if (partitionFilters.isNotEmpty()) searchPartitions(DiskInfo.getPartitions(disks)) else null)
 
     fun searchDisks(disks: Iterable<DiskInfo>) = diskFilters.fold(disks, Iterable<DiskInfo>::filter).toSet()
 
     fun searchPartitions(partitions: Iterable<DiskPartition>) = partitionFilters.fold(partitions, Iterable<DiskPartition>::filter).toSet()
-
-    fun searchPartitionsIn(disks: Iterable<DiskInfo>) = searchPartitions(searchDisks(disks).flatMap { it.partitions })
 
     fun addDiskFilter(filter: (DiskInfo) -> Boolean): DiskInfoSearch {
         diskFilters.add(filter)

@@ -81,6 +81,7 @@ abstract class LinedComputingController : ComputingController() {
             var loop = 0
             var widths: List<Int?>
             var space = 1
+            var unknowns = columns.count()
             do {
                 loop += 1
                 widths = columns.mapIndexed { k, v ->
@@ -101,12 +102,17 @@ abstract class LinedComputingController : ComputingController() {
                 }
 
                 val remaining = (width ?: 0) - widths.filterNotNull().sum().plus(columns.size.minus(1)).coerceAtLeast(0)
-                val unknowns = widths.count { it == null }
-                if (unknowns > 0) {
-                    space = remaining.div(unknowns)
+                val newUnknowns = widths.count { it == null }
+                if (newUnknowns > 0) {
+                    space = remaining.div(newUnknowns)
+                    if (loop > 2 && newUnknowns == unknowns) {
+                        loop = 0
+                    }
                 } else {
                     loop = 0
                 }
+
+                unknowns = newUnknowns
             } while (loop in 1..20)
 
             val widths2 = widths.map { it ?: space }

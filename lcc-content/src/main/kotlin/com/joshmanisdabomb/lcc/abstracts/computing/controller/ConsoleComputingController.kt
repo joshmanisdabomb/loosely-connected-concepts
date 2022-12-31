@@ -183,7 +183,7 @@ class ConsoleComputingController : LinedComputingController() {
                     val program = LCCConsolePrograms.registry.get(Identifier(task.getString("Program"))) ?: break
                     val nbt = task.getCompound("Data")
                     if (program.keyPressed(session, nbt, player, view, keyCode)) break
-                    nbt.put("Data", nbt)
+                    task.put("Data", nbt)
                 }
                 null
             }

@@ -74,7 +74,7 @@ class LabelConsoleProgram(literal: String, override vararg val aliases: String) 
         val partitionId = data.getUuidOrNull("Partition")
         if (partitionId != null) {
             val partitionShort = data.getString("PartitionShort")
-            val partitionLabel = data.getText("PartitionLabel")
+            val partitionLabel = data.getString("PartitionLabel")
             val partition = source.context.getPartition(partitionId)
             if (partition == null) {
                 source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt.partition.$operation", partitionLabel, partitionShort), source.view)

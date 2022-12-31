@@ -19,13 +19,25 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
 
     override fun parse(reader: StringReader): DiskInfoSearch {
         val cursor = reader.cursor
-        val input = if (reader.canRead() && (reader.peek() == '"' || reader.peek() == '\'')) {
-            reader.readQuotedString()
-        } else {
+        var input: String? = null
+        outer@ for (i in 0..2) {
+            for (j in 0 until i) {
+                if (reader.peek(j) != ':') {
+                    continue@outer
+                }
+            }
+            if (reader.canRead() && (reader.peek(i) == '"' || reader.peek(i) == '\'')) {
+                reader.cursor += i
+                input = reader.readQuotedString()
+                break
+            }
+        }
+        if (input == null) {
             var string = ""
             while (reader.canRead() && reader.peek() != ' ') string += reader.read()
-            string
+            input = string
         }
+
         val search = DiskInfoSearch(input)
 
         val diskToken = input.indexOf("::")
@@ -45,7 +57,6 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
             if (preference == DiskInfoArgumentResult.DISK) processInput(input, search::diskIdStartsWith, search::diskLabelStartsWith, reader, input, diskIdInvalid, diskEmpty)
             else if (preference == DiskInfoArgumentResult.PARTITION) processInput(input, search::partitionIdStartsWith, search::partitionLabelStartsWith, reader, input, partitionIdInvalid, partitionEmpty)
             else {
-                search.diskFilter = false
                 processInput(input, { search.diskIdStartsWith(it).partitionIdStartsWith(it) }, { search.diskLabelStartsWith(it).partitionLabelStartsWith(it) }, reader, input, genericIdInvalid, genericEmpty)
             }
         } else {
@@ -77,6 +88,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
     companion object {
         private val idRegex = Regex("^([-A-Fa-f0-9]+)$")
         private val idSuggestRegex = Regex("^:*#")
+        private val quoteRegex = Regex("^:*\"")
 
         val diskDisabled = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.disk.disabled", it) }
         val partitionDisabled = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.disabled", it) }
@@ -97,10 +109,11 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
 
         fun suggestDisks(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining
+            val quotesRequired = input.matches(quoteRegex)
             var suggestions = if (input.matches(idSuggestRegex)) {
                 disks.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
             } else {
-                disks.mapNotNull { it.label?.let { "\"$it\"" } }
+                disks.mapNotNull { it.label?.let { if (quotesRequired || it.contains(' ')) "\"$it\"" else it } ?: it.getShortId(disks)?.let { "#$it" } }
             }
             if (input.startsWith(':')) {
                 suggestions = suggestions.map { "::$it" }
@@ -110,11 +123,12 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
 
         fun suggestPartitions(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining
+            val quotesRequired = input.matches(quoteRegex)
             val partitions = DiskInfo.getPartitions(disks)
             var suggestions = if (input.matches(idSuggestRegex)) {
                 partitions.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
             } else {
-                partitions.map { it.label.let { "\"$it\"" } }
+                partitions.map { it.label.let { if (quotesRequired || it.contains(' ')) "\"$it\"" else it } }
             }
             if (input.startsWith(':')) {
                 suggestions = suggestions.map { ":$it" }

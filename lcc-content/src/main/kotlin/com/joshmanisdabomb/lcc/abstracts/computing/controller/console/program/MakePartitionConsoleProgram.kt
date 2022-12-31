@@ -17,6 +17,7 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import com.mojang.brigadier.exceptions.Dynamic4CommandExceptionType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.Text
@@ -30,7 +31,7 @@ class MakePartitionConsoleProgram(literal: String, override vararg val aliases: 
             .then(LCCConsolePrograms.required("partition", PartitionArgumentType { it !is SystemPartitionType })
                 .then(LCCConsolePrograms.required("label", StringArgumentType.string()).executes {
                     prepare(it, DiskInfoArgumentType.get(it, "disk"), PartitionArgumentType.get(it, "partition"), StringArgumentType.getString(it, "label"))
-                }.then(LCCConsolePrograms.required("size", IntegerArgumentType.integer(1)).executes {
+                }.then(LCCConsolePrograms.required("size", IntegerArgumentType.integer(1)).suggests { context, builder -> CommandSource.suggestMatching(suggestSize(context, builder), builder) }.executes {
                     prepare(it, DiskInfoArgumentType.get(it, "disk"), PartitionArgumentType.get(it, "partition"), StringArgumentType.getString(it, "label"), IntegerArgumentType.getInteger(it, "size"))
                 })
             )
@@ -86,6 +87,13 @@ class MakePartitionConsoleProgram(literal: String, override vararg val aliases: 
         nbt.putInt("Size", finalSize)
         nbt.putString("Label", label)
         return startTask(context.source, nbt)
+    }
+
+    private fun suggestSize(context: CommandContext<ConsoleCommandSource>, builder: SuggestionsBuilder): List<String> {
+        val search = DiskInfoArgumentType.get(context, "disk")
+        val disks = context.source.context.getAccessibleDisks()
+        val results = search.searchDisks(disks)
+        return results.map { it.allocableSpace.toString() }
     }
 
     private val labelEmpty = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.label_empty"))

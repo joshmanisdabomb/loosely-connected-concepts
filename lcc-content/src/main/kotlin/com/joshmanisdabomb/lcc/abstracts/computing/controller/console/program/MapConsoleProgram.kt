@@ -16,13 +16,14 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
 
     override val command = LCCConsolePrograms.literal(literal)
         .executes {
-            prepare(it, DiskInfoSearch(""))
+            prepare(it, null)
         }.then(LCCConsolePrograms.required("disk", DiskInfoArgumentType(DiskInfoArgumentType.DiskInfoArgumentResult.DISK, DiskInfoArgumentType.DiskInfoArgumentResult.PARTITION)).suggests { context, builder -> CommandSource.suggestMatching(DiskInfoArgumentType.suggestAll(context.source.context.getAccessibleDisks(), builder), builder) }.executes {
             prepare(it, DiskInfoArgumentType.get(it, "disk"))
         })
 
     override fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean? {
         val diskLabels = data.getCompound("DiskLabels")
+        val diskCustomLabels = data.getCompound("DiskCustomLabels")
         val diskShorts = data.getCompound("DiskShorts")
         val diskUsed = data.getCompound("DiskUsed")
         val diskTotal = data.getCompound("DiskTotal")
@@ -33,8 +34,8 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionUsed = data.getCompound("PartitionUsed")
         data.getCompound("IdMap").forEachStringList { k, v ->
             source.controller.writeColumns(source.session, listOf(
-                Text.translatable("terminal.lcc.console.$name.disk.left", diskLabels.getText(k), diskShorts.getString(k)),
-                Text.translatable("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k))
+                Text.translatable("terminal.lcc.console.$name.disk.left", diskLabels.getText(k)?.formatted(if (diskCustomLabels.getStringOrNull(k) == null) Formatting.DARK_GRAY else Formatting.RESET), diskShorts.getString(k)),
+                Text.translatable("terminal.lcc.console.$name.disk.right", diskUsed.getInt(k), diskTotal.getInt(k)).formatted(if (v.isEmpty()) Formatting.DARK_GRAY else Formatting.RESET)
             ), source.view) {
                 if (it == 1) this.putString("Alignment", "Right")
                 else this.putBoolean("Fill", true)
@@ -60,11 +61,11 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         return null
     }
 
-    fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch): Int {
+    fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch?): Int {
         val nbt = NbtCompound()
 
         val disks = context.source.context.getAccessibleDisks()
-        search.diskDefaultInclusion().partitionDefaultInclusion()
+        val search = search ?: DiskInfoSearch("").diskDefaultInclusion().partitionDefaultInclusion()
         val results = search.search(disks)
         val diskResults = results.first ?: emptySet()
         val partitionResults = results.second ?: emptySet()
@@ -76,6 +77,7 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
 
         val diskShortIds = map.keys.associateWith { it.getShortId(disks) }
         val diskLabels = map.keys.associateWith { it.name }
+        val diskCustomLabels = map.keys.associateWith { it.label }
         val diskUsed = map.keys.associateWith { it.usedSpace }
         val diskTotal = map.keys.associateWith { it.totalSpace }
         val partitionShortIds = partitions.associateWith { it.getShortId(disks) }
@@ -87,6 +89,7 @@ class MapConsoleProgram(literal: String, override vararg val aliases: String) : 
         nbt.modifyCompound("IdMap") { map.forEach { (k, v) -> putStringUuidList(k.id.toString(), v.mapNotNull { it.id }) } }
         nbt.modifyCompound("DiskShorts") { diskShortIds.forEach { (k, v) -> putString(k.id.toString(), v) } }
         nbt.modifyCompound("DiskLabels") { diskLabels.forEach { (k, v) -> putText(k.id.toString(), v) } }
+        nbt.modifyCompound("DiskCustomLabels") { diskCustomLabels.forEach { (k, v) -> putStringOrRemove(k.id.toString(), v) } }
         nbt.modifyCompound("DiskUsed") { diskUsed.forEach { (k, v) -> putInt(k.id.toString(), v) } }
         nbt.modifyCompound("DiskTotal") { diskTotal.forEach { (k, v) -> putInt(k.id.toString(), v) } }
         nbt.modifyCompound("PartitionShorts") { partitionShortIds.forEach { (k, v) -> putString(k.id.toString(), v) } }

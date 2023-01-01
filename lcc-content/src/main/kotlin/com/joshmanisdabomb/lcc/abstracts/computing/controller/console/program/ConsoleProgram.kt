@@ -1,11 +1,15 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.ConsoleComputingController
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.modifyCompoundList
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -33,5 +37,8 @@ abstract class ConsoleProgram {
     abstract fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean?
 
     open fun keyPressed(session: ComputingSession, data: NbtCompound, player: ServerPlayerEntity, view: ComputingSessionViewContext, keyCode: Int): Boolean = false
+
+    @Environment(EnvType.CLIENT)
+    open fun render(controller: ConsoleComputingController, session: ComputingSession, data: NbtCompound, view: ComputingSessionViewContext, matrices: MatrixStack, delta: Float, x: Int, y: Int): Boolean? = null
 
 }

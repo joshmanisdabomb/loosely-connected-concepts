@@ -158,7 +158,7 @@ abstract class LinedComputingController : ComputingController() {
     }
 
     @Environment(EnvType.CLIENT)
-    fun limitLines(lines: List<OrderedText>, height: Int = total_rows) = lines.takeLast(height)
+    fun limitLines(lines: List<OrderedText>, height: Int = total_rows, scroll: Int = 0) = lines.dropLast(scroll.coerceIn(0, lines.count().minus(height).coerceAtLeast(0))).takeLast(height)
 
     @Environment(EnvType.CLIENT)
     fun renderLines(lines: List<OrderedText>, matrices: MatrixStack, sx: Int, sy: Int, ty: Int = 0, color: Int = 0xBBBBBB): Int {

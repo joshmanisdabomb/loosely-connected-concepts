@@ -180,7 +180,7 @@ class ConsoleComputingController : LinedComputingController() {
         if (blocking) {
             vdata.modifyCompoundList("Tasks") {
                 for (task in this) {
-                    val program = LCCConsolePrograms.registry.get(Identifier(task.getString("Program"))) ?: break
+                    val program = LCCConsolePrograms.registry.get(Identifier(task.getString("Program"))) ?: continue
                     val nbt = task.getCompound("Data")
                     if (program.keyPressed(session, nbt, player, view, keyCode)) break
                     task.put("Data", nbt)
@@ -281,6 +281,17 @@ class ConsoleComputingController : LinedComputingController() {
         val buffer = vdata.getString("Buffer")
         val queue = vdata.getList("Queue", NBT_COMPOUND)
         val blocking = vdata.getBoolean("Blocking")
+
+        val tasks = vdata.getCompoundList("Tasks")
+        var render = true
+        for (task in tasks) {
+            val program = LCCConsolePrograms.registry.get(Identifier(task.getString("Program"))) ?: continue
+            val nbt = task.getCompound("Data")
+            val ret = program.render(this, session, nbt, view, matrices, delta, x, y)
+            if (ret == true) render = false
+            if (ret != null) break
+        }
+        if (!render) return
 
         val lines = formatOutput(output)
         val ty = renderLines(limitLines(lines, total_rows-1), matrices, x, y)

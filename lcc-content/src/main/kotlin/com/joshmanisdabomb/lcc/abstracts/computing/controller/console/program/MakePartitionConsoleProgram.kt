@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.PartitionType
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.SystemPartitionType
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.getText
 import com.joshmanisdabomb.lcc.extensions.putText
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -55,6 +56,9 @@ class MakePartitionConsoleProgram(literal: String, override vararg val aliases: 
 
         val partition = DiskPartition(UUID.randomUUID(), label, type, size)
         disk.addPartition(partition)
+        val level = source.context.getWorldFromContext().levelProperties
+        val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()
+        storage.addRootFolder(partition.id!!)
         source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success", Text.translatable(partition.type.translationKey), partition.label, partition.getShortId(disks), partition.size, diskLabel, diskShort), source.view)
         return null
     }

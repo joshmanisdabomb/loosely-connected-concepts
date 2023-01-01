@@ -259,6 +259,7 @@ object LCCLangData {
         lang["terminal.lcc.console.help.resize"] = "Resizes the specified partition to the chosen size."
         lang["terminal.lcc.console.help.scroll"] = "Scrolls through the buffered terminal output to show off-screen text."
         lang["terminal.lcc.console.help.use"] = "Sets the default partition to use when running commands that alter the filesystem."
+        lang["terminal.lcc.console.help.ls"] = "List the contents of the specified or current directory."
         lang["terminal.lcc.console.help.reboot"] = "Restarts the computer."
         lang["terminal.lcc.console.help.shutdown"] = "Shuts down the computer."
         lang["terminal.lcc.console.install.space_total"] = "Not enough total space on disk '%1\$s' (#%2\$s) to hold system install: %3\$s < %4\$s\nConsider using a larger disk."
@@ -312,6 +313,10 @@ object LCCLangData {
         lang["terminal.lcc.console.use.get"] = "Currently using partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s)."
         lang["terminal.lcc.console.use.get.empty"] = "No partition in use."
         lang["terminal.lcc.console.use.success"] = "Now using partition '%1\$s' (#%2\$s) on disk '%3\$s' (#%4\$s)."
+        lang["terminal.lcc.console.ls.header"] = "Contents of %1\$s (size %2\$s)"
+        lang["terminal.lcc.console.ls.item.left"] = " %1\$s %2\$s"
+        lang["terminal.lcc.console.ls.item.right"] = "%1\$s"
+        lang["terminal.lcc.console.ls.useless"] = "No partition in use. Please set the current partition with the 'use' command."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

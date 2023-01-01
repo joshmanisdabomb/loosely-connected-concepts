@@ -6,6 +6,7 @@ import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
 import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.getBooleanOrNull
 import com.joshmanisdabomb.lcc.extensions.getText
 import com.joshmanisdabomb.lcc.extensions.putText
@@ -40,6 +41,9 @@ class RemovePartitionConsoleProgram(literal: String, override vararg val aliases
         return when (data.getBooleanOrNull("Prompt")) {
             true -> {
                 disk.removePartition(partitionId)
+                val level = source.context.getWorldFromContext().levelProperties
+                val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()
+                storage.unlinkRootFolder(partitionId)
                 source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success", partitionLabel, partitionShort, diskLabel, diskShort), source.view)
                 null
             }

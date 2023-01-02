@@ -40,13 +40,20 @@ data class StoragePath(val input: String) {
                     _partition = token
                 }
                 3 -> {
-                    _filepath = _filepath ?: mutableListOf()
+                    val filepath = _filepath ?: mutableListOf()
                     if (unknown != null) {
-                        _filepath?.add(unknown)
+                        filepath.add(unknown)
                         unknown = null
                         _absolute = false
                     }
-                    _filepath?.add(token)
+                    if (token.isNotEmpty()) {
+                        if (filepath.any { it != ".." } && token == "..") {
+                            filepath.removeAt(filepath.lastIndex)
+                        } else if (filepath.isEmpty() || token != ".") {
+                            filepath.add(token)
+                        }
+                    }
+                    _filepath = filepath
                 }
                 else -> unknown = token
             }
@@ -58,6 +65,7 @@ data class StoragePath(val input: String) {
         if (unknown != null) {
             result = unknown
             type = null
+            _absolute = false
         } else if (_filepath != null) {
             result = _filepath?.lastOrNull() ?: "."
             type = StorageDivision.StorageDivisionType.FILE
@@ -72,6 +80,8 @@ data class StoragePath(val input: String) {
             type = null
         }
     }
+
+    fun appendFilepath(vararg filepath: String) = StoragePath(input + filepath.joinToString("/", prefix = "/"))
 
     private fun parseLabel(str: String): Pair<String, Int> {
         val label = StringBuilder()

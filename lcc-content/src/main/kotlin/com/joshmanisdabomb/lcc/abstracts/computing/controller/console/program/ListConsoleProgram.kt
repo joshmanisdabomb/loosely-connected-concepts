@@ -3,7 +3,9 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.StoragePathArgumentType
 import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDivision
 import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePath
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePathResolver
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
 import com.mojang.brigadier.context.CommandContext
@@ -62,13 +64,24 @@ class ListConsoleProgram(literal: String, override vararg val aliases: String) :
     fun prepare(context: CommandContext<ConsoleCommandSource>, path: StoragePath): Int {
         val nbt = NbtCompound()
 
-        println(path)
-        println(path.result)
-        println(path.disk)
-        println(path.partition)
-        println(path.filepath)
-        println(path.type)
-        println(path.absolute)
+        val using = context.source.session.getViewData(context.source.view).getUuidOrNull("Use")
+        val working = context.source.session.getViewData(context.source.view).getUuidOrNull("Working")
+
+        val disks = context.source.context.getAccessibleDisks()
+        val level = context.source.context.getWorldFromContext().levelProperties
+        val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()
+        val resolver = StoragePathResolver(path)
+            .interest(StorageDivision.StorageDivisionType.FILE, StorageDivision.StorageDivisionType.FOLDER)
+            .withCurrentPartition(using)
+            .withCurrentDirectory(working)
+        println(resolver.get(disks, storage))
+        /*when (resolver.get(disks, storage)) {
+            is StorageFile -> 0//TODO show listing of exact file
+            is StorageFolder -> 1//TODO show listing of folder
+            is StorageDisk -> 2//TODO show root folder of ONE partition ONLY
+            is StoragePartition -> 3//TODO show root folder of the partition
+            else -> 4//TODO this is a search, get the specified parent directory and show all files and folder that contain the path result
+        }*/
 
         return startTask(context.source, nbt)
     }

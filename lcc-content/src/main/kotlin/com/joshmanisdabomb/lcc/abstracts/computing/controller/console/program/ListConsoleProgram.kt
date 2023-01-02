@@ -1,7 +1,9 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
+import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.StoragePathArgumentType
 import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePath
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
 import com.mojang.brigadier.context.CommandContext
@@ -13,8 +15,10 @@ class ListConsoleProgram(literal: String, override vararg val aliases: String) :
 
     override val command = LCCConsolePrograms.literal(literal)
         .executes {
-            prepare(it)
-        }
+            prepare(it, StoragePath("."))
+        }.then(LCCConsolePrograms.required("dir", StoragePathArgumentType()).executes {
+            prepare(it, StoragePathArgumentType.get(it, "dir"))
+        })
 
     override fun runTask(source: ConsoleCommandSource, data: NbtCompound): Boolean? {
         val disks = source.context.getAccessibleDisks()
@@ -55,8 +59,16 @@ class ListConsoleProgram(literal: String, override vararg val aliases: String) :
         return null
     }
 
-    fun prepare(context: CommandContext<ConsoleCommandSource>): Int {
+    fun prepare(context: CommandContext<ConsoleCommandSource>, path: StoragePath): Int {
         val nbt = NbtCompound()
+
+        println(path)
+        println(path.result)
+        println(path.disk)
+        println(path.partition)
+        println(path.filepath)
+        println(path.type)
+        println(path.absolute)
 
         return startTask(context.source, nbt)
     }

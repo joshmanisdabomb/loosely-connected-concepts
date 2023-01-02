@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.LCCDigitalMediums
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
@@ -64,10 +64,10 @@ class ComputerComputerModule : ComputerModule() {
 
     override fun createExtraData() = NbtCompound()
 
-    override fun getInternalDisks(inv: LCCInventory): Set<DiskInfo> {
-        val set = mutableSetOf<DiskInfo>()
+    override fun getInternalDisks(inv: LCCInventory): Set<StorageDisk> {
+        val set = mutableSetOf<StorageDisk>()
         val m2 = inv[6]
-        if (m2.isOf(LCCItems.m2)) set.add(DiskInfo(m2))
+        if (m2.isOf(LCCItems.m2)) set.add(StorageDisk(m2))
         return set
     }
 

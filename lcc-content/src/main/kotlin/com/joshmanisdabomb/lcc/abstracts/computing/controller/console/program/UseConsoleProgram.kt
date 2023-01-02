@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.SystemPartitionType
 import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
 import com.mojang.brigadier.context.CommandContext
@@ -30,7 +30,7 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
         if (data.getString("Operation") == "get") {
             val using = source.session.getViewData(source.view).getUuidOrNull("Use")
             if (using != null) {
-                val partition = DiskInfo.findPartition(disks, using)
+                val partition = StorageDisk.findPartition(disks, using)
                 if (partition != null) {
                     val disk = partition.disk!!
                     source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.get", partition.label, partition.getShortId(disks), disk.name, disk.getShortId(disks)), source.view)
@@ -46,7 +46,7 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
         val partitionLabel = data.getString("PartitionLabel")
         val diskShort = data.getString("DiskShort")
         val diskLabel = data.getString("DiskLabel")
-        val partition = DiskInfo.findPartition(disks, partitionId)
+        val partition = StorageDisk.findPartition(disks, partitionId)
         if (partition == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
             return null
@@ -62,7 +62,7 @@ class UseConsoleProgram(literal: String, override vararg val aliases: String) : 
         nbt.putString("Operation", "set")
 
         val disks = context.source.context.getAccessibleDisks()
-        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
+        val results = search.searchPartitions(StorageDisk.getPartitions(disks))
         val partition = DiskInfoArgumentType.getSinglePartition(results, search) ?: throw DiskInfoArgumentType.noPartitions.create(search)
         val shortId = partition.getShortId(disks)
 

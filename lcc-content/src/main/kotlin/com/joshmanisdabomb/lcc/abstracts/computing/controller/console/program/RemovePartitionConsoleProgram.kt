@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSession
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionViewContext
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
@@ -31,7 +31,7 @@ class RemovePartitionConsoleProgram(literal: String, override vararg val aliases
         val diskShort = data.getString("DiskShort")
         val diskLabel = data.getText("DiskLabel")
         val disks = source.context.getAccessibleDisks()
-        val disk = DiskInfo.getDiskWithPartition(disks, partitionId)
+        val disk = StorageDisk.getDiskWithPartition(disks, partitionId)
         if (disk == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
             return null
@@ -74,7 +74,7 @@ class RemovePartitionConsoleProgram(literal: String, override vararg val aliases
 
     fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch): Int {
         val disks = context.source.context.getAccessibleDisks()
-        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
+        val results = search.searchPartitions(StorageDisk.getPartitions(disks))
         val partition = DiskInfoArgumentType.getSinglePartition(results, search) ?: throw DiskInfoArgumentType.noPartitions.create(search)
         val partitionId = partition.getShortId(disks)
         val disk = partition.disk

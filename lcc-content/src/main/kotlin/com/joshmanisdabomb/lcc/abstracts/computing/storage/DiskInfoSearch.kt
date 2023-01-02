@@ -1,22 +1,22 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.info
+package com.joshmanisdabomb.lcc.abstracts.computing.storage
 
 class DiskInfoSearch(private val input: String) {
 
-    private val diskFilters = mutableListOf<(DiskInfo) -> Boolean>()
-    private val partitionFilters = mutableListOf<(DiskPartition) -> Boolean>()
+    private val diskFilters = mutableListOf<(StorageDisk) -> Boolean>()
+    private val partitionFilters = mutableListOf<(StoragePartition) -> Boolean>()
 
-    fun search(disks: Iterable<DiskInfo>) = (if (diskFilters.isNotEmpty()) searchDisks(disks) else null) to (if (partitionFilters.isNotEmpty()) searchPartitions(DiskInfo.getPartitions(disks)) else null)
+    fun search(disks: Iterable<StorageDisk>) = (if (diskFilters.isNotEmpty()) searchDisks(disks) else null) to (if (partitionFilters.isNotEmpty()) searchPartitions(StorageDisk.getPartitions(disks)) else null)
 
-    fun searchDisks(disks: Iterable<DiskInfo>) = diskFilters.fold(disks, Iterable<DiskInfo>::filter).toSet()
+    fun searchDisks(disks: Iterable<StorageDisk>) = diskFilters.fold(disks, Iterable<StorageDisk>::filter).toSet()
 
-    fun searchPartitions(partitions: Iterable<DiskPartition>) = partitionFilters.fold(partitions, Iterable<DiskPartition>::filter).toSet()
+    fun searchPartitions(partitions: Iterable<StoragePartition>) = partitionFilters.fold(partitions, Iterable<StoragePartition>::filter).toSet()
 
-    fun addDiskFilter(filter: (DiskInfo) -> Boolean): DiskInfoSearch {
+    fun addDiskFilter(filter: (StorageDisk) -> Boolean): DiskInfoSearch {
         diskFilters.add(filter)
         return this
     }
 
-    fun addPartitionFilter(filter: (DiskPartition) -> Boolean): DiskInfoSearch {
+    fun addPartitionFilter(filter: (StoragePartition) -> Boolean): DiskInfoSearch {
         partitionFilters.add(filter)
         return this
     }

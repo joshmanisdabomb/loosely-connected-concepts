@@ -1,7 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.session
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
 import net.minecraft.server.MinecraftServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.world.World
@@ -21,19 +20,19 @@ interface ComputingSessionExecuteContext {
 
     fun shutdown()
 
-    fun getAccessibleDisks(): Set<DiskInfo>
+    fun getAccessibleDisks(): Set<StorageDisk>
 
-    fun getAccessiblePartitions() = DiskInfo.getPartitions(getAccessibleDisks())
+    fun getAccessiblePartitions() = StorageDisk.getPartitions(getAccessibleDisks())
 
-    fun getDisk(id: UUID) = DiskInfo.getDisk(getAccessibleDisks(), id)
+    fun getDisk(id: UUID) = StorageDisk.getDisk(getAccessibleDisks(), id)
 
-    fun getDiskWithPartition(id: UUID) = DiskInfo.getDiskWithPartition(getAccessibleDisks(), id)
+    fun getDiskWithPartition(id: UUID) = StorageDisk.getDiskWithPartition(getAccessibleDisks(), id)
 
-    fun getPartition(id: UUID) = DiskInfo.getPartition(getAccessiblePartitions(), id)
+    fun getPartition(id: UUID) = StorageDisk.getPartition(getAccessiblePartitions(), id)
 
     fun markDirty()
 
-    fun findPartition(partition: UUID, disks: Set<DiskInfo> = getAccessibleDisks()) = DiskInfo.findPartition(disks, partition)
+    fun findPartition(partition: UUID, disks: Set<StorageDisk> = getAccessibleDisks()) = StorageDisk.findPartition(disks, partition)
 
     fun isWatching(player: ServerPlayerEntity, view: UUID? = null): Boolean {
         val sessionId = getSessionToken() ?: return false

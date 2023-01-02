@@ -1,7 +1,7 @@
 package com.joshmanisdabomb.lcc.component
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskFile
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskFolder
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageFile
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageFolder
 import com.joshmanisdabomb.lcc.extensions.getCompoundObject
 import com.joshmanisdabomb.lcc.extensions.modifyCompound
 import com.joshmanisdabomb.lcc.extensions.putCompoundObject
@@ -18,8 +18,8 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
     private var stackDictionaryLast = 0L
 
     private val roots = mutableMapOf<UUID, UUID>()
-    private val folders = mutableMapOf<UUID, DiskFolder>()
-    private val files = mutableMapOf<UUID, DiskFile>()
+    private val folders = mutableMapOf<UUID, StorageFolder>()
+    private val files = mutableMapOf<UUID, StorageFile>()
 
     fun getDictionaryStackId(stack: ItemStack): Long {
         val entry = stack.copy().apply { count = 1 }
@@ -47,7 +47,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
         tag.getCompound("Folders").apply {
             keys.forEach {
                 val uuid = UUID.fromString(it)
-                val folder = getCompoundObject(it, ::DiskFolder)
+                val folder = getCompoundObject(it, ::StorageFolder)
                 folders[uuid] = folder
             }
         }
@@ -55,7 +55,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
         tag.getCompound("Files").apply {
             keys.forEach {
                 val uuid = UUID.fromString(it)
-                val file = getCompoundObject(it, ::DiskFile)
+                val file = getCompoundObject(it, ::StorageFile)
                 files[uuid] = file
             }
         }
@@ -104,25 +104,25 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
 
     fun getFiles(vararg files: UUID) = files.mapNotNull { it to (this.files[it] ?: return@mapNotNull null) }.toMap()
 
-    fun saveFile(file: DiskFile, folder: DiskFolder) {
+    fun saveFile(file: StorageFile, folder: StorageFolder) {
         file.folder = folder.id
         folder.files += file.id
         files[file.id] = file
     }
 
-    fun saveFolder(folder: DiskFolder, parent: DiskFolder) {
+    fun saveFolder(folder: StorageFolder, parent: StorageFolder) {
         folder.path = parent.path + parent.id
         parent.folders += folder.id
         folders[folder.id] = folder
     }
 
-    fun getRootFolder(partition: UUID): DiskFolder? {
+    fun getRootFolder(partition: UUID): StorageFolder? {
         val uuid = roots[partition] ?: return null
         return getFolder(uuid)
     }
 
-    fun addRootFolder(partition: UUID): DiskFolder {
-        val folder = DiskFolder(UUID.randomUUID(), emptyList(), "root")
+    fun addRootFolder(partition: UUID): StorageFolder {
+        val folder = StorageFolder(UUID.randomUUID(), "root")
         folders[folder.id] = folder
         roots[partition] = folder.id
         return folder

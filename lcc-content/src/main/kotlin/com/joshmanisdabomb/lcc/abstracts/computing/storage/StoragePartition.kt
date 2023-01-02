@@ -1,6 +1,7 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.info
+package com.joshmanisdabomb.lcc.abstracts.computing.storage
 
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.PartitionType
+import com.joshmanisdabomb.lcc.component.ComputingStorageComponent
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
 import com.joshmanisdabomb.lcc.extensions.putUuidOrRemove
@@ -9,7 +10,9 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import java.util.*
 
-class DiskPartition(val nbt: NbtCompound, var disk: DiskInfo? = null) {
+class StoragePartition(val nbt: NbtCompound, var disk: StorageDisk? = null) : StorageDivision {
+
+    override val division = StorageDivision.StorageDivisionType.PARTITION
 
     var id: UUID?
         get() = nbt.getUuidOrNull("id")
@@ -34,7 +37,7 @@ class DiskPartition(val nbt: NbtCompound, var disk: DiskInfo? = null) {
     val usedSpace get() = type.noFreeSpace.transformInt(size, usedCache)
     val freeSpace get() = size - usedSpace
 
-    constructor(id: UUID?, name: String, type: PartitionType, size: Int, disk: DiskInfo? = null) : this(NbtCompound(), disk) {
+    constructor(id: UUID?, name: String, type: PartitionType, size: Int, disk: StorageDisk? = null) : this(NbtCompound(), disk) {
         this.id = id
         this.label = name
         this.type = type
@@ -46,10 +49,31 @@ class DiskPartition(val nbt: NbtCompound, var disk: DiskInfo? = null) {
         nbt.putString("name", label)
         nbt.putString("type", type.id.toString())
         nbt.putInt("size", size)
+        nbt.putInt("used_cache", usedCache)
     }
 
-    fun getShortId(disks: Iterable<DiskInfo>): String? {
-        return DiskInfo.getShortId(disks, id ?: return null)
+    fun getShortId(disks: Iterable<StorageDisk>): String? {
+        return StorageDisk.getShortId(disks, id ?: return null)
+    }
+
+    fun recalculateSizes(storage: ComputingStorageComponent, from: StorageFolder, path: List<UUID> = from.path, offset: Int = 0): Boolean {
+        val old = from.usedCache
+        val sizes = storage.getFiles(*from.files.toTypedArray()).values.sumOf(StorageFile::size)
+        val useds = storage.getFolders(*from.folders.toTypedArray()).values.sumOf(StorageFolder::usedCache)
+        val new = sizes + useds + offset
+        val increase = new - old
+
+        val folders = storage.getFolders(*path.reversed().toTypedArray()).values
+        if (folders.plus(from).any { it.usedCache + increase > this.size }) {
+            return false
+        }
+
+        from.usedCache += increase
+        folders.forEach {
+            it.usedCache += increase
+        }
+        this.usedCache += increase
+        return true
     }
 
 }

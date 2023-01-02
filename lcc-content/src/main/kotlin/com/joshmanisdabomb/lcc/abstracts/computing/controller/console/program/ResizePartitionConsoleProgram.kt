@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.SystemPartitionType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -31,7 +31,7 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
         val diskShort = data.getString("DiskShort")
         val diskLabel = data.getString("DiskLabel")
         val disks = source.context.getAccessibleDisks()
-        val partition = DiskInfo.findPartition(disks, partitionId)
+        val partition = StorageDisk.findPartition(disks, partitionId)
         if (partition == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", partitionLabel, partitionShort), source.view)
             return null
@@ -50,7 +50,7 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
 
     fun prepare(context: CommandContext<ConsoleCommandSource>, search: DiskInfoSearch, size: Int? = null): Int {
         val disks = context.source.context.getAccessibleDisks()
-        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
+        val results = search.searchPartitions(StorageDisk.getPartitions(disks))
         val partition = DiskInfoArgumentType.getSinglePartition(results, search) ?: throw DiskInfoArgumentType.noPartitions.create(search)
         val shortId = partition.getShortId(disks)
 
@@ -89,7 +89,7 @@ class ResizePartitionConsoleProgram(literal: String, override vararg val aliases
     private fun suggestSize(context: CommandContext<ConsoleCommandSource>, builder: SuggestionsBuilder): List<String> {
         val search = DiskInfoArgumentType.get(context, "partition")
         val disks = context.source.context.getAccessibleDisks()
-        val results = search.searchPartitions(DiskInfo.getPartitions(disks))
+        val results = search.searchPartitions(StorageDisk.getPartitions(disks))
         return results.mapNotNull { it.disk?.allocableSpace?.plus(it.size)?.toString() }
     }
 

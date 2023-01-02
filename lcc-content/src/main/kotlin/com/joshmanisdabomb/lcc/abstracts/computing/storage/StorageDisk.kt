@@ -1,4 +1,4 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.info
+package com.joshmanisdabomb.lcc.abstracts.computing.storage
 
 import com.joshmanisdabomb.lcc.extensions.*
 import com.joshmanisdabomb.lcc.item.DigitalMediumItem
@@ -7,7 +7,9 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.Text
 import java.util.*
 
-data class DiskInfo(val stack: ItemStack) {
+data class StorageDisk(val stack: ItemStack) : StorageDivision {
+
+    override val division = StorageDivision.StorageDivisionType.DISK
 
     val tag get() = stack.getSubNbt("lcc-computing")
     private val _tag get() = stack.getOrCreateSubNbt("lcc-computing")
@@ -23,8 +25,8 @@ data class DiskInfo(val stack: ItemStack) {
         get() = tag?.getStringOrNull("name")
         set(value) = _tag.putStringOrRemove("name", value)
 
-    var partitions: List<DiskPartition>
-        get() = tag?.getCompoundObjectList("partitions") { DiskPartition(it, this) } ?: emptyList()
+    var partitions: List<StoragePartition>
+        get() = tag?.getCompoundObjectList("partitions") { StoragePartition(it, this) } ?: emptyList()
         set(value) {
             _tag.putCompoundObjectList("partitions", value) {
                 val nbt = NbtCompound()
@@ -40,7 +42,7 @@ data class DiskInfo(val stack: ItemStack) {
     val allocatedSpace get() = partitions.sumOf { it.size }
     val allocableSpace get() = totalSpace - allocatedSpace
 
-    fun initialise(): DiskInfo {
+    fun initialise(): StorageDisk {
         id = id ?: UUID.randomUUID()
         val parts = partitions
         for (partition in parts) {
@@ -49,7 +51,7 @@ data class DiskInfo(val stack: ItemStack) {
         return this
     }
 
-    fun addPartition(partition: DiskPartition) {
+    fun addPartition(partition: StoragePartition) {
         partition.disk = this
         partitions = partitions.plus(partition)
     }
@@ -58,24 +60,24 @@ data class DiskInfo(val stack: ItemStack) {
 
     fun removePartition(id: UUID) { partitions = partitions.filter { it.id != id } }
 
-    fun removePartition(partition: DiskPartition) { removePartition(partition.id ?: return) }
+    fun removePartition(partition: StoragePartition) { removePartition(partition.id ?: return) }
 
-    fun getShortId(disks: Iterable<DiskInfo>): String? {
+    fun getShortId(disks: Iterable<StorageDisk>): String? {
         return getShortId(disks, id ?: return null)
     }
 
     companion object {
-        fun getPartitions(disks: Iterable<DiskInfo>) = disks.flatMap { it.partitions }.toSet()
+        fun getPartitions(disks: Iterable<StorageDisk>) = disks.flatMap { it.partitions }.toSet()
 
-        fun getDisk(disks: Iterable<DiskInfo>, id: UUID) = disks.firstOrNull { it.id == id }
+        fun getDisk(disks: Iterable<StorageDisk>, id: UUID) = disks.firstOrNull { it.id == id }
 
-        fun getDiskWithPartition(disks: Iterable<DiskInfo>, id: UUID) = disks.firstOrNull { it.partitions.any { it.id == id } }
+        fun getDiskWithPartition(disks: Iterable<StorageDisk>, id: UUID) = disks.firstOrNull { it.partitions.any { it.id == id } }
 
-        fun getPartition(partitions: Iterable<DiskPartition>, id: UUID) = partitions.firstOrNull { it.id == id }
+        fun getPartition(partitions: Iterable<StoragePartition>, id: UUID) = partitions.firstOrNull { it.id == id }
 
-        fun findPartition(disks: Iterable<DiskInfo>, id: UUID) = disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == id } }
+        fun findPartition(disks: Iterable<StorageDisk>, id: UUID) = disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == id } }
 
-        fun getShortId(disks: Iterable<DiskInfo>, id: UUID): String {
+        fun getShortId(disks: Iterable<StorageDisk>, id: UUID): String {
             val me = id.toString().replace("-", "")
             val others = disks.mapNotNull { val i = it.id?.toString()?.replace("-", ""); if (i != me) i else null }.toSet()
             for (i in me.indices) {

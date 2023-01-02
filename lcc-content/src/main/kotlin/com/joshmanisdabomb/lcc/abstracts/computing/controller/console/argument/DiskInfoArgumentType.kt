@@ -1,9 +1,9 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePartition
 import com.joshmanisdabomb.lcc.extensions.putText
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
@@ -107,7 +107,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
         val multiplePartitions = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.partition.results.multiple", it) }
         val conflict = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.diskpart.results.conflict", it) }
 
-        fun suggestDisks(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
+        fun suggestDisks(disks: Iterable<StorageDisk>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining
             val quotesRequired = input.matches(quoteRegex)
             var suggestions = if (input.matches(idSuggestRegex)) {
@@ -121,10 +121,10 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
             return suggestions
         }
 
-        fun suggestPartitions(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder): List<String> {
+        fun suggestPartitions(disks: Iterable<StorageDisk>, builder: SuggestionsBuilder): List<String> {
             val input = builder.remaining
             val quotesRequired = input.matches(quoteRegex)
-            val partitions = DiskInfo.getPartitions(disks)
+            val partitions = StorageDisk.getPartitions(disks)
             var suggestions = if (input.matches(idSuggestRegex)) {
                 partitions.mapNotNull { it.getShortId(disks)?.let { "#$it" } }
             } else {
@@ -136,25 +136,25 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
             return suggestions
         }
 
-        fun suggestAll(disks: Iterable<DiskInfo>, builder: SuggestionsBuilder) = suggestDisks(disks, builder) + suggestPartitions(disks, builder)
+        fun suggestAll(disks: Iterable<StorageDisk>, builder: SuggestionsBuilder) = suggestDisks(disks, builder) + suggestPartitions(disks, builder)
 
         fun get(context: CommandContext<ConsoleCommandSource>, argument: String): DiskInfoSearch = context.getArgument(argument, DiskInfoSearch::class.java)
 
-        fun getSingleDisk(diskResults: Set<DiskInfo>?, search: DiskInfoSearch) = when (diskResults?.size) {
+        fun getSingleDisk(diskResults: Set<StorageDisk>?, search: DiskInfoSearch) = when (diskResults?.size) {
             0 -> throw noDisks.create(search)
             1 -> diskResults.first()
             null -> null
             else -> throw multipleDisks.create(search)
         }
 
-        fun getSinglePartition(partitionResults: Set<DiskPartition>?, search: DiskInfoSearch) = when (partitionResults?.size) {
+        fun getSinglePartition(partitionResults: Set<StoragePartition>?, search: DiskInfoSearch) = when (partitionResults?.size) {
             0 -> throw noPartitions.create(search)
             1 -> partitionResults.first()
             null -> null
             else -> throw multiplePartitions.create(search)
         }
 
-        fun getSingleDiskOrPartition(results: Pair<Set<DiskInfo>?, Set<DiskPartition>?>, search: DiskInfoSearch): Pair<DiskInfo?, DiskPartition?> {
+        fun getSingleDiskOrPartition(results: Pair<Set<StorageDisk>?, Set<StoragePartition>?>, search: DiskInfoSearch): Pair<StorageDisk?, StoragePartition?> {
             val (diskResults, partitionResults) = results
             return when ((diskResults?.size ?: 0) + (partitionResults?.size ?: 0)) {
                 0 -> throw noGeneric.create(search)
@@ -163,7 +163,7 @@ class DiskInfoArgumentType(vararg val allowed: DiskInfoArgumentResult, val prefe
             }
         }
 
-        fun attachResultsToNbt(disks: Iterable<DiskInfo>, results: Pair<DiskInfo?, DiskPartition?>, search: DiskInfoSearch, nbt: NbtCompound) {
+        fun attachResultsToNbt(disks: Iterable<StorageDisk>, results: Pair<StorageDisk?, StoragePartition?>, search: DiskInfoSearch, nbt: NbtCompound) {
             val (disk, partition) = results
             when {
                 partition != null && disk != null -> throw conflict.create(search)

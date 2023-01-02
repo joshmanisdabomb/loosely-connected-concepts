@@ -2,9 +2,9 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePartition
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.extensions.getText
 import com.joshmanisdabomb.lcc.extensions.putText
@@ -31,7 +31,7 @@ class InstallConsoleProgram(literal: String, override vararg val aliases: String
         val diskShort = data.getString("DiskShort")
         val diskLabel = data.getText("DiskLabel")
         val disks = source.context.getAccessibleDisks()
-        val disk = DiskInfo.getDisk(disks, diskId)
+        val disk = StorageDisk.getDisk(disks, diskId)
         if (disk == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", diskLabel, diskShort), source.view)
             return null
@@ -40,7 +40,7 @@ class InstallConsoleProgram(literal: String, override vararg val aliases: String
         val label = data.getString("Label")
         val required = LCCPartitionTypes.console.size
 
-        val partition = DiskPartition(UUID.randomUUID(), label, LCCPartitionTypes.console, required)
+        val partition = StoragePartition(UUID.randomUUID(), label, LCCPartitionTypes.console, required)
         disk.addPartition(partition)
         source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.success", partition.label, partition.getShortId(disks), partition.size, diskLabel, diskShort), source.view)
         return null

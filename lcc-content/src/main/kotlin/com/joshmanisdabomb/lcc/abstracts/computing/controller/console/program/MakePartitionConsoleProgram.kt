@@ -3,9 +3,9 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.PartitionArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfoSearch
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.DiskInfoSearch
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePartition
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.PartitionType
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.SystemPartitionType
@@ -45,7 +45,7 @@ class MakePartitionConsoleProgram(literal: String, override vararg val aliases: 
         val diskShort = data.getString("DiskShort")
         val diskLabel = data.getText("DiskLabel")
         val disks = source.context.getAccessibleDisks()
-        val disk = DiskInfo.getDisk(disks, diskId)
+        val disk = StorageDisk.getDisk(disks, diskId)
         if (disk == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", diskLabel, diskShort), source.view)
             return null
@@ -54,7 +54,7 @@ class MakePartitionConsoleProgram(literal: String, override vararg val aliases: 
         val label = data.getString("Label")
         val size = data.getInt("Size")
 
-        val partition = DiskPartition(UUID.randomUUID(), label, type, size)
+        val partition = StoragePartition(UUID.randomUUID(), label, type, size)
         disk.addPartition(partition)
         val level = source.context.getWorldFromContext().levelProperties
         val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()

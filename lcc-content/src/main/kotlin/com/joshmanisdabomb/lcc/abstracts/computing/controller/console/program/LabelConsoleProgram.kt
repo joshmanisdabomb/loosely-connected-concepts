@@ -2,8 +2,8 @@ package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.program
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument.DiskInfoArgumentType
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePartition
 import com.joshmanisdabomb.lcc.energy.LooseEnergy.name
 import com.joshmanisdabomb.lcc.extensions.getText
 import com.joshmanisdabomb.lcc.extensions.getUuidOrNull
@@ -95,7 +95,7 @@ class LabelConsoleProgram(literal: String, override vararg val aliases: String) 
         private val diskLabelInvalid = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.invalid.disk"))
         private val partitionLabelInvalid = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.$name.invalid.partition"))
 
-        fun checkLabel(label: String, single: Pair<DiskInfo?, DiskPartition?>) {
+        fun checkLabel(label: String, single: Pair<StorageDisk?, StoragePartition?>) {
             if (single.second != null) {
                 if (label.isEmpty()) throw labelEmpty.create()
                 if (label.matches(labelRegex)) throw partitionLabelInvalid.create()

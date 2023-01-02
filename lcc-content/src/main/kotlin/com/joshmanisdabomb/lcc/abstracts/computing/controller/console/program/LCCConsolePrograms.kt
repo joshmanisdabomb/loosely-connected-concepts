@@ -36,6 +36,8 @@ object LCCConsolePrograms : BasicDirectory<ConsoleProgram, Unit>(), RegistryDire
     val resize by entry(::initialiser) { ResizePartitionConsoleProgram(name, "resizepart", "sizepart", "sp", "rep") }
     val scroll by entry(::initialiser) { ScrollConsoleProgram(name, "more", "less", "see", "read", "view", "page") }
     val ls by entry(::initialiser) { ListConsoleProgram(name, "list", "dir", "files", "structure", "show") }
+    val mkdir by entry(::initialiser) { MakeDirectoryConsoleProgram(name, "md", "mkd", "nd") }
+    val touch by entry(::initialiser) { TouchConsoleProgram(name, "mkfile", "mf", "mkf", "nf") }
     //val edit by entry(::initialiser) { EditConsoleProgram(name, "write", "word", "text", "e") }
     val reboot by entry(::initialiser) { PowerConsoleProgram(name, ComputingSessionExecuteContext::reboot, "restart", "reset", "powercycle") }
     val shutdown by entry(::initialiser) { PowerConsoleProgram(name, ComputingSessionExecuteContext::shutdown, "end", "exit", "close", "off", "poweroff") }

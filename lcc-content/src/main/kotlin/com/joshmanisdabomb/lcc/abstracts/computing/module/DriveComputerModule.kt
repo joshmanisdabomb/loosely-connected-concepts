@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.DigitalMedium
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.extensions.addPlayerSlots
@@ -17,12 +17,12 @@ class DriveComputerModule(vararg val mediums: DigitalMedium, val slotY: Int = 22
 
     override val expectedInventorySize = 1
 
-    override fun getInternalDisks(inv: LCCInventory): Set<DiskInfo> {
-        val set = mutableSetOf<DiskInfo>()
+    override fun getInternalDisks(inv: LCCInventory): Set<StorageDisk> {
+        val set = mutableSetOf<StorageDisk>()
         for (stack in inv.list) {
             val item = stack.item as? DigitalMediumItem ?: continue
             if (mediums.contains(item.medium)) {
-                set.add(DiskInfo(stack))
+                set.add(StorageDisk(stack))
             }
         }
         return set

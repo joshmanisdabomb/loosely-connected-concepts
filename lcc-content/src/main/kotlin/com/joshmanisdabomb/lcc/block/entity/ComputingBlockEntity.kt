@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.module.ComputerModule
 import com.joshmanisdabomb.lcc.abstracts.computing.session.ComputingSessionExecuteContext
@@ -263,7 +263,7 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             }
         }
 
-        fun getInternalDisks(): Set<DiskInfo> {
+        fun getInternalDisks(): Set<StorageDisk> {
             val inv = inventory ?: return emptySet()
             return module.getInternalDisks(inv)
         }
@@ -284,11 +284,11 @@ class ComputingBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCCBl
             (module as? ComputerComputerModule)?.shutdown(this)
         }
 
-        override fun getAccessibleDisks(): Set<DiskInfo> {
+        override fun getAccessibleDisks(): Set<StorageDisk> {
             val world = be.world ?: return emptySet()
             val result = ComputingNetwork.wired.discover(world, be.pos to top)
 
-            val list = mutableSetOf<DiskInfo>()
+            val list = mutableSetOf<StorageDisk>()
             for (half in ComputingNetwork.retrieveHalves(world, result.traversablesAssoc)) {
                 list.addAll(half.getInternalDisks())
             }

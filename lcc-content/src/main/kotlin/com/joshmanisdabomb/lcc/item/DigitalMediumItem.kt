@@ -1,8 +1,8 @@
 package com.joshmanisdabomb.lcc.item
 
 import com.joshmanisdabomb.lcc.abstracts.TooltipConstants
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskPartition
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePartition
 import com.joshmanisdabomb.lcc.abstracts.computing.medium.DigitalMedium
 import com.joshmanisdabomb.lcc.abstracts.computing.partition.LCCPartitionTypes
 import com.joshmanisdabomb.lcc.directory.LCCItems
@@ -25,12 +25,12 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
     override fun isItemBarVisible(stack: ItemStack) = stack.getSubNbt("lcc-computing")?.containsUuid("id") == true || stack.getSubNbt("lcc-computing")?.contains("partitions", NBT_LIST) == true
 
     override fun getItemBarStep(stack: ItemStack): Int {
-        val info = DiskInfo(stack)
+        val info = StorageDisk(stack)
         return 13.times(info.usedSpace.toFloat().div(getLevel(stack))).roundToInt()
     }
 
     override fun getItemBarColor(stack: ItemStack): Int {
-        val info = DiskInfo(stack)
+        val info = StorageDisk(stack)
         val fill = info.usedSpace.toFloat().div(getLevel(stack))
 
         if (fill >= 1f) return 0xFF0000
@@ -42,7 +42,7 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
         if (this == LCCItems.floppy_disk) {
             if (isIn(group)) {
                 stacks.add(ItemStack(this))
-                stacks.add(ItemStack(this).also { it.getOrCreateSubNbt("display").also { it.putInt("color2", 0x303030); it.putInt("color", 0xA05000) }; DiskInfo(it).addPartition(DiskPartition(null, "Console OS", LCCPartitionTypes.console, LCCPartitionTypes.console.size)) })
+                stacks.add(ItemStack(this).also { it.getOrCreateSubNbt("display").also { it.putInt("color2", 0x303030); it.putInt("color", 0xA05000) }; StorageDisk(it).addPartition(StoragePartition(null, "Console OS", LCCPartitionTypes.console, LCCPartitionTypes.console.size)) })
             }
         } else {
             return super.appendStacks(group, stacks)
@@ -50,7 +50,7 @@ class DigitalMediumItem(val medium: DigitalMedium, settings: Settings) : Computi
     }
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
-        val info = DiskInfo(stack)
+        val info = StorageDisk(stack)
         if (info.label != null) {
             tooltip.add(Text.literal(info.label).formatted(Formatting.GRAY))
         }

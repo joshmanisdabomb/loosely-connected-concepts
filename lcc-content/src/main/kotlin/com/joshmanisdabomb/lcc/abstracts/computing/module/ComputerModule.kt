@@ -1,6 +1,6 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.module
 
-import com.joshmanisdabomb.lcc.abstracts.computing.info.DiskInfo
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDisk
 import com.joshmanisdabomb.lcc.block.entity.ComputingBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCRegistries
 import com.joshmanisdabomb.lcc.extensions.prefix
@@ -39,7 +39,7 @@ abstract class ComputerModule {
 
     open fun serverTick(half: ComputingBlockEntity.ComputingHalf) = Unit
 
-    open fun getInternalDisks(inv: LCCInventory): Set<DiskInfo> = emptySet()
+    open fun getInternalDisks(inv: LCCInventory): Set<StorageDisk> = emptySet()
 
     open fun createExtraData(): NbtCompound? = null
 

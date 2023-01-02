@@ -201,6 +201,7 @@ object LCCBlocks : BlockDirectory() {
     val repulsive_magnetic_iron_block by entry(::initialiser) { MagneticBlock(-1.0, 5.0, FabricBlockSettings.of(Material.METAL, MapColor.PALE_PURPLE).strength(5.0f, 6.0f).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(GIZMOS))
     //TODO rope
+    //TODO printing press for easier writing of books without section symbols and printing books from templates
 
     //Wasteland
     val cracked_mud by entry(::initialiser) { HardeningBlock(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_WHITE).strength(1.8F, 0.1F).requiresTool().sounds(BlockSoundGroup.STONE)) { Blocks.MUD.defaultState } }
@@ -378,6 +379,7 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(COMPUTING).cutout().blockColor(TerminalBlock::getTintColor).stackColor(PlasticBlockItem::getTintColor))
     val computer_cable by entry(::initialiser) { ComputerCableBlock(FabricBlockSettings.of(Material.METAL, MapColor.WHITE_GRAY).strength(1.1F, 1.0F).requiresTool().sounds(BlockSoundGroup.METAL)) }
         .setProperties(BlockExtraSettings().creativeEx(COMPUTING))
+    //TODO scanners for converting books to text files, printers for converting text files to books
 
     //IDEA custom currency, mints to print money and coins, banks for converting to and from materials, wallets for storage (maybe work similar to bundles), credit cards for instant transfers
 

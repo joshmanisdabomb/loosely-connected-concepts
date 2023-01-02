@@ -1,9 +1,11 @@
-package com.joshmanisdabomb.lcc.abstracts.computing.info
+package com.joshmanisdabomb.lcc.abstracts.computing.storage
 
 import net.minecraft.nbt.NbtCompound
 import java.util.*
 
-data class DiskFile(val nbt: NbtCompound) {
+data class StorageFile(val nbt: NbtCompound) : StorageDivision {
+
+    override val division = StorageDivision.StorageDivisionType.FILE
 
     var id: UUID
         get() = nbt.getUuid("id")
@@ -25,12 +27,9 @@ data class DiskFile(val nbt: NbtCompound) {
         get() = nbt.getInt("size")
         set(value) = nbt.putInt("size", value)
 
-    constructor(id: UUID, folder: UUID, name: String, contents: NbtCompound, size: Int) : this(NbtCompound()) {
+    constructor(id: UUID, name: String) : this(NbtCompound()) {
         this.id = id
-        this.folder = folder
         this.name = name
-        this.contents = contents
-        this.size = size
     }
 
     fun writeNbt(nbt: NbtCompound) {

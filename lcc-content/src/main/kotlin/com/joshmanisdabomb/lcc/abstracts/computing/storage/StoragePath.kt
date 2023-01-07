@@ -75,7 +75,7 @@ data class StoragePath(val input: String) {
                     }
                     if (token.isNotEmpty()) {
                         val part = StoragePathPart(token, raw, pos, token = false, type = StorageDivision.StorageDivisionType.FILE)
-                        if (filepath.any { it.input != ".." } && token == "..") {
+                        if (filepath.any { it.input != ".." && it.input != "." } && token == "..") {
                             filepath.removeAt(filepath.lastIndex)
                         } else if (filepath.isEmpty() || token != ".") {
                             filepath.add(part)

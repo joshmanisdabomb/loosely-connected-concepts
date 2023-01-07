@@ -11,9 +11,12 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
+import com.mojang.brigadier.suggestion.Suggestions
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.Text
+import java.util.concurrent.CompletableFuture
 
 class ChangeDirectoryConsoleProgram(literal: String, override vararg val aliases: String) : ConsoleProgram() {
 
@@ -23,17 +26,7 @@ class ChangeDirectoryConsoleProgram(literal: String, override vararg val aliases
             nbt.putString("Operation", "get")
 
             startTask(it.source, nbt)
-        }.then(LCCConsolePrograms.required("dir", StoragePathArgumentType()).suggests { context, builder ->
-            val using = context.source.session.getViewData(context.source.view).getUuidOrNull("Use")
-            val working = context.source.session.getViewData(context.source.view).getUuidOrNull("WorkingDir") ?: context.source.session.getViewData(context.source.view).getUuidOrNull("RootDir")
-            val level = context.source.context.getWorldFromContext().levelProperties
-            val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()
-            val suggestions = StoragePathSuggestor(StorageDivision.StorageDivisionType.FOLDER, StorageDivision.StorageDivisionType.PARTITION, StorageDivision.StorageDivisionType.DISK)
-                .withCurrentPartition(using)
-                .withCurrentDirectory(working)
-                .suggest(context.source.context.getAccessibleDisks(), storage, builder)
-            CommandSource.suggestMatching(suggestions, builder)
-        }.executes {
+        }.then(LCCConsolePrograms.required("dir", StoragePathArgumentType()).suggests(this::getPathSuggestions).executes {
             prepare(it, StoragePathArgumentType.get(it, "dir"))
         })
 
@@ -140,6 +133,18 @@ class ChangeDirectoryConsoleProgram(literal: String, override vararg val aliases
         nbt.putText("DiskLabel", disk.name)
 
         return startTask(context.source, nbt)
+    }
+
+    private fun getPathSuggestions(context: CommandContext<ConsoleCommandSource>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
+        val using = context.source.session.getViewData(context.source.view).getUuidOrNull("Use")
+        val working = context.source.session.getViewData(context.source.view).getUuidOrNull("WorkingDir") ?: context.source.session.getViewData(context.source.view).getUuidOrNull("RootDir")
+        val level = context.source.context.getWorldFromContext().levelProperties
+        val storage = LCCComponents.computing_storage.maybeGet(level).orElseThrow()
+        val suggestions = StoragePathSuggestor(StorageDivision.StorageDivisionType.FOLDER, StorageDivision.StorageDivisionType.PARTITION, StorageDivision.StorageDivisionType.DISK)
+            .withCurrentPartition(using)
+            .withCurrentDirectory(working)
+            .suggest(context.source.context.getAccessibleDisks(), storage, builder)
+        return CommandSource.suggestMatching(suggestions, builder)
     }
 
     private val systemPartition = Dynamic2CommandExceptionType { a, b -> Text.translatable("terminal.lcc.console.$name.system", a, b) }

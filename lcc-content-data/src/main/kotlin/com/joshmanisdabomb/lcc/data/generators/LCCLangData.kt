@@ -329,10 +329,17 @@ object LCCLangData {
         lang["terminal.lcc.console.cd.get"] = "Currently in directory '%1\$s' on partition '%2\$s' (#%3\$s) on disk '%4\$s' (#%5\$s)."
         lang["terminal.lcc.console.cd.get.empty"] = "Not in a directory. Type 'cd <partition>' to begin at the root directory."
         lang["terminal.lcc.console.cd.success"] = "Switched to directory '%1\$s' on partition '%2\$s' (#%3\$s) on disk '%4\$s' (#%5\$s)."
+        lang["terminal.lcc.console.ls.unresolved"] = "The system could not find a partition, folder or file matching '%1\$s'."
+        lang["terminal.lcc.console.ls.unresolved.disk"] = "The system could not find the disk '%1\$s'."
+        lang["terminal.lcc.console.ls.unresolved.partition"] = "The system could not find the partition '%1\$s'."
+        lang["terminal.lcc.console.ls.unresolved.folder"] = "The system could not find the folder '%1\$s'."
+        lang["terminal.lcc.console.ls.partition"] = "No partition currently in use. Please switch to a current directory or specify the partition the folder is located."
+        lang["terminal.lcc.console.ls.folder"] = "The specified file or folder could not be found."
+        lang["terminal.lcc.console.ls.interrupt"] = "Failed reading directory '%1\$s' on partition '%2\$s' (#%3\$s) - disk or partition removed."
+        lang["terminal.lcc.console.ls.exists"] = "Failed reading directory '%1\$s' on partition '%2\$s' (#%3\$s) - folder no longer exists."
         lang["terminal.lcc.console.ls.header"] = "Contents of %1\$s (size %2\$s)"
         lang["terminal.lcc.console.ls.item.left"] = " %1\$s %2\$s"
         lang["terminal.lcc.console.ls.item.right"] = "%1\$s"
-        lang["terminal.lcc.console.ls.useless"] = "No partition in use. Please set the current partition with the 'use' command."
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"
     }
 

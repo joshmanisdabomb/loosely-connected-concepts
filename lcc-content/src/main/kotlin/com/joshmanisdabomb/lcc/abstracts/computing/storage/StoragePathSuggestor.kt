@@ -90,7 +90,6 @@ class StoragePathSuggestor(vararg val shown: StorageDivision.StorageDivisionType
 
         val lastToken = path.parts.lastOrNull()
         if (lastToken?.token == false) filepath.removeLastOrNull()
-        println(lastToken)
         if (lastToken?.token == true && lastToken.type?.filesystem == false) return emptyMap()
         val prevTokens = path.parts.filter { it.type?.filesystem == false }
 

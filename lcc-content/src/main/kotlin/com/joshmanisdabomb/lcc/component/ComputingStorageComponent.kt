@@ -98,20 +98,22 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
 
     fun getFolder(folder: UUID) = folders[folder]
 
-    fun getFolders(vararg folders: UUID) = folders.mapNotNull { it to (this.folders[it] ?: return@mapNotNull null) }.toMap()
+    fun getFolders(vararg folders: UUID) = folders.mapNotNull { this.folders[it] }
 
     fun getFile(file: UUID) = files[file]
 
-    fun getFiles(vararg files: UUID) = files.mapNotNull { it to (this.files[it] ?: return@mapNotNull null) }.toMap()
+    fun getFiles(vararg files: UUID) = files.mapNotNull { this.files[it] }
 
     fun saveFile(file: StorageFile, folder: StorageFolder) {
         file.folder = folder.id
+        file.partition = folder.partition
         folder.files += file.id
         files[file.id] = file
     }
 
     fun saveFolder(folder: StorageFolder, parent: StorageFolder) {
         folder.path = parent.path + parent.id
+        folder.partition = parent.partition
         parent.folders += folder.id
         folders[folder.id] = folder
     }
@@ -123,6 +125,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
 
     fun addRootFolder(partition: UUID): StorageFolder {
         val folder = StorageFolder(UUID.randomUUID(), "root")
+        folder.partition = partition
         folders[folder.id] = folder
         roots[partition] = folder.id
         return folder
@@ -131,5 +134,7 @@ class ComputingStorageComponent(private val properties: WorldProperties) : Compo
     fun unlinkRootFolder(partition: UUID) {
         roots.remove(partition)
     }
+
+    fun getAbsolutePath(folder: StorageFolder) = getFolders(*folder.path.toTypedArray()).map(StorageFolder::name)
 
 }

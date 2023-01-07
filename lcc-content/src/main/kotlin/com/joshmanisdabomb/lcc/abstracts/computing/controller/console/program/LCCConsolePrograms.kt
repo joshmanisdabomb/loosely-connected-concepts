@@ -28,7 +28,7 @@ object LCCConsolePrograms : BasicDirectory<ConsoleProgram, Unit>(), RegistryDire
     val help by entry(::initialiser) { HelpConsoleProgram(name, "?", "man", "manual", "usage", "describe", "explain", "how", "howto") }
     val time by entry(::initialiser) { TimeConsoleProgram(name, "day", "days", "hour", "hours", "minute", "minutes", "clock", "ntp") }
     val map by entry(::initialiser) { MapConsoleProgram(name, "usable", "usables", "parts", "partitions", "disks", "drives", "tree", "m") }
-    val use by entry(::initialiser) { UseConsoleProgram(name, "using", "load", "loaded", "part", "partition", "disk", "drive", "mount", "up", "switch", "usepart") }
+    val cd by entry(::initialiser) { ChangeDirectoryConsoleProgram(name, "use", "usedir", "using", "part", "partition", "drive", "mount", "up", "switch", "usepart", "with", "wd", "wp", "pwd", "cwd", "pwp", "cwp") }
     val install by entry(::initialiser) { InstallConsoleProgram(name, "image", "setup", "os", "console", "consoleos") }
     val mkpart by entry(::initialiser) { MakePartitionConsoleProgram(name, "createpart", "makepart", "newpart", "mp", "mkp", "np") }
     val rmpart by entry(::initialiser) { RemovePartitionConsoleProgram(name, "removepart", "rempart", "deletepart", "delpart", "rp", "rmp", "dp") }

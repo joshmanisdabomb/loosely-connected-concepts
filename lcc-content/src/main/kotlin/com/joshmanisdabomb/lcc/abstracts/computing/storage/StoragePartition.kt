@@ -10,11 +10,11 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import java.util.*
 
-class StoragePartition(val nbt: NbtCompound, var disk: StorageDisk? = null) : StorageDivision {
+class StoragePartition(val nbt: NbtCompound, var disk: StorageDisk? = null) : StorageHardDivision {
 
     override val division = StorageDivision.StorageDivisionType.PARTITION
 
-    var id: UUID?
+    override var id: UUID?
         get() = nbt.getUuidOrNull("id")
         set(value) = nbt.putUuidOrRemove("id", value)
 
@@ -52,18 +52,14 @@ class StoragePartition(val nbt: NbtCompound, var disk: StorageDisk? = null) : St
         nbt.putInt("used_cache", usedCache)
     }
 
-    fun getShortId(disks: Iterable<StorageDisk>): String? {
-        return StorageDisk.getShortId(disks, id ?: return null)
-    }
-
     fun recalculateSizes(storage: ComputingStorageComponent, from: StorageFolder, path: List<UUID> = from.path, offset: Int = 0): Boolean {
         val old = from.usedCache
-        val sizes = storage.getFiles(*from.files.toTypedArray()).values.sumOf(StorageFile::size)
-        val useds = storage.getFolders(*from.folders.toTypedArray()).values.sumOf(StorageFolder::usedCache)
+        val sizes = storage.getFiles(*from.files.toTypedArray()).sumOf(StorageFile::size)
+        val useds = storage.getFolders(*from.folders.toTypedArray()).sumOf(StorageFolder::usedCache)
         val new = sizes + useds + offset
         val increase = new - old
 
-        val folders = storage.getFolders(*path.reversed().toTypedArray()).values
+        val folders = storage.getFolders(*path.reversed().toTypedArray())
         if (folders.plus(from).any { it.usedCache + increase > this.size }) {
             return false
         }

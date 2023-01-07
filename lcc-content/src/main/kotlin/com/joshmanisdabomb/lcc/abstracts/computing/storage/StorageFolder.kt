@@ -5,11 +5,11 @@ import com.joshmanisdabomb.lcc.extensions.putStringUuidList
 import net.minecraft.nbt.NbtCompound
 import java.util.*
 
-data class StorageFolder(val nbt: NbtCompound) : StorageDivision {
+data class StorageFolder(val nbt: NbtCompound) : StorageSoftDivision {
 
     override val division = StorageDivision.StorageDivisionType.FOLDER
 
-    var id: UUID
+    override var id: UUID
         get() = nbt.getUuid("id")
         set(value) = nbt.putUuid("id", value)
 
@@ -17,7 +17,7 @@ data class StorageFolder(val nbt: NbtCompound) : StorageDivision {
         get() = nbt.getStringUuidList("path")
         set(value) = nbt.putStringUuidList("path", value).let {}
 
-    var name: String
+    override var name: String
         get() = nbt.getString("name")
         set(value) = nbt.putString("name", value)
 
@@ -33,6 +33,14 @@ data class StorageFolder(val nbt: NbtCompound) : StorageDivision {
         get() = nbt.getInt("used_cache")
         set(value) = nbt.putInt("used_cache", value)
 
+    override var size: Int
+        get() = usedCache
+        set(value) { usedCache = value }
+
+    override var partition: UUID
+        get() = nbt.getUuid("partition")
+        set(value) = nbt.putUuid("partition", value)
+
     constructor(id: UUID, name: String) : this(NbtCompound()) {
         this.id = id
         this.name = name
@@ -45,6 +53,7 @@ data class StorageFolder(val nbt: NbtCompound) : StorageDivision {
         nbt.putStringUuidList("folders", folders)
         nbt.putStringUuidList("files", files)
         nbt.putInt("used_cache", usedCache)
+        nbt.putUuid("partition", partition)
     }
 
 }

@@ -7,7 +7,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.text.Text
 import java.util.*
 
-data class StorageDisk(val stack: ItemStack) : StorageDivision {
+data class StorageDisk(val stack: ItemStack) : StorageHardDivision {
 
     override val division = StorageDivision.StorageDivisionType.DISK
 
@@ -17,7 +17,7 @@ data class StorageDisk(val stack: ItemStack) : StorageDivision {
     val medium = stack.item as DigitalMediumItem
     val totalSpace = medium.getLevel(stack)
 
-    var id: UUID?
+    override var id: UUID?
         get() = tag?.getUuidOrNull("id")
         set(value) = _tag.putUuidOrRemove("id", value)
 
@@ -62,10 +62,6 @@ data class StorageDisk(val stack: ItemStack) : StorageDivision {
 
     fun removePartition(partition: StoragePartition) { removePartition(partition.id ?: return) }
 
-    fun getShortId(disks: Iterable<StorageDisk>): String? {
-        return getShortId(disks, id ?: return null)
-    }
-
     companion object {
         fun getPartitions(disks: Iterable<StorageDisk>) = disks.flatMap { it.partitions }.toSet()
 
@@ -76,18 +72,6 @@ data class StorageDisk(val stack: ItemStack) : StorageDivision {
         fun getPartition(partitions: Iterable<StoragePartition>, id: UUID) = partitions.firstOrNull { it.id == id }
 
         fun findPartition(disks: Iterable<StorageDisk>, id: UUID) = disks.firstNotNullOfOrNull { it.partitions.firstOrNull { it.id == id } }
-
-        fun getShortId(disks: Iterable<StorageDisk>, id: UUID): String {
-            val me = id.toString().replace("-", "")
-            val others = disks.mapNotNull { val i = it.id?.toString()?.replace("-", ""); if (i != me) i else null }.toSet()
-            for (i in me.indices) {
-                val meShort = me.substring(0, i + 1)
-                if (others.none { it.startsWith(meShort) }) {
-                    return meShort
-                }
-            }
-            return me
-        }
     }
 
 }

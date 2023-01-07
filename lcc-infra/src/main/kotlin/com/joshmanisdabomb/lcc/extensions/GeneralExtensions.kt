@@ -23,3 +23,6 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
         }
     }
 }
+
+fun <E> List<E>.onlyOrNull(): E? = if (this.count() == 1) this.first() else null
+fun <E> List<E>.only(): E = this.onlyOrNull() ?: throw NoSuchElementException("List size != 1")

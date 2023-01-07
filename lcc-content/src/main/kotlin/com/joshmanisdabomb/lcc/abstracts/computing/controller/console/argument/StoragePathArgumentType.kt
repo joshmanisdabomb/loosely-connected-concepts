@@ -1,16 +1,20 @@
 package com.joshmanisdabomb.lcc.abstracts.computing.controller.console.argument
 
 import com.joshmanisdabomb.lcc.abstracts.computing.controller.console.ConsoleCommandSource
+import com.joshmanisdabomb.lcc.abstracts.computing.storage.StorageDivision
 import com.joshmanisdabomb.lcc.abstracts.computing.storage.StoragePath
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.CommandSyntaxException
+import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import net.minecraft.text.Text
 import java.util.concurrent.CompletableFuture
 
-class StoragePathArgumentType : ArgumentType<StoragePath> {
+class StoragePathArgumentType(vararg val allowed: StorageDivision.StorageDivisionType) : ArgumentType<StoragePath> {
 
     override fun parse(reader: StringReader): StoragePath {
         val cursor = reader.cursor
@@ -26,24 +30,21 @@ class StoragePathArgumentType : ArgumentType<StoragePath> {
                 if (token == null) {
                     token = next.toString()
                 } else {
-                    //token finished but tried to continue
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidEscape().createWithContext(reader, 1)
+                    throw tokenInvalid.createWithContext(reader, token + next)
                 }
             } else if (Character.isWhitespace(next) && quote == null) {
                 break
             } else {
                 if (next == '"' || next == '\'') {
                     if (quote == null && reader.cursor != cursor && token == null) {
-                        //started quote in the middle of a label
-                        throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidEscape().createWithContext(reader, 2)
+                        throw quoteLate.createWithContext(reader)
                     }
                     if (quote == null) quote = next
                     else if (quote == next) quote = null
                 }
                 if (token != null) {
                     if (token != "/" && !availableTokens.remove(token)) {
-                        //duplicate disk or partition token
-                        throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidEscape().createWithContext(reader, 3)
+                        throw tokenDuplicated.createWithContext(reader, token)
                     }
                     availableTokens.remove("::")
                     if (token == "/") availableTokens.remove(":")
@@ -53,15 +54,14 @@ class StoragePathArgumentType : ArgumentType<StoragePath> {
             input.append(next)
             reader.skip()
         }
-        if (quote != null) {
-            //unfinished quote
-            throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidEscape().createWithContext(reader, 4)
+        if (quote != null) throw quoteMissing.createWithContext(reader, quote)
+        if (token?.startsWith(":") == true) throw tokenEnd.createWithContext(reader, token)
+
+        val path = StoragePath(input.toString())
+        if (path.type != null && allowed.isNotEmpty() && !allowed.contains(path.type)) {
+            throw invalidType.createWithContext(reader, allowed.sorted().joinToString("") { it.char.toString() }, path.type.char)
         }
-        if (token?.startsWith(":") == true) {
-            //unfinished disk or partition
-            throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidEscape().createWithContext(reader, 5)
-        }
-        return StoragePath(input.toString())
+        return path
     }
 
     override fun <S> listSuggestions(context: CommandContext<S>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
@@ -70,6 +70,13 @@ class StoragePathArgumentType : ArgumentType<StoragePath> {
 
     companion object {
         fun get(context: CommandContext<ConsoleCommandSource>, argument: String) = context.getArgument(argument, StoragePath::class.java)
+
+        val tokenInvalid = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.path.token.invalid", it) }
+        val tokenDuplicated = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.path.token.duplicated", it) }
+        val tokenEnd = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.path.token.end", it) }
+        val quoteLate = SimpleCommandExceptionType(Text.translatable("terminal.lcc.console.argument.path.quote.late"))
+        val quoteMissing = DynamicCommandExceptionType { Text.translatable("terminal.lcc.console.argument.path.quote.missing", it) }
+        val invalidType = Dynamic2CommandExceptionType { a, b -> Text.translatable("terminal.lcc.console.argument.path.invalid.$a.$b") }
     }
 
 }

@@ -33,6 +33,7 @@ class ListConsoleProgram(literal: String, override vararg val aliases: String) :
         val partitionId = data.getUuid("Partition")
         val partitionShort = data.getString("PartitionShort")
         val partitionLabel = data.getString("PartitionLabel")
+        val file = data.getUuidOrNull("File")
         val partition = StorageDisk.findPartition(disks, partitionId)
         if (partition == null) {
             source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.interrupt", dirName, partitionLabel, partitionShort), source.view)
@@ -47,10 +48,34 @@ class ListConsoleProgram(literal: String, override vararg val aliases: String) :
             return null
         }
 
-        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.header", folder.name, folder.usedCache), source.view)
+        source.controller.write(source.session, Text.translatable("terminal.lcc.console.$name.header", folder.name), source.view)
 
-        val folders = storage.getFolders(*folder.folders.toTypedArray()).sortedWith(compareBy { it.name })
-        val files = storage.getFiles(*folder.files.toTypedArray()).sortedWith(compareBy { it.name })
+        var folders = emptyList<StorageFolder>()
+        val files = if (file != null) {
+            listOfNotNull(storage.getFile(file))
+        } else {
+            folders = storage.getFolders(*folder.folders.toTypedArray()).sortedWith(compareBy { it.name })
+            storage.getFiles(*folder.files.toTypedArray()).sortedWith(compareBy { it.name })
+        }
+        source.controller.writeColumns(source.session, listOf(
+            Text.translatable("terminal.lcc.console.$name.item.left", Text.literal(".")),
+            Text.translatable("terminal.lcc.console.$name.item.right", folder.usedCache)
+        ), source.view) {
+            if (it == 1) this.putString("Alignment", "Right")
+            else this.putBoolean("Fill", true)
+        }
+        if (folder.path.isNotEmpty()) {
+            val parent = storage.getFolder(folder.path.last())
+            if (parent != null) {
+                source.controller.writeColumns(source.session, listOf(
+                    Text.translatable("terminal.lcc.console.$name.item.left", Text.literal("..")),
+                    Text.translatable("terminal.lcc.console.$name.item.right", parent.usedCache)
+                ), source.view) {
+                    if (it == 1) this.putString("Alignment", "Right")
+                    else this.putBoolean("Fill", true)
+                }
+            }
+        }
         for (folder in folders) {
             source.controller.writeColumns(source.session, listOf(
                 Text.translatable("terminal.lcc.console.$name.item.left", Text.literal("/").formatted(Formatting.YELLOW), folder.name),

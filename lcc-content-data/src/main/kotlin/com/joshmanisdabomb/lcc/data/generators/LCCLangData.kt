@@ -337,7 +337,7 @@ object LCCLangData {
         lang["terminal.lcc.console.ls.folder"] = "The specified file or folder could not be found."
         lang["terminal.lcc.console.ls.interrupt"] = "Failed reading directory '%1\$s' on partition '%2\$s' (#%3\$s) - disk or partition removed."
         lang["terminal.lcc.console.ls.exists"] = "Failed reading directory '%1\$s' on partition '%2\$s' (#%3\$s) - folder no longer exists."
-        lang["terminal.lcc.console.ls.header"] = "Contents of %1\$s (size %2\$s)"
+        lang["terminal.lcc.console.ls.header"] = "Contents of %1\$s"
         lang["terminal.lcc.console.ls.item.left"] = " %1\$s %2\$s"
         lang["terminal.lcc.console.ls.item.right"] = "%1\$s"
         lang["terminal.lcc.console.time"] = "Day %1\$s, %2\$s:%3\$s"

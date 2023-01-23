@@ -1,18 +1,18 @@
 {
   "type": "lcc:rainbow",
   "generator": {
-    "type": "minecraft:noise",
+    "type": "lcc:rainbow",
     "settings": "lcc:rainbow",
     "seed": 123456789,
     "biome_source": {
       "type": "minecraft:multi_noise",
       "biomes": [
         {
-          "biome": "minecraft:plains",
+          "biome": "lcc:rainbow_gardens",
           "parameters": {
-            "temperature": -1,
+            "temperature": 0,
             "humidity": 0,
-            "continentalness": 1,
+            "continentalness": 0,
             "erosion": 0,
             "weirdness": 0,
             "depth": 0,
@@ -20,11 +20,35 @@
           }
         },
         {
-          "biome": "minecraft:desert",
+          "biome": "lcc:rainbow_candy",
           "parameters": {
-            "temperature": 1,
+            "temperature": 0,
+            "humidity": -0.05,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "lcc:rainbow_celestial",
+          "parameters": {
+            "temperature": -0.05,
             "humidity": 0,
-            "continentalness": 1,
+            "continentalness": 0,
+            "erosion": 0,
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "lcc:rainbow_color",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": 0.05,
             "erosion": 0,
             "weirdness": 0,
             "depth": 0,

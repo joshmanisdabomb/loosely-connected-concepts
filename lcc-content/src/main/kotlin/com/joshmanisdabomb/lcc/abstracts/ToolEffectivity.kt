@@ -21,7 +21,8 @@ import kotlin.math.pow
 
 enum class ToolEffectivity(val effective: TagKey<Block>, val required: TagKey<Block>, val equipment: TagKey<Item>, val damage: EntityAttribute, val protection: EntityAttribute) {
 
-    WASTELAND(LCCBlockTags.wasteland_effective, LCCBlockTags.wasteland_required, LCCItemTags.wasteland_equipment, LCCAttributes.wasteland_damage, LCCAttributes.wasteland_protection);
+    WASTELAND(LCCBlockTags.wasteland_effective, LCCBlockTags.wasteland_required, LCCItemTags.wasteland_equipment, LCCAttributes.wasteland_damage, LCCAttributes.wasteland_protection),
+    RAINBOW(LCCBlockTags.rainbow_effective, LCCBlockTags.rainbow_required, LCCItemTags.rainbow_equipment, LCCAttributes.rainbow_damage, LCCAttributes.rainbow_protection);
 
     fun isTool(stack: ItemStack, against: BlockState, vanilla: Boolean) = (stack.item as? LCCContentItemTrait)?.lcc_content_isEffectiveTool(stack, against, this, vanilla) == true
 

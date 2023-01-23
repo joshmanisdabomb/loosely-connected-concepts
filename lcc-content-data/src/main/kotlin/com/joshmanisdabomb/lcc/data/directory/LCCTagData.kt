@@ -25,6 +25,12 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
     val wasteland_offense by entry(::entityInitialiser) { null }
     val wasteland_defense by entry(::entityInitialiser) { null }
 
+    val rainbow_effective by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attachTag(LCCBlockTags.rainbow_required) }
+    val rainbow_required by entry(::blockInitialiser) { null }
+    val rainbow_equipment by entry(::itemInitialiser) { null }
+    val rainbow_offense by entry(::entityInitialiser) { null }
+    val rainbow_defense by entry(::entityInitialiser) { null }
+
     val nether_reactor_base by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(Blocks.GOLD_BLOCK) }
     val nether_reactor_shell by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(Blocks.COBBLESTONE) }
 
@@ -61,6 +67,8 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
     val wasteland_biomes by entry(::biomeInitialiser) { LCC.id("wasteland") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.wasteland) }
     val has_wasteland_tent by entry(::biomeInitialiser) { LCC.id("has_structure/wasteland_tent") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
     val has_sapphire_altar by entry(::biomeInitialiser) { LCC.id("has_structure/sapphire_altar") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
+
+    val rainbow_biomes by entry(::biomeInitialiser) { LCC.id("rainbow") }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
     fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)

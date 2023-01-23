@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.LCC
 import com.joshmanisdabomb.lcc.abstracts.challenges.ArenaAltarChallenge
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.world.biome.surface.WastelandMaterialRule
+import com.joshmanisdabomb.lcc.world.chunk.RainbowChunkGenerator
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.FlowerPatchFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
@@ -34,6 +35,7 @@ import net.minecraft.world.gen.blockpredicate.BlockPredicate
 import net.minecraft.world.gen.carver.Carver
 import net.minecraft.world.gen.carver.CarverConfig
 import net.minecraft.world.gen.carver.ConfiguredCarver
+import net.minecraft.world.gen.chunk.ChunkGenerator
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer
@@ -58,6 +60,7 @@ object LCCWorldgen {
         LCCPlacementModifierTypes.init()
         LCCStructurePieceTypes.init()
         LCCStructureTypes.init()
+        LCCChunkGenerators.init()
 
         biomeModifications()
     }
@@ -311,6 +314,18 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
     val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
     val sapphire_altar by entry(::initialiser) { StructurePieceType.ManagerAware(SapphireAltarStructure::Piece) }
     val sapphire_altar_arena by entry(::initialiser) { StructurePieceType.ManagerAware(ArenaAltarChallenge::Piece) }
+
+    override fun defaultProperties(name: String) = Unit
+
+}
+
+object LCCChunkGenerators : BasicDirectory<Codec<out ChunkGenerator>, Unit>(), RegistryDirectory<Codec<out ChunkGenerator>, Unit, Unit> {
+
+    override val registry by lazy { Registry.CHUNK_GENERATOR }
+
+    override fun regId(name: String) = LCC.id(name)
+
+    val rainbow by entry(::initialiser) { RainbowChunkGenerator.codec }
 
     override fun defaultProperties(name: String) = Unit
 

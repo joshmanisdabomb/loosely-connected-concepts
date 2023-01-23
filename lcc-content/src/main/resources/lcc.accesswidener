@@ -4,3 +4,4 @@ extendable  method  net/minecraft/entity/mob/AbstractSkeletonEntity     getStepS
 accessible  class   net/minecraft/world/gen/surfacebuilder/MaterialRules$BlockStateRule
 accessible  class   net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
 accessible  class   net/minecraft/client/font/FontStorage$GlyphPair
+extendable  class   net/minecraft/world/gen/chunk/NoiseChunkGenerator

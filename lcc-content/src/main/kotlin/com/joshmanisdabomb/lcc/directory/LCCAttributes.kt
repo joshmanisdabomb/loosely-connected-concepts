@@ -13,6 +13,8 @@ object LCCAttributes : BasicDirectory<EntityAttribute, Unit>(), RegistryDirector
 
     val wasteland_damage by entry(::initialiser) { ClampedEntityAttribute("attribute.lcc.name.wasteland.damage", 0.0, 0.0, 1.0).setTracked(true) }
     val wasteland_protection by entry(::initialiser) { ClampedEntityAttribute("attribute.lcc.name.wasteland.protection", 0.0, 0.0, 1.0).setTracked(true) }
+    val rainbow_damage by entry(::initialiser) { ClampedEntityAttribute("attribute.lcc.name.rainbow.damage", 0.0, 0.0, 1.0).setTracked(true) }
+    val rainbow_protection by entry(::initialiser) { ClampedEntityAttribute("attribute.lcc.name.rainbow.protection", 0.0, 0.0, 1.0).setTracked(true) }
 
     override fun defaultProperties(name: String) = Unit
 

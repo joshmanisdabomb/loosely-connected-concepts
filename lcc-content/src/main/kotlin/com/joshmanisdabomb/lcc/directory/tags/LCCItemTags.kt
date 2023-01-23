@@ -10,6 +10,7 @@ import net.minecraft.util.registry.Registry
 object LCCItemTags : AdvancedDirectory<Identifier?, TagKey<Item>, Unit, Unit>() {
 
     val wasteland_equipment by entry(::initialiser) { null }
+    val rainbow_equipment by entry(::initialiser) { null }
 
     val gold_blocks by entry(::initialiser) { null }
 

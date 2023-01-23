@@ -749,6 +749,11 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
 
     val spawning_pit by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().mineablePickaxe().add(SilkBlockLootFactory(LCCBlocks.cracked_mud)).add(BlockTagFactory(LCCBlockTags.wasteland_required)) }
 
+    val sparkling_dirt by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().mineableShovel().add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+    val sugar_grass_block by entry(::initialiser) { data().defaultLang().defaultItemAsset().mineableShovel().add(SideBottomTopBlockAssetFactory(textureBottom = LCCBlocks.sparkling_dirt.identifierLoc())).add(SilkBlockLootFactory(LCCBlocks.sparkling_dirt)).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+    val twilight_stone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory(LCCBlocks.twilight_cobblestone)).mineablePickaxe().add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+    val twilight_cobblestone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().mineablePickaxe().add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

@@ -13,6 +13,9 @@ object LCCBlockTags : AdvancedDirectory<Identifier?, TagKey<Block>, Unit, Unit>(
     val wasteland_required by entry(::initialiser) { null }
     val crowbar_salvageable by entry(::initialiser) { null }
 
+    val rainbow_effective by entry(::initialiser) { null }
+    val rainbow_required by entry(::initialiser) { null }
+
     val nether_reactor_base by entry(::initialiser) { null }
     val nether_reactor_shell by entry(::initialiser) { null }
 

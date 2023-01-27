@@ -109,7 +109,7 @@ object LCCBiomes : AdvancedDirectory<Biome.Builder, Biome, Unit, Unit>(), Regist
                 .foliageColor(0xE6C7EB)
                 .waterColor(0xE6C7EB)
                 .waterFogColor(0xE6C7EB)
-                .fogColor(0xffffff)
+                .fogColor(0x000000)
                 .skyColor(0xE6C7EB)
                 .moodSound(BiomeMoodSound.CAVE)
                 .build())

@@ -58,3 +58,20 @@ fun Direction.blockEntityTransform(matrices: MatrixStack) {
         }
     }
 }
+
+fun Direction.rotateTransform(matrices: MatrixStack) {
+    matrices.multiply(when (this) {
+        Direction.UP -> return
+        Direction.DOWN -> Vec3f.POSITIVE_X.getDegreesQuaternion(180.0f)
+        Direction.NORTH -> Vec3f.POSITIVE_X.getDegreesQuaternion(90.0f)
+        Direction.SOUTH -> Vec3f.POSITIVE_X.getDegreesQuaternion(-90.0f)
+        Direction.EAST -> Vec3f.POSITIVE_Z.getDegreesQuaternion(-90.0f)
+        Direction.WEST -> Vec3f.POSITIVE_Z.getDegreesQuaternion(90.0f)
+    })
+    matrices.multiply(when (this) {
+        Direction.EAST -> Vec3f.POSITIVE_Y.getDegreesQuaternion(-90.0f)
+        Direction.WEST -> Vec3f.POSITIVE_Y.getDegreesQuaternion(90.0f)
+        Direction.NORTH -> Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0f)
+        else -> return
+    })
+}

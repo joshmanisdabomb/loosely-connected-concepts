@@ -508,6 +508,8 @@ object LCCBlocks : BlockDirectory() {
     //Rainbow
     val sparkling_dirt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.SOIL, MapColor.YELLOW).strength(1.0f, 2.0f).sounds(BlockSoundGroup.GRAVEL)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val adaptive_grass_block by entry(::initialiser) { FunctionalGrassBlock(FunctionalGrassBlock.defaultFunction(sparkling_dirt.defaultState), FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(1.1f, 2.0f).sounds(BlockSoundGroup.GRASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val sugar_grass_block by entry(::initialiser) { FunctionalGrassBlock(FunctionalGrassBlock.defaultFunction(sparkling_dirt.defaultState), FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.TERRACOTTA_PINK).strength(1.1f, 2.0f).sounds(BlockSoundGroup.GRASS)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val twilight_stone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_PURPLE).strength(2.5f, 4.0f).sounds(BlockSoundGroup.CALCITE)) }
@@ -517,5 +519,6 @@ object LCCBlocks : BlockDirectory() {
 
     //IDEA shinestream, slippy passthrough block to gain speed
     //IDEA dash blocks, made from star plating and shinestream
+    //IDEA sparkling soil, can be tilled to farm (duplicate) select items
 
 }

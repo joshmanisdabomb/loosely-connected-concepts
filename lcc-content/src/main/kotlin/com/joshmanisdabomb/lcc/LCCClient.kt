@@ -21,6 +21,8 @@ object LCCClient : ClientModInitializer {
         LCCPacketsToClient.init()
         LCCParticlesClient.init()
         LCCEventsClient.init()
+        LCCSkyRenderers.init()
+        LCCDimensionEffects.init()
 
         ClientSpriteRegistryCallback.event(TexturedRenderLayers.SIGNS_ATLAS_TEXTURE).register(LCCSignTypes)
     }

@@ -226,7 +226,7 @@
     },
     "lava": 0,
     "temperature": {
-      "xz_scale": 2,
+      "xz_scale": 0.5,
       "y_scale": 2,
       "noise": "minecraft:temperature",
       "shift_x": "minecraft:shift_x",
@@ -235,7 +235,7 @@
       "type": "minecraft:shifted_noise"
     },
     "vegetation": {
-      "xz_scale": 2,
+      "xz_scale": 0.5,
       "y_scale": 2,
       "noise": "minecraft:vegetation",
       "shift_x": "minecraft:shift_x",
@@ -246,7 +246,7 @@
     "continents": {
       "type": "minecraft:flat_cache",
       "argument": {
-        "xz_scale": 2,
+        "xz_scale": 0.5,
         "y_scale": 2,
         "noise": "minecraft:continentalness",
         "shift_x": "minecraft:shift_x",
@@ -258,7 +258,7 @@
     "erosion": {
       "type": "minecraft:flat_cache",
       "argument": {
-        "xz_scale": 2,
+        "xz_scale": 0.5,
         "y_scale": 2,
         "noise": "minecraft:erosion",
         "shift_x": "minecraft:shift_x",

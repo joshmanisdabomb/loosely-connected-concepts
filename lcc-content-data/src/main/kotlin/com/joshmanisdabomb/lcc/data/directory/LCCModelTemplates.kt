@@ -95,6 +95,11 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_computer_cable_bottom by templateEntry("block", template_computer_cable_bottom_json, TextureKey.SIDE, TextureKey.END, TextureKey.PARTICLE)
     val template_enhancing_chamber by templateEntry("block", template_enhancing_chamber_json, TextureKey.BOTTOM, TextureKey.SIDE, TextureKey.TOP, TextureKey.PARTICLE)
     val template_imbuing_press by templateEntry("block", template_imbuing_press_json, LCCModelTextureKeys.t0, LCCModelTextureKeys.t1, LCCModelTextureKeys.t2, LCCModelTextureKeys.t3, TextureKey.PARTICLE)
+    val template_hard_light by templateEntry("block", template_hard_light_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
+    val template_hard_light_r by templateEntry("block", template_hard_light_r_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
+    val template_hard_light_l by templateEntry("block", template_hard_light_l_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
+    val template_hard_light_lr by templateEntry("block", template_hard_light_lr_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
+    val template_hard_light_flat by templateEntry("block", template_hard_light_flat_json, TextureKey.TEXTURE, TextureKey.PARTICLE)
 
 }
 
@@ -10443,4 +10448,115 @@ private const val flower_pot_textured_cross_json = """{
             }
         }
     ]
+}"""
+
+private const val template_hard_light_json = """{
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#side", "cullface": "east"},
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#side", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [0.1, 15.9, 0],
+			"to": [15.9, 0.1, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#side"},
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#side"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_hard_light_l_json = """{
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#side", "cullface": "east"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [0.1, 15.9, 0],
+			"to": [15.9, 0.1, 16],
+			"faces": {
+				"east": {"uv": [0, 0, 16, 16], "rotation": 90, "texture": "#side"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_hard_light_r_json = """{
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#side", "cullface": "west"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [0.1, 15.9, 0],
+			"to": [15.9, 0.1, 16],
+			"faces": {
+				"west": {"uv": [0, 0, 16, 16], "rotation": 270, "texture": "#side"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_hard_light_lr_json = """{
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [0.1, 15.9, 0],
+			"to": [15.9, 0.1, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_hard_light_flat_json = """{
+    "parent": "block/block",
+	"elements": [
+		{
+			"from": [0, 16, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"up": {"uv": [0, 0, 16, 16], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}"""
 }"""

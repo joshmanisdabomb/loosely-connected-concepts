@@ -58,3 +58,17 @@ fun Direction.blockEntityTransform(matrices: MatrixStack) {
         }
     }
 }
+
+operator fun Direction.plus(other: Direction): Direction {
+    if (!this.isHorizontal && other.opposite == this) return Direction.NORTH
+    if (!other.isHorizontal) return other
+    if (!this.isHorizontal) return this
+    return when (other) {
+        Direction.EAST -> this.perpendiculars[3]
+        Direction.SOUTH -> this.opposite
+        Direction.WEST -> this.perpendiculars[1]
+        else -> this
+    }
+}
+
+operator fun Direction.minus(other: Direction) = this.plus(if (other.axis == Direction.Axis.X) other.opposite else other)

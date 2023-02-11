@@ -1,0 +1,8 @@
+{
+  "parent": "lcc:block/template_hard_light_l",
+  "textures": {
+    "particle": "lcc:block/gray_hard_light",
+    "side": "lcc:block/gray_hard_light_lr_d",
+    "texture": "lcc:block/gray_hard_light_r_d"
+  }
+}

@@ -1,6 +1,7 @@
 package com.joshmanisdabomb.lcc.directory
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.color.AlternateDyeColor
 import com.joshmanisdabomb.lcc.abstracts.color.ClassicDyeColor
 import com.joshmanisdabomb.lcc.abstracts.color.ColorConstants
 import com.joshmanisdabomb.lcc.abstracts.color.LCCExtendedDyeColor
@@ -516,6 +517,11 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val twilight_cobblestone by entry(::initialiser) { Block(FabricBlockSettings.of(Material.STONE, MapColor.TERRACOTTA_PURPLE).strength(3.0f, 4.0f).sounds(BlockSoundGroup.CALCITE)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+
+    val hard_light by entryMap(::initialiser, *DyeColor.values(), *AlternateDyeColor.values()) { HardLightFlatBlock(FabricBlockSettings.of(Material.GLASS, (it as LCCExtendedDyeColor).lcc_mapColor).strength(5.0f, 0.0f).luminance(15).nonOpaque().allowsSpawning(::never).solidBlock(::never).suffocates(::never).blockVision(::never).sounds(BlockSoundGroup.METAL)) }
+        .setPropertySupplier { BlockExtraSettings().translucent().creativeExSet(RAINBOW, "hard_light") { stack -> it as LCCExtendedDyeColor } }
+    val hard_light_block by entryMap(::initialiser, *DyeColor.values(), *AlternateDyeColor.values()) { HardLightBlock(FabricBlockSettings.copyOf(hard_light[it])) }
+        .setPropertySupplier { BlockExtraSettings().translucent().creativeExSet(RAINBOW, "hard_light_block") { stack -> it as LCCExtendedDyeColor } }
 
     //IDEA shinestream, slippy passthrough block to gain speed
     //IDEA dash blocks, made from star plating and shinestream

@@ -1,6 +1,12 @@
 {
+  "block.lcc.dark_gray_hard_light": "Dark Grey Hard Light",
+  "block.lcc.dark_gray_hard_light_block": "Dark Grey Hard Light Block",
   "block.lcc.gray_classic_cloth": "Grey Classic Cloth",
+  "block.lcc.gray_hard_light": "Grey Hard Light",
+  "block.lcc.gray_hard_light_block": "Grey Hard Light Block",
   "block.lcc.light_gray_classic_cloth": "Light Grey Classic Cloth",
+  "block.lcc.light_gray_hard_light": "Light Grey Hard Light",
+  "block.lcc.light_gray_hard_light_block": "Light Grey Hard Light Block",
   "block.lcc.shattered_gray_stained_glass": "Shattered Grey Stained Glass",
   "block.lcc.shattered_gray_stained_glass_pane": "Shattered Grey Stained Glass Pane",
   "block.lcc.shattered_light_gray_stained_glass": "Shattered Light Grey Stained Glass",

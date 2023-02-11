@@ -754,6 +754,15 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     val twilight_stone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().add(SilkBlockLootFactory(LCCBlocks.twilight_cobblestone)).mineablePickaxe().add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
     val twilight_cobblestone by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultBlockAsset().defaultLootTable().mineablePickaxe().add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
 
+    val hard_light by entry(::initialiser) { data().affects(LCCBlocks.hard_light.values.toList()).defaultLang().defaultItemAsset().defaultBlockAsset().mineablePickaxe().add(HardLightBlockAssetFactory(LCCModelTemplates.template_hard_light_flat)).add(SilkBlockLootFactory).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+    val hard_light_blocks by entry(::initialiser) { data().affects(LCCBlocks.hard_light_block.values.toList()).defaultLang().defaultItemAsset().defaultBlockAsset().mineablePickaxe().add(HardLightBlockAssetFactory { l, r ->
+        when {
+            l && r -> LCCModelTemplates.template_hard_light_lr
+            l -> LCCModelTemplates.template_hard_light_l
+            r -> LCCModelTemplates.template_hard_light_r
+            else -> LCCModelTemplates.template_hard_light
+        }
+    }).add(SilkBlockLootFactory).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

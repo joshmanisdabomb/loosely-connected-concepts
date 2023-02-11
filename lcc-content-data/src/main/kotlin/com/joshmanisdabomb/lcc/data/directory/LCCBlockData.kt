@@ -763,6 +763,14 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
             else -> LCCModelTemplates.template_hard_light
         }
     }).add(SilkBlockLootFactory).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+
+    val bifrost by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withIronTool().add(ColumnBlockAssetFactory(textureSide = LCCBlocks.bifrost.identifierLoc(), textureEnd = LCCBlocks.bifrost.identifierLocSuffix("side"))).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
+    val bifrost_stairs by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withIronTool().add(StairsBlockAssetFactory(LCCBlocks.bifrost.identifierLoc(), textureTop = LCCBlocks.bifrost.identifierLocSuffix("side"), textureBottom = LCCBlocks.bifrost.identifierLocSuffix("side"))).add(BlockTagFactory(BlockTags.STAIRS)).add(ItemTagFactory(ItemTags.STAIRS)).add(StairsRecipeFactory(LCCBlocks.bifrost)).add(StonecutterItemRecipeFactory(LCCBlocks.bifrost)) }
+    val bifrost_slab by entry(::initialiser) { data().defaultLang().defaultItemAsset().mineablePickaxe().withIronTool().add(SlabBlockAssetFactory(LCCBlocks.bifrost.identifierLoc(), textureTop = LCCBlocks.bifrost.identifierLocSuffix("side"), textureBottom = LCCBlocks.bifrost.identifierLocSuffix("side"), full = LCCBlocks.bifrost.identifierLoc())).add(BlockTagFactory(BlockTags.SLABS)).add(ItemTagFactory(ItemTags.SLABS)).add(SlabRecipeFactory(LCCBlocks.bifrost)).add(SlabLootFactory).add(StonecutterItemRecipeFactory(LCCBlocks.bifrost, 2)) }
+    val bifrost_pedestal by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withIronTool().add(CustomBlockAssetFactory { d, t, i -> LCCModelTemplates.template_bifrost_pedestal.upload(idb.loc(t), TextureMap().put(TextureKey.TEXTURE, LCCBlocks.bifrost.identifierLocSuffix("side")), d.models) }) }
+
+    val idols by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<IdolBlock>()).defaultLang().defaultItemAsset().defaultLootTable().add(IdolBlockAssetFactory) }
+
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 
     override fun defaultProperties(name: String) = Unit

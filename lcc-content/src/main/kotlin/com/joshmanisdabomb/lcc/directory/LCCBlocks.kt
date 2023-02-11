@@ -507,6 +507,60 @@ object LCCBlocks : BlockDirectory() {
     //TODO pill printer
 
     //Rainbow
+    val bifrost by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.STONE, MapColor.BLACK).strength(16.6f, 25.0f)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_stairs by entry(::initialiser) { StairsBlock(bifrost.defaultState, FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val polished_bifrost by entry(::initialiser) { Block(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val polished_bifrost_stairs by entry(::initialiser) { StairsBlock(bifrost.defaultState, FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val polished_bifrost_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val polished_bifrost_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_bricks by entry(::initialiser) { Block(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_brick_stairs by entry(::initialiser) { StairsBlock(bifrost.defaultState, FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_brick_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_brick_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_tiles by entry(::initialiser) { Block(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_tile_stairs by entry(::initialiser) { StairsBlock(bifrost.defaultState, FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_tile_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_tile_wall by entry(::initialiser) { WallBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_pillar by entry(::initialiser) { PillarBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val bifrost_pedestal by entry(::initialiser) { IdolPedestalBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+
+    val ruby_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.RED).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val topaz_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.TERRACOTTA_WHITE).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val emerald_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.EMERALD_GREEN).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val diamond_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.DIAMOND_BLUE).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val sapphire_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.BLUE).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val amethyst_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.PURPLE).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val iron_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.IRON_GRAY).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val gold_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.GOLD).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val netherite_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.BLACK).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+
     val sparkling_dirt by entry(::initialiser) { Block(FabricBlockSettings.of(Material.SOIL, MapColor.YELLOW).strength(1.0f, 2.0f).sounds(BlockSoundGroup.GRAVEL)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val adaptive_grass_block by entry(::initialiser) { FunctionalGrassBlock(FunctionalGrassBlock.defaultFunction(sparkling_dirt.defaultState), FabricBlockSettings.of(Material.SOLID_ORGANIC, MapColor.LIME).strength(1.1f, 2.0f).sounds(BlockSoundGroup.GRASS)) }

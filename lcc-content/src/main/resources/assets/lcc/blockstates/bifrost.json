@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "lcc:block/bifrost_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "lcc:block/bifrost"
+    },
+    "axis=z": {
+      "model": "lcc:block/bifrost_horizontal",
+      "x": 90
+    }
+  }
+}

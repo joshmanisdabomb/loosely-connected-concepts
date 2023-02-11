@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "pedestal=false,rotation=0": {
+      "model": "lcc:block/iron_idol_rot_0"
+    },
+    "pedestal=false,rotation=1": {
+      "model": "lcc:block/iron_idol_rot_1"
+    },
+    "pedestal=false,rotation=10": {
+      "model": "lcc:block/iron_idol_rot_2",
+      "y": 180
+    },
+    "pedestal=false,rotation=11": {
+      "model": "lcc:block/iron_idol_rot_3",
+      "y": 270
+    },
+    "pedestal=false,rotation=12": {
+      "model": "lcc:block/iron_idol_rot_0",
+      "y": 270
+    },
+    "pedestal=false,rotation=13": {
+      "model": "lcc:block/iron_idol_rot_1",
+      "y": 270
+    },
+    "pedestal=false,rotation=14": {
+      "model": "lcc:block/iron_idol_rot_2",
+      "y": 270
+    },
+    "pedestal=false,rotation=15": {
+      "model": "lcc:block/iron_idol_rot_3"
+    },
+    "pedestal=false,rotation=2": {
+      "model": "lcc:block/iron_idol_rot_2"
+    },
+    "pedestal=false,rotation=3": {
+      "model": "lcc:block/iron_idol_rot_3",
+      "y": 90
+    },
+    "pedestal=false,rotation=4": {
+      "model": "lcc:block/iron_idol_rot_0",
+      "y": 90
+    },
+    "pedestal=false,rotation=5": {
+      "model": "lcc:block/iron_idol_rot_1",
+      "y": 90
+    },
+    "pedestal=false,rotation=6": {
+      "model": "lcc:block/iron_idol_rot_2",
+      "y": 90
+    },
+    "pedestal=false,rotation=7": {
+      "model": "lcc:block/iron_idol_rot_3",
+      "y": 180
+    },
+    "pedestal=false,rotation=8": {
+      "model": "lcc:block/iron_idol_rot_0",
+      "y": 180
+    },
+    "pedestal=false,rotation=9": {
+      "model": "lcc:block/iron_idol_rot_1",
+      "y": 180
+    },
+    "pedestal=true,rotation=0": {
+      "model": "lcc:block/iron_idol_rot_0_pedestal"
+    },
+    "pedestal=true,rotation=1": {
+      "model": "lcc:block/iron_idol_rot_1_pedestal"
+    },
+    "pedestal=true,rotation=10": {
+      "model": "lcc:block/iron_idol_rot_2_pedestal",
+      "y": 180
+    },
+    "pedestal=true,rotation=11": {
+      "model": "lcc:block/iron_idol_rot_3_pedestal",
+      "y": 270
+    },
+    "pedestal=true,rotation=12": {
+      "model": "lcc:block/iron_idol_rot_0_pedestal",
+      "y": 270
+    },
+    "pedestal=true,rotation=13": {
+      "model": "lcc:block/iron_idol_rot_1_pedestal",
+      "y": 270
+    },
+    "pedestal=true,rotation=14": {
+      "model": "lcc:block/iron_idol_rot_2_pedestal",
+      "y": 270
+    },
+    "pedestal=true,rotation=15": {
+      "model": "lcc:block/iron_idol_rot_3_pedestal"
+    },
+    "pedestal=true,rotation=2": {
+      "model": "lcc:block/iron_idol_rot_2_pedestal"
+    },
+    "pedestal=true,rotation=3": {
+      "model": "lcc:block/iron_idol_rot_3_pedestal",
+      "y": 90
+    },
+    "pedestal=true,rotation=4": {
+      "model": "lcc:block/iron_idol_rot_0_pedestal",
+      "y": 90
+    },
+    "pedestal=true,rotation=5": {
+      "model": "lcc:block/iron_idol_rot_1_pedestal",
+      "y": 90
+    },
+    "pedestal=true,rotation=6": {
+      "model": "lcc:block/iron_idol_rot_2_pedestal",
+      "y": 90
+    },
+    "pedestal=true,rotation=7": {
+      "model": "lcc:block/iron_idol_rot_3_pedestal",
+      "y": 180
+    },
+    "pedestal=true,rotation=8": {
+      "model": "lcc:block/iron_idol_rot_0_pedestal",
+      "y": 180
+    },
+    "pedestal=true,rotation=9": {
+      "model": "lcc:block/iron_idol_rot_1_pedestal",
+      "y": 180
+    }
+  }
+}

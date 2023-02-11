@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_idol_225",
+  "textures": {
+    "texture": "lcc:block/netherite_idol"
+  }
+}

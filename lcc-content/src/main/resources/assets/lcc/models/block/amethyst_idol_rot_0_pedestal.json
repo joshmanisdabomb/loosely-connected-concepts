@@ -1,0 +1,7 @@
+{
+  "parent": "lcc:block/template_idol_pedestal",
+  "textures": {
+    "platform": "lcc:block/bifrost_side",
+    "texture": "lcc:block/amethyst_idol"
+  }
+}

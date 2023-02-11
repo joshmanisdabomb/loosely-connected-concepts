@@ -100,6 +100,15 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_hard_light_l by templateEntry("block", template_hard_light_l_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
     val template_hard_light_lr by templateEntry("block", template_hard_light_lr_json, TextureKey.TEXTURE, TextureKey.SIDE, TextureKey.PARTICLE)
     val template_hard_light_flat by templateEntry("block", template_hard_light_flat_json, TextureKey.TEXTURE, TextureKey.PARTICLE)
+    val template_bifrost_pedestal by templateEntry("block", template_bifrost_pedestal_json, TextureKey.TEXTURE)
+    val template_idol by templateEntry("block", template_idol_json, TextureKey.TEXTURE)
+    val template_idol_225 by templateEntry("block", template_idol_225_json, TextureKey.TEXTURE)
+    val template_idol_45 by templateEntry("block", template_idol_45_json, TextureKey.TEXTURE)
+    val template_idol_n225 by templateEntry("block", template_idol_n225_json, TextureKey.TEXTURE)
+    val template_idol_pedestal by templateEntry("block", template_idol_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
+    val template_idol_225_pedestal by templateEntry("block", template_idol_225_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
+    val template_idol_45_pedestal by templateEntry("block", template_idol_45_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
+    val template_idol_n225_pedestal by templateEntry("block", template_idol_n225_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
 
 }
 
@@ -10559,4 +10568,366 @@ private const val template_hard_light_flat_json = """{
 		}
 	]
 }"""
+
+private const val template_bifrost_pedestal_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [5, 6, 5],
+			"to": [11, 7, 11],
+			"faces": {
+				"north": {"uv": [5, 9, 11, 10], "texture": "#texture"},
+				"east": {"uv": [5, 9, 11, 10], "texture": "#texture"},
+				"south": {"uv": [5, 9, 11, 10], "texture": "#texture"},
+				"west": {"uv": [5, 9, 11, 10], "texture": "#texture"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#texture"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"faces": {
+				"north": {"uv": [5, 15, 11, 16], "texture": "#texture"},
+				"east": {"uv": [5, 15, 11, 16], "texture": "#texture"},
+				"south": {"uv": [5, 15, 11, 16], "texture": "#texture"},
+				"west": {"uv": [5, 15, 11, 16], "texture": "#texture"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#texture"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#texture", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 1, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 15], "texture": "#texture"},
+				"east": {"uv": [6, 10, 10, 15], "texture": "#texture"},
+				"south": {"uv": [6, 10, 10, 15], "texture": "#texture"},
+				"west": {"uv": [6, 10, 10, 15], "texture": "#texture"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#texture"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#texture", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 9, 10],
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_225_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 9, 10],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_45_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 9, 10],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_n225_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 9, 10],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_pedestal_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 7, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+			}
+		},
+        {
+			"from": [5, 6, 5],
+			"to": [11, 7, 11],
+			"faces": {
+				"north": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"east": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"faces": {
+				"north": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"east": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"south": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"west": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 1, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_225_pedestal_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 7, 6],
+			"to": [10, 16, 10],
+			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+			}
+		},
+        {
+			"from": [5, 6, 5],
+			"to": [11, 7, 11],
+			"faces": {
+				"north": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"east": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"faces": {
+				"north": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"east": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"south": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"west": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 1, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_45_pedestal_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 7, 6],
+			"to": [10, 16, 10],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+			}
+		},
+        {
+			"from": [5, 6, 5],
+			"to": [11, 7, 11],
+			"faces": {
+				"north": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"east": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"faces": {
+				"north": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"east": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"south": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"west": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 1, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_idol_n225_pedestal_json = """{
+	"parent": "block/block",
+    "textures": {
+        "particle": "#texture"
+    },
+	"elements": [
+		{
+			"from": [6, 7, 6],
+			"to": [10, 16, 10],
+			"rotation": {"angle": 22.5, "axis": "y", "origin": [8, 4.5, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 13], "texture": "#texture"},
+				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
+				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
+				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+			}
+		},
+        {
+			"from": [5, 6, 5],
+			"to": [11, 7, 11],
+			"faces": {
+				"north": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"east": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [5, 0, 5],
+			"to": [11, 1, 11],
+			"faces": {
+				"north": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"east": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"south": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"west": {"uv": [5, 15, 11, 16], "texture": "#platform"},
+				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6, 1, 6],
+			"to": [10, 6, 10],
+			"faces": {
+				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
+				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+			}
+		}
+	]
 }"""

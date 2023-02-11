@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "lcc:block/bifrost_side",
+    "side": "lcc:block/bifrost"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_bifrost_pedestal",
+  "textures": {
+    "texture": "lcc:block/bifrost_side"
+  }
+}

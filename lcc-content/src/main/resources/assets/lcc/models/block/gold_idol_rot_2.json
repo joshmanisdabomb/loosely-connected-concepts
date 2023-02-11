@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_idol_45",
+  "textures": {
+    "texture": "lcc:block/gold_idol"
+  }
+}

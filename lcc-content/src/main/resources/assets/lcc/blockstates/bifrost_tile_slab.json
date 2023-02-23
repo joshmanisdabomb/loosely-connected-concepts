@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
+    "type=bottom": {
       "model": "lcc:block/bifrost_tile_slab"
+    },
+    "type=double": {
+      "model": "lcc:block/bifrost_tiles"
+    },
+    "type=top": {
+      "model": "lcc:block/bifrost_tile_slab_top"
     }
   }
 }

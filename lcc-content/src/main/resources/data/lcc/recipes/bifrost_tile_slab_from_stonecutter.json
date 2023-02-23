@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "lcc:bifrost_tiles"
+  },
+  "result": "lcc:bifrost_tile_slab"
+}

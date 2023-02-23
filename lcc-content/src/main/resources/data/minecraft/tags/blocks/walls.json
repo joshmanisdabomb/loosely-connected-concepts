@@ -1,7 +1,10 @@
 {
   "values": [
+    "lcc:bifrost_brick_wall",
+    "lcc:bifrost_tile_wall",
     "lcc:cobbled_fortstone_wall",
     "lcc:fortstone_wall",
+    "lcc:polished_bifrost_wall",
     "lcc:rhyolite_wall",
     "lcc:sapphire_altar_brick_wall"
   ]

@@ -1,3 +1,6 @@
 {
-  "parent": "lcc:block/polished_bifrost_wall"
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "lcc:block/polished_bifrost"
+  }
 }

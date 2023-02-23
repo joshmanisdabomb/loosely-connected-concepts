@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "lcc:bifrost"
+    }
+  },
+  "pattern": [
+    "bbb",
+    " b ",
+    "bbb"
+  ],
+  "result": {
+    "count": 3,
+    "item": "lcc:bifrost_pedestal"
+  }
+}

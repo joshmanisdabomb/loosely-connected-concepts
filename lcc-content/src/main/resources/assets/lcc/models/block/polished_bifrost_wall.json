@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/template_wall_post",
   "textures": {
-    "all": "lcc:block/polished_bifrost_wall"
+    "wall": "lcc:block/polished_bifrost"
   }
 }

@@ -1,6 +1,8 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/stairs",
   "textures": {
-    "all": "lcc:block/bifrost_tile_stairs"
+    "bottom": "lcc:block/bifrost_tiles",
+    "side": "lcc:block/bifrost_tiles",
+    "top": "lcc:block/bifrost_tiles"
   }
 }

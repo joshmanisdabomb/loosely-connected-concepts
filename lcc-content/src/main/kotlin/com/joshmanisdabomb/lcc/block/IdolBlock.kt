@@ -69,10 +69,10 @@ class IdolBlock(settings: Settings) : Block(settings) {
     }
 
     companion object {
-        val shape = createCuboidShape(5.0, 0.0, 5.0, 11.0, 9.0, 11.0)
+        val shape = createCuboidShape(4.0, 0.0, 4.0, 10.0, 9.0, 10.0)
         val shape_rot = createCuboidShape(5.0, 0.0, 5.0, 11.0, 9.0, 11.0)
-        val shape_pedestal = VoxelShapes.union(shape.offset(0.0, 7.0, 0.0), IdolPedestalBlock.shape)
-        val shape_rot_pedestal = VoxelShapes.union(shape_rot.offset(0.0, 7.0, 0.0), IdolPedestalBlock.shape)
+        val shape_pedestal = VoxelShapes.union(shape.offset(0.0, 0.4375, 0.0), IdolPedestalBlock.shape)
+        val shape_rot_pedestal = VoxelShapes.union(shape_rot.offset(0.0, 0.4375, 0.0), IdolPedestalBlock.shape)
 
         val pedestal = BooleanProperty.of("pedestal")
     }

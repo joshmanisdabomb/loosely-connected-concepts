@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "lcc:polished_bifrost"
+    }
+  },
+  "pattern": [
+    "b",
+    "b"
+  ],
+  "result": {
+    "count": 2,
+    "item": "lcc:bifrost_pillar"
+  }
+}

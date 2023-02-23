@@ -1,3 +1,6 @@
 {
-  "parent": "lcc:block/bifrost_tile_wall"
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "lcc:block/bifrost_tiles"
+  }
 }

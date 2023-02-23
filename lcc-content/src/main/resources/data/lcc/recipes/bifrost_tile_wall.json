@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "item": "lcc:bifrost_tiles"
+    }
+  },
+  "pattern": [
+    "www",
+    "www"
+  ],
+  "result": {
+    "count": 6,
+    "item": "lcc:bifrost_tile_wall"
+  }
+}

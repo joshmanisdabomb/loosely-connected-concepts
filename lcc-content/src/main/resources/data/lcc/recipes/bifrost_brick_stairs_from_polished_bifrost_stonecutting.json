@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "lcc:polished_bifrost"
+  },
+  "result": "lcc:bifrost_brick_stairs"
+}

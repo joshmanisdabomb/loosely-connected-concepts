@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
+    "type=bottom": {
       "model": "lcc:block/polished_bifrost_slab"
+    },
+    "type=double": {
+      "model": "lcc:block/polished_bifrost"
+    },
+    "type=top": {
+      "model": "lcc:block/polished_bifrost_slab_top"
     }
   }
 }

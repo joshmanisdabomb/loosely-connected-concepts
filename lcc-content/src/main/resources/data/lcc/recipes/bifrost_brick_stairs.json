@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "item": "lcc:bifrost_bricks"
+    }
+  },
+  "pattern": [
+    "w  ",
+    "ww ",
+    "www"
+  ],
+  "result": {
+    "count": 4,
+    "item": "lcc:bifrost_brick_stairs"
+  }
+}

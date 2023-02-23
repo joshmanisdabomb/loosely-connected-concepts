@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "lcc:bifrost"
+  },
+  "result": "lcc:bifrost_pillar"
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "item": "lcc:polished_bifrost"
+    }
+  },
+  "pattern": [
+    "www",
+    "www"
+  ],
+  "result": {
+    "count": 6,
+    "item": "lcc:polished_bifrost_wall"
+  }
+}

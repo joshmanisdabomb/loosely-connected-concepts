@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "lcc:block/polished_bifrost",
+    "side": "lcc:block/polished_bifrost",
+    "top": "lcc:block/polished_bifrost"
+  }
+}

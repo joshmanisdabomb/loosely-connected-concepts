@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "lcc:block/bifrost_bricks",
+    "side": "lcc:block/bifrost_bricks",
+    "top": "lcc:block/bifrost_bricks"
+  }
+}

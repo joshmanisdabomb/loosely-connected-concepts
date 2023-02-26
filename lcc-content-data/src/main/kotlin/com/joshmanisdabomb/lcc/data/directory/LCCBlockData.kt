@@ -819,6 +819,7 @@ object LCCBlockData : BasicDirectory<BlockDataContainer, Unit>(), ModelAccess {
     }).add(StonecutterItemRecipeFactory(LCCBlocks.bifrost, name = LCC.id("bifrost_pillar_from_bifrost_stonecutting"))).add(StonecutterItemRecipeFactory(LCCBlocks.polished_bifrost)).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
 
     val idols by entry(::initialiser) { data().affects(LCCBlocks.all.values.filterIsInstance<IdolBlock>()).defaultLang().defaultItemAsset().defaultLootTable().add(IdolBlockAssetFactory) }
+    val rainbow_gate by entry(::initialiser) { data().defaultLang().defaultItemAsset().defaultLootTable().mineablePickaxe().withIronTool().add(RainbowGateBlockAssetFactory).add(BlockTagFactory(LCCBlockTags.rainbow_required)) }
 
     fun initialiser(input: BlockDataContainer, context: DirectoryContext<Unit>, parameters: Unit) = input
 

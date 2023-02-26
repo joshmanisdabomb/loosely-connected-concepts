@@ -1,0 +1,73 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_1"
+      },
+      "when": {
+        "symbol": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_2"
+      },
+      "when": {
+        "symbol": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_3"
+      },
+      "when": {
+        "symbol": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_4"
+      },
+      "when": {
+        "symbol": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_5"
+      },
+      "when": {
+        "symbol": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_6"
+      },
+      "when": {
+        "symbol": "6"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_7"
+      },
+      "when": {
+        "symbol": "7"
+      }
+    },
+    {
+      "apply": {
+        "model": "lcc:block/rainbow_gate_8"
+      },
+      "when": {
+        "symbol": "8"
+      }
+    }
+  ]
+}

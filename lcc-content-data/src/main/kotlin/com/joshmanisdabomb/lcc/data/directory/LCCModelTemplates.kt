@@ -109,6 +109,15 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_idol_225_pedestal by templateEntry("block", template_idol_225_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
     val template_idol_45_pedestal by templateEntry("block", template_idol_45_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
     val template_idol_n225_pedestal by templateEntry("block", template_idol_n225_pedestal_json, TextureKey.TEXTURE, TextureKey.PLATFORM)
+    val template_rainbow_gate by templateEntry("block", template_rainbow_gate_json, TextureKey.TEXTURE, TextureKey.END)
+    val template_rainbow_gate_symbol_1 by templateEntry("block", template_rainbow_gate_symbol_1_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_2 by templateEntry("block", template_rainbow_gate_symbol_2_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_3 by templateEntry("block", template_rainbow_gate_symbol_3_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_4 by templateEntry("block", template_rainbow_gate_symbol_4_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_5 by templateEntry("block", template_rainbow_gate_symbol_5_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_6 by templateEntry("block", template_rainbow_gate_symbol_6_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_7 by templateEntry("block", template_rainbow_gate_symbol_7_json, TextureKey.TEXTURE)
+    val template_rainbow_gate_symbol_8 by templateEntry("block", template_rainbow_gate_symbol_8_json, TextureKey.TEXTURE)
 
 }
 
@@ -10927,6 +10936,310 @@ private const val template_idol_n225_pedestal_json = """{
 				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
 				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 4],
+			"to": [12, 5, 12],
+			"faces": {
+				"north": {"uv": [4, 11, 12, 16], "texture": "#texture"},
+				"east": {"uv": [4, 11, 12, 16], "texture": "#texture"},
+				"south": {"uv": [4, 11, 12, 16], "texture": "#texture"},
+				"west": {"uv": [4, 11, 12, 16], "texture": "#texture"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#end"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#end", "cullface": "down"}
+			}
+		},
+		{
+			"from": [4, 11, 4],
+			"to": [12, 16, 12],
+			"faces": {
+				"north": {"uv": [4, 0, 12, 5], "texture": "#texture"},
+				"east": {"uv": [4, 0, 12, 5], "texture": "#texture"},
+				"south": {"uv": [4, 0, 12, 5], "texture": "#texture"},
+				"west": {"uv": [4, 0, 12, 5], "texture": "#texture"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#end", "cullface": "up"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#end"}
+			}
+		},
+		{
+			"from": [11, 5, 4],
+			"to": [12, 11, 5],
+			"faces": {
+				"north": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"east": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"south": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"west": {"uv": [4, 5, 5, 11], "texture": "#texture"}
+			}
+		},
+		{
+			"from": [4, 5, 4],
+			"to": [5, 11, 5],
+			"faces": {
+				"north": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"east": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"south": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"west": {"uv": [4, 5, 5, 11], "texture": "#texture"}
+			}
+		},
+		{
+			"from": [4, 5, 11],
+			"to": [5, 11, 12],
+			"faces": {
+				"north": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"east": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"south": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"west": {"uv": [11, 5, 12, 11], "texture": "#texture"}
+			}
+		},
+		{
+			"from": [11, 5, 11],
+			"to": [12, 11, 12],
+			"faces": {
+				"north": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"east": {"uv": [4, 5, 5, 11], "texture": "#texture"},
+				"south": {"uv": [11, 5, 12, 11], "texture": "#texture"},
+				"west": {"uv": [11, 5, 12, 11], "texture": "#texture"}
+			}
+		},
+		{
+			"from": [10, 5, 4],
+			"to": [12, 6, 6],
+			"faces": {
+				"north": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"east": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"south": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"west": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"up": {"uv": [10, 4, 12, 6], "texture": "#end"}
+			}
+		},
+		{
+			"from": [4, 5, 4],
+			"to": [6, 6, 6],
+			"faces": {
+				"north": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"east": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"south": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"west": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"up": {"uv": [4, 4, 6, 6], "texture": "#end"}
+			}
+		},
+		{
+			"from": [4, 5, 10],
+			"to": [6, 6, 12],
+			"faces": {
+				"north": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"east": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"south": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"west": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"up": {"uv": [4, 10, 6, 12], "texture": "#end"}
+			}
+		},
+		{
+			"from": [10, 5, 10],
+			"to": [12, 6, 12],
+			"faces": {
+				"north": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"east": {"uv": [4, 10, 6, 11], "texture": "#texture"},
+				"south": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"west": {"uv": [10, 10, 12, 11], "texture": "#texture"},
+				"up": {"uv": [10, 10, 12, 12], "texture": "#end"}
+			}
+		},
+		{
+			"from": [10, 10, 10],
+			"to": [12, 11, 12],
+			"faces": {
+				"north": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"east": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"south": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"west": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"down": {"uv": [10, 4, 12, 6], "texture": "#end"}
+			}
+		},
+		{
+			"from": [10, 10, 4],
+			"to": [12, 11, 6],
+			"faces": {
+				"north": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"east": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"south": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"west": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"down": {"uv": [10, 10, 12, 12], "texture": "#end"}
+			}
+		},
+		{
+			"from": [4, 10, 4],
+			"to": [6, 11, 6],
+			"faces": {
+				"north": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"east": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"south": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"west": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"down": {"uv": [4, 10, 6, 12], "texture": "#end"}
+			}
+		},
+		{
+			"from": [4, 10, 10],
+			"to": [6, 11, 12],
+			"faces": {
+				"north": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"east": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"south": {"uv": [4, 5, 6, 6], "texture": "#texture"},
+				"west": {"uv": [10, 5, 12, 6], "texture": "#texture"},
+				"down": {"uv": [4, 4, 6, 6], "texture": "#end"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_1_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [0, 0, 6, 6], "texture": "#texture"},
+				"east": {"uv": [0, 0, 6, 6], "texture": "#texture"},
+				"south": {"uv": [0, 0, 6, 6], "texture": "#texture"},
+				"west": {"uv": [0, 0, 6, 6], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_2_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [5, 0, 11, 6], "texture": "#texture"},
+				"east": {"uv": [5, 0, 11, 6], "texture": "#texture"},
+				"south": {"uv": [5, 0, 11, 6], "texture": "#texture"},
+				"west": {"uv": [5, 0, 11, 6], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_3_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [10, 0, 16, 6], "texture": "#texture"},
+				"east": {"uv": [10, 0, 16, 6], "texture": "#texture"},
+				"south": {"uv": [10, 0, 16, 6], "texture": "#texture"},
+				"west": {"uv": [10, 0, 16, 6], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_4_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [0, 5, 6, 11], "texture": "#texture"},
+				"east": {"uv": [0, 5, 6, 11], "texture": "#texture"},
+				"south": {"uv": [0, 5, 6, 11], "texture": "#texture"},
+				"west": {"uv": [0, 5, 6, 11], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_5_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [5, 5, 11, 11], "texture": "#texture"},
+				"east": {"uv": [5, 5, 11, 11], "texture": "#texture"},
+				"south": {"uv": [5, 5, 11, 11], "texture": "#texture"},
+				"west": {"uv": [5, 5, 11, 11], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_6_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [10, 5, 16, 11], "texture": "#texture"},
+				"east": {"uv": [10, 5, 16, 11], "texture": "#texture"},
+				"south": {"uv": [10, 5, 16, 11], "texture": "#texture"},
+				"west": {"uv": [10, 5, 16, 11], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_7_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [0, 10, 6, 16], "texture": "#texture"},
+				"east": {"uv": [0, 10, 6, 16], "texture": "#texture"},
+				"south": {"uv": [0, 10, 6, 16], "texture": "#texture"},
+				"west": {"uv": [0, 10, 6, 16], "texture": "#texture"}
+			}
+		}
+	]
+}"""
+
+private const val template_rainbow_gate_symbol_8_json = """{
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [5, 5, 5],
+			"to": [11, 11, 11],
+			"faces": {
+				"north": {"uv": [5, 10, 11, 16], "texture": "#texture"},
+				"east": {"uv": [5, 10, 11, 16], "texture": "#texture"},
+				"south": {"uv": [5, 10, 11, 16], "texture": "#texture"},
+				"west": {"uv": [5, 10, 11, 16], "texture": "#texture"}
 			}
 		}
 	]

@@ -58,7 +58,7 @@ class IdolBlock(settings: Settings) : Block(settings) {
     }
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
-        val rotated = state[ROTATION].mod(4) == 0
+        val rotated = state[ROTATION].mod(4) != 0
         val pedestal = state[pedestal]
         return when {
             rotated && pedestal -> shape_rot_pedestal
@@ -69,7 +69,7 @@ class IdolBlock(settings: Settings) : Block(settings) {
     }
 
     companion object {
-        val shape = createCuboidShape(4.0, 0.0, 4.0, 10.0, 9.0, 10.0)
+        val shape = createCuboidShape(6.0, 0.0, 6.0, 10.0, 9.0, 10.0)
         val shape_rot = createCuboidShape(5.0, 0.0, 5.0, 11.0, 9.0, 11.0)
         val shape_pedestal = VoxelShapes.union(shape.offset(0.0, 0.4375, 0.0), IdolPedestalBlock.shape)
         val shape_rot_pedestal = VoxelShapes.union(shape_rot.offset(0.0, 0.4375, 0.0), IdolPedestalBlock.shape)

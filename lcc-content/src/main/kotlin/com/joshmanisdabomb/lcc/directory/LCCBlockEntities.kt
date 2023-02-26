@@ -42,6 +42,7 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
     val enhancing_chamber by entry(::beInitialiser) { BlockEntityType.Builder.create(::EnhancingChamberBlockEntity, LCCBlocks.enhancing_chamber) }
     val computing by entry(::beInitialiser) { BlockEntityType.Builder.create(::ComputingBlockEntity, LCCBlocks.computing) }
     val terminal by entry(::beInitialiser) { BlockEntityType.Builder.create(::TerminalBlockEntity, LCCBlocks.terminal) }
+    val rainbow_gate by entry(::beInitialiser) { BlockEntityType.Builder.create(::RainbowGateBlockEntity, LCCBlocks.rainbow_gate) }
 
     fun <E : BlockEntity> beInitialiser(input: BlockEntityType.Builder<E>, context: DirectoryContext<Unit>, parameters: Unit): BlockEntityType<E> {
         return initialiser(input.build(null), context, parameters)

@@ -1,0 +1,6 @@
+{
+  "parent": "lcc:block/template_rainbow_gate_symbol_5",
+  "textures": {
+    "texture": "lcc:block/rainbow_gate_symbols"
+  }
+}

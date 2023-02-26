@@ -1,0 +1,57 @@
+{
+  "elements": [
+    {
+      "faces": {
+        "east": {
+          "texture": "#texture",
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#texture",
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ]
+        }
+      },
+      "from": [
+        5,
+        5,
+        5
+      ],
+      "to": [
+        11,
+        11,
+        11
+      ]
+    }
+  ],
+  "textures": {
+    "particle": "#texture"
+  }
+}

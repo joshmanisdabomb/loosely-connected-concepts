@@ -542,6 +542,9 @@ object LCCBlocks : BlockDirectory() {
     val bifrost_pedestal by entry(::initialiser) { IdolPedestalBlock(FabricBlockSettings.copyOf(bifrost)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
 
+    val rainbow_gate by entry(::initialiser) { RainbowGateBlock(FabricBlockSettings.copyOf(bifrost)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+
     val ruby_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.RED).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val topaz_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.TERRACOTTA_WHITE).breakInstantly().nonOpaque()) }
@@ -580,5 +583,6 @@ object LCCBlocks : BlockDirectory() {
     //IDEA shinestream, slippy passthrough block to gain speed
     //IDEA dash blocks, made from star plating and shinestream
     //IDEA sparkling soil, can be tilled to farm (duplicate) select items
+    //IDEA chancite, must be put in a resolver to turn into materials, crafts redstone randomisers
 
 }

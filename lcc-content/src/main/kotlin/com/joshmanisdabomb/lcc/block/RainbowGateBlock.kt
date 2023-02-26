@@ -12,6 +12,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.state.property.IntProperty
+import net.minecraft.state.property.Properties.LOCKED
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.StringIdentifiable
@@ -25,10 +26,10 @@ import kotlin.math.absoluteValue
 class RainbowGateBlock(settings: Settings) : BlockWithEntity(settings) {
 
     init {
-        defaultState = stateManager.defaultState.with(type, RainbowGateState.INCOMPLETE).with(symbol, 1)
+        defaultState = stateManager.defaultState.with(type, RainbowGateState.INCOMPLETE).with(symbol, 1).with(LOCKED, false)
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(type, symbol).let {}
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(type, symbol, LOCKED).let {}
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = RainbowGateBlockEntity(pos, state)
 
@@ -96,6 +97,7 @@ class RainbowGateBlock(settings: Settings) : BlockWithEntity(settings) {
     }
 
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        if (state[LOCKED]) return ActionResult.PASS
         if (player.isSneaking) {
             if (state[symbol] == 1) world.setBlockState(pos, state.with(symbol, symbol.values.maxOrNull()!!))
             else world.setBlockState(pos, state.with(symbol, state[symbol] - 1))

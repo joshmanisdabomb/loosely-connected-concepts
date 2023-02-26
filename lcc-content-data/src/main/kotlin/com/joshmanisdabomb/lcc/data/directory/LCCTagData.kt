@@ -5,6 +5,7 @@ import com.joshmanisdabomb.lcc.data.LCCData
 import com.joshmanisdabomb.lcc.data.batches.TagBatch
 import com.joshmanisdabomb.lcc.directory.AdvancedDirectory
 import com.joshmanisdabomb.lcc.directory.LCCBiomes
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCItems
 import com.joshmanisdabomb.lcc.directory.tags.LCCBiomeTags
 import com.joshmanisdabomb.lcc.directory.tags.LCCBlockTags
@@ -69,6 +70,7 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
     val has_sapphire_altar by entry(::biomeInitialiser) { LCC.id("has_structure/sapphire_altar") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
 
     val rainbow_biomes by entry(::biomeInitialiser) { LCC.id("rainbow") }
+    val rainbow_gate_idols by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(LCCBlocks.ruby_idol, LCCBlocks.topaz_idol, LCCBlocks.emerald_idol, LCCBlocks.diamond_idol, LCCBlocks.sapphire_idol, LCCBlocks.amethyst_idol) }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
     fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)

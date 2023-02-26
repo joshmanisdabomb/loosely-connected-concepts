@@ -10593,7 +10593,7 @@ private const val template_bifrost_pedestal_json = """{
 				"south": {"uv": [5, 9, 11, 10], "texture": "#texture"},
 				"west": {"uv": [5, 9, 11, 10], "texture": "#texture"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#texture"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#texture", "cullface": "down"}
+				"down": {"uv": [5, 5, 11, 11], "texture": "#texture"}
 			}
 		},
 		{
@@ -10615,9 +10615,7 @@ private const val template_bifrost_pedestal_json = """{
 				"north": {"uv": [6, 10, 10, 15], "texture": "#texture"},
 				"east": {"uv": [6, 10, 10, 15], "texture": "#texture"},
 				"south": {"uv": [6, 10, 10, 15], "texture": "#texture"},
-				"west": {"uv": [6, 10, 10, 15], "texture": "#texture"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#texture"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#texture", "cullface": "down"}
+				"west": {"uv": [6, 10, 10, 15], "texture": "#texture"}
 			}
 		}
 	]
@@ -10724,8 +10722,7 @@ private const val template_idol_pedestal_json = """{
 				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
 				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
 				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
-				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
-				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"}
 			}
 		},
         {
@@ -10737,7 +10734,7 @@ private const val template_idol_pedestal_json = """{
 				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform"}
 			}
 		},
 		{
@@ -10759,9 +10756,7 @@ private const val template_idol_pedestal_json = """{
 				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"}
 			}
 		}
 	]
@@ -10782,8 +10777,7 @@ private const val template_idol_225_pedestal_json = """{
 				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
 				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
 				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
-				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
-				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"}
 			}
 		},
         {
@@ -10795,7 +10789,7 @@ private const val template_idol_225_pedestal_json = """{
 				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform"}
 			}
 		},
 		{
@@ -10817,9 +10811,7 @@ private const val template_idol_225_pedestal_json = """{
 				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"}
 			}
 		}
 	]
@@ -10840,8 +10832,7 @@ private const val template_idol_45_pedestal_json = """{
 				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
 				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
 				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
-				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
-				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"}
 			}
 		},
         {
@@ -10853,7 +10844,7 @@ private const val template_idol_45_pedestal_json = """{
 				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform"}
 			}
 		},
 		{
@@ -10875,9 +10866,7 @@ private const val template_idol_45_pedestal_json = """{
 				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"}
 			}
 		}
 	]
@@ -10898,8 +10887,7 @@ private const val template_idol_n225_pedestal_json = """{
 				"east": {"uv": [0, 4, 4, 13], "texture": "#texture"},
 				"south": {"uv": [12, 4, 16, 13], "texture": "#texture"},
 				"west": {"uv": [8, 4, 12, 13], "texture": "#texture"},
-				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"},
-				"down": {"uv": [12, 0, 8, 4], "texture": "#texture"}
+				"up": {"uv": [8, 4, 4, 0], "texture": "#texture", "cullface": "up"}
 			}
 		},
         {
@@ -10911,7 +10899,7 @@ private const val template_idol_n225_pedestal_json = """{
 				"south": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"west": {"uv": [5, 9, 11, 10], "texture": "#platform"},
 				"up": {"uv": [5, 5, 11, 11], "texture": "#platform"},
-				"down": {"uv": [5, 5, 11, 11], "texture": "#platform", "cullface": "down"}
+				"down": {"uv": [5, 5, 11, 11], "texture": "#platform"}
 			}
 		},
 		{
@@ -10933,9 +10921,7 @@ private const val template_idol_n225_pedestal_json = """{
 				"north": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"east": {"uv": [6, 10, 10, 15], "texture": "#platform"},
 				"south": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"},
-				"up": {"uv": [6, 6, 10, 10], "texture": "#platform"},
-				"down": {"uv": [6, 6, 10, 10], "texture": "#platform", "cullface": "down"}
+				"west": {"uv": [6, 10, 10, 15], "texture": "#platform"}
 			}
 		}
 	]

@@ -72,3 +72,14 @@ operator fun Direction.plus(other: Direction): Direction {
 }
 
 operator fun Direction.minus(other: Direction) = this.plus(if (other.axis == Direction.Axis.X) other.opposite else other)
+
+fun Direction.facing(rotation: Int, tolerance: Int = 0): Boolean {
+    val index = horizontalDirections.indexOf(this)
+    if (index < 0) return false
+    val facing = index.times(4)
+
+    for (i in -1..1) {
+        if (rotation.plus(i.times(16)) in facing.minus(tolerance)..facing.plus(tolerance)) return true
+    }
+    return false
+}

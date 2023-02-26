@@ -33,6 +33,8 @@ object LCCBlockTags : AdvancedDirectory<Identifier?, TagKey<Block>, Unit, Unit>(
 
     val radioactive by entry(::initialiser) { null }
 
+    val rainbow_gate_idols by entry(::initialiser) { null }
+
     val rubber_logs by entry(::initialiser) { null }
     val deadwood_logs by entry(::initialiser) { null }
 

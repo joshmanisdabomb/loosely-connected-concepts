@@ -138,6 +138,8 @@ object LCCLangData {
         lang["death.attack.lcc.salt.item"] = "%1\$s was lightly salted by %2\$s using %3\$s"
         lang["death.attack.lcc.spikes"] = "%1\$s was skewered"
         lang["death.attack.lcc.spikes.player"] = "%1\$s was skewered like a kebab whilst trying to escape %2\$s"
+        lang["death.attack.lcc.rainbow_gate"] = "%1\$s touched the rainbow"
+        lang["death.attack.lcc.rainbow_gate.player"] = "%1\$s touched the rainbow whilst trying to escape %2\$s"
 
         lang["subtitles.lcc.block.soaking_soul_sand.jump"] = "Soaking Soul Sand squelches"
         lang["subtitles.lcc.block.bounce_pad.jump"] = "Bounce Pad protracts"

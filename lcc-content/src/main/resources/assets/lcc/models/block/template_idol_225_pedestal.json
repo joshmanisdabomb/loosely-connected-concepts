@@ -3,15 +3,6 @@
   "elements": [
     {
       "faces": {
-        "down": {
-          "texture": "#texture",
-          "uv": [
-            12,
-            0,
-            8,
-            4
-          ]
-        },
         "east": {
           "texture": "#texture",
           "uv": [
@@ -82,7 +73,6 @@
     {
       "faces": {
         "down": {
-          "cullface": "down",
           "texture": "#platform",
           "uv": [
             5,
@@ -219,16 +209,6 @@
     },
     {
       "faces": {
-        "down": {
-          "cullface": "down",
-          "texture": "#platform",
-          "uv": [
-            6,
-            6,
-            10,
-            10
-          ]
-        },
         "east": {
           "texture": "#platform",
           "uv": [
@@ -254,15 +234,6 @@
             10,
             10,
             15
-          ]
-        },
-        "up": {
-          "texture": "#platform",
-          "uv": [
-            6,
-            6,
-            10,
-            10
           ]
         },
         "west": {

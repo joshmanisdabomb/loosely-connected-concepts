@@ -66,6 +66,8 @@ object LCCBlockEntities : AdvancedDirectory<BlockEntityType.Builder<out BlockEnt
         BlockEntityRendererRegistry.register(terminal, ::TerminalBlockEntityRenderer)
         ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(TerminalBlockEntityRenderer)
         BlockEntityRendererRegistry.register(enhancing_chamber, ::EnhancingChamberBlockEntityRenderer)
+        BlockEntityRendererRegistry.register(rainbow_gate, ::RainbowGateBlockEntityRenderer)
+        ClientSpriteRegistryCallback.event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(RainbowGateBlockEntityRenderer)
     }
 
 }

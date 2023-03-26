@@ -111,7 +111,7 @@ class RainbowGateBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = shape
 
-    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) null else checkType(type, LCCBlockEntities.rainbow_gate, RainbowGateBlockEntity::serverTick)
+    override fun <T : BlockEntity> getTicker(world: World, state: BlockState, type: BlockEntityType<T>) = if (world.isClient) checkType(type, LCCBlockEntities.rainbow_gate, RainbowGateBlockEntity::clientTick) else checkType(type, LCCBlockEntities.rainbow_gate, RainbowGateBlockEntity::serverTick)
 
     override fun <T : BlockEntity?> getGameEventListener(world: ServerWorld, entity: T) = entity as? RainbowGateBlockEntity
 

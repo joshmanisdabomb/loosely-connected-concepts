@@ -46,6 +46,8 @@ object LCCModelLayers : BasicDirectory<EntityModelLayer, () -> TexturedModelData
         .setProperties(ComputingBlockEntityRenderer::data)
     val terminal by entry(::initialiser) { EntityModelLayer(id, "main") }
         .setProperties(TerminalBlockEntityRenderer::data)
+    val rainbow_gate by entry(::initialiser) { EntityModelLayer(id, "main") }
+        .setProperties(RainbowGateBlockEntityRenderer::data)
 
     private fun <L : EntityModelLayer> initialiser(input: L, context: DirectoryContext<() -> TexturedModelData>, parameters: Unit) = input
 

@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block
 
+import com.joshmanisdabomb.lcc.block.entity.RainbowGateBlockEntity
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.*
@@ -29,6 +30,8 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(y, HORIZONTAL_AXIS, middle).let {}
 
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = (state[HORIZONTAL_AXIS] == Direction.Axis.X).transform(x, z)
+
     override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
         if (!state[middle] || state[y] != 0) return
         world.createAndScheduleBlockTick(pos, this, 2)
@@ -51,21 +54,19 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
             val direction = entity.pos.subtract(middle).withAxis(axis, 0.0).withAxis(Direction.Axis.Y, 0.0)
             val distance = direction.length()
             if (distance.absoluteValue < 0.2) continue
-            entity.velocity = entity.velocity.add(direction.normalize().negate().multiply(0.01).multiply(depth.div(2.0).minus(distance)))
+            entity.velocity = entity.velocity.add(direction.normalize().negate().multiply(0.015).multiply(depth.div(2.0).minus(distance)))
             entity.velocityModified = true
             entity.velocityDirty = true
         }
         world.createAndScheduleBlockTick(pos, this, 2)
     }
 
-    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = (state[HORIZONTAL_AXIS] == Direction.Axis.X).transform(x, z)
-
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
         val y = state[y]
         val axis = state[HORIZONTAL_AXIS]
         if (direction == Direction.UP && y != 2 && neighborState != state.with(Companion.y, y + 1)) return Blocks.AIR.defaultState
         if (direction == Direction.DOWN && y != 0 && neighborState != state.with(Companion.y, y - 1)) return Blocks.AIR.defaultState
-        if (direction == Direction.DOWN && y == 0 && canPlaceAt(state, world, pos)) return Blocks.AIR.defaultState
+        if (direction == Direction.DOWN && y == 0 && !canPlaceAt(state, world, pos)) return Blocks.AIR.defaultState
         return if (direction.axis == axis && neighborState != state && neighborState != LCCBlocks.rainbow_gate.defaultState) Blocks.AIR.defaultState else super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos)
     }
 
@@ -78,6 +79,19 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
             return true
         }
         return false
+    }
+
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos, newState: BlockState, moved: Boolean) {
+        if (!state[middle] && !newState.isOf(this)) {
+            val axis = state[HORIZONTAL_AXIS]
+            for (ad in Direction.AxisDirection.values()) {
+                val d = Direction.get(ad, axis)
+                val pos2 = pos.offset(d)
+                val gate = world.getBlockEntity(pos2) as? RainbowGateBlockEntity ?: continue
+                if (gate.isMain) gate.portalBroken()
+            }
+        }
+        super.onStateReplaced(state, world, pos, newState, moved)
     }
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {

@@ -13,6 +13,7 @@ import net.fabricmc.api.Environment
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
+import net.minecraft.block.SideShapeType
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtHelper
@@ -47,6 +48,8 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
     val sequence get() = _sequence
     val direction get() = _direction
     val offset get() = _offset
+
+    val isMain get() = others != null
 
     @Environment(EnvType.CLIENT)
     val shardOffsets = Array(6) { Array(4*9*4) { Vec3d(0.0, 0.0, 0.0) } }
@@ -231,8 +234,8 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         val pos = BlockPos.Mutable()
         var portal = 0
         for (x in x1..x2) {
-            for (y in y1..y2) {
-                for (z in z1..z2) {
+            for (z in z1..z2) {
+                for (y in y1..y2) {
                     val state = world.getBlockState(pos.set(x, y, z))
                     if (state.isOf(LCCBlocks.rainbow_gate)) {
                         portal++
@@ -240,6 +243,8 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
                     }
                     if (!state.isAir && !state.isIn(BlockTags.FIRE) && !state.isOf(Blocks.LIGHTNING_ROD)) return false
                 }
+                val state = world.getBlockState(pos.set(x, y1 - 1, z))
+                if (!state.isSideSolid(world, pos, Direction.UP, SideShapeType.FULL)) return false
             }
         }
         if (portal != 6) return false
@@ -295,7 +300,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         world.chunkManager.markForUpdate(pos)
     }
 
-    private fun openPortal(world: ServerWorld) {
+    fun openPortal(world: ServerWorld) {
         val direction = _direction ?: return
         val offset = _offset ?: return
         val center = getCenter(direction, offset)
@@ -308,6 +313,17 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
                 world.setBlockState(center.offset(direction, i).up(j), LCCBlocks.rainbow_portal.defaultState.with(RainbowPortalBlock.y, j).with(Properties.HORIZONTAL_AXIS, direction.axis).with(RainbowPortalBlock.middle, i == 0), 18)
             }
         }
+    }
+
+    fun portalBroken() {
+        val world = world ?: return
+
+        world.setBlockState(pos, world.getBlockState(pos).with(Properties.LOCKED, false))
+        others?.forEach {
+            world.setBlockState(it, world.getBlockState(it).with(Properties.LOCKED, false))
+        }
+
+        println(main)
     }
 
     private fun getCenter(dir: Direction, offset: Byte) = this.pos!!.offset(dir, 2).add(0, offset.unaryMinus(), 0)

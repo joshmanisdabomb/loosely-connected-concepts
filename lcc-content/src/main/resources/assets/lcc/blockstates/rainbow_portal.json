@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "axis=x,middle=false,y=0": {
+      "model": "lcc:block/rainbow_portal_0",
+      "y": 0
+    },
+    "axis=x,middle=false,y=1": {
+      "model": "lcc:block/rainbow_portal_1",
+      "y": 0
+    },
+    "axis=x,middle=false,y=2": {
+      "model": "lcc:block/rainbow_portal_2",
+      "y": 0
+    },
+    "axis=x,middle=true,y=0": {
+      "model": "lcc:block/rainbow_portal_0_middle",
+      "y": 0
+    },
+    "axis=x,middle=true,y=1": {
+      "model": "lcc:block/rainbow_portal_1_middle",
+      "y": 0
+    },
+    "axis=x,middle=true,y=2": {
+      "model": "lcc:block/rainbow_portal_2_middle",
+      "y": 0
+    },
+    "axis=z,middle=false,y=0": {
+      "model": "lcc:block/rainbow_portal_0",
+      "y": 90
+    },
+    "axis=z,middle=false,y=1": {
+      "model": "lcc:block/rainbow_portal_1",
+      "y": 90
+    },
+    "axis=z,middle=false,y=2": {
+      "model": "lcc:block/rainbow_portal_2",
+      "y": 90
+    },
+    "axis=z,middle=true,y=0": {
+      "model": "lcc:block/rainbow_portal_0_middle",
+      "y": 90
+    },
+    "axis=z,middle=true,y=1": {
+      "model": "lcc:block/rainbow_portal_1_middle",
+      "y": 90
+    },
+    "axis=z,middle=true,y=2": {
+      "model": "lcc:block/rainbow_portal_2_middle",
+      "y": 90
+    }
+  }
+}

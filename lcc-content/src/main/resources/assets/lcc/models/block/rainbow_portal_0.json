@@ -1,0 +1,7 @@
+{
+  "parent": "lcc:block/template_rainbow_portal",
+  "textures": {
+    "particle": "lcc:block/rainbow_portal_0",
+    "texture": "lcc:block/rainbow_portal_1"
+  }
+}

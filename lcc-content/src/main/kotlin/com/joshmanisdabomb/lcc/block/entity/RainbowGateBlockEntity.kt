@@ -2,6 +2,7 @@ package com.joshmanisdabomb.lcc.block.entity
 
 import com.joshmanisdabomb.lcc.block.IdolBlock
 import com.joshmanisdabomb.lcc.block.RainbowGateBlock
+import com.joshmanisdabomb.lcc.block.RainbowPortalBlock
 import com.joshmanisdabomb.lcc.directory.LCCBlockEntities
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCDamage
@@ -301,6 +302,12 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
 
         val explosion = Vec3d.ofCenter(center).add(0.0, 1.0, 0.0)
         world.createExplosion(null, LCCDamage.rainbow_gate, null, explosion.x, explosion.y, explosion.z, 4.0f, false, Explosion.DestructionType.NONE)
+
+        for (j in 0..2) {
+            for (i in -1..1) {
+                world.setBlockState(center.offset(direction, i).up(j), LCCBlocks.rainbow_portal.defaultState.with(RainbowPortalBlock.y, j).with(Properties.HORIZONTAL_AXIS, direction.axis).with(RainbowPortalBlock.middle, i == 0), 18)
+            }
+        }
     }
 
     private fun getCenter(dir: Direction, offset: Byte) = this.pos!!.offset(dir, 2).add(0, offset.unaryMinus(), 0)

@@ -544,6 +544,8 @@ object LCCBlocks : BlockDirectory() {
 
     val rainbow_gate by entry(::initialiser) { RainbowGateBlock(FabricBlockSettings.copyOf(bifrost)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val rainbow_portal by entry(::initialiser) { RainbowPortalBlock(FabricBlockSettings.of(Material.PORTAL, MapColor.BRIGHT_RED).noCollision().strength(-1.0f).sounds(BlockSoundGroup.GLASS).luminance(15)) }
+        .setProperties(BlockExtraSettings().translucent())
 
     val ruby_idol by entry(::initialiser) { IdolBlock(FabricBlockSettings.of(Material.DECORATION, MapColor.RED).breakInstantly().nonOpaque()) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))

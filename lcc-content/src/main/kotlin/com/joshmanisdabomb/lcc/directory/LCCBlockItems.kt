@@ -38,6 +38,7 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val potted_forget_me_not by entry(::initialiser) { Replacement() }
 
     val nuclear_fire by entry(::initialiser) { Replacement() }
+    val rainbow_portal by entry(::initialiser) { Replacement() }
 
     val rubber_door by entry(::initialiser) { Replacement(TallBlockItem(properties, Item.Settings().defaults())) }
     val treetap_bowl by entry(::initialiser) { Replacement() }

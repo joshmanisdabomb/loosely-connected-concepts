@@ -118,6 +118,7 @@ object LCCModelTemplates : ModelTemplateDirectory() {
     val template_rainbow_gate_symbol_6 by templateEntry("block", template_rainbow_gate_symbol_6_json, TextureKey.TEXTURE)
     val template_rainbow_gate_symbol_7 by templateEntry("block", template_rainbow_gate_symbol_7_json, TextureKey.TEXTURE)
     val template_rainbow_gate_symbol_8 by templateEntry("block", template_rainbow_gate_symbol_8_json, TextureKey.TEXTURE)
+    val template_rainbow_portal by templateEntry("block", template_rainbow_portal_json, TextureKey.TEXTURE, TextureKey.PARTICLE)
 
 }
 
@@ -11229,4 +11230,73 @@ private const val template_rainbow_gate_symbol_8_json = """{
 			}
 		}
 	]
+}"""
+
+private const val template_rainbow_portal_json = """{
+  "elements": [
+    {
+      "from": [
+        -8,
+        0,
+        7
+      ],
+      "to": [
+        24,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        -8,
+        0,
+        7
+      ],
+      "to": [
+        24,
+        16,
+        9
+      ],
+      "faces": {
+        "north": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        },
+        "south": {
+          "texture": "#texture",
+          "uv": [
+            0.0,
+            0.0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    }
+  ]
 }"""

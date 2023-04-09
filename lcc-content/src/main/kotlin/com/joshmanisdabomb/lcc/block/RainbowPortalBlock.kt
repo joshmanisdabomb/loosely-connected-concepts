@@ -1,16 +1,20 @@
 package com.joshmanisdabomb.lcc.block
 
 import com.joshmanisdabomb.lcc.block.entity.RainbowGateBlockEntity
+import com.joshmanisdabomb.lcc.component.PortalChargeComponent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
+import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.transform
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_AXIS
+import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
@@ -96,10 +100,40 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
 
     override fun onEntityCollision(state: BlockState, world: World, pos: BlockPos, entity: Entity) {
         val shape = getOutlineShape(state, world, pos, ShapeContext.of(entity))
-        if (entity.boundingBox.intersects(shape.offset(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()).boundingBox)) {
-            println("hello")
+        if (entity.canUsePortals() && entity.boundingBox.intersects(shape.offset(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble()).boundingBox)) {
+            val charge = LCCComponents.portal_charge.maybeGet(entity).orElseThrow()
+            val ticks = charge.get(PortalChargeComponent.PortalType.RAINBOW)
+            if (ticks >= 80) {
+                if (world.isClient) return
+                val sworld = world as? ServerWorld ?: return
+                val destinations = LCCComponents.portal_destinations.maybeGet(world.levelProperties).orElseThrow()
+                val gate = getGate(state, world, pos) ?: return
+                val code = gate.code ?: return
+                val positions = destinations.getPositions(code)
+                val position = Util.getRandom(positions, world.random)
+                val destWorld = sworld.server.getWorld(position.dimension) ?: return
+                (entity as? ServerPlayerEntity)?.teleport(destWorld, position.pos.x.plus(0.5), position.pos.y.toDouble(), position.pos.z.plus(0.5), 0f, 0f)
+                entity.moveToWorld(destWorld)
+            } else {
+                charge.tick(PortalChargeComponent.PortalType.RAINBOW)
+            }
         }
         super.onEntityCollision(state, world, pos, entity)
+    }
+
+    private fun getGate(state: BlockState, world: World, pos: BlockPos): RainbowGateBlockEntity? {
+        val y = state[y]
+        val mb = BlockPos.Mutable()
+        val direction = Direction.get(Direction.AxisDirection.POSITIVE, state[HORIZONTAL_AXIS])
+        for (i in -3..3) {
+            for (j in -y..2-y) {
+                val gate = world.getBlockEntity(mb.set(pos).move(direction, i).move(Direction.UP, j)) as? RainbowGateBlockEntity ?: continue
+                if (!gate.isMain) continue
+                if (!gate.withinStructure(pos)) continue
+                return gate
+            }
+        }
+        return null
     }
 
     companion object {

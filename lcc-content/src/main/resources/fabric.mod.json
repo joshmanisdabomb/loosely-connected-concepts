@@ -77,7 +77,9 @@
       "lcc:hearts",
       "lcc:computing_storage",
       "lcc:computing_sessions",
-      "lcc:targeted_effects"
+      "lcc:targeted_effects",
+      "lcc:portal_destinations",
+      "lcc:portal_charge"
     ]
   },
   "accessWidener": "lcc.accesswidener"

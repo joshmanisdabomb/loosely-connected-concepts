@@ -42,12 +42,13 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
     private var _offset: Byte? = null
     private var _sequence: Byte? = null
     private var idols: List<BlockPos>? = null
-    private var code: ByteArray? = null
+    private var _code: ByteArray? = null
 
     private val source = BlockPositionSource(pos)
     val sequence get() = _sequence
     val direction get() = _direction
     val offset get() = _offset
+    val code get() = _code
 
     val isMain get() = others != null
 
@@ -93,7 +94,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         super.readNbt(nbt)
         main = nbt.getCompoundOrNull("main")?.let(NbtHelper::toBlockPos)
         others = nbt.getListOrNull("others", NBT_COMPOUND)?.mapNotNull { NbtHelper.toBlockPos(it as? NbtCompound ?: return@mapNotNull null) }
-        code = nbt.getByteArray("code").takeIf { it.size == 6 }
+        _code = nbt.getByteArray("code").takeIf { it.size == 6 }
         _direction = nbt.getByteOrNull("direction")?.let { Direction.byId(it.toInt()) }
         _offset = nbt.getByteOrNull("offset")
         _sequence = nbt.getByteOrNull("sequence")
@@ -108,7 +109,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         super.writeNbt(nbt)
         nbt.putCompoundOrRemove("main", main?.let(NbtHelper::fromBlockPos))
         nbt.putListOrRemove("others", others?.map(NbtHelper::fromBlockPos)?.let { NbtList().apply { addAll(it) } })
-        if (code != null) nbt.putByteArray("code", code)
+        if (_code != null) nbt.putByteArray("code", _code)
         nbt.putByteOrRemove("direction", _direction?.id?.toByte())
         nbt.putByteOrRemove("offset", _offset)
         nbt.putByteOrRemove("sequence", _sequence)
@@ -204,7 +205,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         if (!checkRequirements(world, event)) return false
         preparePortal(world)
 
-        code = calculateCode()
+        _code = calculateCode()
         markDirty()
         return true
     }
@@ -315,6 +316,19 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         }
     }
 
+    fun withinStructure(pos: BlockPos): Boolean {
+        val others = others ?: return false
+
+        val x1 = others.minOfOrNull { it.x } ?: return false
+        val x2 = others.maxOfOrNull { it.x } ?: return false
+        val y1 = others.minOfOrNull { it.y } ?: return false
+        val y2 = others.maxOfOrNull { it.y } ?: return false
+        val z1 = others.minOfOrNull { it.z } ?: return false
+        val z2 = others.maxOfOrNull { it.z } ?: return false
+
+        return pos.x in x1..x2 && pos.y in y1..y2 && pos.z in z1..z2
+    }
+
     fun portalBroken() {
         val world = world ?: return
 
@@ -322,8 +336,6 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         others?.forEach {
             world.setBlockState(it, world.getBlockState(it).with(Properties.LOCKED, false))
         }
-
-        println(main)
     }
 
     private fun getCenter(dir: Direction, offset: Byte) = this.pos!!.offset(dir, 2).add(0, offset.unaryMinus(), 0)

@@ -33,6 +33,11 @@ object LCCComponents : AdvancedDirectory<Class<out ComponentV3>, ComponentKey<ou
     val radiation by entry({ i, c, p -> entityInitialiser(i, c, p, ::RadiationComponent) }) { RadiationComponent::class.java }
         .addTags("entity")
 
+    val portal_destinations by entry({ i, c, p -> levelInitialiser(i, c, p, ::PortalDestinationComponent) }) { PortalDestinationComponent::class.java }
+        .addTags("level")
+    val portal_charge by entry({ i, c, p -> entityInitialiser(i, c, p, ::PortalChargeComponent, null) }) { PortalChargeComponent::class.java }
+        .addTags("entity")
+
     val advancement_race by entry({ i, c, p -> levelInitialiser(i, c, p, ::AdvancementRaceComponent) }) { AdvancementRaceComponent::class.java }
         .addTags("level")
 

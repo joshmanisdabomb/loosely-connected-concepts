@@ -71,9 +71,12 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
                 if (world.isClient) return
                 val sworld = world as? ServerWorld ?: return
                 val destinations = LCCComponents.portal_destinations.maybeGet(world.levelProperties).orElseThrow()
+                destinations.init(world)
                 val gate = getGate(state, world, pos) ?: return
                 val code = gate.code ?: return
+                println(code.toList())
                 val positions = destinations.getPositions(code)
+                if (positions.isEmpty()) return
                 val position = Util.getRandom(positions, world.random)
                 val destWorld = sworld.server.getWorld(position.dimension) ?: return
                 FabricDimensions.teleport(entity, destWorld, TeleportTarget(Vec3d.ofBottomCenter(position.pos), Vec3d.ZERO, entity.yaw, entity.pitch))

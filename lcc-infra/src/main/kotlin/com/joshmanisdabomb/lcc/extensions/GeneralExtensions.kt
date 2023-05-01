@@ -26,3 +26,31 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
 
 fun <E> List<E>.onlyOrNull(): E? = if (this.count() == 1) this.first() else null
 fun <E> List<E>.only(): E = this.onlyOrNull() ?: throw NoSuchElementException("List size != 1")
+
+fun <E> Iterable<Iterable<E>>.cartesian(): List<List<E>> = this.fold(listOf(emptyList())) { acc, list ->
+    acc.flatMap { outer ->
+        list.map { inner ->
+            outer + inner
+        }
+    }
+}
+fun <E> Array<out Iterable<E>>.cartesian(): List<List<E>> = this.fold(listOf(emptyList())) { acc, list ->
+    acc.flatMap { outer ->
+        list.map { inner ->
+            outer + inner
+        }
+    }
+}
+fun <E> Array<out Array<E>>.cartesian(): List<List<E>> = this.fold(listOf(emptyList())) { acc, list ->
+    acc.flatMap { outer ->
+        list.map { inner ->
+            outer + inner
+        }
+    }
+}
+operator fun <T, U> Iterable<T>.times(other: Iterable<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
+operator fun <T, U> Iterable<T>.times(other: Array<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
+operator fun <T, U> Array<T>.times(other: Iterable<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
+operator fun <T, U> Array<T>.times(other: Array<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
+
+fun <K, V> Map<K, V>.flip() = this.entries.associate { it.value to it.key }

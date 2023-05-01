@@ -81,6 +81,7 @@ object LCCData : DataLauncher("lcc", Paths.get("../lcc-content/src/generated/res
         recipes.addTagHandlerFilter(LCCItemTags.gold_blocks) { it.asItem().identifier.path.endsWith("gold_block") }
         recipes.addTagHandlerFilter(ItemTags.TERRACOTTA) { it.asItem().identifier.path.endsWith("_terracotta") && !it.asItem().identifier.path.endsWith("_glazed_terracotta") }
         recipes.addTagHandlerFilter(BlockTags.CORAL_BLOCKS) { it.asItem().identifier.path.endsWith("_coral_block") && !it.asItem().identifier.path.startsWith("dead_") }
+        recipes.addTagHandlerList(LCCItemTags.ash_logs, LCCBlocks.ash_log, LCCBlocks.ash_wood, LCCBlocks.stripped_ash_log, LCCBlocks.stripped_ash_wood)
 
         println("Setting up knowledge and exporters.")
         recipes.index()

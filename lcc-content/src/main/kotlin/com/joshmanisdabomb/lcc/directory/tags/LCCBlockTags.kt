@@ -37,6 +37,7 @@ object LCCBlockTags : AdvancedDirectory<Identifier?, TagKey<Block>, Unit, Unit>(
 
     val rubber_logs by entry(::initialiser) { null }
     val deadwood_logs by entry(::initialiser) { null }
+    val ash_logs by entry(::initialiser) { null }
 
     fun initialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = TagKey.of(Registry.BLOCK_KEY, input ?: context.id)
 

@@ -5,10 +5,9 @@ import com.joshmanisdabomb.lcc.component.PortalChargeComponent
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
 import com.joshmanisdabomb.lcc.extensions.transform
+import net.fabricmc.fabric.api.dimension.v1.FabricDimensions
 import net.minecraft.block.*
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.BooleanProperty
@@ -16,15 +15,9 @@ import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties.HORIZONTAL_AXIS
 import net.minecraft.util.Util
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
-import net.minecraft.util.math.random.Random
-import net.minecraft.world.BlockView
-import net.minecraft.world.World
-import net.minecraft.world.WorldAccess
-import net.minecraft.world.WorldView
-import kotlin.math.absoluteValue
+import net.minecraft.world.*
 
 class RainbowPortalBlock(settings: Settings) : Block(settings) {
 
@@ -35,35 +28,6 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) = builder.add(y, HORIZONTAL_AXIS, middle).let {}
 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = (state[HORIZONTAL_AXIS] == Direction.Axis.X).transform(x, z)
-
-    override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        if (!state[middle] || state[y] != 0) return
-        world.createAndScheduleBlockTick(pos, this, 2)
-    }
-
-    override fun scheduledTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        val axis = state[HORIZONTAL_AXIS]
-        if (!state[middle] || state[y] != 0) return
-        val middle = Vec3d.ofBottomCenter(pos)
-        val length = 4.0
-        val depth = 10.0
-        val beam = Box.of(middle, if (axis == Direction.Axis.X) length else depth, 0.0, if (axis == Direction.Axis.Z) length else depth).stretch(0.0, 3.0, 0.0)
-        val entities = world.getOtherEntities(null, beam)
-        for (entity in entities) {
-            if (entity is PlayerEntity) {
-                if (entity.isSpectator || entity.abilities.flying) continue
-            }
-            val beam2 = beam.contract(if (axis == Direction.Axis.X) entity.boundingBox.xLength else 0.0, 0.0, if (axis == Direction.Axis.Z) entity.boundingBox.zLength else 0.0)
-            if (!entity.boundingBox.intersects(beam2)) continue
-            val direction = entity.pos.subtract(middle).withAxis(axis, 0.0).withAxis(Direction.Axis.Y, 0.0)
-            val distance = direction.length()
-            if (distance.absoluteValue < 0.2) continue
-            entity.velocity = entity.velocity.add(direction.normalize().negate().multiply(0.015).multiply(depth.div(2.0).minus(distance)))
-            entity.velocityModified = true
-            entity.velocityDirty = true
-        }
-        world.createAndScheduleBlockTick(pos, this, 2)
-    }
 
     override fun getStateForNeighborUpdate(state: BlockState, direction: Direction, neighborState: BlockState, world: WorldAccess, pos: BlockPos, neighborPos: BlockPos): BlockState {
         val y = state[y]
@@ -112,8 +76,7 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
                 val positions = destinations.getPositions(code)
                 val position = Util.getRandom(positions, world.random)
                 val destWorld = sworld.server.getWorld(position.dimension) ?: return
-                (entity as? ServerPlayerEntity)?.teleport(destWorld, position.pos.x.plus(0.5), position.pos.y.toDouble(), position.pos.z.plus(0.5), 0f, 0f)
-                entity.moveToWorld(destWorld)
+                FabricDimensions.teleport(entity, destWorld, TeleportTarget(Vec3d.ofBottomCenter(position.pos), Vec3d.ZERO, entity.yaw, entity.pitch))
             } else {
                 charge.tick(PortalChargeComponent.PortalType.RAINBOW)
             }

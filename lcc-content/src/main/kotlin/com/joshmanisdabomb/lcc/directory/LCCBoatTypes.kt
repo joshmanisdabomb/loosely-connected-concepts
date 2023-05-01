@@ -15,6 +15,7 @@ object LCCBoatTypes : BasicDirectory<LCCBoatType, Unit>(), ClientSpriteRegistryC
 
     val rubber by entry(::initialiser) { LCCBoatType({ LCCItems.rubber_boat }, LCC.id("${name}_boat"), LCC.id("textures/entity/boat/$name.png"), LCCBlocks.rubber_planks, Items.STICK, BoatEntity.Type.OAK) }
     val deadwood by entry(::initialiser) { LCCBoatType({ LCCItems.deadwood_boat }, LCC.id("${name}_boat"), LCC.id("textures/entity/boat/$name.png"), LCCBlocks.deadwood_planks, Items.STICK, BoatEntity.Type.OAK) }
+    val ash by entry(::initialiser) { LCCBoatType({ LCCItems.ash_boat }, LCC.id("${name}_boat"), LCC.id("textures/entity/boat/$name.png"), LCCBlocks.ash_planks, Items.STICK, BoatEntity.Type.OAK) }
 
     fun initialiser(input: LCCBoatType, context: DirectoryContext<Unit>, parameters: Unit) = input.apply { registerEntity() }
 

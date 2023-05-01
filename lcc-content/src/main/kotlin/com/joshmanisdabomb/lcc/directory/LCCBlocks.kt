@@ -39,6 +39,7 @@ import net.minecraft.block.*
 import net.minecraft.block.AbstractBlock.Settings
 import net.minecraft.block.PressurePlateBlock.ActivationRule
 import net.minecraft.block.enums.PistonType
+import net.minecraft.block.sapling.SaplingGenerator
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.sound.BlockSoundGroup
@@ -48,8 +49,11 @@ import net.minecraft.util.DyeColor
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.intprovider.UniformIntProvider
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.registry.RegistryEntry
 import net.minecraft.world.BlockView
+import net.minecraft.world.gen.feature.ConfiguredFeature
 import kotlin.math.pow
 
 object LCCBlocks : BlockDirectory() {
@@ -541,6 +545,47 @@ object LCCBlocks : BlockDirectory() {
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
     val bifrost_pedestal by entry(::initialiser) { IdolPedestalBlock(FabricBlockSettings.copyOf(bifrost)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+
+    val ash_log by entry(::initialiser) { FunctionalLogBlock(FabricBlockSettings.copyOf(Settings.of(Material.WOOD, pillarMapColorProvider(MapColor.TERRACOTTA_WHITE, MapColor.TERRACOTTA_GREEN))).strength(2.0f).sounds(BlockSoundGroup.WOOD)) { stripped_ash_log.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW, sortValueInt(2000, 1)))
+    val ash_wood by entry(::initialiser) { LogBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_GREEN).strength(2.0f).sounds(BlockSoundGroup.WOOD)) { stripped_ash_wood.defaultState.with(Properties.AXIS, it[Properties.AXIS]) } }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_planks by entry(::initialiser) { Block(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0f, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val stripped_ash_log by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val stripped_ash_wood by entry(::initialiser) { PillarBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_sapling by entry(::initialiser) { SaplingBlock(object : SaplingGenerator() {
+        override fun getTreeFeature(random: Random?, bees: Boolean): RegistryEntry<out ConfiguredFeature<*, *>>? {
+            TODO("Not yet implemented")
+        }
+    }, FabricBlockSettings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW).cutout())
+    val potted_ash_sapling by entry(::initialiser) { FlowerPotBlock(ash_sapling, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()) }
+        .setProperties(BlockExtraSettings().cutout())
+    val ash_leaves by entry(::initialiser) { FunctionalLeavesBlock(FabricBlockSettings.of(Material.LEAVES).strength(0.2F).ticksRandomly().sounds(BlockSoundGroup.GRASS).nonOpaque().allowsSpawning(::never).suffocates(::never).blockVision(::never)) { it.isIn(BlockTags.LOGS) } }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW).cutoutMipped().blockColor { _, _, _, _ -> ColorConstants.rubber_leaves }.stackColor { _, _ -> ColorConstants.rubber_leaves })
+    val ash_stairs by entry(::initialiser) { StairsBlock(ash_planks.defaultState, FabricBlockSettings.copyOf(ash_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_slab by entry(::initialiser) { SlabBlock(FabricBlockSettings.copyOf(ash_planks)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_sign by entry(::initialiser) { LCCSignBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).noCollision().strength(1.0F).sounds(BlockSoundGroup.WOOD), LCCSignTypes.ash) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_wall_sign by entry(::initialiser) { LCCWallSignBlock(FabricBlockSettings.copyOf(ash_sign).dropsLike(ash_sign), LCCSignTypes.ash) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_door by entry(::initialiser) { DoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque()) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW).cutout())
+    val ash_pressure_plate by entry(::initialiser) { PressurePlateBlock(ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(0.5F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_button by entry(::initialiser) { WoodenButtonBlock(FabricBlockSettings.of(Material.DECORATION).noCollision().strength(0.5F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_fence by entry(::initialiser) { FenceBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_fence_gate by entry(::initialiser) { FenceGateBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW))
+    val ash_trapdoor by entry(::initialiser) { TrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MapColor.TERRACOTTA_WHITE).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(::never)) }
+        .setProperties(BlockExtraSettings().creativeEx(RAINBOW).cutout())
 
     val rainbow_gate by entry(::initialiser) { RainbowGateBlock(FabricBlockSettings.copyOf(bifrost)) }
         .setProperties(BlockExtraSettings().creativeEx(RAINBOW))

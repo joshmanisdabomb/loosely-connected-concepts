@@ -1,0 +1,6 @@
+{
+  "type": "lcc:bifrost_shrine",
+  "biomes": "#lcc:has_structure/bifrost_shrine",
+  "step": "surface_structures",
+  "spawn_overrides": {}
+}

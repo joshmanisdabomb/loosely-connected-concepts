@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "boat",
+  "key": {
+    "w": {
+      "item": "lcc:ash_planks"
+    }
+  },
+  "pattern": [
+    "w w",
+    "www"
+  ],
+  "result": {
+    "item": "lcc:ash_boat"
+  }
+}

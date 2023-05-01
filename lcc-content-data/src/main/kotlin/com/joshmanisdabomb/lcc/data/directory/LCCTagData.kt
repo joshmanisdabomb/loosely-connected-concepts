@@ -69,8 +69,12 @@ object LCCTagData : AdvancedDirectory<Identifier?, TagBatch.TagBuilder<*, *>, Un
     val has_wasteland_tent by entry(::biomeInitialiser) { LCC.id("has_structure/wasteland_tent") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
     val has_sapphire_altar by entry(::biomeInitialiser) { LCC.id("has_structure/sapphire_altar") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.wasteland) }
 
-    val rainbow_biomes by entry(::biomeInitialiser) { LCC.id("rainbow") }
+    val rainbow_biomes by entry(::biomeInitialiser) { LCC.id("rainbow") }.addInitListener { context, _ -> context.entry.attach(LCCBiomes.rainbow_gardens, LCCBiomes.rainbow_candy, LCCBiomes.rainbow_color, LCCBiomes.rainbow_celestial) }
+    val has_bifrost_shrine by entry(::biomeInitialiser) { LCC.id("has_structure/bifrost_shrine") }.addInitListener { context, _ -> context.entry.attachTag(LCCBiomeTags.rainbow) }
     val rainbow_gate_idols by entry(::blockInitialiser) { null }.addInitListener { context, _ -> context.entry.attach(LCCBlocks.ruby_idol, LCCBlocks.topaz_idol, LCCBlocks.emerald_idol, LCCBlocks.diamond_idol, LCCBlocks.sapphire_idol, LCCBlocks.amethyst_idol) }
+
+    val ash_logs by entry(::blockInitialiser) { null }.addInitListener { context, _ -> LCCData.tags.block(BlockTags.LOGS_THAT_BURN).attachTagId(context.entry.id) }
+    val ash_logs_i by entry(::itemInitialiser) { LCC.id(name.dropLast(2)) }.addInitListener { context, _ -> LCCData.tags.item(ItemTags.LOGS_THAT_BURN).attachTagId(context.entry.id) }
 
     fun blockInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.block(input ?: context.id)
     fun biomeInitialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = LCCData.tags.biome(input ?: context.id)

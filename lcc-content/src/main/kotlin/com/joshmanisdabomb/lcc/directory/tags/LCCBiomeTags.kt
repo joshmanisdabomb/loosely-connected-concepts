@@ -10,9 +10,11 @@ import net.minecraft.world.biome.Biome
 object LCCBiomeTags : AdvancedDirectory<Identifier?, TagKey<Biome>, Unit, Unit>() {
 
     val wasteland by entry(::initialiser) { null }
+    val rainbow by entry(::initialiser) { null }
 
     val has_wasteland_tent by entry(::initialiser) { LCC.id("has_structure/wasteland_tent") }
     val has_sapphire_altar by entry(::initialiser) { LCC.id("has_structure/sapphire_altar") }
+    val has_bifrost_shrine by entry(::initialiser) { LCC.id("has_structure/bifrost_shrine") }
 
     fun initialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = TagKey.of(Registry.BIOME_KEY, input ?: context.id)
 

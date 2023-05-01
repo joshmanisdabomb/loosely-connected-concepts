@@ -1,5 +1,20 @@
 {
   "values": [
+    "lcc:ash_button",
+    "lcc:ash_door",
+    "lcc:ash_fence",
+    "lcc:ash_fence_gate",
+    "lcc:ash_leaves",
+    "lcc:ash_log",
+    "lcc:ash_planks",
+    "lcc:ash_pressure_plate",
+    "lcc:ash_sign",
+    "lcc:ash_slab",
+    "lcc:ash_stairs",
+    "lcc:ash_trapdoor",
+    "lcc:ash_wood",
+    "lcc:stripped_ash_log",
+    "lcc:stripped_ash_wood",
     "#lcc:rainbow_required"
   ]
 }

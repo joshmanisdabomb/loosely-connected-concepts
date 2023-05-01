@@ -36,6 +36,9 @@ object LCCItemTags : AdvancedDirectory<Identifier?, TagKey<Item>, Unit, Unit>() 
     val enhancing_pyre by entry(::initialiser) { null }
     val imbuable by entry(::initialiser) { null }
 
+    val ash_logs by entry(::initialiser) { null }
+    val ash_tree by entry(::initialiser) { null }
+
     fun initialiser(input: Identifier?, context: DirectoryContext<Unit>, parameters: Unit) = TagKey.of(Registry.ITEM_KEY, input ?: context.id)
 
     override fun defaultProperties(name: String) = Unit

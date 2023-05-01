@@ -27,7 +27,8 @@
     "PistonBlockEntityMixin",
     "ProjectileUtilMixin",
     "CreeperEntityMixin",
-    "FallingBlockEntityAccessor"
+    "FallingBlockEntityAccessor",
+    "StructureWeightSamplerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

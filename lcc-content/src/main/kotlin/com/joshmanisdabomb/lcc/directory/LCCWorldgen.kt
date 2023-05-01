@@ -9,6 +9,7 @@ import com.joshmanisdabomb.lcc.world.chunk.RainbowChunkGenerator
 import com.joshmanisdabomb.lcc.world.feature.*
 import com.joshmanisdabomb.lcc.world.feature.config.FlowerPatchFeatureConfig
 import com.joshmanisdabomb.lcc.world.feature.config.SmallGeodeFeatureConfig
+import com.joshmanisdabomb.lcc.world.feature.structure.BifrostShrineStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.SapphireAltarStructure
 import com.joshmanisdabomb.lcc.world.feature.structure.WastelandTentStructure
 import com.joshmanisdabomb.lcc.world.placement.HeightThreshold
@@ -300,6 +301,7 @@ object LCCStructureTypes : BasicDirectory<StructureType<out Structure>, Unit>(),
 
     val wasteland_tent by entry(::initialiser) { StructureType { WastelandTentStructure.codec } }
     val sapphire_altar by entry(::initialiser) { StructureType { SapphireAltarStructure.codec } }
+    val bifrost_shrine by entry(::initialiser) { StructureType { BifrostShrineStructure.codec } }
 
     override fun defaultProperties(name: String) = Unit
 
@@ -314,6 +316,7 @@ object LCCStructurePieceTypes : BasicDirectory<StructurePieceType, Unit>(), Regi
     val wasteland_tent by entry(::initialiser) { StructurePieceType.ManagerAware(WastelandTentStructure::Piece) }
     val sapphire_altar by entry(::initialiser) { StructurePieceType.ManagerAware(SapphireAltarStructure::Piece) }
     val sapphire_altar_arena by entry(::initialiser) { StructurePieceType.ManagerAware(ArenaAltarChallenge::Piece) }
+    val bifrost_shrine by entry(::initialiser) { StructurePieceType.ManagerAware(BifrostShrineStructure::Piece) }
 
     override fun defaultProperties(name: String) = Unit
 

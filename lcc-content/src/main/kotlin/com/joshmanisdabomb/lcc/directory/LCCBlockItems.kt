@@ -36,21 +36,26 @@ object LCCBlockItems : AdvancedDirectory<LCCBlockItems.Replacement, BlockItem?, 
     val potted_three_leaf_clover by entry(::initialiser) { Replacement() }
     val potted_four_leaf_clover by entry(::initialiser) { Replacement() }
     val potted_forget_me_not by entry(::initialiser) { Replacement() }
+    val potted_ash_sapling by entry(::initialiser) { Replacement() }
 
     val nuclear_fire by entry(::initialiser) { Replacement() }
     val rainbow_portal by entry(::initialiser) { Replacement() }
 
     val rubber_door by entry(::initialiser) { Replacement(TallBlockItem(properties, Item.Settings().defaults())) }
+    val deadwood_door by entry(::initialiser) { Replacement(TallBlockItem(properties, Item.Settings().defaults())) }
+    val ash_door by entry(::initialiser) { Replacement(TallBlockItem(properties, Item.Settings().defaults())) }
+
     val treetap_bowl by entry(::initialiser) { Replacement() }
     val dried_treetap by entry(::initialiser) { Replacement() }
 
     val rubber_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.rubber_sign, LCCBlocks.rubber_wall_sign)) }
     val rubber_wall_sign by entry(::initialiser) { Replacement() }
-
-    val rubber_piston_head by entry(::initialiser) { Replacement() }
-
     val deadwood_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.deadwood_sign, LCCBlocks.deadwood_wall_sign)) }
     val deadwood_wall_sign by entry(::initialiser) { Replacement() }
+    val ash_sign by entry(::initialiser) { Replacement(SignItem(Item.Settings().defaults(), LCCBlocks.ash_sign, LCCBlocks.ash_wall_sign)) }
+    val ash_wall_sign by entry(::initialiser) { Replacement() }
+
+    val rubber_piston_head by entry(::initialiser) { Replacement() }
 
     val computing by entry(::initialiser) { Replacement() }
     val terminal by entry(::initialiser) { Replacement(PlasticBlockItem(properties, Item.Settings().defaults())) }

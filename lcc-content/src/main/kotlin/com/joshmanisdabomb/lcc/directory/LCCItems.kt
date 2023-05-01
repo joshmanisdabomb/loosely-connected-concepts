@@ -400,6 +400,10 @@ object LCCItems : ItemDirectory() {
         .setProperties(ItemExtraSettings().creativeEx(WASTELAND))
         .addTags("wasteland_spawn_egg")
 
+    //Rainbow
+    val ash_boat by entry(::initialiser) { LCCBoatItem(Item.Settings().defaults().maxCount(1)) { LCCEntities.ash_boat } }
+        .setProperties(ItemExtraSettings().creativeEx(RAINBOW, sortValueInt(2030)))
+
     //Nostalgia
     val simulation_fabric by entry(::initialiser) { Item(Item.Settings().defaults()) }
         .setProperties(ItemExtraSettings().creativeEx(NOSTALGIA, sortValueInt(-2)))

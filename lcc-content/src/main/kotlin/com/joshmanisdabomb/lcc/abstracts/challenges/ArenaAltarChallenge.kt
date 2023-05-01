@@ -392,7 +392,7 @@ class ArenaAltarChallenge : AltarChallenge() {
         override fun generate(world: StructureWorldAccess, accessor: StructureAccessor, gen: ChunkGenerator, random: Random, chunkBox: BlockBox, chunkPos: ChunkPos, pivot: BlockPos) {
             val original = this.pos
             this.pos = pos.up(3)
-            super.generate(world, accessor, gen, random, boundingBox, chunkPos, pos)
+            super.generate(world, accessor, gen, random, chunkBox, chunkPos, pos)
             this.pos = original
         }
 

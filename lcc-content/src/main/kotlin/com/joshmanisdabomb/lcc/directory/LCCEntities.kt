@@ -58,6 +58,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
     val rubber_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.rubber.entityType
     val deadwood_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.deadwood.entityType
+    val ash_boat: EntityType<LCCBoatEntity> get() = LCCBoatTypes.ash.entityType
 
     private fun <E : Entity> typeInitialiser(input: FabricEntityTypeBuilder<E>, context: DirectoryContext<Unit>, parameters: Unit): EntityType<E> {
         return initialiser(input.build(), context, parameters)
@@ -91,6 +92,7 @@ object LCCEntities : AdvancedDirectory<FabricEntityTypeBuilder<out Entity>, Enti
 
         EntityRendererRegistry.register(rubber_boat) { dispatcher -> BoatEntityRenderer(dispatcher, false) }
         EntityRendererRegistry.register(deadwood_boat) { dispatcher -> BoatEntityRenderer(dispatcher, false) }
+        EntityRendererRegistry.register(ash_boat) { dispatcher -> BoatEntityRenderer(dispatcher, false) }
     }
 
 }

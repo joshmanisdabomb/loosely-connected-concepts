@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "key": {
+    "w": {
+      "item": "lcc:stripped_ash_log"
+    }
+  },
+  "pattern": [
+    "ww",
+    "ww"
+  ],
+  "result": {
+    "count": 3,
+    "item": "lcc:stripped_ash_wood"
+  }
+}

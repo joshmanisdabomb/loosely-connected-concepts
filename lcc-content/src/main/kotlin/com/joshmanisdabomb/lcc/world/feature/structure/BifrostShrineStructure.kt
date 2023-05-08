@@ -1,14 +1,16 @@
 package com.joshmanisdabomb.lcc.world.feature.structure
 
 import com.joshmanisdabomb.lcc.LCC
+import com.joshmanisdabomb.lcc.abstracts.CodedPortals
+import com.joshmanisdabomb.lcc.block.RainbowGateBlock
 import com.joshmanisdabomb.lcc.block.entity.RainbowGateBlockEntity
 import com.joshmanisdabomb.lcc.block.shape.WorldHelper
 import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.directory.LCCStructurePieceTypes
 import com.joshmanisdabomb.lcc.directory.LCCStructureTypes
 import com.joshmanisdabomb.lcc.directory.component.LCCComponents
-import com.joshmanisdabomb.lcc.extensions.horizontalDirections
 import com.joshmanisdabomb.lcc.trait.LCCStructurePieceTrait
+import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.ChestBlockEntity
 import net.minecraft.nbt.NbtCompound
@@ -63,16 +65,24 @@ class BifrostShrineStructure(config: Config) : Structure(config) {
                         blockEntity.setLootTable(LCC.id("chests/tent"), random.nextLong())
                     }
                 }
-                "Gate" -> {
+                "Gate1", "Gate2" -> {
                     val destinations = LCCComponents.portal_destinations.maybeGet(world.levelProperties).orElseThrow()
                     destinations.init(world.toServerWorld())
                     val origin = ChunkPos(this.pos.add(template.size.x.div(2), 0, template.size.z.div(2)))
-                    val code = destinations.getCode(origin)
-                    println(code?.toList())
-                    for (d in horizontalDirections) {
-                        for (i in 0..2) {
-                            val gate = world.getBlockEntity(pos.offset(d, 2).up(i)) as? RainbowGateBlockEntity
+                    val code = destinations.getCode(origin) ?: CodedPortals.RainbowCodedPortals.randomCode(random)
+                    val first = metadata == "Gate1"
+                    val half = code.split("-").reversed().map(if (first) String::first else String::last)
+                    world.setBlockState(pos, world.getBlockState(pos.up()), Block.FORCE_STATE or Block.NO_REDRAW)
+                    for (i in 0..2) {
+                        val pos2 = pos.down(i+1)
+                        var state = world.getBlockState(pos2)
+                        if (i == 0 && first) {
+                            state = state.with(RainbowGateBlock.type, RainbowGateBlock.RainbowGateState.MAIN)
+                            val gate = world.getBlockEntity(pos2) as? RainbowGateBlockEntity ?: continue
+                            gate.assignCode(code)
                         }
+                        else state = state.with(RainbowGateBlock.type, RainbowGateBlock.RainbowGateState.COMPLETE)
+                        world.setBlockState(pos2, state.with(RainbowGateBlock.symbol, half[i].digitToInt().plus(1)), Block.FORCE_STATE or Block.NO_REDRAW)
                     }
                 }
             }

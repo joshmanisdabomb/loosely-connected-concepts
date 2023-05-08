@@ -1,5 +1,6 @@
 package com.joshmanisdabomb.lcc.block.entity
 
+import com.joshmanisdabomb.lcc.abstracts.CodedPortals
 import com.joshmanisdabomb.lcc.block.IdolBlock
 import com.joshmanisdabomb.lcc.block.RainbowGateBlock
 import com.joshmanisdabomb.lcc.block.RainbowPortalBlock
@@ -21,7 +22,6 @@ import net.minecraft.nbt.NbtList
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.property.Properties
-import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
@@ -42,7 +42,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
     private var _offset: Byte? = null
     private var _sequence: Byte? = null
     private var idols: List<BlockPos>? = null
-    private var _code: ByteArray? = null
+    private var _code: String? = null
 
     private val source = BlockPositionSource(pos)
     val sequence get() = _sequence
@@ -94,7 +94,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         super.readNbt(nbt)
         main = nbt.getCompoundOrNull("main")?.let(NbtHelper::toBlockPos)
         others = nbt.getListOrNull("others", NBT_COMPOUND)?.mapNotNull { NbtHelper.toBlockPos(it as? NbtCompound ?: return@mapNotNull null) }
-        _code = nbt.getByteArray("code").takeIf { it.size == 6 }
+        _code = nbt.getStringOrNull("code")
         _direction = nbt.getByteOrNull("direction")?.let { Direction.byId(it.toInt()) }
         _offset = nbt.getByteOrNull("offset")
         _sequence = nbt.getByteOrNull("sequence")
@@ -109,25 +109,17 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         super.writeNbt(nbt)
         nbt.putCompoundOrRemove("main", main?.let(NbtHelper::fromBlockPos))
         nbt.putListOrRemove("others", others?.map(NbtHelper::fromBlockPos)?.let { NbtList().apply { addAll(it) } })
-        if (_code != null) nbt.putByteArray("code", _code)
+        if (_code != null) nbt.putString("code", _code)
         nbt.putByteOrRemove("direction", _direction?.id?.toByte())
         nbt.putByteOrRemove("offset", _offset)
         nbt.putByteOrRemove("sequence", _sequence)
         nbt.putListOrRemove("idols", idols?.map(NbtHelper::fromBlockPos)?.let { NbtList().apply { addAll(it) } })
     }
 
-    private fun calculateCode(): ByteArray? {
+    private fun calculateCode(): String? {
         val others = others ?: return null
         val world = world ?: return null
-        val map = others.plus(pos).sorted().associateWith {
-            val state2 = world.getBlockState(it)
-            if (!state2.isOf(LCCBlocks.rainbow_gate) || state2[RainbowGateBlock.type] == RainbowGateBlock.RainbowGateState.INCOMPLETE) return null
-            state2[RainbowGateBlock.symbol].minus(1)
-        }
-        return map.values.map(Int::toByte).toByteArray()
-        /*val x = (code[0] + code[5].times(8) + code[4].times(8.square())).minus(255).times(7324)
-        val z = (code[1] + code[3].times(8) + code[2].times(8.square())).minus(255).times(7324)
-        return ChunkPos(x, z)*/
+        return CodedPortals.RainbowCodedPortals.calculateCode(others.plus(pos), world)
     }
 
     private fun setupShards() {
@@ -211,6 +203,9 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
     }
 
     private fun checkRequirements(world: ServerWorld, event: GameEvent.Message): Boolean {
+        if (others == null) {
+            (cachedState.block as? RainbowGateBlock)?.initPortal(cachedState, world, pos, RainbowGateBlock.RainbowGateState.COMPLETE, RainbowGateBlock.RainbowGateState.INCOMPLETE, set = false)
+        }
         val others = others ?: return false
 
         val x1 = others.minOfOrNull { it.x } ?: return false
@@ -242,7 +237,7 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
                         portal++
                         continue
                     }
-                    if (!state.isAir && !state.isIn(BlockTags.FIRE) && !state.isOf(Blocks.LIGHTNING_ROD)) return false
+                    if (!state.isAir && !state.getCollisionShape(world, pos).isEmpty && !state.isOf(Blocks.LIGHTNING_ROD)) return false
                 }
                 val state = world.getBlockState(pos.set(x, y1 - 1, z))
                 if (!state.isSideSolid(world, pos, Direction.UP, SideShapeType.FULL)) return false
@@ -336,6 +331,12 @@ class RainbowGateBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(LCC
         others?.forEach {
             world.setBlockState(it, world.getBlockState(it).with(Properties.LOCKED, false))
         }
+    }
+
+    fun assignCode(code: String) {
+        if (!isMain) return
+        this._code = code
+        markDirty()
     }
 
     private fun getCenter(dir: Direction, offset: Byte) = this.pos!!.offset(dir, 2).add(0, offset.unaryMinus(), 0)

@@ -33,17 +33,21 @@ class RainbowGateBlock(settings: Settings) : BlockWithEntity(settings) {
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = RainbowGateBlockEntity(pos, state)
 
-    override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
-        if (state[type] != RainbowGateState.INCOMPLETE) return
-        val portal = portalPositions(world, pos)
+    fun initPortal(state: BlockState, world: World, pos: BlockPos, vararg types: RainbowGateState = arrayOf(RainbowGateState.INCOMPLETE), set: Boolean = true) {
+        val portal = findPortal(world, pos, *types)
         if (portal.isNotEmpty()) {
-            world.setBlockState(pos, state.with(type, RainbowGateState.MAIN))
+            if (set) world.setBlockState(pos, state.with(type, RainbowGateState.MAIN))
             (world.getBlockEntity(pos) as? RainbowGateBlockEntity)?.main(portal)
             portal.forEach {
-                world.setBlockState(it, world.getBlockState(it).with(type, RainbowGateState.COMPLETE))
+                if (set) world.setBlockState(it, world.getBlockState(it).with(type, RainbowGateState.COMPLETE))
                 (world.getBlockEntity(it) as? RainbowGateBlockEntity)?.secondary(pos)
             }
         }
+    }
+
+    override fun onBlockAdded(state: BlockState, world: World, pos: BlockPos, oldState: BlockState, notify: Boolean) {
+        if (state[type] != RainbowGateState.INCOMPLETE) return
+        initPortal(state, world, pos)
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState {
@@ -65,7 +69,7 @@ class RainbowGateBlock(settings: Settings) : BlockWithEntity(settings) {
         super.onStateReplaced(state, world, pos, newState, moved)
     }
 
-    private fun portalPositions(world: World, pos: BlockPos, vararg types: RainbowGateState = arrayOf(RainbowGateState.INCOMPLETE)): List<BlockPos> {
+    fun findPortal(world: World, pos: BlockPos, vararg types: RainbowGateState = arrayOf(RainbowGateState.INCOMPLETE)): List<BlockPos> {
         val positions = mutableListOf<BlockPos>()
         for (i in -2..2) {
             if (i == 0) continue

@@ -74,7 +74,6 @@ class RainbowPortalBlock(settings: Settings) : Block(settings) {
                 destinations.init(world)
                 val gate = getGate(state, world, pos) ?: return
                 val code = gate.code ?: return
-                println(code.toList())
                 val positions = destinations.getPositions(code)
                 if (positions.isEmpty()) return
                 val position = Util.getRandom(positions, world.random)

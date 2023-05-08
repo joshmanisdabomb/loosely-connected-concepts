@@ -1,37 +1,45 @@
 package com.joshmanisdabomb.lcc.abstracts
 
+import com.joshmanisdabomb.lcc.block.RainbowGateBlock
+import com.joshmanisdabomb.lcc.directory.LCCBlocks
 import com.joshmanisdabomb.lcc.extensions.cartesian
 import com.joshmanisdabomb.lcc.extensions.exp
+import com.joshmanisdabomb.lcc.extensions.sqrt
 import com.joshmanisdabomb.lcc.extensions.times
+import net.minecraft.util.Util
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
-import kotlin.random.Random
+import net.minecraft.util.math.random.Random
+import net.minecraft.world.World
 
-sealed class CodedPortals(val codeLength: Byte, val codeHeight: Byte, val spread: Int, val shuffle: Boolean = true) {
+sealed class CodedPortals<E>(val parts: List<E>, val segments: Int, val spread: Int, val shuffle: Boolean = true) {
 
-    object RainbowCodedPortals : CodedPortals(6, 8, 4096)
+    object RainbowCodedPortals : CodedPortals<String>((0 until 8).flatMap { a -> (a until 8).map { b -> "$a$b" } }, 3, 4096) {
 
-    val codes by lazy { Array(codeLength.toInt()) { (0 until codeHeight).toSet() }.cartesian() }
-    val permutations = codeHeight.toInt().exp(codeLength.toInt())
+        fun calculateCode(gates: List<BlockPos>, world: World): String? = gates.groupBy { it.y }.mapValues { (k, v) -> v.map {
+            val state2 = world.getBlockState(it)
+            if (!state2.isOf(LCCBlocks.rainbow_gate) || state2[RainbowGateBlock.type] == RainbowGateBlock.RainbowGateState.INCOMPLETE) return null
+            state2[RainbowGateBlock.symbol].minus(1)
+        }.sorted().joinToString("") }.toSortedMap().values.joinToString("-")
 
-    val min = ByteArray(codeLength.toInt()) { 0 }
-    val max = ByteArray(codeLength.toInt()) { codeHeight.dec() }
-
-    fun getCodeMap(seed: Long): Map<ByteArray, ChunkPos> {
-        var all = codes
-        if (shuffle) all = all.shuffled(Random(seed))
-
-        val x1 = getChunkX(min)
-        val x2 = getChunkX(max)
-        val z1 = getChunkZ(min)
-        val z2 = getChunkZ(max)
-        val positions = ((x1..x2 step spread) * (z1..z2 step spread))
-        return positions.mapIndexed { index, pair -> all[index].map(Int::toByte).toByteArray() to ChunkPos(pair.first, pair.second) }.toMap()
     }
 
-    private fun getCoord(segment: List<Int>): Int = (segment.reduceIndexed { index, acc, next -> acc.plus(next * codeHeight.toInt().exp(index)) } - (codeHeight.toInt().exp(segment.size)/2)).times(spread)
+    val possible = parts.size.exp(segments)
+    val possibleSq = possible.sqrt()
 
-    fun getChunkX(code: ByteArray) = getCoord(code.toList().chunked(2) { it.first().toInt() })
+    val codes by lazy { (parts * segments).cartesian().map { it.joinToString("-") } }
+    val positions by lazy {
+        val a = possibleSq.div(2)
+        ((-a until a) * (-a until a)).map { ChunkPos(it.first * spread, it.second * spread) }
+    }
 
-    fun getChunkZ(code: ByteArray) = getCoord(code.toList().chunked(2) { it.last().toInt() })
+    fun getCodeMap(seed: Long): Map<String, ChunkPos> {
+        var all = codes
+        if (shuffle) all = all.shuffled(kotlin.random.Random(seed))
+
+        return all.mapIndexed { index, pair -> pair to positions[index] }.toMap()
+    }
+
+    fun randomCode(random: Random) = Util.getRandom(codes, random)
 
 }

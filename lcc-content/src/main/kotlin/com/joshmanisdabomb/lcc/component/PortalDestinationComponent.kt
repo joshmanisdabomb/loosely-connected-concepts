@@ -23,7 +23,7 @@ class PortalDestinationComponent(private val properties: WorldProperties) : Comp
 
     fun init(world: ServerWorld) {
         if (rainbow_chunks == null) {
-            rainbow_chunks = CodedPortals.RainbowCodedPortals.getCodeMap(world.seed).mapKeys { (k, v) -> k.joinToString(separator = "-") }.toMutableMap()
+            rainbow_chunks = CodedPortals.RainbowCodedPortals.getCodeMap(world.seed).toMutableMap()
             rainbow_chunks_flipped = rainbow_chunks?.flip()?.toMutableMap()
         }
     }
@@ -55,18 +55,16 @@ class PortalDestinationComponent(private val properties: WorldProperties) : Comp
         tag.put("Rainbow", rainbow)
     }
 
-    fun getPositions(code: ByteArray): List<PortalPosition> {
-        val key = code.joinToString(separator = "-")
-        return (rainbow_portals[key] ?: emptyList()) + getDefaultPositions(code)
+    fun getPositions(code: String): List<PortalPosition> {
+        return (rainbow_portals[code] ?: emptyList()) + getDefaultPositions(code)
     }
 
-    fun getDefaultPositions(code: ByteArray): List<PortalPosition> {
-        val key = code.joinToString(separator = "-")
-        val position = rainbow_chunks?.get(key)?.getCenterAtY(100) ?: return emptyList()
+    fun getDefaultPositions(code: String): List<PortalPosition> {
+        val position = rainbow_chunks?.get(code)?.getCenterAtY(100) ?: return emptyList()
         return listOf(PortalPosition(RegistryKey.of(Registry.WORLD_KEY, LCC.id("rainbow")), position))
     }
 
-    fun getCode(chunkPos: ChunkPos) = rainbow_chunks_flipped?.get(chunkPos)?.split("-")?.map { it.toInt().toByte() }?.toByteArray()
+    fun getCode(chunkPos: ChunkPos) = rainbow_chunks_flipped?.get(chunkPos)
 
     data class PortalPosition(val dimension: RegistryKey<World>, val pos: BlockPos) {
 

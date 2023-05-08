@@ -53,4 +53,7 @@ operator fun <T, U> Iterable<T>.times(other: Array<U>): List<Pair<T, U>> = this.
 operator fun <T, U> Array<T>.times(other: Iterable<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
 operator fun <T, U> Array<T>.times(other: Array<U>): List<Pair<T, U>> = this.flatMap { l -> other.map { r -> l to r } }
 
+operator fun <E> Iterable<E>.times(amount: Int): Iterable<Iterable<E>> = (1..amount).map { this }
+operator fun <E> Array<E>.times(amount: Int): Iterable<Iterable<E>> = (1..amount).map { this.toList() }
+
 fun <K, V> Map<K, V>.flip() = this.entries.associate { it.value to it.key }
